@@ -11,22 +11,15 @@
             class="py-2 block sm:hidden text-lg appearance-none bg-transparent leading-normal w-full search focus:outline-none"
             v-model="query" @input="search" :placeholder="mobilePlaceholder">
         <dropdown ref="results_dd" pos="right">
-            <div v-for="(bread, i) in searchResults" :key="'bread-results-'+i" class="p-4">
-                <h4>{{ bread.bread }}</h4>
-                <div v-if="bread.results.length == 0">
-                    {{ __('voyager::generic.no_results') }}
-                </div>
-                <div v-else>
-                    <a v-for="(result, c) in bread.results.slice(0, 3)" :key="'bread-result-'+c" :href="getResultUrl(bread, result.id)">
-                        {{ result.data }}<br>
-                    </a>
-                    <div v-if="bread.results.length > 3">
-                        <a :href="moreUrl(bread)">
-                            {{ __('voyager::generic.more_results', {num: (bread.results.length - 3)}) }}
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <span v-for="(bread, table) in searchResults" :key="'bread-results-'+table">
+                <h6 class="ml-3 mt-3">{{ translate($store.getBreadByTable(table).name_plural, true) }}</h6>
+                <a v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="link" :href="getResultUrl(table, key)">
+                    {{ result }}
+                </a>
+                <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="link underline text-sm">
+                    {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
+                </a>
+            </span>
         </dropdown>
     </div>
 </template>
@@ -35,7 +28,7 @@ export default {
     props: ['placeholder', 'mobilePlaceholder'],
     data: function () {
         return {
-            searchResults: [],
+            searchResults: {},
             query: '',
         };
     },
@@ -47,6 +40,7 @@ export default {
     methods: {
         close: function () {
             this.$refs.results_dd.close();
+            this.query = '';
         },
         search: debounce(function (e) {
             var vm = this;
@@ -54,36 +48,32 @@ export default {
             if (vm.query == '') {
                 return;
             }
-            this.$store.breads.forEach(function (bread) {
-                if (bread.global_search_field === null || bread.global_search_field == '') {
-                    return;
-                }
-                axios.post(vm.route('voyager.search'), {
-                    query: vm.query,
-                    bread: bread.table,
-                })
-                .then(function (response) {
-                    vm.searchResults.push(response.data[0]);
+
+            axios.post(vm.route('voyager.globalsearch'), {
+                query: vm.query,
+            })
+            .then(function (response) {
+                vm.searchResults = response.data;
+                if (Object.keys(vm.searchResults).length > 0) {
                     vm.$refs.results_dd.open();
-                })
-                .catch(function (errors) {
-                    vm.$notify.error(error);
-                    if (vm.$store.debug) {
-                        vm.debug(error.response.data.message, true, 'error');
-                    }
-                });
+                } else {
+                    vm.$refs.results_dd.close();
+                }
+            })
+            .catch(function (errors) {
+                //
             });
             
         }, 250),
-        moreUrl: function (bread) {
-            bread = this.$store.getBreadByTable(bread.table);
+        moreUrl: function (table) {
+            var bread = this.$store.getBreadByTable(table);
 
-            return this.route('voyager.'+this.translate(bread.slug, true)+'.browse')+'?globalSearch='+this.query;
+            return this.route('voyager.'+this.translate(bread.slug, true)+'.browse')+'?query='+this.query;
         },
-        getResultUrl: function (bread, id) {
-            bread = this.$store.getBreadByTable(bread.table);
+        getResultUrl: function (table, key) {
+            var bread = this.$store.getBreadByTable(table);
 
-            return this.route('voyager.'+this.translate(bread.slug, true)+'.read', id);
+            return this.route('voyager.'+this.translate(bread.slug, true)+'.read', key);
         }
     },
     mounted: function () {

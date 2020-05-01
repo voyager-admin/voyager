@@ -5,7 +5,7 @@ Route::group(['as' => 'voyager.'], function () {
 
     Route::group(['middleware' => 'voyager.admin'], function () use ($namespace) {
         Route::view('/', 'voyager::dashboard')->name('dashboard');
-        Route::post('search', ['uses' => $namespace.'VoyagerController@search', 'as' => 'search']);
+        Route::post('globalsearch', ['uses' => $namespace.'VoyagerController@globalSearch', 'as' => 'globalsearch']);
 
         // BREAD builder
         Route::group([

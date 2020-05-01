@@ -45,29 +45,26 @@ class VoyagerController extends Controller
     }
 
     // Search all BREADS
-    public function search(Request $request)
+    public function globalSearch(Request $request)
     {
         $q = $request->get('query');
-
-        $bread = BreadFacade::getBread($request->get('bread'));
+        $breads = BreadFacade::getBreads();
         $results = collect([]);
-        if ($bread && $bread->global_search_field) {
-            $query = $bread->getModel()->where($bread->global_search_field, 'LIKE', '%'.$q.'%');
 
-            $results = $query->get()->transform(function ($result) use ($bread) {
-                return [
-                    'id'   => $result->getKey(),
-                    'data' => $result->{$bread->global_search_field},
-                ];
-            });
-        }
+        BreadFacade::getBreads()->each(function ($bread) use ($q, &$results) {
+            if ($bread->global_search_field !== '') {
+                $bread_results = $bread->getModel()->where($bread->global_search_field, 'LIKE', '%'.$q.'%')->get();
+                if (count($bread_results) > 0) {
+                    $results[$bread->table] = [
+                        'count'     => count($bread_results),
+                        'results'   => $bread_results->take(3)->mapWithKeys(function ($result) use ($bread) {
+                            return [$result->getKey() => $result->{$bread->global_search_field}];
+                        }),
+                    ];
+                }
+            }
+        });
 
-        return [
-            [
-                'table'   => $bread->table,
-                'results' => $results,
-                'count'   => $results->count(),
-            ],
-        ];
+        return $results;
     }
 }
