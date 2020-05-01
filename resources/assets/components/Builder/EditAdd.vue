@@ -166,9 +166,9 @@
                         </a>
                     </div>
                     <div slot="opener">
-                        <button class="button green small"
+                        <button class="button green small ml-2"
                                 :disabled="bread.layouts.length == 0">
-                            <icon icon="list-ul" />
+                            <icon icon="text-size" />
                             <span>
                                 {{ __('voyager::builder.add_formfield') }}
                             </span>
@@ -185,7 +185,7 @@
                         </a>
                     </div>
                     <div slot="opener">
-                        <button class="button blue small">
+                        <button class="button green small" :disabled="!currentLayout">
                             <icon icon="list-ul" />
                             <span>
                                 {{ __('voyager::builder.add_layout') }}
@@ -193,16 +193,24 @@
                         </button>
                     </div>
                 </dropdown>
-                <button class="button yellow small" @click="renameLayout" :disabled="!currentLayout">
-                    <icon icon="pen" />
-                    <span>{{ __('voyager::builder.rename_layout') }}</span>
-                </button>
-                <button class="button red small" @click="deleteLayout" :disabled="!currentLayout">
-                    <icon icon="trash" />
-                    <span>
-                        {{ __('voyager::builder.delete_layout') }}
-                    </span>
-                </button>
+                <dropdown ref="actions_dd" pos="right" class="self-center">
+                    <div>
+                        <a href="#" @click.prevent="renameLayout" class="link">
+                            {{ __('voyager::builder.rename_layout') }}
+                        </a>
+                        <a href="#" @click.prevent="deleteLayout" class="link">
+                            {{ __('voyager::builder.delete_layout') }}
+                        </a>
+                    </div>
+                    <div slot="opener">
+                        <button class="button blue small">
+                            <icon icon="fire" />
+                            <span>
+                                {{ __('voyager::generic.actions') }}
+                            </span>
+                        </button>
+                    </div>
+                </dropdown>
                 <button class="button blue small" @click="layoutOptionsOpen = true" :disabled="!currentLayout">
                     <icon icon="cog" />
                     <span>
@@ -246,6 +254,43 @@
                 v-on:options="currentLayout.options = $event"
                 v-on:open-options="openOptionsId = $event" />
         </card>
+
+        <collapsible title="Layout usage">
+            <div class="flex">
+                <div class="w-1/4">
+                    <h6>Browse</h6>
+                    <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.browse">
+                        <option v-for="(list, i) in lists" :key="'browse-layout'+i">
+                            {{ list.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="w-1/4 ml-2">
+                    <h6>Read</h6>
+                    <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.read">
+                        <option v-for="(view, i) in views" :key="'read-layout'+i">
+                            {{ view.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="w-1/4 ml-2">
+                    <h6>Edit</h6>
+                    <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.edit">
+                        <option v-for="(view, i) in views" :key="'edit-layout'+i">
+                            {{ view.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="w-1/4 ml-2">
+                    <h6>Add</h6>
+                    <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.add">
+                        <option v-for="(view, i) in views" :key="'add-layout'+i">
+                            {{ view.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </collapsible>
 
         <collapsible ref="bread_json" v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
             <textarea class="voyager-input w-full" rows="10" v-model="jsonBread"></textarea>

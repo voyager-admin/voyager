@@ -24,6 +24,12 @@ class Bread implements \JsonSerializable
     public $color = 'green';
     public $badge = true;
     public $layouts = [];
+    public $use_layouts = [
+        'browse' => '',
+        'read'   => '',
+        'edit'   => '',
+        'add'    => '',
+    ];
 
     protected $model_class = null;
 
@@ -99,6 +105,7 @@ class Bread implements \JsonSerializable
             'badge'               => $this->badge,
             'color'               => $this->color,
             'layouts'             => $this->layouts,
+            'use_layouts'         => $this->use_layouts,
         ];
     }
 }
