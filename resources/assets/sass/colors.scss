@@ -9,6 +9,12 @@ $border-color                   : 'border-gray-400' !default;
 $border-color-dark              : 'border-gray-700' !default;
 $font-family                    : Inter, system-ui !default;
 
+// HTML ELEMENTS
+$code-background-color          : 'bg-gray-300' !default;
+$code-text-color                : 'text-gray-800' !default;
+$code-background-color-dark     : 'bg-gray-900' !default;
+$code-text-color-dark           : 'text-gray-200' !default;
+
 // LOADER
 $loader-background-color        : 'bg-gray-100' !default;
 $loader-text-color              : 'text-black' !default;
@@ -176,6 +182,18 @@ a {
 
 mode-dark a {
     @apply #{$link-text-color-dark};
+}
+
+// HTML ELEMENTS
+
+.mode-dark {
+    code {
+        @apply #{$code-background-color-dark} #{$code-text-color-dark};
+    }
+}
+
+code {
+    @apply #{$code-background-color} #{$code-text-color};
 }
 
 // LOADER
@@ -592,7 +610,7 @@ p {
         @apply #{$media-background-color-dark};
     }
 
-    .loader {
+    .loading {
         @apply #{$media-background-color-dark};
     }
 }

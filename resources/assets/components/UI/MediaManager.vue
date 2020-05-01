@@ -43,14 +43,14 @@
         <div class="flex w-full min-h-64">
             <!-- Add max-h-256 overflow-y-scroll to limit the height -->
             <div class="relative flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 " @click="selectedFiles = []"  ref="wrapper">
-                <div class="absolute flex items-center w-full text-center h-full opacity-75 dragdrop" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
-                    <h4 class="text-center w-full">{{ dragging ? dropText : dragText }}</h4>
+                <div class="absolute w-full h-full flex items-center justify-center opacity-75 dragdrop" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
+                    <h4>{{ dragging ? dropText : dragText }}</h4>
                 </div>
-                <div class="absolute flex items-center w-full text-center h-full opacity-75 loader" v-if="loadingFiles">
-                    <h4 class="text-center w-full">{{ __('voyager::generic.loading') }}</h4>
+                <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading" v-if="loadingFiles">
+                    <icon icon="helm" :size="32" class="block rotating-cw"></icon>
                 </div>
                 <div
-                    class="item rounded-md border cursor-pointer select-none"
+                    class="item rounded-md border cursor-pointer select-none h-auto"
                     v-for="(file, i) in combinedFiles"
                     :key="i"
                     :class="[fileSelected(file) ? 'selected' : '', file.is_upload ? 'opacity-50' : '']"
@@ -201,7 +201,7 @@ export default {
 
                 // Validate mime type
                 var matcher = new vm.MimeMatcher(vm.accept);
-                if (!matcher.match(file.type)) {
+                if (!matcher.match(file.type.toLowerCase())) {
                     return null;
                 }
 

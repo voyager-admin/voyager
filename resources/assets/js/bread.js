@@ -2,7 +2,6 @@ let bread_components = [
     'Bread/Browse',
     'Bread/EditAdd',
     'Bread/Read',
-    'Bread/Actions',
 ];
 
 bread_components.forEach(function (component) {

@@ -26,6 +26,10 @@ h6 {
     @apply text-lg;
 }
 
+code {
+    @apply py-0.5 px-1 rounded-md;
+}
+
 .loader {
     @apply absolute w-full h-full left-0 top-0 z-50;
 

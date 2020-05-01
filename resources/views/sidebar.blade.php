@@ -19,13 +19,8 @@
                     </span>
                 </div>
                 @php
-                    $menu_plugin = VoyagerPlugins::getPluginByType('menu');
                     $current_url = Str::finish(url()->current(), '/');
                 @endphp
-
-                @if ($menu_plugin && $menu_plugin->getMenuView())
-                    {!! $menu_plugin->getMenuView()->with(['mobile' => true])->render() !!}
-                @else
                 <nav class="mt-3 px-2">
                 <menu-item
                     :title="__('voyager::generic.dashboard')"
@@ -104,7 +99,6 @@
                     @endforeach
                 @endif
                 </nav>
-                @endif
             </div>
             <div class="flex-shrink-0 flex border-t sidebar-border p-4">
                 <button class="rounded-full bg-gray-300 dark:bg-gray-700 outline-none px-2 py-2 rounded inline-flex items-center" @click="$store.toggleDarkMode()">
@@ -128,13 +122,8 @@
                 </span>
             </div>
             @php
-                $menu_plugin = VoyagerPlugins::getPluginByType('menu');
                 $current_url = Str::finish(url()->current(), '/');
             @endphp
-
-            @if ($menu_plugin && $menu_plugin->getMenuView())
-                {!! $menu_plugin->getMenuView()->with(['mobile' => false])->render() !!}
-            @else
             <nav class="mt-4 flex-1 px-2">
                 <menu-item
                     :title="__('voyager::generic.dashboard')"
@@ -214,7 +203,6 @@
                     @endforeach
                 @endif
             </nav>
-            @endif
         </div>
         <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
             <button class="button blue small icon-only" @click="$store.toggleDarkMode()">
