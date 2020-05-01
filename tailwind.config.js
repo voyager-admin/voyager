@@ -1,6 +1,3 @@
-// This includes a "fix" for Tailwind 1.4 where opacity styles are applied to ALL color classes (bg-red-500, text-black, ...)
-// https://github.com/tailwindcss/tailwindcss/issues/1670
-
 module.exports = {
     purge: {
         content: [
@@ -10,22 +7,21 @@ module.exports = {
         options: {
             whitelistPatterns: [
                 /mode-dark/,
-                /dark/,
                 /w-[0-9]+\/[0-9]+/,     // All variations of width classes we dynamically use in the view-builder
-                /w-[0-9]+/,
-                /h-[0-9]+/,
                 /bg-[a-z]+-[0-9]+/,     // Dynamically used colors in badges, buttons and so on
                 /text-[a-z]+-[0-9]+/,   // ^
                 /border-[a-z]+-[0-9]+/, // ^
             ]
         }
     },
-    target: ['relaxed', {
-        backgroundColor: 'ie11',
-        textColor: 'ie11',
-        borderColor: 'ie11',
-        placeholderColor: 'ie11',
-    }],
+    // Disabling *-Opacity plugins reduces final css size by ~750kb. This only works in Tailwind > 1.4.3
+    corePlugins: {
+        textOpacity: false,
+        backgroundOpacity: false,
+        borderOpacity: false,
+        placeholderOpacity: false,
+        divideOpacity: false,
+    },
     prefix: '',
     important: false,
     separator: ':',
@@ -151,7 +147,6 @@ module.exports = {
         wordBreak: ['responsive'],
         zIndex: ['responsive'],
     },
-    corePlugins: {},
     plugins: [
         require('tailwindcss-dark-mode')(),
         require('tailwindcss-dir')(),

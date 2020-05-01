@@ -22,7 +22,7 @@
         "mime-matcher": "^1.0.5",
         "node-sass": "^4.14.0",
         "slugify": "^1.4.0",
-        "tailwindcss": "^1.4.1",
+        "tailwindcss": "^1.4.4",
         "tiptap": "^1.27.1",
         "tiptap-extensions": "^1.29.1",
         "v-tooltip": "^2.0.3",
