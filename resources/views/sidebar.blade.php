@@ -13,7 +13,7 @@
             </div>
             <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                 <div class="flex-shrink-0 flex items-center px-4">
-                    <icon icon="helm" :size="10" class="icon"></icon>
+                    <icon icon="helm" :size="8" class="icon"></icon>
                     <span class="font-black text-lg uppercase pl-2 title">
                         {{ VoyagerSettings::setting('admin.sidebar-title', 'Voyager') }}
                     </span>
@@ -26,7 +26,7 @@
                 @if ($menu_plugin && $menu_plugin->getMenuView())
                     {!! $menu_plugin->getMenuView()->with(['mobile' => true])->render() !!}
                 @else
-                <nav class="mt-3 px-2">
+                <nav class="mt-3 px-3">
                 <menu-item
                     :title="__('voyager::generic.dashboard')"
                     :href="route('voyager.dashboard')"
@@ -119,10 +119,10 @@
 
 <!-- Desktop sidebar -->
 <div class="hidden md:flex md:flex-shrink-0 sidebar h-full" v-if="$store.sidebarOpen" :key="'desktop_sidebar'">
-    <div class="flex flex-col w-64 border-r sidebar-border">
+    <div class="flex flex-col w-64 sidebar-border">
         <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
             <div class="flex items-center flex-shrink-0 px-4">
-                <icon icon="helm" :size="10" class="icon"></icon>
+                <icon icon="helm" :size="8" class="icon"></icon>
                 <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title">
                     {{ VoyagerSettings::setting('admin.sidebar-title', 'Voyager') }}
                 </span>
@@ -135,7 +135,7 @@
             @if ($menu_plugin && $menu_plugin->getMenuView())
                 {!! $menu_plugin->getMenuView()->with(['mobile' => false])->render() !!}
             @else
-            <nav class="mt-4 flex-1 px-2">
+            <nav class="mt-4 flex-1 px-3">
                 <menu-item
                     :title="__('voyager::generic.dashboard')"
                     :href="route('voyager.dashboard')"
@@ -216,16 +216,17 @@
             </nav>
             @endif
         </div>
-        <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
-            <button class="button blue small icon-only" @click="$store.toggleDarkMode()">
+        <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 pl-5 h-auto overflow-x-hidden">
+            <button class="outline-none focus:outline-none small icon-only ml-6 mr-3" @click="$store.toggleDarkMode()">
                 <icon :icon="$store.darkmode ? 'sun' : 'moon'" />
             </button>
-            <button class="button blue small icon-only" v-scroll-to="{ el: '#scroll-top', offset: -200 }">
+            <button class="outline-none focus:outline-none small icon-only mr-3" v-scroll-to="{ el: '#scroll-top', offset: -200 }">
                 <icon icon="arrow-circle-up" />
             </button>
-            <button class="button blue small icon-only" @click="$store.toggleDirection()">
+            <button class="outline-none focus:outline-none small icon-only" @click="$store.toggleDirection()">
                 <icon :icon="$store.rtl ? 'left-to-right-text-direction' : 'right-to-left-text-direction'" />
             </button>
+
         </div>
     </div>
 </div>

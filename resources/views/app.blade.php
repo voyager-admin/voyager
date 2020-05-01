@@ -26,7 +26,12 @@
         </div>
         @include('voyager::sidebar')
         <div class="flex flex-col w-0 flex-1 overflow-hidden" :key="'content'">
-            <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 outline-none">
+            <main class="flex-1 relative z-0 overflow-y-auto pb-6 outline-none">
+                <button @click.stop="$store.toggleSidebar()" class="outline-none focus:outline-none small icon-only fixed bottom-0 left-0 z-50">
+                    <span :class="$store.sidebarOpen ? 'p-4 pr-1 block' : 'p-4 shadow-sm rounded-tr opacity-75 bg-gray-100 block'">
+                        <icon :icon="$store.sidebarOpen ? 'left-arrow-to-left' : 'arrow-to-right'" />
+                    </span>
+                </button>
                 <span id="scroll-top"></span>
                 @include('voyager::navbar')
                 <div class="mx-auto sm:px-3 md:px-4">
