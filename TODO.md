@@ -3,10 +3,7 @@ It only contains small things that came to our minds which we couldn't implement
 Instead, they are listed here:
 
 - Add :disabled theming to buttons/inputs
-- Filter available plugins by type
-- PurgeCSS strips out a lot classes. Check everything and add it to the whitelist if necessary
 - Media manager should not upload all files simultaneously
-- When adding an entry to a BREAD, something should happen (form reset, ...)
 - Test all formfields, translatable and not translatable
 - Formfield options need to be translated
 
@@ -15,7 +12,6 @@ Instead, they are listed here:
 - **Checkboxes** with translatable labels, adjustable amount of displayed entries when browsing
 - **Radios** with translatable labels
 - **Color Picker**
-- ****
 
 ## Nice to have
 - Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields and validation-rules that don't have a rule **This is actually important**
