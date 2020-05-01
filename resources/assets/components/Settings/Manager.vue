@@ -41,15 +41,15 @@
                     <sort-container v-model="groupedSettings" :useDragHandle="true">
                         <sort-element v-for="(setting, i) in settingsByGroup(group.name)" :key="'settings-'+i" :index="i">
                             <card :title="setting.name">
-                                <div slot="title" v-if="editMode">
+                                <div slot="title" v-if="editMode" class="flex items-end">
                                     <input
                                         type="text"
                                         class="voyager-input small"
                                         v-model="setting.name"
                                         v-on:input="setting.key = slugify($event.target.value, { lower: true, strict: true })"
                                         :placeholder="__('voyager::generic.name')">
-                                    <input type="text" class="voyager-input small" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
-                                    <input type="text" class="voyager-input small" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
+                                    <input type="text" class="voyager-input small ml-2" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
+                                    <input type="text" class="voyager-input small ml-2" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
                                 </div>
                                 <div slot="title" v-else class="flex items-end">
                                     <h4>{{ setting.name }}</h4>
