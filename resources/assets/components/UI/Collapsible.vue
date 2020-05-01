@@ -2,13 +2,16 @@
 <card :title="title">
     <div slot="actions" class="inline-flex">
         <slot name="actions"></slot>
-        <icon :icon="isOpen ? 'angle-up' : 'angle-down'" :size="8" class="ltr:ml-6 rtl:mr-6" @click="toggle"></icon>
+        <icon :icon="isOpen ? 'angle-up' : 'angle-down'" :size="8" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click.native="toggle"></icon>
     </div>
     <collapse-transition>
         <div v-show="isOpen">
             <slot></slot>
         </div>
     </collapse-transition>
+    <div slot="footer" class="footer" v-if="$slots.footer">
+        <slot name="footer"></slot>
+    </div>
 </card>
 </template>
 <script>

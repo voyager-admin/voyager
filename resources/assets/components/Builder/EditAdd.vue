@@ -175,14 +175,24 @@
                         </button>
                     </div>
                 </dropdown>
-                <button class="button blue small" @click="addLayout(false)">
-                    <icon icon="list-ul" />
-                    <span>{{ __('voyager::builder.add_list') }}</span>
-                </button>
-                <button class="button blue small" @click="addLayout(true)">
-                    <icon icon="apps" />
-                    <span>{{ __('voyager::builder.add_view') }}</span>
-                </button>
+                <dropdown ref="layout_dd" pos="right" class="self-center">
+                    <div>
+                        <a href="#" @click.prevent="addLayout(false)" class="link">
+                            {{ __('voyager::builder.list') }}
+                        </a>
+                        <a href="#" @click.prevent="addLayout(true)" class="link">
+                            {{ __('voyager::builder.view') }}
+                        </a>
+                    </div>
+                    <div slot="opener">
+                        <button class="button blue small">
+                            <icon icon="list-ul" />
+                            <span>
+                                {{ __('voyager::builder.add_layout') }}
+                            </span>
+                        </button>
+                    </div>
+                </dropdown>
                 <button class="button yellow small" @click="renameLayout" :disabled="!currentLayout">
                     <icon icon="pen" />
                     <span>{{ __('voyager::builder.rename_layout') }}</span>
@@ -237,7 +247,7 @@
                 v-on:open-options="openOptionsId = $event" />
         </card>
 
-        <collapsible ref="bread_json" v-if="debug" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible ref="bread_json" v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
             <textarea class="voyager-input w-full" rows="10" v-model="jsonBread"></textarea>
         </collapsible>
     </div>
@@ -477,11 +487,15 @@ export default {
 
             if (this.focusMode) {
                 this.$refs.bread_settings.close();
-                this.$refs.bread_json.close();
+                if (this.$store.debug) {
+                    this.$refs.bread_json.close();
+                }
                 this.$store.closeSidebar();
             } else {
                 this.$refs.bread_settings.open();
-                this.$refs.bread_json.open();
+                if (this.$store.debug) {
+                    this.$refs.bread_json.open();
+                }
                 this.$store.openSidebar();
             }
         }

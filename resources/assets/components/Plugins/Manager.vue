@@ -1,7 +1,7 @@
 <template>
     <card :title="__('voyager::plugins.plugins')" icon="puzzle-piece">
         <div slot="actions">
-            <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle-piece">
+            <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle-piece" v-on:closed="query = ''">
                 <input type="text" class="voyager-input w-full mb-3" v-model="query" :placeholder="__('voyager::generic.search')">
                 <div v-for="(plugin, i) in filteredPlugins.slice(start, end)" :key="'plugin-'+i">
                     <div class="flex">

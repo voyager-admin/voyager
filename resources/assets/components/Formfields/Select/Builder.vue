@@ -106,7 +106,11 @@
         </div>
         <div v-else-if="show == 'view'">
             <label class="label" v-if="translate(options.label) !== ''">{{ translate(options.label) }}</label>
-            ...
+            <select class="voyager-input w-full" :multiple="options.multiple || false">
+                <option v-for="option in options.options" :value="option.key" :key="option.key">
+                    {{ translate(option.value) }}
+                </option>
+            </select>
             <p class="description" v-if="translate(options.description) !== ''">
                 {{ translate(options.description) }}
             </p>

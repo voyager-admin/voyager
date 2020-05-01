@@ -3,8 +3,7 @@
 return [
     'add_formfield'                     => 'Add Formfield',
     'add_formfield_to_layout'           => 'Please add a Formfield first',
-    'add_list'                          => 'Add List',
-    'add_view'                          => 'Add View',
+    'add_layout'                        => 'Add Layout',
     'bread_already_exists'              => 'A BREAD for table ":table" already exists!',
     'bread_backed_up'                   => 'BREAD successfully backed-up as ":name"',
     'bread_does_no_exist'               => 'BREAD ":table" does not exist!',
@@ -27,6 +26,7 @@ return [
     'formfields_more'                   => 'Looking for more formfields?',
     'global_search_display_field'       => 'Global search field',
     'json_output'                       => 'JSON Output',
+    'list'                              => 'List',
     'model'                             => 'Model',
     'name_already_exists'               => 'This name already exists!',
     'name_plural'                       => 'Name plural',
@@ -43,4 +43,5 @@ return [
     'searchable'                        => 'Searchable',
     'show_menu_badge'                   => 'Show badge in menu',
     'show_soft_deleted'                 => 'Show soft-deleted',
+    'view'                              => 'View',
 ];
