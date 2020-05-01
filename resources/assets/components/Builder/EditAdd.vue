@@ -258,10 +258,10 @@
                 v-on:open-options="openOptionsId = $event" />
         </card>
 
-        <collapsible title="Layout usage">
+        <collapsible :title="__('voyager::builder.layout_mapping')" ref="layout_mapping">
             <div class="flex">
                 <div class="w-1/4">
-                    <h6>Browse</h6>
+                    <h6>{{ __('voyager::generic.browse') }}</h6>
                     <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.browse">
                         <option v-for="(list, i) in lists" :key="'browse-layout'+i">
                             {{ list.name }}
@@ -269,7 +269,7 @@
                     </select>
                 </div>
                 <div class="w-1/4 ml-2">
-                    <h6>Read</h6>
+                    <h6>{{ __('voyager::generic.read') }}</h6>
                     <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.read">
                         <option v-for="(view, i) in views" :key="'read-layout'+i">
                             {{ view.name }}
@@ -277,7 +277,7 @@
                     </select>
                 </div>
                 <div class="w-1/4 ml-2">
-                    <h6>Edit</h6>
+                    <h6>{{ __('voyager::generic.edit') }}</h6>
                     <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.edit">
                         <option v-for="(view, i) in views" :key="'edit-layout'+i">
                             {{ view.name }}
@@ -285,7 +285,7 @@
                     </select>
                 </div>
                 <div class="w-1/4 ml-2">
-                    <h6>Add</h6>
+                    <h6>{{ __('voyager::generic.add') }}</h6>
                     <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.add">
                         <option v-for="(view, i) in views" :key="'add-layout'+i">
                             {{ view.name }}
@@ -543,15 +543,14 @@ export default {
 
             if (this.focusMode) {
                 this.$refs.bread_settings.close();
+                this.$refs.layout_mapping.close();
                 if (this.$store.debug) {
                     this.$refs.bread_json.close();
                 }
                 this.$store.closeSidebar();
             } else {
                 this.$refs.bread_settings.open();
-                if (this.$store.debug) {
-                    this.$refs.bread_json.open();
-                }
+                this.$refs.layout_mapping.open();
                 this.$store.openSidebar();
             }
         }

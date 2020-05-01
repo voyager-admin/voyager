@@ -27,6 +27,7 @@ return [
     'formfields_more'                   => 'Looking for more formfields?',
     'global_search_display_field'       => 'Global search field',
     'json_output'                       => 'JSON Output',
+    'layout_mapping'                    => 'Layout mapping',
     'list'                              => 'List',
     'model'                             => 'Model',
     'name_already_exists'               => 'This name already exists!',
