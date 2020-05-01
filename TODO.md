@@ -2,7 +2,6 @@ This Todo list does **not** contain big improvements.
 It only contains small things that came to our minds which we couldn't implement immediately and would be forgotten otherwise.  
 Instead, they are listed here:
 
-- Add :disabled theming to buttons/inputs
 - Media manager should not upload all files simultaneously
 - Test all formfields, translatable and not translatable
 - Formfield options need to be translated
