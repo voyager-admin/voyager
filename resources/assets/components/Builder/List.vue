@@ -132,6 +132,12 @@ export default {
         },
         reactiveOptions: function (options) {
             this.$emit('options', options);
+        },
+        formfields: function (formfields) {
+            this.reactiveFormfields = formfields;
+        },
+        options: function (options) {
+            this.reactiveOptions = options;
         }
     },
 };

@@ -9,6 +9,7 @@ return [
     'bread_does_no_exist'               => 'BREAD ":table" does not exist!',
     'bread_rolled_back'                 => 'BREAD rolled back to :date!',
     'bread_saved_successfully'          => 'BREAD was saved successfully!',
+    'clone_layout'                      => 'Clone Layout',
     'computed_properties'               => 'Computed properties',
     'columns'                           => 'Columns',
     'computed'                          => 'Computed',

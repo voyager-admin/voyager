@@ -13,6 +13,8 @@ return [
     'force_delete_type_success'     => ':type sucessfully deleted permanently!|Successfully deleted :num :types permanently!',
     'force_delete_type'             => 'Force delete one :type|Force delete :num :types',
     'no_results'                    => 'No Results 😢',
+    'order_by_field_asc'            => 'Order ascending by :field',
+    'order_by_field_desc'           => 'Order descending by :field',
     'read_type'                     => 'Showing :type',
     'restore_type_confirm'          => 'Do you want to restore this :type?|Do you want to restore :num :types?',
     'restore_type_success'          => ':type sucessfully restored!|Successfully restored :num :types',

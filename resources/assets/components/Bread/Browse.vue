@@ -48,7 +48,8 @@
                                 <th
                                     v-for="(formfield, key) in layout.formfields" :key="'thead-' + key"
                                     :class="formfield.orderable ? 'cursor-pointer' : ''"
-                                    @click="formfield.orderable ? orderBy(formfield.column.column) : ''">
+                                    @click="formfield.orderable ? orderBy(formfield.column.column) : ''"
+                                    v-tooltip="formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : false">
                                     <div class="flex h-full items-center">
                                         {{ translate(formfield.title, true) }}
                                         <icon

@@ -201,6 +201,9 @@
                         <a href="#" @click.prevent="deleteLayout" class="link">
                             {{ __('voyager::builder.delete_layout') }}
                         </a>
+                        <a href="#" @click.prevent="cloneLayout" class="link">
+                            {{ __('voyager::builder.clone_layout') }}
+                        </a>
                     </div>
                     <div slot="opener">
                         <button class="button blue small">
@@ -484,6 +487,14 @@ export default {
                     }
                 }, false, 'yellow', vm.__('voyager::generic.yes'), vm.__('voyager::generic.no'), 7500
             );
+        },
+        cloneLayout: function () {
+            var layout = JSON.parse(JSON.stringify(this.currentLayout));
+            layout.name = layout.name + ' 2';
+            this.bread.layouts.push(layout);
+            this.currentLayoutName = layout.name;
+
+            this.$refs.actions_dd.close();
         },
         addFormfield: function (formfield) {
             // Merge any global options into the below options
