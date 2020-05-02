@@ -1,10 +1,10 @@
 <template>
     <div>
         <div v-if="show == 'query'">
-            <select class="voyager-input small w-full" @change="$emit('input', $event.target.value)">
+            <select class="voyager-input small w-full" @change="$emit('input', $event.target.value)" v-bind:value="value">
                 <option :value="null">{{ __('voyager::generic.none') }}</option>
                 <option v-for="option in options.options" :value="option.key" :key="option.key">
-                    {{ translate(option.value, true) }}
+                    {{ translate(option.value) }}
                 </option>
             </select>
         </div>
@@ -52,7 +52,7 @@ export default {
 
             vm.options.options.forEach(function (option) {
                 if (option.key == key) {
-                    value = vm.translate(option.value, true);
+                    value = vm.translate(option.value);
                 }
             });
 

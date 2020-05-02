@@ -303,12 +303,7 @@ class Bread
 
     public function getModelRelationships(\ReflectionClass $reflection, Model $model, bool $resolve = false): Collection
     {
-        $types = [
-            BelongsTo::class,
-            BelongsToMany::class,
-            HasMany::class,
-            HasOne::class,
-        ];
+        $types = [BelongsTo::class, BelongsToMany::class, HasMany::class, HasOne::class];
 
         return collect($reflection->getMethods())->transform(function ($method) use ($types, $model, $resolve) {
             $type = $method->getReturnType();

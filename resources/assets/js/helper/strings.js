@@ -1,25 +1,26 @@
 window.kebab_case = function (input, char = '-') {
-    return input.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\s+/g, char).toLowerCase();
+    return input
+        .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+        .map(x => x.toLowerCase())
+        .join(char);
 };
 Vue.prototype.kebab_case = kebab_case;
 
 window.snake_case = function (input) {
-    return window.kebab_case(input, '_');
+    return this.kebab_case(input, '_');
 };
 Vue.prototype.snake_case = snake_case;
 
 window.title_case = function (input, join = ' ') {
-    input = this.snake_case(input).split('_');
-    for (var i = 0; i < input.length; i++) {
-        input[i] = input[i].charAt(0).toUpperCase() + input[i].slice(1); 
-    }
-
-    return input.join(join);
+    return this.kebab_case(input, '_')
+        .split('_')
+        .map(x => x.charAt(0).toUpperCase() + x.slice(1))
+        .join(join);
 };
 Vue.prototype.title_case = title_case;
 
 window.studly = function (input) {
-    return window.title_case(input, '');
+    return this.title_case(input, '');
 };
 Vue.prototype.studly = studly;
 

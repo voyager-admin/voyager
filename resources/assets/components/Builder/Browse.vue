@@ -31,7 +31,7 @@
                         </td>
                         <td class="text-right">
                             <div v-if="hasBread(table)">
-                                <a class="button blue" :href="route('voyager.'+table+'.browse')">
+                                <a class="button blue" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
                                     <icon icon="globe" :size="4" />
                                     <span>
                                         {{ __('voyager::generic.browse') }}
@@ -82,7 +82,6 @@
                                 <icon icon="plus" :size="4" />
                                 <span class="hidden md:block">
                                     {{ __('voyager::generic.add_type', { type: __('voyager::generic.bread') }) }}
-                                    
                                 </span>
                             </a>
                         </td>

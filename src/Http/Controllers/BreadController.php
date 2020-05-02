@@ -25,11 +25,10 @@ class BreadController extends Controller
             'order'       => $order,
             'direction'   => $direction,
             'softdeleted' => $softdeleted,
-            'locale'      => $locale) = $request->all();
+            'locale'      => $locale
+        ) = $request->all();
 
-        $model = $bread->getModel();
-
-        $query = $model->select('*');
+        $query = $bread->getModel()->select('*');
 
         // Soft-deletes
         $uses_soft_deletes = $bread->usesSoftDeletes();
@@ -62,7 +61,7 @@ class BreadController extends Controller
             });
         }
 
-        // Field search ($filters)
+        // Column search ($filters)
         foreach (array_filter($filters) as $column => $filter) {
             $formfield = $layout->getFormfieldByColumn($column);
             $column_type = $formfield->column->type;

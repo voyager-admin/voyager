@@ -5,7 +5,7 @@
             v-bind:key="locale"
             class="button blue uppercase"
             :class="[$language.locale == locale ? 'active' : '', small ? 'small' : '']"
-            @click="changeLocale(locale)">
+            @click="$language.locale = locale">
             {{ locale }}
         </button>
     </div>
@@ -19,10 +19,5 @@ export default {
             default: true,
         },
     },
-    methods: {
-        changeLocale: function (locale) {
-            this.$language.locale = locale;
-        }
-    }
 };
 </script>
