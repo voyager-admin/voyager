@@ -37,7 +37,7 @@ jobs:
       
       # Make sure the proper Chromedriver for Dusk is installed
       - name: Install Chromedriver for Dusk
-        run: ./vendor/bin/dusk-updater update
+        run: ./vendor/bin/dusk-updater update 73
 
       # Install NPM dependencies
       - name: Install Dependencies
