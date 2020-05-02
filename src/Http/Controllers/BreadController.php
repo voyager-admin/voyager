@@ -68,7 +68,6 @@ class BreadController extends Controller
         }
 
         // Ordering ($order and $direction)
-        debug($layout->getFormfieldByColumn($order));
         if (!empty($direction) && !empty($order)) {
             if ($layout->getFormfieldByColumn($order)->translatable ?? false) {
                 $query = $query->orderBy(DB::raw('lower('.$order.'->"$.'.$locale.'")'), $direction);
