@@ -14,6 +14,11 @@ class Plugins
     protected $enabled_plugins;
     protected $path;
 
+    public function __construct()
+    {
+        $this->plugins = collect();
+    }
+
     public function pluginsPath($path)
     {
         $this->path = $path;
@@ -21,9 +26,6 @@ class Plugins
 
     public function addPlugin($plugin = null)
     {
-        if (!$this->plugins) {
-            $this->plugins = collect();
-        }
         if (!$this->enabled_plugins) {
             $this->loadEnabledPlugins();
         }

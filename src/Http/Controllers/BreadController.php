@@ -53,14 +53,10 @@ class BreadController extends Controller
                     $column_type = $formfield->column->type;
                     $column = $formfield->column->column;
 
-                    if ($column_type == 'computed') {
-                        // TODO
-                    } elseif ($column_type == 'relationship') {
-                        // TODO
+                    if ($column_type == 'column') {
+                        $query->orWhere(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($global).'%');
                     } elseif ($formfield->translatable ?? false) {
                         $query->orWhere(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($global).'%');
-                    } else {
-                        $query->orWhere(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($global).'%');
                     }
                 });
             });
@@ -71,14 +67,10 @@ class BreadController extends Controller
             $formfield = $layout->getFormfieldByColumn($column);
             $column_type = $formfield->column->type;
 
-            if ($column_type == 'computed') {
-                // TODO
-            } elseif ($column_type == 'relationship') {
-                // TODO
+            if ($column_type == 'column') {
+                $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
             } elseif ($formfield->translatable ?? false) {
                 $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
-            } else {
-                $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
             }
         }
 
@@ -87,21 +79,17 @@ class BreadController extends Controller
             $formfield = $layout->getFormfieldByColumn($order);
             $column_type = $formfield->column->type;
 
-            if ($column_type == 'computed') {
-                // TODO
-            } elseif ($column_type == 'relationship') {
-                // TODO
+            if ($column_type == 'column') {
+                if ($direction == 'desc') {
+                    $query = $query->orderByDesc($order);
+                } else {
+                    $query = $query->orderBy($order);
+                }
             } elseif ($formfield->translatable ?? false) {
                 if ($direction == 'desc') {
                     $query = $query->orderByDesc(DB::raw('lower('.$order.'->"$.'.$locale.'")'));
                 } else {
                     $query = $query->orderBy(DB::raw('lower('.$order.'->"$.'.$locale.'")'));
-                }
-            } else {
-                if ($direction == 'desc') {
-                    $query = $query->orderByDesc($order);
-                } else {
-                    $query = $query->orderBy($order);
                 }
             }
         }

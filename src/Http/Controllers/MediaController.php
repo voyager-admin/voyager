@@ -10,6 +10,8 @@ use League\Flysystem\Plugin\ListWith;
 
 class MediaController extends Controller
 {
+    public $disk = 'public';
+
     public function index()
     {
         return view('voyager::media.browse');
@@ -24,23 +26,23 @@ class MediaController extends Controller
         do {
             $name = $this->getFileName($file, $count);
             $count++;
-        } while (Storage::disk('public')->exists($path.$name));
+        } while (Storage::disk($this->disk)->exists($path.$name));
 
         return response()->json([
-            'result' => Storage::disk('public')->putFileAs($path, $request->file('file'), $name),
+            'result' => Storage::disk($this->disk)->putFileAs($path, $request->file('file'), $name),
         ]);
     }
 
     public function listFiles(Request $request)
     {
-        $storage = Storage::disk('public')->addPlugin(new ListWith());
+        $storage = Storage::disk($this->disk)->addPlugin(new ListWith());
         $files = collect($storage->listWith(['mimetype'], $request->get('path', '')))->transform(function ($file) {
             return [
                 'is_upload' => false,
                 'file'      => [
                     'name'          => $file['basename'],
                     'relative_path' => Str::finish(str_replace('\\', '/', $file['dirname']), '/'),
-                    'url'           => Storage::disk('public')->url($file['path']),
+                    'url'           => Storage::disk($this->disk)->url($file['path']),
                     'type'          => $file['mimetype'] ?? 'dir',
                     'size'          => $file['size'] ?? 0,
                 ],
@@ -58,12 +60,12 @@ class MediaController extends Controller
             //debug($file);
         }
 
-        return Storage::disk('public')->delete($request->get('files', []));
+        return Storage::disk($this->disk)->delete($request->get('files', []));
     }
 
     public function createFolder(Request $request)
     {
-        return Storage::disk('public')->makeDirectory(
+        return Storage::disk($this->disk)->makeDirectory(
             Str::finish($request->get('path', ''), '/').$request->get('name', '')
         );
     }
