@@ -11,7 +11,10 @@ class AssetsTest extends TestCase
     {
         $this->browse(function (DuskBrowser $browser) {
             $browser->visit(Voyager::assetUrl('css/voyager.css'))
-                ->assertDontSee('Not found');
+                ->assertDontSee('Not Found');
+
+            $browser->visit(Voyager::assetUrl('css/colors.css'))
+                ->assertDontSee('Not Found');
         });
     }
 
@@ -19,7 +22,7 @@ class AssetsTest extends TestCase
     {
         $this->browse(function (DuskBrowser $browser) {
             $browser->visit(Voyager::assetUrl('js/voyager.js'))
-                ->assertDontSee('Not found');
+                ->assertDontSee('Not Found');
         });
     }
 
@@ -27,7 +30,7 @@ class AssetsTest extends TestCase
     {
         $this->browse(function (DuskBrowser $browser) {
             $browser->visit(Voyager::assetUrl('some/wrong.file'))
-                ->assertSee('Not found');
+                ->assertSee('Not Found');
         });
     }
 
@@ -35,7 +38,7 @@ class AssetsTest extends TestCase
     {
         $this->browse(function (DuskBrowser $browser) {
             $browser->visit(Voyager::assetUrl('../../../../../../.env'))
-                ->assertSee('Not found');
+                ->assertSee('Not Found');
         });
     }
 }
