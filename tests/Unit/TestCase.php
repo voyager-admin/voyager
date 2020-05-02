@@ -3,6 +3,7 @@
 namespace Voyager\Admin\Tests\Unit;
 
 use Voyager\Admin\Facades\Voyager;
+use Voyager\Admin\Tests\Models\User;
 use Voyager\Admin\VoyagerServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -59,6 +60,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $app['router']->prefix('admin')->group(function (\Illuminate\Routing\Router $router) {
             Voyager::routes($router);
         });
+
+        // Setup Authentication configuration
+        $app['config']->set('auth.providers.users.model', User::class);
     }
 
     /**
