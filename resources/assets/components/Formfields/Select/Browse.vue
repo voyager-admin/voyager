@@ -1,6 +1,13 @@
 <template>
     <div>
-        <slot v-if="show == 'query'"></slot>
+        <div v-if="show == 'query'">
+            <select class="voyager-input small w-full" @change="$emit('input', $event.target.value)">
+                <option :value="null">{{ __('voyager::generic.none') }}</option>
+                <option v-for="option in options.options" :value="option.key" :key="option.key">
+                    {{ translate(option.value, true) }}
+                </option>
+            </select>
+        </div>
         <div v-else>
             <div class="inline-flex" v-for="(option, i) in displaySelected" :key="i">
                 {{ getValueByKey(option) }}

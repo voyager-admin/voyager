@@ -1,6 +1,8 @@
 <template>
     <div>
-        <slot v-if="show == 'query'"></slot>
+        <div v-if="show == 'query'">
+            <input type="number" class="voyager-input small w-full" v-model="value">
+        </div>
         <div v-else>
             {{ formattedNumber }}
         </div>
