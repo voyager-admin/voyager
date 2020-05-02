@@ -34,6 +34,10 @@ jobs:
       # Install PHP dependencies
       - name: Install Composer dependencies
         run: composer require "illuminate/support:7.*"
+      
+      # Setup Chromedriver for Dusk
+      - name: Setup Chromedriver
+        run: php artisan dusk:chrome-driver
 
       # Install NPM dependencies
       - name: Install Dependencies
