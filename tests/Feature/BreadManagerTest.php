@@ -1,8 +1,8 @@
 <?php
 
-namespace TCG\Voyager\Tests\Feature;
+namespace Voyager\Admin\Tests\Feature;
 
-use TCG\Voyager\Tests\Unit\TestCase;
+use Voyager\Admin\Tests\Unit\TestCase;
 
 class BreadManagerTest extends TestCase
 {

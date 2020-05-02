@@ -1,9 +1,9 @@
 <?php
 
-namespace TCG\Voyager\Rules;
+namespace Voyager\Admin\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use TCG\Voyager\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class DefaultLocale implements Rule
 {

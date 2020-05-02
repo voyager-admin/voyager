@@ -1,6 +1,6 @@
 <?php
 
-namespace TCG\Voyager\Http\Controllers;
+namespace Voyager\Admin\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;

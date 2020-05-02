@@ -1,11 +1,11 @@
 <?php
 
-namespace TCG\Voyager\Http\Controllers;
+namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use TCG\Voyager\Facades\Bread as BreadFacade;
+use Voyager\Admin\Facades\Bread as BreadFacade;
 
 class VoyagerController extends Controller
 {

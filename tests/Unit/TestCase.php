@@ -1,9 +1,9 @@
 <?php
 
-namespace TCG\Voyager\Tests\Unit;
+namespace Voyager\Admin\Tests\Unit;
 
-use TCG\Voyager\Facades\Voyager;
-use TCG\Voyager\VoyagerServiceProvider;
+use Voyager\Admin\Facades\Voyager;
+use Voyager\Admin\VoyagerServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace TCG\Voyager;
+namespace Voyager\Admin;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use TCG\Voyager\Classes\Setting;
-use TCG\Voyager\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Classes\Setting;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Settings
 {

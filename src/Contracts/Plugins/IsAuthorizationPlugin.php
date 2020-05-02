@@ -1,6 +1,6 @@
 <?php
 
-namespace TCG\Voyager\Contracts\Plugins;
+namespace Voyager\Admin\Contracts\Plugins;
 
 interface IsAuthorizationPlugin extends IsGenericPlugin
 {

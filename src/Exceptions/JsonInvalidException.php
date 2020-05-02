@@ -1,6 +1,6 @@
 <?php
 
-namespace TCG\Voyager\Exceptions;
+namespace Voyager\Admin\Exceptions;
 
 use Exception;
 

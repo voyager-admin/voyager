@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['as' => 'voyager.'], function () {
-    $namespace = '\\TCG\\Voyager\\Http\\Controllers\\';
+    $namespace = '\\Voyager\\Admin\\Http\\Controllers\\';
 
     Route::group(['middleware' => 'voyager.admin'], function () use ($namespace) {
         Route::view('/', 'voyager::dashboard')->name('dashboard');

@@ -1,6 +1,6 @@
 <?php
 
-namespace TCG\Voyager\Contracts\Bread;
+namespace Voyager\Admin\Contracts\Bread;
 
 abstract class Formfield implements \JsonSerializable
 {

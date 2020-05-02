@@ -1,6 +1,6 @@
 <?php
 
-namespace TCG\Voyager\Rules;
+namespace Voyager\Admin\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Str;

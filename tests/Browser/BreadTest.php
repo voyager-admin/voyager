@@ -1,9 +1,9 @@
 <?php
 
-namespace TCG\Voyager\Tests\Browser;
+namespace Voyager\Admin\Tests\Browser;
 
 use Laravel\Dusk\Browser as DuskBrowser;
-use TCG\Voyager\Facades\Bread;
+use Voyager\Admin\Facades\Bread;
 
 class BreadTest extends TestCase
 {

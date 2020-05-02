@@ -1,13 +1,13 @@
 <?php
 
-namespace TCG\Voyager\Http\Controllers;
+namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
-use TCG\Voyager\Facades\Plugins as PluginsFacade;
-use TCG\Voyager\Facades\Voyager as VoyagerFacade;
-use TCG\Voyager\Plugins\AuthenticationPlugin;
+use Voyager\Admin\Facades\Plugins as PluginsFacade;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Plugins\AuthenticationPlugin;
 
 abstract class Controller extends BaseController
 {

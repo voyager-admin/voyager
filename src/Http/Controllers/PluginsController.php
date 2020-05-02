@@ -1,9 +1,9 @@
 <?php
 
-namespace TCG\Voyager\Http\Controllers;
+namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TCG\Voyager\Facades\Plugins as PluginsFacade;
+use Voyager\Admin\Facades\Plugins as PluginsFacade;
 
 class PluginsController extends Controller
 {
@@ -33,7 +33,7 @@ class PluginsController extends Controller
     {
         $plugin = PluginsFacade::getAllPlugins()->get($key);
         if (!$plugin) {
-            throw new \TCG\Voyager\Exceptions\PluginNotFoundException('This Plugin does not exist');
+            throw new \Voyager\Admin\Exceptions\PluginNotFoundException('This Plugin does not exist');
         } elseif ($plugin->has_settings && $plugin->enabled) {
             return $plugin->getSettingsView();
         }

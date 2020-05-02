@@ -1,9 +1,9 @@
 <?php
 
-namespace TCG\Voyager\Tests\Browser;
+namespace Voyager\Admin\Tests\Browser;
 
 use Laravel\Dusk\Browser as DuskBrowser;
-use TCG\Voyager\Facades\Voyager;
+use Voyager\Admin\Facades\Voyager;
 
 class AssetsTest extends TestCase
 {

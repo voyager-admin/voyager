@@ -1,9 +1,9 @@
 <?php
 
-namespace TCG\Voyager\Classes;
+namespace Voyager\Admin\Classes;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use TCG\Voyager\Traits\Translatable;
+use Voyager\Admin\Traits\Translatable;
 
 class Bread implements \JsonSerializable
 {

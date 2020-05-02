@@ -1,8 +1,8 @@
 <?php
 
-namespace TCG\Voyager\Traits;
+namespace Voyager\Admin\Traits;
 
-use TCG\Voyager\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 trait Translatable
 {

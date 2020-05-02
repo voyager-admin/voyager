@@ -1,8 +1,8 @@
 <?php
 
-namespace TCG\Voyager\Formfields;
+namespace Voyager\Admin\Formfields;
 
-use TCG\Voyager\Contracts\Bread\Formfield;
+use Voyager\Admin\Contracts\Bread\Formfield;
 
 class Select extends Formfield
 {

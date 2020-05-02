@@ -1,15 +1,15 @@
 <?php
 
-namespace TCG\Voyager\Http\Controllers;
+namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use TCG\Voyager\Facades\Bread as BreadFacade;
-use TCG\Voyager\Facades\Voyager as VoyagerFacade;
-use TCG\Voyager\Rules\ClassExists as ClassExistsRule;
-use TCG\Voyager\Rules\DefaultLocale as DefaultLocaleRule;
+use Voyager\Admin\Facades\Bread as BreadFacade;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Rules\ClassExists as ClassExistsRule;
+use Voyager\Admin\Rules\DefaultLocale as DefaultLocaleRule;
 
 class BreadBuilderController extends Controller
 {
@@ -35,7 +35,7 @@ class BreadBuilderController extends Controller
     public function create($table)
     {
         if (!in_array($table, VoyagerFacade::getTables())) {
-            throw new \TCG\Voyager\Exceptions\TableNotFoundException('Table "'.$table.'" does not exist');
+            throw new \Voyager\Admin\Exceptions\TableNotFoundException('Table "'.$table.'" does not exist');
         }
 
         if (BreadFacade::getBread($table)) {

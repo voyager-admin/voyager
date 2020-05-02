@@ -1,12 +1,12 @@
 <?php
 
-namespace TCG\Voyager\Plugins;
+namespace Voyager\Admin\Plugins;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use TCG\Voyager\Contracts\Plugins\IsAuthenticationPlugin;
+use Voyager\Admin\Contracts\Plugins\IsAuthenticationPlugin;
 
 class AuthenticationPlugin implements IsAuthenticationPlugin
 {

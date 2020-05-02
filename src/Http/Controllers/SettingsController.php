@@ -1,9 +1,9 @@
 <?php
 
-namespace TCG\Voyager\Http\Controllers;
+namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TCG\Voyager\Facades\Settings as SettingsFacade;
+use Voyager\Admin\Facades\Settings as SettingsFacade;
 
 class SettingsController extends Controller
 {

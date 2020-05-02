@@ -1,6 +1,6 @@
 <?php
 
-namespace TCG\Voyager\Policies;
+namespace Voyager\Admin\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 

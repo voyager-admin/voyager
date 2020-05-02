@@ -1,14 +1,14 @@
 <?php
 
-namespace TCG\Voyager\Tests\Browser;
+namespace Voyager\Admin\Tests\Browser;
 
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Orchestra\Testbench\Dusk\Options as DuskOptions;
 use Orchestra\Testbench\Dusk\TestCase as DuskTestCase;
-use TCG\Voyager\Facades\Voyager;
-use TCG\Voyager\VoyagerServiceProvider;
+use Voyager\Admin\Facades\Voyager;
+use Voyager\Admin\VoyagerServiceProvider;
 
 class TestCase extends DuskTestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace TCG\Voyager\Http\Middleware;
+namespace Voyager\Admin\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use TCG\Voyager\Facades\Plugins as PluginsFacade;
-use TCG\Voyager\Plugins\AuthenticationPlugin;
+use Voyager\Admin\Facades\Plugins as PluginsFacade;
+use Voyager\Admin\Plugins\AuthenticationPlugin;
 
 class VoyagerAdminMiddleware
 {

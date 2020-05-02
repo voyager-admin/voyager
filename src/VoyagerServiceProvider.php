@@ -1,20 +1,20 @@
 <?php
 
-namespace TCG\Voyager;
+namespace Voyager\Admin;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
-use TCG\Voyager\Commands\InstallCommand;
-use TCG\Voyager\Facades\Bread as BreadFacade;
-use TCG\Voyager\Facades\Plugins as PluginsFacade;
-use TCG\Voyager\Facades\Settings as SettingsFacade;
-use TCG\Voyager\Facades\Voyager as VoyagerFacade;
-use TCG\Voyager\Http\Middleware\VoyagerAdminMiddleware;
-use TCG\Voyager\Plugins\AuthenticationPlugin;
-use TCG\Voyager\Policies\BasePolicy;
+use Voyager\Admin\Commands\InstallCommand;
+use Voyager\Admin\Facades\Bread as BreadFacade;
+use Voyager\Admin\Facades\Plugins as PluginsFacade;
+use Voyager\Admin\Facades\Settings as SettingsFacade;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Http\Middleware\VoyagerAdminMiddleware;
+use Voyager\Admin\Plugins\AuthenticationPlugin;
+use Voyager\Admin\Policies\BasePolicy;
 
 class VoyagerServiceProvider extends ServiceProvider
 {
@@ -30,10 +30,10 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager');
         $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager');
 
-        BreadFacade::addFormfield(\TCG\Voyager\Formfields\Number::class);
-        BreadFacade::addFormfield(\TCG\Voyager\Formfields\Select::class);
-        BreadFacade::addFormfield(\TCG\Voyager\Formfields\Tags::class);
-        BreadFacade::addFormfield(\TCG\Voyager\Formfields\Text::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Number::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Select::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Tags::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Text::class);
 
         // Register Policies
         BreadFacade::getBreads()->each(function ($bread) {

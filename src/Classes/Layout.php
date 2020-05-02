@@ -1,8 +1,8 @@
 <?php
 
-namespace TCG\Voyager\Classes;
+namespace Voyager\Admin\Classes;
 
-use TCG\Voyager\Facades\Bread as BreadFacade;
+use Voyager\Admin\Facades\Bread as BreadFacade;
 
 class Layout implements \JsonSerializable
 {

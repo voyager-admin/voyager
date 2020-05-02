@@ -1,12 +1,12 @@
 {
-    "name": "tcg/voyager",
+    "name": "voyager-admin/voyager",
     "description": "A Laravel Admin Package for The Control Group to make your life easier and steer your project in the right direction",
     "keywords": ["laravel", "admin", "panel"],
     "license": "MIT",
-    "homepage": "https://the-control-group.github.io/voyager/",
+    "homepage": "https://voyager-admin.com",
     "support": {
-        "issues": "https://github.com/the-control-group/voyager/issues",
-        "source": "https://github.com/the-control-group/voyager"
+        "issues": "https://github.com/voyager-admin/voyager/issues",
+        "source": "https://github.com/voyager-admin/voyager"
     },
     "authors": [
         {
@@ -23,19 +23,19 @@
     },
     "autoload": {
         "psr-4": {
-            "TCG\\Voyager\\": "src/"
+            "Voyager\\Admin\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "TCG\\Voyager\\Tests\\": "tests/"
+            "Voyager\\Admin\\Tests\\": "tests/"
       }
     },
     "minimum-stability": "stable",
     "extra": {
         "laravel": {
             "providers": [
-                "TCG\\Voyager\\VoyagerServiceProvider"
+                "Voyager\\Admin\\VoyagerServiceProvider"
             ]
         }
     }

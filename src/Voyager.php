@@ -1,9 +1,9 @@
 <?php
 
-namespace TCG\Voyager;
+namespace Voyager\Admin;
 
 use Illuminate\Support\Facades\DB;
-use TCG\Voyager\Facades\Plugins as PluginsFacade;
+use Voyager\Admin\Facades\Plugins as PluginsFacade;
 
 class Voyager
 {

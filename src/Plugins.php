@@ -1,11 +1,11 @@
 <?php
 
-namespace TCG\Voyager;
+namespace Voyager\Admin;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use TCG\Voyager\Contracts\Plugins\IsGenericPlugin;
+use Voyager\Admin\Contracts\Plugins\IsGenericPlugin;
 
 class Plugins
 {
@@ -124,9 +124,9 @@ class Plugins
     protected function getPluginType($class)
     {
         return collect(class_implements($class))->filter(function ($interface) {
-            return Str::startsWith($interface, 'TCG\\Voyager\\Contracts\\Plugins\\');
+            return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\');
         })->transform(function ($interface) {
-            return strtolower(str_replace(['TCG\\Voyager\\Contracts\\Plugins\\', 'Plugin', 'Is'], '', $interface));
+            return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin', 'Is'], '', $interface));
         })->first();
     }
 }

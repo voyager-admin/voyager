@@ -1,6 +1,6 @@
 <?php
 
-namespace TCG\Voyager;
+namespace Voyager\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,8 +12,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use TCG\Voyager\Classes\Bread as BreadClass;
-use TCG\Voyager\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Classes\Bread as BreadClass;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Bread
 {
@@ -41,7 +41,7 @@ class Bread
     /**
      * Get all BREADs from storage and validate.
      *
-     * @return \TCG\Voyager\Classes\Bread
+     * @return \Voyager\Admin\Classes\Bread
      */
     public function getBreads()
     {
@@ -114,7 +114,7 @@ class Bread
      *
      * @param string $table
      *
-     * @return \TCG\Voyager\Classes\Bread
+     * @return \Voyager\Admin\Classes\Bread
      */
     public function getBread($table)
     {
@@ -126,7 +126,7 @@ class Bread
      *
      * @param string $slug
      *
-     * @return \TCG\Voyager\Classes\Bread
+     * @return \Voyager\Admin\Classes\Bread
      */
     public function getBreadBySlug($slug)
     {
