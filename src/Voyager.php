@@ -3,6 +3,7 @@
 namespace Voyager\Admin;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Voyager\Admin\Facades\Plugins as PluginsFacade;
 
 class Voyager
@@ -205,5 +206,12 @@ class Voyager
         }
 
         return $value;
+    }
+
+    public function ensureDirectoryExists($path)
+    {
+        if (!File::isDirectory($path)) {
+            File::makeDirectory($path, 0755, true);
+        }
     }
 }

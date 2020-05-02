@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\IsGenericPlugin;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Plugins
 {
@@ -47,9 +48,7 @@ class Plugins
         $this->enabled_plugins = [];
 
         $folder = dirname($this->path);
-        if (!File::isDirectory($folder)) {
-            File::makeDirectory($folder, 0755, true);
-        }
+        VoyagerFacade::ensureDirectoryExists($folder);
         if (!File::exists($this->path)) {
             File::put($this->path, '[]');
         }

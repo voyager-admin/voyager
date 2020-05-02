@@ -46,10 +46,7 @@ class Bread
     public function getBreads()
     {
         if (!$this->breads) {
-            if (!File::isDirectory($this->breadPath)) {
-                File::makeDirectory($this->breadPath, 0755, true);
-            }
-
+            VoyagerFacade::ensureDirectoryExists($this->breadPath);
             $this->breads = collect(File::files($this->breadPath))->transform(function ($bread) {
                 $content = File::get($bread->getPathName());
                 $json = @json_decode($content);

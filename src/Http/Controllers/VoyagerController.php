@@ -9,6 +9,14 @@ use Voyager\Admin\Facades\Bread as BreadFacade;
 
 class VoyagerController extends Controller
 {
+    private $mime_extensions = [
+        'js'    => 'text/javascript',
+        'css'   => 'text/css',
+        'woff'  => 'font/woff',
+        'woff2' => 'font/woff2',
+        'ttf'   => 'font/ttf',
+    ];
+
     public function assets(Request $request)
     {
         $path = str_replace('/', DIRECTORY_SEPARATOR, Str::start(urldecode($request->path), '/'));
@@ -19,20 +27,9 @@ class VoyagerController extends Controller
         }
 
         if (File::exists($path)) {
-            $mime = '';
-            if (Str::endsWith($path, '.js')) {
-                $mime = 'text/javascript';
-            } elseif (Str::endsWith($path, '.css')) {
-                $mime = 'text/css';
-            } elseif (Str::endsWith($path, '.woff')) {
-                $mime = 'font/woff';
-            } elseif (Str::endsWith($path, '.woff2')) {
-                $mime = 'font/woff2';
-            } elseif (Str::endsWith($path, '.ttf')) {
-                $mime = 'font/ttf';
-            } else {
-                $mime = File::mimeType($path);
-            }
+            $extension = Str::afterLast($path, '.');
+            $mime = $this->mime_extensions[$extension] ?? File::mimeType($path);
+
             $response = response(File::get($path), 200, ['Content-Type' => $mime]);
             $response->setSharedMaxAge(31536000);
             $response->setMaxAge(31536000);

@@ -33,12 +33,9 @@ abstract class Controller extends BaseController
         $errors = [];
 
         $formfields->each(function ($formfield) use (&$errors, $data) {
-            if (empty($formfield->validation)) {
-                return;
-            }
+            $formfield->validation = $formfield->validation ?? [];
             $value = $data[$formfield->column->column] ?? '';
             if ($formfield->translatable && is_array($value)) {
-                // TODO: We could validate ALL locales here. But mostly, this doesn't make sense (Let user select?)
                 $value = $value[VoyagerFacade::getLocale()] ?? $value[VoyagerFacade::getFallbackLocale()];
             }
             foreach ($formfield->validation as $rule) {
