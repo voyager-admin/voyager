@@ -61,5 +61,5 @@ jobs:
             ${{github.workspace}}/coverage.xml:clover
 
       # Upload coverage report to codecov.io
-      - name: Upload coverage
-        run: bash <(curl -s https://codecov.io/bash)
+      #- name: Upload coverage
+      #  run: bash <(curl -s https://codecov.io/bash)
