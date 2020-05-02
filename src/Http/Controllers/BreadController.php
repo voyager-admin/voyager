@@ -49,10 +49,10 @@ class BreadController extends Controller
         if (!empty($global)) {
             $query->where(function ($query) use ($global, $layout, $locale) {
                 $layout->searchableFormfields()->each(function ($formfield) use (&$query, $global, $locale) {
-                    if ($formfield->column->type == 'column') {
-                        $query->orWhere(DB::raw('lower('.$formfield->column->column.')'), 'LIKE', '%'.strtolower($global).'%');
-                    } elseif ($formfield->translatable ?? false) {
+                    if ($formfield->translatable ?? false) {
                         $query->orWhere(DB::raw('lower('.$formfield->column->column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($global).'%');
+                    } elseif ($formfield->column->type == 'column') {
+                        $query->orWhere(DB::raw('lower('.$formfield->column->column.')'), 'LIKE', '%'.strtolower($global).'%');
                     }
                 });
             });
@@ -60,19 +60,20 @@ class BreadController extends Controller
 
         // Column search ($filters)
         foreach (array_filter($filters) as $column => $filter) {
-            if ($layout->getFormfieldByColumn($column)->column->type == 'column') {
-                $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
-            } elseif ($formfield->translatable ?? false) {
+            if ($formfield->translatable ?? false) {
                 $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
+            } elseif ($layout->getFormfieldByColumn($column)->column->type == 'column') {
+                $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
             }
         }
 
         // Ordering ($order and $direction)
+        debug($layout->getFormfieldByColumn($order));
         if (!empty($direction) && !empty($order)) {
-            if ($layout->getFormfieldByColumn($order)->column->type == 'column') {
-                $query = $query->orderBy($order, $direction);
-            } elseif ($formfield->translatable ?? false) {
+            if ($layout->getFormfieldByColumn($order)->translatable ?? false) {
                 $query = $query->orderBy(DB::raw('lower('.$order.'->"$.'.$locale.'")'), $direction);
+            } elseif ($layout->getFormfieldByColumn($order)->column->type == 'column') {
+                $query = $query->orderBy($order, $direction);
             }
         }
 
