@@ -48,8 +48,17 @@ jobs:
         run: npm run prod
 
       # Run phpunit tests to generate coverage report
-      - name: Run tests for coverage
-        run: php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-clover=coverage.xml
+      #- name: Run tests for coverage
+      #  run: php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-clover=coverage.xml
+
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: d7ac50851610b4bfae417c6942bba6a399435943951ee9c1fb470ad29c94f0ed
+        with:
+          coverageCommand: php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-clover=coverage.xml
+          coverageLocations: |
+            ${{github.workspace}}/coverage.xml:clover
 
       # Upload coverage report to codecov.io
       - name: Upload coverage
