@@ -16,13 +16,13 @@
                 <div class="w-full mt-1">
                     <label for="email" class="block text-sm font-medium leading-5 text-gray-700">{{ __('voyager::auth.email') }}</label>
                     <div class="mt-1 rounded-md shadow-sm">
-                        <input type="email" name="email" id="email" class="voyager-input w-full mb-4 placeholder-gray-400" autofocus>
+                        <input :value="old.email" type="email" name="email" id="email" class="voyager-input w-full mb-4 placeholder-gray-400" autofocus>
                     </div>
                 </div>
                 <div class="w-full mt-6">
                     <label for="password" class="block text-sm font-medium leading-5 text-gray-700">{{ __('voyager::auth.password') }}</label>
                     <div class="mt-1 rounded-md shadow-sm">
-                        <input type="password" name="password" id="password" class="voyager-input w-full mb-3 placeholder-gray-400">
+                        <input :value="old.password" type="password" name="password" id="password" class="voyager-input w-full mb-3 placeholder-gray-400">
                     </div>
                 </div>
                 <div class="w-full flex justify-between mt-4">
@@ -38,7 +38,7 @@
             </slot>
 
             <div class="flex items-center justify-between mt-4">
-                <button dusk="login-button" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out" type="submit">
+                <button class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out" type="submit">
                     {{ __('voyager::auth.login') }}
                 </button>
                 
