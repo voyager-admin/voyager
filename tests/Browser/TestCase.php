@@ -10,6 +10,7 @@ use Laravel\Dusk\Browser as DuskBrowser;
 use Orchestra\Testbench\Dusk\Options as DuskOptions;
 use Orchestra\Testbench\Dusk\TestCase as DuskTestCase;
 use Voyager\Admin\Facades\Voyager;
+use Voyager\Admin\DuskCoverageServiceProvider;
 use Voyager\Admin\VoyagerServiceProvider;
 
 class TestCase extends DuskTestCase
@@ -46,6 +47,7 @@ class TestCase extends DuskTestCase
     {
         return [
             VoyagerServiceProvider::class,
+            DuskCoverageServiceProvider::class,
         ];
     }
 
