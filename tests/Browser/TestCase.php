@@ -5,6 +5,8 @@ namespace Voyager\Admin\Tests\Browser;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Dusk\Browser as DuskBrowser;
 use Orchestra\Testbench\Dusk\Options as DuskOptions;
 use Orchestra\Testbench\Dusk\TestCase as DuskTestCase;
 use Voyager\Admin\Facades\Voyager;
@@ -19,23 +21,7 @@ class TestCase extends DuskTestCase
     {
         parent::setUp();
 
-        $db_dir = realpath($this->getBasePath().'/database');
-        if (!file_exists($db_dir.'/database.sqlite')) {
-            copy($db_dir.'/database.sqlite.example', $db_dir.'/database.sqlite');
-        }
-
-        $route_dir = realpath($this->getBasePath());
-        if (!is_dir($route_dir.'/routes')) {
-            @mkdir($route_dir.'/routes');
-        }
-        if (!file_exists($route_dir.'/routes/web.php')) {
-            file_put_contents($route_dir.'/routes/web.php', "<?php\n");
-        }
-
-        $this->setUpTheBrowserEnvironment();
-        $this->registerShutdownFunction();
-
-        $this->loadLaravelMigrations(config('database.default'));
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
 
         $route_dir = realpath($this->getBasePath());
         if (!is_dir($route_dir.'/routes')) {	
@@ -54,13 +40,6 @@ class TestCase extends DuskTestCase
     protected function setupVoyager(): void
     {
         $this->artisan('voyager:install');
-    }
-
-    /**
-     * Setup Voyager.
-     */
-    protected function createUserTable(): void
-    {
     }
 
     protected function getPackageProviders($app)
@@ -82,6 +61,16 @@ class TestCase extends DuskTestCase
         $app['router']->prefix('admin')->group(function (\Illuminate\Routing\Router $router) {
             Voyager::routes($router);
         });
+
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+
+        // Setup Authentication configuration
+        $app['config']->set('auth.providers.users.model', \Illuminate\Foundation\Auth\User::class);
     }
 
     protected function driver(): RemoteWebDriver
