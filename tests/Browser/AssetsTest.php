@@ -7,17 +7,6 @@ use Voyager\Admin\Facades\Voyager;
 
 class AssetsTest extends TestCase
 {
-    public function test_asset_css_loaded()
-    {
-        $this->browse(function (DuskBrowser $browser) {
-            $browser->visit(Voyager::assetUrl('css/voyager.css'))
-                ->assertDontSee('Not Found');
-
-            $browser->visit(Voyager::assetUrl('css/colors.css'))
-                ->assertDontSee('Not Found');
-        });
-    }
-
     public function test_asset_js_loaded()
     {
         $this->browse(function (DuskBrowser $browser) {
