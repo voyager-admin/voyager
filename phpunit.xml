@@ -11,9 +11,9 @@
          stopOnFailure="false"
 >
     <testsuites>
-        <!--<testsuite name="Browser">
+        <testsuite name="Browser">
             <directory suffix="Test.php">./tests/Browser</directory>
-        </testsuite>-->
+        </testsuite>
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
