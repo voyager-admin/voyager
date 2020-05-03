@@ -19,10 +19,10 @@ class DashboardTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /*public function test_dashboard()
+    public function test_dashboard()
     {
         $this->get(route('voyager.dashboard'))
              ->assertStatus(200)
-             ->assertSeeText('Welcome to Voyager 2.0');
-    }*/
+             ->assertSeeText('Laravel and VueJS'); // The default widget that is shown when no widget plugins are installed
+    }
 }

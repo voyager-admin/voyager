@@ -3,7 +3,6 @@
 namespace Voyager\Admin\Tests\Unit;
 
 use Voyager\Admin\Facades\Voyager;
-use Voyager\Admin\Tests\Models\User;
 use Voyager\Admin\VoyagerServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -15,20 +14,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
-        $db_dir = realpath($this->getBasePath().'/database');
-        if (!file_exists($db_dir.'/database.sqlite')) {
-            copy($db_dir.'/database.sqlite.example', $db_dir.'/database.sqlite');
-        }
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
 
-        $route_dir = realpath($this->getBasePath());
-        if (!is_dir($route_dir.'/routes')) {
-            @mkdir($route_dir.'/routes');
-        }
-        if (!file_exists($route_dir.'/routes/web.php')) {
-            file_put_contents($route_dir.'/routes/web.php', "<?php\n");
-        }
-
-        $this->loadLaravelMigrations(config('database.default'));
+        // Create a dummy user
+        $user = new \Illuminate\Foundation\Auth\User();
+        $user->name = 'Admin';
+        $user->email = 'admin@admin.com';
+        $user->password = bcrypt('secret');
+        $user->save();
 
         $this->setupVoyager();
     }
@@ -61,19 +54,17 @@ class TestCase extends \Orchestra\Testbench\TestCase
             Voyager::routes($router);
         });
 
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+
         // Setup Authentication configuration
-        $app['config']->set('auth.providers.users.model', User::class);
+        $app['config']->set('auth.providers.users.model', \Illuminate\Foundation\Auth\User::class);
     }
 
-    /**
-     * Make sure all integration tests use the same Laravel "skeleton" files.
-     * This avoids duplicate classes during migrations.
-     *
-     * Overrides \Orchestra\Testbench\Dusk\TestCase::getBasePath
-     *       and \Orchestra\Testbench\Concerns\CreatesApplication::getBasePath
-     *
-     * @return string
-     */
     protected function getBasePath()
     {
         // Adjust this path depending on where your override is located.
