@@ -20,9 +20,9 @@ class BreadManagerTest extends TestCase
              ->assertStatus(200);
     }
 
-    public function test_display_create_user_bread()
+    public function test_display_edit_user_bread()
     {
-        $this->get(route('voyager.bread.create', 'users'))
+        $this->get(route('voyager.bread.edit', 'users'))
              ->assertStatus(200);
     }
 }

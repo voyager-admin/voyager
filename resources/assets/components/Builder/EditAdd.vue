@@ -185,7 +185,7 @@
                         </a>
                     </div>
                     <div slot="opener">
-                        <button class="button green small" :disabled="!currentLayout">
+                        <button class="button green small">
                             <icon icon="list-ul" />
                             <span>
                                 {{ __('voyager::builder.add_layout') }}

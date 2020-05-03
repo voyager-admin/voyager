@@ -4,6 +4,7 @@ namespace Voyager\Admin\Tests\Unit;
 
 use Voyager\Admin\Facades\Voyager;
 use Voyager\Admin\VoyagerServiceProvider;
+use Voyager\Admin\Facades\Bread as BreadFacade;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -15,6 +16,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->loadLaravelMigrations(['--database' => 'testbench']);
+
+        $bread = json_decode(file_get_contents(__DIR__.'/../Stubs/users.json'));
+        BreadFacade::storeBread($bread);
+
 
         // Create a dummy user
         $user = new \Illuminate\Foundation\Auth\User();

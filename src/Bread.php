@@ -263,6 +263,10 @@ class Bread
      */
     public function getFormfield(string $type)
     {
+        if (!$this->formfields) {
+            $this->formfields = collect();
+        }
+
         return $this->formfields->filter(function ($formfield) use ($type) {
             return $formfield->type() == $type;
         })->first();
