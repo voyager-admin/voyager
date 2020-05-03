@@ -17,12 +17,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->loadLaravelMigrations(['--database' => 'testbench']);
 
-        $db_dir = realpath($this->getBasePath().'/database');
-        if (!file_exists($db_dir.'/database.sqlite')) {	
-            copy($db_dir.'/database.sqlite.example', $db_dir.'/database.sqlite');	
-        }	
-
-        $route_dir = realpath($this->getBasePath());	
+        $route_dir = realpath($this->getBasePath());
         if (!is_dir($route_dir.'/routes')) {	
             @mkdir($route_dir.'/routes');	
         }	
