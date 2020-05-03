@@ -25,9 +25,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
             file_put_contents($route_dir.'/routes/web.php', "<?php\n");	
         }
 
-        $bread = json_decode(file_get_contents(__DIR__.'/../Stubs/users.json'));
-        BreadFacade::storeBread($bread);
-
         // Create a dummy user
         $user = new \Illuminate\Foundation\Auth\User();
         $user->name = 'Admin';
