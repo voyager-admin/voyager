@@ -21,12 +21,6 @@
             <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <logging>
-        <log type="junit" target="build/report.junit.xml"/>
-        <log type="coverage-text" target="build/coverage.txt" />
-        <log type="coverage-html" target="build/coverage" />
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
     <filter>
        <whitelist processUncoveredFilesFromWhitelist="true">
            <directory suffix=".php">./src/</directory>
