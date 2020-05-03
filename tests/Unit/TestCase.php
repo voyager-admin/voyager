@@ -17,9 +17,21 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->loadLaravelMigrations(['--database' => 'testbench']);
 
+        $db_dir = realpath($this->getBasePath().'/database');
+        if (!file_exists($db_dir.'/database.sqlite')) {	
+            copy($db_dir.'/database.sqlite.example', $db_dir.'/database.sqlite');	
+        }	
+
+        $route_dir = realpath($this->getBasePath());	
+        if (!is_dir($route_dir.'/routes')) {	
+            @mkdir($route_dir.'/routes');	
+        }	
+        if (!file_exists($route_dir.'/routes/web.php')) {	
+            file_put_contents($route_dir.'/routes/web.php', "<?php\n");	
+        }
+
         $bread = json_decode(file_get_contents(__DIR__.'/../Stubs/users.json'));
         BreadFacade::storeBread($bread);
-
 
         // Create a dummy user
         $user = new \Illuminate\Foundation\Auth\User();
