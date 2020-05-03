@@ -12,6 +12,11 @@ class BreadBuilderTest extends TestCase
         parent::setUp();
     }
 
+    public function test_fake()
+    {
+        $this->assertTrue(true);
+    }
+
     /*public function test_can_browse_breads()
     {
         $user = new \Illuminate\Foundation\Auth\User();

@@ -3982,16 +3982,16 @@
         },
         {
             "name": "orchestra/dusk-updater",
-            "version": "v1.2.1",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/dusk-updater.git",
-                "reference": "f1814cdf8135420d6a4e89fb2bb60a61bf272242"
+                "reference": "8029b90f81136634964ad792a9ff4c011ac24fa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/dusk-updater/zipball/f1814cdf8135420d6a4e89fb2bb60a61bf272242",
-                "reference": "f1814cdf8135420d6a4e89fb2bb60a61bf272242",
+                "url": "https://api.github.com/repos/orchestral/dusk-updater/zipball/8029b90f81136634964ad792a9ff4c011ac24fa2",
+                "reference": "8029b90f81136634964ad792a9ff4c011ac24fa2",
                 "shasum": ""
             },
             "require": {
@@ -4004,7 +4004,7 @@
             },
             "require-dev": {
                 "laravel/dusk": "^4.0 || ^5.0",
-                "phpunit/phpunit": "^7.5 || ^8.4"
+                "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0"
             },
             "bin": [
                 "dusk-updater"
@@ -4037,9 +4037,19 @@
             "description": "Updater for Laravel Dusk ChromeDriver binaries",
             "support": {
                 "issues": "https://github.com/orchestral/dusk-updater/issues",
-                "source": "https://github.com/orchestral/dusk-updater/tree/master"
+                "source": "https://github.com/orchestral/dusk-updater/tree/v1.2.2"
             },
-            "time": "2020-01-14T22:30:45+00:00"
+            "funding": [
+                {
+                    "url": "https://paypal.me/crynobone",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/crynobone",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-05-03T16:45:12+00:00"
         },
         {
             "name": "orchestra/testbench",

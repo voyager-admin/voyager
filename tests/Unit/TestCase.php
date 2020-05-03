@@ -21,9 +21,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
         if (!is_dir($route_dir.'/routes')) {	
             @mkdir($route_dir.'/routes');	
         }	
-        if (!file_exists($route_dir.'/routes/web.php')) {	
-            file_put_contents($route_dir.'/routes/web.php', "<?php\n");	
-        }
+        file_put_contents($route_dir.'/routes/web.php', "<?php\nRoute::group(['prefix' => 'admin'], function () {\n    Voyager::routes();\n});");
+
+        // Pre-fetch routes
+        $this->get(route('voyager.bread.index'));
+
+        // Create user BREAD
+        $bread = json_decode(file_get_contents(__DIR__.'/../Stubs/users.json'));
+        BreadFacade::storeBread($bread);
 
         // Create a dummy user
         $user = new \Illuminate\Foundation\Auth\User();
