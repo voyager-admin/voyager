@@ -7,6 +7,7 @@
                 :bread="relationship.bread"
                 :relationship-layout="relationshipLayout"
                 :relationship-selected="value"
+                :relationship-multiple="relationship.multiple"
                 v-on:select="$emit('input', $event)"
                 from-relationship
             ></bread-browse>

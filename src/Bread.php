@@ -347,6 +347,7 @@ class Bread
                     'has_bread' => $this->hasBread($table),
                     'bread'     => $this->getBread($table),
                     'key_name'  => $relationship->getRelated()->getKeyName(),
+                    'multiple'  => in_array(strval($type->getName()), [BelongsToMany::class, HasMany::class]),
                 ];
             }
 

@@ -43,7 +43,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <input type="checkbox" class="voyager-input" @change="selectAll($event.target.checked)" :checked="allSelected" />
+                                    <input type="checkbox" class="voyager-input" @change="selectAll($event.target.checked)" :checked="allSelected" v-if="relationshipMultiple" />
                                 </th>
                                 <th
                                     v-for="(formfield, key) in layout.formfields" :key="'thead-' + key"
@@ -85,10 +85,19 @@
                             <tr v-for="(result, key) in results" :key="'row-' + key">
                                 <td>
                                     <input
+                                        v-if="relationshipMultiple"
                                         type="checkbox"
                                         class="voyager-input"
                                         v-model="selected"
                                         :value="result[primary]" />
+
+                                    <input
+                                        v-else
+                                        type="radio"
+                                        class="voyager-input"
+                                        :name="'radio-'+_uid"
+                                        :checked="selected.includes(result[primary])"
+                                        @change="$emit('select', [result[primary]])" />
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
@@ -176,6 +185,10 @@ export default {
             default: function () {
                 return [];
             }
+        },
+        relationshipMultiple: {
+            type: Boolean,
+            default: false
         }
     },
     data: function () {
@@ -447,7 +460,7 @@ export default {
         }
     },
     watch: {
-        selected: function (selected) {
+        selected: function (selected, old) {
             this.$emit('select', selected);
         },
         'parameters.page': function () {
@@ -456,17 +469,19 @@ export default {
         parameters: {
             handler: debounce(function (val) {
                 // Remove all parameters from URL
-                var url = window.location.href.split('?')[0];
-                for (var key in val) {
-                    if (val.hasOwnProperty(key) && val[key] !== null) {
-                        if (this.isObject(val[key])) {
-                            url = this.addParameterToUrl(key, JSON.stringify(val[key]), url);
-                        } else {
-                            url = this.addParameterToUrl(key, val[key], url);
+                if (!this.fromRelationship) {
+                    var url = window.location.href.split('?')[0];
+                    for (var key in val) {
+                        if (val.hasOwnProperty(key) && val[key] !== null) {
+                            if (this.isObject(val[key])) {
+                                url = this.addParameterToUrl(key, JSON.stringify(val[key]), url);
+                            } else {
+                                url = this.addParameterToUrl(key, val[key], url);
+                            }
                         }
                     }
+                    this.pushToUrlHistory(url);
                 }
-                this.pushToUrlHistory(url);
                 this.load();
             }, 250),
             deep: true,
