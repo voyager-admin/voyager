@@ -1,0 +1,86 @@
+<template>
+    <div>
+        <div v-if="show == 'view-options'">
+            <label class="label mt-4">Label</label>
+            <language-input
+                class="voyager-input w-full"
+                type="text" placeholder="Label"
+                v-bind:value="options.label"
+                v-on:input="options.label = $event" />
+
+            <label class="label mt-4">Description</label>
+            <language-input
+                class="voyager-input w-full"
+                type="text" placeholder="Description"
+                v-bind:value="options.description"
+                v-on:input="options.description = $event" />
+
+            <div v-if="relationship">
+                <card title="BREAD" class="mt-3" v-if="relationship.has_bread">
+                    <label for="browse_list">Browse List</label>
+                    <select v-model="options.browse_list" class="voyager-input small w-full" id="browse_list">
+                        <option :value="null">{{ __('voyager::generic.none') }}</option>
+                        <option v-for="(list, i) in relationshipLayouts('list')" :key="'list-'+i">
+                            {{ list.name }}
+                        </option>
+                    </select>
+
+                    <label for="add_view">Add View</label>
+                    <select v-model="options.add_view" class="voyager-input small w-full" id="add_view">
+                        <option :value="null">{{ __('voyager::generic.none') }}</option>
+                        <option v-for="(view, i) in relationshipLayouts('view')" :key="'view-'+i">
+                            {{ view.name }}
+                        </option>
+                    </select>
+                </card>
+                <card title="Field">
+                    <select v-model="options.column" class="voyager-input small w-full">
+                        <option :value="null">{{ __('voyager::generic.none') }}</option>
+                        <option v-for="(column, i) in relationship.columns" :key="'column-'+i">
+                            {{ column }}
+                        </option>
+                    </select>
+                </card>
+            </div>
+            <div v-else>
+                Please select a relationship method first!
+            </div>
+        </div>
+        <div v-else-if="show == 'view'">
+            <label class="label" v-if="translate(options.label) !== ''">{{ translate(options.label) }}</label>
+            ...
+            <p class="description" v-if="translate(options.description) !== ''">
+                {{ translate(options.description) }}
+            </p>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    props: ['options', 'column', 'show', 'relationships'],
+    methods: {
+        relationshipLayouts: function (type) {
+            var vm = this;
+            if (!vm.relationship || !vm.relationship.has_bread) {
+                return [];
+            }
+
+            return vm.relationship.bread.layouts.filter(function (layout) {
+                return layout.type == type;
+            });
+        },
+    },
+    computed: {
+        relationship: function () {
+            var vm = this;
+            if (!vm.relationships) {
+                return null;
+            }
+            return vm.relationships.filter(function (relationship) {
+                return relationship.method == vm.column.column;
+            })[0];
+        },
+    },
+};
+</script>

@@ -31,6 +31,7 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager');
 
         BreadFacade::addFormfield(\Voyager\Admin\Formfields\Number::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Relationship::class);
         BreadFacade::addFormfield(\Voyager\Admin\Formfields\Select::class);
         BreadFacade::addFormfield(\Voyager\Admin\Formfields\Tags::class);
         BreadFacade::addFormfield(\Voyager\Admin\Formfields\Text::class);

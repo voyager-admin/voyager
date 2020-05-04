@@ -38,6 +38,7 @@
                             </div>
                         </div>
                         <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
+                        <!-- TODO: Hide this if formfield doesn't allow any kind of column -->
                         <select class="voyager-input w-full" v-model="formfield.column">
                             <optgroup :label="__('voyager::builder.columns')" v-if="$store.getFormfieldByType(formfield.type).allowColumns">
                                 <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
@@ -72,6 +73,7 @@
                             :is="'formfield-'+formfield.type+'-builder'"
                             v-bind:options="formfield.options"
                             :column="formfield.column"
+                            v-bind:relationships="relationships"
                             show="view-options" />
                         <bread-builder-validation v-model="formfield.validation" />
                     </slide-in>
@@ -123,7 +125,7 @@ export default {
         },
         options: function (options) {
             this.reactiveOptions = options;
-        }
+        },
     },
     mounted: function () {
         var vm = this;

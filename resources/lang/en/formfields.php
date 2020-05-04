@@ -4,11 +4,14 @@ return [
     'number'        => [
         'name'          => 'Number',
     ],
-    'tags'          => [
-        'name'          => 'Tags',
+    'relationship'  => [
+        'name'          => 'Relationships',
     ],
     'select'        => [
         'name'          => 'Select',
+    ],
+    'tags'          => [
+        'name'          => 'Tags',
     ],
     'text'          => [
         'name'          => 'Text',

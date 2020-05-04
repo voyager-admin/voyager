@@ -127,7 +127,7 @@ class BreadBuilderController extends Controller
     }
 
     /**
-     * Get BREAD properties (accessors, scopes and relationships) by model.
+     * Get BREAD properties (accessors, scopes and relationships) for a model.
      *
      * @param \Illuminate\Http\Request $request
      *

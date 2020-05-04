@@ -46,7 +46,7 @@
 
 <script>
 export default {
-    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'translatable'],
+    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'translatable', 'relationships'],
     data: function () {
         return {
             output: (this.input || {}),

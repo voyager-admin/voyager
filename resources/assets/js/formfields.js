@@ -1,5 +1,6 @@
 let formfields = [
     'Number',
+    'Relationship',
     'Select',
     'Tags',
     'Text',

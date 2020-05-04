@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Voyager\Admin\Facades\Bread as BreadFacade;
 
 class BreadController extends Controller
 {
@@ -149,11 +150,15 @@ class BreadController extends Controller
         $new = true;
         $data = collect();
 
+        $instance = new $bread->model();
+        $reflection = BreadFacade::getModelReflectionClass($bread->model);
+        $relationships = BreadFacade::getModelRelationships($reflection, $instance, true)->values();
+
         $layout->formfields->each(function ($formfield) use (&$data) {
             $data->put($formfield->column->column, $formfield->add());
         });
 
-        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data'));
+        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships'));
     }
 
     public function store(Request $request)
@@ -231,6 +236,9 @@ class BreadController extends Controller
             $data->dontTranslate();
         }
 
+        $reflection = BreadFacade::getModelReflectionClass($bread->model);
+        $relationships = BreadFacade::getModelRelationships($reflection, $data, true)->values();
+
         $layout->formfields->each(function ($formfield) use (&$data) {
             $value = $data->{$formfield->column->column};
 
@@ -246,7 +254,7 @@ class BreadController extends Controller
             }
         });
 
-        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data'));
+        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships'));
     }
 
     public function update(Request $request, $id)

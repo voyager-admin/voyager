@@ -107,6 +107,18 @@ class Bread
     }
 
     /**
+     * Determine if a BREAD exists by the table name.
+     *
+     * @param string $table
+     *
+     * @return bool
+     */
+    public function hasBread($table)
+    {
+        return $this->getBread($table) !== null;
+    }
+
+    /**
      * Get a BREAD by the table name.
      *
      * @param string $table
@@ -328,10 +340,12 @@ class Bread
                 }
 
                 return [
-                    'method'  => $method->getName(),
-                    'type'    => class_basename($type->getName()),
-                    'columns' => $columns,
-                    'pivot'   => $pivot,
+                    'method'    => $method->getName(),
+                    'type'      => class_basename($type->getName()),
+                    'columns'   => $columns,
+                    'pivot'     => $pivot,
+                    'has_bread' => $this->hasBread($table),
+                    'bread'     => $this->getBread($table),
                 ];
             }
 
