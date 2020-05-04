@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Formfields;
 
+use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Bread\Formfield;
 
 class Relationship extends Formfield
@@ -30,6 +31,35 @@ class Relationship extends Formfield
             'browse_list'   => null,
             'add_view'      => null,
         ];
+    }
+
+    public function add()
+    {
+        return [];
+    }
+
+    public function edit($value)
+    {
+        if ($value instanceof \Illuminate\Support\Collection) {
+            return $value->map(function ($item) {
+                return $item->getKey();
+            });
+        }
+
+        return $value->getKey();
+    }
+
+    public function update($model, $value, $old)
+    {
+        $type = get_class($model->{$this->column->column}());
+        if (is_array($value) && Str::endsWith($type, 'BelongsToMany')) {
+            $model->{$this->column->column}()->sync($value);
+        }
+    }
+
+    public function stored($model, $value)
+    {
+        $this->update($model, $value, []);
     }
 
     public function canBeTranslated()

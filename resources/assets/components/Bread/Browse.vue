@@ -1,5 +1,5 @@
 <template>
-    <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
+    <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon" :show-header="!fromRelationship">
         <div slot="actions">
             <div class="flex items-center">
                 <input
@@ -59,7 +59,7 @@
                                         ></icon>
                                     </div>
                                 </th>
-                                <th class="ltr:text-right rtl:text-left">
+                                <th class="ltr:text-right rtl:text-left" v-if="!fromRelationship">
                                     {{ __('voyager::generic.actions') }}
                                 </th>
                             </tr>
@@ -78,7 +78,7 @@
                                             v-model="parameters.filters[formfield.column.column]">
                                     </component>
                                 </th>
-                                <th></th>
+                                <th v-if="!fromRelationship"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,7 +109,7 @@
                                         </component>
                                     </div>
                                 </td>
-                                <td class="ltr:text-right rtl:text-left">
+                                <td class="ltr:text-right rtl:text-left" v-if="!fromRelationship">
                                     <a :href="route('voyager.'+translate(bread.slug, true)+'.read', result[primary])" class="button blue small">
                                         <icon icon="book-alt"></icon>
                                         <span>{{ __('voyager::generic.read') }}</span>
@@ -163,6 +163,20 @@ export default {
             type: Object,
             required: true,
         },
+        fromRelationship: {
+            type: Boolean,
+            default: false,
+        },
+        relationshipLayout: {
+            type: Object,
+            default: null,
+        },
+        relationshipSelected: {
+            type: Array,
+            default: function () {
+                return [];
+            }
+        }
     },
     data: function () {
         return {
@@ -170,8 +184,8 @@ export default {
             results: [],
             total: 0,    // Total unfiltered amount of entries
             filtered: 0, // Amount of filtered entries
-            layout: null,
-            selected: [], // Array of selected primary-keys
+            layout: this.relationshipLayout,
+            selected: this.relationshipSelected, // Array of selected primary-keys
             primary: 'id', // The primary key
             uses_soft_deletes: false, // If the model uses soft-deleting
             translatable: false, // If the layout contains translatable fields (will show/hide the locale picker)
@@ -195,8 +209,10 @@ export default {
             axios
             .post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.data'), vm.parameters)
             .then(function (response) {
-                for (var key in response.data){
-                    if (response.data.hasOwnProperty(key) && vm.hasOwnProperty(key)) {
+                for (var key in response.data) {
+                    if (key == 'layout' && vm.relationshipLayout) {
+                        // Do nothing
+                    } else if (response.data.hasOwnProperty(key) && vm.hasOwnProperty(key)) {
                         vm[key] = response.data[key];
                     }
                 }
@@ -431,6 +447,9 @@ export default {
         }
     },
     watch: {
+        selected: function (selected) {
+            this.$emit('select', selected);
+        },
         'parameters.page': function () {
             this.selected = [];
         },

@@ -2,7 +2,14 @@
     <div>
         <label class="label" v-if="translate(options.label, true) !== ''">{{ translate(options.label, true) }}</label>
         <div v-if="options.browse_list">
-            
+            <bread-browse
+                v-if="relationship"
+                :bread="relationship.bread"
+                :relationship-layout="relationshipLayout"
+                :relationship-selected="value"
+                v-on:select="$emit('input', $event)"
+                from-relationship
+            ></bread-browse>
         </div>
         <div v-else-if="options.column">
 
@@ -18,6 +25,21 @@
 
 <script>
 export default {
-    props: ['options', 'value', 'relationships'],
+    props: ['options', 'value', 'column', 'relationships'],
+    computed: {
+        relationship: function () {
+            var method = this.column.column;
+
+            return this.relationships.filter(function (relationship) {
+                return relationship.method == method;
+            })[0];
+        },
+        relationshipLayout: function () {
+            var layout_name = this.options.browse_list;
+            return this.relationship.bread.layouts.filter(function (layout) {
+                return layout.name == layout_name;
+            })[0];
+        },
+    },
 };
 </script>

@@ -52,7 +52,7 @@ class Tags extends Formfield
         return json_decode($input);
     }
 
-    public function update($input, $old)
+    public function update($model, $input, $old)
     {
         return json_encode($input);
     }

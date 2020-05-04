@@ -79,7 +79,7 @@ abstract class Formfield implements \JsonSerializable
      *
      * @return mixed
      */
-    public function update($input, $old)
+    public function update($model, $input, $old)
     {
         return $input;
     }
@@ -104,6 +104,18 @@ abstract class Formfield implements \JsonSerializable
     public function store($input)
     {
         return $input;
+    }
+
+    /**
+     * Called when data was stored (after adding). Useful for relationships
+     *
+     * @param mixed $model
+     * @param array $data
+     *
+     */
+    public function stored($model, $data)
+    {
+
     }
 
     /**

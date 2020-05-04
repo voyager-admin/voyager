@@ -198,12 +198,14 @@ class BreadController extends Controller
                 if (method_exists($model, 'set'.Str::camel($formfield->column->column).'Attribute')) {
                     $model->{$formfield->column->column} = $value;
                 }
-            } elseif ($formfield->column->type == 'relationship') {
-                //
             }
         });
 
         if ($model->save()) {
+            $layout->formfields->each(function ($formfield) use ($data, $model) {
+                $formfield->stored($model, $data[$formfield->column->column]);
+            });
+
             return response($model->getKey(), 200);
         } else {
             return response($model->getKey(), 500);
@@ -285,11 +287,11 @@ class BreadController extends Controller
                     $old = @json_decode($old);
                 }
                 foreach ($value as $locale => $translated) {
-                    $translations[$locale] = $formfield->update($translated, (isset($old->{$locale}) ? $old->{$locale} : ''));
+                    $translations[$locale] = $formfield->update($model, $translated, (isset($old->{$locale}) ? $old->{$locale} : ''));
                 }
                 $value = json_encode($translations);
             } else {
-                $value = $formfield->update($value, $model->{$formfield->column->column});
+                $value = $formfield->update($model, $value, $model->{$formfield->column->column});
             }
 
             if ($formfield->column->type == 'column') {

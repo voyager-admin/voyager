@@ -61,7 +61,7 @@ class Select extends Formfield
         return $input;
     }
 
-    public function update($input, $old)
+    public function update($model, $input, $old)
     {
         if ($this->options->multiple === true) {
             return json_encode($input) ?? '';

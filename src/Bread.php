@@ -346,6 +346,7 @@ class Bread
                     'pivot'     => $pivot,
                     'has_bread' => $this->hasBread($table),
                     'bread'     => $this->getBread($table),
+                    'key_name'  => $relationship->getRelated()->getKeyName(),
                 ];
             }
 

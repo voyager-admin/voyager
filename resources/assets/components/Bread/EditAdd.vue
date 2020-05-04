@@ -27,6 +27,8 @@
                                         v-bind:value="data(formfield, null)"
                                         v-on:input="data(formfield, $event)"
                                         :options="formfield.options"
+                                        :column="formfield.column"
+                                        :relationships="relationships"
                                         :show="action" />
                                 </div>
                             </card>
