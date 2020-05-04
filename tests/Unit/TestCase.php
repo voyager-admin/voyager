@@ -31,7 +31,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         BreadFacade::storeBread($bread);
 
         // Create a dummy user
-        $user = new \Illuminate\Foundation\Auth\User();
+        $user = new \Voyager\Admin\Tests\Stubs\User();
         $user->name = 'Admin';
         $user->email = 'admin@admin.com';
         $user->password = bcrypt('secret');

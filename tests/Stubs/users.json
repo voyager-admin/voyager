@@ -16,7 +16,7 @@
         "fr": null
     },
     "icon": "uniUsersAlt",
-    "model": "Illuminate\\Foundation\\Auth\\User",
+    "model": "Voyager\\Admin\\Tests\\Stubs\\User",
     "controller": null,
     "policy": null,
     "scope": null,
@@ -141,41 +141,6 @@
                             "message": {
                                 "en": "A proper email is required",
                                 "de": "Eine g\u00fcltige E-Mail ist erforderlich",
-                                "fr": null
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "text",
-                    "translatable": true,
-                    "column": {
-                        "column": "description",
-                        "type": "column"
-                    },
-                    "canbetranslated": true,
-                    "options": {
-                        "label": {
-                            "en": "Description",
-                            "de": "Beschreibung",
-                            "fr": null
-                        },
-                        "description": null,
-                        "placeholder": {
-                            "en": "Description",
-                            "de": "Beschreibung",
-                            "fr": null
-                        },
-                        "default_value": null,
-                        "rows": "5",
-                        "width": "w-full"
-                    },
-                    "validation": [
-                        {
-                            "rule": "min:5",
-                            "message": {
-                                "en": "Minimum 5 characters",
-                                "de": "Mindestens 5 Zeichen",
                                 "fr": null
                             }
                         }
