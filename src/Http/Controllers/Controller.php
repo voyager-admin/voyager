@@ -36,7 +36,7 @@ abstract class Controller extends BaseController
             $formfield->validation = $formfield->validation ?? [];
             $value = $data[$formfield->column->column] ?? '';
             if ($formfield->translatable && is_array($value)) {
-                $value = $value[VoyagerFacade::getLocale()] ?? $value[VoyagerFacade::getFallbackLocale()];
+                $value = $value[VoyagerFacade::getLocale()] ?? $value[VoyagerFacade::getFallbackLocale()] ?? '';
             }
             foreach ($formfield->validation as $rule) {
                 if ($rule->rule == '') {

@@ -2,17 +2,41 @@
     <div>
         <label class="label" v-if="translate(options.label, true) !== ''">{{ translate(options.label, true) }}</label>
         <div v-if="options.browse_list">
-            <bread-browse
-                class="border-none shadow-none"
-                style="padding: 0 !important; box-shadow: none !important"
-                v-if="relationship"
-                :bread="relationship.bread"
-                :relationship-layout="relationshipLayout"
-                :relationship-selected="value"
-                :relationship-multiple="relationship.multiple"
-                v-on:select="$emit('input', $event)"
-                from-relationship
-            ></bread-browse>
+            <div v-if="relationship">
+                <div class="w-full text-right" v-if="addLayout">
+                    <modal :ref="'add-'+_uid">
+                        <bread-edit-add
+                            :bread="relationship.bread"
+                            action="add"
+                            :layout="addLayout"
+                            :translatable="true"
+                            :relationships="[]"
+                            :prev-url="''"
+                            :input="{}"
+                            v-on:saved="addedNewEntry($event)"
+                            :from-relationship="true"
+                        ></bread-edit-add>
+                        <div slot="opener" class="w-full">
+                            <button class="button green">
+                                <icon icon="plus"></icon>
+                                <span>{{ __('voyager::generic.add_type', { type: translate(relationship.bread.name_singular, true)}) }}</span>
+                            </button>
+                        </div>
+                    </modal>
+                </div>
+                <bread-browse
+                    class="border-none shadow-none"
+                    style="padding: 0 !important; box-shadow: none !important"
+                    :bread="relationship.bread"
+                    :relationship-layout="relationshipLayout"
+                    :relationship-selected="reactiveValue"
+                    :relationship-multiple="relationship.multiple"
+                    :per-page="5"
+                    :ref="'browse-'+_uid"
+                    v-on:select="$emit('input', $event)"
+                    from-relationship
+                ></bread-browse>
+            </div>
         </div>
         <div v-else-if="options.column">
 
@@ -29,6 +53,11 @@
 <script>
 export default {
     props: ['options', 'value', 'column', 'relationships'],
+    data: function () {
+        return {
+            reactiveValue: this.value,
+        };
+    },
     computed: {
         relationship: function () {
             var method = this.column.column;
@@ -40,9 +69,25 @@ export default {
         relationshipLayout: function () {
             var layout_name = this.options.browse_list;
             return this.relationship.bread.layouts.filter(function (layout) {
-                return layout.name == layout_name;
+                return layout.name == layout_name && layout.type == 'list';
+            })[0];
+        },
+        addLayout: function () {
+            var layout_name = this.options.add_view;
+            if (!layout_name) {
+                return null;
+            }
+            return this.relationship.bread.layouts.filter(function (layout) {
+                return layout.name == layout_name && layout.type == 'view';
             })[0];
         },
     },
+    methods: {
+        addedNewEntry: function (key) {
+            this.$refs['add-'+this._uid].close();
+            this.$refs['browse-'+this._uid].load();
+            this.reactiveValue.push(key);
+        }
+    }
 };
 </script>

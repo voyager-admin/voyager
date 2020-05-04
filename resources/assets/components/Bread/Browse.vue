@@ -192,6 +192,10 @@ export default {
         relationshipMultiple: {
             type: Boolean,
             default: true
+        },
+        perPage: {
+            type: Number,
+            default: 10,
         }
     },
     data: function () {
@@ -207,7 +211,7 @@ export default {
             translatable: false, // If the layout contains translatable fields (will show/hide the locale picker)
             parameters: {
                 page: 1,
-                perpage: 10,
+                perpage: this.perPage,
                 query: null,
                 filters: {},
                 order: null,

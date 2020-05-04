@@ -40,7 +40,7 @@
                     </button>
                 </div>
         </card>
-        <collapsible v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible v-if="$store.debug && !fromRelationship" :title="__('voyager::builder.json_output')" :opened="false">
             <textarea class="voyager-input w-full" rows="10" v-model="jsonOutput"></textarea>
         </collapsible>
     </div>
@@ -48,7 +48,7 @@
 
 <script>
 export default {
-    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'translatable', 'relationships'],
+    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'translatable', 'relationships', 'fromRelationship'],
     data: function () {
         return {
             output: (this.input || {}),
@@ -102,6 +102,10 @@ export default {
                 }
             })
             .then(function (response) {
+                if (vm.fromRelationship === true) {
+                    vm.$emit('saved', response.data);
+                    return;
+                }
                 var buttons = [
                     {
                         text: vm.__('voyager::bread.add_another'),
