@@ -7,10 +7,17 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\Plugin\ListWith;
+use Voyager\Admin\Facades\Settings;
 
 class MediaController extends Controller
 {
-    public $disk = 'public';
+    public $disk, $path;
+
+    public function __construct()
+    {
+        $this->disk = Settings::setting('media.disk', 'public');
+        $this->path = Str::finish(Settings::setting('media.path', '/test'), '/');
+    }
 
     public function index()
     {
@@ -19,7 +26,7 @@ class MediaController extends Controller
 
     public function uploadFile(Request $request)
     {
-        $path = Str::finish($request->get('path', ''), '/');
+        $path = Str::finish($this->path.$request->get('path', ''), '/');
         $file = $request->file('file');
         $name = '';
         $count = 0;
@@ -36,7 +43,7 @@ class MediaController extends Controller
     public function listFiles(Request $request)
     {
         $storage = Storage::disk($this->disk)->addPlugin(new ListWith());
-        $files = collect($storage->listWith(['mimetype'], $request->get('path', '')))->transform(function ($file) {
+        $files = collect($storage->listWith(['mimetype'], $this->path.$request->get('path', '')))->transform(function ($file) {
             return [
                 'is_upload' => false,
                 'file'      => [
@@ -66,7 +73,7 @@ class MediaController extends Controller
     public function createFolder(Request $request)
     {
         return Storage::disk($this->disk)->makeDirectory(
-            Str::finish($request->get('path', ''), '/').$request->get('name', '')
+            Str::finish($this->path.$request->get('path', ''), '/').$request->get('name', '')
         );
     }
 

@@ -104,11 +104,17 @@
                         </div>
                         <img :src="selectedFiles[0].preview" class="rounded object-contain h-32 max-w-full" v-else-if="selectedFiles[0].preview" />
                         <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="mimeMatch(selectedFiles[0].file.type, 'image/*')" />
+                        <video v-else-if="mimeMatch(selectedFiles[0].file.type, 'video/*')" controls>
+                            <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
+                        </video>
+                        <audio v-else-if="mimeMatch(selectedFiles[0].file.type, 'audio/*')" controls>
+                            <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
+                        </audio>
                         <div v-else class="w-full flex justify-center h-32">
                             <icon :icon="getFileIcon(selectedFiles[0].file.type)" size="32"></icon>
                         </div>
                     </div>
-                    <div class="w-full flex justify-center">
+                    <div class="w-full flex justify-center mt-2">
                         <div v-if="selectedFiles.length == 1">
                             <p>{{ selectedFiles[0].file.name }}</p>
                             <p>{{ __('voyager::media.size') }}: {{ readableFileSize(selectedFiles[0].file.size) }}</p>
@@ -196,13 +202,18 @@ export default {
             vm.filesToUpload = vm.filesToUpload.concat(Array.from(files).map(function (file) {
                 // Validate size
                 if (vm.maxSize > 0 && (file.size > vm.maxSize)) {
+                    // TODO: Show error
                     return null;
                 }
 
-                // Validate mime type
-                var matcher = new vm.MimeMatcher(vm.accept);
-                if (!matcher.match(file.type.toLowerCase())) {
-                    return null;
+                if (file.type !== '') {
+                    // Validate mime type
+                    var matcher = new vm.MimeMatcher(vm.accept);
+                    if (!matcher.match(file.type.toLowerCase())) {
+                        return null;
+                    }
+                } else {
+                    // TODO: Not all documents send a mimetype. Check extension?
                 }
 
                 // Check if file already exists by name AND size
