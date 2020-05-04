@@ -47,7 +47,6 @@ class TestCase extends DuskTestCase
     {
         return [
             VoyagerServiceProvider::class,
-            DuskCoverageServiceProvider::class,
         ];
     }
 
