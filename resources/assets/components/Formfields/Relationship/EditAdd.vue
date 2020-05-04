@@ -3,6 +3,8 @@
         <label class="label" v-if="translate(options.label, true) !== ''">{{ translate(options.label, true) }}</label>
         <div v-if="options.browse_list">
             <bread-browse
+                class="border-none shadow-none"
+                style="padding: 0 !important; box-shadow: none !important"
                 v-if="relationship"
                 :bread="relationship.bread"
                 :relationship-layout="relationshipLayout"

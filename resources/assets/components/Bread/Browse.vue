@@ -44,6 +44,9 @@
                             <tr>
                                 <th>
                                     <input type="checkbox" class="voyager-input" @change="selectAll($event.target.checked)" :checked="allSelected" v-if="relationshipMultiple" />
+                                    <button class="button blue" v-if="fromRelationship && !relationshipMultiple" @click="$emit('select', []); selected = []">
+                                        {{ __('voyager::generic.none') }}
+                                    </button>
                                 </th>
                                 <th
                                     v-for="(formfield, key) in layout.formfields" :key="'thead-' + key"
@@ -97,7 +100,7 @@
                                         class="voyager-input"
                                         :name="'radio-'+_uid"
                                         :checked="selected.includes(result[primary])"
-                                        @change="$emit('select', [result[primary]])" />
+                                        @change="selected = []; selected.push(result[primary])" />
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component

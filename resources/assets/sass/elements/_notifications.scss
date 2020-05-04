@@ -2,7 +2,7 @@
     @apply fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none;
 
     > div {
-        @apply max-w-sm w-full shadow-lg rounded-lg pointer-events-auto;
+        @apply max-w-sm w-full rounded-lg pointer-events-auto;
 
         @media(min-width: theme('screens.md')) {
             @apply max-w-sm;
@@ -10,7 +10,7 @@
     }
 
     .notification {
-        @apply rounded-lg mb-2 border overflow-hidden;
+        @apply rounded-lg mb-2 border overflow-hidden shadow-lg;
 
         p.title {
             @apply text-sm leading-5 font-medium text-gray-900;
