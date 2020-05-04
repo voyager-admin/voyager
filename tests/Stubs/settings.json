@@ -1,0 +1,60 @@
+[
+    {
+        "type": "text",
+        "group": "admin",
+        "key": "title",
+        "name": "Title",
+        "value": {
+            "en": "Voyager II",
+            "de": "Voyager II",
+            "fr": null
+        },
+        "translatable": true,
+        "canBeTranslated": true,
+        "options": {
+            "label": {
+                "en": "Page Title",
+                "de": null,
+                "fr": null
+            },
+            "description": null,
+            "placeholder": {
+                "en": "Page Title",
+                "de": null,
+                "fr": null
+            },
+            "default_value": null,
+            "rows": 1
+        },
+        "validation": []
+    },
+    {
+        "type": "text",
+        "group": "admin",
+        "key": "sidebar-title",
+        "name": "Sidebar Title",
+        "value": {
+            "en": "Voyager II",
+            "de": "Voyager II",
+            "fr": null
+        },
+        "translatable": true,
+        "canBeTranslated": true,
+        "options": {
+            "label": {
+                "en": "Sidebar Title",
+                "de": null,
+                "fr": null
+            },
+            "description": null,
+            "placeholder": {
+                "en": "Sidebar Title",
+                "de": null,
+                "fr": null
+            },
+            "default_value": null,
+            "rows": 1
+        },
+        "validation": []
+    }
+]
