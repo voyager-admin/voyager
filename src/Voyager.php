@@ -96,11 +96,6 @@ class Voyager
         });
     }
 
-    public function getRoutePrefix()
-    {
-        return $this->route_prefix;
-    }
-
     /**
      * Get all tables in the database.
      *

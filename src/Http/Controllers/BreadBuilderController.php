@@ -83,10 +83,10 @@ class BreadBuilderController extends Controller
     {
         $bread = $request->bread;
 
-        @json_decode(@json_encode($bread));
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return response()->json(__('voyager::bread.json_data_not_valid'), 422);
+        if (!is_array($bread)) {
+            return response()->json([__('voyager::bread.json_data_not_valid')], 422);
         }
+        
 
         $bread = (object) $bread;
 
