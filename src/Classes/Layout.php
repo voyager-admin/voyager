@@ -18,13 +18,14 @@ class Layout implements \JsonSerializable
                 $this->formfields = collect();
                 foreach ($value as $f) {
                     $formfield = BreadFacade::getFormfield($f->type);
-                    if ($formfield) {
-                        $formfield = clone $formfield;
-                        foreach ($f as $key => $prop) {
-                            $formfield->{$key} = $prop;
-                        }
-                        $this->formfields->push($formfield);
+                    if (!$formfield) {
+                        throw new \Exception('Formfield with type "'.$f->type.'" does not exist!');
                     }
+                    $formfield = clone $formfield;
+                    foreach ($f as $key => $prop) {
+                        $formfield->{$key} = $prop;
+                    }
+                    $this->formfields->push($formfield);
                 }
             } else {
                 $this->{$key} = $value;

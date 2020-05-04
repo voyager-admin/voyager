@@ -66,12 +66,6 @@ class Bread implements \JsonSerializable
         return in_array(SoftDeletes::class, class_uses($this->getModel()));
     }
 
-    public function hasTranslatableFormfields()
-    {
-        // TODO:
-        return false;
-    }
-
     public function getReadableCount()
     {
         // TODO: We might need to consider withTrashed() as well.

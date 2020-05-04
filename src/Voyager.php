@@ -185,12 +185,14 @@ class Voyager
      *
      * @return string The translated value
      */
-    public function translate($value, $locale, $fallback)
+    public function translate($value, $locale = null, $fallback = null)
     {
         if (is_string($value)) {
             $json = @json_decode($value);
             if (json_last_error() == JSON_ERROR_NONE) {
                 $value = $json;
+            } else {
+                return $value;
             }
         }
 

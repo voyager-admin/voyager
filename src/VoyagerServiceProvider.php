@@ -30,12 +30,6 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager');
         $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager');
 
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Number::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Relationship::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Select::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Tags::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Text::class);
-
         // Register Policies
         BreadFacade::getBreads()->each(function ($bread) {
             $policy = BasePolicy::class;
@@ -83,6 +77,12 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->loadPluginsFrom(Str::finish(storage_path('voyager'), '/').'plugins.json');
 
         $this->commands(InstallCommand::class);
+
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Number::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Relationship::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Select::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Tags::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Text::class);
     }
 
     public function loadBreadsFrom($path)

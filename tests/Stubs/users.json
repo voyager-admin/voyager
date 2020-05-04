@@ -1,62 +1,74 @@
 {
     "table": "users",
-    "slug": "users",
-    "name_singular": "User",
-    "name_plural": "Users",
-    "icon": "window",
+    "slug": {
+        "en": "users",
+        "de": "benutzer",
+        "fr": null
+    },
+    "name_singular": {
+        "en": "User",
+        "de": "Benutzer",
+        "fr": null
+    },
+    "name_plural": {
+        "en": "Users",
+        "de": "Benutzer",
+        "fr": null
+    },
+    "icon": "uniUsersAlt",
     "model": "Illuminate\\Foundation\\Auth\\User",
     "controller": null,
     "policy": null,
     "scope": null,
-    "global_search_field": null,
+    "global_search_field": "name",
     "badge": true,
-    "color": "green",
+    "color": "indigo",
     "layouts": [
         {
             "name": "Browse List",
             "type": "list",
             "options": {
                 "default_order_column": {
-                    "column": null,
-                    "type": null
+                    "column": "name",
+                    "type": "column"
                 },
                 "soft_deletes": true
             },
             "formfields": [
                 {
                     "type": "text",
+                    "translatable": false,
                     "column": {
                         "column": "name",
                         "type": "column"
                     },
-                    "translatable": false,
-                    "canBeTranslated": true,
                     "options": {
                         "display_length": 150
                     },
                     "validation": [],
                     "title": {
                         "en": "Name",
-                        "de": null
+                        "de": "Name",
+                        "fr": null
                     },
                     "searchable": true,
                     "orderable": true
                 },
                 {
                     "type": "text",
+                    "translatable": false,
                     "column": {
                         "column": "email",
                         "type": "column"
                     },
-                    "translatable": false,
-                    "canBeTranslated": true,
                     "options": {
                         "display_length": 150
                     },
                     "validation": [],
                     "title": {
                         "en": "Email",
-                        "de": null
+                        "de": "E-Mail",
+                        "fr": null
                     },
                     "searchable": true,
                     "orderable": true
@@ -64,59 +76,118 @@
             ]
         },
         {
-            "name": "Edit-Add Layout",
+            "name": "Edit\/Add View",
             "type": "view",
             "options": [],
             "formfields": [
                 {
                     "type": "text",
+                    "translatable": false,
                     "column": {
                         "column": "name",
                         "type": "column"
                     },
-                    "translatable": false,
-                    "canBeTranslated": true,
+                    "canbetranslated": true,
                     "options": {
                         "label": {
                             "en": "Name",
-                            "de": null
+                            "de": "Name",
+                            "fr": null
                         },
                         "description": null,
-                        "placeholder": null,
+                        "placeholder": {
+                            "en": "Name",
+                            "de": "Name",
+                            "fr": null
+                        },
                         "default_value": null,
                         "rows": 1,
                         "width": "w-3\/6"
                     },
-                    "validation": []
+                    "validation": [
+                        {
+                            "rule": null,
+                            "message": null
+                        }
+                    ]
                 },
                 {
                     "type": "text",
+                    "translatable": false,
                     "column": {
                         "column": "email",
                         "type": "column"
                     },
-                    "translatable": false,
-                    "canBeTranslated": true,
+                    "canbetranslated": true,
                     "options": {
                         "label": {
                             "en": "Email",
-                            "de": null
+                            "de": "E-Mail",
+                            "fr": null
                         },
                         "description": null,
-                        "placeholder": null,
+                        "placeholder": {
+                            "en": "Email",
+                            "de": "E-Mail",
+                            "fr": null
+                        },
                         "default_value": null,
                         "rows": 1,
                         "width": "w-3\/6"
                     },
-                    "validation": []
+                    "validation": [
+                        {
+                            "rule": "email",
+                            "message": {
+                                "en": "A proper email is required",
+                                "de": "Eine g\u00fcltige E-Mail ist erforderlich",
+                                "fr": null
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "translatable": true,
+                    "column": {
+                        "column": "description",
+                        "type": "column"
+                    },
+                    "canbetranslated": true,
+                    "options": {
+                        "label": {
+                            "en": "Description",
+                            "de": "Beschreibung",
+                            "fr": null
+                        },
+                        "description": null,
+                        "placeholder": {
+                            "en": "Description",
+                            "de": "Beschreibung",
+                            "fr": null
+                        },
+                        "default_value": null,
+                        "rows": "5",
+                        "width": "w-full"
+                    },
+                    "validation": [
+                        {
+                            "rule": "min:5",
+                            "message": {
+                                "en": "Minimum 5 characters",
+                                "de": "Mindestens 5 Zeichen",
+                                "fr": null
+                            }
+                        }
+                    ]
                 }
             ]
         }
     ],
     "use_layouts": {
         "browse": "Browse List",
-        "read": "Edit-Add Layout",
-        "edit": "Edit-Add Layout",
-        "add": "Edit-Add Layout"
+        "read": "Edit\/Add View",
+        "edit": "Edit\/Add View",
+        "add": "Edit\/Add View"
     }
 }
