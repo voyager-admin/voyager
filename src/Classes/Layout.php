@@ -13,9 +13,9 @@ class Layout implements \JsonSerializable
 
     public function __construct($json)
     {
-        foreach ($json as $key => $value) {
+        $this->formfields = collect();
+        collect($json)->each(function ($value, $key) {
             if ($key == 'formfields') {
-                $this->formfields = collect();
                 foreach ($value as $f) {
                     $formfield = BreadFacade::getFormfield($f->type);
                     if (!$formfield) {
@@ -30,7 +30,7 @@ class Layout implements \JsonSerializable
             } else {
                 $this->{$key} = $value;
             }
-        }
+        });
     }
 
     public function searchableFormfields()

@@ -425,24 +425,26 @@ export default {
         createFolder: function () {
             var vm = this;
             vm.$notify.prompt(vm.__('voyager::media.create_folder_prompt'), '', function (name) {
-                axios.post(vm.route('voyager.media.create_folder'), {
-                    path: vm.path,
-                    name: name,
-                })
-                .then(function (response) {
-                    vm.$notify.notify(
-                        vm.__('voyager::media.create_folder_success', { name: name }),
-                        null,
-                        'green',
-                        5000
-                    );
-                })
-                .catch(function (errors) {
-                    //
-                })
-                .then(function () {
-                    vm.loadFiles();
-                });
+                if (name) {
+                    axios.post(vm.route('voyager.media.create_folder'), {
+                        path: vm.path,
+                        name: name,
+                    })
+                    .then(function (response) {
+                        vm.$notify.notify(
+                            vm.__('voyager::media.create_folder_success', { name: name }),
+                            null,
+                            'green',
+                            5000
+                        );
+                    })
+                    .catch(function (errors) {
+                        //
+                    })
+                    .then(function () {
+                        vm.loadFiles();
+                    });
+                }
             }, 'blue', vm.__('voyager::generic.ok'), vm.__('voyager::generic.cancel'), false, 7500);
         }
     },
@@ -489,10 +491,10 @@ export default {
             // Indicates that we left our wrapper or dropped files
             ['dragend', 'dragleave', 'drop'].forEach(function (event) {
                 vm.$refs.wrapper.addEventListener(event, function (e) {
-                    vm.dragEnterCounter--;
-                    if (vm.dragEnterCounter == 0 || vm.combinedFiles.length == 0) {
+                    //vm.dragEnterCounter--;
+                    //if (vm.dragEnterCounter == 0 || vm.combinedFiles.length == 0) {
                         vm.dragging = false;
-                    }
+                    //}
                 });
             });
 
