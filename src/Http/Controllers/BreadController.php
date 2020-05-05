@@ -35,7 +35,7 @@ class BreadController extends Controller
         $query = $bread->getModel()->select('*');
 
         // Soft-deletes
-        $query = $this->loadSoftDeletesQuery($bread, $layout, $query);
+        $query = $this->loadSoftDeletesQuery($bread, $layout, $softdeleted, $query);
 
         $total = $query->count();
 

@@ -4,18 +4,18 @@ namespace Voyager\Admin\Traits\Bread;
 
 trait Browsable
 {
-    public function loadSoftDeletesQuery($bread, $layout, $query)
+    public function loadSoftDeletesQuery($bread, $layout, $softdeleted, $query)
     {
         $this->uses_soft_deletes = $bread->usesSoftDeletes();
         if (!isset($layout->options->soft_deletes) || !$layout->options->soft_deletes) {
             $this->uses_soft_deletes = false;
+
+            return $query;
         }
-        if ($this->uses_soft_deletes) {
-            if ($softdeleted == 'show') {
-                $query = $query->withTrashed();
-            } elseif ($softdeleted == 'only') {
-                $query = $query->onlyTrashed();
-            }
+        if ($softdeleted == 'show') {
+            $query = $query->withTrashed();
+        } elseif ($softdeleted == 'only') {
+            $query = $query->onlyTrashed();
         }
 
         return $query;
@@ -40,17 +40,17 @@ trait Browsable
 
     public function columnSearchQuery($filters, $layout, $query)
     {
-        foreach (array_filter($filters) as $column => $filter) {
+        collect(array_filter($filters))->each(function ($filter, $column) {
             $formfield = $layout->getFormfieldByColumn($column);
             if (!$formfield) {
-                continue;
+                return;
             }
             if ($formfield->translatable ?? false) {
                 $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
             } elseif ($formfield->column->type == 'column') {
                 $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
             }
-        }
+        });
 
         return $query;
     }
@@ -75,10 +75,7 @@ trait Browsable
                 $item->dontTranslate();
             }
             // Add soft-deleted property
-            $item->is_soft_deleted = false;
-            if ($this->uses_soft_deletes && !empty($item->deleted_at)) {
-                $item->is_soft_deleted = $item->trashed();
-            }
+            $item->is_soft_deleted = $this->uses_soft_deletes ? $item->trashed() : false;
 
             $layout->formfields->each(function ($formfield) use (&$item) {
                 if ($formfield->column->type == 'relationship') {
