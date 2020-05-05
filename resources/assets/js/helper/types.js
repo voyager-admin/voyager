@@ -16,6 +16,18 @@ window.isString = function (input)
 };
 Vue.prototype.isString = isString;
 
+window.isNumber = function (input)
+{
+    return (typeof input === 'number');
+};
+Vue.prototype.isNumber = isNumber;
+
+window.isBoolean = function (input)
+{
+    return (typeof input === 'boolean');
+};
+Vue.prototype.isBoolean = isBoolean;
+
 window.mimeMatch = function (mime, match)
 {
     var matcher = new this.MimeMatcher(match);

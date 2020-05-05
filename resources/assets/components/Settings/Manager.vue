@@ -86,7 +86,7 @@
                                             </div>
 
                                             <component
-                                                :is="'formfield-'+setting.type+'-builder'"
+                                                :is="'formfield-'+kebab_case(setting.type)+'-builder'"
                                                 v-bind:options="setting.options"
                                                 :column="''"
                                                 show="view-options" />
@@ -103,7 +103,7 @@
                                         </ul>
                                     </alert>
                                     <component
-                                        :is="'formfield-'+setting.type+'-edit-add'"
+                                        :is="'formfield-'+kebab_case(setting.type)+'-edit-add'"
                                         v-bind:value="data(setting, null)"
                                         v-on:input="data(setting, $event)"
                                         :options="setting.options"
@@ -119,7 +119,7 @@
             </tabs>
         </card>
         <collapsible v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
-            <textarea class="input w-full" rows="10" v-model="jsonSettings"></textarea>
+            <textarea class="voyager-input w-full" rows="10" v-model="jsonSettings"></textarea>
         </collapsible>
     </div>
 </template>

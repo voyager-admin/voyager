@@ -78,6 +78,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
         $this->commands(InstallCommand::class);
 
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\DynamicSelect::class);
         BreadFacade::addFormfield(\Voyager\Admin\Formfields\Number::class);
         BreadFacade::addFormfield(\Voyager\Admin\Formfields\Relationship::class);
         BreadFacade::addFormfield(\Voyager\Admin\Formfields\Select::class);

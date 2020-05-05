@@ -105,7 +105,7 @@
                                 </div>
                             </div>
                             <component
-                                :is="'formfield-'+formfield.type+'-builder'"
+                                :is="'formfield-'+kebab_case(formfield.type)+'-builder'"
                                 v-bind:options="formfield.options"
                                 :column="formfield.column"
                                 show="list-options" />

@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'dynamic_select'=> [
+        'name'          => 'Dynamic Select',
+    ],
     'number'        => [
         'name'          => 'Number',
     ],

@@ -78,6 +78,9 @@ Route::group(['as' => 'voyager.'], function () {
         Route::post('list', ['uses' => $namespace.'MediaController@listFiles', 'as' => 'media.list']);
         Route::delete('delete', ['uses' => $namespace.'MediaController@delete', 'as' => 'media.delete']);
         Route::post('create_folder', ['uses' => $namespace.'MediaController@createFolder', 'as' => 'media.create_folder']);
+
+        //
+        Route::post('get-disks', ['uses' => $namespace.'VoyagerController@getDisks', 'as' => 'get-disks']);
     });
 
     // Login

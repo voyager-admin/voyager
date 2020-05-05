@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Voyager\Admin\Facades\Bread as BreadFacade;
+use Voyager\Admin\Traits\Bread\Browsable;
 
 class BreadController extends Controller
 {
+    use Browsable;
+
+    public $uses_soft_deletes = false;
+
     public function data(Request $request)
     {
         $start = microtime(true);
         $bread = $this->getBread($request);
         $layout = $this->getLayoutForAction($bread, 'browse');
-
-        $uses_translatable_trait = $bread->usesTranslatableTrait();
 
         list(
             'page'        => $page,
@@ -32,50 +35,18 @@ class BreadController extends Controller
         $query = $bread->getModel()->select('*');
 
         // Soft-deletes
-        $uses_soft_deletes = $bread->usesSoftDeletes();
-        if (!isset($layout->options->soft_deletes) || !$layout->options->soft_deletes) {
-            $uses_soft_deletes = false;
-        }
-        if ($uses_soft_deletes) {
-            if ($softdeleted == 'show') {
-                $query = $query->withTrashed();
-            } elseif ($softdeleted == 'only') {
-                $query = $query->onlyTrashed();
-            }
-        }
+        $query = $this->loadSoftDeletesQuery($bread, $layout, $query);
 
         $total = $query->count();
 
         // Global search ($global)
-        if (!empty($global)) {
-            $query->where(function ($query) use ($global, $layout, $locale) {
-                $layout->searchableFormfields()->each(function ($formfield) use (&$query, $global, $locale) {
-                    if ($formfield->translatable ?? false) {
-                        $query->orWhere(DB::raw('lower('.$formfield->column->column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($global).'%');
-                    } elseif ($formfield->column->type == 'column') {
-                        $query->orWhere(DB::raw('lower('.$formfield->column->column.')'), 'LIKE', '%'.strtolower($global).'%');
-                    }
-                });
-            });
-        }
+        $query = $this->globalSearchQuery($global, $layout, $locale, $query);
 
         // Column search ($filters)
-        foreach (array_filter($filters) as $column => $filter) {
-            if ($formfield->translatable ?? false) {
-                $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
-            } elseif ($layout->getFormfieldByColumn($column)->column->type == 'column') {
-                $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
-            }
-        }
+        $query = $this->columnSearchQuery($filters, $layout, $query);
 
         // Ordering ($order and $direction)
-        if (!empty($direction) && !empty($order)) {
-            if ($layout->getFormfieldByColumn($order)->translatable ?? false) {
-                $query = $query->orderBy(DB::raw('lower('.$order.'->"$.'.$locale.'")'), $direction);
-            } elseif ($layout->getFormfieldByColumn($order)->column->type == 'column') {
-                $query = $query->orderBy($order, $direction);
-            }
-        }
+        $query = $this->orderQuery($layout, $direction, $order, $query);
 
         $query = $query->get();
         $filtered = $query->count();
@@ -90,46 +61,7 @@ class BreadController extends Controller
         });
 
         // Transform results
-        $query = $query->transform(function ($item) use ($uses_soft_deletes, $uses_translatable_trait, $layout) {
-            if ($uses_translatable_trait) {
-                $item->dontTranslate();
-            }
-            // Add soft-deleted property
-            $item->is_soft_deleted = false;
-            if ($uses_soft_deletes && !empty($item->deleted_at)) {
-                $item->is_soft_deleted = $item->trashed();
-            }
-
-            $layout->formfields->each(function ($formfield) use (&$item) {
-                if ($formfield->column->type == 'relationship') {
-                    $relationship = Str::before($formfield->column->column, '.');
-                    $property = Str::after($formfield->column->column, '.');
-                    if (Str::contains($property, 'pivot.')) {
-                        // Pivot data
-                        $property = Str::after($property, 'pivot.');
-                        $pivot = [];
-                        $item->{$relationship}->each(function ($related) use (&$pivot, $formfield, $property) {
-                            if (isset($related->pivot) && isset($related->pivot->{$property})) {
-                                $pivot[] = $formfield->browse($related->pivot->{$property});
-                            }
-                        });
-                        $item->{$formfield->column->column} = $pivot;
-                    } elseif ($item->{$relationship} instanceof Collection) {
-                        // X-Many relationship
-                        $item->{$formfield->column->column} = $item->{$relationship}->pluck($property)->transform(function ($value) use ($formfield) {
-                            return $formfield->browse($value);
-                        });
-                    } elseif (!empty($item->{$relationship})) {
-                        // Normal property/X-One relationship
-                        $item->{$formfield->column->column} = $formfield->browse($item->{$relationship}->{$property});
-                    }
-                } else {
-                    $item->{$formfield->column->column} = $formfield->browse($item->{$formfield->column->column});
-                }
-            });
-
-            return $item;
-        });
+        $query = $this->transformResults($layout, $bread->usesTranslatableTrait(), $query);
 
         return [
             'results'           => $query->values(),
@@ -137,7 +69,7 @@ class BreadController extends Controller
             'total'             => $total,
             'layout'            => $layout,
             'execution'         => number_format(((microtime(true) - $start) * 1000), 0, '.', ''),
-            'uses_soft_deletes' => $uses_soft_deletes,
+            'uses_soft_deletes' => $this->uses_soft_deletes,
             'primary'           => $query->get(0) ? $query->get(0)->getKeyName() : 'id',
             'translatable'      => $layout->hasTranslatableFormfields(),
         ];

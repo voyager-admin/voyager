@@ -23,7 +23,7 @@
                                         </ul>
                                     </alert>
                                     <component
-                                        :is="'formfield-'+formfield.type+'-edit-add'"
+                                        :is="'formfield-'+kebab_case(formfield.type)+'-edit-add'"
                                         v-bind:value="data(formfield, null)"
                                         v-on:input="data(formfield, $event)"
                                         :options="formfield.options"

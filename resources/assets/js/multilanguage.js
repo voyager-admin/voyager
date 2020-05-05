@@ -40,7 +40,7 @@ Vue.prototype.$language = new Vue({
 Vue.mixin({
     methods: {
         get_input_as_translatable_object: function (input) {
-            if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {
+            if (this.isString(input) || this.isNumber(input) || this.isBoolean(input)) {
                 try {
                     input = JSON.parse(input);
                 } catch (e) {
@@ -48,11 +48,11 @@ Vue.mixin({
                     input = {};
                     input[this.$language.initial_locale] = value;
                 }
-            } else if (typeof input !== 'object' || !input) {
+            } else if (!this.isObject(input)) {
                 input = {};
             }
 
-            if (input && typeof input === 'object' && input.constructor === Object) {
+            if (input && this.isObject(input)) {
                 this.$language.locales.forEach(function (locale) {
                     if (!input.hasOwnProperty(locale)) {
                         Vue.set(input, locale, '');

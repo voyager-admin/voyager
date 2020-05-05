@@ -64,4 +64,14 @@ class VoyagerController extends Controller
 
         return $results;
     }
+
+    public function getDisks(Request $request)
+    {
+        $disks = collect(array_keys(config('filesystems.disks', [])))->mapWithKeys(function ($disk) {
+            return [$disk => $disk];
+        });
+        return [
+            $disks
+        ];
+    }
 }

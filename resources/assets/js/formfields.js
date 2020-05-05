@@ -1,4 +1,5 @@
 let formfields = [
+    'DynamicSelect',
     'Number',
     'Relationship',
     'Select',

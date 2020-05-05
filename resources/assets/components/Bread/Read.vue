@@ -18,7 +18,7 @@
                 <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
                     <card :show-header="false">
                         <component
-                            :is="'formfield-'+formfield.type+'-read'"
+                            :is="'formfield-'+kebab_case(formfield.type)+'-read'"
                             :data="getData(formfield.column)"
                             :translatable="formfield.translatable"
                             :options="formfield.options" />
