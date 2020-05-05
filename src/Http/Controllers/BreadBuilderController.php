@@ -61,7 +61,9 @@ class BreadBuilderController extends Controller
     {
         $bread = BreadFacade::getBread($table);
         if (!$bread) {
-            VoyagerFacade::flashMessage(__('voyager::builder.bread_does_no_exist', ['table' => $table]), 'red', 5000, true);
+            VoyagerFacade::flashMessage(__('voyager::builder.bread_does_no_exist', [
+                'table' => $table
+            ]), 'red', 5000, true);
 
             return redirect()->route('voyager.bread.create', $table);
         }

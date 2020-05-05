@@ -115,7 +115,7 @@ abstract class Formfield implements \JsonSerializable
      */
     public function stored($model, $data)
     {
-
+        return;
     }
 
     /**

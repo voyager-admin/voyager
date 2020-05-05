@@ -79,8 +79,9 @@ trait Browsable
 
             $layout->formfields->each(function ($formfield) use (&$item) {
                 if ($formfield->column->type == 'relationship') {
-                    $relationship = Str::before($formfield->column->column, '.');
-                    $property = Str::after($formfield->column->column, '.');
+                    $column = $formfield->column->column;
+                    $relationship = Str::before($column, '.');
+                    $property = Str::after($column, '.');
                     if (Str::contains($property, 'pivot.')) {
                         // Pivot data
                         $property = Str::after($property, 'pivot.');
@@ -90,18 +91,20 @@ trait Browsable
                                 $pivot[] = $formfield->browse($related->pivot->{$property});
                             }
                         });
-                        $item->{$formfield->column->column} = $pivot;
+                        $item->{$column} = $pivot;
                     } elseif ($item->{$relationship} instanceof Collection) {
                         // X-Many relationship
-                        $item->{$formfield->column->column} = $item->{$relationship}->pluck($property)->transform(function ($value) use ($formfield) {
+                        $item->{$column} = $item->{$relationship}
+                                                ->pluck($property)
+                                                ->transform(function ($value) use ($formfield) {
                             return $formfield->browse($value);
                         });
                     } elseif (!empty($item->{$relationship})) {
                         // Normal property/X-One relationship
-                        $item->{$formfield->column->column} = $formfield->browse($item->{$relationship}->{$property});
+                        $item->{$column} = $formfield->browse($item->{$relationship}->{$property});
                     }
                 } else {
-                    $item->{$formfield->column->column} = $formfield->browse($item->{$formfield->column->column});
+                    $item->{$column} = $formfield->browse($item->{$column});
                 }
             });
 

@@ -11,7 +11,8 @@ use Voyager\Admin\Facades\Settings;
 
 class MediaController extends Controller
 {
-    public $disk, $path;
+    public $disk;
+    public $path;
 
     public function __construct()
     {
