@@ -27,19 +27,18 @@ class AuthenticationPlugin implements IsAuthenticationPlugin
 
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        if (!$credentials['email'] || !$credentials['password']) {
+        if (!$request->get('email', null) || !$request->get('password', null)) {
             return redirect()->back()->with([
                 'error' => __('voyager::auth.error_field_empty'),
-            ])->withInput($credentials);
+            ]);
         }
 
         // TODO: Throttle attempts
-        if (Auth::attempt($credentials, $request->has('remember'))) {
+        if (Auth::attempt($request->only('email', 'password'), $request->has('remember'))) {
             return redirect()->intended($this->redirectTo());
         }
 
-        return redirect()->back()->with([
+        return redirect()->route('voyager.login')->with([
             'error' => __('voyager::auth.login_failed'),
         ]);
     }

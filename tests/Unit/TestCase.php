@@ -34,7 +34,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $user = new \Voyager\Admin\Tests\Stubs\User();
         $user->name = 'Admin';
         $user->email = 'admin@admin.com';
-        $user->password = bcrypt('secret');
         $user->save();
 
         $this->setupVoyager();

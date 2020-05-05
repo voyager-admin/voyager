@@ -599,16 +599,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v7.9.2",
+            "version": "v7.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "757b155658ae6da429065ba8f22242fe599824f7"
+                "reference": "d92e25358e85a962f1f868376f14935eb8ac53d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/757b155658ae6da429065ba8f22242fe599824f7",
-                "reference": "757b155658ae6da429065ba8f22242fe599824f7",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d92e25358e85a962f1f868376f14935eb8ac53d6",
+                "reference": "d92e25358e85a962f1f868376f14935eb8ac53d6",
                 "shasum": ""
             },
             "require": {
@@ -751,20 +751,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-04-28T16:09:20+00:00"
+            "time": "2020-05-05T15:54:26+00:00"
         },
         {
             "name": "league/commonmark",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "9e780d972185e4f737a03bade0fd34a9e67bbf31"
+                "reference": "412639f7cfbc0b31ad2455b2fe965095f66ae505"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/9e780d972185e4f737a03bade0fd34a9e67bbf31",
-                "reference": "9e780d972185e4f737a03bade0fd34a9e67bbf31",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/412639f7cfbc0b31ad2455b2fe965095f66ae505",
+                "reference": "412639f7cfbc0b31ad2455b2fe965095f66ae505",
                 "shasum": ""
             },
             "require": {
@@ -857,7 +857,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-24T13:39:56+00:00"
+            "time": "2020-05-04T22:15:21+00:00"
         },
         {
             "name": "league/flysystem",
@@ -3789,34 +3789,34 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v5.11.0",
+            "version": "v6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "e07cc46a1e39767739e8197189780b4c2639806d"
+                "reference": "0d0f3c08b407a21caa8c5398d15892b78726564e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/e07cc46a1e39767739e8197189780b4c2639806d",
-                "reference": "e07cc46a1e39767739e8197189780b4c2639806d",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/0d0f3c08b407a21caa8c5398d15892b78726564e",
+                "reference": "0d0f3c08b407a21caa8c5398d15892b78726564e",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-zip": "*",
-                "illuminate/console": "~5.7.0|~5.8.0|^6.0|^7.0",
-                "illuminate/support": "~5.7.0|~5.8.0|^6.0|^7.0",
-                "nesbot/carbon": "^1.20|^2.0",
-                "php": ">=7.1.0",
+                "illuminate/console": "^6.0|^7.0",
+                "illuminate/support": "^6.0|^7.0",
+                "nesbot/carbon": "^2.0",
+                "php": "^7.2",
                 "php-webdriver/webdriver": "^1.8.1",
-                "symfony/console": "^4.0|^5.0",
-                "symfony/finder": "^4.0|^5.0",
-                "symfony/process": "^4.0|^5.0",
-                "vlucas/phpdotenv": "^2.2|^3.0|^4.0"
+                "symfony/console": "^4.3|^5.0",
+                "symfony/finder": "^4.3|^5.0",
+                "symfony/process": "^4.3|^5.0",
+                "vlucas/phpdotenv": "^3.0|^4.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^7.5|^8.0"
+                "phpunit/phpunit": "^7.5.15|^8.4|^9.0"
             },
             "suggest": {
                 "ext-pcntl": "Used to gracefully terminate Dusk when tests are running."
@@ -3824,7 +3824,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.0-dev"
+                    "dev-master": "6.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -3855,9 +3855,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v5.11.0"
+                "source": "https://github.com/laravel/dusk/tree/6.x"
             },
-            "time": "2020-03-24T16:21:49+00:00"
+            "time": "2020-04-28T15:49:26+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -4117,16 +4117,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v5.1.3",
+            "version": "v5.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "22526c9e2ef10551c8032ca27ef3243319d63dd7"
+                "reference": "41ebd765f5b3f1aba366cc6b2f5b3856a1715519"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/22526c9e2ef10551c8032ca27ef3243319d63dd7",
-                "reference": "22526c9e2ef10551c8032ca27ef3243319d63dd7",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/41ebd765f5b3f1aba366cc6b2f5b3856a1715519",
+                "reference": "41ebd765f5b3f1aba366cc6b2f5b3856a1715519",
                 "shasum": ""
             },
             "require": {
@@ -4193,28 +4193,28 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-04-11T10:47:11+00:00"
+            "time": "2020-05-02T13:35:10+00:00"
         },
         {
             "name": "orchestra/testbench-dusk",
-            "version": "v5.1.3",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-dusk.git",
-                "reference": "16dcda22b729a6fb14221748cf425ae52ade56a1"
+                "reference": "88e74aad99cef708c6f0032fe9a679de72fde243"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-dusk/zipball/16dcda22b729a6fb14221748cf425ae52ade56a1",
-                "reference": "16dcda22b729a6fb14221748cf425ae52ade56a1",
+                "url": "https://api.github.com/repos/orchestral/testbench-dusk/zipball/88e74aad99cef708c6f0032fe9a679de72fde243",
+                "reference": "88e74aad99cef708c6f0032fe9a679de72fde243",
                 "shasum": ""
             },
             "require": {
                 "konsulting/project-root": "^1.1",
-                "laravel/dusk": "^5.8.2",
+                "laravel/dusk": "^5.8.2 || ^6.0",
                 "opis/closure": "^3.4.2",
-                "orchestra/dusk-updater": "^1.2.1",
-                "orchestra/testbench": "^5.1.1",
+                "orchestra/dusk-updater": "^1.2.2",
+                "orchestra/testbench": "^5.2",
                 "php": ">=7.2",
                 "php-webdriver/webdriver": "^1.7"
             },
@@ -4253,9 +4253,9 @@
             "description": "Laravel Dusk Testing Helper for Packages Development",
             "support": {
                 "issues": "https://github.com/orchestral/testbench-dusk/issues",
-                "source": "https://github.com/orchestral/testbench-dusk/tree/v5.1.3"
+                "source": "https://github.com/orchestral/testbench-dusk/tree/5.x"
             },
-            "time": "2020-04-11T11:15:22+00:00"
+            "time": "2020-05-05T11:55:03+00:00"
         },
         {
             "name": "phar-io/manifest",
