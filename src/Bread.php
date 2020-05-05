@@ -49,8 +49,8 @@ class Bread
             VoyagerFacade::ensureDirectoryExists($this->breadPath);
             $this->breads = collect(File::files($this->breadPath))->transform(function ($bread) {
                 $content = File::get($bread->getPathName());
-                $json = @json_decode($content);
-                if (json_last_error() !== JSON_ERROR_NONE) {
+                $json = VoyagerFacade::getJson($content);
+                if ($json === false) {
                     VoyagerFacade::flashMessage('BREAD-file "'.basename($bread->getPathName()).'" does contain invalid JSON: '.json_last_error_msg(), 'yellow');
 
                     return;

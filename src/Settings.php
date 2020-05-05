@@ -93,6 +93,6 @@ class Settings
             File::put($this->path, '[]');
         }
 
-        $this->settings = collect(json_decode(File::get($this->path)));
+        $this->settings = collect(VoyagerFacade::getJson(File::get($this->path), []));
     }
 }

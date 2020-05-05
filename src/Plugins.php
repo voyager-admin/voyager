@@ -55,7 +55,7 @@ class Plugins
             File::put($this->path, '[]');
         }
 
-        collect(@json_decode(File::get($this->path)))->where('enabled')->each(function ($plugin) {
+        collect(VoyagerFacade::getJson(File::get($this->path), []))->where('enabled')->each(function ($plugin) {
             $this->enabled_plugins[] = $plugin->identifier;
         });
     }
@@ -97,14 +97,14 @@ class Plugins
 
     public function getAvailablePlugins()
     {
-        return @json_decode(File::get(realpath(__DIR__.'/../plugins.json')));
+        return VoyagerFacade::getJson(File::get(realpath(__DIR__.'/../plugins.json')), []);
     }
 
     public function enablePlugin($identifier, $enable = true)
     {
         $this->getAllPlugins();
 
-        $plugins = collect(@json_decode(File::get($this->path)));
+        $plugins = collect(VoyagerFacade::getJson(File::get($this->path), []));
         if (!$plugins->contains('identifier', $identifier)) {
             $plugins->push([
                 'identifier' => $identifier,

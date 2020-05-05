@@ -188,11 +188,11 @@ class Voyager
     public function translate($value, $locale = null, $fallback = null)
     {
         if (is_string($value)) {
-            $json = @json_decode($value);
-            if (json_last_error() == JSON_ERROR_NONE) {
-                $value = $json;
-            } else {
+            $json = $this->getJson($value);
+            if ($json === false) {
                 return $value;
+            } else {
+                $value = $json;
             }
         }
 
@@ -203,6 +203,16 @@ class Voyager
         }
 
         return $value;
+    }
+
+    public function getJson($input, $default = false)
+    {
+        $json = @json_decode($input);
+        if (json_last_error() == JSON_ERROR_NONE) {
+            return $json;
+        }
+
+        return $default;
     }
 
     public function ensureDirectoryExists($path)
