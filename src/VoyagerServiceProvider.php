@@ -78,12 +78,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
         $this->commands(InstallCommand::class);
 
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\DynamicSelect::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Number::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Relationship::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Select::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Tags::class);
-        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Text::class);
+        $this->registerFormfields();
     }
 
     public function loadBreadsFrom($path)
@@ -100,5 +95,15 @@ class VoyagerServiceProvider extends ServiceProvider
     public function loadPluginsFrom($path)
     {
         PluginsFacade::pluginsPath($path);
+    }
+
+    public function registerFormfields()
+    {
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\DynamicSelect::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Number::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Relationship::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Select::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Tags::class);
+        BreadFacade::addFormfield(\Voyager\Admin\Formfields\Text::class);
     }
 }
