@@ -6,7 +6,7 @@ use Illuminate\View\View;
 
 abstract class IsWidgetPlugin extends IsGenericPlugin
 {
-    public abstract function getWidgetView(): View;
+    abstract public function getWidgetView(): View;
 
-    public abstract function getWidth(): int;
+    abstract public function getWidth(): int;
 }

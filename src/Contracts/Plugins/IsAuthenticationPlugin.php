@@ -8,23 +8,23 @@ use Illuminate\View\View;
 
 abstract class IsAuthenticationPlugin extends IsGenericPlugin
 {
-    public abstract function user(): ?object;
+    abstract public function user(): ?object;
 
-    public abstract function name(): ?string;
+    abstract public function name(): ?string;
 
-    public abstract function guard(): string;
+    abstract public function guard(): string;
 
-    public abstract function authenticate(Request $request);
+    abstract public function authenticate(Request $request);
 
-    public abstract function logout();
+    abstract public function logout();
 
-    public abstract function redirectTo();
+    abstract public function redirectTo();
 
-    public abstract function forgotPassword(Request $request);
+    abstract public function forgotPassword(Request $request);
 
-    public abstract function handleRequest(Request $request, Closure $next);
+    abstract public function handleRequest(Request $request, Closure $next);
 
-    public abstract function loginView(): ?View;
+    abstract public function loginView(): ?View;
 
     public function forgotPasswordView(): ?View
     {
