@@ -7,7 +7,7 @@ trait Browsable
     public function loadSoftDeletesQuery($bread, $layout, $softdeleted, $query)
     {
         $this->uses_soft_deletes = $bread->usesSoftDeletes();
-        if (!isset($layout->options->soft_deletes) || !$layout->options->soft_deletes) {
+        if (!isset($layout->options->soft_deletes) || !$layout->options->soft_deletes || !$this->uses_soft_deletes) {
             $this->uses_soft_deletes = false;
 
             return $query;
@@ -78,8 +78,8 @@ trait Browsable
             $item->is_soft_deleted = $this->uses_soft_deletes ? $item->trashed() : false;
 
             $layout->formfields->each(function ($formfield) use (&$item) {
+                $column = $formfield->column->column;
                 if ($formfield->column->type == 'relationship') {
-                    $column = $formfield->column->column;
                     $relationship = Str::before($column, '.');
                     $property = Str::after($column, '.');
                     if (Str::contains($property, 'pivot.')) {

@@ -6,25 +6,28 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-interface IsAuthenticationPlugin extends IsGenericPlugin
+abstract class IsAuthenticationPlugin extends IsGenericPlugin
 {
-    public function user(): ?object;
+    public abstract function user(): ?object;
 
-    public function name(): ?string;
+    public abstract function name(): ?string;
 
-    public function guard(): string;
+    public abstract function guard(): string;
 
-    public function authenticate(Request $request);
+    public abstract function authenticate(Request $request);
 
-    public function logout();
+    public abstract function logout();
 
-    public function redirectTo();
+    public abstract function redirectTo();
 
-    public function forgotPassword(Request $request);
+    public abstract function forgotPassword(Request $request);
 
-    public function handleRequest(Request $request, Closure $next);
+    public abstract function handleRequest(Request $request, Closure $next);
 
-    public function loginView(): ?View;
+    public abstract function loginView(): ?View;
 
-    public function forgotPasswordView(): ?View;
+    public function forgotPasswordView(): ?View
+    {
+        return null;
+    }
 }

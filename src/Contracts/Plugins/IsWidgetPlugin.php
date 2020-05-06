@@ -4,9 +4,9 @@ namespace Voyager\Admin\Contracts\Plugins;
 
 use Illuminate\View\View;
 
-interface IsWidgetPlugin extends IsGenericPlugin
+abstract class IsWidgetPlugin extends IsGenericPlugin
 {
-    public function getWidgetView(): View;
+    public abstract function getWidgetView(): View;
 
-    public function getWidth(): int;
+    public abstract function getWidth(): int;
 }

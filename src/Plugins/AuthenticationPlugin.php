@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Voyager\Admin\Contracts\Plugins\IsAuthenticationPlugin;
 
-class AuthenticationPlugin implements IsAuthenticationPlugin
+class AuthenticationPlugin extends IsAuthenticationPlugin
 {
     public function user(): ?object
     {
@@ -87,25 +87,5 @@ class AuthenticationPlugin implements IsAuthenticationPlugin
     public function forgotPasswordView(): ?View
     {
         return view('voyager::auth.forgot_password');
-    }
-
-    public function registerProtectedRoutes()
-    {
-        //
-    }
-
-    public function registerPublicRoutes()
-    {
-        //
-    }
-
-    public function getSettingsView(): ?View
-    {
-        return null;
-    }
-
-    public function getInstructionsView(): ?View
-    {
-        return null;
     }
 }

@@ -4,13 +4,25 @@ namespace Voyager\Admin\Contracts\Plugins;
 
 use Illuminate\View\View;
 
-interface IsGenericPlugin
+abstract class IsGenericPlugin
 {
-    public function registerProtectedRoutes();
+    public function registerProtectedRoutes()
+    {
+        return;
+    }
 
-    public function registerPublicRoutes();
+    public function registerPublicRoutes()
+    {
+        return;
+    }
 
-    public function getSettingsView(): ?View;
+    public function getSettingsView(): ?View
+    {
+        return null;
+    }
 
-    public function getInstructionsView(): ?View;
+    public function getInstructionsView(): ?View
+    {
+        return null;
+    }
 }

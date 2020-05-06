@@ -2,7 +2,7 @@
 
 namespace Voyager\Admin\Contracts\Plugins;
 
-interface IsThemePlugin extends IsGenericPlugin
+abstract class IsThemePlugin extends IsGenericPlugin
 {
-    public function getStyleRoute(): string;
+    public abstract function getStyleRoute(): string;
 }

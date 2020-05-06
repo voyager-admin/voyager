@@ -2,7 +2,7 @@
 
 namespace Voyager\Admin\Contracts\Plugins;
 
-interface IsAuthorizationPlugin extends IsGenericPlugin
+abstract class IsAuthorizationPlugin extends IsGenericPlugin
 {
-    public function authorize($ability, $arguments = []);
+    public abstract function authorize($ability, $arguments = []);
 }
