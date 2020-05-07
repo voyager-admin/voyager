@@ -5,7 +5,7 @@ namespace Voyager\Admin;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use Voyager\Admin\Contracts\Plugins\IsGenericPlugin;
+use Voyager\Admin\Contracts\Plugins\GenericPlugin;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Plugins
@@ -127,7 +127,7 @@ class Plugins
         return collect(class_implements($class))->filter(function ($interface) {
             return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\');
         })->transform(function ($interface) {
-            return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin', 'Is'], '', $interface));
+            return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
         })->first();
     }
 }
