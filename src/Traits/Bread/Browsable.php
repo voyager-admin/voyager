@@ -94,9 +94,7 @@ trait Browsable
                         $item->{$column} = $pivot;
                     } elseif ($item->{$relationship} instanceof Collection) {
                         // X-Many relationship
-                        $item->{$column} = $item->{$relationship}
-                                                ->pluck($property)
-                                                ->transform(function ($value) use ($formfield) {
+                        $item->{$column} = $item->{$relationship}->pluck($property)->transform(function ($value) use ($formfield) {
                             return $formfield->browse($value);
                         });
                     } elseif (!empty($item->{$relationship})) {
