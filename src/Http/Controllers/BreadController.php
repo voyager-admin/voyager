@@ -2,16 +2,16 @@
 
 namespace Voyager\Admin\Http\Controllers;
 
-use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Voyager\Admin\Facades\Bread as BreadFacade;
 use Voyager\Admin\Traits\Bread\Browsable;
+use Voyager\Admin\Traits\Bread\Saveable;
 
 class BreadController extends Controller
 {
-    use Browsable;
+    use Browsable, Saveable;
 
     public $uses_soft_deletes = false;
 
@@ -21,16 +21,7 @@ class BreadController extends Controller
         $bread = $this->getBread($request);
         $layout = $this->getLayoutForAction($bread, 'browse');
 
-        list(
-            'page'        => $page,
-            'perpage'     => $perpage,
-            'query'       => $global,
-            'filters'     => $filters,
-            'order'       => $order,
-            'direction'   => $direction,
-            'softdeleted' => $softdeleted,
-            'locale'      => $locale
-        ) = $request->all();
+        extract($request->only(['page', 'perpage', 'global', 'filters', 'order', 'direction', 'softdeleted', 'locale']));
 
         $query = $bread->getModel()->select('*');
 
@@ -43,7 +34,7 @@ class BreadController extends Controller
         $query = $this->globalSearchQuery($global, $layout, $locale, $query);
 
         // Column search ($filters)
-        $query = $this->columnSearchQuery($filters, $layout, $query);
+        $query = $this->columnSearchQuery($filters, $layout, $query, $locale);
 
         // Ordering ($order and $direction)
         $query = $this->orderQuery($layout, $direction, $order, $query);
@@ -111,27 +102,7 @@ class BreadController extends Controller
             return response()->json($validation_errors, 422);
         }
 
-        $layout->formfields->each(function ($formfield) use ($data, &$model) {
-            $value = $data[$formfield->column->column] ?? '';
-
-            if ($formfield->translatable ?? false) {
-                $translations = [];
-                foreach ($value as $locale => $translated) {
-                    $translations[$locale] = $formfield->store($translated);
-                }
-                $value = json_encode($translations);
-            } else {
-                $value = $formfield->store($value);
-            }
-
-            if ($formfield->column->type == 'column') {
-                $model->{$formfield->column->column} = $value;
-            } elseif ($formfield->column->type == 'computed') {
-                if (method_exists($model, 'set'.Str::camel($formfield->column->column).'Attribute')) {
-                    $model->{$formfield->column->column} = $value;
-                }
-            }
-        });
+        $model = $this->updateStoreData($layout->formfield, $data, $model, false);
 
         if ($model->save()) {
             $layout->formfields->each(function ($formfield) use ($data, $model) {
@@ -208,34 +179,7 @@ class BreadController extends Controller
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);
         }
-
-        $layout->formfields->each(function ($formfield) use ($data, &$model, $request) {
-            $value = $data[$formfield->column->column] ?? '';
-
-            if ($formfield->translatable ?? false) {
-                $translations = [];
-                $old = $model->{$formfield->column->column};
-                if (!is_object($old)) {
-                    $old = @json_decode($old);
-                }
-                foreach ($value as $locale => $translated) {
-                    $translations[$locale] = $formfield->update($model, $translated, (isset($old->{$locale}) ? $old->{$locale} : ''));
-                }
-                $value = json_encode($translations);
-            } else {
-                $value = $formfield->update($model, $value, $model->{$formfield->column->column});
-            }
-
-            if ($formfield->column->type == 'column') {
-                $model->{$formfield->column->column} = $value;
-            } elseif ($formfield->column->type == 'computed') {
-                if (method_exists($model, 'set'.Str::camel($formfield->column->column).'Attribute')) {
-                    $model->{$formfield->column->column} = $value;
-                }
-            } elseif ($formfield->column->type == 'relationship') {
-                //
-            }
-        });
+        $model = $this->updateStoreData($layout->formfield, $data, $model);
 
         if ($model->save()) {
             return response($model->getKey(), 200);

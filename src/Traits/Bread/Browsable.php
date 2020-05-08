@@ -2,6 +2,8 @@
 
 namespace Voyager\Admin\Traits\Bread;
 
+use DB;
+
 trait Browsable
 {
     public function loadSoftDeletesQuery($bread, $layout, $softdeleted, $query)
@@ -38,9 +40,9 @@ trait Browsable
         return $query;
     }
 
-    public function columnSearchQuery($filters, $layout, $query)
+    public function columnSearchQuery($filters, $layout, $query, $locale)
     {
-        collect(array_filter($filters))->each(function ($filter, $column) {
+        collect(array_filter($filters))->each(function ($filter, $column) use ($layout, $query, $locale) {
             $formfield = $layout->getFormfieldByColumn($column);
             if (!$formfield) {
                 return;

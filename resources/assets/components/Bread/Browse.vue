@@ -5,8 +5,8 @@
                 <input
                     type="text"
                     class="voyager-input w-full small ltr:mr-2 rtl:ml-2"
-                    v-model="parameters.query"
-                    @dblclick="parameters.query = null"
+                    v-model="parameters.global"
+                    @dblclick="parameters.global = null"
                     :placeholder="'Search ' + translate(bread.name_plural, true)">
                 <select class="voyager-input small ltr:mr-2 rtl:ml-2" v-model="parameters.softdeleted" v-if="uses_soft_deletes">
                     <option value="show">{{ __('voyager::bread.soft_delete_show') }}</option>
@@ -155,7 +155,7 @@
                 <div class="flex w-full">
                     <div class="hidden lg:block w-1/2 whitespace-no-wrap">
                         {{ resultDescription }}
-                        <a href="#" @click.prevent="parameters.filters = {}; parameters.query = null" v-if="showClearFilterButton">
+                        <a href="#" @click.prevent="parameters.filters = {}; parameters.global = null" v-if="showClearFilterButton">
                             {{ __('voyager::bread.clear_all_filters') }}
                         </a>
                     </div>
@@ -212,7 +212,7 @@ export default {
             parameters: {
                 page: 1,
                 perpage: this.perPage,
-                query: null,
+                global: null,
                 filters: {},
                 order: null,
                 direction: 'asc',
@@ -384,7 +384,7 @@ export default {
             return Math.ceil(this.filtered / this.parameters.perpage);
         },
         showClearFilterButton: function () {
-            if (this.parameters.query !== null && this.parameters.query !== '') {
+            if (this.parameters.global !== null && this.parameters.global !== '') {
                 return true;
             }
             return Object.values(this.parameters.filters).filter(function (filter) {
