@@ -54,11 +54,12 @@ class Relationship extends Formfield
 
     public function update($model, $value, $old)
     {
-        $relationship = $model->{$this->column->column}();
+        $column = $this->column->column;
+        $relationship = $model->{$column}();
         $type = class_basename(get_class($relationship));
         if (is_array($value)) {
             if ($type == 'BelongsToMany') {
-                $model->{$this->column->column}()->sync($value);
+                $model->{$column}()->sync($value);
             } elseif ($type == 'BelongsTo') {
                 $relationship->associate($value[0]);
             } elseif ($type == 'BelongsTo') {
