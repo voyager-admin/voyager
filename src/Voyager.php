@@ -231,19 +231,4 @@ class Voyager
             file_put_contents($path, $content);
         }
     }
-
-    public function provideMenuItem($title, $url, $icon, $starts_with = null, $parent = null)
-    {
-        if (!$this->menu_items) {
-            $this->menu_items = collect();
-        }
-
-        $this->menu_items->push([
-            'title'         => $title,
-            'url'           => $url,
-            'icon'          => $icon,
-            'starts_with'   => $starts_with,
-            'parent'        => $parent,
-        ]);
-    }
 }
