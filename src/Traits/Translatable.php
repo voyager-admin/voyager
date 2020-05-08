@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 trait Translatable
@@ -66,7 +67,7 @@ trait Translatable
         $this->setLocales();
         $value = null;
 
-        if ($this instanceof \Illuminate\Database\Eloquent\Model) {
+        if ($this instanceof Model) {
             $value = $this->getAttribute($key);
         } else {
             $value = $this->{$key};
@@ -75,7 +76,7 @@ trait Translatable
             return $value;
         }
 
-        if (property_exists($this, 'translatable') && is_array($this->translatable) && in_array($key, $this->translatable)) {
+        if ($this->shouldColumnBeTranslated($key)) {
             return VoyagerFacade::translate($value, $this->current_locale, $this->fallback_locale);
         }
 
@@ -85,7 +86,7 @@ trait Translatable
     public function __set($key, $value)
     {
         $this->setLocales();
-        if ($this->translate && property_exists($this, 'translatable') && is_array($this->translatable) && in_array($key, $this->translatable)) {
+        if ($this->shouldColumnBeTranslated($key)) {
             if (is_array($value) || is_object($value)) {
                 $value = json_encode($value);
             } else {
@@ -99,5 +100,15 @@ trait Translatable
         } else {
             $this->{$key} = $value;
         }
+    }
+
+    public function shouldColumnBeTranslated($column)
+    {
+        return (
+            $this->translate &&
+            property_exists($this, 'translatable') &&
+            is_array($this->translatable) &&
+            in_array($column, $this->translatable)
+        );
     }
 }
