@@ -53,7 +53,7 @@ class BreadTest extends TestCase
         $res = $this->postJson(route('voyager.users.data'), [
             'page'        => 1,
             'perpage'     => 10,
-            'query'       => '',
+            'global'      => '',
             'filters'     => [],
             'order'       => 'name',
             'direction'   => 'asc',

@@ -57,7 +57,7 @@ trait Browsable
         return $query;
     }
 
-    public function orderQuery($layout, $direction, $order, $query)
+    public function orderQuery($layout, $direction, $order, $query, $locale)
     {
         if (!empty($direction) && !empty($order)) {
             if ($layout->getFormfieldByColumn($order)->translatable ?? false) {

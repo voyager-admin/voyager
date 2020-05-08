@@ -37,7 +37,7 @@ class BreadController extends Controller
         $query = $this->columnSearchQuery($filters, $layout, $query, $locale);
 
         // Ordering ($order and $direction)
-        $query = $this->orderQuery($layout, $direction, $order, $query);
+        $query = $this->orderQuery($layout, $direction, $order, $query, $locale);
 
         $query = $query->get();
         $filtered = $query->count();
@@ -102,7 +102,7 @@ class BreadController extends Controller
             return response()->json($validation_errors, 422);
         }
 
-        $model = $this->updateStoreData($layout->formfield, $data, $model, false);
+        $model = $this->updateStoreData($layout->formfields, $data, $model, false);
 
         if ($model->save()) {
             $layout->formfields->each(function ($formfield) use ($data, $model) {
@@ -179,7 +179,7 @@ class BreadController extends Controller
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);
         }
-        $model = $this->updateStoreData($layout->formfield, $data, $model);
+        $model = $this->updateStoreData($layout->formfields, $data, $model);
 
         if ($model->save()) {
             return response($model->getKey(), 200);
