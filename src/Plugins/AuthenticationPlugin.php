@@ -90,8 +90,8 @@ class AuthenticationPlugin implements AuthContract
     }
 
     public function registerProtectedRoutes()
-    {	
-        //	
+    {
+        //
     }
 
     public function registerPublicRoutes()
@@ -101,11 +101,11 @@ class AuthenticationPlugin implements AuthContract
 
     public function getSettingsView(): ?View
     {
-        return null;	
+        return null;
     }
 
     public function getInstructionsView(): ?View
     {
-        return null;	
+        return null;
     }
 }
