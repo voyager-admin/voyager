@@ -227,7 +227,9 @@ class Voyager
     public function ensureFileExists($path, $content = '')
     {
         $this->ensureDirectoryExists(dirname($path));
-        file_put_contents($path, $content);
+        if (!file_exists($path)) {
+            file_put_contents($path, $content);
+        }
     }
 
     public function provideMenuItem($title, $url, $icon, $starts_with = null, $parent = null)
