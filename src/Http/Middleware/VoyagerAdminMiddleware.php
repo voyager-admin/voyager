@@ -19,6 +19,8 @@ class VoyagerAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        return PluginsFacade::getPluginByType('authentication', AuthenticationPlugin::class)->handleRequest($request, $next);
+        $plugin = PluginsFacade::getPluginByType('authentication', AuthenticationPlugin::class);
+
+        return $plugin->handleRequest($request, $next);
     }
 }

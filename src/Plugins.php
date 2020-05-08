@@ -49,11 +49,7 @@ class Plugins
     {
         $this->enabled_plugins = [];
 
-        $folder = dirname($this->path);
-        VoyagerFacade::ensureDirectoryExists($folder);
-        if (!File::exists($this->path)) {
-            File::put($this->path, '[]');
-        }
+        VoyagerFacade::ensureFileExists($this->path, '[]');
 
         collect(VoyagerFacade::getJson(File::get($this->path), []))->where('enabled')->each(function ($plugin) {
             $this->enabled_plugins[] = $plugin->identifier;

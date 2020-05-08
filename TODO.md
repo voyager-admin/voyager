@@ -5,6 +5,10 @@ Instead, they are listed here:
 - Media manager should not upload all files simultaneously
 - Test all formfields, translatable and not translatable
 - Formfield options need to be translated
+- Implement a set-setting method (?)
+- Make Formfield a class (`Classes\Formfields`) which implements a Formfield Contract (`Contracts\Bread`)
+- Move more plugin-related code into the controller as it isn't needed anywhere else
+- Swap Facades with Contracts/Implementations where possible and use more DI
 
 ## Formfields
 - **Dynamic select** which calls a route name

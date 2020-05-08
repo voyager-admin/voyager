@@ -39,7 +39,12 @@ class BreadBuilderController extends Controller
         }
 
         if (BreadFacade::getBread($table)) {
-            VoyagerFacade::flashMessage(__('voyager::builder.bread_already_exists', ['table' => $table]), 'yellow', 5000, true);
+            VoyagerFacade::flashMessage(
+                __('voyager::builder.bread_already_exists', ['table' => $table]),
+                'yellow',
+                5000,
+                true
+            );
 
             return redirect()->route('voyager.bread.edit', $table);
         }
