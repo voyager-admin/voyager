@@ -87,12 +87,7 @@ class Settings
 
     public function loadSettings()
     {
-        $folder = dirname($this->path);
-        VoyagerFacade::ensureDirectoryExists($folder);
-        if (!File::exists($this->path)) {
-            File::put($this->path, '[]');
-        }
-
+        VoyagerFacade::ensureFileExists($this->path, '[]');
         $this->settings = collect(VoyagerFacade::getJson(File::get($this->path), []));
     }
 }

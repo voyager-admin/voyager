@@ -4,12 +4,14 @@ namespace Voyager\Admin;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Voyager\Admin\Events\RoutesLoaded;
 use Voyager\Admin\Facades\Plugins as PluginsFacade;
 
 class Voyager
 {
     protected $messages = [];
     protected $tables = [];
+    protected $menu_items;
 
     /**
      * Get Voyagers routes.
@@ -220,5 +222,26 @@ class Voyager
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0755, true);
         }
+    }
+
+    public function ensureFileExists($path, $content = '')
+    {
+        $this->ensureDirectoryExists(dirname($path));
+        file_put_contents($path, $content);
+    }
+
+    public function provideMenuItem($title, $url, $icon, $starts_with = null, $parent = null)
+    {
+        if (!$this->menu_items) {
+            $this->menu_items = collect();
+        }
+
+        $this->menu_items->push([
+            'title'         => $title,
+            'url'           => $url,
+            'icon'          => $icon,
+            'starts_with'   => $starts_with,
+            'parent'        => $parent,
+        ]);
     }
 }

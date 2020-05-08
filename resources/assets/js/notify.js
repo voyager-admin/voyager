@@ -32,7 +32,7 @@ Vue.prototype.$notify = new Vue({
                     value: false
                 }
             ];
-            this.notify(message, title, color, timeout, indeterminate, icon, buttons, null, onClose, autoClose, classes);
+            return this.notify(message, title, color, timeout, indeterminate, icon, buttons, null, onClose, autoClose, classes);
         },
 
         prompt: function (
@@ -63,7 +63,7 @@ Vue.prototype.$notify = new Vue({
                     value: false,
                 }
             ];
-            this.notify(message, title, color, timeout, indeterminate, icon, buttons, input, onClose, autoClose, classes);
+            return this.notify(message, title, color, timeout, indeterminate, icon, buttons, input, onClose, autoClose, classes);
         },
 
         notify: function (message, title = null, color = 'blue', timeout = null, indeterminate = false, icon = 'info-circle', buttons = [], input = null, onClose = null, autoClose = true, classes = '') {
@@ -85,9 +85,11 @@ Vue.prototype.$notify = new Vue({
                 classes: classes,
                 uuid: uuid,
             };
-            vm.notifications.push(notification);
+            var i = vm.notifications.push(notification);
 
             vm.$eventHub.$emit('add-notification', notification);
+
+            return i - 1;
         },
 
         remove: function (notification) {
@@ -95,6 +97,10 @@ Vue.prototype.$notify = new Vue({
             if (index >= 0) {
                 this.notifications.splice(index, 1);
             }
+        },
+
+        removeByIndex: function (index) {
+            this.notifications.splice(index, 1);
         }
     }
 });
