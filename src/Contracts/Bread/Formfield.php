@@ -2,38 +2,35 @@
 
 namespace Voyager\Admin\Contracts\Bread;
 
-abstract class Formfield implements \JsonSerializable
+interface Formfield
 {
-    public $translatable = false;
-    public $column;
-
     /**
      * Get the name of the formfield.
      *
      * @return string|array
      */
-    abstract public function name();
+    public function name();
 
     /**
      * Get the type of the formfield.
      *
      * @return string
      */
-    abstract public function type(): string;
+    public function type(): string;
 
     /**
      * Get the (custom) options for a list.
      *
      * @return array
      */
-    abstract public function listOptions(): array;
+    public function listOptions(): array;
 
     /**
      * Get the (custom) options for a view.
      *
      * @return array
      */
-    abstract public function viewOptions(): array;
+    public function viewOptions(): array;
 
     /**
      * Get the data for browsing.
@@ -42,10 +39,7 @@ abstract class Formfield implements \JsonSerializable
      *
      * @return mixed
      */
-    public function browse($input)
-    {
-        return $input;
-    }
+    public function browse($input);
 
     /**
      * Get the data for reading.
@@ -54,10 +48,7 @@ abstract class Formfield implements \JsonSerializable
      *
      * @return mixed
      */
-    public function read($input)
-    {
-        return $input;
-    }
+    public function read($input);
 
     /**
      * Get the data for editing.
@@ -66,10 +57,7 @@ abstract class Formfield implements \JsonSerializable
      *
      * @return mixed
      */
-    public function edit($input)
-    {
-        return $input;
-    }
+    public function edit($input);
 
     /**
      * Get the data for updating (after editing).
@@ -79,20 +67,14 @@ abstract class Formfield implements \JsonSerializable
      *
      * @return mixed
      */
-    public function update($model, $input, $old)
-    {
-        return $input;
-    }
+    public function update($model, $input, $old);
 
     /**
      * Get the data for adding (eg. default values).
      *
      * @return mixed
      */
-    public function add()
-    {
-        return '';
-    }
+    public function add();
 
     /**
      * Get the data for storing (after adding).
@@ -101,10 +83,7 @@ abstract class Formfield implements \JsonSerializable
      *
      * @return mixed
      */
-    public function store($input)
-    {
-        return $input;
-    }
+    public function store($input);
 
     /**
      * Called when data was stored (after adding). Useful for relationships
@@ -113,50 +92,35 @@ abstract class Formfield implements \JsonSerializable
      * @param array $data
      *
      */
-    public function stored($model, $data)
-    {
-        return;
-    }
+    public function stored($model, $data);
 
     /**
      * Gets if the formfield can be translated.
      *
      * @return bool
      */
-    public function canBeTranslated()
-    {
-        return true;
-    }
+    public function canBeTranslated();
 
     /**
      * If this formfield can be used as a setting.
      *
      * @return bool
      */
-    public function canBeUsedAsSetting()
-    {
-        return true;
-    }
+    public function canBeUsedAsSetting();
 
     /**
      * If this formfield can be used in a list.
      *
      * @return bool
      */
-    public function canBeUsedInList()
-    {
-        return true;
-    }
+    public function canBeUsedInList();
 
     /**
      * If this formfield can be used in a view.
      *
      * @return bool
      */
-    public function canBeUsedInView()
-    {
-        return true;
-    }
+    public function canBeUsedInView();
 
     /**
      * If array data should be passed to this formfield when browsing
@@ -164,30 +128,21 @@ abstract class Formfield implements \JsonSerializable
      *
      * @return bool
      */
-    public function browseDataAsArray()
-    {
-        return false;
-    }
+    public function browseDataAsArray();
 
     /**
      * If formfield accepts normal table columns.
      *
      * @return bool
      */
-    public function allowColumns()
-    {
-        return true;
-    }
+    public function allowColumns();
 
     /**
      * If formfield accepts computed properties.
      *
      * @return bool
      */
-    public function allowComputed()
-    {
-        return true;
-    }
+    public function allowComputed();
 
     /**
      * If formfield accepts relationships (method name)
@@ -195,57 +150,19 @@ abstract class Formfield implements \JsonSerializable
      *
      * @return bool
      */
-    public function allowRelationships()
-    {
-        return false;
-    }
+    public function allowRelationships();
 
     /**
      * If formfield accepts relationship-columns.
      *
      * @return bool
      */
-    public function allowRelationshipColumns()
-    {
-        return true;
-    }
+    public function allowRelationshipColumns();
 
     /**
      * If formfield accepts relationship-pivot columns.
      *
      * @return bool
      */
-    public function allowRelationshipPivots()
-    {
-        return true;
-    }
-
-    public function jsonSerialize()
-    {
-        // Formfield will be used in BREAD builder. We need list/view options and some other things
-        if (!$this->column) {
-            return [
-                'name'                     => $this->name(),
-                'type'                     => $this->type(),
-                'canBeTranslated'          => $this->canBeTranslated(),
-                'listOptions'              => (object) $this->listOptions(),
-                'viewOptions'              => (object) $this->viewOptions(),
-                'asSetting'                => $this->canBeUsedAsSetting(),
-                'inList'                   => $this->canBeUsedInList(),
-                'inView'                   => $this->canBeUsedInView(),
-                'browseArray'              => $this->browseDataAsArray(),
-                'allowColumns'             => $this->allowColumns(),
-                'allowComputed'            => $this->allowComputed(),
-                'allowRelationships'       => $this->allowRelationships(),
-                'allowRelationshipColumns' => $this->allowRelationshipColumns(),
-                'allowPivot'               => $this->allowRelationshipPivots(),
-
-            ];
-        }
-
-        // BREAD was already stored by the BREAD builder. We don't need the above things at this point
-        return array_merge([
-            'type'            => $this->type(),
-        ], (array) $this);
-    }
+    public function allowRelationshipPivots();
 }

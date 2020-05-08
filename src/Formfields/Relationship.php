@@ -3,7 +3,7 @@
 namespace Voyager\Admin\Formfields;
 
 use Illuminate\Support\Str;
-use Voyager\Admin\Contracts\Bread\Formfield;
+use Voyager\Admin\Classes\Formfield;
 
 class Relationship extends Formfield
 {

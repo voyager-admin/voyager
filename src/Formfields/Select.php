@@ -2,7 +2,7 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Contracts\Bread\Formfield;
+use Voyager\Admin\Classes\Formfield;
 
 class Select extends Formfield
 {
