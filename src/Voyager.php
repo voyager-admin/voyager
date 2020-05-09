@@ -190,7 +190,8 @@ class Voyager
     public function translate($value, $locale = null, $fallback = null)
     {
         if (is_string($value)) {
-            if ($json = $this->getJson($value) === false) {
+            $json = $this->getJson($value);
+            if (!$json) {
                 return $value;
             } else {
                 $value = $json;
