@@ -12,7 +12,12 @@ class Voyager
     protected $messages = [];
     protected $tables = [];
     protected $menu_items;
+    protected $pluginmanager;
 
+    public function __construct(PluginManager $pluginmanager)
+    {
+        $this->pluginmanager = $pluginmanager;
+    }
     /**
      * Get Voyagers routes.
      *
@@ -20,7 +25,7 @@ class Voyager
      */
     public function routes()
     {
-        //PluginsFacade::launchPlugins();
+        $this->pluginmanager->launchPlugins();
         require __DIR__.'/../routes/voyager.php';
     }
 
@@ -167,7 +172,7 @@ class Voyager
     {
         // TODO: Cache widgets?
 
-        /*return collect(PluginsFacade::getPluginsByType('widget')->where('enabled')->transform(function ($plugin) {
+        return collect($this->pluginmanager->getPluginsByType('widget')->where('enabled')->transform(function ($plugin) {
             $width = $plugin->getWidth();
             if ($width >= 1 && $width <= 11) {
                 $width = 'w-'.$width.'/12';
@@ -179,7 +184,7 @@ class Voyager
                 'width' => $width,
                 'view'  => $plugin->getWidgetView(),
             ];
-        }));*/
+        }));
         return [];
     }
 
