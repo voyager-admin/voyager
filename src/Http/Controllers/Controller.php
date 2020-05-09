@@ -5,12 +5,19 @@ namespace Voyager\Admin\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
-use Voyager\Admin\Facades\Plugins as PluginsFacade;
+use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Plugins\AuthenticationPlugin;
 
 abstract class Controller extends BaseController
 {
+    protected $pluginmanager;
+
+    public function __construct(PluginManager $pluginmanager)
+    {
+        $this->pluginmanager = $pluginmanager;
+    }
+
     public function authorize($ability, $arguments = [])
     {
         return $this->getAuthorizationPlugin()->each(function ($plugin) use ($ability, $arguments) {
@@ -20,12 +27,12 @@ abstract class Controller extends BaseController
 
     protected function getAuthorizationPlugin()
     {
-        return PluginsFacade::getPluginsByType('authorization');
+        return $this->pluginmanager->getPluginsByType('authorization');
     }
 
     protected function getAuthenticationPlugin()
     {
-        return PluginsFacade::getPluginByType('authentication', AuthenticationPlugin::class);
+        return $this->pluginmanager->getPluginByType('authentication', AuthenticationPlugin::class);
     }
 
     protected function validateData($formfields, $data): array

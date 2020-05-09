@@ -5,7 +5,7 @@ namespace Voyager\Admin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Voyager\Admin\Events\RoutesLoaded;
-use Voyager\Admin\Facades\Plugins as PluginsFacade;
+use Voyager\Admin\Manager\Plugins as PluginManager;
 
 class Voyager
 {
@@ -20,7 +20,7 @@ class Voyager
      */
     public function routes()
     {
-        PluginsFacade::launchPlugins();
+        //PluginsFacade::launchPlugins();
         require __DIR__.'/../routes/voyager.php';
     }
 
@@ -167,7 +167,7 @@ class Voyager
     {
         // TODO: Cache widgets?
 
-        return collect(PluginsFacade::getPluginsByType('widget')->where('enabled')->transform(function ($plugin) {
+        /*return collect(PluginsFacade::getPluginsByType('widget')->where('enabled')->transform(function ($plugin) {
             $width = $plugin->getWidth();
             if ($width >= 1 && $width <= 11) {
                 $width = 'w-'.$width.'/12';
@@ -179,7 +179,8 @@ class Voyager
                 'width' => $width,
                 'view'  => $plugin->getWidgetView(),
             ];
-        }));
+        }));*/
+        return [];
     }
 
     /**

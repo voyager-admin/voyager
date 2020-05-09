@@ -9,7 +9,7 @@
 
     <title>{{ __('voyager::auth.login') }} - {{ VoyagerSettings::setting('admin.title', 'Voyager') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
-    @forelse (VoyagerPlugins::getPluginsByType('theme')->where('enabled') as $theme)
+    @forelse (resolve(\Voyager\Admin\Manager\Plugins::class)->getPluginsByType('theme')->where('enabled') as $theme)
         <link href="{{ $theme->getStyleRoute() }}" rel="stylesheet">
     @empty
         <link href="{{ Voyager::assetUrl('css/colors.css') }}" rel="stylesheet">

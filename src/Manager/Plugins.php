@@ -1,6 +1,6 @@
 <?php
 
-namespace Voyager\Admin;
+namespace Voyager\Admin\Manager;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -93,7 +93,7 @@ class Plugins
 
     public function getAvailablePlugins()
     {
-        return VoyagerFacade::getJson(File::get(realpath(__DIR__.'/../plugins.json')), []);
+        return VoyagerFacade::getJson(File::get(realpath(__DIR__.'/../../plugins.json')), []);
     }
 
     public function enablePlugin($identifier, $enable = true)

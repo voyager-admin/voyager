@@ -10,7 +10,7 @@
     <title>@yield('page-title') - {{ VoyagerSettings::setting('admin.title', 'Voyager') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
     <link href="{{ Voyager::assetUrl('css/colors.css') }}" rel="stylesheet">
-    @foreach (VoyagerPlugins::getPluginsByType('theme')->where('enabled') as $theme)
+    @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getPluginsByType('theme')->where('enabled') as $theme)
         <link href="{{ $theme->getStyleRoute() }}" rel="stylesheet">
     @endforeach
 </head>
