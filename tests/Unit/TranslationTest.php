@@ -11,8 +11,6 @@ class TranslationTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        Auth::loginUsingId(1);
     }
 
     public function test_can_translate_json_string()

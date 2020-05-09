@@ -191,7 +191,7 @@ class Voyager
     {
         if (is_string($value)) {
             $json = $this->getJson($value);
-            if (!$json) {
+            if (($json = $this->getJson($value)) === false) {
                 return $value;
             } else {
                 $value = $json;
