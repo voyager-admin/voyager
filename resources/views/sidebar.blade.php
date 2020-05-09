@@ -34,9 +34,9 @@
                     :href="route('voyager.bread.index')"
                     icon="bread" 
                     {{ Str::startsWith($current_url, Str::finish(route('voyager.bread.index'), '/')) ? 'active' : '' }}>
-                    @if (count(Bread::getBreads()) > 0)
+                    @if (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) > 0)
                         <div>
-                        @foreach (Bread::getBreads() as $bread)
+                        @foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread)
                             @php
                                 $active = Str::startsWith($current_url, route('voyager.bread.edit', $bread->table));
                             @endphp
@@ -79,9 +79,9 @@
                     {{ Str::startsWith($current_url, Str::finish(route('voyager.plugins.index'), '/')) ? 'active' : '' }}>
                 </menu-item>
 
-                @if (count(Bread::getBreads()) > 0)
+                @if (count(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) > 0)
                     <hr class="my-3 sidebar-border" />
-                    @foreach (Bread::getBreads() as $bread)
+                    @foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread)
                     @php
                         $active = Str::startsWith($current_url, Str::finish(route('voyager.'.$bread->slug.'.browse'), '/'));
                     @endphp
@@ -137,9 +137,9 @@
                     :href="route('voyager.bread.index')"
                     icon="bread" 
                     {{ Str::startsWith($current_url, Str::finish(route('voyager.bread.index'), '/')) ? 'active' : '' }}>
-                    @if (count(Bread::getBreads()) > 0)
+                    @if (count(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) > 0)
                         <div>
-                        @foreach (Bread::getBreads() as $bread)
+                        @foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread)
                             @php
                                 $active = Str::startsWith($current_url, Str::finish(route('voyager.bread.edit', $bread->table), '/'));
                             @endphp
@@ -182,9 +182,9 @@
                     {{ Str::startsWith($current_url, Str::finish(route('voyager.plugins.index'), '/')) ? 'active' : '' }}>
                 </menu-item>
 
-                @if (count(Bread::getBreads()) > 0)
+                @if (count(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) > 0)
                     <hr class="my-3 sidebar-border" />
-                    @foreach (Bread::getBreads() as $bread)
+                    @foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread)
                     @php
                         $active = Str::startsWith($current_url, Str::finish(route('voyager.'.$bread->slug.'.browse'), '/'));
                     @endphp

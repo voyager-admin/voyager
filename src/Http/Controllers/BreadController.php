@@ -5,7 +5,8 @@ namespace Voyager\Admin\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Voyager\Admin\Facades\Bread as BreadFacade;
+use Voyager\Admin\Manager\Breads as BreadManager;
+use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Traits\Bread\Browsable;
 use Voyager\Admin\Traits\Bread\Saveable;
 
@@ -14,6 +15,13 @@ class BreadController extends Controller
     use Browsable, Saveable;
 
     public $uses_soft_deletes = false;
+    protected $breadmanager;
+
+    public function __construct(BreadManager $breadmanager, PluginManager $pluginsmanager)
+    {
+        $this->breadmanager = $breadmanager;
+        parent::__construct($pluginsmanager);
+    }
 
     public function data(Request $request)
     {
@@ -74,8 +82,8 @@ class BreadController extends Controller
         $data = collect();
 
         $instance = new $bread->model();
-        $reflection = BreadFacade::getModelReflectionClass($bread->model);
-        $relationships = BreadFacade::getModelRelationships($reflection, $instance, true)->values();
+        $reflection = $this->breadmanager->getModelReflectionClass($bread->model);
+        $relationships = $this->breadmanager->getModelRelationships($reflection, $instance, true)->values();
 
         $layout->formfields->each(function ($formfield) use (&$data) {
             $data->put($formfield->column->column, $formfield->add());
@@ -141,8 +149,8 @@ class BreadController extends Controller
             $data->dontTranslate();
         }
 
-        $reflection = BreadFacade::getModelReflectionClass($bread->model);
-        $relationships = BreadFacade::getModelRelationships($reflection, $data, true)->values();
+        $reflection = $this->breadmanager->getModelReflectionClass($bread->model);
+        $relationships = $this->breadmanager->getModelRelationships($reflection, $data, true)->values();
 
         $layout->formfields->each(function ($formfield) use (&$data) {
             $value = $data->{$formfield->column->column};

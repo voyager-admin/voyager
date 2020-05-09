@@ -5,10 +5,17 @@ namespace Voyager\Admin\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Voyager\Admin\Facades\Bread as BreadFacade;
+use Voyager\Admin\Manager\Breads as BreadManager;
 
 class VoyagerController extends Controller
 {
+    protected $breadmanager;
+
+    public function __construct(BreadManager $breadmanager)
+    {
+        $this->breadmanager = $breadmanager;
+    }
+
     private $mime_extensions = [
         'js'    => 'text/javascript',
         'css'   => 'text/css',
@@ -45,10 +52,10 @@ class VoyagerController extends Controller
     public function globalSearch(Request $request)
     {
         $q = $request->get('query');
-        $breads = BreadFacade::getBreads();
+        $breads = $this->breadmanager->getBreads();
         $results = collect([]);
 
-        BreadFacade::getBreads()->each(function ($bread) use ($q, &$results) {
+        $this->breadmanager->getBreads()->each(function ($bread) use ($q, &$results) {
             if ($bread->global_search_field !== '') {
                 $bread_results = $bread->getModel()->where($bread->global_search_field, 'LIKE', '%'.$q.'%')->get();
                 if (count($bread_results) > 0) {

@@ -4,7 +4,6 @@ namespace Voyager\Admin\Tests\Unit;
 
 use Voyager\Admin\Facades\Voyager;
 use Voyager\Admin\VoyagerServiceProvider;
-use Voyager\Admin\Facades\Bread as BreadFacade;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -28,7 +27,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
         // Create user BREAD
         $bread = json_decode(file_get_contents(__DIR__.'/../Stubs/users.json'));
-        BreadFacade::storeBread($bread);
+        resolve(\Voyager\Admin\Manager\Breads::class)->storeBread($bread);
 
         // Create a dummy user
         $user = new \Voyager\Admin\Tests\Stubs\User();

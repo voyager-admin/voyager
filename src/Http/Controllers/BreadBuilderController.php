@@ -6,13 +6,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Voyager\Admin\Facades\Bread as BreadFacade;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Rules\ClassExists as ClassExistsRule;
 use Voyager\Admin\Rules\DefaultLocale as DefaultLocaleRule;
 
 class BreadBuilderController extends Controller
 {
+    protected $breadmanager;
+
+    public function __construct(BreadManager $breadmanager)
+    {
+        $this->breadmanager = $breadmanager;
+    }
+
     /**
      * Display all BREADs.
      *
@@ -38,7 +45,7 @@ class BreadBuilderController extends Controller
             throw new \Voyager\Admin\Exceptions\TableNotFoundException('Table "'.$table.'" does not exist');
         }
 
-        if (BreadFacade::getBread($table)) {
+        if ($this->breadmanager->getBread($table)) {
             VoyagerFacade::flashMessage(
                 __('voyager::builder.bread_already_exists', ['table' => $table]),
                 'yellow',
@@ -49,7 +56,7 @@ class BreadBuilderController extends Controller
             return redirect()->route('voyager.bread.edit', $table);
         }
 
-        $bread = BreadFacade::createBread($table);
+        $bread = $this->breadmanager->createBread($table);
         $new = true;
 
         return view('voyager::builder.edit-add', compact('bread', 'new'));
@@ -64,7 +71,7 @@ class BreadBuilderController extends Controller
      */
     public function edit($table)
     {
-        $bread = BreadFacade::getBread($table);
+        $bread = $this->breadmanager->getBread($table);
         if (!$bread) {
             VoyagerFacade::flashMessage(__('voyager::builder.bread_does_no_exist', [
                 'table' => $table
@@ -109,7 +116,7 @@ class BreadBuilderController extends Controller
         ]);
 
         if ($validator->passes()) {
-            if (!BreadFacade::storeBread($bread)) {
+            if (!$this->breadmanager->storeBread($bread)) {
                 $validator->errors()->add('bread', __('voyager::builder.bread_save_failed'));
 
                 return response()->json($validator->errors(), 422);
@@ -130,7 +137,7 @@ class BreadBuilderController extends Controller
      */
     public function destroy($table)
     {
-        return response('', BreadFacade::deleteBread($table) ? 200 : 500);
+        return response('', $this->breadmanager->deleteBread($table) ? 200 : 500);
     }
 
     /**
@@ -151,14 +158,14 @@ class BreadBuilderController extends Controller
             return response('Model "'.$model.'" does not exist!', 400);
         }
         $instance = new $model();
-        $reflection = BreadFacade::getModelReflectionClass($model);
+        $reflection = $this->breadmanager->getModelReflectionClass($model);
         $resolve_relationships = $request->get('resolve_relationships', false);
 
         return response()->json([
             'columns'       => VoyagerFacade::getColumns($instance->getTable()),
-            'computed'      => BreadFacade::getModelComputedProperties($reflection)->values(),
-            'scopes'        => BreadFacade::getModelScopes($reflection)->values(),
-            'relationships' => BreadFacade::getModelRelationships($reflection, $instance, $resolve_relationships)->values(),
+            'computed'      => $this->breadmanager->getModelComputedProperties($reflection)->values(),
+            'scopes'        => $this->breadmanager->getModelScopes($reflection)->values(),
+            'relationships' => $this->breadmanager->getModelRelationships($reflection, $instance, $resolve_relationships)->values(),
             'softdeletes'   => in_array(SoftDeletes::class, class_uses($instance)),
         ], 200);
     }
@@ -171,8 +178,8 @@ class BreadBuilderController extends Controller
     public function getBreads()
     {
         return response()->json([
-            'breads'  => BreadFacade::getBreads(),
-            'backups' => BreadFacade::getBackups(),
+            'breads'  => $this->breadmanager->getBreads(),
+            'backups' => $this->breadmanager->getBackups(),
         ], 200);
     }
 
@@ -185,7 +192,7 @@ class BreadBuilderController extends Controller
      */
     public function backupBread(Request $request)
     {
-        $result = BreadFacade::backupBread($request->get('table', ''));
+        $result = $this->breadmanager->backupBread($request->get('table', ''));
 
         return response($result, $result === false ? 500 : 200);
     }
@@ -199,7 +206,7 @@ class BreadBuilderController extends Controller
      */
     public function rollbackBread(Request $request)
     {
-        $result = BreadFacade::rollbackBread($request->get('table', ''), $request->get('path', ''));
+        $result = $this->breadmanager->rollbackBread($request->get('table', ''), $request->get('path', ''));
 
         return response($result, $result === false ? 500 : 200);
     }

@@ -2,7 +2,7 @@
 
 namespace Voyager\Admin\Classes;
 
-use Voyager\Admin\Facades\Bread as BreadFacade;
+use Voyager\Admin\Manager\Breads as BreadManager;
 
 class Layout implements \JsonSerializable
 {
@@ -10,14 +10,16 @@ class Layout implements \JsonSerializable
     public $type = 'list';
     public $options = [];
     public $formfields = [];
+    protected $breadmanager;
 
     public function __construct($json)
     {
+        $this->breadmanager = resolve(BreadManager::class);
         $this->formfields = collect();
         collect($json)->each(function ($value, $key) {
             if ($key == 'formfields') {
                 foreach ($value as $f) {
-                    $formfield = BreadFacade::getFormfield($f->type);
+                    $formfield = $this->breadmanager->getFormfield($f->type);
                     if (!$formfield) {
                         throw new \Exception('Formfield with type "'.$f->type.'" does not exist!');
                     }

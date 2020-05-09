@@ -70,8 +70,8 @@ var voyager = new Vue({
 
         this.$language.localization = {!! Voyager::getLocalization() !!};
         this.$store.routes = {!! Voyager::getRoutes() !!};
-        this.$store.breads = {!! json_encode(Bread::getBreads()) !!};
-        this.$store.formfields = {!! json_encode(Bread::getFormfields()) !!};
+        this.$store.breads = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) !!};
+        this.$store.formfields = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!};
         this.$store.debug = {{ var_export(config('app.debug') ?? false, true) }};
 
         var dark_mode = this.getCookie('dark-mode');

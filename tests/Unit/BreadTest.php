@@ -4,7 +4,7 @@ namespace Voyager\Admin\Tests\Unit;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Voyager\Admin\Facades\Bread;
+use Voyager\Admin\Manager\Breads as BreadManager;
 
 class BreadTest extends TestCase
 {
@@ -17,7 +17,7 @@ class BreadTest extends TestCase
 
     public function test_can_query_global_search()
     {
-        Bread::storeBread($this->getUsersBreadJson());
+        resolve(BreadManager::class)->storeBread($this->getUsersBreadJson());
         $res = $this->postJson(route('voyager.globalsearch'), [
             'query' => '',
         ])->assertStatus(200);
@@ -31,7 +31,7 @@ class BreadTest extends TestCase
             'name'      => 'Voyager',
             'email'     => 'mail@something.com'
         ];
-        Bread::storeBread($this->getUsersBreadJson());
+        resolve(BreadManager::class)->storeBread($this->getUsersBreadJson());
         $res = $this->postJson(route('voyager.users.store'), [
             'data' => $user
         ])

@@ -22,9 +22,8 @@ Route::group(['as' => 'voyager.'], function () {
             Route::post('rolback-bread', ['uses' => $namespace.'BreadBuilderController@rollbackBread', 'as' => 'rollback-bread']);
             Route::delete('{table}', ['uses' => $namespace.'BreadBuilderController@destroy', 'as' => 'delete']);
         });
-
         // BREADs
-        foreach (Bread::getBreads() as $bread) {
+        foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread) {
             $controller = $namespace.'BreadController';
             if (!empty($bread->controller)) {
                 $controller = \Illuminate\Support\Str::start($bread->controller, '\\');

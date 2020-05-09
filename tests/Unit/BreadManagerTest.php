@@ -4,7 +4,7 @@ namespace Voyager\Admin\Tests\Unit;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Voyager\Admin\Facades\Bread;
+use Voyager\Admin\Manager\Breads as BreadManager;
 
 class BreadManagerTest extends TestCase
 {
@@ -48,7 +48,7 @@ class BreadManagerTest extends TestCase
     {
         $this->delete(route('voyager.bread.delete', 'users'))
              ->assertStatus(200);
-        $this->assertFalse(file_exists(Bread::breadPath() . 'users.json'));
+        $this->assertFalse(file_exists(resolve(BreadManager::class)->breadPath() . 'users.json'));
     }
 
     public function test_can_not_delete_not_existing_bread()

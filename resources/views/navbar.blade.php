@@ -4,7 +4,7 @@
             <icon :icon="$store.sidebarOpen ? 'ellipsis-v' : 'ellipsis-h'" />
         </button>
         <div class="w-full mt-4">
-            <search placeholder="{{ Bread::getBreadSearchPlaceholder() }}" :mobile-placeholder="__('voyager::generic.search')" />
+            <search placeholder="{{ resolve(\Voyager\Admin\Manager\Breads::class)->getBreadSearchPlaceholder() }}" :mobile-placeholder="__('voyager::generic.search')" />
         </div>
         <user-dropdown photo="{{ Voyager::assetUrl('images/default-avatar.png') }}" name="{{ $authentication->name() }}" />
     </div>
