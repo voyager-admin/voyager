@@ -13,7 +13,6 @@ class Voyager
 {
     protected $messages = [];
     protected $tables = [];
-    protected $menu_items;
     protected $breadmanager;
     protected $pluginmanager;
     protected $settingmanager;
