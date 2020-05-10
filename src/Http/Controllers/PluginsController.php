@@ -6,23 +6,30 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
-use Voyager\Admin\Facades\Plugins as PluginsFacade;
+use Voyager\Admin\Manager\Plugins as PluginManager;
 
 class PluginsController extends Controller
 {
+    protected $pluginmanager;
+
+    public function __construct(PluginManager $pluginmanager)
+    {
+        $this->pluginmanager = $pluginmanager;
+    }
+
     public function enable(Request $request)
     {
         $identifier = $request->get('identifier');
         if ($request->get('enable', false)) {
-            return PluginsFacade::enablePlugin($identifier);
+            return $this->pluginmanager->enablePlugin($identifier);
         }
 
-        return PluginsFacade::disablePlugin($identifier);
+        return $this->pluginmanager->disablePlugin($identifier);
     }
 
     public function get()
     {
-        return PluginsFacade::getAllPlugins()->sortBy('identifier')->transform(function ($plugin) {
+        return $this->pluginmanager->getAllPlugins()->sortBy('identifier')->transform(function ($plugin) {
             // This is only used to preview a theme
             if ($plugin->type == 'theme') {
                 $plugin->src = $plugin->getStyleRoute();
@@ -34,7 +41,7 @@ class PluginsController extends Controller
 
     public function settings($key)
     {
-        $plugin = PluginsFacade::getAllPlugins()->get($key);
+        $plugin = $this->pluginmanager->getAllPlugins()->get($key);
         if (!$plugin) {
             throw new \Voyager\Admin\Exceptions\PluginNotFoundException('This Plugin does not exist');
         } elseif ($plugin->has_settings && $plugin->enabled) {

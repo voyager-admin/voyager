@@ -3,14 +3,21 @@
 namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Voyager\Admin\Facades\Settings as SettingsFacade;
+use Voyager\Admin\Manager\Settings as SettingsManager;
 
 class SettingsController extends Controller
 {
+    protected $settingmanager;
+
+    public function __construct(SettingsManager $settingmanager)
+    {
+        $this->settingmanager = $settingmanager;
+    }
+
     public function index()
     {
         return view('voyager::settings.browse', [
-            'settings' => SettingsFacade::getSettings(),
+            'settings' => $this->settingmanager->getSettings(),
         ]);
     }
 
@@ -39,7 +46,7 @@ class SettingsController extends Controller
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);
         }
-        SettingsFacade::saveSettings($request->get('settings', '[]'));
+        $this->settingmanager->saveSettings($request->get('settings', '[]'));
 
         return response(200);
     }

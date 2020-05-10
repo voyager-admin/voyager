@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Voyager\Admin\Events\RoutesLoaded;
 use Voyager\Admin\Manager\Plugins as PluginManager;
+use Voyager\Admin\Manager\Settings as SettingManager;
 
 class Voyager
 {
@@ -13,10 +14,12 @@ class Voyager
     protected $tables = [];
     protected $menu_items;
     protected $pluginmanager;
+    protected $settingmanager;
 
-    public function __construct(PluginManager $pluginmanager)
+    public function __construct(PluginManager $pluginmanager, SettingManager $settingmanager)
     {
         $this->pluginmanager = $pluginmanager;
+        $this->settingmanager = $settingmanager;
     }
     /**
      * Get Voyagers routes.
@@ -211,6 +214,11 @@ class Voyager
         }
 
         return $value;
+    }
+
+    public function setting($key = null, $default = null, $translate = true)
+    {
+        return $this->settingmanager->setting($key, $default, $translate);
     }
 
     public function getJson($input, $default = false)

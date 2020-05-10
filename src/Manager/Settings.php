@@ -1,6 +1,6 @@
 <?php
 
-namespace Voyager\Admin;
+namespace Voyager\Admin\Manager;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;

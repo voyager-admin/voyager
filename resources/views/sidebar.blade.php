@@ -15,7 +15,7 @@
                 <div class="flex-shrink-0 flex items-center px-4">
                     <icon icon="helm" :size="10" class="icon"></icon>
                     <span class="font-black text-lg uppercase pl-2 title">
-                        {{ VoyagerSettings::setting('admin.sidebar-title', 'Voyager') }}
+                        {{ Voyager::setting('admin.sidebar-title', 'Voyager') }}
                     </span>
                 </div>
                 @php
@@ -118,7 +118,7 @@
             <div class="flex items-center flex-shrink-0 px-4">
                 <icon icon="helm" :size="10" class="icon"></icon>
                 <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title">
-                    {{ VoyagerSettings::setting('admin.sidebar-title', 'Voyager') }}
+                    {{ Voyager::setting('admin.sidebar-title', 'Voyager') }}
                 </span>
             </div>
             @php

@@ -8,11 +8,11 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Voyager\Admin\Commands\InstallCommand;
-use Voyager\Admin\Facades\Settings as SettingsFacade;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Http\Middleware\VoyagerAdminMiddleware;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
+use Voyager\Admin\Manager\Settings as SettingManager;
 use Voyager\Admin\Plugins\AuthenticationPlugin;
 use Voyager\Admin\Policies\BasePolicy;
 
@@ -56,35 +56,35 @@ class VoyagerServiceProvider extends ServiceProvider
     {
         $loader = AliasLoader::getInstance();
 
-        $loader->alias('VoyagerSettings', SettingsFacade::class);
         $loader->alias('Voyager', VoyagerFacade::class);
 
         $this->pluginmanager = new PluginManager();
         $this->pluginmanager->pluginsPath(Str::finish(storage_path('voyager'), '/').'plugins.json');
-        $this->app->instance(PluginManager::class, $this->pluginmanager);
+        $this->app->singleton(PluginManager::class, function () {
+            return $this->pluginmanager;
+        });
 
         $this->breadmanager = new BreadManager();
         $this->breadmanager->breadPath(storage_path('voyager/breads'));
-        $this->app->instance(BreadManager::class, $this->breadmanager);
-
-        $this->app->singleton('settings', function () {
-            return new Settings();
+        $this->app->singleton(BreadManager::class, function () {
+            return $this->breadmanager;
         });
+
+        $this->settingmanager = new SettingManager();
+        $this->settingmanager->settingsPath(Str::finish(storage_path('voyager'), '/').'settings.json');
+        $this->app->singleton(SettingManager::class, function () {
+            return $this->settingmanager;
+        });
+
         $this->app->singleton('voyager', function () {
-            return new Voyager($this->pluginmanager);
+            return new Voyager($this->pluginmanager, $this->settingmanager);
         });
 
-        $this->loadSettingsFrom(Str::finish(storage_path('voyager'), '/').'settings.json');
+        $this->settingmanager->loadSettings();
 
         $this->commands(InstallCommand::class);
 
         $this->registerFormfields();
-    }
-
-    public function loadSettingsFrom($path)
-    {
-        SettingsFacade::settingsPath($path);
-        SettingsFacade::loadSettings();
     }
 
     public function registerFormfields()
