@@ -19,7 +19,7 @@ class Breads
 {
     protected $formfields;
     protected $path;
-    protected $breads = null;
+    protected $breads;
     protected $backups = [];
 
     public function __construct()
@@ -40,7 +40,7 @@ class Breads
             $old_path = $this->path;
             $this->path = Str::finish($path, '/');
             if ($old_path !== $path) {
-                //$this->clearCache(); // TODO: Uncomment this when bread-caching is implemented
+                $this->breads = null;
             }
         }
 

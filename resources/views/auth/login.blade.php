@@ -36,15 +36,15 @@
             <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
                 <login error="{{ Session::get('error', null) }}" success="{{ Session::get('success', null) }}" :old="{{ json_encode(old()) }}">
-                    @if ($authentication->loginView())
+                    @if (Voyager::auth()->loginView())
                     <div slot="login">
-                        {!! $authentication->loginView() !!}
+                        {!! Voyager::auth()->loginView() !!}
                     </div>
                     @endif
 
-                    @if ($authentication->forgotPasswordView())
+                    @if (Voyager::auth()->forgotPasswordView())
                     <div slot="forgot_password">
-                        {!! $authentication->forgotPasswordView() !!}
+                        {!! Voyager::auth()->forgotPasswordView() !!}
                     </div>
                     @endif
                 </login>

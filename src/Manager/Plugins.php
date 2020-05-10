@@ -97,6 +97,16 @@ class Plugins
         return VoyagerFacade::getJson(File::get(realpath(__DIR__.'/../../plugins.json')), []);
     }
 
+    protected function getPluginType($class)
+    {
+        return collect(class_implements($class))->filter(function ($interface) {
+            return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\');
+        })->transform(function ($interface) {
+            return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
+        })->first();
+    }
+
+    // TODO: Move the following 2 methods to PluginsController
     public function enablePlugin($identifier, $enable = true)
     {
         $this->getAllPlugins();
@@ -117,14 +127,5 @@ class Plugins
     public function disablePlugin($identifier)
     {
         return $this->enablePlugin($identifier, false);
-    }
-
-    protected function getPluginType($class)
-    {
-        return collect(class_implements($class))->filter(function ($interface) {
-            return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\');
-        })->transform(function ($interface) {
-            return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
-        })->first();
     }
 }

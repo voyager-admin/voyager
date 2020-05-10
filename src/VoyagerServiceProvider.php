@@ -5,7 +5,6 @@ namespace Voyager\Admin;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Voyager\Admin\Commands\InstallCommand;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -13,7 +12,6 @@ use Voyager\Admin\Http\Middleware\VoyagerAdminMiddleware;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
-use Voyager\Admin\Plugins\AuthenticationPlugin;
 use Voyager\Admin\Policies\BasePolicy;
 
 class VoyagerServiceProvider extends ServiceProvider
@@ -29,7 +27,7 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager');
+        $this->loadViewsFrom(realpath(__DIR__.'/../resources/views'), 'voyager');
         $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager');
 
         // Register Policies
@@ -45,8 +43,6 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         $router->aliasMiddleware('voyager.admin', VoyagerAdminMiddleware::class);
-
-        View::share('authentication', $this->pluginmanager->getPluginByType('authentication', AuthenticationPlugin::class));
     }
 
     /**

@@ -6,6 +6,6 @@
         <div class="w-full mt-4">
             <search placeholder="{{ resolve(\Voyager\Admin\Manager\Breads::class)->getBreadSearchPlaceholder() }}" :mobile-placeholder="__('voyager::generic.search')" />
         </div>
-        <user-dropdown photo="{{ Voyager::assetUrl('images/default-avatar.png') }}" name="{{ $authentication->name() }}" />
+        <user-dropdown photo="{{ Voyager::assetUrl('images/default-avatar.png') }}" name="{{ Voyager::auth()->name() }}" />
     </div>
 </nav>

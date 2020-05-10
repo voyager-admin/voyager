@@ -8,6 +8,7 @@ use Voyager\Admin\Events\RoutesLoaded;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
+use Voyager\Admin\Plugins\AuthenticationPlugin;
 
 class Voyager
 {
@@ -247,6 +248,11 @@ class Voyager
     public function setSettingsPath($path)
     {
         $this->settingmanager->setPath($path);
+    }
+
+    public function auth()
+    {
+        return $this->pluginmanager->getPluginByType('authentication', AuthenticationPlugin::class);
     }
 
     public function ensureDirectoryExists($path)
