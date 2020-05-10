@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Voyager\Admin\Events\Builder\BackedUp as BackedUpEvent;
+use Voyager\Admin\Events\Builder\Created as CreatedEvent;
+use Voyager\Admin\Events\Builder\Deleted as DeletedEvent;
+use Voyager\Admin\Events\Builder\Restored as RestoredEvent;
+use Voyager\Admin\Events\Builder\Updated as UpdatedEvent;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Rules\ClassExists as ClassExistsRule;
@@ -100,7 +105,6 @@ class BreadBuilderController extends Controller
         if (!is_array($bread)) {
             return response()->json([__('voyager::bread.json_data_not_valid')], 422);
         }
-        
 
         $bread = (object) $bread;
 
@@ -116,10 +120,16 @@ class BreadBuilderController extends Controller
         ]);
 
         if ($validator->passes()) {
+            $bread = $this->breadmanager->getBreadByTable($table);
             if (!$this->breadmanager->storeBread($bread)) {
                 $validator->errors()->add('bread', __('voyager::builder.bread_save_failed'));
 
                 return response()->json($validator->errors(), 422);
+            }
+            if ($bread) {
+                event(new UpdatedEvent($this->breadmanager->getBreadByTable($table)));
+            } else {
+                event(new CreatedEvent($this->breadmanager->getBreadByTable($table)));
             }
         } else {
             return response()->json($validator->errors(), 422);
@@ -137,6 +147,7 @@ class BreadBuilderController extends Controller
      */
     public function destroy($table)
     {
+        event(new DeletedEvent($this->breadmanager->getBreadByTable($table)));
         return response('', $this->breadmanager->deleteBread($table) ? 200 : 500);
     }
 
@@ -192,7 +203,9 @@ class BreadBuilderController extends Controller
      */
     public function backupBread(Request $request)
     {
-        $result = $this->breadmanager->backupBread($request->get('table', ''));
+        $table = $request->get('table', '');
+        $result = $this->breadmanager->backupBread($table);
+        event(new BackedUpEvent($this->breadmanager->getBreadByTable($table)));
 
         return response($result, $result === false ? 500 : 200);
     }
@@ -206,7 +219,9 @@ class BreadBuilderController extends Controller
      */
     public function rollbackBread(Request $request)
     {
-        $result = $this->breadmanager->rollbackBread($request->get('table', ''), $request->get('path', ''));
+        $table = $request->get('table', '');
+        $result = $this->breadmanager->rollbackBread($table, $request->get('path', ''));
+        event(new RestoredEvent($this->breadmanager->getBreadByTable($table)));
 
         return response($result, $result === false ? 500 : 200);
     }
