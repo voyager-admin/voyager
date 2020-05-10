@@ -18,9 +18,14 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 class Breads
 {
     protected $formfields;
-    protected $breadPath;
+    protected $path;
     protected $breads = null;
     protected $backups = [];
+
+    public function __construct()
+    {
+        $this->path = storage_path('voyager/breads');
+    }
 
     /**
      * Sets the path where the BREAD-files are stored.
@@ -29,13 +34,14 @@ class Breads
      *
      * @return string the current path
      */
-    public function breadPath($path = null)
+    public function setPath($path = null)
     {
+        // TODO: If the path was changed, clear cache
         if ($path) {
-            $this->breadPath = Str::finish($path, '/');
+            $this->path = Str::finish($path, '/');
         }
 
-        return $this->breadPath;
+        return $this->path;
     }
 
     /**
@@ -46,8 +52,8 @@ class Breads
     public function getBreads()
     {
         if (!$this->breads) {
-            VoyagerFacade::ensureDirectoryExists($this->breadPath);
-            $this->breads = collect(File::files($this->breadPath))->transform(function ($bread) {
+            VoyagerFacade::ensureDirectoryExists($this->path);
+            $this->breads = collect(File::files($this->path))->transform(function ($bread) {
                 $content = File::get($bread->getPathName());
                 $json = VoyagerFacade::getJson($content);
                 if ($json === false) {
@@ -98,9 +104,9 @@ class Breads
      */
     public function rollbackBread($table, $path)
     {
-        $breadPath = Str::finish($this->breadPath, '/');
+        $path = Str::finish($this->path, '/');
         if ($this->backupBread($table) !== false) {
-            return File::delete($breadPath.$table.'.json') && File::copy($breadPath.$path, $breadPath.$table.'.json');
+            return File::delete($path.$table.'.json') && File::copy($path.$path, $path.$table.'.json');
         }
 
         return false;
@@ -155,7 +161,7 @@ class Breads
     {
         $this->clearBreads();
 
-        return File::put(Str::finish($this->breadPath, '/').$bread->table.'.json', json_encode($bread, JSON_PRETTY_PRINT));
+        return File::put(Str::finish($this->path, '/').$bread->table.'.json', json_encode($bread, JSON_PRETTY_PRINT));
     }
 
     /**
@@ -193,7 +199,7 @@ class Breads
      */
     public function deleteBread($table)
     {
-        $ret = File::delete(Str::finish($this->breadPath, '/').$table.'.json');
+        $ret = File::delete(Str::finish($this->path, '/').$table.'.json');
         $this->clearBreads();
 
         return $ret;
@@ -206,9 +212,9 @@ class Breads
      */
     public function backupBread($table)
     {
-        $old = $this->breadPath.$table.'.json';
+        $old = $this->path.$table.'.json';
         $name = $table.'.backup.'.Carbon::now()->isoFormat('Y-MM-DD@HH-mm-ss').'.json';
-        $new = $this->breadPath.$name;
+        $new = $this->path.$name;
 
         if (File::exists($old)) {
             if (!File::copy($old, $new)) {

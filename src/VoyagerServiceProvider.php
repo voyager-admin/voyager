@@ -59,25 +59,22 @@ class VoyagerServiceProvider extends ServiceProvider
         $loader->alias('Voyager', VoyagerFacade::class);
 
         $this->pluginmanager = new PluginManager();
-        $this->pluginmanager->pluginsPath(Str::finish(storage_path('voyager'), '/').'plugins.json');
         $this->app->singleton(PluginManager::class, function () {
             return $this->pluginmanager;
         });
 
         $this->breadmanager = new BreadManager();
-        $this->breadmanager->breadPath(storage_path('voyager/breads'));
         $this->app->singleton(BreadManager::class, function () {
             return $this->breadmanager;
         });
 
         $this->settingmanager = new SettingManager();
-        $this->settingmanager->settingsPath(Str::finish(storage_path('voyager'), '/').'settings.json');
         $this->app->singleton(SettingManager::class, function () {
             return $this->settingmanager;
         });
 
         $this->app->singleton('voyager', function () {
-            return new Voyager($this->pluginmanager, $this->settingmanager);
+            return new Voyager($this->breadmanager, $this->pluginmanager, $this->settingmanager);
         });
 
         $this->settingmanager->loadSettings();

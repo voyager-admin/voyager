@@ -5,6 +5,7 @@ namespace Voyager\Admin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Voyager\Admin\Events\RoutesLoaded;
+use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
 
@@ -229,6 +230,21 @@ class Voyager
         }
 
         return $default;
+    }
+
+    public function setBreadPath($path)
+    {
+        $this->breadmanager->setPath($path);
+    }
+
+    public function setPluginsPath($path)
+    {
+        $this->pluginmanager->setPath($path);
+    }
+
+    public function setSettingsPath($path)
+    {
+        $this->settingmanager->setPath($path);
     }
 
     public function ensureDirectoryExists($path)

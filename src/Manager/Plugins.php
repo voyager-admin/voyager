@@ -17,9 +17,10 @@ class Plugins
     public function __construct()
     {
         $this->plugins = collect();
+        $this->path = Str::finish(storage_path('voyager'), '/').'plugins.json';
     }
 
-    public function pluginsPath($path)
+    public function setPath($path)
     {
         $this->path = $path;
     }

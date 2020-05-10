@@ -12,6 +12,11 @@ class Settings
     protected $path;
     protected $settings = null;
 
+    public function __construct()
+    {
+        $this->path = Str::finish(storage_path('voyager'), '/').'settings.json';
+    }
+
     /**
      * Sets the path where the settings-file is stored.
      *
@@ -19,7 +24,7 @@ class Settings
      *
      * @return string the current path
      */
-    public function settingsPath($path = null)
+    public function setPath($path = null)
     {
         if ($path) {
             $this->path = $path;
