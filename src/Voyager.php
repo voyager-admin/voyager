@@ -14,11 +14,13 @@ class Voyager
     protected $messages = [];
     protected $tables = [];
     protected $menu_items;
+    protected $breadmanager;
     protected $pluginmanager;
     protected $settingmanager;
 
-    public function __construct(PluginManager $pluginmanager, SettingManager $settingmanager)
+    public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager, SettingManager $settingmanager)
     {
+        $this->breadmanager = $breadmanager;
         $this->pluginmanager = $pluginmanager;
         $this->settingmanager = $settingmanager;
     }
