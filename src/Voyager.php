@@ -4,7 +4,6 @@ namespace Voyager\Admin;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Voyager\Admin\Events\RoutesLoaded;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
@@ -25,6 +24,7 @@ class Voyager
         $this->pluginmanager = $pluginmanager;
         $this->settingmanager = $settingmanager;
     }
+
     /**
      * Get Voyagers routes.
      *
@@ -151,9 +151,9 @@ class Voyager
     }
 
     /**
-     * Get the current app-locale.
+     * Get the app fallback-locale.
      *
-     * @return string The current locale
+     * @return string The fallback locale
      */
     public function getFallbackLocale()
     {
@@ -161,9 +161,9 @@ class Voyager
     }
 
     /**
-     * Get wether the app is translatable or not.
+     * Get if the app is translatable or not.
      *
-     * @return bool Wether the app is translatable or not.
+     * @return bool
      */
     public function isTranslatable()
     {
@@ -177,8 +177,6 @@ class Voyager
      */
     public function getWidgets()
     {
-        // TODO: Cache widgets?
-
         return collect($this->pluginmanager->getPluginsByType('widget')->where('enabled')->transform(function ($plugin) {
             $width = $plugin->getWidth();
             if ($width >= 1 && $width <= 11) {
@@ -192,7 +190,6 @@ class Voyager
                 'view'  => $plugin->getWidgetView(),
             ];
         }));
-        return [];
     }
 
     /**

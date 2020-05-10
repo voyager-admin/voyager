@@ -51,7 +51,6 @@ class VoyagerServiceProvider extends ServiceProvider
     public function register()
     {
         $loader = AliasLoader::getInstance();
-
         $loader->alias('Voyager', VoyagerFacade::class);
 
         $this->pluginmanager = new PluginManager();

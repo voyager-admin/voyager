@@ -105,27 +105,4 @@ class Plugins
             return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
         })->first();
     }
-
-    // TODO: Move the following 2 methods to PluginsController
-    public function enablePlugin($identifier, $enable = true)
-    {
-        $this->getAllPlugins();
-
-        $plugins = collect(VoyagerFacade::getJson(File::get($this->path), []));
-        if (!$plugins->contains('identifier', $identifier)) {
-            $plugins->push([
-                'identifier' => $identifier,
-                'enabled'    => $enable,
-            ]);
-        } else {
-            $plugins->where('identifier', $identifier)->first()->enabled = $enable;
-        }
-
-        return File::put($this->path, json_encode($plugins, JSON_PRETTY_PRINT));
-    }
-
-    public function disablePlugin($identifier)
-    {
-        return $this->enablePlugin($identifier, false);
-    }
 }
