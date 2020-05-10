@@ -27,7 +27,11 @@ class Settings
     public function setPath($path = null)
     {
         if ($path) {
+            $old_path = $this->path;
             $this->path = $path;
+            if ($this->path !== $path) {
+                $this->loadSettings();
+            }
         }
 
         return $this->path;

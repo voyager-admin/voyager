@@ -36,9 +36,12 @@ class Breads
      */
     public function setPath($path = null)
     {
-        // TODO: If the path was changed, clear cache
         if ($path) {
+            $old_path = $this->path;
             $this->path = Str::finish($path, '/');
+            if ($old_path !== $path) {
+                //$this->clearCache(); // TODO: Uncomment this when bread-caching is implemented
+            }
         }
 
         return $this->path;
