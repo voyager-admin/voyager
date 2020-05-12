@@ -1,12 +1,15 @@
 <template>
     <div>
         <input type="text" class="voyager-input w-full mb-3" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
-        <div class="w-full flex flex-wrap">
-            <div class="w-1/12 content-center" v-for="icon in filteredIcons.slice(start, end)" :key="'icon-' + icon">
-                <button class="button blue m-1 icon-only" @dblclick="selectIcon(icon)" v-tooltip="readableName(icon)">
-                    <icon :icon="icon" :size="6" />
-                </button>
-            </div>
+        <div class="grid grid-cols-12 gap-1">
+            <button
+                class="button blue icon-only justify-center my-1"
+                v-for="icon in filteredIcons.slice(start, end)"
+                :key="'icon-' + icon"
+                @dblclick="selectIcon(icon)"
+                v-tooltip="readableName(icon)">
+                <icon :icon="icon" :size="6" />
+            </button>
         </div>
         <div class="button-group mt-2">
             <button
