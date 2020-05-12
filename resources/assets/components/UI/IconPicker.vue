@@ -3,8 +3,8 @@
         <input type="text" class="voyager-input w-full mb-3" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
         <div class="w-full flex flex-wrap">
             <div class="w-1/12 content-center" v-for="icon in filteredIcons.slice(start, end)" :key="'icon-' + icon">
-                <button class="button blue" @dblclick="selectIcon(icon)">
-                    <icon class="m-1" :icon="icon" :size="8" />
+                <button class="button blue m-1 icon-only" @dblclick="selectIcon(icon)" v-tooltip="readableName(icon)">
+                    <icon :icon="icon" :size="6" />
                 </button>
             </div>
         </div>
@@ -35,6 +35,9 @@ export default {
     methods: {
         selectIcon: function (icon) {
             this.$emit('select', icon);
+        },
+        readableName: function (icon) {
+            return this.title_case(icon.replace(/^uni/g,''));
         }
     },
     computed: {
