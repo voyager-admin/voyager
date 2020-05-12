@@ -27,8 +27,6 @@ class Select extends Formfield
     public function viewOptions(): array
     {
         return [
-            'label'       => '',
-            'description' => '',
             'multiple'    => false,
             'options'     => [],
         ];

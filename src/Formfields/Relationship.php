@@ -25,8 +25,6 @@ class Relationship extends Formfield
     public function viewOptions(): array
     {
         return [
-            'label'         => '',
-            'description'   => '',
             'column'        => null,
             'browse_list'   => null,
             'add_view'      => null,

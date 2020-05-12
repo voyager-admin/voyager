@@ -120,13 +120,13 @@ class BreadBuilderController extends Controller
         ]);
 
         if ($validator->passes()) {
-            $bread = $this->breadmanager->getBreadByTable($table);
+            $exists = $this->breadmanager->getBreadByTable($table);
             if (!$this->breadmanager->storeBread($bread)) {
                 $validator->errors()->add('bread', __('voyager::builder.bread_save_failed'));
 
                 return response()->json($validator->errors(), 422);
             }
-            if ($bread) {
+            if ($exists) {
                 event(new UpdatedEvent($this->breadmanager->getBreadByTable($table)));
             } else {
                 event(new CreatedEvent($this->breadmanager->getBreadByTable($table)));

@@ -26,8 +26,6 @@ class Text extends Formfield
     public function viewOptions(): array
     {
         return [
-            'label'         => '',
-            'description'   => '',
             'placeholder'   => '',
             'default_value' => '',
             'rows'          => 1,

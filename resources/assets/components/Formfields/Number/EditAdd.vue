@@ -1,6 +1,5 @@
 <template>
     <div>
-        <label class="label" v-if="translate(options.label, true) !== ''">{{ translate(options.label, true) }}</label>
         <input
             type="number"
             class="voyager-input w-full"
@@ -10,9 +9,6 @@
             :max="options.max"
             :step="options.step"
             :placeholder="translate(options.placeholder, true)">
-        <p class="description" v-if="translate(options.description, true) !== ''">
-            {{ translate(options.description, true) }}
-        </p>
     </div>
 </template>
 

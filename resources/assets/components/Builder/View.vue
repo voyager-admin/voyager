@@ -11,7 +11,7 @@
             axis="xy"
             class="m-0"
             :class="formfield.options.width">
-            <card :title="formfield.column.column || 'No column'">
+            <card :title="translate(formfield.options.title) || ''">
                 <div slot="actions">
                     <button class="button small blue icon-only">
                         <icon icon="expand-arrows" v-sort-handle class="cursor-move" />
@@ -69,6 +69,20 @@
                             <input type="checkbox" class="voyager-input" v-model="formfield.translatable">
                         </div>
 
+                        <label class="label mt-4">Title</label>
+                        <language-input
+                            class="voyager-input w-full"
+                            type="text" placeholder="Title"
+                            v-bind:value="formfield.options.title"
+                            v-on:input="formfield.options.title = $event" />
+
+                        <label class="label mt-4">Description</label>
+                        <language-input
+                            class="voyager-input w-full"
+                            type="text" placeholder="Description"
+                            v-bind:value="formfield.options.description"
+                            v-on:input="formfield.options.description = $event" />
+
                         <component
                             :is="'formfield-'+kebab_case(formfield.type)+'-builder'"
                             v-bind:options="formfield.options"
@@ -84,6 +98,9 @@
                     v-bind:options="formfield.options"
                     :column="formfield.column"
                     show="view" />
+                <p class="description" v-if="translate(formfield.options.description) !== ''">
+                    {{ translate(formfield.options.description) }}
+                </p>
             </card>
         </sort-element>
         <slot v-if="reactiveFormfields.length == 0" />

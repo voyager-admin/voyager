@@ -46,20 +46,6 @@
             </div>
         </div>
         <div v-else-if="show == 'view-options'">
-            <label class="label mt-4">Label</label>
-            <language-input
-                class="voyager-input w-full"
-                type="text" placeholder="Label"
-                v-bind:value="options.label"
-                v-on:input="options.label = $event" />
-
-            <label class="label mt-4">Description</label>
-            <language-input
-                class="voyager-input w-full"
-                type="text" placeholder="Description"
-                v-bind:value="options.description"
-                v-on:input="options.description = $event" />
-
             <label for="multiple" class="label">Multiple</label>
             <input type="checkbox" id="multiple" class="voyager-input" v-model="options.multiple">
 
@@ -105,15 +91,11 @@
             </div>
         </div>
         <div v-else-if="show == 'view'">
-            <label class="label" v-if="translate(options.label) !== ''">{{ translate(options.label) }}</label>
             <select class="voyager-input w-full" :multiple="options.multiple || false">
                 <option v-for="option in options.options" :value="option.key" :key="option.key">
                     {{ translate(option.value) }}
                 </option>
             </select>
-            <p class="description" v-if="translate(options.description) !== ''">
-                {{ translate(options.description) }}
-            </p>
         </div>
     </div>
 </template>

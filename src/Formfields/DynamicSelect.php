@@ -24,8 +24,6 @@ class DynamicSelect extends Formfield
     public function viewOptions(): array
     {
         return [
-            'label'       => '',
-            'description' => '',
             'route_name'  => '',
         ];
     }

@@ -28,8 +28,6 @@ class Number extends Formfield
     public function viewOptions(): array
     {
         return [
-            'label'         => '',
-            'description'   => '',
             'placeholder'   => '',
             'min'           => 0,
             'max'           => 0,

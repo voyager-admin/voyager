@@ -1,6 +1,5 @@
 <template>
     <div>
-        <label class="label" v-if="translate(options.label, true) !== ''">{{ translate(options.label, true) }}</label>
         <select
             class="voyager-input w-full"
             :multiple="options.multiple || false"
@@ -9,9 +8,6 @@
                 {{ translate(option.value, true) }}
             </option>
         </select>
-        <p class="description" v-if="translate(options.description, true) !== ''">
-            {{ translate(options.description, true) }}
-        </p>
     </div>
 </template>
 

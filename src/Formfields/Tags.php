@@ -28,8 +28,6 @@ class Tags extends Formfield
     public function viewOptions(): array
     {
         return [
-            'label'       => '',
-            'description' => '',
             'min'         => 0,
             'max'         => 0,
             'color'       => 'blue',

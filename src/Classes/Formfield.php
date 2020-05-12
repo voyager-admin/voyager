@@ -98,12 +98,13 @@ abstract class Formfield implements FormfieldContract, \JsonSerializable
     {
         // Formfield will be used in BREAD builder. We need list/view options and some other things
         if (!$this->column) {
+            $viewoptions = array_merge($this->viewOptions(), ['title' => '', 'description' => '']);
             return [
                 'name'                     => $this->name(),
                 'type'                     => $this->type(),
                 'canBeTranslated'          => $this->canBeTranslated(),
                 'listOptions'              => (object) $this->listOptions(),
-                'viewOptions'              => (object) $this->viewOptions(),
+                'viewOptions'              => (object) $viewoptions,
                 'asSetting'                => $this->canBeUsedAsSetting(),
                 'inList'                   => $this->canBeUsedInList(),
                 'inView'                   => $this->canBeUsedInView(),
@@ -113,7 +114,6 @@ abstract class Formfield implements FormfieldContract, \JsonSerializable
                 'allowRelationships'       => $this->allowRelationships(),
                 'allowRelationshipColumns' => $this->allowRelationshipColumns(),
                 'allowPivot'               => $this->allowRelationshipPivots(),
-
             ];
         }
 

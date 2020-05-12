@@ -16,7 +16,7 @@
             </div>
             <div class="flex flex-wrap w-full">
                 <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
-                    <card :show-header="false">
+                    <card :title="translate(formfield.options.title, true)" :show-title="translate(formfield.options.label, true) !== ''">
                         <component
                             :is="'formfield-'+kebab_case(formfield.type)+'-read'"
                             :data="getData(formfield.column)"

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <label class="label" v-if="translate(options.label, true) !== ''">{{ translate(options.label, true) }}</label>
         <div class="flex">
             <div class="flex-1 mx-2" v-for="(select, i) in selects" :key="'select-'+i">
                 <select class="voyager-input w-full" v-model="selected[i]">
@@ -10,9 +9,6 @@
                 </select>
             </div>
         </div>
-        <p class="description" v-if="translate(options.description, true) !== ''">
-            {{ translate(options.description, true) }}
-        </p>
     </div>
 </template>
 
