@@ -83,10 +83,3 @@ code {
     @include bg-color(loader-bg-color, 'colors.gray.800');
     @include text-color(loader-text-color, 'colors.gray.200');
 }
-
-.search{
-    transition: width 0.35s ease-out;
-    &:focus{
-        width:100%;
-    }
-}

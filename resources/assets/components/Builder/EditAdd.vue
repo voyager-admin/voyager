@@ -4,7 +4,7 @@
             <div slot="actions">
                 <div class="flex items-center">
                     <button class="button blue" @click.stop="toggleFocusMode">
-                        <icon icon="sync" class="focus" :size="4" />
+                        <icon icon="crosshair-alt" class="focus" :size="4" />
                         Focus
                     </button>
                     <button class="button green" @click="loadProperties">

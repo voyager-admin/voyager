@@ -39,6 +39,10 @@ export default {
             type: Number,
             default: 0,
         },
+        duplicates: {
+            type: Boolean,
+            default: false,
+        }
     },
     data: function () {
         return {
@@ -53,6 +57,11 @@ export default {
             }
             var content = e.target.value;
             if (!this.allowEmpty && content == '') {
+                return;
+            }
+            if (!this.duplicates && this.tags.indexOf(content) !== -1) {
+                e.target.value = '';
+
                 return;
             }
             this.tags.push(content);

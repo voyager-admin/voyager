@@ -71,6 +71,7 @@ export default {
 
         .body {
             .link {
+                @apply truncate;
                 @include border-color(dropdown-border-color-dark, 'colors.gray.700');
                 @include text-color(dropdown-link-color-dark, 'colors.blue.600');
 
@@ -92,7 +93,7 @@ export default {
     .wrapper {
         @include bg-color(dropdown-bg-color, 'colors.white');
         @include border-color(dropdown-border-color, 'colors.gray.400');
-        @apply absolute rounded-md shadow-lg border;
+        @apply absolute rounded-md shadow-lg border z-50;
 
         &.right {
             @apply origin-top-left left-0;
