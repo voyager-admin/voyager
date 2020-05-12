@@ -5,10 +5,14 @@ namespace Voyager\Admin\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
+use Voyager\Admin\Traits\Bread\Browsable;
 
 class VoyagerController extends Controller
 {
+    use Browsable;
+
     protected $breadmanager;
 
     public function __construct(BreadManager $breadmanager)
@@ -57,14 +61,19 @@ class VoyagerController extends Controller
 
         $this->breadmanager->getBreads()->each(function ($bread) use ($q, &$results) {
             if ($bread->global_search_field !== '') {
-                $bread_results = $bread->getModel()->where($bread->global_search_field, 'LIKE', '%'.$q.'%')->get();
-                if (count($bread_results) > 0) {
-                    $results[$bread->table] = [
-                        'count'     => count($bread_results),
-                        'results'   => $bread_results->take(3)->mapWithKeys(function ($result) use ($bread) {
-                            return [$result->getKey() => $result->{$bread->global_search_field}];
-                        }),
-                    ];
+                $layout = $this->getLayoutForAction($bread, 'browse');
+                if ($layout) {
+                    $query = $bread->getModel()->select('*');
+                    $query = $this->globalSearchQuery($q, $layout, VoyagerFacade::getLocale(), $query);
+                    $bread_results = $query->get();
+                    if (count($bread_results) > 0) {
+                        $results[$bread->table] = [
+                            'count'     => count($bread_results),
+                            'results'   => $bread_results->take(3)->mapWithKeys(function ($result) use ($bread) {
+                                return [$result->getKey() => $result->{$bread->global_search_field}];
+                            }),
+                        ];
+                    }
                 }
             }
         });
