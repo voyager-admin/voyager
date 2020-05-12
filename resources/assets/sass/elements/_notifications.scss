@@ -1,3 +1,21 @@
+@import "mixins/bg-color";
+@import "mixins/border-color";
+@import "mixins/text-color";
+
+.mode-dark .notifications {
+    .notification {
+        @include bg-color(notification-bg-color-dark, 'colors.gray.800');
+
+        p.title {
+            @include text-color(notification-title-color-dark, 'colors.gray.100');
+        }
+
+        p.message {
+            @include text-color(notification-message-color-dark, 'colors.gray.500');
+        }
+    }
+}
+
 .notifications {
     @apply fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none;
 
@@ -10,14 +28,17 @@
     }
 
     .notification {
+        @include bg-color(notification-bg-color, 'colors.white');
         @apply rounded-lg mb-2 border overflow-hidden shadow-lg;
 
         p.title {
-            @apply text-sm leading-5 font-medium text-gray-900;
+            @include text-color(notification-title-color-dark, 'colors.gray.900');
+            @apply text-sm leading-5 font-medium;
         }
 
         p.message {
-            @apply text-sm leading-5 text-gray-500;
+            @include text-color(notification-title-color-dark, 'colors.gray.500');
+            @apply text-sm leading-5;
         }
     }
 }

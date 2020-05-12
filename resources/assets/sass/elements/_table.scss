@@ -1,12 +1,47 @@
+@import "mixins/bg-color";
+@import "mixins/border-color";
+@import "mixins/text-color";
+
 .mode-dark .voyager-table {
+    @include border-color(table-border-color-dark, 'colors.gray.600');
+
     table {
+        thead{
+            @include bg-color(table-head-bg-color-dark, 'colors.transparent');
+            @include text-color(table-head-text-color-dark, 'colors.gray.400');
+            tr {
+                @include border-color(table-head-border-color-dark, 'colors.gray.600');
+            }
+        }
+    
         tbody {
-            @apply bg-gray-800;
+            tr {
+                @include border-color(table-row-border-color-dark, 'colors.gray.600');
+                &:nth-of-type(odd) {
+                    @include bg-color(table-row-odd-bg-color-dark, 'colors.gray.750');
+                    @include text-color(table-row-odd-text-color-dark, 'colors.gray.400');
+
+                    &:hover {
+                        @include bg-color(table-row-odd-bg-color-hover-dark, 'colors.gray.700');
+                        @include text-color(table-row-odd-text-color-hover-dark, 'colors.gray.400');
+                    }
+                }
+                &:nth-of-type(even) {
+                    @include bg-color(table-row-even-bg-color-dark, 'colors.transparent');
+                    @include text-color(tr-even-text-color-dark, 'colors.gray.400');
+
+                    &:hover {
+                        @include bg-color(table-row-even-bg-color-hover-dark, 'colors.gray.700');
+                        @include text-color(table-row-even-text-color-hover-dark, 'colors.gray.400');
+                    }
+                }
+            }
         }
     }
 }
 
 .voyager-table {
+    @include border-color(table-border-color, 'colors.gray.300');
     @apply align-middle min-w-full shadow rounded-lg border my-5;
 
     &.loading {
@@ -16,27 +51,47 @@
     table {
         @apply min-w-full;
 
-        thead > tr > th {
-            @apply px-6 py-3 border-b text-left text-xs leading-4 font-medium uppercase tracking-wider;
+        thead{
+            @include bg-color(table-head-bg-color, 'colors.gray.100');
+            @include text-color(table-head-text-color, 'colors.gray.900');
+            tr {
+                @apply border-b;
+                @include border-color(table-head-border-color, 'colors.gray.300');
+                th {
+                    @apply px-6 py-3 text-left text-xs leading-4 font-medium uppercase tracking-wider;
+                }
+            }
         }
     
-        tbody {    
-            tr > td {
-                @apply px-6 py-4 whitespace-no-wrap border-b;
-            }
+        tbody {
+            tr {
+                @apply border-b;
+                @include border-color(table-row-border-color, 'colors.gray.300');
+                &:nth-of-type(odd) {
+                    @include bg-color(table-row-odd-bg-color, 'colors.gray.50');
+                    @include text-color(table-row-odd-text-color, 'colors.gray.800');
 
-            tr:last-child {
-                @apply rounded-b-lg;
+                    &:hover {
+                        @include bg-color(table-row-odd-bg-color-hover, 'colors.gray.150');
+                        @include text-color(table-row-odd-text-color-hover, 'colors.gray.800');
+                    }
+                }
+                &:nth-of-type(even) {
+                    @include bg-color(table-row-even-bg-color, 'colors.transparent');
+                    @include text-color(table-row-even-text-color, 'colors.gray.700');
+
+                    &:hover {
+                        @include bg-color(table-row-even-bg-color-hover, 'colors.gray.100');
+                        @include text-color(table-row-even-text-color-hover, 'colors.gray.800');
+                    }
+                }
+
+                &:last-child {
+                    @apply border-b-0 border-transparent;
+                }
+
                 td {
-                    @apply border-none;
-
-                    &:first-child {
-                        @apply rounded-bl-lg;
-                    }
-
-                    &:last-child {
-                        @apply rounded-br-lg;
-                    }
+                    @apply px-6 py-4 whitespace-no-wrap;
                 }
             }
         }

@@ -14,7 +14,6 @@ const tailwindcss = require('tailwindcss');
 mix.sass('resources/assets/sass/voyager.scss', 'resources/assets/dist/css', {
     implementation: require('sass')
 })
-mix.sass('resources/assets/sass/colors.scss', 'resources/assets/dist/css')
 .options({
     processCssUrls: false,
     postCss: [ tailwindcss('tailwind.config.js') ],

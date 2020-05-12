@@ -64,10 +64,10 @@ class Plugins
 
     public function launchPlugins()
     {
-        $this->getAllPlugins()->each(function ($plugin, $key) {
+        $this->getAllPlugins()->each(function ($plugin) {
             if ($plugin->enabled || $plugin->type == 'theme') {
                 $plugin->registerPublicRoutes();
-                Route::group(['middleware' => 'voyager.admin'], function () use ($plugin, $key) {
+                Route::group(['middleware' => 'voyager.admin'], function () use ($plugin) {
                     $plugin->registerProtectedRoutes();
                 });
             }

@@ -1,8 +1,35 @@
-.voyager-input {
+@import "mixins/bg-color";
+@import "mixins/border-color";
+@import "mixins/text-color";
 
+.mode-dark .voyager-input {
+    @include bg-color(input-bg-color-dark, 'colors.gray.700');
+    @include border-color(input-border-color-dark, 'colors.gray.600');
+    @include text-color(input-text-color-dark, 'colors.gray.200');
+
+    &:focus {
+        @include border-color(accent-border-color-dark, 'colors.blue.500');
+    }
+
+    &[type=checkbox] {
+        &:checked {
+            @include bg-color(accent-bg-color-dark, 'colors.blue.500');
+        }
+    }
+
+    &[type=radio] {
+        @include text-color(accent-text-color-dark, 'colors.blue.500');
+    }
+}
+
+.voyager-input {
+    @include bg-color(input-bg-color, 'colors.white');
+    @include border-color(input-border-color, 'colors.gray.500');
+    @include text-color(input-text-color, 'colors.gray.800');
     @apply appearance-none block px-3 py-2 border border-gray-300 rounded-md transition duration-150 ease-in-out;
 
     &:focus {
+        @include border-color(accent-border-color, 'colors.blue.500');
         @apply outline-none;
     }
 
@@ -16,10 +43,36 @@
 
     &[type=checkbox] {
         @apply h-4 w-4 p-0 align-middle inline-block rounded;
+
+        &:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+            background-color: currentColor;
+            background-size: 100% 100%;
+            background-position: center;
+            @include bg-color(accent-bg-color, 'colors.blue.500');
+            @apply bg-no-repeat border-transparent;
+
+            &:checked:focus {
+                @apply border-transparent;
+            }
+        }
     }
 
     &[type=radio] {
         @apply h-4 w-4 rounded-full py-2 px-2 align-middle inline-block;
+        @include text-color(accent-text-color, 'colors.blue.500');
+
+        &:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+            background-color: currentColor;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            &:checked:focus {
+                @apply border-transparent;
+            }
+        }
     }
 
     @each $color in $colors {
@@ -27,4 +80,12 @@
             @apply border-#{$color}-500 #{!important};
         }
     }
+}
+
+select:not([multiple]).voyager-input {
+    @apply bg-no-repeat pr-10;
+
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3e%3cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%239fa6b2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-size: 1.5em 1.5em;
 }

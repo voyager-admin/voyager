@@ -1,13 +1,27 @@
+@import "mixins/text-color";
+
+.mode-dark .label {
+    @include text-color(label-text-color-dark, 'colors.gray.200');
+}
+
 .label {
     @apply block text-sm font-normal my-2;
+    @include text-color(label-text-color, 'colors.gray.800');
 
     &.bigger {
         @apply text-lg;
     }
 }
 
+.mode-dark p {
+    &.description {
+        @include text-color(description-text-color-dark, 'colors.gray.200');
+    }
+}
+
 p {
     &.description {
+        @include text-color(description-text-color, 'colors.gray.800');
         @apply text-sm;
     }
 }

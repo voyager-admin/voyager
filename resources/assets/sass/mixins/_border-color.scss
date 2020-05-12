@@ -1,0 +1,4 @@
+@mixin border-color($var, $default) {
+    border-color: theme($default);
+    border-color: var(--#{$var}, theme($default));
+}

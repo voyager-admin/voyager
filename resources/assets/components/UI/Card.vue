@@ -53,11 +53,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-    @apply shadow border rounded-lg p-4 mb-4 mx-1;
+@import "../../sass/mixins/bg-color";
+@import "../../sass/mixins/border-color";
+@import "../../sass/mixins/text-color";
+
+.mode-dark .card {
+    @include bg-color(card-bg-color-dark, 'colors.gray.800');
+    @include border-color(card-border-color-dark, 'colors.gray.700');
+    @include text-color(card-text-color-dark, 'colors.gray.300');
 
     .header {
+        @include border-color(card-border-color-dark, 'colors.gray.700');
+
+        h3 {
+            @include text-color(card-title-color-dark, 'colors.gray.300');
+        }
+    }
+
+    .footer {
+        @include border-color(card-border-color-dark, 'colors.gray.700');
+    }
+}
+
+.card {
+    @apply shadow border rounded-lg p-4 mb-4 mx-1;
+    @include bg-color(card-bg-color, 'colors.white');
+    @include border-color(card-border-color, 'colors.gray.400');
+    @include text-color(card-text-color, 'colors.gray.700');
+    .header {
         @apply p-2;
+        @include border-color(card-border-color, 'colors.gray.400');
+
+        h3 {
+            @include text-color(card-title-color, 'colors.gray.700');
+        }
     }
 
     .content {
@@ -66,6 +95,7 @@ export default {
 
     .footer {
         @apply p-2;
+        @include border-color(card-border-color-dark, 'colors.gray.700');
     }
 }
 </style>

@@ -1,0 +1,6 @@
+@use "sass:string";
+
+@mixin font-family($var, $default) {
+    font-family: string.unquote($default);
+    font-family: var(--#{$var}, string.unquote($default));
+}

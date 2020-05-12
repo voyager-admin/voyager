@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\Plugin\ListWith;
-use Voyager\Admin\Facades\Settings;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class MediaController extends Controller
 {
@@ -16,8 +16,8 @@ class MediaController extends Controller
 
     public function __construct()
     {
-        $this->disk = Settings::setting('media.disk', 'public');
-        $this->path = Str::finish(Settings::setting('media.path', '/test'), '/');
+        $this->disk = VoyagerFacade::setting('media.disk', 'public');
+        $this->path = Str::finish(VoyagerFacade::setting('media.path', '/test'), '/');
     }
 
     public function index()

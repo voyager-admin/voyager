@@ -38,7 +38,7 @@
         </div>
         <div>
             <div v-if="layout !== null">
-                <div class="voyager-table striped" :class="[loading ? 'loading' : '']">
+                <div class="voyager-table" :class="[loading ? 'loading' : '']">
                     <table>
                         <thead>
                             <tr>

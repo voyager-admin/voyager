@@ -59,11 +59,39 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import "../../sass/mixins/bg-color";
+@import "../../sass/mixins/border-color";
+@import "../../sass/mixins/text-color";
+
+.mode-dark .dropdown {
+    .wrapper {
+        @include bg-color(dropdown-bg-color-dark, 'colors.gray.900');
+        @include border-color(dropdown-border-color-dark, 'colors.gray.700');
+
+        .body {
+            .link {
+                @include border-color(dropdown-border-color-dark, 'colors.gray.700');
+                @include text-color(dropdown-link-color-dark, 'colors.blue.600');
+
+                &:hover {
+                    @include bg-color(dropdown-link-hover-color-dark, 'colors.gray.800');
+                }
+            }
+
+            .divider {
+                @include border-color(dropdown-divider-border-color-dark, 'colors.gray.700');
+            }
+        }
+    }
+}
+
 .dropdown {
     @apply relative inline-block text-left;
 
     .wrapper {
+        @include bg-color(dropdown-bg-color, 'colors.white');
+        @include border-color(dropdown-border-color, 'colors.gray.400');
         @apply absolute rounded-md shadow-lg border;
 
         &.right {
@@ -76,6 +104,21 @@ export default {
 
         .body {
             @apply rounded-md shadow-xs;
+
+            .link {
+                @include border-color(dropdown-border-color, 'colors.gray.400');
+                @include text-color(dropdown-link-color, 'colors.blue.600');
+                @apply block px-6 py-3 leading-tight;
+
+                &:hover {
+                    @include bg-color(dropdown-link-hover-color, 'colors.gray.100');
+                }
+            }
+
+            .divider {
+                @apply border-t;
+                @include border-color(dropdown-divider-border-color, 'colors.gray.300');
+            }
         }
     }
 }

@@ -1,12 +1,32 @@
+@import "mixins/bg-color";
+@import "mixins/border-color";
+@import "mixins/text-color";
+
+.mode-dark .tooltip {
+    .tooltip-inner {
+        @include bg-color(tooltip-bg-color-dark, 'colors.gray.900');
+        @include text-color(tooltip-text-color-dark, 'colors.white');
+        @include border-color(tooltip-border-color-dark, 'colors.gray.700');
+    }
+
+    .tooltip-arrow {
+        @include border-color(tooltip-arrow-border-color-dark, 'colors.gray.900');
+    }
+}
+
 .tooltip {
     @apply text-sm z-50 block #{!important};
 
     .tooltip-inner {
-        @apply bg-gray-900 text-white border-gray-700 border rounded-md px-2 py-1;
+        @include bg-color(tooltip-bg-color, 'colors.gray.900');
+        @include text-color(tooltip-text-color, 'colors.white');
+        @include border-color(tooltip-border-color, 'colors.gray.700');
+        @apply border rounded-md px-2 py-1;
     }
 
     .tooltip-arrow {
-        @apply absolute border w-0 h-0 m-1 border-gray-900 z-10;
+        @include border-color(tooltip-arrow-border-color, 'colors.gray.900');
+        @apply absolute border w-0 h-0 m-1 z-10;
     }
 
     &[x-placement^="top"] {

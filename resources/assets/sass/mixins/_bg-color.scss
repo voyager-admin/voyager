@@ -1,0 +1,4 @@
+@mixin bg-color($var, $default) {
+    background-color: theme($default);
+    background-color: var(--#{$var}, theme($default));
+}

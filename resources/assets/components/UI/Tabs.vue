@@ -72,11 +72,45 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tabs {
-    .tab {
-        @apply whitespace-no-wrap py-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 capitalize;
-    }
+@import "../../sass/mixins/bg-color";
+@import "../../sass/mixins/border-color";
+@import "../../sass/mixins/text-color";
 
+.mode-dark .tabs {
+    .wrapper {
+        @include border-color(tabs-border-color-dark, 'colors.gray.700');
+        .tab {
+            @include text-color(tabs-text-color-dark, 'colors.gray.400');
+            &:hover {
+                @include text-color(tabs-text-color-hover-dark, 'colors.gray.500');
+                @include border-color(tabs-border-color-hover-dark, 'colors.gray.500');
+            }
+    
+            &.active {
+                @include text-color(tabs-text-color-active-dark, 'colors.blue.600');
+                @include border-color(tabs-border-color-active-dark, 'colors.blue.500');
+            }
+        }
+    }
+}
+
+.tabs {
+    .wrapper {
+        @include border-color(tabs-border-color, 'colors.gray.200');
+        .tab {
+            @apply whitespace-no-wrap py-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 capitalize;
+            @include text-color(tabs-text-color, 'colors.gray.400');
+            &:hover {
+                @include text-color(tabs-text-color-hover, 'colors.gray.700');
+                @include border-color(tabs-border-color-hover, 'colors.gray.300');
+            }
+    
+            &.active {
+               @include text-color(tabs-text-color-active, 'colors.blue.600');
+                @include border-color(tabs-border-color-active, 'colors.blue.500');
+            }
+        }
+    }
     .content {
         @apply mt-4;
     }

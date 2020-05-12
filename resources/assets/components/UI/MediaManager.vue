@@ -515,6 +515,82 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../sass/mixins/bg-color";
+@import "../../sass/mixins/border-color";
+@import "../../sass/mixins/text-color";
 
+.mode-dark .media-manager {
+    @include bg-color(media-bg-color-dark, 'colors.gray.850');
+    @include border-color(media-border-color-dark, 'colors.gray.700');
+
+    .item {
+        @include bg-color(media-item-bg-color-dark, 'colors.gray.800');
+        @include border-color(media-item-border-color-dark, 'colors.gray.700');
+
+        &:hover {
+            @include bg-color(media-item-hover-bg-color-dark, 'colors.gray.700');
+        }
+
+        &.selected {
+            @include bg-color(media-item-selected-bg-color-dark, 'colors.gray.750');
+            @include border-color(media-item-selected-border-color-dark, 'colors.blue.700');
+        }
+    }
+
+    .breadcrumbs {
+        @include bg-color(media-breadcrumbs-bg-color-dark, 'colors.gray.800');
+        @include border-color(media-breadcrumbs-border-color-dark, 'colors.gray.700');
+    }
+
+    .sidebar {
+        @include bg-color(media-sidebar-bg-color-dark, 'colors.gray.800');
+        @include border-color(media-sidebar-border-color-dark, 'colors.gray.700');
+    }
+
+    .dragdrop {
+        @include bg-color(media-bg-color-dark, 'colors.gray.850');
+    }
+
+    .loading {
+        @include bg-color(media-bg-color-dark, 'colors.gray.850');
+    }
+}
+
+.media-manager {
+    @include bg-color(media-bg-color, 'colors.white');
+    @include border-color(media-border-color, 'colors.gray.300');
+
+    .item {
+        @include bg-color(media-item-bg-color, 'colors.gray.100');
+        @include border-color(media-item-border-color, 'colors.gray.300');
+
+        &:hover {
+            @include bg-color(media-item-hover-bg-color, 'colors.gray.200');
+        }
+
+        &.selected {
+            @include bg-color(media-item-selected-bg-color, 'colors.gray.250');
+            @include border-color(media-item-selected-border-color, 'colors.blue.300');
+        }
+    }
+
+    .breadcrumbs {
+        @include bg-color(media-breadcrumbs-bg-color, 'colors.gray.150');
+        @include border-color(media-breadcrumbs-border-color, 'colors.gray.300');
+    }
+
+    .sidebar {
+        @include bg-color(media-sidebar-bg-color, 'colors.white');
+        @include border-color(media-sidebar-border-color, 'colors.gray.300');
+    }
+
+    .dragdrop {
+        @include bg-color(media-bg-color, 'colors.white');
+    }
+
+    .loader {
+        @include bg-color(media-bg-color, 'colors.white');
+    }
+}
 </style>
