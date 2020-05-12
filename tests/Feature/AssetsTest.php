@@ -12,8 +12,6 @@ class AssetsTest extends TestCase
     {
         $this->get(Voyager::assetUrl('css/voyager.css'))
              ->assertStatus(200);
-        $this->get(Voyager::assetUrl('css/colors.css'))
-             ->assertStatus(200);
     }
 
     public function test_assets_js_loaded()
