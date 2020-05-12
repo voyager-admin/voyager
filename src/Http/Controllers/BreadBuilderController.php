@@ -147,7 +147,12 @@ class BreadBuilderController extends Controller
      */
     public function destroy($table)
     {
-        event(new DeletedEvent($this->breadmanager->getBreadByTable($table)));
+        $bread = $this->breadmanager->getBreadByTable($table);
+        if (is_null($bread)) {
+            return response('', 500);
+        }
+        event(new DeletedEvent($bread));
+
         return response('', $this->breadmanager->deleteBread($table) ? 200 : 500);
     }
 

@@ -48,7 +48,7 @@ class BreadManagerTest extends TestCase
     {
         $this->delete(route('voyager.bread.delete', 'users'))
              ->assertStatus(200);
-        $this->assertFalse(file_exists(resolve(BreadManager::class)->breadPath() . 'users.json'));
+        $this->assertFalse(file_exists(resolve(BreadManager::class)->setPath() . 'users.json'));
     }
 
     public function test_can_not_delete_not_existing_bread()

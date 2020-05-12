@@ -24,7 +24,7 @@ class Breads
 
     public function __construct()
     {
-        $this->path = storage_path('voyager/breads');
+        $this->path = Str::finish(storage_path('voyager/breads'), '/');
     }
 
     /**
@@ -150,6 +150,20 @@ class Breads
     {
         return $this->getBreads()->filter(function ($bread) use ($slug) {
             return $bread->slug == $slug;
+        })->first();
+    }
+
+    /**
+     * Get a BREAD by the table.
+     *
+     * @param string $table
+     *
+     * @return \Voyager\Admin\Classes\Bread
+     */
+    public function getBreadByTable($table)
+    {
+        return $this->getBreads()->filter(function ($bread) use ($table) {
+            return $bread->table == $table;
         })->first();
     }
 
