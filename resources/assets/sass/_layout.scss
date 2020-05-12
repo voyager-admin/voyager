@@ -13,7 +13,7 @@ html {
 
 body {
     @include bg-color(bg-color, 'colors.gray.100');
-    @include text-color(text-color-dark, 'colors.gray.700');
+    @include text-color(text-color, 'colors.gray.700');
 }
 
 .mode-dark body {
@@ -21,12 +21,12 @@ body {
     @include text-color(text-color-dark, 'colors.gray.300');
 }
 
-a {
-    @include text-color(link-color, 'colors.blue.600');
-}
-
 .mode-dark a {
     @include text-color(link-color-dark, 'colors.blue.600');
+}
+
+a {
+    @include text-color(link-color, 'colors.blue.600');
 }
 
 h1 {
@@ -64,6 +64,11 @@ code {
     @include text-color(code-text-color-dark, 'colors.gray.200');
 }
 
+.mode-dark .loader {
+    @include bg-color(loader-bg-color-dark, 'colors.gray.800');
+    @include text-color(loader-text-color-dark, 'colors.gray.200');
+}
+
 .loader {
     @include bg-color(loader-bg-color, 'colors.gray.100');
     @include text-color(loader-text-color, 'colors.black');
@@ -77,9 +82,4 @@ code {
         margin-left: calc(theme('spacing.16') * -1);
         margin-right: calc(theme('spacing.16') * -1);
     }
-}
-
-.mode-dark .loader {
-    @include bg-color(loader-bg-color, 'colors.gray.800');
-    @include text-color(loader-text-color, 'colors.gray.200');
 }

@@ -8,11 +8,10 @@
     <meta name="base-url" content="{{ Str::finish(route('voyager.dashboard'), '/') }}">
 
     <title>@yield('page-title') - {{ Voyager::setting('admin.title', 'Voyager') }}</title>
-    <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
-    <link href="{{ Voyager::assetUrl('css/colors.css') }}" rel="stylesheet">
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getPluginsByType('theme')->where('enabled') as $theme)
         <link href="{{ $theme->getStyleRoute() }}" rel="stylesheet">
     @endforeach
+    <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
 </head>
 
 <body>
