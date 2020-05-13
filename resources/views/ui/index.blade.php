@@ -5,9 +5,7 @@
 @section('content')
 <card title="UI Elements">
     <div>
-        <span class="mr-4">Jump to: </span>
         <div class="inline w-full">
-            
             <button class="button blue" v-scroll-to="'#ui-headings'">
                 Headings
             </button>
@@ -51,6 +49,11 @@
 <collapsible title="Buttons" id="ui-buttons">
     <collapsible title="Default">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]">
+            @{{ color[0].toUpperCase() + color.slice(1) }}
+        </button>
+    </collapsible>
+    <collapsible title="Disabled">
+        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]" disabled>
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
@@ -159,26 +162,25 @@
 </collapsible>
 
 <collapsible title="Pagination" id="ui-pagination">
-    <p class="mb-4">
-        Default<br>
+<collapsible title="Default">
         <pagination :page-count="100" :value="1"></pagination>
-    </p>
-    <p class="mb-4">
-        No previous/next button<br>
+    </collapsible>
+
+    <collapsible title="No previous/next button">
         <pagination :page-count="100" :value="10" :prev-next-buttons="false"></pagination>
-    </p>
-    <p class="mb-4">
-        No first/last button<br>
+    </collapsible>
+    
+    <collapsible title="No first/last button">
         <pagination :page-count="100" :value="25" :first-last-buttons="false"></pagination>
-    </p>
-    <p class="mb-4">
-        Only page-buttons<br>
+    </collapsible>
+
+    <collapsible title="Only page-buttons">
         <pagination :page-count="100" :value="50" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
-    </p>
-    <p class="mb-4">
-        Different color (Works with all other colors as well)<br>
+    </collapsible>
+
+    <collapsible title="Different color (Works with all other colors as well)">
         <pagination :page-count="100" :value="100" color="red"></pagination>
-    </p>
+    </collapsible>
 </collapsible>
 
 @endsection
