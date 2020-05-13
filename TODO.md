@@ -6,9 +6,6 @@ Instead, they are listed here:
 - Test all formfields, translatable and not translatable
 - Formfield options need to be translated
 - Implement a set-setting method (?)
-- Make Formfield a class (`Classes\Formfields`) which implements a Formfield Contract (`Contracts\Bread`)
-- Move more plugin-related code into the controller as it isn't needed anywhere else
-- Swap Facades with Contracts/Implementations where possible and use more DI
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
 - SlideIn sometimes closes when clicking too often on elements inside - investigate
 
@@ -40,8 +37,3 @@ Instead, they are listed here:
 - Settings: Use `Voyager::settings()` with key `null` to get all settings, key `something` to get a whole group (first) or a setting with that name and no group, or key `group.name` to get a settings with that group and key.
 - Backing-up a BREAD always uses the current stored state. So when backing-up after changing something (without saving first), the changes will NOT be included in the backup
 - Tag input: Press backspace twice to remove latest tag
-
-## Checklist
-The following things need to be double checked
-
-- Browse relationships: ~BelongsTo~, ~BelongsToMany~, ~HasOne~, ~HasMany~
