@@ -4,7 +4,6 @@ Instead, they are listed here:
 
 - Media manager should not upload all files simultaneously
 - Test all formfields, translatable and not translatable
-- Formfield options need to be translated
 - Implement a set-setting method (?)
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
 
@@ -15,7 +14,7 @@ Instead, they are listed here:
 - **Color Picker**
 
 ## Nice to have
-- Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields and validation-rules that don't have a rule **This is actually important**
+- Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields **This is actually important**
 - Add dark boxshadow variant to tailwind
 - When saving a BREAD check if all needed routes exist (route caching)
 

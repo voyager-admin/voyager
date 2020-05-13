@@ -22,28 +22,10 @@ class InstallCommand extends Command
     protected $description = 'Install the Voyager Admin package';
 
     /**
-     * Get the composer command for the environment.
-     *
-     * @return string
-     */
-    protected function findComposer()
-    {
-        if (file_exists(getcwd().'/composer.phar')) {
-            return '"'.PHP_BINARY.'" '.getcwd().'/composer.phar';
-        }
-
-        return 'composer';
-    }
-
-    public function fire(Filesystem $filesystem, SettingManager $settingsmanager)
-    {
-        return $this->handle($filesystem, $settingsmanager);
-    }
-
-    /**
      * Execute the console command.
      *
      * @param \Illuminate\Filesystem\Filesystem $filesystem
+     * @param \Voyager\Admin\Manager\Settings $settingsmanager
      *
      * @return void
      */
