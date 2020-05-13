@@ -17,7 +17,7 @@ class MediaController extends Controller
     public function __construct()
     {
         $this->disk = VoyagerFacade::setting('media.disk', 'public');
-        $this->path = Str::finish(VoyagerFacade::setting('media.path', '/test'), '/');
+        $this->path = Str::finish(VoyagerFacade::setting('media.path', '/'), '/');
     }
 
     public function index()

@@ -13,9 +13,9 @@ class Voyager
 {
     protected $messages = [];
     protected $tables = [];
-    protected BreadManager $breadmanager;
-    protected PluginManager $pluginmanager;
-    protected SettingManager $settingmanager;
+    protected $breadmanager;
+    protected $pluginmanager;
+    protected $settingmanager;
 
     public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager, SettingManager $settingmanager)
     {

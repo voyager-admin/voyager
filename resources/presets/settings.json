@@ -1,0 +1,72 @@
+[
+    {
+        "type": "text",
+        "group": "admin",
+        "key": "title",
+        "name": "Title",
+        "value": "Voyager II",
+        "translatable": false,
+        "canBeTranslated": true,
+        "options": {
+            "placeholder": null,
+            "default_value": null,
+            "rows": 1,
+            "title": null,
+            "description": null,
+            "border": "default"
+        },
+        "validation": []
+    },
+    {
+        "type": "text",
+        "group": "admin",
+        "key": "sidebar-title",
+        "name": "Sidebar title",
+        "value": "Voyager II",
+        "translatable": false,
+        "canBeTranslated": true,
+        "options": {
+            "placeholder": null,
+            "default_value": null,
+            "rows": 1,
+            "title": null,
+            "description": null,
+            "border": "default"
+        },
+        "validation": []
+    },
+    {
+        "type": "dynamic_select",
+        "group": "media",
+        "key": "disk",
+        "name": "disk",
+        "value": "public",
+        "translatable": false,
+        "canBeTranslated": false,
+        "options": {
+            "route_name": "voyager.get-disks",
+            "title": null,
+            "description": null,
+            "border": "default"
+        },
+        "validation": []
+    },
+    {
+        "type": "text",
+        "group": "media",
+        "key": "path",
+        "name": "path",
+        "value": "\/",
+        "translatable": false,
+        "canBeTranslated": true,
+        "options": {
+            "placeholder": null,
+            "default_value": null,
+            "rows": 1,
+            "title": null,
+            "description": null,
+            "border": "default"
+        },
+        "validation": []
+    }
+]
