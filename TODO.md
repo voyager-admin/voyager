@@ -19,9 +19,6 @@ Instead, they are listed here:
 - Add dark boxshadow variant to tailwind
 - When saving a BREAD check if all needed routes exist (route caching)
 
-## Bugs
-- Pagination: When there are only 3 pages it shows as 1,2...3
-
 ## Documentation
 - Relationship methods NEED TO define the return-type. Otherwise they won't be recognized by the BREAD builder
 - Scopes need to start with `scope` (ex. `scopeCurrentUser()`)

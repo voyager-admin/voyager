@@ -1,5 +1,5 @@
 .button {
-    @apply whitespace-no-wrap inline-flex items-center mx-1 px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md;
+    @apply whitespace-no-wrap inline-flex items-center mx-1 px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md cursor-pointer;
     @apply transition duration-150 ease-in-out;
     @apply text-white #{!important};
 
@@ -8,7 +8,11 @@
     }
 
     &:disabled {
-        @apply opacity-25 cursor-not-allowed;
+        @apply opacity-75 cursor-not-allowed;
+    }
+
+    &.disabled {
+        @apply opacity-75 cursor-not-allowed;
     }
 
     @each $color in $colors {
@@ -66,7 +70,7 @@
     }
 
     span {
-        @apply hidden;
+        @apply hidden outline-none;
         @media(min-width: theme('screens.md')) {
             @apply block;
         }

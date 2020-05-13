@@ -7,9 +7,7 @@
     <div>
         <span class="mr-4">Jump to: </span>
         <div class="inline w-full">
-        <button class="button blue" v-scroll-to="'#ui-tags'">
-                Tag input
-            </button>
+            
             <button class="button blue" v-scroll-to="'#ui-headings'">
                 Headings
             </button>
@@ -18,6 +16,12 @@
             </button>
             <button class="button blue" v-scroll-to="'#ui-inputs'">
                 Inputs
+            </button>
+            <button class="button blue" v-scroll-to="'#ui-tags'">
+                Tag input
+            </button>
+            <button class="button blue" v-scroll-to="'#ui-wysiwyg'">
+                WYSIWYG Editor
             </button>
             <button class="button blue" v-scroll-to="'#ui-badges'">
                 Badges
@@ -28,17 +32,12 @@
             <button class="button blue" v-scroll-to="'#ui-notifications'">
                 Notifications
             </button>
+            <button class="button blue" v-scroll-to="'#ui-pagination'">
+                Pagination
+            </button>
         </div>
     </div>
 </card>
-
-<collapsible title="WYSIWYG Editor" id="ui-wysiwyg">
-    <wysiwyg></wysiwyg>
-</collapsible>
-
-<collapsible title="Tag input" id="ui-tags">
-    <tag-input v-model="$store.ui.tags"></tag-input>
-</collapsible>
 
 <collapsible title="Heading" id="ui-headings">
     <h1>H1 Heading</h1>
@@ -105,6 +104,14 @@
     </collapsible>
 </collapsible>
 
+<collapsible title="WYSIWYG Editor" id="ui-wysiwyg">
+    <wysiwyg></wysiwyg>
+</collapsible>
+
+<collapsible title="Tag input" id="ui-tags">
+    <tag-input v-model="$store.ui.tags"></tag-input>
+</collapsible>
+
 <collapsible title="Badges" id="ui-badges">
     <collapsible title="Default">
         <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color">
@@ -149,6 +156,29 @@
             <button @click="$notify.prompt('Enter your name', $store.ui.name, function (result) { if (result) { $store.ui.name = result; } })" class="button blue">Value: @{{ $store.ui.name }}</button>
         </div>
     </collapsible>
+</collapsible>
+
+<collapsible title="Pagination" id="ui-pagination">
+    <p class="mb-4">
+        Default<br>
+        <pagination :page-count="100" :value="1"></pagination>
+    </p>
+    <p class="mb-4">
+        No previous/next button<br>
+        <pagination :page-count="100" :value="10" :prev-next-buttons="false"></pagination>
+    </p>
+    <p class="mb-4">
+        No first/last button<br>
+        <pagination :page-count="100" :value="25" :first-last-buttons="false"></pagination>
+    </p>
+    <p class="mb-4">
+        Only page-buttons<br>
+        <pagination :page-count="100" :value="50" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
+    </p>
+    <p class="mb-4">
+        Different color (Works with all other colors as well)<br>
+        <pagination :page-count="100" :value="100" color="red"></pagination>
+    </p>
 </collapsible>
 
 @endsection

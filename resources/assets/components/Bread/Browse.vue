@@ -160,7 +160,7 @@
                         </a>
                     </div>
                     <div class="w-full lg:w1/2 lg:text-right">
-                        <pagination :pages="pages" v-model.number="parameters.page" :visible-pages="7" v-if="results.length > 0"></pagination>
+                        <pagination :page-count="pages" v-model.number="parameters.page" v-if="results.length > 0"></pagination>
                     </div>
                 </div>
             </div>
