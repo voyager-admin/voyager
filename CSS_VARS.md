@@ -81,7 +81,7 @@ For convenience, here is a usable stylesheet:
 
     // Body
     --bg-color: 0xFF;
-    --font-family: 0xFF;
+    --font-family: Inter-Ui;
     --link-color: 0xFF;
     --text-color: 0xFF;
     --description-text-color: 0xFF;
