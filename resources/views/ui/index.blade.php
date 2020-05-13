@@ -21,6 +21,9 @@
             <button class="button blue" v-scroll-to="'#ui-wysiwyg'">
                 WYSIWYG Editor
             </button>
+            <button class="button blue" v-scroll-to="'#ui-tabs'">
+                Tabs
+            </button>
             <button class="button blue" v-scroll-to="'#ui-badges'">
                 Badges
             </button>
@@ -113,6 +116,23 @@
 
 <collapsible title="Tag input" id="ui-tags">
     <tag-input v-model="$store.ui.tags"></tag-input>
+</collapsible>
+
+<collapsible title="Tabs" id="ui-tabs">
+    <tabs :tabs="[{name: 'tab1', title: 'Tab 1'}, {name: 'tab2', title: 'Tab 2'}, {name: 'tab3', title: 'Tab 3'}]">
+        <div slot="tab1">
+            <h3>Tab 1</h3>
+            <p>@{{ $store.ui.lorem }}</p>
+        </div>
+        <div slot="tab2">
+            <h3>Tab 2</h3>
+            <p>@{{ $store.ui.lorem }}</p>
+        </div>
+        <div slot="tab3">
+            <h3>Tab 3</h3>
+            <p>@{{ $store.ui.lorem }}</p>
+        </div>
+    </tabs>
 </collapsible>
 
 <collapsible title="Badges" id="ui-badges">
