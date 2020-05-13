@@ -5,7 +5,7 @@
                 <div class="flex items-center">
                     <button class="button blue" @click.stop="toggleFocusMode">
                         <icon icon="crosshair-alt" class="focus" :size="4" />
-                        Focus
+                        {{ __('voyager::generic.focus') }}
                     </button>
                     <button class="button green" @click="loadProperties">
                         <icon icon="sync" class="rotating-ccw" :size="4" v-if="loadingProps" />

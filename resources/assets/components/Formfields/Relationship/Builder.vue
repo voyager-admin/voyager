@@ -3,7 +3,7 @@
         <div v-if="show == 'view-options'">
             <div v-if="relationship">
                 <card title="BREAD" class="mt-3" v-if="relationship.has_bread">
-                    <label for="browse_list">Browse List</label>
+                    <label for="browse_list">{{ __('voyager::formfields.relationship.browse_list') }}</label>
                     <select v-model="options.browse_list" class="voyager-input small w-full" id="browse_list">
                         <option :value="null">{{ __('voyager::generic.none') }}</option>
                         <option v-for="(list, i) in relationshipLayouts('list')" :key="'list-'+i">
@@ -11,7 +11,7 @@
                         </option>
                     </select>
 
-                    <label for="add_view">Add View</label>
+                    <label for="add_view">{{ __('voyager::formfields.relationship.add_view') }}</label>
                     <select v-model="options.add_view" class="voyager-input small w-full" id="add_view">
                         <option :value="null">{{ __('voyager::generic.none') }}</option>
                         <option v-for="(view, i) in relationshipLayouts('view')" :key="'view-'+i">
@@ -29,7 +29,7 @@
                 </card>
             </div>
             <div v-else>
-                Please select a relationship method first!
+                {{ __('voyager::formfields.relationship.select_relationship') }}
             </div>
         </div>
         <div v-else-if="show == 'view'">

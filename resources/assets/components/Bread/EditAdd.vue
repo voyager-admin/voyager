@@ -42,7 +42,7 @@
                     </div>
                     <button class="button green" @click="save">
                         <icon icon="process" class="rotating-ccw" :size="4" v-if="isSaving" />
-                        Save
+                        {{ __('voyager::generic.save') }}
                     </button>
                 </div>
         </card>

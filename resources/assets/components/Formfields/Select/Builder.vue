@@ -1,12 +1,12 @@
 <template>
     <div>
         <div v-if="show == 'list-options'">
-            <label for="multiple" class="label">Multiple</label>
+            <label for="multiple" class="label">{{ __('voyager::generic.multiple') }}</label>
             <input type="checkbox" id="multiple" class="voyager-input" v-model="options.multiple">
 
             <div class="w-full flex">
                 <div class="w-4/6">
-                    <h5>Options</h5>
+                    <h5>{{ __('voyager::generic.options') }}</h5>
                 </div>
                 <div class="w-2/6 text-right">
                     <button class="button green small icon-only" @click.stop="addOption">
@@ -18,8 +18,8 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Key</th>
-                            <th>Value</th>
+                            <th>{{ __('voyager::generic.key') }}</th>
+                            <th>{{ __('voyager::generic.value') }}</th>
                             <th>{{ __('voyager::generic.actions') }}</th>
                         </tr>
                     </thead>
@@ -46,12 +46,12 @@
             </div>
         </div>
         <div v-else-if="show == 'view-options'">
-            <label for="multiple" class="label">Multiple</label>
+            <label for="multiple" class="label">{{ __('voyager::generic.multiple') }}</label>
             <input type="checkbox" id="multiple" class="voyager-input" v-model="options.multiple">
 
             <div class="w-full flex">
                 <div class="w-4/6">
-                    <h5>Options</h5>
+                    <h5>{{ __('voyager::generic.options') }}</h5>
                 </div>
                 <div class="w-2/6 text-right">
                     <button class="button green small icon-only" @click.stop="addOption">
@@ -63,8 +63,8 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Key</th>
-                            <th>Value</th>
+                            <th>{{ __('voyager::generic.key') }}</th>
+                            <th>{{ __('voyager::generic.value') }}</th>
                             <th>{{ __('voyager::generic.actions') }}</th>
                         </tr>
                     </thead>

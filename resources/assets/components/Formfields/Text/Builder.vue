@@ -1,25 +1,25 @@
 <template>
     <div>
         <div v-if="show == 'list-options'">
-            <label for="length" class="label">Display length</label>
+            <label for="length" class="label">{{ __('voyager::generic.display_length') }}</label>
             <input type="text" id="length" class="voyager-input w-full" v-model="options.display_length"> 
         </div>
         <div v-else-if="show == 'view-options'">
-            <label class="label mt-4">Placeholder</label>
+            <label class="label mt-4">{{ __('voyager::generic.placeholder') }}</label>
             <language-input
                 class="voyager-input w-full"
-                type="text" placeholder="Placeholder"
+                type="text" :placeholder="__('voyager::generic.placeholder')"
                 v-bind:value="options.placeholder"
                 v-on:input="options.placeholder = $event" /> 
 
-            <label class="label mt-4">Default value</label>
+            <label class="label mt-4">{{ __('voyager::generic.default_value') }}</label>
             <language-input
                 class="voyager-input w-full"
-                type="text" placeholder="Default value"
+                type="text" :placeholder="__('voyager::generic.default_value')"
                 v-bind:value="options.default_value"
                 v-on:input="options.default_value = $event" /> 
 
-            <label class="label mt-4">Rows</label>
+            <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
             <input type="number" min="1" max="1000" class="voyager-input w-full" v-model="options.rows"> 
         </div>
         <div v-else-if="show == 'view'">

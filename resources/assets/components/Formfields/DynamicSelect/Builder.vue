@@ -4,10 +4,10 @@
             
         </div>
         <div v-else-if="show == 'view-options'">
-            <label class="label mt-4">Route name</label>
+            <label class="label mt-4">{{ __('voyager::formfields.dynamic_select.route_name') }}</label>
             <input
                 class="voyager-input w-full"
-                type="text" placeholder="Route name"
+                type="text" :placeholder="__('voyager::formfields.dynamic_select.route_name')"
                 v-model="options.route_name" />
         </div>
         <div v-else-if="show == 'view'">

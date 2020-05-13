@@ -69,21 +69,21 @@
                             <input type="checkbox" class="voyager-input" v-model="formfield.translatable">
                         </div>
 
-                        <label class="label mt-4">Title</label>
+                        <label class="label mt-4">{{ __('voyager::generic.title') }}</label>
                         <language-input
                             class="voyager-input w-full"
-                            type="text" placeholder="Title"
+                            type="text" :placeholder="__('voyager::generic.title')"
                             v-bind:value="formfield.options.title"
                             v-on:input="formfield.options.title = $event" />
 
-                        <label class="label mt-4">Description</label>
+                        <label class="label mt-4">{{ __('voyager::generic.description') }}</label>
                         <language-input
                             class="voyager-input w-full"
-                            type="text" placeholder="Description"
+                            type="text" :placeholder="__('voyager::generic.description')"
                             v-bind:value="formfield.options.description"
                             v-on:input="formfield.options.description = $event" />
 
-                        <label class="label mt-4">Border color</label>
+                        <label class="label mt-4">{{ __('voyager::builder.border_color') }}</label>
                         <color-picker
                             v-on:input="formfield.options.border = $event"
                             v-bind:value="formfield.options.border"
