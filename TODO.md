@@ -7,7 +7,6 @@ Instead, they are listed here:
 - Formfield options need to be translated
 - Implement a set-setting method (?)
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
-- SlideIn sometimes closes when clicking too often on elements inside - investigate
 
 ## Formfields
 - **Dynamic select** which calls a route name

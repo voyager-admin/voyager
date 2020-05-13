@@ -1,6 +1,6 @@
 <template>
     <slide-x-right-transition>
-        <div v-if="isOpened" class="mode-dark slidein" :class="width" v-click-outside="closeOutside">
+        <div v-if="isOpened" class="mode-dark slidein" :class="width" v-click-outside="close">
             <slot />
         </div>
     </slide-x-right-transition>
@@ -20,7 +20,6 @@ export default {
     data: function () {
         return {
             isOpened: this.opened,
-            justOpened: true,
         };
     },
     methods: {
@@ -30,13 +29,6 @@ export default {
         close: function () {
             this.isOpened = false;
         },
-        closeOutside: function () {
-            if (this.justOpened) {
-                this.justOpened = false;
-            } else {
-                this.isOpened = false;
-            }
-        },
         toggle: function () {
             this.isOpened = !this.isOpened;
         }
@@ -44,9 +36,6 @@ export default {
     watch: {
         opened: function (opened) {
             this.isOpened = opened;
-            if (opened) {
-                this.justOpened = true;
-            }
         },
         isOpened: function (opened) {
             if (opened) {

@@ -36,3 +36,7 @@ Vue.prototype.MimeMatcher = MimeMatcher;
 import { VTooltip } from 'v-tooltip';
 VTooltip.options.defaultPlacement = 'bottom';
 Vue.directive('tooltip', VTooltip);
+
+// https://github.com/ndelvalle/v-click-outside
+import vClickOutside from 'v-click-outside';
+Vue.use(vClickOutside);
