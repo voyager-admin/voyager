@@ -216,7 +216,7 @@ export default {
         },
         data: function (setting, value = null) {
             if (setting.translatable || false && setting.value && this.isString(setting.value)) {
-                Vue.set(setting, 'value', this.get_input_as_translatable_object(setting.value));
+                Vue.set(setting, 'value', this.get_translatable_object(setting.value));
             }
             if (value) {
                 if (setting.translatable || false) {
@@ -226,7 +226,7 @@ export default {
                 }
             }
             if (setting.translatable || false) {
-                return this.translate(this.get_input_as_translatable_object(setting.value));
+                return this.translate(this.get_translatable_object(setting.value));
             }
             return setting.value;
         },

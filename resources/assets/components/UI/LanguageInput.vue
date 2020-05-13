@@ -11,7 +11,7 @@ export default {
         };
     },
     mounted: function () {
-        this.translations = this.get_input_as_translatable_object(this.value);
+        this.translations = this.get_translatable_object(this.value);
     },
     computed: {
         currentText: {
@@ -26,7 +26,7 @@ export default {
     },
     watch: {
         value: function (val) {
-            this.translations = this.get_input_as_translatable_object(this.value);
+            this.translations = this.get_translatable_object(this.value);
         }
     }
 };

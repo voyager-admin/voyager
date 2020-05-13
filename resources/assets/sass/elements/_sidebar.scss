@@ -62,7 +62,7 @@
     .menuitem {
         .item {
             .link {
-                @include text-color(sidebar-item-icon-color, 'colors.gray.300');
+                @include text-color(sidebar-item-text-color, 'colors.gray.300');
             }
 
             &:hover {
@@ -70,7 +70,7 @@
             }
 
             &.active {
-                @include bg-color(sidebar-item-active-color-dark, 'colors.gray.700');
+                @include bg-color(sidebar-item-active-color, 'colors.gray.700');
 
                 .link {
                     @include text-color(sidebar-item-text-active-color, 'colors.gray.300');

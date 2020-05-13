@@ -39,7 +39,7 @@ Vue.prototype.$language = new Vue({
 
 Vue.mixin({
     methods: {
-        get_input_as_translatable_object: function (input) {
+        get_translatable_object: function (input) {
             if (this.isString(input) || this.isNumber(input) || this.isBoolean(input)) {
                 try {
                     input = JSON.parse(input);
@@ -65,7 +65,7 @@ Vue.mixin({
 
         translate: function (input, once = false) {
             if (!this.isObject(input)) {
-                input = this.get_input_as_translatable_object(input);
+                input = this.get_translatable_object(input);
             }
             if (this.isObject(input)) {
                 return input[once ? this.$language.initial_locale : this.$language.locale] || '';

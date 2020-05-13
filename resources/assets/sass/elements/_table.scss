@@ -28,7 +28,7 @@
                 }
                 &:nth-of-type(even) {
                     @include bg-color(table-row-even-bg-color-dark, 'colors.transparent');
-                    @include text-color(tr-even-text-color-dark, 'colors.gray.400');
+                    @include text-color(table-row-even-text-color-dark, 'colors.gray.400');
 
                     &:hover {
                         @include bg-color(table-row-even-bg-color-hover-dark, 'colors.gray.700');

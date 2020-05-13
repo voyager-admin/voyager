@@ -67,7 +67,7 @@ export default {
         data: function (formfield, value = null) {
             // TODO: if column.type == relationship, this won't work
             if (formfield.translatable || false && this.output[formfield.column.column] && this.isString(this.output[formfield.column.column])) {
-                Vue.set(this.output, formfield.column.column, this.get_input_as_translatable_object(this.output[formfield.column.column]));
+                Vue.set(this.output, formfield.column.column, this.get_translatable_object(this.output[formfield.column.column]));
             }
             if (value) {
                 if (!this.output.hasOwnProperty(formfield.column.column)) {
@@ -84,7 +84,7 @@ export default {
                 }
             }
             if (formfield.translatable || false) {
-                return this.translate(this.get_input_as_translatable_object(this.output[formfield.column.column]));
+                return this.translate(this.get_translatable_object(this.output[formfield.column.column]));
             }
             return this.input[formfield.column.column];
         },

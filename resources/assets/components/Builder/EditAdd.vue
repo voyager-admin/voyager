@@ -535,7 +535,7 @@ export default {
         },
         setSlug: function (value) {
             var l = this.$language.locale;
-            this.bread.slug = this.get_input_as_translatable_object(this.bread.slug);
+            this.bread.slug = this.get_translatable_object(this.bread.slug);
             this.bread.slug[l] = this.slugify(value[l], { strict: true, lower: true });
         },
         toggleFocusMode: function () {

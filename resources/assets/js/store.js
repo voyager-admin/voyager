@@ -22,6 +22,7 @@ var $store = {
             'indigo',
             'purple',
             'pink',
+            'gray',
         ],
         lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
         tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
