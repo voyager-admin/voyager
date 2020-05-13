@@ -1,5 +1,5 @@
 <template>
-<div class="card">
+<div class="card" :class="`border-${border}`">
     <div class="header" v-if="showHeader">
         <div class="flex items-center justify-between flex-wrap sm:flex-no-wrap">
             <div class="inline-flex items-center" v-if="!$slots.title">
@@ -48,6 +48,10 @@ export default {
             type: String,
             default: '',
         },
+        border: {
+            type: String,
+            default: 'default'
+        }
     }
 };
 </script>
@@ -59,8 +63,11 @@ export default {
 
 .mode-dark .card {
     @include bg-color(card-bg-color-dark, 'colors.gray.800');
-    @include border-color(card-border-color-dark, 'colors.gray.700');
     @include text-color(card-text-color-dark, 'colors.gray.300');
+
+    &.border-default {
+        @include border-color(card-border-color-dark, 'colors.gray.700');
+    }
 
     .header {
         @include border-color(card-border-color-dark, 'colors.gray.700');
@@ -78,8 +85,11 @@ export default {
 .card {
     @apply shadow border rounded-lg p-4 mb-4 mx-1;
     @include bg-color(card-bg-color, 'colors.white');
-    @include border-color(card-border-color, 'colors.gray.400');
     @include text-color(card-text-color, 'colors.gray.700');
+
+    &.border-default {
+        @include border-color(card-border-color, 'colors.gray.400');
+    }
     .header {
         @apply p-2;
         @include border-color(card-border-color, 'colors.gray.400');

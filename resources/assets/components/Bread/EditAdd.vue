@@ -13,7 +13,10 @@
                 <div>
                     <div class="flex flex-wrap w-full">
                         <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
-                            <card :title="translate(formfield.options.title, true)" :show-title="translate(formfield.options.label, true) !== ''">
+                            <card
+                                :title="translate(formfield.options.title, true)"
+                                :show-title="translate(formfield.options.label, true) !== ''"
+                                :border="formfield.options.border || 'default'">
                                 <div>
                                     <alert v-if="getErrors(formfield.column).length > 0" color="red" :closebutton="false">
                                         <ul class="list-disc ml-4">

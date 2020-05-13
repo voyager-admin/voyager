@@ -70,6 +70,7 @@ export default {
         @include border-color(dropdown-border-color-dark, 'colors.gray.700');
 
         .body {
+            @apply overflow-auto;
             .link {
                 @apply truncate;
                 @include border-color(dropdown-border-color-dark, 'colors.gray.700');

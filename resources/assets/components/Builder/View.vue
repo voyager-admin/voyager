@@ -11,7 +11,7 @@
             axis="xy"
             class="m-0"
             :class="formfield.options.width">
-            <card :title="translate(formfield.options.title) || ''">
+            <card :title="translate(formfield.options.title) || ''" :border="formfield.options.border || 'default'">
                 <div slot="actions">
                     <button class="button small blue icon-only">
                         <icon icon="expand-arrows" v-sort-handle class="cursor-move" />
@@ -82,6 +82,13 @@
                             type="text" placeholder="Description"
                             v-bind:value="formfield.options.description"
                             v-on:input="formfield.options.description = $event" />
+
+                        <label class="label mt-4">Border color</label>
+                        <color-picker
+                            v-on:input="formfield.options.border = $event"
+                            v-bind:value="formfield.options.border"
+                            palette="tailwind-shades"
+                            :describe="false"></color-picker>
 
                         <component
                             :is="'formfield-'+kebab_case(formfield.type)+'-builder'"

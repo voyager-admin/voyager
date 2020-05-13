@@ -10,6 +10,7 @@ Instead, they are listed here:
 - Move more plugin-related code into the controller as it isn't needed anywhere else
 - Swap Facades with Contracts/Implementations where possible and use more DI
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
+- SlideIn sometimes closes when clicking too often on elements inside - investigate
 
 ## Formfields
 - **Dynamic select** which calls a route name

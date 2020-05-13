@@ -49,7 +49,7 @@ class InstallCommand extends Command
     public function handle(Filesystem $filesystem)
     {
         $routes_contents = $filesystem->get(base_path('routes/web.php'));
-        if (false === strpos($routes_contents, 'Voyager::routes()')) {
+        if (strpos($routes_contents, 'Voyager::routes()') === false) {
             $filesystem->append(
                 base_path('routes/web.php'),
                 "\n\nRoute::group(['prefix' => 'admin'], function () {\n    Voyager::routes();\n});\n"
