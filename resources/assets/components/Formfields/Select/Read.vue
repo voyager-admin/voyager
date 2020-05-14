@@ -29,6 +29,8 @@ export default {
                     return vm.translate(val.value, true);
                 }
                 return '';
+            }).filter(function (value) {
+                return value !== '';
             });
         },
     }
