@@ -8,15 +8,20 @@ Instead, they are listed here:
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
 
 ## Formfields
-- **Dynamic select** which calls a route name
+- **Dynamic select** needs a "read" part
+- **Relationship** not yet (fully) working
 - **Checkboxes** with translatable labels, adjustable amount of displayed entries when browsing
 - **Radios** with translatable labels
 - **Color Picker**
+- **Media Picker**
+- **WYSIWYG Editor**
+- **Maps** (external plugin)
+- **Password**
+- **Date/Time Picker**
 
 ## Nice to have
 - Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields **This is actually important**
-- Add dark boxshadow variant to tailwind
-- When saving a BREAD check if all needed routes exist (route caching)
+- Add dark boxshadow variant to tailwind (currently not possible but should be with official dark-mode support)
 
 ## Documentation
 - Relationship methods NEED TO define the return-type. Otherwise they won't be recognized by the BREAD builder
