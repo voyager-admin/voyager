@@ -214,7 +214,7 @@
                         </button>
                     </div>
                 </dropdown>
-                <button class="button blue small" @click="layoutOptionsOpen = true" :disabled="!currentLayout">
+                <button class="button blue small" @click="layoutOptionsOpen = true" :disabled="!currentLayout || currentLayout.type !== 'list'">
                     <icon icon="cog" />
                     <span>
                         {{ __('voyager::generic.options') }}
@@ -232,8 +232,10 @@
                             </button>
                         </div>
                     </div>
-                    <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
-                    <input type="checkbox" v-model="currentLayout.options.soft_deletes">
+                    <div v-if="currentLayout.type == 'list'">
+                        <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
+                        <input type="checkbox" v-model="currentLayout.options.soft_deletes">
+                    </div>
                 </slide-in>
             </div>
 
