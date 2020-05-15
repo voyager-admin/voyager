@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="flex-none md:flex mb-4">
-                    <div class="w-full md:w-1/3 m-1">
+                    <div class="w-full md:w-1/4 m-1">
                         <label class="label" for="model">{{ __('voyager::builder.model') }}</label>
                         <input
                             class="voyager-input w-full"
@@ -88,7 +88,7 @@
                             type="text" :placeholder="__('voyager::builder.model')"
                             v-model="bread.model">
                     </div>
-                    <div class="w-full md:w-1/3 m-1">
+                    <div class="w-full md:w-1/4 m-1">
                         <label class="label" for="controller">{{ __('voyager::builder.controller') }}</label>
                         <input
                             class="voyager-input w-full"
@@ -96,7 +96,7 @@
                             type="text" :placeholder="__('voyager::builder.controller')"
                             v-model="bread.controller">
                     </div>
-                    <div class="w-full md:w-1/3 m-1">
+                    <div class="w-full md:w-1/4 m-1">
                         <label class="label" for="policy">{{ __('voyager::builder.policy') }}</label>
                         <input
                             class="voyager-input w-full"
@@ -104,17 +104,11 @@
                             type="text" :placeholder="__('voyager::builder.policy')"
                             v-model="bread.policy">
                     </div>
-                </div>
-                <div class="flex-none md:flex mb-4">
-                    <div class="w-full md:w-1/2 m-1">
-                        <label class="label" for="scope">{{ __('voyager::builder.scope') }}</label>
-                        <select class="voyager-input w-full" v-model="bread.scope">
-                            <option :value="null">{{ __('voyager::generic.none') }}</option>
-                            <option v-for="(scope, i) in scopes" :key="i">{{ scope }}</option>
-                        </select>
-                    </div>
-                    <div class="w-full md:w-1/2 m-1">
-                        <label class="label" for="global_search">{{ __('voyager::builder.global_search_display_field') }}</label>
+                    <div class="w-full md:w-1/4 m-1">
+                        <label class="label inline-flex" for="global_search">
+                            {{ __('voyager::builder.global_search_display_field') }}
+                            <icon icon="question-circle" class="mx-2" v-tooltip="__('voyager::builder.global_search_display_field_hint')"></icon>
+                        </label>
                         <select class="voyager-input w-full" v-model="bread.global_search_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
                             <option v-for="column in columns" :key="column">{{ column }}</option>
@@ -235,6 +229,12 @@
                     <div v-if="currentLayout.type == 'list'">
                         <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
                         <input type="checkbox" v-model="currentLayout.options.soft_deletes">
+
+                        <label class="label" for="scope">{{ __('voyager::builder.scope') }}</label>
+                        <select class="voyager-input w-full" v-model="currentLayout.options.scope">
+                            <option :value="null">{{ __('voyager::generic.none') }}</option>
+                            <option v-for="(scope, i) in scopes" :key="i">{{ scope }}</option>
+                        </select>
                     </div>
                 </slide-in>
             </div>
@@ -428,6 +428,7 @@ export default {
                                 type: null,
                             },
                             soft_deletes: true,
+                            scope: null,
                         };
 
                         vm.bread.layouts.push({

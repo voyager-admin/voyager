@@ -32,6 +32,9 @@ class BreadController extends Controller
         extract($request->only(['page', 'perpage', 'global', 'filters', 'order', 'direction', 'softdeleted', 'locale']));
 
         $query = $bread->getModel()->select('*');
+        if (!empty($layout->scope)) {
+            $query = $bread->getModel()->{$layout->scope}()->select('*');
+        }
 
         // Soft-deletes
         $query = $this->loadSoftDeletesQuery($bread, $layout, $softdeleted, $query);

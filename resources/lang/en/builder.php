@@ -27,6 +27,7 @@ return [
     'enter_new_name'                    => 'Enter the new name',
     'formfields_more'                   => 'Looking for more formfields?',
     'global_search_display_field'       => 'Global search field',
+    'global_search_display_field_hint'  => 'This field will be shown in the global search',
     'json_output'                       => 'JSON Output',
     'layout_mapping'                    => 'Layout mapping',
     'list'                              => 'List',
