@@ -26,6 +26,17 @@ var $store = {
         ],
         lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
         tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
+        select_options: [
+            { key: 12, value: 'Lorem first', icon: 'question-circle' },
+            { key: 1, value: 'ipsum', icon: 'question-circle' },
+            { key: 2, value: 'dolor', icon: 'question-circle' },
+            { key: 3, value: 'sit', icon: 'question-circle' },
+            { key: 4, value: 'amet', icon: 'question-circle' },
+            { key: 5, value: 'consectetur', icon: 'question-circle' },
+            { key: 6, value: 'adipisicing', icon: 'question-circle' },
+            { key: 7, value: 'elit last', icon: 'question-circle' },
+        ],
+        selected_option: null,
     },
     toggleDirection () {
         this.rtl = !this.rtl;

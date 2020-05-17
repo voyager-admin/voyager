@@ -15,6 +15,9 @@
             <button class="button blue" v-scroll-to="'#ui-inputs'">
                 Inputs
             </button>
+            <button class="button blue" v-scroll-to="'#ui-select'">
+                Select
+            </button>
             <button class="button blue" v-scroll-to="'#ui-tags'">
                 Tag input
             </button>
@@ -110,12 +113,16 @@
     </collapsible>
 </collapsible>
 
-<collapsible title="WYSIWYG Editor" id="ui-wysiwyg">
-    <wysiwyg></wysiwyg>
+<collapsible title="Select" id="ui-select">
+    <select-input :options="$store.ui.select_options" v-model="$store.ui.selected_option"></select-input>
 </collapsible>
 
 <collapsible title="Tag input" id="ui-tags">
     <tag-input v-model="$store.ui.tags"></tag-input>
+</collapsible>
+
+<collapsible title="WYSIWYG Editor" id="ui-wysiwyg">
+    <wysiwyg></wysiwyg>
 </collapsible>
 
 <collapsible title="Tabs" id="ui-tabs">
