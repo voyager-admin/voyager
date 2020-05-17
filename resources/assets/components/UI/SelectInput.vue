@@ -100,10 +100,7 @@ export default {
                 if (!this.isOpen) {
                     this.open();
                 } else if (this.focused !== null) {
-                    this.$emit('input', this.focused);
-                    if (this.closeOnSelect) {
-                        this.close();
-                    }
+                    this.selectOption(this.options[this.focused].key);
                 }
             }
         },
