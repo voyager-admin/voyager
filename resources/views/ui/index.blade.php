@@ -114,7 +114,12 @@
 </collapsible>
 
 <collapsible title="Select" id="ui-select">
-    <select-input :options="$store.ui.select_options" v-model="$store.ui.selected_option"></select-input>
+    <collapsible title="Single">
+        <select-input :options="$store.ui.select_options" v-model="$store.ui.selected_option"></select-input>
+    </collapsible>
+    <collapsible title="Multiple">
+        <select-input :options="$store.ui.select_options" v-model="$store.ui.selected_options" :close-on-select="false" multiple></select-input>
+    </collapsible>
 </collapsible>
 
 <collapsible title="Tag input" id="ui-tags">

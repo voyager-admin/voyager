@@ -3,7 +3,17 @@
     <span class="inline-block w-full rounded-md shadow-sm">
         <button @click="toggle()" type="button" class="voyager-input w-full">
             <div class="flex items-center space-x-3">
-                <span class="block truncate">{{ selectedValue }}</span>
+                <span class="block truncate" v-if="!isArray(value)">
+                    {{ getValueByKey(value) }}
+                </span>
+                <span v-else-if="isArray(value) && value.length > 0">
+                    <badge v-for="key in value" :key="key" :color="color">
+                        {{ getValueByKey(key) }}
+                    </badge>
+                </span>
+                <span v-else>
+                    {{ selectOptionText }}
+                </span>
             </div>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <icon icon="direction" :size="5"></icon>
@@ -16,16 +26,16 @@
                 v-for="(option, i) in options"
                 :key="'option-'+option.key"
                 class="option"
-                :class="[focused == i ? 'focused' : '', value == option.key ? 'selected' : '']"
+                :class="[focused == i ? 'focused' : '', isSelected(option.key) ? 'selected' : '']"
                 @click="selectOption(option.key)"
                 @mouseover="focused = i">
                 <div class="flex items-center space-x-3">
                     <icon v-if="option.icon" :icon="option.icon" :size="6" class="flex-shrink-0"></icon>
-                    <span :class="[value == option.key ? 'font-semibold' : 'font-normal']" class="block truncate">
+                    <span :class="[isSelected(option.key) ? 'font-semibold' : 'font-normal']" class="block truncate">
                         {{ option.value }}
                     </span>
                 </div>
-                <span v-show="value === option.key" class="check">
+                <span v-show="isSelected(option.key)" class="check">
                     <icon icon="check" :size="5"></icon>
                 </span>
             </li>
@@ -50,6 +60,14 @@ export default {
         closeOnSelect: {
             type: Boolean,
             default: true,
+        },
+        multiple: {
+            type: Boolean,
+            default: true,
+        },
+        color: {
+            type: String,
+            default: 'blue',
         }
     },
     data: function () {
@@ -90,7 +108,17 @@ export default {
             }
         },
         selectOption: function (key) {
-            this.$emit('input', key);
+            if (this.isArray(this.value) && this.multiple) {
+                var array = this.value;
+                if (this.value.includes(key)) {
+                    array.splice(array.indexOf(key), 1);
+                } else {
+                    array.push(key);
+                }
+                this.$emit('input', array);
+            } else {
+                this.$emit('input', key);
+            }
             if (this.closeOnSelect) {
                 this.close();
             }
@@ -119,19 +147,23 @@ export default {
                 this.$emit('input', this.options[this.focused].key);
             }
         },
-    },
-    computed: {
-        selectedValue: function () {
-            var vm = this;
-            var option = vm.options.filter(function (option) {
-                return (option.key == vm.value);
-            });
-            if (option.length >= 1) {
-                return option[0].value;
+        isSelected: function (key) {
+            if (this.isArray(this.value) && this.multiple) {
+                return this.value.includes(key);
             }
 
-            return vm.selectOptionText;
+            return this.value == key;
         },
+        getValueByKey: function (key) {
+            var option = this.options.filter(function (option) {
+                return option.key == key;
+            })[0];
+
+            return option ? option.value : this.selectOptionText;
+        }
+    },
+    computed: {
+        
     }
 };
 </script>

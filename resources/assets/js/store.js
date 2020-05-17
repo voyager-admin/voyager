@@ -37,6 +37,7 @@ var $store = {
             { key: 7, value: 'elit last', icon: 'question-circle' },
         ],
         selected_option: null,
+        selected_options: [],
     },
     toggleDirection () {
         this.rtl = !this.rtl;
