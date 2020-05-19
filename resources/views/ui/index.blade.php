@@ -36,6 +36,9 @@
             <button class="button blue" v-scroll-to="'#ui-notifications'">
                 Notifications
             </button>
+            <button class="button blue" v-scroll-to="'#ui-scrollbars'">
+                Scrollbars
+            </button>
             <button class="button blue" v-scroll-to="'#ui-pagination'">
                 Pagination
             </button>
@@ -190,6 +193,39 @@
             <button @click="$notify.prompt('Enter your name', '', function (result) {}, 'blue', 'Save', 'Abort')" class="button blue">Custom buttons</button>
             <button @click="$notify.prompt('Enter your name', $store.ui.name, function (result) { if (result) { $store.ui.name = result; } })" class="button blue">Value: @{{ $store.ui.name }}</button>
         </div>
+    </collapsible>
+</collapsible>
+
+<collapsible title="Scrollbars" id="ui-scrollbars">
+    <alert color="yellow" class="mb-4">
+        Hit Shift to scroll horizontal
+    </alert>
+    <collapsible title="Vertical">
+        <scrollbar class="max-h-64 my-scrollbar" ref="Scrollbar">
+            <div>
+                <p v-for="i in 50" :key="i" class="whitespace-no-wrap">
+                    Item #@{{ i }}
+                </p>
+            </div>
+        </scrollbar>
+    </collapsible>
+    <collapsible title="Horizontal">
+        <scrollbar class="max-h-64 my-scrollbar" ref="Scrollbar">
+            <div>
+                <p v-for="i in 5" :key="i" class="whitespace-no-wrap">
+                    #@{{ i }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }}
+                </p>
+            </div>
+        </scrollbar>
+    </collapsible>
+    <collapsible title="Both">
+        <scrollbar class="max-h-64 my-scrollbar" ref="Scrollbar">
+            <div>
+                <p v-for="i in 25" :key="i" class="whitespace-no-wrap">
+                    #@{{ i }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }}
+                </p>
+            </div>
+        </scrollbar>
     </collapsible>
 </collapsible>
 
