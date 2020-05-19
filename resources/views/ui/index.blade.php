@@ -6,40 +6,40 @@
 <card title="UI Elements">
     <div>
         <div class="inline w-full">
-            <button class="button blue" v-scroll-to="'#ui-headings'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-headings')">
                 Headings
             </button>
-            <button class="button blue" v-scroll-to="'#ui-buttons'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-buttons')">
                 Buttons
             </button>
-            <button class="button blue" v-scroll-to="'#ui-inputs'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-inputs')">
                 Inputs
             </button>
-            <button class="button blue" v-scroll-to="'#ui-select'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-select')">
                 Select
             </button>
-            <button class="button blue" v-scroll-to="'#ui-tags'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-tags')">
                 Tag input
             </button>
-            <button class="button blue" v-scroll-to="'#ui-wysiwyg'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-wysiwyg')">
                 WYSIWYG Editor
             </button>
-            <button class="button blue" v-scroll-to="'#ui-tabs'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-tabs')">
                 Tabs
             </button>
-            <button class="button blue" v-scroll-to="'#ui-badges'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-badges')">
                 Badges
             </button>
-            <button class="button blue" v-scroll-to="'#ui-alerts'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-alerts')">
                 Alerts
             </button>
-            <button class="button blue" v-scroll-to="'#ui-notifications'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-notifications')">
                 Notifications
             </button>
-            <button class="button blue" v-scroll-to="'#ui-scrollbars'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-scrollbars')">
                 Scrollbars
             </button>
-            <button class="button blue" v-scroll-to="'#ui-pagination'">
+            <button class="button blue" @click="$refs.scroll.scrollToElementID('#ui-pagination')">
                 Pagination
             </button>
         </div>
@@ -201,7 +201,7 @@
         Hit Shift to scroll horizontal
     </alert>
     <collapsible title="Vertical">
-        <scrollbar class="max-h-64 my-scrollbar" ref="Scrollbar">
+        <scrollbar class="max-h-64" ref="Scrollbar">
             <div>
                 <p v-for="i in 50" :key="i" class="whitespace-no-wrap">
                     Item #@{{ i }}
@@ -210,7 +210,7 @@
         </scrollbar>
     </collapsible>
     <collapsible title="Horizontal">
-        <scrollbar class="max-h-64 my-scrollbar" ref="Scrollbar">
+        <scrollbar class="max-h-64" ref="Scrollbar">
             <div>
                 <p v-for="i in 5" :key="i" class="whitespace-no-wrap">
                     #@{{ i }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }}
@@ -219,7 +219,7 @@
         </scrollbar>
     </collapsible>
     <collapsible title="Both">
-        <scrollbar class="max-h-64 my-scrollbar" ref="Scrollbar">
+        <scrollbar class="max-h-64" ref="Scrollbar">
             <div>
                 <p v-for="i in 25" :key="i" class="whitespace-no-wrap">
                     #@{{ i }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }} @{{ $store.ui.lorem }}

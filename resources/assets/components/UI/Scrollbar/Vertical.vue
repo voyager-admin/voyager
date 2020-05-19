@@ -1,8 +1,8 @@
 <template>
-    <div v-if="height < 100" class="track vertical" ref="container" @click="jump">
+    <div v-if="height < 100" class="track vertical" :class="['w-'+size]" ref="container" @click="jump">
         <div
             class="handle"
-            :class="dragging || draggingFromParent ? '' : 'transition'"
+            :class="[dragging || draggingFromParent ? '' : 'transition', 'w-'+size]"
             ref="scrollbar"
             @touchstart="startDrag"
             @mousedown="startDrag "
@@ -21,6 +21,7 @@ export default {
         onChangePosition: Function,
         onDragging: Function,
         onStopDrag: Function,
+        size: Number,
     },
     data: function () {
         return  {
@@ -34,7 +35,6 @@ export default {
             this.calculateSize();
         },
         'area.height' (val) {
-            console.log(val);
             this.calculateSize();
         }
     },

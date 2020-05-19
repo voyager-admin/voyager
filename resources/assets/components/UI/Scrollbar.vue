@@ -1,5 +1,5 @@
 <template>
-    <div @click="calculateSize" class="scrollbar" ref="scrollWrapper">
+    <component :is="tag" @click="calculateSize" class="scrollbar" ref="scrollWrapper">
         <div
             :class="!dragging ? 'transition' : ''"
             ref="scrollArea"
@@ -18,6 +18,7 @@
                 :on-change-position="handleChangePosition"
                 :on-dragging="handleScrollbarDragging"
                 :on-stop-drag="handleScrollbarStopDrag"
+                :size="size"
             ></vertical-scrollbar>
             <horizontal-scrollbar
                 v-if="ready"
@@ -28,9 +29,10 @@
                 :on-change-position="handleChangePosition"
                 :on-dragging="handleScrollbarDragging"
                 :on-stop-drag="handleScrollbarStopDrag"
+                :size="size"
             ></horizontal-scrollbar>
         </div>
-    </div>
+    </component>
 </template>
 <script>
 import VerticalScrollbar from "./Scrollbar/Vertical.vue";
@@ -38,13 +40,17 @@ import HorizontalScrollbar from "./Scrollbar/Horizontal.vue";
 
 export default {
     props: {
-        speed: {
-            type: Number,
-            default: 50,
-        },
         dontScroll: {
             type: Boolean,
             default: true,
+        },
+        tag: {
+            type: String,
+            default: 'div',
+        },
+        size: {
+            type: Number,
+            default: 3,
         }
     },
     components: {
@@ -72,10 +78,10 @@ export default {
             this.calculateSize(() => {
                 let num = this.speed;
                 let shifted = e.shiftKey;
-                let scrollY = e.deltaY > 0 ? num : -num;
-                let scrollX = e.deltaX > 0 ? num : -num;
+                let scrollY = e.deltaY;
+                let scrollX = e.deltaX;
                 if (shifted && e.deltaX == 0) {
-                    scrollX = e.deltaY > 0 ? num : -num;
+                    scrollX = e.deltaY;
                 }
                 let nextY = this.top + scrollY;
                 let nextX = this.left + scrollX;
@@ -136,6 +142,16 @@ export default {
         },
         scrollToX: function (x) {
             this.normalizeHorizontal(x);
+        },
+        scrollToElementID: function (id) {
+            var child = this.$el.querySelector(id);
+            if (child) {
+                var bodyRect = this.$el.getBoundingClientRect();
+                var elemRect = child.getBoundingClientRect();
+                var offset   = elemRect.top - bodyRect.top;
+
+                this.scrollToY(offset);
+            }
         },
         normalizeVertical: function (next) {
             const elementSize = this.getSize();
@@ -245,13 +261,13 @@ export default {
 
 .mode-dark .scrollbar {
     .track {
-        @apply border-gray-500;
+        @include border-color(scrollbar-handle-border-color-dark, 'colors.gray.600');
         &.vertical, &.horizontal {
-            @include bg-color(scrollbar-bg-color-dark, 'colors.gray.600');
+            @include bg-color(scrollbar-bg-color-dark, 'colors.gray.800');
 
             .handle {
-                @include bg-color(scrollbar-handle-bg-color-dark, 'colors.gray.750');
-                @include border-color(scrollbar-handle-border-color-dark, 'colors.gray.500');
+                @include bg-color(scrollbar-handle-bg-color-dark, 'colors.gray.650');
+                @include border-color(scrollbar-handle-border-color-dark, 'colors.gray.600');
             }
         }
     }
@@ -259,7 +275,6 @@ export default {
 
 .scrollbar {
     @apply overflow-hidden relative;
-    margin: 0 auto;
 
     &:hover {
         .track {
@@ -274,29 +289,27 @@ export default {
         @include border-color(scrollbar-border-color, 'colors.gray.300');
         &.vertical, &.horizontal {
             @include bg-color(scrollbar-bg-color, 'colors.gray.200');
-            @apply opacity-25 absolute rounded-md transition-opacity duration-500 ease-in-out;
+            @apply opacity-25 absolute transition-opacity duration-500 ease-in-out;
 
             .handle {
-                @apply relative cursor-default rounded-md border;
+                @apply relative cursor-pointer border;
                 @include bg-color(scrollbar-handle-bg-color, 'colors.gray.350');
                 @include border-color(scrollbar-handle-border-color, 'colors.gray.300');
             }
         }
 
         &.vertical {
-            @apply w-3 h-full top-0 right-0;
+            @apply h-full top-0 right-0;
 
             .handle {
-                @apply w-3;
                 left: -1px;
             }
         }
 
         &.horizontal {
-            @apply h-3 w-full bottom-0 right-0;
+            @apply w-full bottom-0 right-0;
 
             .handle {
-                @apply h-3;
                 top: -1px;
             }
         }

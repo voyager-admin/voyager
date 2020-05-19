@@ -22,12 +22,6 @@ Vue.use(Transitions);
 import { HandleDirective } from 'vue-slicksort';
 Vue.directive('sort-handle', HandleDirective);
 
-// https://github.com/rigor789/vue-scrollto
-import VueScrollTo from 'vue-scrollto';
-Vue.use(VueScrollTo, {
-    container: 'main',
-});
-
 // https://github.com/katlasik/mime-matcher
 import MimeMatcher from 'mime-matcher';
 Vue.prototype.MimeMatcher = MimeMatcher;

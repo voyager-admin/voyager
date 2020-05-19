@@ -1,8 +1,8 @@
 <template>
-    <div v-if="width < 100" class="track horizontal" ref="container" @click="jump">
+    <div v-if="width < 100" class="track horizontal" :class="['h-'+size]" ref="container" @click="jump">
         <div
             class="handle"
-            :class="[dragging || draggingFromParent ? '' : 'transition']"
+            :class="[dragging || draggingFromParent ? '' : 'transition', 'h-'+size]"
             ref="scrollbar"
             @touchstart="startDrag"
             @mousedown="startDrag"
@@ -21,6 +21,7 @@ export default {
         onChangePosition: Function,
         onDragging: Function,
         onStopDrag: Function,
+        size: Number,
     },
     data: function () {
         return  {
