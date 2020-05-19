@@ -3,6 +3,10 @@
         <div
             :class="!dragging ? 'transition' : ''"
             ref="scrollArea"
+            @mouseenter="mouseInside = true"
+            @mouseover="mouseInside = true"
+            @mouseout="mouseInside = false"
+            @mouseleave="mouseInside = false"
             @wheel="scroll"
             @touchstart="startDrag"
             @touchmove="onDrag"
@@ -71,6 +75,7 @@ export default {
             dragging: false,
             start: { y: 0, x: 0 },
             allowBodyScroll: false,
+            mouseInside: false,
         };
     },
     methods: {
@@ -246,8 +251,19 @@ export default {
         }
     },
     mounted: function () {
-        this.calculateSize();
-        window.addEventListener('resize', this.calculateSize);
+        var vm = this;
+
+        vm.calculateSize();
+        window.addEventListener('resize', vm.calculateSize);
+        window.addEventListener('keydown', function (e) {
+            if (vm.mouseInside) {
+                if (e.key == 'ArrowDown') {
+                    vm.scrollToY(vm.top + 100);
+                } else if (e.key == 'ArrowUp') {
+                    vm.scrollToY(vm.top - 100);
+                }
+            }
+        });
     },
     beforeDestroy: function () {
         window.removeEventListener('resize', this.calculateSize);
@@ -316,7 +332,7 @@ export default {
     }
 
     .transition {
-        @apply transition-all duration-500 ease-in-out;
+        @apply transition-all duration-200 ease-in-out;
     }
 }
 </style>
