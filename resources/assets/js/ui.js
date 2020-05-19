@@ -21,7 +21,6 @@ let components = [
     'Modal',
     'Notifications',
     'Pagination',
-    'Scrollbar',
     'SelectInput',
     'SlideIn',
     'SortContainer',

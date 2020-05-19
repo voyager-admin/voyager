@@ -24,14 +24,15 @@
             </fade-transition>
         </div>
         @include('voyager::sidebar')
-        <scrollbar :key="'content'" class="flex flex-col w-0 flex-1 overflow-hidden" :size="4" ref="scroll">
+        <div class="flex flex-col w-0 flex-1 overflow-hidden" key="content">
             <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 outline-none">
+                <span id="top"></span>
                 @include('voyager::navbar')
-                <div class="mx-auto sm:px-3 md:px-4">
+                <div class="mx-auto sm:px-3 md:px-4" id="top">
                     @yield('content')
                 </div>
             </main>
-        </scrollbar>
+        </div>
         <notifications key="notifications"></notifications>
     </slide-x-left-transition>
 </body>

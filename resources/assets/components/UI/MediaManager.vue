@@ -42,57 +42,59 @@
         </div>
         <div class="flex w-full min-h-64">
             <!-- Add max-h-256 overflow-y-scroll to limit the height -->
-            <div class="relative flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 " @click="selectedFiles = []"  ref="wrapper">
-                <div class="absolute w-full h-full flex items-center justify-center opacity-75 dragdrop" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
-                    <h4>{{ dragging ? dropText : dragText }}</h4>
-                </div>
-                <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading" v-if="loadingFiles">
-                    <icon icon="helm" :size="32" class="block rotating-cw"></icon>
-                </div>
-                <div
-                    class="item rounded-md border cursor-pointer select-none h-auto"
-                    v-for="(file, i) in combinedFiles"
-                    :key="i"
-                    :class="[fileSelected(file) ? 'selected' : '', file.is_upload ? 'opacity-50' : '']"
-                    v-on:click.prevent.stop="selectFile(file, $event)"
-                    v-on:dblclick.prevent.stop="openFile(file)">
-                    <div class="flex p-3">
-                        <div class="flex-none">
-                            <div class="w-full flex justify-center">
-                                <img :src="file.preview" class="rounded object-contain h-24 max-w-full" v-if="file.preview" />
-                                <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="mimeMatch(file.file.type, 'image/*')" />
-                                <div v-else class="w-full flex justify-center h-24">
-                                    <icon :icon="getFileIcon(file.file.type)" size="24"></icon>
+            <div class="w-full max-h-256 overflow-y-scroll">
+                <div class="relative flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 " @click="selectedFiles = []"  ref="wrapper">
+                    <div class="absolute w-full h-full flex items-center justify-center opacity-75 dragdrop" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
+                        <h4>{{ dragging ? dropText : dragText }}</h4>
+                    </div>
+                    <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading" v-if="loadingFiles">
+                        <icon icon="helm" :size="32" class="block rotating-cw"></icon>
+                    </div>
+                    <div
+                        class="item rounded-md border cursor-pointer select-none h-auto"
+                        v-for="(file, i) in combinedFiles"
+                        :key="i"
+                        :class="[fileSelected(file) ? 'selected' : '', file.is_upload ? 'opacity-50' : '']"
+                        v-on:click.prevent.stop="selectFile(file, $event)"
+                        v-on:dblclick.prevent.stop="openFile(file)">
+                        <div class="flex p-3">
+                            <div class="flex-none">
+                                <div class="w-full flex justify-center">
+                                    <img :src="file.preview" class="rounded object-contain h-24 max-w-full" v-if="file.preview" />
+                                    <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="mimeMatch(file.file.type, 'image/*')" />
+                                    <div v-else class="w-full flex justify-center h-24">
+                                        <icon :icon="getFileIcon(file.file.type)" size="24"></icon>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex-grow ml-3 overflow-hidden">
-                            <div class="flex flex-col h-full">
-                                <div class="flex-none">
-                                    <p class="whitespace-no-wrap" v-tooltip="file.file.name">{{ file.file.name }}</p>
-                                    <p class="text-xs" v-if="file.file.type !== 'dir'">{{ readableFileSize(file.file.size) }}</p>
+                            <div class="flex-grow ml-3 overflow-hidden">
+                                <div class="flex flex-col h-full">
+                                    <div class="flex-none">
+                                        <p class="whitespace-no-wrap" v-tooltip="file.file.name">{{ file.file.name }}</p>
+                                        <p class="text-xs" v-if="file.file.type !== 'dir'">{{ readableFileSize(file.file.size) }}</p>
+                                    </div>
+                                    <div class="flex items-end justify-end flex-grow">
+                                        <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
+                                            <icon icon="times" :size="4"></icon>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="flex items-end justify-end flex-grow">
-                                    <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
-                                        <icon icon="times" :size="4"></icon>
-                                    </button>
-                                </div>
+                                
                             </div>
-                            
                         </div>
-                    </div>
-                    <div
-                        class="flex-none h-1 bg-blue-500 rounded-b-md"
-                        v-if="file.status == Status.Uploading"
-                        :style="{ width: file.progress+'%' }">
-                    </div>
-                    <div
-                        class="flex-none h-1 w-full bg-green-500 rounded-b-md"
-                        v-if="file.status == Status.Finished">
-                    </div>
-                    <div
-                        class="flex-none h-1 w-full bg-red-500 rounded-b-md"
-                        v-if="file.status == Status.Failed">
+                        <div
+                            class="flex-none h-1 bg-blue-500 rounded-b-md"
+                            v-if="file.status == Status.Uploading"
+                            :style="{ width: file.progress+'%' }">
+                        </div>
+                        <div
+                            class="flex-none h-1 w-full bg-green-500 rounded-b-md"
+                            v-if="file.status == Status.Finished">
+                        </div>
+                        <div
+                            class="flex-none h-1 w-full bg-red-500 rounded-b-md"
+                            v-if="file.status == Status.Failed">
+                        </div>
                     </div>
                 </div>
             </div>

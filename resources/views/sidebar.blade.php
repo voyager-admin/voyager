@@ -114,7 +114,7 @@
 <!-- Desktop sidebar -->
 <div class="hidden md:flex md:flex-shrink-0 sidebar h-full" v-if="$store.sidebarOpen" :key="'desktop_sidebar'">
     <div class="flex flex-col w-64 border-r sidebar-border">
-        <scrollbar class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+        <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
             <div class="flex items-center flex-shrink-0 px-4">
                 <icon icon="helm" :size="10" class="icon"></icon>
                 <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title">
@@ -203,12 +203,12 @@
                     @endforeach
                 @endif
             </nav>
-        </scrollbar>
+        </div>
         <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
             <button class="button blue small icon-only" @click="$store.toggleDarkMode()">
                 <icon :icon="$store.darkmode ? 'sun' : 'moon'" />
             </button>
-            <button class="button blue small icon-only" @click="$refs.scroll.scrollToY(0)">
+            <button class="button blue small icon-only" v-scroll-to="''">
                 <icon icon="arrow-circle-up" />
             </button>
             <button class="button blue small icon-only" @click="$store.toggleDirection()">

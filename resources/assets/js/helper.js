@@ -5,10 +5,7 @@ import './helper/strings';
 import './helper/types';
 import './helper/url';
 
-Vue.directive('focus', {
-    inserted: function (el) {
-        el.focus();
-    }
-});
+import './directives/focus';
+import './directives/scrollto';
 
 Vue.prototype.$eventHub = new Vue({});
