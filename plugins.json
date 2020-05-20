@@ -1,3 +1,10 @@
 [
-
+    {	
+        "name": "Monochrome theme collection",	
+        "description": "A collection of monochromatic themes for Voyager 2",	
+        "type": "theme",	
+        "repository": "emptynick/voyager-blueish-theme",	
+        "keywords": ["plugin", "theme", "blue"],	
+        "website": "https://github.com/emptynick/voyager-blueish-theme"	
+    }
 ]

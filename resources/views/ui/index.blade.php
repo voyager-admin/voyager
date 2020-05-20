@@ -6,42 +6,46 @@
 <card title="UI Elements">
     <div>
         <div class="inline w-full">
-            <button class="button blue my-2" v-scroll-to="'ui-headings'">
+            <button class="button accent my-2" v-scroll-to="'ui-headings'">
                 Headings
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-buttons'">
+            <button class="button accent my-2" v-scroll-to="'ui-buttons'">
                 Buttons
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-inputs'">
+            <button class="button accent my-2" v-scroll-to="'ui-inputs'">
                 Inputs
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-select'">
+            <button class="button accent my-2" v-scroll-to="'ui-select'">
                 Select
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-tags'">
+            <button class="button accent my-2" v-scroll-to="'ui-tags'">
                 Tag input
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-wysiwyg'">
+            <button class="button accent my-2" v-scroll-to="'ui-wysiwyg'">
                 WYSIWYG Editor
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-tabs'">
+            <button class="button accent my-2" v-scroll-to="'ui-tabs'">
                 Tabs
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-badges'">
+            <button class="button accent my-2" v-scroll-to="'ui-badges'">
                 Badges
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-alerts'">
+            <button class="button accent my-2" v-scroll-to="'ui-alerts'">
                 Alerts
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-notifications'">
+            <button class="button accent my-2" v-scroll-to="'ui-notifications'">
                 Notifications
             </button>
-            <button class="button blue my-2" v-scroll-to="'ui-pagination'">
+            <button class="button accent my-2" v-scroll-to="'ui-pagination'">
                 Pagination
             </button>
         </div>
     </div>
 </card>
+
+<collapsible title="Date pickers" id="ui-date-pickers">
+    <date-picker></date-picker>
+</collapsible>
 
 <collapsible title="Heading" id="ui-headings">
     <h1>H1 Heading</h1>

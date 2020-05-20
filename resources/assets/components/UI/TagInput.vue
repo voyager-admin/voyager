@@ -21,7 +21,7 @@ export default {
         },
         badgeColor: {
             type: String,
-            default: 'blue',
+            default: 'accent',
         },
         allowEmpty: {
             type: Boolean,

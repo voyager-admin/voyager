@@ -38,7 +38,7 @@ class PluginsController extends Controller
             }
 
             return $plugin;
-        });
+        })->values();
     }
 
     public function settings($key)

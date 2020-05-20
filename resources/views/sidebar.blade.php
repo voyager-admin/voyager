@@ -205,13 +205,13 @@
             </nav>
         </div>
         <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
-            <button class="button blue small icon-only" @click="$store.toggleDarkMode()">
+            <button class="button accent small icon-only" @click="$store.toggleDarkMode()">
                 <icon :icon="$store.darkmode ? 'sun' : 'moon'" />
             </button>
-            <button class="button blue small icon-only" v-scroll-to="''">
+            <button class="button accent small icon-only" v-scroll-to="''">
                 <icon icon="arrow-circle-up" />
             </button>
-            <button class="button blue small icon-only" @click="$store.toggleDirection()">
+            <button class="button accent small icon-only" @click="$store.toggleDirection()">
                 <icon :icon="$store.rtl ? 'left-to-right-text-direction' : 'right-to-left-text-direction'" />
             </button>
         </div>

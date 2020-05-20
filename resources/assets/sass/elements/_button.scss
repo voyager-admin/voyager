@@ -1,3 +1,24 @@
+@import "mixins/bg-color";
+@import "mixins/border-color";
+@import "mixins/text-color";
+
+.mode-dark .button {
+    &.accent {
+        @include bg-color(accent-bg-color-dark, theme('colors.blue.500'));
+        &:hover {
+            @include bg-color(accent-hover-color-dark, theme('colors.blue.600'));
+        }
+
+        &:focus {
+            @include bg-color(accent-focus-color-dark, theme('colors.blue.700'));
+        }
+
+        &.active {
+            @include bg-color(accent-active-color-dark, theme('colors.blue.800'));
+        }
+    }
+}
+
 .button {
     @apply whitespace-no-wrap inline-flex items-center mx-1 px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md cursor-pointer;
     @apply transition duration-150 ease-in-out;
@@ -31,6 +52,22 @@
             }
         }
     }
+
+    &.accent {
+        @include bg-color(accent-bg-color, theme('colors.blue.500'));
+        &:hover {
+            @include bg-color(accent-hover-color, theme('colors.blue.600'));
+        }
+
+        &:focus {
+            @include bg-color(accent-focus-color, theme('colors.blue.700'));
+        }
+
+        &.active {
+            @include bg-color(accent-active-color, theme('colors.blue.800'));
+        }
+    }
+
     // TODO: Add this to tailwind palette
     &.dark-gray {
         @apply bg-gray-750;

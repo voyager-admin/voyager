@@ -1,7 +1,7 @@
 <template>
     <span
         class="badge"
-        :class="`bg-${color}-400 text-${color}-800 hover:bg-${color}-500`">
+        :class="`button ${color}`">
         <svg class="ltr:mr-1 rtl:ml-1 h-2 w-2" :class="`text-${color}-700`" fill="currentColor" viewBox="0 0 8 8" v-if="dot">
             <circle cx="4" cy="4" r="3" />
         </svg>
