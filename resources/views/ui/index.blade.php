@@ -42,11 +42,6 @@
         </div>
     </div>
 </card>
-
-<collapsible title="Date pickers" id="ui-date-pickers">
-    <date-picker></date-picker>
-</collapsible>
-
 <collapsible title="Heading" id="ui-headings">
     <h1>H1 Heading</h1>
     <h2>H2 Heading</h2>
