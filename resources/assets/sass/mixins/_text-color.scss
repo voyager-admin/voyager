@@ -1,4 +1,5 @@
 @mixin text-color($var, $default) {
+    /* VARIABLE:#{$var}|#{$default}| */
     color: theme($default);
     color: var(--#{$var}, theme($default));
 }

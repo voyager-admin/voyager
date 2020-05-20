@@ -1,4 +1,5 @@
 @mixin border-color($var, $default) {
+    /* VARIABLE:#{$var}|#{$default}| */
     border-color: theme($default);
     border-color: var(--#{$var}, theme($default));
 }
