@@ -5,7 +5,9 @@ namespace Voyager\Admin\Http\Controllers;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Composer;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 
 class PluginsController extends Controller
@@ -78,9 +80,9 @@ class PluginsController extends Controller
 
     private function enablePlugin($identifier, $enable = true)
     {
-        $this->getAllPlugins();
+        $this->pluginmanager->getAllPlugins();
 
-        $plugins = collect(VoyagerFacade::getJson(File::get($this->path), []));
+        $plugins = collect(VoyagerFacade::getJson(File::get($this->pluginmanager->getPath()), []));
         if (!$plugins->contains('identifier', $identifier)) {
             $plugins->push([
                 'identifier' => $identifier,
@@ -90,7 +92,7 @@ class PluginsController extends Controller
             $plugins->where('identifier', $identifier)->first()->enabled = $enable;
         }
 
-        return File::put($this->path, json_encode($plugins, JSON_PRETTY_PRINT));
+        return File::put($this->pluginmanager->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
     }
 }
 

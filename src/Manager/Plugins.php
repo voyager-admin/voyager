@@ -25,6 +25,11 @@ class Plugins
         $this->path = $path;
     }
 
+    public function getPath()
+    {
+        return $this->path;
+    }
+
     public function addPlugin($plugin = null)
     {
         if (!$this->enabled_plugins) {
