@@ -7,15 +7,15 @@
                     <icon icon="upload"></icon>
                     {{ __('voyager::media.upload') }}
                 </button>
-                <button class="button blue" @click="selectFilesToUpload()">
+                <button class="button accent" @click="selectFilesToUpload()">
                     <icon icon="check-square"></icon>
                     {{ __('voyager::media.select_files') }}
                 </button>
-                <button class="button blue" @click="loadFiles()">
+                <button class="button accent" @click="loadFiles()">
                     <icon icon="sync"></icon>
                     {{ __('voyager::generic.reload') }}
                 </button>
-                <button class="button blue" @click="createFolder()">
+                <button class="button accent" @click="createFolder()">
                     <icon icon="folder-plus"></icon>
                     {{ __('voyager::media.create_folder') }}
                 </button>

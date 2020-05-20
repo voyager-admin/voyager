@@ -3,7 +3,7 @@
         <card :title="__('voyager::bread.read_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
             <div slot="actions">
                 <div class="flex items-center">
-                    <a class="button blue" v-if="prevUrl !== ''" :href="prevUrl">
+                    <a class="button accent" v-if="prevUrl !== ''" :href="prevUrl">
                         <icon icon="backward"></icon>
                         <span>{{ __('voyager::generic.back') }}</span>
                     </a>

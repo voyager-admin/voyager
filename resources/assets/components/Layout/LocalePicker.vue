@@ -3,7 +3,7 @@
         <button
             v-for="locale in $language.locales"
             v-bind:key="locale"
-            class="button blue uppercase"
+            class="button accent uppercase"
             :class="[$language.locale == locale ? 'active' : '', small ? 'small' : '']"
             @click="$language.locale = locale">
             {{ locale }}

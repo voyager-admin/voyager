@@ -3,7 +3,7 @@
         <card :title="__('voyager::settings.settings')">
             <div slot="actions">
                 <div class="flex items-center">
-                    <button class="button blue" @click="saveSettings">
+                    <button class="button accent" @click="saveSettings">
                         <icon icon="sync" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingSettings" />
                         {{ __('voyager::generic.save') }}
                     </button>
