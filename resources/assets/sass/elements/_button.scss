@@ -4,17 +4,17 @@
 
 .mode-dark .button {
     &.accent {
-        @include bg-color(accent-bg-color-dark, theme('colors.blue.500'));
+        @include bg-color(accent-bg-color-dark, 'colors.blue.500');
         &:hover {
-            @include bg-color(accent-hover-color-dark, theme('colors.blue.600'));
+            @include bg-color(accent-hover-color-dark, 'colors.blue.600');
         }
 
         &:focus {
-            @include bg-color(accent-focus-color-dark, theme('colors.blue.700'));
+            @include bg-color(accent-focus-color-dark, 'colors.blue.700');
         }
 
         &.active {
-            @include bg-color(accent-active-color-dark, theme('colors.blue.800'));
+            @include bg-color(accent-active-color-dark, 'colors.blue.800');
         }
     }
 }
@@ -54,17 +54,17 @@
     }
 
     &.accent {
-        @include bg-color(accent-bg-color, theme('colors.blue.500'));
+        @include bg-color(accent-bg-color, 'colors.blue.500');
         &:hover {
-            @include bg-color(accent-hover-color, theme('colors.blue.600'));
+            @include bg-color(accent-hover-color, 'colors.blue.600');
         }
 
         &:focus {
-            @include bg-color(accent-focus-color, theme('colors.blue.700'));
+            @include bg-color(accent-focus-color, 'colors.blue.700');
         }
 
         &.active {
-            @include bg-color(accent-active-color, theme('colors.blue.800'));
+            @include bg-color(accent-active-color, 'colors.blue.800');
         }
     }
 
