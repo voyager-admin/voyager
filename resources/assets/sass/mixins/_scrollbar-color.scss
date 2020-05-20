@@ -1,0 +1,6 @@
+@mixin scrollbar-color($track_var, $track_default, $handle_var, $handle_default) {
+    /* VARIABLE:#{$track_var}|#{$track_default}| */
+    /* VARIABLE:#{$handle_var}|#{$handle_default}| */
+    scrollbar-color: theme($handle_default) theme($track_default);
+    scrollbar-color: var(--#{$handle_var}, theme($handle_default)) var(--#{$track_var}, theme($track_default));
+}

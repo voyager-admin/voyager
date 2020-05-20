@@ -1,6 +1,7 @@
 @import "mixins/bg-color";
 @import "mixins/border-color";
 @import "mixins/font-family";
+@import "mixins/scrollbar-color";
 @import "mixins/text-color";
 
 [v-cloak] {
@@ -9,35 +10,29 @@
 
 .mode-dark {
     * {
-        scrollbar-color: theme('colors.gray.600') theme('colors.gray.800');
-        scrollbar-color: var(--scrollbar-handle-color-dark, theme('colors.gray.600')) var(--scrollbar-bg-color-dark, theme('colors.gray.800'));
+        @include scrollbar-color(scrollbar-bg-color-dark, 'colors.gray.800', scrollbar-handle-color-dark, 'colors.gray.600');
 
         &::-webkit-scrollbar-track {
-            background: theme('colors.gray.800');
-            background: var(--scrollbar-bg-color-dark, theme('colors.gray.800'));
+            @include bg-color(scrollbar-bg-color-dark, 'colors.gray.800');
         }
         &::-webkit-scrollbar-thumb {
-            background-color: theme('colors.gray.600');
-            background-color: var(--scrollbar-handle-color-dark, theme('colors.gray.600'));
+            @include bg-color(scrollbar-handle-color-dark, 'colors.gray.600');
         }
     }
 }
 
 * {
     scrollbar-width: thin;
-    scrollbar-color: theme('colors.gray.400') theme('colors.gray.250');
-    scrollbar-color: var(--scrollbar-handle-color, theme('colors.gray.400')) var(--scrollbar-bg-color, theme('colors.gray.250'));
+    @include scrollbar-color(scrollbar-bg-color, 'colors.gray.250', scrollbar-handle-color, 'colors.gray.400');
 
     &::-webkit-scrollbar {
         @apply w-3;
     }
     &::-webkit-scrollbar-track {
-        background: theme('colors.gray.250');
-        background: var(--scrollbar-bg-color, theme('colors.gray.250'));
+        @include bg-color(scrollbar-bg-color, 'colors.gray.250');
     }
     &::-webkit-scrollbar-thumb {
-        background-color: theme('colors.gray.400');
-        background-color: var(--scrollbar-handle-color, theme('colors.gray.400'));
+        @include bg-color(scrollbar-handle-color, 'colors.gray.400');
     }
 }
 
