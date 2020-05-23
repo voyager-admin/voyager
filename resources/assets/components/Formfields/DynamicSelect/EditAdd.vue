@@ -25,10 +25,10 @@ export default {
         selected: function (selected) {
             this.loadOptions();
 
-            if (this.selects.length == 1) {
-                this.$emit('input', this.selected[0]);
-            } else {
+            if (this.selects.length > 1) {
                 this.$emit('input', this.selected);
+            } else {
+                this.$emit('input', this.selected[0]);
             }
         }
     },
