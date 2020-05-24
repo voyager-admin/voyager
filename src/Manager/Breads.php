@@ -249,12 +249,12 @@ class Breads
      */
     public function getBreadSearchPlaceholder()
     {
-        $breads = $this->getBreads();
+        $breads = $this->getBreads()->shuffle();
 
         if ($breads->count() > 1) {
             return __('voyager::generic.search_for_breads', [
-                'bread'  => $breads[rand(0, (count($breads) - 1))]->name_plural,
-                'bread2' => $breads[rand(0, (count($breads) - 1))]->name_plural,
+                'bread'  => $breads[0]->name_plural,
+                'bread2' => $breads[1]->name_plural,
             ]);
         } elseif ($breads->count() == 1) {
             return __('voyager::generic.search_for_bread', [
