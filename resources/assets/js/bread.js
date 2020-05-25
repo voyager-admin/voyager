@@ -6,7 +6,10 @@ let bread_components = [
 
 bread_components.forEach(function (component) {
     var name = component.substring(component.lastIndexOf('/') + 1);
-    Vue.component('bread-'+kebab_case(name), require('../components/'+component).default);
+    var name = name.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+                    .map(x => x.toLowerCase())
+                    .join('-');
+    Vue.component('bread-'+name, require('../components/'+component).default);
 });
 
 Vue.component('bread-builder-browse', require('../components/Builder/Browse').default);

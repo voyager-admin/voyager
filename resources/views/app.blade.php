@@ -18,7 +18,7 @@
     <slide-x-left-transition class="h-screen flex overflow-hidden" id="voyager" tag="div" group>
         <div key="loader">
             <fade-transition :duration="500">
-                <div class="loader" v-if="pageLoading">
+                <div class="loader" v-if="$store.pageLoading">
                     <icon icon="helm" size="auto" class="block icon rotating-cw"></icon>
                 </div>
             </fade-transition>
@@ -40,7 +40,6 @@
 <script>
 var voyager = new Vue({
     el: '#voyager',
-    data: this.$store,
     mounted: function () {
         var vm = this;
 
