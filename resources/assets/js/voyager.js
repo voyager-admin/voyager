@@ -1,7 +1,6 @@
 require('./vendor');
-require('./store');
-require('./notify');
 require('./helper');
+require('./notify');
 require('./bread');
 require('./multilanguage');
 require('./formfields');
