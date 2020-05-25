@@ -1,6 +1,6 @@
 <template>
     <div>
-        <card :title="__('voyager::settings.settings')">
+        <card :title="__('voyager::settings.settings')" icon="cog">
             <div slot="actions">
                 <div class="flex items-center">
                     <button class="button accent" @click="saveSettings">

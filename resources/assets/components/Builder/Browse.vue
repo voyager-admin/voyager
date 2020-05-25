@@ -1,5 +1,5 @@
 <template>
-    <card :title="__('voyager::generic.breads')" icon="bread" :icon-size="8">
+    <card :title="__('voyager::generic.breads')" icon="bread">
         <div slot="actions">
             <button class="button green" @click.stop="loadBreads">
                 <icon icon="sync" class="rotating-ccw" :size="4" v-if="loading" />

@@ -1,7 +1,7 @@
 @extends('voyager::app')
 @section('page-title', __('voyager::generic.media'))
 @section('content')
-<card title="{{ __('voyager::generic.media') }}">
+<card title="{{ __('voyager::generic.media') }}" icon="film">
     <div class="mt-4">
         <media-manager
             :upload-url="route('voyager.media.upload')"

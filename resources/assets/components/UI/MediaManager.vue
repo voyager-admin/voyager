@@ -41,15 +41,15 @@
             </div>
         </div>
         <div class="flex w-full min-h-64">
-            <!-- Add max-h-256 overflow-y-scroll to limit the height -->
-            <div class="w-full max-h-256 overflow-y-scroll">
-                <div class="relative flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 " @click="selectedFiles = []"  ref="wrapper">
-                    <div class="absolute w-full h-full flex items-center justify-center opacity-75 dragdrop" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
+            <div class="w-full max-h-256 overflow-y-auto">
+                <div class="relative flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 " @click="selectedFiles = []">
+                    <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
                         <h4>{{ dragging ? dropText : dragText }}</h4>
                     </div>
-                    <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading" v-if="loadingFiles">
+                    <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading pointer-events-none" v-if="loadingFiles">
                         <icon icon="helm" :size="32" class="block rotating-cw"></icon>
                     </div>
+                    <div v-if="combinedFiles.length == 0" class="h-64"></div>
                     <div
                         class="item rounded-md border cursor-pointer select-none h-auto"
                         v-for="(file, i) in combinedFiles"
@@ -194,8 +194,8 @@ export default {
             path: '',
             ddCapable: true,
             dragging: false,
-            dragEnterCounter: 0,
             loadingFiles: false,
+            dragEnterTarget: null,
         };
     },
     methods: {
@@ -476,7 +476,7 @@ export default {
         if (vm.ddCapable) {
             // Prevent browser opening a new tab
             ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach(function (event) {
-                vm.$refs.wrapper.addEventListener(event, function (e) {
+                vm.$el.addEventListener(event, function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                 });
@@ -484,24 +484,28 @@ export default {
 
             // Indicates that we are dragging files over our wrapper
             ['drag', 'dragstart', 'dragover', 'dragenter'].forEach(function (event) {
-                vm.$refs.wrapper.addEventListener(event, function (e) {
-                    vm.dragEnterCounter++;
+                vm.$el.addEventListener(event, function (e) {
+                    vm.dragEnterTarget = e.target;
+                    e.stopPropagation();
+                    e.preventDefault();
                     vm.dragging = true;
                 });
             });
 
             // Indicates that we left our wrapper or dropped files
             ['dragend', 'dragleave', 'drop'].forEach(function (event) {
-                vm.$refs.wrapper.addEventListener(event, function (e) {
-                    //vm.dragEnterCounter--;
-                    //if (vm.dragEnterCounter == 0 || vm.combinedFiles.length == 0) {
+                vm.$el.addEventListener(event, function (e) {
+                    if (vm.dragEnterTarget == e.target) {
+                        e.stopPropagation();
+                        e.preventDefault();
                         vm.dragging = false;
-                    //}
+                    }
                 });
             });
 
-            vm.$refs.wrapper.addEventListener('drop', function (e) {
-                vm.dragEnterCounter = 0;
+            vm.$el.addEventListener('drop', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
                 vm.dragging = false;
                 vm.addUploadFiles(e.dataTransfer.files);
             });
