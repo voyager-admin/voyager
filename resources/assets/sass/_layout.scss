@@ -46,6 +46,11 @@ body {
     @include text-color(text-color, 'colors.gray.700');
 }
 
+::selection {
+    @include bg-color(bg-select-color, 'colors.blue.500');
+    @include text-color(text-select-color, 'colors.white');
+}
+
 .mode-dark body {
     @include bg-color(bg-color-dark, 'colors.gray.900');
     @include text-color(text-color-dark, 'colors.gray.300');
