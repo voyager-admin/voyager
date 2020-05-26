@@ -14,13 +14,13 @@
 
             <slot name="login">
                 <div class="w-full mt-1">
-                    <label for="email" class="block text-sm font-medium leading-5 text-gray-700">{{ __('voyager::auth.email') }}</label>
+                    <label for="email" class="label">{{ __('voyager::auth.email') }}</label>
                     <div class="mt-1 rounded-md shadow-sm">
                         <input type="email" name="email" id="email" class="voyager-input w-full mb-4 placeholder-gray-400" autofocus>
                     </div>
                 </div>
                 <div class="w-full mt-6">
-                    <label for="password" class="block text-sm font-medium leading-5 text-gray-700">{{ __('voyager::auth.password') }}</label>
+                    <label for="password" class="label">{{ __('voyager::auth.password') }}</label>
                     <div class="mt-1 rounded-md shadow-sm">
                         <input type="password" name="password" id="password" class="voyager-input w-full mb-3 placeholder-gray-400">
                     </div>
@@ -38,7 +38,7 @@
             </slot>
 
             <div class="flex items-center justify-between mt-4">
-                <button dusk="login-button" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out" type="submit">
+                <button dusk="login-button" class="button large accent w-full justify-center" type="submit">
                     {{ __('voyager::auth.login') }}
                 </button>
                 
@@ -50,7 +50,7 @@
             <div class="mt-4">
                 <slot name="forgot_password" />
                 <div class="flex items-center justify-between mt-6">
-                    <button class="button indigo mt-4" type="submit">
+                    <button class="button accent justify-center" type="submit">
                         {{ __('voyager::auth.request_password') }}
                     </button>
                     <a href="#" @click.prevent="passwordForgotOpen = false">
