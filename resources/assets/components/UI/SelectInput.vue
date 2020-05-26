@@ -1,5 +1,12 @@
 <template>
-<div class="select" v-click-outside="close" @keydown.stop.prevent="onKeyDown">
+<div
+    class="select"
+    v-click-outside="close"
+    @keydown.up.prevent.stop="focusPrevious"
+    @keydown.down.prevent.stop="focusNext"
+    @keydown.esc.prevent.stop="close"
+    @keydown.enter.prevent.stop="onKeyEnter"
+    @keydown="$refs.search.focus()">
     <span class="inline-block w-full rounded-md shadow-sm">
         <button @click="toggle()" type="button" class="voyager-input w-full">
             <div class="flex items-center space-x-3">
@@ -22,8 +29,17 @@
     </span>
     <collapse-transition v-show="isOpen" class="options-container">
         <ul class="rounded-md py-1 max-h-128 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
+            <li v-if="searchable" class="p-2">
+                <input type="text" class="voyager-input w-full" :placeholder="searchText" v-model="searchQuery" ref="search">
+            </li>
+            <li v-if="filteredOptions.length == 0 || (dynamic && options.length == 0)" class="option">
+                {{ noOptionsFoundText }}
+            </li>
+            <li v-if="dynamic && loading" class="option">
+                {{ loadingText }}
+            </li>
             <li
-                v-for="(option, i) in options"
+                v-for="(option, i) in filteredOptions"
                 :key="'option-'+option.key"
                 class="option"
                 :class="[focused == i ? 'focused' : '', isSelected(option.key) ? 'selected' : '']"
@@ -68,40 +84,73 @@ export default {
         color: {
             type: String,
             default: 'blue',
+        },
+        searchable: {
+            type: Boolean,
+            default: true,
+        },
+        searchText: {
+            type: String,
+            default: 'Search for an option',
+        },
+        noOptionsFoundText: {
+            type: String,
+            default: 'No options found 😢',
+        },
+        dynamic: {
+            type: Boolean,
+            default: false,
+        },
+        loading: {
+            type: Boolean,
+            default: true,
+        },
+        loadingText: {
+            type: String,
+            default: 'Loading',
         }
     },
     data: function () {
         return {
             isOpen: false,
-            focused: null
+            focused: null,
+            searchQuery: '',
         };
+    },
+    computed: {
+        filteredOptions: function () {
+            var vm = this;
+
+            return vm.options.filter(function (option) {
+                return option.value.toUpperCase().includes(vm.searchQuery.toUpperCase()) && !vm.dynamic;
+            });
+        }
+    },
+    watch: {
+        searchQuery: function (query) {
+            this.$emit('search', query);
+        }
     },
     methods: {
         open: function () {
             this.open = true;
+            this.searchQuery = '';
             this.$emit('opened');
         },
         close: function () {
             this.isOpen = false;
+            this.searchQuery = '';
             this.$emit('closed');
         },
         toggle: function () {
             this.isOpen = !this.isOpen;
             this.$emit(this.isOpen ? 'opened' : 'closed');
         },
-        onKeyDown: function (e) {
-            if (e.key == 'Escape') {
-                this.close();
-            } else if (e.key == 'ArrowUp') {
-                this.focusPrevious();
-            } else if (e.key == 'ArrowDown') {
-                this.focusNext();
-            } else if (e.key == 'Enter') {
-                if (!this.isOpen) {
-                    this.open();
-                } else if (this.focused !== null) {
-                    this.selectOption(this.options[this.focused].key);
-                }
+        onKeyEnter: function () {
+            if (!this.isOpen) {
+                this.open();
+            } else if (this.focused !== null) {
+                this.selectOption(this.filteredOptions[this.focused].key);
             }
         },
         selectOption: function (key) {
@@ -125,23 +174,23 @@ export default {
                 if (this.focused > 0) {
                     this.focused = this.focused - 1;
                 } else {
-                    this.focused = this.options.length - 1;
+                    this.focused = this.filteredOptions.length - 1;
                 }
             } else {
-                this.focused = this.options.length - 1;
+                this.focused = this.filteredOptions.length - 1;
             }
-            if (!this.isOpen) {
-                this.$emit('input', this.options[this.focused].key);
+            if (!this.isOpen && !this.multiple) {
+                this.$emit('input', this.filteredOptions[this.focused].key);
             }
         },
         focusNext: function () {
-            if (this.focused !== null && this.focused < (this.options.length - 1)) {
+            if (this.focused !== null && this.focused < (this.filteredOptions.length - 1)) {
                 this.focused = this.focused + 1;
             } else {
                 this.focused = 0;
             }
-            if (!this.isOpen) {
-                this.$emit('input', this.options[this.focused].key);
+            if (!this.isOpen && !this.multiple) {
+                this.$emit('input', this.filteredOptions[this.focused].key);
             }
         },
         isSelected: function (key) {
@@ -152,16 +201,13 @@ export default {
             return this.value == key;
         },
         getValueByKey: function (key) {
-            var option = this.options.filter(function (option) {
+            var option = this.filteredOptions.filter(function (option) {
                 return option.key == key;
             })[0];
 
             return option ? option.value : this.selectOptionText;
-        }
+        },
     },
-    computed: {
-        
-    }
 };
 </script>
 
