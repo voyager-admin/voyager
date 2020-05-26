@@ -8,7 +8,7 @@
         <slot></slot>
         <icon
             v-on:click.native="$emit('click-icon', $event)"
-            class="ltr:ml-1 rtl:mr-1 cursor-pointer"
+            class="ltr:ml-1 ltr:mr-0 rtl:mr-1 rtl:ml-0 cursor-pointer"
             :size="5"
             v-if="icon !== ''"
             :icon="icon">

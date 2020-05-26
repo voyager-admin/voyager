@@ -6,7 +6,8 @@
     @keydown.down.prevent.stop="focusNext"
     @keydown.esc.prevent.stop="close"
     @keydown.enter.prevent.stop="onKeyEnter"
-    @keydown="$refs.search.focus()">
+    @keydown="$refs.search.focus()"
+    @scroll.prevent.stop="">
     <span class="inline-block w-full rounded-md shadow-sm">
         <button @click="toggle()" type="button" class="voyager-input w-full">
             <div class="flex items-center space-x-3">

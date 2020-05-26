@@ -60,6 +60,8 @@ var voyager = new Vue({
                 } else if (e.keyCode == 37 || e.keyCode == 40) {
                     vm.$language.previousLocale();
                 }
+            } else if (e.keyCode == 36) {
+                // TODO: Scroll to top
             }
         });
     },
