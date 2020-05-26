@@ -231,11 +231,11 @@ export default {
 
             &.focused {
                 @include text-color(select-text-focused-color-dark, 'colors.gray.100');
-                @include bg-color(select-bg-focused-color-dark, 'colors.gray.750');
+                @include bg-color(select-bg-focused-color-dark, 'colors.gray.700');
             }
             &.selected {
                 @include text-color(select-text-selected-color-dark, 'colors.gray.100');
-                @include bg-color(select-bg-selected-color-dark, 'colors.gray.700');
+                @include bg-color(select-bg-selected-color-dark, 'colors.gray.750');
             }
         }
     }
@@ -260,11 +260,11 @@ export default {
 
             &.focused {
                 @include text-color(select-text-focused-color, 'colors.gray.900');
-                @include bg-color(select-bg-focused-color, 'colors.gray.100');
+                @include bg-color(select-bg-focused-color, 'colors.gray.150');
             }
             &.selected {
                 @include text-color(select-text-selected-color, 'colors.gray.900');
-                @include bg-color(select-bg-selected-color, 'colors.gray.150');
+                @include bg-color(select-bg-selected-color, 'colors.gray.100');
             }
         }
     }
