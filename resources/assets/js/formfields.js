@@ -1,4 +1,5 @@
 let formfields = [
+    'Checkboxes',
     'DynamicSelect',
     'Number',
     'Radios',

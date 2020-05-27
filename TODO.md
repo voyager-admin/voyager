@@ -10,7 +10,6 @@ Instead, they are listed here:
 ## Formfields
 - **Dynamic select** needs a "read" part
 - **Relationship** not yet (fully) working
-- **Checkboxes** with translatable labels, adjustable amount of displayed entries when browsing
 - **Color Picker**
 - **Media Picker**
 - **WYSIWYG Editor**

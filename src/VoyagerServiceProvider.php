@@ -81,6 +81,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
     public function registerFormfields()
     {
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Checkboxes::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\DynamicSelect::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Number::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Radios::class);

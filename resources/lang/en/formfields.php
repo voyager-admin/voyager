@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'checkboxes'        => [
+        'name'          => 'Checkboxes',
+    ],
     'dynamic_select'=> [
         'name'          => 'Dynamic Select',
         'route_name'    => 'Route name',

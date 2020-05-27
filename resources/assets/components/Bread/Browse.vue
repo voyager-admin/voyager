@@ -108,7 +108,7 @@
                                         :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         :translatable="formfield.translatable"
-                                        :value="getData(result, formfield)">
+                                        :value="getData(result, formfield, $store.getFormfieldByType(formfield.type).browseArray)">
                                     </component>
                                     <div v-else>
                                         <component
@@ -259,10 +259,9 @@ export default {
         },
         getData: function (result, formfield, asArray = false) {
             var vm = this;
-            if (asArray) {
-                console.log('Hello');
+            if (asArray && vm.isArray(result[formfield.column.column])) {
                 return result[formfield.column.column].slice(0, 3).map(function (r) {
-                    return vm.translate((r || ''), !formfield.translatable)
+                    return vm.translate((r || ''), !formfield.translatable);
                 });
             }
 
