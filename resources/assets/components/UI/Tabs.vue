@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="content">
-            <slide-x-right-transition :duration="50" group>
+            <slide-x-right-transition :duration="150" group>
                 <div v-for="(tab, i) in tabs" :key="'slot-'+i" v-if="currentTab == i">
                     <slot :name="tab.name" />
                 </div>

@@ -6,7 +6,6 @@ Instead, they are listed here:
 - Test all formfields, translatable and not translatable
 - Implement a set-setting method (?)
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
-- Scrollbar: test on mobile
 
 ## Formfields
 - **Dynamic select** needs a "read" part

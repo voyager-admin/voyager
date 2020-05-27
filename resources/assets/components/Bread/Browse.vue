@@ -159,7 +159,13 @@
                             {{ __('voyager::bread.clear_all_filters') }}
                         </a>
                     </div>
-                    <div class="w-full lg:w1/2 lg:text-right">
+                    <div class="w-full lg:w1/2 lg:justify-end inline-flex">
+                        <select v-model="parameters.perpage" class="voyager-input ltr:mr-2 rtl:ml-2" v-if="filtered >= 10">
+                            <option>10</option>
+                            <option v-if="filtered >= 25">25</option>
+                            <option v-if="filtered >= 50">50</option>
+                            <option v-if="filtered >= 100">100</option>
+                        </select>
                         <pagination :page-count="pages" v-model.number="parameters.page" v-if="results.length > 0"></pagination>
                     </div>
                 </div>
