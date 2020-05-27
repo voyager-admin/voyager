@@ -83,13 +83,6 @@
                             v-bind:value="formfield.options.description"
                             v-on:input="formfield.options.description = $event" />
 
-                        <label class="label mt-4">{{ __('voyager::builder.border_color') }}</label>
-                        <color-picker
-                            v-on:input="formfield.options.border = $event"
-                            v-bind:value="formfield.options.border"
-                            palette="tailwind-shades"
-                            :describe="false"></color-picker>
-
                         <component
                             :is="'formfield-'+kebab_case(formfield.type)+'-builder'"
                             v-bind:options="formfield.options"
@@ -97,6 +90,14 @@
                             v-bind:relationships="relationships"
                             show="view-options" />
                         <bread-builder-validation v-model="formfield.validation" />
+
+                        <collapsible :title="__('voyager::builder.border_color')" :opened="false">
+                            <color-picker
+                                v-on:input="formfield.options.border = $event"
+                                v-bind:value="formfield.options.border"
+                                palette="tailwind-shades"
+                                :describe="false"></color-picker>
+                        </collapsible>
                     </slide-in>
                 </div>
 
