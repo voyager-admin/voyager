@@ -1,6 +1,7 @@
 let formfields = [
     'DynamicSelect',
     'Number',
+    'Radios',
     'Relationship',
     'Select',
     'Tags',
@@ -16,3 +17,5 @@ formfields.forEach(function (formfield) {
     Vue.component('formfield-'+name+'-edit-add', require('../components/Formfields/'+formfield+'/EditAdd').default);
     Vue.component('formfield-'+name+'-builder', require('../components/Formfields/'+formfield+'/Builder').default);
 });
+
+Vue.component('key-value-form', require('../components/Formfields/KeyValueForm').default);

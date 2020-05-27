@@ -83,6 +83,7 @@ class VoyagerServiceProvider extends ServiceProvider
     {
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\DynamicSelect::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Number::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Radios::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Relationship::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Select::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Tags::class);

@@ -11,6 +11,9 @@ return [
         'decimal_separator'     => 'Decimal separator',
         'thousands_separator'   => 'Thousands separator',
     ],
+    'radios'        => [
+        'name'          => 'Radios',
+    ],
     'relationship'  => [
         'name'                  => 'Relationships',
         'add_view'              => 'Add view',

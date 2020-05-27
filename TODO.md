@@ -11,13 +11,13 @@ Instead, they are listed here:
 - **Dynamic select** needs a "read" part
 - **Relationship** not yet (fully) working
 - **Checkboxes** with translatable labels, adjustable amount of displayed entries when browsing
-- **Radios** with translatable labels
 - **Color Picker**
 - **Media Picker**
 - **WYSIWYG Editor**
 - **Maps** (external plugin)
 - **Password**
 - **Date/Time Picker**
+- **Array**
 
 ## Nice to have
 - Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields **This is actually important**
@@ -34,6 +34,7 @@ Instead, they are listed here:
 - Translatable: Use `getTranslated($column, $locale, $fallback, $default)` to get a translated value (which is not the default locale)
 - Translatable: Use `setTranslated($column, $value, $locale)` to set a translated value (which is not the default locale)
 - Translatable: Use `Ctrl` + `up/right` to select the next locale, `Ctrl` + `down/left` to select the previous locale
+- Translatable: Use `dontTranslate()` to prevent things getting translated, `translate()` to reactivate translating again
 - Settings: Use `Voyager::settings()` with key `null` to get all settings, key `something` to get a whole group (first) or a setting with that name and no group, or key `group.name` to get a settings with that group and key.
 - Backing-up a BREAD always uses the current stored state. So when backing-up after changing something (without saving first), the changes will NOT be included in the backup
 - Tag input: Press backspace twice to remove latest tag
