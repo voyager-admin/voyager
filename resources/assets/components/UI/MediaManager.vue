@@ -8,15 +8,15 @@
                     {{ __('voyager::media.upload') }}
                 </button>
                 <button class="button accent" @click="selectFilesToUpload()">
-                    <icon icon="check-square"></icon>
+                    <icon icon="check-circle"></icon>
                     {{ __('voyager::media.select_files') }}
                 </button>
                 <button class="button accent" @click="loadFiles()">
-                    <icon icon="sync"></icon>
+                    <icon icon="refresh"></icon>
                     {{ __('voyager::generic.reload') }}
                 </button>
                 <button class="button accent" @click="createFolder()">
-                    <icon icon="folder-plus"></icon>
+                    <icon icon="folder-add"></icon>
                     {{ __('voyager::media.create_folder') }}
                 </button>
                 <button class="button red" @click="deleteSelected()" v-if="selectedFiles.length > 0">
@@ -28,14 +28,12 @@
         <div class="w-full mb-2 rounded-md breadcrumbs">
             <div class="button-group">
                 <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="flex inline-block items-center">
-                    <button class="button py-0">
-                        <a href="#" @click.prevent.stop="openPath(path, i)">
-                            <icon v-if="path == ''" icon="home"></icon>
-                            <span v-else>{{ path }}</span>
-                        </a>
+                    <button class="button" @click.prevent.stop="openPath(path, i)">
+                        <icon v-if="path == ''" icon="home"></icon>
+                        <span v-else>{{ path }}</span>
                     </button>
                     <button class="button cursor-default px-0 py-0 icon-only" v-if="pathSegments.length !== (i+1)">
-                        <icon icon="angle-double-right" class="text-gray-700 dark:text-gray-300"></icon>
+                        <icon icon="chevron-right" class="text-gray-700 dark:text-gray-300"></icon>
                     </button>
                 </span>
             </div>
@@ -75,7 +73,7 @@
                                     </div>
                                     <div class="flex items-end justify-end flex-grow">
                                         <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
-                                            <icon icon="times" :size="4"></icon>
+                                            <icon icon="x" :size="4"></icon>
                                         </button>
                                     </div>
                                 </div>
@@ -102,7 +100,7 @@
                 <div class="sidebar h-full border rounded-md p-2 ml-3 max-w-xs" v-if="selectedFiles.length > 0">
                     <div class="w-full flex justify-center">
                         <div v-if="selectedFiles.length > 1" class="w-full flex justify-center h-32">
-                            <icon icon="copy" size="32"></icon>
+                            <icon icon="document-duplicate" size="32"></icon>
                         </div>
                         <img :src="selectedFiles[0].preview" class="rounded object-contain h-32 max-w-full" v-else-if="selectedFiles[0].preview" />
                         <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="mimeMatch(selectedFiles[0].file.type, 'image/*')" />
@@ -370,7 +368,7 @@ export default {
                 return 'image';
             }
 
-            return 'file-alt';
+            return 'document';
         },
         openPath: function (path, index) {
             this.path = this.pathSegments.slice(0, (index + 1)).join('/');

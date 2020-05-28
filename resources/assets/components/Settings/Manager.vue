@@ -4,7 +4,7 @@
             <div slot="actions">
                 <div class="flex items-center">
                     <button class="button accent" @click="saveSettings">
-                        <icon icon="sync" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingSettings" />
+                        <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingSettings" />
                         {{ __('voyager::generic.save') }}
                     </button>
                     <dropdown ref="formfield_dd">
@@ -26,7 +26,7 @@
                         </div>
                         <div slot="opener">
                             <button class="button green small">
-                                <icon icon="list-ul" />
+                                <icon icon="plus" />
                                 <span>
                                     {{ __('voyager::builder.add_formfield') }}
                                 </span>
@@ -58,7 +58,7 @@
                                 <div slot="actions" v-if="editMode">
                                     <div class="flex items-center">
                                         <button class="button green icon-only" v-sort-handle>
-                                            <icon icon="sort" :size="4"></icon>
+                                            <icon icon="switch-vertical" :size="4"></icon>
                                         </button>
                                         <button class="button blue" @click="optionsId = i">
                                             <icon icon="cog" :size="4"></icon>

@@ -1,7 +1,7 @@
 <template>
-    <card :title="__('voyager::plugins.plugins')" icon="puzzle-piece">
+    <card :title="__('voyager::plugins.plugins')" icon="puzzle">
         <div slot="actions">
-            <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle-piece" v-on:closed="query = ''">
+            <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="query = ''">
                 <input type="text" class="voyager-input w-full mb-3" v-model="query" :placeholder="__('voyager::generic.search')">
                 <div v-for="(plugin, i) in filteredPlugins.slice(start, end)" :key="'plugin-'+i">
                     <div class="flex">
@@ -78,11 +78,11 @@
                                 {{ __('voyager::generic.website') }}
                             </a>
                             <button v-if="!plugin.enabled" class="button green small" @click="enablePlugin(plugin, true)">
-                                <icon icon="toggle-on"></icon>
+                                <icon icon="play"></icon>
                                 {{ __('voyager::generic.enable') }}
                             </button>
                             <button v-else class="button red small" @click="enablePlugin(plugin, false)">
-                                <icon icon="toggle-off"></icon>
+                                <icon icon="stop"></icon>
                                 {{ __('voyager::generic.disable') }}
                             </button>
                             <a v-if="plugin.has_settings && plugin.enabled" :href="route('voyager.plugins.settings', i)" class="button blue small">

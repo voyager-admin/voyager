@@ -16,8 +16,8 @@
             </thead>
             <sort-container v-model="reactiveFormfields" tag="tbody" :useDragHandle="true">
                 <sort-element tag="tr" v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key" :index="key">
-                    <td class="hidden md:table-cell">
-                        <icon icon="direction" v-sort-handle class="cursor-move" />
+                    <td class="hidden md:table-cell w-5 h-5">
+                        <icon icon="switch-vertical" v-sort-handle class="cursor-move" />
                     </td>
                     <td class="hidden md:table-cell">{{ $store.getFormfieldByType(formfield.type).name }}</td>
                     <td>
@@ -100,7 +100,7 @@
                                 <div class="w-1/2 flex justify-end">
                                     <locale-picker v-if="$language.localePicker" />
                                     <button class="button green icon-only" @click="$emit('open-options', null)">
-                                        <icon icon="times" />
+                                        <icon icon="x" />
                                     </button>
                                 </div>
                             </div>

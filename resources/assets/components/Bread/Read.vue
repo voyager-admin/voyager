@@ -4,11 +4,11 @@
             <div slot="actions">
                 <div class="flex items-center">
                     <a class="button accent" v-if="prevUrl !== ''" :href="prevUrl">
-                        <icon icon="backward"></icon>
+                        <icon icon="chevron-left"></icon>
                         <span>{{ __('voyager::generic.back') }}</span>
                     </a>
                     <a class="button yellow" :href="route('voyager.'+translate(bread.slug, true)+'.edit', primary)">
-                        <icon icon="pen"></icon>
+                        <icon icon="pencil"></icon>
                         <span>{{ __('voyager::generic.edit') }}</span>
                     </a>
                     <locale-picker v-if="$language.localePicker" :small="false"></locale-picker>

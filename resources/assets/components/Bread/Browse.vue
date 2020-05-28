@@ -123,11 +123,11 @@
                                 </td>
                                 <td class="ltr:text-right rtl:text-left" v-if="!fromRelationship">
                                     <a :href="route('voyager.'+translate(bread.slug, true)+'.read', result[primary])" class="button blue small">
-                                        <icon icon="book-alt"></icon>
+                                        <icon icon="book-open"></icon>
                                         <span>{{ __('voyager::generic.read') }}</span>
                                     </a>
                                     <a :href="route('voyager.'+translate(bread.slug, true)+'.edit', result[primary])" class="button yellow small">
-                                        <icon icon="pen"></icon>
+                                        <icon icon="pencil"></icon>
                                         <span>{{ __('voyager::generic.edit') }}</span>
                                     </a>
                                     <button @click.prevent="deleteEntries(result[primary])" class="button red small" v-if="(uses_soft_deletes && !result.is_soft_deleted) || !uses_soft_deletes">

@@ -14,10 +14,10 @@
             <card :title="translate(formfield.options.title) || ''" :border="formfield.options.border || 'default'">
                 <div slot="actions">
                     <button class="button small blue icon-only">
-                        <icon icon="expand-arrows" v-sort-handle class="cursor-move" />
+                        <icon icon="arrows-expand" v-sort-handle class="cursor-move" />
                     </button>
                     <button class="button small blue icon-only" @mousedown="startResize(key)">
-                        <icon icon="arrows-h" class="cursor-move" />
+                        <icon icon="switch-vertical" class="cursor-move" />
                     </button>
                     <button class="button small blue icon-only" @click="$emit('open-options', key)">
                         <icon icon="cog" />
@@ -33,7 +33,7 @@
                             <div class="w-1/2 flex justify-end">
                                 <locale-picker v-if="$language.localePicker" />
                                 <button class="button green icon-only" @click="$emit('open-options', null)">
-                                    <icon icon="times" />
+                                    <icon icon="x" />
                                 </button>
                             </div>
                         </div>

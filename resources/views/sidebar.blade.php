@@ -8,7 +8,7 @@
         <div class="flex-1 flex flex-col max-w-xs w-full sidebar" @click.stop="">
             <div class="absolute top-0 right-0 p-1">
                 <button @click="$store.toggleSidebar()" class="flex items-center justify-center h-12 w-12 rounded-full">
-                    <icon icon="times"></icon>
+                    <icon icon="x"></icon>
                 </button>
             </div>
             <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
@@ -25,7 +25,7 @@
                 <menu-item
                     :title="__('voyager::generic.dashboard')"
                     :href="route('voyager.dashboard')"
-                    icon="dashboard" 
+                    icon="home" 
                     {{ $current_url == Str::finish(route('voyager.dashboard'), '/') ? 'active' : '' }}>
                 </menu-item>
 
@@ -54,14 +54,14 @@
                 <menu-item
                     :title="__('voyager::generic.media')"
                     :href="route('voyager.media')"
-                    icon="film" 
+                    icon="camera" 
                     {{ $current_url == Str::finish(route('voyager.media'), '/') ? 'active' : '' }}>
                 </menu-item>
 
                 <menu-item
                     :title="__('voyager::generic.ui_components')"
                     :href="route('voyager.ui')"
-                    icon="window" 
+                    icon="template" 
                     {{ $current_url == Str::finish(route('voyager.ui'), '/') ? 'active' : '' }}>
                 </menu-item>
 
@@ -75,7 +75,7 @@
                 <menu-item
                     :title="__('voyager::plugins.plugins')"
                     :href="route('voyager.plugins.index')"
-                    icon="puzzle-piece" 
+                    icon="puzzle" 
                     {{ Str::startsWith($current_url, Str::finish(route('voyager.plugins.index'), '/')) ? 'active' : '' }}>
                 </menu-item>
 
@@ -212,7 +212,7 @@
                 <icon icon="arrow-up" />
             </button>
             <button class="button accent small icon-only" @click="$store.toggleDirection()">
-                <icon :icon="$store.rtl ? 'left-to-right-text-direction' : 'right-to-left-text-direction'" />
+                <icon icon="switch-horizontal" />
             </button>
         </div>
     </div>
