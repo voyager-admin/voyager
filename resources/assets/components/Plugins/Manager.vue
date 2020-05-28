@@ -17,11 +17,7 @@
                             <span v-else>&nbsp;</span>
                         </div>
                         <div class="w-2/5 text-right">
-                            <!--<input class="voyager-input w-full select-none" :value="'composer require '+plugin.repository" @dblclick="copy(plugin)">-->
-                            <button class="button green" @click="install(plugin.repository)" :disabled="installing">
-                                <icon icon="package"></icon>
-                                <span>{{ __('voyager::plugins.install') }}</span>
-                            </button>
+                            <input class="voyager-input w-full select-none" :value="'composer require '+plugin.repository" @dblclick="copy(plugin)">
                         </div>
                     </div>
                     <hr class="w-full bg-gray-300 my-4">
@@ -41,12 +37,6 @@
         </div>
         <alert color="red" v-if="hasMultiplePlugins('auth')" class="mb-2" v-html="nl2br(__('voyager::plugins.multiple_auth_plugins'))"></alert>
         <alert color="red" v-if="hasMultiplePlugins('menu')" class="mb-2" v-html="nl2br(__('voyager::plugins.multiple_menu_plugins'))"></alert>
-        <alert color="blue" v-if="install_result.length > 0" class="mb-2">
-            <ul>
-                <li v-for="(result, i) in install_result" :key="'result-'+i">
-                    {{ result }}
-                </li>
-            </ul>
         </alert>
 
         <div class="voyager-table striped" v-if="installedPlugins.length > 0" v-bind:class="[loading ? 'loading' : '']">
@@ -142,8 +132,6 @@ export default {
             page: 0,
             loading: true,
             resultsPerPage: 5,
-            installing: false,
-            install_result: [],
         };
     },
     methods: {
@@ -199,31 +187,6 @@ export default {
                 vm.__('voyager::generic.no'),
                 7500
             );
-        },
-        install: function (repository) {
-            var vm = this;
-
-            vm.installing = true;
-            vm.install_result = [];
-            var notification = vm.$notify.notify(vm.nl2br(vm.__('voyager::plugins.installing_plugin', { name: repository })), null, 'blue', null, true);
-            vm.$refs.search_plugin_modal.close();
-            axios.post(this.route('voyager.plugins.install'), {
-                repository: repository
-            })
-            .then(function (response) {
-                vm.install_result = response.data;
-                vm.installing = false;
-                vm.$notify.removeByIndex(notification);
-            })
-            .catch(function (error) {
-                console.table(error);
-                vm.installing = false;
-                vm.$notify.removeByIndex(notification);
-            })
-            .finally(function () {
-                vm.installing = false;
-                vm.$notify.removeByIndex(notification);
-            });
         },
         previewTheme: function (src, name) {
             var file = document.createElement('link');
