@@ -12,8 +12,8 @@
                 @mouseleave="startTimeout(notification)">
                 <div class="p-4">
                     <div class="flex items-start">
-                        <div class="flex-shrink-0" v-if="notification.icon">
-                            <icon :icon="notification.icon" :class="`text-${notification.color}-500`" :size="6"></icon>
+                        <div class="w-6" v-if="notification.icon">
+                            <icon :icon="notification.icon" :class="`text-${notification.color}-500`" :size="6" type="solid"></icon>
                         </div>
                         <div class="w-0 flex-1" :class="notification.icon ? 'ml-3' : ''">
                             <span v-if="notification.title">
