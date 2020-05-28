@@ -14,6 +14,9 @@ return [
         'decimal_separator'     => 'Decimal separator',
         'thousands_separator'   => 'Thousands separator',
     ],
+    'password'        => [
+        'name'          => 'Password',
+    ],
     'radios'        => [
         'name'          => 'Radios',
     ],

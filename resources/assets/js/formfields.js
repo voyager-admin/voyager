@@ -2,6 +2,7 @@ let formfields = [
     'Checkboxes',
     'DynamicSelect',
     'Number',
+    'Password',
     'Radios',
     'Relationship',
     'Select',

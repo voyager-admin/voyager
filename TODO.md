@@ -14,7 +14,6 @@ Instead, they are listed here:
 - **Media Picker**
 - **WYSIWYG Editor**
 - **Maps** (external plugin)
-- **Password**
 - **Date/Time Picker**
 - **Array**
 
