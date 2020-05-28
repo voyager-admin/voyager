@@ -2,30 +2,30 @@
     <div class="wysiwyg">
         <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
             <div class="button-group">
-                <button class="button small icon-only" :class="[isActive.bold() ? 'dark-gray' : 'accent']" @click="commands.bold" v-tooltip="__('voyager::wysiwyg.bold')">
-                    <icon icon="bold" :size="6"></icon>
+                <button class="button font-bold small icon-only" :class="[isActive.bold() ? 'dark-gray' : 'accent']" @click="commands.bold" v-tooltip="__('voyager::wysiwyg.bold')">
+                    B
                 </button>
-                <button class="button small icon-only" :class="[isActive.italic() ? 'dark-gray' : 'accent']" @click="commands.italic" v-tooltip="__('voyager::wysiwyg.italic')">
-                    <icon icon="italic" :size="6"></icon>
+                <button class="button italic small icon-only" :class="[isActive.italic() ? 'dark-gray' : 'accent']" @click="commands.italic" v-tooltip="__('voyager::wysiwyg.italic')">
+                    I
                 </button>
-                <button class="button small icon-only" :class="[isActive.strike() ? 'dark-gray' : 'accent']" @click="commands.strike" v-tooltip="__('voyager::wysiwyg.strike')">
-                    <icon icon="text-strike-through" :size="6"></icon>
+                <button class="button line-through small icon-only" :class="[isActive.strike() ? 'dark-gray' : 'accent']" @click="commands.strike" v-tooltip="__('voyager::wysiwyg.strike')">
+                    S
                 </button>
-                <button class="button small icon-only" :class="[isActive.underline() ? 'dark-gray' : 'accent']" @click="commands.underline" v-tooltip="__('voyager::wysiwyg.underline')">
-                    <icon icon="underline" :size="6"></icon>
+                <button class="button underline small icon-only" :class="[isActive.underline() ? 'dark-gray' : 'accent']" @click="commands.underline" v-tooltip="__('voyager::wysiwyg.underline')">
+                    U
                 </button>
                 <div class="divider"></div>
                 <button class="button small icon-only" :class="[isActive.code() ? 'dark-gray' : 'accent']" @click="commands.code" v-tooltip="__('voyager::wysiwyg.code')">
-                    <icon icon="arrow" :size="6"></icon>
+                    <icon icon="code" :size="6"></icon>
                 </button>
                 <button class="button small icon-only" :class="[isActive.paragraph() ? 'dark-gray' : 'accent']" @click="commands.paragraph" v-tooltip="__('voyager::wysiwyg.paragraph')">
-                    <icon icon="paragraph" :size="6"></icon>
+                    P
                 </button>
                 <button class="button small icon-only" :class="[isActive.bullet_list() ? 'dark-gray' : 'accent']" @click="commands.bullet_list" v-tooltip="__('voyager::wysiwyg.bullet_list')">
-                    <icon icon="list-ul" :size="6"></icon>
+                    UL
                 </button>
                 <button class="button small icon-only" :class="[isActive.ordered_list() ? 'dark-gray' : 'accent']" @click="commands.ordered_list" v-tooltip="__('voyager::wysiwyg.ordered_list')">
-                    <icon icon="list-ul" :size="6"></icon>
+                    OL
                 </button>
                 <button class="button small icon-only" :class="[isActive.horizontal_rule() ? 'dark-gray' : 'accent']" @click="commands.horizontal_rule" v-tooltip="__('voyager::wysiwyg.horizontal_rule')">
                     HR
@@ -42,10 +42,10 @@
                 </button>
                 <div class="divider"></div>
                 <button class="button small icon-only accent" @click="commands.undo" v-tooltip="__('voyager::wysiwyg.undo')">
-                    <icon icon="redo" mirrored :size="6"></icon>
+                    <icon icon="arrow-left" mirrored :size="6"></icon>
                 </button>
                 <button class="button small icon-only accent" @click="commands.redo" v-tooltip="__('voyager::wysiwyg.redo')">
-                    <icon icon="redo" :size="6"></icon>
+                    <icon icon="arrow-right" :size="6"></icon>
                 </button>
             </div>
         </editor-menu-bar>

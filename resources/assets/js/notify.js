@@ -14,7 +14,7 @@ Vue.prototype.$notify = new Vue({
             falseText = 'No',
             timeout = null,
             indeterminate = false,
-            icon = 'question-circle',
+            icon = 'question-mark-circle',
             onClose = null,
             autoClose = true,
             classes = ''
@@ -45,7 +45,7 @@ Vue.prototype.$notify = new Vue({
             title = false,
             timeout = null,
             indeterminate = false,
-            icon = 'question-circle',
+            icon = 'question-mark-circle',
             onClose = null,
             autoClose = true,
             classes = ''
@@ -66,7 +66,7 @@ Vue.prototype.$notify = new Vue({
             return this.notify(message, title, color, timeout, indeterminate, icon, buttons, input, onClose, autoClose, classes);
         },
 
-        notify: function (message, title = null, color = 'blue', timeout = null, indeterminate = false, icon = 'info-circle', buttons = [], input = null, onClose = null, autoClose = true, classes = '') {
+        notify: function (message, title = null, color = 'blue', timeout = null, indeterminate = false, icon = 'information-circle', buttons = [], input = null, onClose = null, autoClose = true, classes = '') {
             var vm = this;
 
             var uuid = vm.uuid();

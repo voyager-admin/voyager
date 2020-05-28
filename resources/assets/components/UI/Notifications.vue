@@ -13,7 +13,7 @@
                 <div class="p-4">
                     <div class="flex items-start">
                         <div class="flex-shrink-0" v-if="notification.icon">
-                            <icon :icon="notification.icon" :class="`text-${notification.color}-500`" />
+                            <icon :icon="notification.icon" :class="`text-${notification.color}-500`" :size="6"></icon>
                         </div>
                         <div class="w-0 flex-1" :class="notification.icon ? 'ml-3' : ''">
                             <span v-if="notification.title">
@@ -39,7 +39,7 @@
                         </div>
                         <div class="ml-4 flex-shrink-0 flex">
                             <button @click="close(notification)" class="inline-flex text-gray-400 focus:outline-none">
-                                <icon icon="times" />
+                                <icon icon="x" />
                             </button>
                         </div>
                     </div>

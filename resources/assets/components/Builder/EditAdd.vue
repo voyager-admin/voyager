@@ -4,11 +4,11 @@
             <div slot="actions">
                 <div class="flex items-center">
                     <button class="button blue" @click.stop="toggleFocusMode">
-                        <icon icon="crosshair-alt" class="focus" :size="4" />
+                        <icon icon="arrows-expand" class="focus" :size="4" />
                         {{ __('voyager::generic.focus') }}
                     </button>
                     <button class="button green" @click="loadProperties">
-                        <icon icon="sync" class="rotating-ccw" :size="4" v-if="loadingProps" />
+                        <icon icon="refresh" class="rotating-ccw" :size="4" v-if="loadingProps" />
                         {{ __('voyager::builder.reload_properties') }}
                     </button>
                     <locale-picker :small="false" class="ltr:ml-2 rtl:mr-2" />
