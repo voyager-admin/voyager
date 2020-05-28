@@ -107,7 +107,7 @@
                     <div class="w-full md:w-1/4 m-1">
                         <label class="label inline-flex" for="global_search">
                             {{ __('voyager::builder.global_search_display_field') }}
-                            <icon icon="question-circle" class="mx-2" v-tooltip="__('voyager::builder.global_search_display_field_hint')"></icon>
+                            <icon icon="question-mark-circle" class="mx-2" v-tooltip="__('voyager::builder.global_search_display_field_hint')"></icon>
                         </label>
                         <select class="voyager-input w-full" v-model="bread.global_search_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
@@ -119,11 +119,11 @@
 
             <div slot="footer">
                 <button class="button blue" @click="saveBread">
-                    <icon icon="sync" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingBread" />
+                    <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingBread" />
                     {{ __('voyager::generic.save') }}
                 </button>
                 <button class="button green" @click="backupBread">
-                    <icon icon="sync" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="backingUp" />
+                    <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="backingUp" />
                     {{ __('voyager::generic.backup') }}
                 </button>
             </div>
@@ -162,7 +162,7 @@
                     <div slot="opener">
                         <button class="button green small ml-2"
                                 :disabled="bread.layouts.length == 0">
-                            <icon icon="text-size" />
+                            <icon icon="plus" />
                             <span>
                                 {{ __('voyager::builder.add_formfield') }}
                             </span>
@@ -180,7 +180,7 @@
                     </div>
                     <div slot="opener">
                         <button class="button green small">
-                            <icon icon="list-ul" />
+                            <icon icon="plus" />
                             <span>
                                 {{ __('voyager::builder.add_layout') }}
                             </span>

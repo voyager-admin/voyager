@@ -6,8 +6,11 @@
 <card title="UI Elements">
     <div>
         <div class="inline w-full">
-            <button class="button accent my-2" v-scroll-to="'ui-headings'">
+        <button class="button accent my-2" v-scroll-to="'ui-headings'">
                 Headings
+            </button>
+            <button class="button accent my-2" v-scroll-to="'ui-icons'">
+                Icons
             </button>
             <button class="button accent my-2" v-scroll-to="'ui-buttons'">
                 Buttons
@@ -51,6 +54,10 @@
     <h6>H6 Heading</h6>
 </collapsible>
 
+<collapsible title="Icons" id="ui-icons">
+    <icon-picker />
+</collapsible>
+
 <collapsible title="Buttons" id="ui-buttons">
     <collapsible title="Default">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]">
@@ -74,13 +81,13 @@
     </collapsible>
     <collapsible title="With Icon">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color]">
-            <icon icon="info-circle" class="mr-1"></icon>
+            <icon icon="information-circle" class="mr-1"></icon>
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
     <collapsible title="Responsive">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color]">
-            <icon icon="info-circle"></icon>
+            <icon icon="information-circle"></icon>
             <span>@{{ color[0].toUpperCase() + color.slice(1) }}</span>
         </button>
     </collapsible>

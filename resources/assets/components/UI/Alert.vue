@@ -16,7 +16,7 @@
                 <div class="ml-auto pl-3" v-if="closebutton">
                     <div class="-mx-1 -my-1">
                         <button class="button border-none shadow-none" :class="`text-${color}-500`" @click="$emit('close'); show = false">
-                            <icon icon="times" />
+                            <icon icon="x" />
                         </button>
                     </div>
                 </div>

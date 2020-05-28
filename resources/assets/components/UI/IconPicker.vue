@@ -4,11 +4,11 @@
         <div class="grid grid-cols-12 gap-1">
             <button
                 class="button blue icon-only justify-center my-1"
-                v-for="icon in filteredIcons.slice(start, end)"
-                :key="'icon-' + icon"
-                @dblclick="selectIcon(icon)"
-                v-tooltip="readableName(icon)">
-                <icon :icon="icon" :size="6" />
+                v-for="(icon, i) in filteredIcons.slice(start, end)"
+                :key="'icon-' + i"
+                @dblclick="selectIcon(icon.usable)"
+                v-tooltip="icon.readable">
+                <icon :icon="icon.name" :type="icon.style" :size="6" />
             </button>
         </div>
         <div class="button-group mt-2">
@@ -24,8 +24,7 @@
     </div>
 </template>
 <script>
-import * as iconsobj from 'vue-unicons/src/icons';
-let icons = new Object(iconsobj);
+import { icons } from '@bytegem/vue-heroicons';
 
 export default {
     data: function () {
@@ -54,14 +53,26 @@ export default {
             return Math.ceil(this.filteredIcons.length / this.resultsPerPage);
         },
         filteredIcons: function () {
-            var q = this.query.toLowerCase();
-            return this.icons.filter(function (icon) {
+            var vm = this;
+            var q = vm.query.toLowerCase();
+            return Object.keys(icons).filter(function (icon) {
                 return icon.toLowerCase().includes(q);
+            }).map(function (icon) {
+                var name = icon.replace('Heroicons', '');
+                var style = 'outline';
+                if (name.endsWith('Solid')) {
+                    style = 'solid';
+                }
+                name = name.replace('Solid', '').replace('Outline', '');
+
+                return {
+                    name: name,
+                    usable: name + vm.ucfirst(style),
+                    readable: vm.studly(name) + ' ' + style,
+                    style: style,
+                }
             });
         },
-        icons: function () {
-            return Object.keys(icons);
-        }
     },
     watch: {
         query: function (q) {

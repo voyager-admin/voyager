@@ -128,7 +128,7 @@
                 <menu-item
                     :title="__('voyager::generic.dashboard')"
                     :href="route('voyager.dashboard')"
-                    icon="dashboard" 
+                    icon="home" 
                     {{ $current_url == Str::finish(route('voyager.dashboard'), '/') ? 'active' : '' }}>
                 </menu-item>
 
@@ -157,14 +157,14 @@
                 <menu-item
                     :title="__('voyager::generic.media')"
                     :href="route('voyager.media')"
-                    icon="film" 
+                    icon="camera" 
                     {{ $current_url == Str::finish(route('voyager.media'), '/') ? 'active' : '' }}>
                 </menu-item>
 
                 <menu-item
                     :title="__('voyager::generic.ui_components')"
                     :href="route('voyager.ui')"
-                    icon="window" 
+                    icon="template" 
                     {{ $current_url == Str::finish(route('voyager.ui'), '/') ? 'active' : '' }}>
                 </menu-item>
 
@@ -178,7 +178,7 @@
                 <menu-item
                     :title="__('voyager::plugins.plugins')"
                     :href="route('voyager.plugins.index')"
-                    icon="puzzle-piece" 
+                    icon="puzzle" 
                     {{ Str::startsWith($current_url, Str::finish(route('voyager.plugins.index'), '/')) ? 'active' : '' }}>
                 </menu-item>
 
@@ -209,7 +209,7 @@
                 <icon :icon="$store.darkmode ? 'sun' : 'moon'" />
             </button>
             <button class="button accent small icon-only" v-scroll-to="''">
-                <icon icon="arrow-circle-up" />
+                <icon icon="arrow-up" />
             </button>
             <button class="button accent small icon-only" @click="$store.toggleDirection()">
                 <icon :icon="$store.rtl ? 'left-to-right-text-direction' : 'right-to-left-text-direction'" />

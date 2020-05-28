@@ -11,7 +11,7 @@
             <badge :color="badgeColor" class="cursor-pointer" v-if="badge" :dot="badgeDot">
                 {{ badgeContent }}
             </badge>
-            <icon :icon="open ? 'angle-up' : 'angle-down'" v-if="$slots.default" :size="6" class="icon"></icon>
+            <icon :icon="open ? 'chevron-up' : 'chevron-down'" v-if="$slots.default" :size="4" class="icon"></icon>
         </div>
     </div>
     

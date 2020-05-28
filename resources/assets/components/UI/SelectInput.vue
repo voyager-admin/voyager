@@ -15,7 +15,7 @@
                     {{ getValueByKey(value) }}
                 </span>
                 <span v-else-if="isArray(value) && value.length > 0">
-                    <badge v-for="key in value" :key="key" :color="color" icon="times" @click-icon.prevent.stop="selectOption(key)">
+                    <badge v-for="key in value" :key="key" :color="color" icon="x" @click-icon.prevent.stop="selectOption(key)">
                         {{ getValueByKey(key) }}
                     </badge>
                 </span>

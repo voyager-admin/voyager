@@ -6,7 +6,7 @@
         class="button icon-only"
         :disabled="firstPageSelected"
         :class="[firstPageSelected ? 'disabled' : '', color]">
-        <icon icon="previous"></icon>
+        {{ __('voyager::generic.first') }}
     </a>
 
     <a
@@ -14,7 +14,7 @@
         @click="prevPage()"
         class="button icon-only"
         :class="[firstPageSelected ? 'disabled' : '', color]">
-        <icon icon="angle-left"></icon>
+        <icon icon="chevron-left"></icon>
     </a>
 
     <a
@@ -41,7 +41,7 @@
         class="button icon-only"
         :class="[lastPageSelected ? 'disabled' : '', color]"
         :tabindex="lastPageSelected ? -1 : 0">
-        <icon icon="angle-right"></icon>
+        <icon icon="chevron-right"></icon>
     </a>
     <a
         v-if="firstLastButtons"
@@ -49,7 +49,7 @@
         class="button icon-only"
         :class="[lastPageSelected ? 'disabled' : '', color]"
         :tabindex="lastPageSelected ? -1 : 0">
-        <icon icon="step-forward"></icon>
+        {{ __('voyager::generic.last') }}
     </a>
 </div>
 </template>

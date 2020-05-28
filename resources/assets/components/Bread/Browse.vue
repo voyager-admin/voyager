@@ -14,7 +14,7 @@
                     <option value="only">{{ __('voyager::bread.soft_delete_only') }}</option>
                 </select>
                 <button class="button accent m-0 ml-2" @click.stop="load">
-                    <icon icon="sync" :class="[loading ? 'rotating-ccw' : '']"></icon>
+                    <icon icon="refresh" :class="[loading ? 'rotating-ccw' : '']"></icon>
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <button class="button red m-0 ml-2" v-if="deletableEntries > 0" @click.prevent="deleteEntries(selected)">
@@ -57,7 +57,7 @@
                                         {{ translate(formfield.title, true) }}
                                         <icon
                                             v-if="formfield.orderable && parameters.order == formfield.column.column"
-                                            :icon="parameters.direction == 'asc' ? 'sort-amount-up' : 'sort-amount-down'"
+                                            :icon="parameters.direction == 'asc' ? 'sort-ascending' : 'sort-descending'"
                                             :size="5" class="ltr:ml-2 rtl:mr-2"
                                         ></icon>
                                     </div>

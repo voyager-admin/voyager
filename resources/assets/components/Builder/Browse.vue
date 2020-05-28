@@ -2,7 +2,7 @@
     <card :title="__('voyager::generic.breads')" icon="bread">
         <div slot="actions">
             <button class="button green" @click.stop="loadBreads">
-                <icon icon="sync" class="rotating-ccw" :size="4" v-if="loading" />
+                <icon icon="refresh" class="rotating-ccw" :size="4" v-if="loading" />
                 {{ __('voyager::builder.reload_breads') }}
             </button>
         </div>
@@ -66,13 +66,13 @@
                                     </div>
                                 </dropdown>
                                 <a class="button yellow" :href="route('voyager.bread.edit', table)">
-                                    <icon icon="pen" :size="4" />
+                                    <icon icon="pencil" :size="4" />
                                     <span>
                                         {{ __('voyager::generic.edit') }}
                                     </span>
                                 </a>
                                 <button class="button red" @click="deleteBread(table)">
-                                    <icon :icon="deleting ? 'sync' : 'trash'" :class="[deleting ? 'rotating-ccw' : '']" :size="4" />
+                                    <icon :icon="deleting ? 'refresh' : 'trash'" :class="[deleting ? 'rotating-ccw' : '']" :size="4" />
                                     <span>
                                         {{ __('voyager::generic.delete') }}
                                     </span>

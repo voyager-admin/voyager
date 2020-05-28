@@ -2,7 +2,7 @@
 <card :title="title">
     <div slot="actions" class="inline-flex">
         <slot name="actions"></slot>
-        <icon :icon="isOpen ? 'angle-up' : 'angle-down'" :size="8" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click.native="toggle"></icon>
+        <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="6" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click.native="toggle"></icon>
     </div>
     <collapse-transition>
         <div v-show="isOpen">
