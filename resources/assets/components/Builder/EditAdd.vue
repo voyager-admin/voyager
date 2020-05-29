@@ -214,18 +214,8 @@
                         {{ __('voyager::generic.options') }}
                     </span>
                 </button>
-                <slide-in v-if="currentLayout" :opened="layoutOptionsOpen" width="w-1/3" class="text-left" v-on:closed="layoutOptionsOpen = false">
-                    <div class="flex w-full mb-3">
-                        <div class="w-1/2 text-2xl">
-                            <h4>{{ __('voyager::generic.options') }}</h4>
-                        </div>
-                        <div class="w-1/2 flex justify-end">
-                            <locale-picker v-if="$language.localePicker" />
-                            <button class="button green icon-only" @click="layoutOptionsOpen = false">
-                                <icon icon="times" />
-                            </button>
-                        </div>
-                    </div>
+                <slide-in v-if="currentLayout" :opened="layoutOptionsOpen" width="w-1/3" class="text-left" v-on:closed="layoutOptionsOpen = false" :title="__('voyager::generic.options')">
+                    <locale-picker v-if="$language.localePicker" slot="actions" />
                     <div v-if="currentLayout.type == 'list'">
                         <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
                         <input type="checkbox" v-model="currentLayout.options.soft_deletes">

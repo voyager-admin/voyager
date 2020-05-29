@@ -25,18 +25,8 @@
                     <button class="button small red icon-only" @click="$emit('delete', key)">
                         <icon icon="trash" />
                     </button>
-                    <slide-in :opened="optionsId == key" v-on:closed="$emit('open-options', null)" width="w-1/3" class="text-left">
-                        <div class="flex w-full mb-3">
-                            <div class="w-1/2 text-2xl">
-                                <h4>{{ __('voyager::generic.options') }}</h4>
-                            </div>
-                            <div class="w-1/2 flex justify-end">
-                                <locale-picker v-if="$language.localePicker" />
-                                <button class="button green icon-only" @click="$emit('open-options', null)">
-                                    <icon icon="x" />
-                                </button>
-                            </div>
-                        </div>
+                    <slide-in :opened="optionsId == key" v-on:closed="$emit('open-options', null)" width="w-1/3" class="text-left" :title="__('voyager::generic.options')">
+                        <locale-picker v-if="$language.localePicker" slot="actions" />
                         <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
                         <!-- TODO: Hide this if formfield doesn't allow any kind of column -->
                         <select class="input w-full" v-model="formfield.column">

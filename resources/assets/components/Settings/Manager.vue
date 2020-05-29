@@ -68,18 +68,8 @@
                                             <icon icon="trash" :size="4"></icon>
                                             {{ __('voyager::generic.delete') }}
                                         </button>
-                                        <slide-in :opened="optionsId == i" v-on:closed="optionsId = null" width="w-1/3" class="text-left">
-                                            <div class="flex w-full mb-3">
-                                                <div class="w-1/2 text-2xl">
-                                                    <h4>{{ __('voyager::generic.options') }}</h4>
-                                                </div>
-                                                <div class="w-1/2 flex justify-end">
-                                                    <locale-picker v-if="$language.localePicker" />
-                                                    <button class="button green icon-only" @click="optionsId = null">
-                                                        <icon icon="times" />
-                                                    </button>
-                                                </div>
-                                            </div>
+                                        <slide-in :opened="optionsId == i" v-on:closed="optionsId = null" width="w-1/3" class="text-left" :title="__('voyager::generic.options')">
+                                            <locale-picker v-if="$language.localePicker" slot="actions" />
                                             <div v-if="setting.canBeTranslated">
                                                 <label class="label mt-4">Translatable</label>
                                                 <input type="checkbox" class="input" v-model="setting.translatable">

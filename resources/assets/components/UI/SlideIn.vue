@@ -1,6 +1,18 @@
 <template>
     <slide-x-right-transition>
         <div v-if="isOpened" class="mode-dark slidein" :class="width" v-click-outside="close">
+            <div class="flex w-full mb-3">
+                <div class="flex-grow">
+                    <h4>{{ title }}</h4>
+                </div>
+                
+                <div class="flex justify-end items-center">
+                    <slot name="actions" />
+                    <button class="ltr:ml-2 rtl:mr-2" @click="close">
+                        <icon icon="x" :size="5" />
+                    </button>
+                </div>
+            </div>
             <slot />
         </div>
     </slide-x-right-transition>
@@ -15,6 +27,9 @@ export default {
         width: {
             type: String,
             default: 'w-1/4',
+        },
+        title: {
+            type: String,
         }
     },
     data: function () {
