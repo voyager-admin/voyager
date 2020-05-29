@@ -3,13 +3,13 @@
         <input
             v-if="options.rows == 1"
             type="text"
-            class="voyager-input w-full"
+            class="input w-full"
             v-bind:value="value || translate(options.default_value, true)"
             @input="$emit('input', $event.target.value)"
             :placeholder="translate(options.placeholder, true)">
         <textarea
             v-else
-            class="voyager-input w-full"
+            class="input w-full"
             :rows="options.rows"
             v-bind:value="value || translate(options.default_value)"
             @input="$emit('input', $event.target.value)"

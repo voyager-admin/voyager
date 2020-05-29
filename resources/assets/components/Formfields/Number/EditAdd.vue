@@ -2,7 +2,7 @@
     <div>
         <input
             type="number"
-            class="voyager-input w-full"
+            class="input w-full"
             v-bind:value="value"
             @input="$emit('input', $event.target.value)"
             :min="options.min"

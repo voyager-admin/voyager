@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="show == 'query'">
-            <select class="voyager-input small w-full" @change="$emit('input', $event.target.value)" v-bind:value="value">
+            <select class="input small w-full" @change="$emit('input', $event.target.value)" v-bind:value="value">
                 <option :value="null">{{ __('voyager::generic.none') }}</option>
                 <option v-for="option in options.options" :value="option.key" :key="option.key">
                     {{ translate(option.value) }}

@@ -102,20 +102,20 @@
 
 <collapsible title="Inputs" id="ui-inputs">
     <collapsible title="Default">
-        <input type="text" class="voyager-input w-full" placeholder="Placeholder" />
+        <input type="text" class="input w-full" placeholder="Placeholder" />
     </collapsible>
     <collapsible title="Disabled">
-            <input type="text" class="voyager-input w-full" disabled placeholder="Placeholder" />
+            <input type="text" class="input w-full" disabled placeholder="Placeholder" />
     </collapsible>
     <collapsible title="Small">
-        <input type="text" class="voyager-input w-full small" placeholder="Placeholder" />
+        <input type="text" class="input w-full small" placeholder="Placeholder" />
     </collapsible>
     <collapsible title="With label">
         <label class="label" for="labeled-input">Label</label>
-        <input type="text" class="voyager-input w-full" id="labeled-input" placeholder="Placeholder" />
+        <input type="text" class="input w-full" id="labeled-input" placeholder="Placeholder" />
     </collapsible>
     <collapsible title="Colors" :opened="false">
-        <input v-for="color in $store.ui.colors" type="text" class="voyager-input w-full mb-2" :class="color" :placeholder="ucfirst(color)" :key="'input-'+color">
+        <input v-for="color in $store.ui.colors" type="text" class="input w-full mb-2" :class="color" :placeholder="ucfirst(color)" :key="'input-'+color">
     </collapsible>
 </collapsible>
 

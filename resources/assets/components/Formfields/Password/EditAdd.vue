@@ -2,7 +2,7 @@
     <div>
         <input
             type="password"
-            class="voyager-input w-full"
+            class="input w-full"
             @input="$emit('input', $event.target.value)"
             :placeholder="translate(options.placeholder, true)">
     </div>

@@ -16,18 +16,18 @@
                 <div class="w-full mt-1">
                     <label for="email" class="label">{{ __('voyager::auth.email') }}</label>
                     <div class="mt-1 rounded-md shadow-sm">
-                        <input type="email" name="email" id="email" class="voyager-input w-full mb-4 placeholder-gray-400" autofocus>
+                        <input type="email" name="email" id="email" class="input w-full mb-4 placeholder-gray-400" autofocus>
                     </div>
                 </div>
                 <div class="w-full mt-6">
                     <label for="password" class="label">{{ __('voyager::auth.password') }}</label>
                     <div class="mt-1 rounded-md shadow-sm">
-                        <input type="password" name="password" id="password" class="voyager-input w-full mb-3 placeholder-gray-400">
+                        <input type="password" name="password" id="password" class="input w-full mb-3 placeholder-gray-400">
                     </div>
                 </div>
                 <div class="w-full flex justify-between mt-4">
                     <div>
-                        <input type="checkbox" class="voyager-input" name="remember" id="remember">
+                        <input type="checkbox" class="input" name="remember" id="remember">
                         <label for="remember" class="text-sm leading-8">{{ __('voyager::auth.remember_me') }}</label>
                     </div>
                     

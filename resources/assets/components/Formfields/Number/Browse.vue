@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="show == 'query'">
-            <input type="number" class="voyager-input small w-full" v-model="value">
+            <input type="number" class="input small w-full" v-model="value">
         </div>
         <div v-else>
             {{ formattedNumber }}

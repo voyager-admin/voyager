@@ -22,11 +22,11 @@
                 <tbody>
                     <tr v-for="(rule, key) in reactiveRules" :key="'rule-'+key">
                         <td>
-                            <input type="text" class="voyager-input w-full" v-model="rule.rule" :placeholder="__('voyager::generic.rule')">
+                            <input type="text" class="input w-full" v-model="rule.rule" :placeholder="__('voyager::generic.rule')">
                         </td>
                         <td>
                             <language-input
-                                class="voyager-input w-full"
+                                class="input w-full"
                                 type="text" :placeholder="__('voyager::generic.message')"
                                 v-bind:value="rule.message"
                                 v-on:input="rule.message = $event" />

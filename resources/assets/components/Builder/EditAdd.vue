@@ -25,7 +25,7 @@
                     <div class="w-full m-1">
                         <label class="label" for="slug">{{ __('voyager::generic.slug') }}</label>
                         <language-input
-                            class="voyager-input w-full"
+                            class="input w-full"
                             id="slug"
                             type="text" :placeholder="__('voyager::generic.slug')"
                             v-bind:value="bread.slug"
@@ -37,7 +37,7 @@
                     <div class="w-full md:w-1/4 m-1">
                         <label class="label" for="name-singular">{{ __('voyager::builder.name_singular') }}</label>
                         <language-input
-                            class="voyager-input w-full"
+                            class="input w-full"
                             id="name-singular"
                             type="text" :placeholder="__('voyager::builder.name_singular')"
                             v-bind:value="bread.name_singular"
@@ -46,7 +46,7 @@
                     <div class="w-full md:w-1/4 m-1">
                         <label class="label" for="name-plural">{{ __('voyager::builder.name_plural') }}</label>
                         <language-input
-                            class="voyager-input w-full"
+                            class="input w-full"
                             id="name-plural"
                             type="text" :placeholder="__('voyager::builder.name_plural')"
                             v-bind:value="bread.name_plural"
@@ -65,7 +65,7 @@
                     </div>
                     <div class="w-full md:w-1/6 m-1">
                         <label class="label" for="icon">{{ __('voyager::builder.show_menu_badge') }}</label>
-                        <input type="checkbox" class="voyager-input" v-model="bread.badge">
+                        <input type="checkbox" class="input" v-model="bread.badge">
                     </div>
                     <div class="w-full md:w-1/6 m-1">
                         <label class="label" for="color">{{ __('voyager::generic.color') }}</label>
@@ -83,7 +83,7 @@
                     <div class="w-full md:w-1/4 m-1">
                         <label class="label" for="model">{{ __('voyager::builder.model') }}</label>
                         <input
-                            class="voyager-input w-full"
+                            class="input w-full"
                             id="model"
                             type="text" :placeholder="__('voyager::builder.model')"
                             v-model="bread.model">
@@ -91,7 +91,7 @@
                     <div class="w-full md:w-1/4 m-1">
                         <label class="label" for="controller">{{ __('voyager::builder.controller') }}</label>
                         <input
-                            class="voyager-input w-full"
+                            class="input w-full"
                             id="controller"
                             type="text" :placeholder="__('voyager::builder.controller')"
                             v-model="bread.controller">
@@ -99,7 +99,7 @@
                     <div class="w-full md:w-1/4 m-1">
                         <label class="label" for="policy">{{ __('voyager::builder.policy') }}</label>
                         <input
-                            class="voyager-input w-full"
+                            class="input w-full"
                             id="policy"
                             type="text" :placeholder="__('voyager::builder.policy')"
                             v-model="bread.policy">
@@ -109,7 +109,7 @@
                             {{ __('voyager::builder.global_search_display_field') }}
                             <icon icon="question-mark-circle" class="mx-2" v-tooltip="__('voyager::builder.global_search_display_field_hint')"></icon>
                         </label>
-                        <select class="voyager-input w-full" v-model="bread.global_search_field">
+                        <select class="input w-full" v-model="bread.global_search_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
                             <option v-for="column in columns" :key="column">{{ column }}</option>
                         </select>
@@ -132,7 +132,7 @@
         <card :show-header="false">
             <!-- Toolbar -->
             <div class="w-full mb-5 flex">
-                <select class="voyager-input small self-center" v-model="currentLayoutName" :disabled="bread.layouts.length == 0">
+                <select class="input small self-center" v-model="currentLayoutName" :disabled="bread.layouts.length == 0">
                     <option :value="null" v-if="bread.layouts.length == 0">
                         {{ __('voyager::builder.create_layout_first') }}
                     </option>
@@ -231,7 +231,7 @@
                         <input type="checkbox" v-model="currentLayout.options.soft_deletes">
 
                         <label class="label" for="scope">{{ __('voyager::builder.scope') }}</label>
-                        <select class="voyager-input w-full" v-model="currentLayout.options.scope">
+                        <select class="input w-full" v-model="currentLayout.options.scope">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
                             <option v-for="(scope, i) in scopes" :key="i">{{ scope }}</option>
                         </select>
@@ -264,7 +264,7 @@
             <div class="flex">
                 <div class="w-1/4">
                     <h6>{{ __('voyager::generic.browse') }}</h6>
-                    <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.browse">
+                    <select class="input w-full mt-2" v-model="bread.use_layouts.browse">
                         <option v-for="(list, i) in lists" :key="'browse-layout'+i">
                             {{ list.name }}
                         </option>
@@ -272,7 +272,7 @@
                 </div>
                 <div class="w-1/4 ml-2">
                     <h6>{{ __('voyager::generic.read') }}</h6>
-                    <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.read">
+                    <select class="input w-full mt-2" v-model="bread.use_layouts.read">
                         <option v-for="(view, i) in views" :key="'read-layout'+i">
                             {{ view.name }}
                         </option>
@@ -280,7 +280,7 @@
                 </div>
                 <div class="w-1/4 ml-2">
                     <h6>{{ __('voyager::generic.edit') }}</h6>
-                    <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.edit">
+                    <select class="input w-full mt-2" v-model="bread.use_layouts.edit">
                         <option v-for="(view, i) in views" :key="'edit-layout'+i">
                             {{ view.name }}
                         </option>
@@ -288,7 +288,7 @@
                 </div>
                 <div class="w-1/4 ml-2">
                     <h6>{{ __('voyager::generic.add') }}</h6>
-                    <select class="voyager-input w-full mt-2" v-model="bread.use_layouts.add">
+                    <select class="input w-full mt-2" v-model="bread.use_layouts.add">
                         <option v-for="(view, i) in views" :key="'add-layout'+i">
                             {{ view.name }}
                         </option>
@@ -298,7 +298,7 @@
         </collapsible>
 
         <collapsible ref="bread_json" v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
-            <textarea class="voyager-input w-full" rows="10" v-model="jsonBread"></textarea>
+            <textarea class="input w-full" rows="10" v-model="jsonBread"></textarea>
         </collapsible>
     </div>
 </template>

@@ -4,11 +4,11 @@
             <div class="flex items-center">
                 <input
                     type="text"
-                    class="voyager-input w-full small ltr:mr-2 rtl:ml-2"
+                    class="input w-full small ltr:mr-2 rtl:ml-2"
                     v-model="parameters.global"
                     @dblclick="parameters.global = null"
                     :placeholder="'Search ' + translate(bread.name_plural, true)">
-                <select class="voyager-input small ltr:mr-2 rtl:ml-2" v-model="parameters.softdeleted" v-if="uses_soft_deletes">
+                <select class="input small ltr:mr-2 rtl:ml-2" v-model="parameters.softdeleted" v-if="uses_soft_deletes">
                     <option value="show">{{ __('voyager::bread.soft_delete_show') }}</option>
                     <option value="hide">{{ __('voyager::bread.soft_delete_hide') }}</option>
                     <option value="only">{{ __('voyager::bread.soft_delete_only') }}</option>
@@ -43,7 +43,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <input type="checkbox" class="voyager-input" @change="selectAll($event.target.checked)" :checked="allSelected" v-if="relationshipMultiple" />
+                                    <input type="checkbox" class="input" @change="selectAll($event.target.checked)" :checked="allSelected" v-if="relationshipMultiple" />
                                     <button class="button blue" v-if="fromRelationship && !relationshipMultiple" @click="$emit('select', []); selected = []">
                                         {{ __('voyager::generic.none') }}
                                     </button>
@@ -75,7 +75,7 @@
                                         :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         show="query">
-                                        <input type="text" class="voyager-input small w-full"
+                                        <input type="text" class="input small w-full"
                                             :placeholder="'Search ' + translate(formfield.title, true)"
                                             @dblclick="parameters.filters[formfield.column.column] = ''"
                                             v-model="parameters.filters[formfield.column.column]">
@@ -90,14 +90,14 @@
                                     <input
                                         v-if="relationshipMultiple"
                                         type="checkbox"
-                                        class="voyager-input"
+                                        class="input"
                                         v-model="selected"
                                         :value="result[primary]" />
 
                                     <input
                                         v-else
                                         type="radio"
-                                        class="voyager-input"
+                                        class="input"
                                         :name="'radio-'+_uid"
                                         :checked="selected.includes(result[primary])"
                                         @change="selected = []; selected.push(result[primary])" />
@@ -160,7 +160,7 @@
                         </a>
                     </div>
                     <div class="w-full lg:w1/2 lg:justify-end inline-flex">
-                        <select v-model="parameters.perpage" class="voyager-input ltr:mr-2 rtl:ml-2" v-if="filtered >= 10">
+                        <select v-model="parameters.perpage" class="input ltr:mr-2 rtl:ml-2" v-if="filtered >= 10">
                             <option>10</option>
                             <option v-if="filtered >= 25">25</option>
                             <option v-if="filtered >= 50">50</option>

@@ -6,7 +6,7 @@
         <div v-else-if="show == 'view-options'">
             <label class="label mt-4">{{ __('voyager::formfields.dynamic_select.route_name') }}</label>
             <input
-                class="voyager-input w-full"
+                class="input w-full"
                 type="text" :placeholder="__('voyager::formfields.dynamic_select.route_name')"
                 v-model="options.route_name" />
         </div>

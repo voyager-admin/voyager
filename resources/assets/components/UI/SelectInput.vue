@@ -9,7 +9,7 @@
     @keydown="$refs.search.focus()"
     @scroll.prevent.stop="">
     <span class="inline-block w-full rounded-md shadow-sm">
-        <button @click="toggle()" type="button" class="voyager-input w-full">
+        <button @click="toggle()" type="button" class="input w-full">
             <div class="flex items-center space-x-3">
                 <span class="block truncate" v-if="!isArray(value)">
                     {{ getValueByKey(value) }}
@@ -28,7 +28,7 @@
     <collapse-transition v-show="isOpen" class="options-container">
         <ul class="rounded-md py-1 max-h-128 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
             <li v-if="searchable" class="p-2">
-                <input type="text" class="voyager-input w-full" :placeholder="searchText" v-model="searchQuery" ref="search">
+                <input type="text" class="input w-full" :placeholder="searchText" v-model="searchQuery" ref="search">
             </li>
             <li v-if="filteredOptions.length == 0 || (dynamic && options.length == 0)" class="option">
                 {{ noOptionsFoundText }}

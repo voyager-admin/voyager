@@ -5,7 +5,7 @@
         </div>
         <div v-else-if="show == 'view'">
             <div v-for="option in options.options" :key="option.key">
-                <input type="checkbox" :id="option.key" class="voyager-input" :value="option.key" :name="column">
+                <input type="checkbox" :id="option.key" class="input" :value="option.key" :name="column">
                 <label :for="option.key">{{ translate(option.value) }}</label>
             </div>
         </div>

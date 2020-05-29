@@ -39,7 +39,7 @@
                         </div>
                         <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
                         <!-- TODO: Hide this if formfield doesn't allow any kind of column -->
-                        <select class="voyager-input w-full" v-model="formfield.column">
+                        <select class="input w-full" v-model="formfield.column">
                             <optgroup :label="__('voyager::builder.columns')" v-if="$store.getFormfieldByType(formfield.type).allowColumns">
                                 <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
                                     {{ column }}
@@ -66,19 +66,19 @@
                         </select>
                         <div v-if="formfield.canBeTranslated">
                             <label class="label mt-4">Translatable</label>
-                            <input type="checkbox" class="voyager-input" v-model="formfield.translatable">
+                            <input type="checkbox" class="input" v-model="formfield.translatable">
                         </div>
 
                         <label class="label mt-4">{{ __('voyager::generic.title') }}</label>
                         <language-input
-                            class="voyager-input w-full"
+                            class="input w-full"
                             type="text" :placeholder="__('voyager::generic.title')"
                             v-bind:value="formfield.options.title"
                             v-on:input="formfield.options.title = $event" />
 
                         <label class="label mt-4">{{ __('voyager::generic.description') }}</label>
                         <language-input
-                            class="voyager-input w-full"
+                            class="input w-full"
                             type="text" :placeholder="__('voyager::generic.description')"
                             v-bind:value="formfield.options.description"
                             v-on:input="formfield.options.description = $event" />

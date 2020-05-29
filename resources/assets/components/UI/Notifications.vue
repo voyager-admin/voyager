@@ -24,7 +24,7 @@
                             <div class="mt-4 flex" v-if="notification.input !== null">
                                 <input
                                     type="text"
-                                    class="voyager-input small w-full"
+                                    class="input small w-full"
                                     v-model="notification.input"
                                     v-on:keyup="stopTimeout(notification)"
                                     v-focus />

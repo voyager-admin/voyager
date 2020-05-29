@@ -1,5 +1,5 @@
 <template>
-    <div class="voyager-input" @click="$refs.input.focus()">
+    <div class="input" @click="$refs.input.focus()">
         <sort-container v-model="tags" tag="span" axis="x" :hideSortableGhost="false" :useDragHandle="true">
             <sort-element v-for="(tag, i) in tags" :key="'tag-'+i" :index="i" tag="span" :disabled="!allowReorder">
                 <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" class="large" :class="[allowReorder ? 'cursor-move' : '']">

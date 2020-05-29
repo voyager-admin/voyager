@@ -4,7 +4,7 @@
             <div v-if="relationship">
                 <card title="BREAD" class="mt-3" v-if="relationship.has_bread">
                     <label for="browse_list">{{ __('voyager::formfields.relationship.browse_list') }}</label>
-                    <select v-model="options.browse_list" class="voyager-input small w-full" id="browse_list">
+                    <select v-model="options.browse_list" class="input small w-full" id="browse_list">
                         <option :value="null">{{ __('voyager::generic.none') }}</option>
                         <option v-for="(list, i) in relationshipLayouts('list')" :key="'list-'+i">
                             {{ list.name }}
@@ -12,7 +12,7 @@
                     </select>
 
                     <label for="add_view">{{ __('voyager::formfields.relationship.add_view') }}</label>
-                    <select v-model="options.add_view" class="voyager-input small w-full" id="add_view">
+                    <select v-model="options.add_view" class="input small w-full" id="add_view">
                         <option :value="null">{{ __('voyager::generic.none') }}</option>
                         <option v-for="(view, i) in relationshipLayouts('view')" :key="'view-'+i">
                             {{ view.name }}
@@ -20,7 +20,7 @@
                     </select>
                 </card>
                 <card title="Field">
-                    <select v-model="options.column" class="voyager-input small w-full">
+                    <select v-model="options.column" class="input small w-full">
                         <option :value="null">{{ __('voyager::generic.none') }}</option>
                         <option v-for="(column, i) in relationship.columns" :key="'column-'+i">
                             {{ column }}

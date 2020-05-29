@@ -1,7 +1,7 @@
 <template>
     <div>
         <select
-            class="voyager-input w-full"
+            class="input w-full"
             :multiple="options.multiple || false"
             v-model="selected">
             <option v-for="option in options.options" :value="option.key" :key="option.key">

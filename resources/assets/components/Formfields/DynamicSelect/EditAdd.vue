@@ -2,7 +2,7 @@
     <div>
         <div class="flex">
             <div class="flex-1 mx-2" v-for="(select, i) in selects" :key="'select-'+i">
-                <select class="voyager-input w-full" v-model="selected[i]">
+                <select class="input w-full" v-model="selected[i]">
                     <option v-for="(option, b) in select" :key="'option-'+b" :value="b">
                         {{ option }}
                     </option>

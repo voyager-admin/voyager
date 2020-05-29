@@ -21,7 +21,7 @@
                     </td>
                     <td class="hidden md:table-cell">{{ $store.getFormfieldByType(formfield.type).name }}</td>
                     <td>
-                        <select class="voyager-input small w-full" v-model="formfield.column">
+                        <select class="input small w-full" v-model="formfield.column">
                             <optgroup :label="__('voyager::builder.columns')" v-if="$store.getFormfieldByType(formfield.type).allowColumns">
                                 <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
                                     {{ column }}
@@ -49,28 +49,28 @@
                     </td>
                     <td>
                         <language-input
-                            class="voyager-input small w-full"
+                            class="input small w-full"
                             type="text" placeholder="Title"
                             v-bind:value="formfield.title"
                             v-on:input="formfield.title = $event" />
                     </td>
                     <td class="hidden md:table-cell">
                         <input
-                            class="voyager-input"
+                            class="input"
                             type="checkbox"
                             v-model="formfield.searchable"
                             :disabled="formfield.column.type !== 'column'" />
                     </td>
                     <td class="hidden md:table-cell">
                         <input
-                            class="voyager-input"
+                            class="input"
                             type="checkbox"
                             v-model="formfield.orderable"
                             :disabled="formfield.column.type !== 'column'" />
                     </td>
                     <td class="hidden md:table-cell">
                         <input
-                            class="voyager-input"
+                            class="input"
                             type="radio"
                             :disabled="formfield.column.type !== 'column'"
                             v-model="reactiveOptions.default_order_column"
@@ -79,7 +79,7 @@
                     <td class="hidden md:table-cell">
                         <input
                             type="checkbox"
-                            class="voyager-input"
+                            class="input"
                             v-model="formfield.translatable"
                             :disabled="!$store.getFormfieldByType(formfield.type).canBeTranslated">
                     </td>

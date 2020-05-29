@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input type="text" class="voyager-input w-full mb-3" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
+        <input type="text" class="input w-full mb-3" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
         <div class="grid grid-cols-12 gap-1">
             <button
                 class="button blue icon-only justify-center my-1"

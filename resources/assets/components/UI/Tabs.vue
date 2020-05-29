@@ -1,7 +1,7 @@
 <template>
     <card class="tabs" :show-header="false">
         <div class="sm:hidden">
-            <select class="voyager-input" @change="openByIndex($event.target.value)">
+            <select class="input" @change="openByIndex($event.target.value)">
                 <option v-for="(tab, i) in tabs" :key="'option-'+i" :value="i" class="capitalize">
                     {{ tab.title }}
                 </option>

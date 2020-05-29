@@ -22,11 +22,11 @@
                 <tbody>
                     <tr v-for="(option, i) in dynamicOptions" :key="'option-'+i">
                         <td>
-                            <input type="text" class="voyager-input w-full" v-model="option.key" :placeholder="__('voyager::generic.key')">
+                            <input type="text" class="input w-full" v-model="option.key" :placeholder="__('voyager::generic.key')">
                         </td>
                         <td>
                             <language-input
-                                class="voyager-input w-full"
+                                class="input w-full"
                                 type="text"
                                 :placeholder="__('voyager::generic.value')"
                                 v-bind:value="option.value"

@@ -44,12 +44,12 @@
                                 <div slot="title" v-if="editMode" class="flex items-end">
                                     <input
                                         type="text"
-                                        class="voyager-input small"
+                                        class="input small"
                                         v-model="setting.name"
                                         v-on:input="setting.key = slugify($event.target.value, { lower: true, strict: true })"
                                         :placeholder="__('voyager::generic.name')">
-                                    <input type="text" class="voyager-input small ml-2" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
-                                    <input type="text" class="voyager-input small ml-2" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
+                                    <input type="text" class="input small ml-2" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
+                                    <input type="text" class="input small ml-2" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
                                 </div>
                                 <div slot="title" v-else class="flex items-end">
                                     <h4>{{ setting.name }}</h4>
@@ -82,7 +82,7 @@
                                             </div>
                                             <div v-if="setting.canBeTranslated">
                                                 <label class="label mt-4">Translatable</label>
-                                                <input type="checkbox" class="voyager-input" v-model="setting.translatable">
+                                                <input type="checkbox" class="input" v-model="setting.translatable">
                                             </div>
 
                                             <component
@@ -119,7 +119,7 @@
             </tabs>
         </card>
         <collapsible v-if="$store.debug" :title="__('voyager::builder.json_output')" :opened="false">
-            <textarea class="voyager-input w-full" rows="10" v-model="jsonSettings"></textarea>
+            <textarea class="input w-full" rows="10" v-model="jsonSettings"></textarea>
         </collapsible>
     </div>
 </template>

@@ -2,7 +2,7 @@
     <card :title="__('voyager::plugins.plugins')" icon="puzzle">
         <div slot="actions">
             <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="query = ''">
-                <input type="text" class="voyager-input w-full mb-3" v-model="query" :placeholder="__('voyager::generic.search')">
+                <input type="text" class="input w-full mb-3" v-model="query" :placeholder="__('voyager::generic.search')">
                 <div v-for="(plugin, i) in filteredPlugins.slice(start, end)" :key="'plugin-'+i">
                     <div class="flex">
                         <div class="w-3/5">
@@ -17,7 +17,7 @@
                             <span v-else>&nbsp;</span>
                         </div>
                         <div class="w-2/5 text-right">
-                            <input class="voyager-input w-full select-none" :value="'composer require '+plugin.repository" @dblclick="copy(plugin)">
+                            <input class="input w-full select-none" :value="'composer require '+plugin.repository" @dblclick="copy(plugin)">
                         </div>
                     </div>
                     <hr class="w-full bg-gray-300 my-4">
