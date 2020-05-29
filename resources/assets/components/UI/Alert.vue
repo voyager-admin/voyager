@@ -1,6 +1,6 @@
 <template>
     <collapse-transition>
-        <div class="alert" :class="`border-${color}-500`" v-if="show">
+        <div class="rounded-md p-4 border" :class="`border-${color}-500`" v-if="show">
             <div class="flex items-center">
                 <div class="flex-shrink-0" v-if="icon">
                     <icon :icon="icon" :size="5" :class="`text-${color}-500`" type="solid" />
@@ -46,9 +46,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-.alert {
-    @apply rounded-md p-4 border;
-}
-</style>

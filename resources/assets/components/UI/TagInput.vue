@@ -1,5 +1,5 @@
 <template>
-    <div class="voyager-input taginput" @click="$refs.input.focus()">
+    <div class="voyager-input" @click="$refs.input.focus()">
         <sort-container v-model="tags" tag="span" axis="x" :hideSortableGhost="false" :useDragHandle="true">
             <sort-element v-for="(tag, i) in tags" :key="'tag-'+i" :index="i" tag="span" :disabled="!allowReorder">
                 <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" class="large" :class="[allowReorder ? 'cursor-move' : '']">
@@ -7,7 +7,7 @@
                 </badge>
             </sort-element>
         </sort-container>
-        <input type="text" class="" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
+        <input type="text" class="bg-transparent border-0 focus:outline-none" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
     </div>
 </template>
 <script>
@@ -93,15 +93,3 @@ export default {
     }
 };
 </script>
-
-<style lang="scss" scoped>
-.taginput {
-    input {
-        @apply bg-transparent border-0;
-
-        &:focus {
-            @apply outline-none;
-        }
-    }
-}
-</style>

@@ -23,9 +23,6 @@
                     {{ selectOptionText }}
                 </span>
             </div>
-            <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <icon icon="selector" :size="5"></icon>
-            </span>
         </button>
     </span>
     <collapse-transition v-show="isOpen" class="options-container">
