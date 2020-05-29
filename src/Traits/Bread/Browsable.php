@@ -46,13 +46,23 @@ trait Browsable
     {
         collect(array_filter($filters))->each(function ($filter, $column) use ($layout, $query, $locale) {
             $formfield = $layout->getFormfieldByColumn($column);
+            $translatable = $formfield->translatable ?? false;
             if (!$formfield) {
                 return;
             }
-            if ($formfield->translatable ?? false) {
-                $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
-            } elseif ($formfield->column->type == 'column') {
+            if ($formfield->column->type == 'column') {
                 $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
+            } elseif ($formfield->column->type == 'relationship') {
+                list($name, $column) = explode('.', $formfield->column->column);
+                $query->whereHas($name, function ($q) use ($column, $filter, $translatable, $locale) {
+                    if ($translatable) {
+                        $q->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
+                    } else {
+                        $q->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
+                    }
+                });
+            } elseif ($translatable) {
+                $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
             }
         });
 
@@ -62,10 +72,12 @@ trait Browsable
     public function orderQuery($layout, $direction, $order, $query, $locale)
     {
         if (!empty($direction) && !empty($order)) {
-            if ($layout->getFormfieldByColumn($order)->translatable ?? false) {
-                $query = $query->orderBy(DB::raw('lower('.$order.'->"$.'.$locale.'")'), $direction);
-            } elseif ($layout->getFormfieldByColumn($order)->column->type == 'column') {
+            if ($layout->getFormfieldByColumn($order)->column->type == 'column') {
                 $query = $query->orderBy($order, $direction);
+            } elseif ($layout->getFormfieldByColumn($order)->column->type == 'relationship') {
+                // TODO: This is currently not supported
+            } elseif ($layout->getFormfieldByColumn($order)->translatable ?? false) {
+                $query = $query->orderBy(DB::raw('lower('.$order.'->"$.'.$locale.'")'), $direction);
             }
         }
 

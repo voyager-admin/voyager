@@ -59,7 +59,7 @@
                             class="input"
                             type="checkbox"
                             v-model="formfield.searchable"
-                            :disabled="formfield.column.type !== 'column'" />
+                            :disabled="formfield.column.type !== 'column' && formfield.column.type !== 'relationship'" />
                     </td>
                     <td class="hidden md:table-cell">
                         <input
