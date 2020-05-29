@@ -27,7 +27,6 @@ let components = [
     'SortElement',
     'Tabs',
     'TagInput',
-    'WYSIWYG',
 ];
 
 components.forEach(function (component) {
