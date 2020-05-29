@@ -84,6 +84,7 @@ export default {
 
 .card {
     @apply shadow border rounded-lg p-4 mb-4 mx-1;
+    @apply transition-colors duration-150;
     @include bg-color(card-bg-color, 'colors.white');
     @include text-color(card-text-color, 'colors.gray.700');
 

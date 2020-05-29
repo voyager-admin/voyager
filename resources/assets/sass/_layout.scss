@@ -44,6 +44,7 @@ html {
 body {
     @include bg-color(bg-color, 'colors.gray.100');
     @include text-color(text-color, 'colors.gray.700');
+    @apply transition-colors duration-150;
 }
 
 ::selection {
