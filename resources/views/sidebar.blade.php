@@ -54,7 +54,7 @@
                 <menu-item
                     :title="__('voyager::generic.media')"
                     :href="route('voyager.media')"
-                    icon="camera" 
+                    icon="photograph" 
                     {{ $current_url == Str::finish(route('voyager.media'), '/') ? 'active' : '' }}>
                 </menu-item>
 
@@ -157,7 +157,7 @@
                 <menu-item
                     :title="__('voyager::generic.media')"
                     :href="route('voyager.media')"
-                    icon="camera" 
+                    icon="photograph" 
                     {{ $current_url == Str::finish(route('voyager.media'), '/') ? 'active' : '' }}>
                 </menu-item>
 

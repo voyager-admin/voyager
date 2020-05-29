@@ -38,7 +38,7 @@
                                     </span>
                                 </a>
                                 <button class="button green" @click="backupBread(table)">
-                                    <icon icon="history" :class="[backingUp ? 'rotating-ccw' : '']" :size="4" />
+                                    <icon icon="clock" :class="[backingUp ? 'rotating-ccw' : '']" :size="4" />
                                     <span v-if="getBackupsForTable(table).length > 0">
                                         {{ __('voyager::generic.backup') }} ({{ getBackupsForTable(table).length }})
                                     </span>

@@ -58,7 +58,7 @@
                                 <div slot="actions" v-if="editMode">
                                     <div class="flex items-center">
                                         <button class="button green icon-only" v-sort-handle>
-                                            <icon icon="switch-vertical" :size="4"></icon>
+                                            <icon icon="selector" :size="4"></icon>
                                         </button>
                                         <button class="button blue" @click="optionsId = i">
                                             <icon icon="cog" :size="4"></icon>
