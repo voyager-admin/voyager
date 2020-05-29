@@ -77,6 +77,33 @@ export default {
                         return bread.table == table;
                     })[0];
                 },
+            },
+            watch: {
+                sidebarOpen: function (open) {
+                    this.setCookie('sidebar-open', (open ? 'true' : 'false'), 360);
+                },
+                darkmode: function (darkmode) {
+                    this.setCookie('dark-mode', (darkmode ? 'true' : 'false'), 360);
+                }
+            },
+            created: function () {
+                var vm = this;
+                // Toggle darkmode when cookie is set
+                var dark_mode = vm.getCookie('dark-mode');
+                if (dark_mode == 'true') {
+                    vm.toggleDarkMode();
+                }
+
+                // Toggle sidebar when cookie is set
+                var sidebar_open = vm.getCookie('sidebar-open');
+                if (sidebar_open == 'false') {
+                    vm.toggleSidebar();
+                }
+
+                // Hide loader when page is loaded
+                document.addEventListener("DOMContentLoaded", function(event) {
+                    vm.pageLoading = false;
+                });
             }
         });
     }

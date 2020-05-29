@@ -24,9 +24,6 @@
             <button class="button accent my-2" v-scroll-to="'ui-tags'">
                 Tag input
             </button>
-            <button class="button accent my-2" v-scroll-to="'ui-wysiwyg'">
-                WYSIWYG Editor
-            </button>
             <button class="button accent my-2" v-scroll-to="'ui-tabs'">
                 Tabs
             </button>
@@ -130,10 +127,6 @@
 
 <collapsible title="Tag input" id="ui-tags">
     <tag-input v-model="$store.ui.tags"></tag-input>
-</collapsible>
-
-<collapsible title="WYSIWYG Editor" id="ui-wysiwyg">
-    <wysiwyg></wysiwyg>
 </collapsible>
 
 <collapsible title="Tabs" id="ui-tabs">

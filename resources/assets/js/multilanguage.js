@@ -32,8 +32,17 @@ Vue.prototype.$language = new Vue({
             this.locale = this.locales[this.index];
         }
     },
-    mounted: function () {
-        this.index = this.locales.indexOf(locale);
+    created: function () {
+        var vm = this;
+        document.addEventListener('keydown', function (e) {
+            if (event.ctrlKey) {
+                if (e.keyCode == 38 || e.keyCode == 39) {
+                    vm.nextLocale();
+                } else if (e.keyCode == 37 || e.keyCode == 40) {
+                    vm.previousLocale();
+                }
+            }
+        });
     }
 });
 

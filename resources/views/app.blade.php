@@ -43,57 +43,18 @@ var voyager = new Vue({
     mounted: function () {
         var vm = this;
 
-        document.addEventListener("DOMContentLoaded", function(event) {
-            vm.$store.pageLoading = false;
-        });
-
         var messages = {!! Voyager::getMessages()->toJson() !!};
 
         messages.forEach(function (m) {
             vm.$notify.notify(m.message, null, m.color, m.timeout);
         });
-
-        document.addEventListener('keydown', function (e) {
-            if (event.ctrlKey) {
-                if (e.keyCode == 38 || e.keyCode == 39) {
-                    vm.$language.nextLocale();
-                } else if (e.keyCode == 37 || e.keyCode == 40) {
-                    vm.$language.previousLocale();
-                }
-            } else if (e.keyCode == 36) {
-                // TODO: Scroll to top
-            }
-        });
     },
     created: function () {
-        var vm = this;
-
         this.$language.localization = {!! Voyager::getLocalization() !!};
         this.$store.routes = {!! Voyager::getRoutes() !!};
         this.$store.breads = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) !!};
         this.$store.formfields = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!};
         this.$store.debug = {{ var_export(config('app.debug') ?? false, true) }};
-
-        var dark_mode = this.getCookie('dark-mode');
-        if (dark_mode == 'true') {
-            vm.$store.toggleDarkMode();
-        }
-
-        var sidebar_open = this.getCookie('sidebar-open');
-        if (sidebar_open == 'false') {
-            this.$store.toggleSidebar();
-        }
-    },
-    watch: {
-        sidebarOpen: function (open) {
-            this.setCookie('sidebar-open', (open ? 'true' : 'false'), 360);
-        },
-        '$store.darkmode': function (darkmode) {
-            this.setCookie('dark-mode', (darkmode ? 'true' : 'false'), 360);
-        },
-        '$store.sidebarOpen': function (open) {
-            this.setCookie('sidebar-open', (open ? 'true' : 'false'), 360);
-        }
     }
 });
 </script>
