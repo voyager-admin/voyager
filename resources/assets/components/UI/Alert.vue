@@ -3,7 +3,7 @@
         <div class="alert" :class="`border-${color}-500`" v-if="show">
             <div class="flex items-center">
                 <div class="flex-shrink-0" v-if="icon">
-                    <icon :icon="icon" :size="5" :class="`text-${color}-500`" />
+                    <icon :icon="icon" :size="5" :class="`text-${color}-500`" type="solid" />
                 </div>
                 <div :class="[icon ? 'ml-3' : '']">
                     <h3 class="text-sm leading-5 font-medium" :class="`text-${color}-500`" v-if="$slots.title">
@@ -32,7 +32,7 @@ export default {
             default: 'green'
         },
         icon: {
-            default: 'comment-info'
+            default: 'information-circle'
         },
         closebutton: {
             type: Boolean,

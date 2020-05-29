@@ -24,7 +24,7 @@
                 </span>
             </div>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <icon icon="direction" :size="5"></icon>
+                <icon icon="selector" :size="5"></icon>
             </span>
         </button>
     </span>
