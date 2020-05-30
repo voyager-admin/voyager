@@ -69,7 +69,7 @@
                                 <div class="flex flex-col h-full">
                                     <div class="flex-none">
                                         <p class="whitespace-no-wrap" v-tooltip="file.file.name">{{ file.file.name }}</p>
-                                        <p class="text-xs" v-if="file.file.type !== 'dir'">{{ readableFileSize(file.file.size) }}</p>
+                                        <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
                                     </div>
                                     <div class="flex items-end justify-end flex-grow">
                                         <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
@@ -118,6 +118,12 @@
                         <div v-if="selectedFiles.length == 1">
                             <p>{{ selectedFiles[0].file.name }}</p>
                             <p>{{ __('voyager::media.size') }}: {{ readableFileSize(selectedFiles[0].file.size) }}</p>
+                            <input
+                                type="text"
+                                class="input small w-full mt-1 select-none"
+                                v-if="selectedFiles[0].file.type !== 'directory'"
+                                :value="selectedFiles[0].file.url"
+                                @dblclick="copyPath(selectedFiles[0].file.url)">
                         </div>
                         <div v-else>
                             <p>{{ __('voyager::media.files_selected', { num: selectedFiles.length }) }}</p>
@@ -348,7 +354,7 @@ export default {
             return this.selectedFiles.indexOf(file) >= 0;
         },
         openFile: function (file) {
-            if (file.file.type == 'dir') {
+            if (file.file.type == 'directory') {
                 this.path = this.path + '/' + file.file.name;
                 this.pushCurrentPathToUrl();
                 this.loadFiles();
@@ -358,14 +364,8 @@ export default {
             this.filesToUpload.splice(this.filesToUpload.indexOf(file), 1);
         },
         getFileIcon: function (type) {
-            if (type == 'dir') {
+            if (type == 'directory') {
                 return 'folder';
-            } else if (this.mimeMatch(type, 'video/*')) {
-                return 'video';
-            } else if (this.mimeMatch(type, 'audio/*')) {
-                return 'music';
-            } else if (this.mimeMatch(type, 'image/*')) {
-                return 'image';
             }
 
             return 'document';
@@ -446,7 +446,11 @@ export default {
                     });
                 }
             }, 'blue', vm.__('voyager::generic.ok'), vm.__('voyager::generic.cancel'), false, 7500);
-        }
+        },
+        copyPath: function (path) {
+            this.copyToClipboard(path);
+            this.$notify.notify(this.__('voyager::media.path_copied'), null, 'blue', 5000);
+        },
     },
     computed: {
         combinedFiles: function () {
