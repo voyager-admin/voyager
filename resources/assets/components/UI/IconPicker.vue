@@ -3,7 +3,7 @@
         <input type="text" class="input w-full mb-3" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
         <div class="grid grid-cols-12 gap-1">
             <button
-                class="button blue icon-only justify-center my-1"
+                class="button accent icon-only justify-center my-1"
                 v-for="(icon, i) in filteredIcons.slice(start, end)"
                 :key="'icon-' + i"
                 @dblclick="selectIcon(icon.usable)"
@@ -11,16 +11,7 @@
                 <icon :icon="icon.name" :type="icon.style" :size="6" />
             </button>
         </div>
-        <div class="button-group mt-2">
-            <button
-                class="button blue"
-                :class="page == (i - 1) ? 'active' : ''"
-                v-for="i in pages"
-                @click="page = (i - 1)"
-                :key="'page-button-'+i">
-                {{ i }}
-            </button>
-        </div>
+        <pagination class="mt-2" :page-count="pages" v-on:input="page = $event - 1" v-bind:value="page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
     </div>
 </template>
 <script>

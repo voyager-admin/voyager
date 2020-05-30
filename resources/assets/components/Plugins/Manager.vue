@@ -16,16 +16,17 @@
                             </a>
                             <span v-else>&nbsp;</span>
                         </div>
-                        <div class="w-2/5 text-right">
+                        <div class="w-2/5 text-right" v-if="!pluginInstalled(plugin)">
                             <input class="input w-full select-none" :value="'composer require '+plugin.repository" @dblclick="copy(plugin)">
+                        </div>
+                        <div class="w-2/5 text-right" v-else>
+                            <badge color="orange">{{ __('voyager::plugins.plugin_installed') }}</badge>
                         </div>
                     </div>
                     <hr class="w-full bg-gray-300 my-4">
                 </div>
                 <div class="w-full text-right">
-                    <div class="button-group">
-                        <button class="button blue" v-for="i in pages" @click="page = (i - 1)" :key="'page-button-'+i">{{ i }}</button>
-                    </div>
+                    <pagination :page-count="pages" v-on:input="page = $event - 1" v-bind:value="page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
                 </div>
                 <div slot="opener" class="">
                     <button class="button green">
@@ -37,7 +38,6 @@
         </div>
         <alert color="red" v-if="hasMultiplePlugins('auth')" class="mb-2" v-html="nl2br(__('voyager::plugins.multiple_auth_plugins'))"></alert>
         <alert color="red" v-if="hasMultiplePlugins('menu')" class="mb-2" v-html="nl2br(__('voyager::plugins.multiple_menu_plugins'))"></alert>
-        </alert>
 
         <div class="voyager-table striped" v-if="installedPlugins.length > 0" v-bind:class="[loading ? 'loading' : '']">
             <table id="bread-builder-browse">
@@ -222,6 +222,11 @@ export default {
             }
 
             return 'red';
+        },
+        pluginInstalled: function (plugin) {
+            return this.installedPlugins.filter(function (installed) {
+                return installed.repository == plugin.repository;
+            }).length > 0;
         }
     },
     computed: {

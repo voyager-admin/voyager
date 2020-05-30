@@ -14,6 +14,7 @@ export default {
                 ui: {
                     name: 'Voyager',
                     colors: [
+                        'accent',
                         'red',
                         'orange',
                         'yellow',
