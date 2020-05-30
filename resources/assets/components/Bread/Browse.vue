@@ -121,27 +121,29 @@
                                         </component>
                                     </div>
                                 </td>
-                                <td class="ltr:text-right rtl:text-left" v-if="!fromRelationship">
-                                    <a :href="route('voyager.'+translate(bread.slug, true)+'.read', result[primary])" class="button blue small">
-                                        <icon icon="book-open"></icon>
-                                        <span>{{ __('voyager::generic.read') }}</span>
-                                    </a>
-                                    <a :href="route('voyager.'+translate(bread.slug, true)+'.edit', result[primary])" class="button yellow small">
-                                        <icon icon="pencil"></icon>
-                                        <span>{{ __('voyager::generic.edit') }}</span>
-                                    </a>
-                                    <button @click.prevent="deleteEntries(result[primary])" class="button red small" v-if="(uses_soft_deletes && !result.is_soft_deleted) || !uses_soft_deletes">
-                                        <icon icon="trash"></icon>
-                                        <span>{{ __('voyager::generic.delete') }}</span>
-                                    </button>
-                                    <button @click.prevent="deleteEntries(result[primary], true)" v-if="uses_soft_deletes && result.is_soft_deleted" class="button red small">
-                                        <icon icon="trash"></icon>
-                                        <span>{{ __('voyager::generic.force_delete') }}</span>
-                                    </button>
-                                    <button @click.prevent="restoreEntries(result[primary])" v-if="uses_soft_deletes && result.is_soft_deleted" class="button green small">
-                                        <icon icon="history"></icon>
-                                        <span>{{ __('voyager::generic.restore') }}</span>
-                                    </button>
+                                <td class="flex justify-end" v-if="!fromRelationship">
+                                    <div class="button-group flex-no-wrap">
+                                        <a :href="route('voyager.'+translate(bread.slug, true)+'.read', result[primary])" class="button blue small">
+                                            <icon icon="book-open"></icon>
+                                            <span>{{ __('voyager::generic.read') }}</span>
+                                        </a>
+                                        <a :href="route('voyager.'+translate(bread.slug, true)+'.edit', result[primary])" class="button yellow small">
+                                            <icon icon="pencil"></icon>
+                                            <span>{{ __('voyager::generic.edit') }}</span>
+                                        </a>
+                                        <button @click.prevent="deleteEntries(result[primary])" class="button red small" v-if="(uses_soft_deletes && !result.is_soft_deleted) || !uses_soft_deletes">
+                                            <icon icon="trash"></icon>
+                                            <span>{{ __('voyager::generic.delete') }}</span>
+                                        </button>
+                                        <button @click.prevent="deleteEntries(result[primary], true)" v-if="uses_soft_deletes && result.is_soft_deleted" class="button red small">
+                                            <icon icon="trash"></icon>
+                                            <span>{{ __('voyager::generic.force_delete') }}</span>
+                                        </button>
+                                        <button @click.prevent="restoreEntries(result[primary])" v-if="uses_soft_deletes && result.is_soft_deleted" class="button green small">
+                                            <icon icon="history"></icon>
+                                            <span>{{ __('voyager::generic.restore') }}</span>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             <tr v-if="results.length == 0 && !loading">

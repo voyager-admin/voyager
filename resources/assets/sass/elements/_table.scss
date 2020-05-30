@@ -42,16 +42,16 @@
 
 .voyager-table {
     @include border-color(table-border-color, 'colors.gray.300');
-    @apply align-middle min-w-full shadow rounded-lg border my-5;
+    @apply shadow rounded-lg border my-5;
 
     &.loading {
         @apply opacity-25;
     }
 
     table {
-        @apply min-w-full;
+        @apply table-auto min-w-full;
 
-        thead{
+        thead {
             @include bg-color(table-head-bg-color, 'colors.gray.100');
             @include text-color(table-head-text-color, 'colors.gray.900');
             tr {
@@ -91,7 +91,7 @@
                 }
 
                 td {
-                    @apply px-6 py-4 whitespace-no-wrap;
+                    @apply px-6 py-4;
                 }
             }
         }
