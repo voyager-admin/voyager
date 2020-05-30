@@ -221,6 +221,8 @@ export default {
                 return 'purple';
             } else if (type == 'widget') {
                 return 'orange';
+            } else if (type == 'formfield') {
+                return 'red';
             }
 
             return 'red';

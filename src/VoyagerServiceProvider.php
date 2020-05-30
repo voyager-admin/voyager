@@ -43,6 +43,8 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         $router->aliasMiddleware('voyager.admin', VoyagerAdminMiddleware::class);
+
+        $this->loadPluginFormfields();
     }
 
     /**
@@ -90,5 +92,12 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Select::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Tags::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Text::class);
+    }
+
+    public function loadPluginFormfields()
+    {
+        $this->pluginmanager->getPluginsByType('formfield')->where('enabled')->each(function ($formfield) {
+            $this->breadmanager->addFormfield($formfield->getFormfield());
+        });
     }
 }
