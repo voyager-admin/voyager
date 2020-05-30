@@ -51,9 +51,16 @@ export default {
                         document.querySelector('html').setAttribute('dir', 'ltr');
                     }
                 },
-                toggleDarkMode () {
-                    this.darkmode = !this.darkmode;
-                    if (this.darkmode) {
+                toggleDarkMode (initial = false) {
+                    var vm = this;
+                    if (!initial) {
+                        vm.addBackgroundTransitions();
+                        window.setTimeout(function () {
+                            vm.removeBackgroundTransitions();
+                        }, 1000);
+                    }
+                    vm.darkmode = !vm.darkmode;
+                    if (vm.darkmode) {
                         document.querySelector('html').classList.add('mode-dark');
                     } else {
                         document.querySelector('html').classList.remove('mode-dark');
@@ -78,6 +85,14 @@ export default {
                         return bread.table == table;
                     })[0];
                 },
+                addBackgroundTransitions () {
+                    document.querySelector('body').classList.add('transition-colors', 'duration-300');
+                    document.querySelector('.card').classList.add('transition-colors', 'duration-300');
+                },
+                removeBackgroundTransitions () {
+                    document.querySelector('body').classList.remove('transition-colors', 'duration-300');
+                    document.querySelector('.card').classList.add('transition-colors', 'duration-300');
+                }
             },
             watch: {
                 sidebarOpen: function (open) {
@@ -92,7 +107,7 @@ export default {
                 // Toggle darkmode when cookie is set
                 var dark_mode = vm.getCookie('dark-mode');
                 if (dark_mode == 'true') {
-                    vm.toggleDarkMode();
+                    vm.toggleDarkMode(true);
                 }
 
                 // Toggle sidebar when cookie is set
