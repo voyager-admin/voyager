@@ -14,5 +14,13 @@
         "repository": "emptynick/monochrome-color-themes",	
         "keywords": ["plugin", "theme", "blue"],	
         "website": "https://github.com/emptynick/monochrome-color-themes"	
+    },
+    {	
+        "name": "Tiptap",	
+        "description": "A WYSIWYG editor based on Tiptap",	
+        "type": "formfield",	
+        "repository": "emptynick/voyager-tiptap",	
+        "keywords": ["plugin", "formfield", "tiptap", "wysiwyg"],	
+        "website": "https://github.com/emptynick/voyager-tiptap"	
     }
 ]

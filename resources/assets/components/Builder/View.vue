@@ -17,7 +17,7 @@
                         <icon icon="arrows-expand" v-sort-handle class="cursor-move" />
                     </button>
                     <button class="button small blue icon-only" @mousedown="startResize(key)">
-                        <icon icon="switch-vertical" class="cursor-move" />
+                        <icon icon="switch-horizontal" class="cursor-move" />
                     </button>
                     <button class="button small blue icon-only" @click="$emit('open-options', key)">
                         <icon icon="cog" />

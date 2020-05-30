@@ -39,6 +39,11 @@
     </slide-x-left-transition>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
+@foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins()->where('enabled') as $plugin)
+    @foreach ($plugin->getJsRoutes() as $js)
+    <script src="{{ $js }}" type="text/javascript"></script>
+    @endforeach
+@endforeach
 <script>
 var voyager = new Vue({
     el: '#voyager',
@@ -60,10 +65,5 @@ var voyager = new Vue({
     }
 });
 </script>
-@foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins()->where('enabled') as $plugin)
-    @foreach ($plugin->getJsRoutes() as $js)
-    <script src="{{ $js }}" type="text/javascript"></script>
-    @endforeach
-@endforeach
 @yield('js')
 </html>

@@ -30,6 +30,8 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->loadViewsFrom(realpath(__DIR__.'/../resources/views'), 'voyager');
         $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager');
 
+        $this->loadPluginFormfields();
+
         // Register Policies
         $this->breadmanager->getBreads()->each(function ($bread) {
             $policy = BasePolicy::class;
@@ -43,8 +45,6 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         $router->aliasMiddleware('voyager.admin', VoyagerAdminMiddleware::class);
-
-        $this->loadPluginFormfields();
     }
 
     /**

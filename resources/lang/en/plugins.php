@@ -16,6 +16,7 @@ return [
     'types'                         => [
         'authentication'                => 'Authentication',
         'authorization'                 => 'Authorization',
+        'formfield'                     => 'Formfield',
         'generic'                       => 'Generic',
         'menu'                          => 'Menu',
         'theme'                         => 'Theme',
