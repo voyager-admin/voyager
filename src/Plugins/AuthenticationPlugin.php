@@ -108,4 +108,14 @@ class AuthenticationPlugin implements AuthContract
     {
         return null;
     }
+
+    public function getCssRoutes(): array
+    {
+        return [];
+    }
+
+    public function getJsRoutes(): array
+    {
+        return [];
+    }
 }

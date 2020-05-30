@@ -189,11 +189,13 @@ export default {
             );
         },
         previewTheme: function (src, name) {
-            var file = document.createElement('link');
-            file.setAttribute('rel', 'stylesheet');
-            file.setAttribute('type', 'text/css');
-            file.setAttribute('href', src);
-            document.getElementsByTagName('head')[0].appendChild(file);
+            src.forEach(function (s) {
+                var file = document.createElement('link');
+                file.setAttribute('rel', 'stylesheet');
+                file.setAttribute('type', 'text/css');
+                file.setAttribute('href', s);
+                document.getElementsByTagName('head')[0].appendChild(file);
+            })
 
             this.$notify.notify(this.__('voyager::plugins.preview_theme', {name: name}), null, 'blue', 5000);
         },

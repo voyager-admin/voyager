@@ -34,7 +34,7 @@ class PluginsController extends Controller
         return $this->pluginmanager->getAllPlugins()->sortBy('identifier')->transform(function ($plugin) {
             // This is only used to preview a theme
             if ($plugin->type == 'theme') {
-                $plugin->src = $plugin->getStyleRoute();
+                $plugin->src = $plugin->getCssRoutes();
             }
 
             return $plugin;

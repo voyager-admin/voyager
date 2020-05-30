@@ -9,8 +9,10 @@
 
     <title>@yield('page-title') - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
-    @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getPluginsByType('theme')->where('enabled') as $theme)
-        <link href="{{ $theme->getStyleRoute() }}" rel="stylesheet">
+    @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins()->where('enabled') as $plugin)
+        @foreach ($plugin->getCssRoutes() as $css)
+        <link href="{{ $css }}" rel="stylesheet">
+        @endforeach
     @endforeach
 </head>
 
@@ -58,5 +60,10 @@ var voyager = new Vue({
     }
 });
 </script>
+@foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins()->where('enabled') as $plugin)
+    @foreach ($plugin->getJsRoutes() as $js)
+    <script src="{{ $js }}" type="text/javascript"></script>
+    @endforeach
+@endforeach
 @yield('js')
 </html>

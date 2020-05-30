@@ -13,4 +13,8 @@ interface GenericPlugin
     public function getSettingsView(): ?View;
 
     public function getInstructionsView(): ?View;
+
+    public function getCssRoutes(): array;
+
+    public function getJsRoutes(): array;
 }
