@@ -1,5 +1,13 @@
 [
     {	
+        "name": "Black theme",	
+        "description": "An all-black theme for Voyager 2",	
+        "type": "theme",	
+        "repository": "emptynick/black-theme",	
+        "keywords": ["plugin", "theme", "black", "oled"],	
+        "website": "https://github.com/emptynick/black-theme"	
+    },
+    {	
         "name": "Monochrome theme collection",	
         "description": "A collection of monochromatic themes for Voyager 2",	
         "type": "theme",	

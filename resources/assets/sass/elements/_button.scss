@@ -5,6 +5,7 @@
 .mode-dark .button {
     &.accent {
         @include bg-color(accent-bg-color-dark, 'colors.blue.500');
+        @include border-color(accent-border-color-dark, 'colors.transparent');
         &:hover {
             @include bg-color(accent-hover-color-dark, 'colors.blue.600');
         }
@@ -55,6 +56,7 @@
 
     &.accent {
         @include bg-color(accent-bg-color, 'colors.blue.500');
+        @include border-color(accent-border-color, 'colors.transparent');
         &:hover {
             @include bg-color(accent-hover-color, 'colors.blue.600');
         }
