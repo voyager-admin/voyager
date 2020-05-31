@@ -4,9 +4,9 @@
         <div class="flex items-center justify-between flex-wrap sm:flex-no-wrap">
             <div class="inline-flex items-center" v-if="!$slots.title">
                 <icon v-if="icon" :icon="icon" :size="iconSize" class="ltr:mr-2 rtl:ml-2"></icon>
-                <h6 class="leading-6 font-medium">
+                <component :is="`h${titleSize}`" class="leading-6 font-medium">
                     {{ title }}
-                </h6>
+                </component>
                 <p class="mt-1 text-sm leading-5 text-gray-500">
                     {{ description }}
                 </p>
@@ -35,6 +35,10 @@ export default {
         title: {
             type: String,
             default: '',
+        },
+        titleSize: {
+            type: Number,
+            default: 4,
         },
         icon: {
             type: String,

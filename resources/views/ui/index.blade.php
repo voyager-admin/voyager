@@ -57,39 +57,39 @@
 </collapsible>
 
 <collapsible title="Buttons" id="ui-buttons">
-    <collapsible title="Default">
+    <collapsible title="Default" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]">
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
-    <collapsible title="Disabled">
+    <collapsible title="Disabled" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]" disabled>
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
-    <collapsible title="Small">
+    <collapsible title="Small" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color]">
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
-    <collapsible title="Large">
+    <collapsible title="Large" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'large', color]">
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
-    <collapsible title="With Icon">
+    <collapsible title="With Icon" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color]">
             <icon icon="information-circle" class="mr-1"></icon>
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
-    <collapsible title="Responsive">
+    <collapsible title="Responsive" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color]">
             <icon icon="information-circle"></icon>
             <span>@{{ color[0].toUpperCase() + color.slice(1) }}</span>
         </button>
     </collapsible>
-    <collapsible title="Button group">
+    <collapsible title="Button group" :title-size="5">
         <div class="button-group">
             <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]">
                 @{{ color[0].toUpperCase() + color.slice(1) }}
@@ -99,29 +99,29 @@
 </collapsible>
 
 <collapsible title="Inputs" id="ui-inputs">
-    <collapsible title="Default">
+    <collapsible title="Default" :title-size="5">
         <input type="text" class="input w-full" placeholder="Placeholder" />
     </collapsible>
-    <collapsible title="Disabled">
+    <collapsible title="Disabled" :title-size="5">
             <input type="text" class="input w-full" disabled placeholder="Placeholder" />
     </collapsible>
-    <collapsible title="Small">
+    <collapsible title="Small" :title-size="5">
         <input type="text" class="input w-full small" placeholder="Placeholder" />
     </collapsible>
-    <collapsible title="With label">
+    <collapsible title="With label" :title-size="5">
         <label class="label" for="labeled-input">Label</label>
         <input type="text" class="input w-full" id="labeled-input" placeholder="Placeholder" />
     </collapsible>
-    <collapsible title="Colors" :opened="false">
+    <collapsible title="Colors" :opened="false" :title-size="5">
         <input v-for="color in $store.ui.colors" type="text" class="input w-full mb-2" :class="color" :placeholder="ucfirst(color)" :key="'input-'+color">
     </collapsible>
 </collapsible>
 
 <collapsible title="Listbox" id="ui-listbox">
-<collapsible title="Single">
+<collapsible title="Single" :title-size="5">
         <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_option"></listbox>
     </collapsible>
-    <collapsible title="Multiple">
+    <collapsible title="Multiple" :title-size="5">
         <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_options" :close-on-select="false"></listbox>
     </collapsible>
 </collapsible>
@@ -148,12 +148,12 @@
 </collapsible>
 
 <collapsible title="Badges" id="ui-badges">
-    <collapsible title="Default">
+    <collapsible title="Default" :title-size="5">
         <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color">
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </badge>
     </collapsible>
-    <collapsible title="Large">
+    <collapsible title="Large" :title-size="5">
         <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color" class="large">
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </badge>
@@ -168,7 +168,7 @@
 </collapsible>
 
 <collapsible title="Notifications" id="ui-notifications">
-    <collapsible v-for="color in $store.ui.colors" :key="'notification_'+color" :title="ucfirst(color)">
+    <collapsible v-for="color in $store.ui.colors" :key="'notification_'+color" :title="ucfirst(color)" :title-size="5">
         <div class="inline-flex">
             <button @click="$notify.notify($store.ui.lorem, ucfirst(color), color)" class="button" :class="color">Message and title</button>
             <button @click="$notify.notify($store.ui.lorem, null, color)" class="button" :class="color">Message only</button>
@@ -176,7 +176,7 @@
             <button @click="$notify.notify($store.ui.lorem, ucfirst(color), color, 5000, false)" class="button" :class="color">With timeout</button>
         </div>
     </collapsible>
-    <collapsible title="Confirm">
+    <collapsible title="Confirm" :title-size="5">
         <div class="inline-flex">
             <button @click="$notify.confirm('Are you sure?', function (result) {})" class="button blue">Simple</button>
             <button @click="$notify.confirm('Are you sure?', function (result) {}, null, 'blue', 'Yes', 'No', null, true)" class="button blue">Indeterminate</button>
@@ -184,7 +184,7 @@
             <button @click="$notify.confirm('Are you sure?', function (result) {}, null, 'blue', 'Of course', 'Nah')" class="button blue">Custom buttons</button>
         </div>
     </collapsible>
-    <collapsible title="Prompt">
+    <collapsible title="Prompt" :title-size="5">
         <div class="inline-flex">
             <button @click="$notify.prompt('Enter your name', '', function (result) {})" class="button blue">Simple</button>
             <button @click="$notify.prompt('Enter your name', '', function (result) {}, 'blue', 'Save', 'Abort')" class="button blue">Custom buttons</button>
@@ -194,23 +194,23 @@
 </collapsible>
 
 <collapsible title="Pagination" id="ui-pagination">
-<collapsible title="Default">
+    <collapsible title="Default" :title-size="5">
         <pagination :page-count="100" :value="1"></pagination>
     </collapsible>
 
-    <collapsible title="No previous/next button">
+    <collapsible title="No previous/next button" :title-size="5">
         <pagination :page-count="100" :value="10" :prev-next-buttons="false"></pagination>
     </collapsible>
     
-    <collapsible title="No first/last button">
+    <collapsible title="No first/last button" :title-size="5">
         <pagination :page-count="100" :value="25" :first-last-buttons="false"></pagination>
     </collapsible>
 
-    <collapsible title="Only page-buttons">
+    <collapsible title="Only page-buttons" :title-size="5">
         <pagination :page-count="100" :value="50" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
     </collapsible>
 
-    <collapsible title="Different color (Works with all other colors as well)">
+    <collapsible title="Different color (Works with all other colors as well)" :title-size="5">
         <pagination :page-count="100" :value="100" color="red"></pagination>
     </collapsible>
 </collapsible>

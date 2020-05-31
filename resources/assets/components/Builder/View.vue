@@ -11,7 +11,7 @@
             axis="xy"
             class="m-0"
             :class="formfield.options.width">
-            <card :title="translate(formfield.options.title) || ''" :border="formfield.options.border || 'default'">
+            <card :title="translate(formfield.options.title) || ''" :border="formfield.options.border || 'default'" :title-size="5">
                 <div slot="actions">
                     <button class="button small blue icon-only">
                         <icon icon="arrows-expand" v-sort-handle class="cursor-move" />

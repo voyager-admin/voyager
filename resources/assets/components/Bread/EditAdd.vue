@@ -15,6 +15,7 @@
                         <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
                             <card
                                 :title="translate(formfield.options.title, true)"
+                                :title-size="5"
                                 :show-title="translate(formfield.options.label, true) !== ''"
                                 :border="formfield.options.border || 'default'">
                                 <div>
