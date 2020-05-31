@@ -12,6 +12,7 @@ module.exports = {
                 /bg-[a-z]+-[0-9]+/,     // Dynamically used colors in badges, buttons and so on
                 /text-[a-z]+-[0-9]+/,   // ^
                 /border-[a-z]+-[0-9]+/, // ^
+                /grid-cols-[0-9]+/,     // Used for dashboard-widgets
             ]
         }
     },
