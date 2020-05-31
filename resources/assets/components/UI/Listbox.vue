@@ -1,8 +1,14 @@
 <template>
-    <Listbox v-bind:value="value" v-on:input="$emit('input', $event)" v-slot="{ isOpen }" class="listbox input">
-        <ListboxLabel class="sr-only">{{ selectOptionText }}</ListboxLabel>
-        <ListboxButton class="w-full text-left" style="outline: none !important;">
-            {{ value || selectOptionText }}
+    <Listbox v-bind:value="value" v-on:input="$emit('input', $event)" v-slot="{ isOpen }" class="listbox input" :close-on-select="closeOnSelect">
+        <ListboxButton class="w-full inline-flex items-center" style="outline: none !important;">
+            <span class="flex-grow text-left" v-if="!isArray(value) && value">{{ value }}</span>
+            <span class="flex-grow text-left" v-else-if="(isArray(value) && value.length == 0) || !value">{{ selectOptionText }}</span>
+            <div v-else-if="isArray(value)" class="flex-grow text-left">
+                <badge icon="x" v-for="(val, i) in value" :key="i" @click-icon="$emit('input', value.filter(s => s !== val))" class="large">
+                    {{ val }}
+                </badge>
+            </div>
+            <icon class="flex-grow-0 ltr:ml-2 rtl:mr-2" icon="selector"></icon>
         </ListboxButton>
         <collapse-transition class="options-container -m-3">
             <ListboxList v-show="isOpen" class="rounded-md py-1 max-h-128 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
@@ -29,18 +35,17 @@
 </template>
 
 <script>
+// TODO: This can be replaced once @tailwindui/vue does support multiple values
 import {
     Listbox,
-    ListboxLabel,
     ListboxButton,
     ListboxList,
     ListboxOption
-} from "@tailwindui/vue";
+} from '../../js/listbox';
 
 export default {
     components: {
         Listbox,
-        ListboxLabel,
         ListboxButton,
         ListboxList,
         ListboxOption
@@ -56,6 +61,10 @@ export default {
         selectOptionText: {
             type: String,
             default: 'Select an option',
+        },
+        closeOnSelect: {
+            type: Boolean,
+            default: true,
         },
     },
 };

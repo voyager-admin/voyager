@@ -6,6 +6,7 @@ Instead, they are listed here:
 - Test all formfields, translatable and not translatable
 - Implement a set-setting method (?)
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
+- Revise Darkmode: There shouldn't be a plugin. Without, we cant use `class="dark:bg-gray-700"` tho
 
 ## Formfields
 - **Dynamic select** needs a "read" part

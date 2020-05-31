@@ -18,8 +18,8 @@
             <button class="button accent my-2" v-scroll-to="'ui-inputs'">
                 Inputs
             </button>
-            <button class="button accent my-2" v-scroll-to="'ui-select'">
-                Select
+            <button class="button accent my-2" v-scroll-to="'ui-listbox'">
+                Listbox
             </button>
             <button class="button accent my-2" v-scroll-to="'ui-tags'">
                 Tag input
@@ -117,9 +117,12 @@
     </collapsible>
 </collapsible>
 
-<collapsible title="Select" id="ui-select">
-    <collapsible title="Single">
-        <select-input :options="$store.ui.select_options" v-model="$store.ui.selected_option"></select-input>
+<collapsible title="Listbox" id="ui-listbox">
+<collapsible title="Single">
+        <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_option"></listbox>
+    </collapsible>
+    <collapsible title="Multiple">
+        <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_options" :close-on-select="false"></listbox>
     </collapsible>
 </collapsible>
 
