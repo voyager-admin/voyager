@@ -2,7 +2,7 @@
 @import "mixins/border-color";
 @import "mixins/text-color";
 
-.mode-dark .notifications {
+.dark .notifications {
     .notification {
         @include bg-color(notification-bg-color-dark, 'colors.gray.800');
 

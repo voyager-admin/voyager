@@ -64,7 +64,7 @@ export default {
 @import "../../sass/mixins/border-color";
 @import "../../sass/mixins/text-color";
 
-.mode-dark .dropdown {
+.dark .dropdown {
     .wrapper {
         @include bg-color(dropdown-bg-color-dark, 'colors.gray.900');
         @include border-color(dropdown-border-color-dark, 'colors.gray.700');

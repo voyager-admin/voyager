@@ -101,7 +101,7 @@
                 </nav>
             </div>
             <div class="flex-shrink-0 flex border-t sidebar-border p-4">
-                <button class="rounded-full bg-gray-300 dark:bg-gray-700 outline-none px-2 py-2 rounded inline-flex items-center" @click="$store.toggleDarkMode()">
+                <button class="button accent icon-only" @click="$store.toggleDarkMode()">
                     <icon :icon="$store.darkmode ? 'sun' : 'moon'"></icon>
                 </button>
                 <img src="{{ Voyager::assetUrl('images/default-avatar.png') }}" class="rounded-full m-4 w-8" alt="User Avatar">

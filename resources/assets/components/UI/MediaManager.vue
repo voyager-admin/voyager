@@ -33,7 +33,7 @@
                         <span v-else>{{ path }}</span>
                     </button>
                     <button class="button cursor-default px-0 py-0 icon-only" v-if="pathSegments.length !== (i+1)">
-                        <icon icon="chevron-right" class="text-gray-700 dark:text-gray-300"></icon>
+                        <icon icon="chevron-right"></icon>
                     </button>
                 </span>
             </div>
@@ -528,7 +528,7 @@ export default {
 @import "../../sass/mixins/border-color";
 @import "../../sass/mixins/text-color";
 
-.mode-dark .media-manager {
+.dark .media-manager {
     @include bg-color(media-bg-color-dark, 'colors.gray.850');
     @include border-color(media-border-color-dark, 'colors.gray.700');
 

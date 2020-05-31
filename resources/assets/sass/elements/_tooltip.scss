@@ -2,7 +2,7 @@
 @import "mixins/border-color";
 @import "mixins/text-color";
 
-.mode-dark .tooltip {
+.dark .tooltip {
     .tooltip-inner {
         @include bg-color(tooltip-bg-color-dark, 'colors.gray.900');
         @include text-color(tooltip-text-color-dark, 'colors.white');

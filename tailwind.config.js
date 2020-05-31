@@ -6,7 +6,6 @@ module.exports = {
         ],
         options: {
             whitelistPatterns: [
-                /mode-dark/,
                 /w-[0-9]+\/[0-9]+/,     // All variations of width classes we dynamically use in the view-builder
                 /w-[0-9]+/,             // Different sizes used for icon
                 /h-[0-9]+/,             // ^
@@ -108,12 +107,12 @@ module.exports = {
         alignSelf: ['responsive'],
         appearance: ['responsive'],
         backgroundAttachment: ['responsive'],
-        backgroundColor: ['dark', 'dark-hover', 'dark-group-hover', 'responsive', 'hover', 'focus'],
+        backgroundColor: ['responsive', 'hover', 'focus'],
         backgroundPosition: ['responsive'],
         backgroundRepeat: ['responsive'],
         backgroundSize: ['responsive'],
         borderCollapse: ['responsive'],
-        borderColor: ['dark', 'dark-focus', 'dark-focus-within', 'responsive', 'hover', 'focus'],
+        borderColor: ['responsive', 'hover', 'focus'],
         borderRadius: ['responsive'],
         borderStyle: ['responsive'],
         borderWidth: ['responsive'],
@@ -157,7 +156,7 @@ module.exports = {
         stroke: ['responsive'],
         tableLayout: ['responsive'],
         textAlign: ['responsive', 'direction'],
-        textColor: ['dark', 'dark-hover', 'dark-active', 'dark-placeholder', 'responsive', 'hover', 'focus'],
+        textColor: ['responsive', 'hover', 'focus'],
         textDecoration: ['responsive', 'hover', 'focus'],
         textTransform: ['responsive'],
         userSelect: ['responsive'],
@@ -169,7 +168,6 @@ module.exports = {
         zIndex: ['responsive'],
     },
     plugins: [
-        require('tailwindcss-dark-mode')(),
         require('tailwindcss-dir')(),
     ],
 }

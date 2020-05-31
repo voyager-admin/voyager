@@ -61,7 +61,7 @@ export default {
 @import "../../sass/mixins/border-color";
 @import "../../sass/mixins/text-color";
 
-.mode-dark .card {
+.dark .card {
     @include bg-color(card-bg-color-dark, 'colors.gray.800');
     @include text-color(card-text-color-dark, 'colors.gray.300');
 

@@ -61,9 +61,9 @@ export default {
                     }
                     vm.darkmode = !vm.darkmode;
                     if (vm.darkmode) {
-                        document.querySelector('html').classList.add('mode-dark');
+                        document.querySelector('html').classList.add('dark');
                     } else {
-                        document.querySelector('html').classList.remove('mode-dark');
+                        document.querySelector('html').classList.remove('dark');
                     }
                 },
                 toggleSidebar () {
@@ -87,11 +87,15 @@ export default {
                 },
                 addBackgroundTransitions () {
                     document.querySelector('body').classList.add('transition-colors', 'duration-300');
-                    document.querySelector('.card').classList.add('transition-colors', 'duration-300');
+                    if (document.querySelector('.card')) {
+                        document.querySelector('.card').classList.add('transition-colors', 'duration-300');
+                    }
                 },
                 removeBackgroundTransitions () {
                     document.querySelector('body').classList.remove('transition-colors', 'duration-300');
-                    document.querySelector('.card').classList.add('transition-colors', 'duration-300');
+                    if (document.querySelector('.card')) {
+                        document.querySelector('.card').classList.add('transition-colors', 'duration-300');
+                    }
                 }
             },
             watch: {

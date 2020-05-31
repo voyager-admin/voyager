@@ -1,6 +1,6 @@
 @import "mixins/text-color";
 
-.mode-dark .label {
+.dark .label {
     @include text-color(label-text-color-dark, 'colors.gray.200');
 }
 
@@ -13,7 +13,7 @@
     }
 }
 
-.mode-dark p {
+.dark p {
     &.description {
         @include text-color(description-text-color-dark, 'colors.gray.200');
     }

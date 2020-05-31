@@ -5,9 +5,9 @@
                 <div class="flex items-center px-6 py-4">
                     <img class="h-10 w-10 rounded-full flex-no-shrink" :src="photo" alt="">
                     <div class="ltr:ml-4 rtl:mr-4">
-                    <p class="font-semibold text-gray-900 dark:text-gray-100 leading-none">{{ name }}</p>
+                    <p class="font-semibold leading-none">{{ name }}</p>
                     <p>
-                        <a href="#" class="text-sm text-gray-600 dark:text-gray-400 leading-none hover:underline">
+                        <a href="#" class="text-sm leading-none hover:underline">
                             {{ __('voyager::generic.view_profile') }}
                         </a>
                     </p>
@@ -35,7 +35,7 @@
                         </span>
                     </div>
                 
-                    <svg class="ml-2 h-6 w-6 text-black dark:text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="ml-2 h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z"/>
                     </svg>
                 </button>

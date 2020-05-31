@@ -2,7 +2,7 @@
 @import "mixins/border-color";
 @import "mixins/text-color";
 
-.mode-dark .input {
+.dark .input {
     @include bg-color(input-bg-color-dark, 'colors.gray.700');
     @include border-color(input-border-color-dark, 'colors.gray.600');
     @include text-color(input-text-color-dark, 'colors.gray.200');

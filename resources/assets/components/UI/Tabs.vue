@@ -76,7 +76,7 @@ export default {
 @import "../../sass/mixins/border-color";
 @import "../../sass/mixins/text-color";
 
-.mode-dark .tabs {
+.dark .tabs {
     .wrapper {
         @include border-color(tabs-border-color-dark, 'colors.gray.700');
         .tab {

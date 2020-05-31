@@ -2,7 +2,7 @@
 @import "mixins/border-color";
 @import "mixins/text-color";
 
-.mode-dark .voyager-table {
+.dark .voyager-table {
     @include border-color(table-border-color-dark, 'colors.gray.600');
 
     table {

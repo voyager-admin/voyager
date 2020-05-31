@@ -74,7 +74,7 @@ export default {
 @import "../../sass/mixins/bg-color";
 @import "../../sass/mixins/border-color";
 @import "../../sass/mixins/text-color";
-.mode-dark .listbox {
+.dark .listbox {
     .options-container {
         @include bg-color(select-bg-color-dark, 'colors.gray.800');
         @include border-color(select-bg-color-dark, 'colors.gray.600');

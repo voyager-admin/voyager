@@ -15,23 +15,21 @@
 </head>
 
 <body>
-
-    <div class="h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8" id="voyager-login">
-        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="login sm:px-6 lg:px-8" id="voyager-login">
+        <div class="header sm:mx-auto sm:w-full sm:max-w-md">
             <div class="justify-center flex text-center">
-                <icon icon="helm" size="16" class="text-black dark:text-gray-200"></icon>
+                <icon icon="helm" size="16" class="icon"></icon>
             </div>
-            <p class="mt-6 text-center text-sm leading-5 text-gray-600 dark:text-gray-200 max-w">
+            <p class="mt-6 text-center text-sm leading-5 max-w">
                 Welcome to Voyager
             </p>
-            <h2 class="mt-2 text-center text-3xl leading-9 font-extrabold text-gray-900 dark:text-gray-300">
+            <h2 class="mt-2 text-center text-3xl leading-9 font-extrabold">
                 Sign in to your account
             </h2>
-            
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div class="form py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
                 <login error="{{ Session::get('error', null) }}" success="{{ Session::get('success', null) }}" :old="{{ json_encode(old()) }}">
                     @if (Voyager::auth()->loginView())
@@ -60,11 +58,6 @@ var voyager = new Vue({
         this.$language.localization = {!! Voyager::getLocalization() !!};
         this.$store.routes = {!! Voyager::getRoutes() !!};
         this.$store.debug = {{ var_export(config('app.debug') ?? false, true) }};
-
-        var dark_mode = this.getCookie('dark-mode');
-        if (dark_mode == 'true') {
-            this.$store.toggleDarkMode();
-        }
     },
 });
 </script>

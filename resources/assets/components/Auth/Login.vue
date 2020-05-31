@@ -45,7 +45,7 @@
             </div>
         </form>
         <form method="post" :action="route('voyager.forgot_password')" v-if="hasPasswordForgot && passwordForgotOpen" key="password-form">
-            <h2 class="text-gray-800 dark:text-gray-200 mb-6 font-bold">{{ __('voyager::auth.forgot_password') }}</h2>
+            <h2 class="mb-6 font-bold">{{ __('voyager::auth.forgot_password') }}</h2>
             <input type="hidden" name="_token" :value="$store.csrf_token">
             <div class="mt-4">
                 <slot name="forgot_password" />
@@ -77,3 +77,16 @@ export default {
     },
 };
 </script>
+<style lang="scss" scoped>
+.dark .login-form {
+    h2 {
+        @apply text-gray-200;
+    }
+}
+
+.login-form {
+    h2 {
+        @apply text-gray-800;
+    }
+}
+</style>

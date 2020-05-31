@@ -91,7 +91,7 @@ export default {
     @apply absolute bg-white text-black rounded-lg border-gray-600 p-8 origin-top-left;
 }
 
-.mode-dark .voyager-search-results {
+.dark .voyager-search-results {
     @apply bg-black text-white;
 }
 </style>

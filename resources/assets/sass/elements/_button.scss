@@ -2,7 +2,7 @@
 @import "mixins/border-color";
 @import "mixins/text-color";
 
-.mode-dark .button {
+.dark .button {
     &.accent {
         @include bg-color(accent-bg-color-dark, 'colors.blue.500');
         @include border-color(accent-border-color-dark, 'colors.transparent');

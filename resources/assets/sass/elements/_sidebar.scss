@@ -2,7 +2,7 @@
 @import "mixins/border-color";
 @import "mixins/text-color";
 
-.mode-dark .sidebar {
+.dark .sidebar {
     @include bg-color(sidebar-bg-color-dark, 'colors.gray.800');
 
     .title {
