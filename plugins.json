@@ -22,5 +22,13 @@
         "repository": "emptynick/voyager-tiptap",	
         "keywords": ["plugin", "formfield", "tiptap", "wysiwyg"],	
         "website": "https://github.com/emptynick/voyager-tiptap"	
+    },
+    {	
+        "name": "User widget",	
+        "description": "A widget to display some stats about your users in Voyager II",	
+        "type": "generic",	
+        "repository": "emptynick/voyager-user-widget",	
+        "keywords": ["plugin", "user", "widget"],	
+        "website": "https://github.com/emptynick/voyager-user-widget"	
     }
 ]

@@ -3,7 +3,12 @@
 @section('content')
     <div class="flex">
         @forelse (Voyager::getWidgets() as $widget)
-        <card :show-header="false" class="w-full">
+        <card
+            :show-header="{{ $widget->title || $widget->icon ? 'true' : 'false' }}"
+            title="{{ $widget->title }}"
+            icon="{{ $widget->icon }}"
+            class="{{ $widget->width }}"
+        >
             <div>
                 {!! $widget->view->render() !!}
             </div>

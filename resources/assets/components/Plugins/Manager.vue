@@ -222,7 +222,7 @@ export default {
             } else if (type == 'widget') {
                 return 'orange';
             } else if (type == 'formfield') {
-                return 'red';
+                return 'teal';
             }
 
             return 'red';

@@ -186,6 +186,8 @@ class Voyager
 
             return (object) [
                 'width' => $width,
+                'title' => $plugin->getTitle(),
+                'icon'  => $plugin->getIcon(),
                 'view'  => $plugin->getWidgetView(),
             ];
         }));
