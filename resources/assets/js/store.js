@@ -51,16 +51,9 @@ export default {
                         document.querySelector('html').setAttribute('dir', 'ltr');
                     }
                 },
-                toggleDarkMode (initial = false) {
-                    var vm = this;
-                    if (!initial) {
-                        vm.addBackgroundTransitions();
-                        window.setTimeout(function () {
-                            vm.removeBackgroundTransitions();
-                        }, 1000);
-                    }
-                    vm.darkmode = !vm.darkmode;
-                    if (vm.darkmode) {
+                toggleDarkMode () {
+                    this.darkmode = !this.darkmode;
+                    if (this.darkmode) {
                         document.querySelector('html').classList.add('dark');
                     } else {
                         document.querySelector('html').classList.remove('dark');
@@ -85,18 +78,6 @@ export default {
                         return bread.table == table;
                     })[0];
                 },
-                addBackgroundTransitions () {
-                    document.querySelector('body').classList.add('transition-colors', 'duration-300');
-                    if (document.querySelector('.card')) {
-                        document.querySelector('.card').classList.add('transition-colors', 'duration-300');
-                    }
-                },
-                removeBackgroundTransitions () {
-                    document.querySelector('body').classList.remove('transition-colors', 'duration-300');
-                    if (document.querySelector('.card')) {
-                        document.querySelector('.card').classList.add('transition-colors', 'duration-300');
-                    }
-                }
             },
             watch: {
                 sidebarOpen: function (open) {
