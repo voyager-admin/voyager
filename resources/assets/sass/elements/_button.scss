@@ -117,7 +117,7 @@
 }
 
 .button-group {
-    @apply flex flex-wrap;
+    @apply inline-flex;
     .button {
         @apply mx-0 #{!important};
         @apply rounded-none #{!important};

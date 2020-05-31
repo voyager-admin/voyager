@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@bytegem/vue-heroicons": "^0.3.2",
+        "@tailwindui/vue": "0.1.0-alpha.0",
         "axios": "^0.19.2",
         "debounce": "^1.2.0",
         "inter-ui": "^3.13.1",
