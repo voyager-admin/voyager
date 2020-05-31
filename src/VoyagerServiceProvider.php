@@ -5,6 +5,7 @@ namespace Voyager\Admin;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Voyager\Admin\Commands\InstallCommand;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -43,6 +44,19 @@ class VoyagerServiceProvider extends ServiceProvider
             $this->policies[$bread->model.'::class'] = $policy;
         });
         $this->registerPolicies();
+
+        // Register permissions
+        $auth_plugins = $this->pluginmanager->getPluginsByType('authorization')->where('enabled');
+        Gate::before(function ($user, $ability, $arguments = []) use ($auth_plugins) {
+            $authorized = true;
+            $auth_plugins->each(function ($plugin) use ($user, $ability, $arguments, &$authorized) {
+                if (!$plugin->authorize($user, $ability, $arguments)) {
+                    $authorized = false;
+                }
+            });
+
+            return $authorized;
+        });
 
         $router->aliasMiddleware('voyager.admin', VoyagerAdminMiddleware::class);
     }

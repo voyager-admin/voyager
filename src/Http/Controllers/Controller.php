@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
@@ -11,18 +12,13 @@ use Voyager\Admin\Plugins\AuthenticationPlugin;
 
 abstract class Controller extends BaseController
 {
+    use AuthorizesRequests;
+
     protected $pluginmanager;
 
     public function __construct(PluginManager $pluginmanager)
     {
         $this->pluginmanager = $pluginmanager;
-    }
-
-    public function authorize($ability, $arguments = [])
-    {
-        return $this->getAuthorizationPlugin()->each(function ($plugin) use ($ability, $arguments) {
-            $plugin->authorize($ability, $arguments);
-        });
     }
 
     protected function getAuthorizationPlugin()
