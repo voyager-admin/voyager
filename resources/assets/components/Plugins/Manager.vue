@@ -1,56 +1,71 @@
 <template>
     <card :title="__('voyager::plugins.plugins')" icon="puzzle">
         <div slot="actions">
-            <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="query = ''">
-                <input type="text" class="input w-full mb-3" v-model="query" :placeholder="__('voyager::generic.search')">
-                <div class="w-full my-3">
-                    <badge
-                        v-for="(type, i) in types"
-                        :key="i" :color="getPluginTypeColor(type)"
-                        :icon="currentType == type ? 'x' : ''"
-                        @click-icon.prevent.stop="currentType = null"
-                        @click.prevent.stop="currentType = type"
-                    >
-                        {{ __('voyager::plugins.types.'+type) }}
-                    </badge>
-                </div>
-                <div v-for="(plugin, i) in filteredPlugins.slice(start, end)" :key="'plugin-'+i">
-                    <div class="flex">
-                        <div class="w-3/5">
-                            <div class="inline-flex">
-                                <h5 class="mr-2">{{ plugin.name }}</h5>
-                                <badge :color="getPluginTypeColor(plugin.type)">{{ __('voyager::plugins.types.'+plugin.type) }}</badge>
-                            </div>
-                            <p>{{ plugin.description }}</p>
-                            <a v-if="plugin.website" :href="plugin.website" target="_blank">
-                                {{ __('voyager::generic.website') }}
-                            </a>
-                            <span v-else>&nbsp;</span>
-                        </div>
-                        <div class="w-2/5 text-right" v-if="!pluginInstalled(plugin)">
-                            <input class="input w-full select-none" :value="'composer require '+plugin.repository" @dblclick="copy(plugin)">
-                        </div>
-                        <div class="w-2/5 text-right" v-else>
-                            <badge color="orange">{{ __('voyager::plugins.plugin_installed') }}</badge>
-                        </div>
+            <div class="flex items-center">
+                <input type="text" v-model="installed.query" class="input w-full small ltr:mr-2 rtl:ml-2" :placeholder="__('voyager::plugins.search_installed_plugins')">
+                <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
+                    <input type="text" class="input w-full mb-3" v-model="available.query" :placeholder="__('voyager::generic.search')">
+                    <div class="w-full my-3">
+                        <badge
+                            v-for="(type, i) in availableTypes"
+                            :key="i" :color="getPluginTypeColor(type)"
+                            :icon="available.currentType == type ? 'x' : ''"
+                            @click-icon.prevent.stop="available.currentType = null"
+                            @click.prevent.stop="available.currentType = type"
+                        >
+                            {{ __('voyager::plugins.types.'+type) }}
+                        </badge>
                     </div>
-                    <hr class="w-full bg-gray-300 my-4">
-                </div>
-                <div class="w-full text-right">
-                    <pagination :page-count="pages" v-on:input="page = $event - 1" v-bind:value="page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
-                </div>
-                <div slot="opener" class="">
-                    <button class="button green">
-                        <icon icon="search"></icon>
-                        {{ __('voyager::plugins.search_plugins') }}
-                    </button>
-                </div>
-            </modal>
+                    <div v-for="(plugin, i) in filteredAvailablePlugins.slice(availableStart, availableEnd)" :key="'plugin-'+i">
+                        <div class="flex">
+                            <div class="w-3/5">
+                                <div class="inline-flex">
+                                    <h5 class="mr-2">{{ plugin.name }}</h5>
+                                    <badge :color="getPluginTypeColor(plugin.type)">{{ __('voyager::plugins.types.'+plugin.type) }}</badge>
+                                </div>
+                                <p>{{ plugin.description }}</p>
+                                <a v-if="plugin.website" :href="plugin.website" target="_blank">
+                                    {{ __('voyager::generic.website') }}
+                                </a>
+                                <span v-else>&nbsp;</span>
+                            </div>
+                            <div class="w-2/5 text-right" v-if="!pluginInstalled(plugin)">
+                                <input class="input w-full select-none" :value="'composer require '+plugin.repository" @dblclick="copy(plugin)">
+                            </div>
+                            <div class="w-2/5 text-right" v-else>
+                                <badge color="orange">{{ __('voyager::plugins.plugin_installed') }}</badge>
+                            </div>
+                        </div>
+                        <hr class="w-full bg-gray-300 my-4">
+                    </div>
+                    <div class="w-full text-right">
+                        <pagination :page-count="availablePages" v-on:input="available.page = $event - 1" v-bind:value="available.page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
+                    </div>
+                    <div slot="opener" class="">
+                        <button class="button green">
+                            <icon icon="search"></icon>
+                            {{ __('voyager::plugins.search_plugins') }}
+                        </button>
+                    </div>
+                </modal>
+            </div>
         </div>
         <alert color="red" v-if="hasMultiplePlugins('auth')" class="mb-2" v-html="nl2br(__('voyager::plugins.multiple_auth_plugins'))"></alert>
         <alert color="red" v-if="hasMultiplePlugins('menu')" class="mb-2" v-html="nl2br(__('voyager::plugins.multiple_menu_plugins'))"></alert>
 
-        <div class="voyager-table striped" v-if="installedPlugins.length > 0" :class="[loading ? 'loading' : '']">
+        <div class="w-full my-3">
+            <badge
+                v-for="(type, i) in installedTypes"
+                :key="i" :color="getPluginTypeColor(type)"
+                :icon="installed.currentType == type ? 'x' : ''"
+                @click-icon.prevent.stop="installed.currentType = null"
+                @click.prevent.stop="installed.currentType = type"
+            >
+                {{ __('voyager::plugins.types.'+type) }}
+            </badge>
+        </div>
+
+        <div class="voyager-table striped" v-if="installed.plugins.length > 0" :class="[loading ? 'loading' : '']">
             <table id="bread-builder-browse">
                 <thead>
                     <tr>
@@ -72,13 +87,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(plugin, i) in installedPlugins" :key="'installed-plugin-'+i">
+                    <tr v-for="(plugin, i) in filteredInstalledPlugins.slice(installedStart, installedEnd)" :key="'installed-plugin-'+i">
                         <td>{{ translate(plugin.name) }}</td>
                         <td>{{ translate(plugin.description) }}</td>
                         <td>
-                            <span class="badge" :class="getPluginTypeColor(plugin.type)">
+                            <badge :color="getPluginTypeColor(plugin.type)">
                                 {{ __('voyager::plugins.types.'+plugin.type) }}
-                            </span>
+                            </badge>
                         </td>
                         <td>
                             {{ plugin.version || '-' }}
@@ -124,6 +139,15 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="w-full m-4">
+                <pagination
+                    :page-count="installedPages"
+                    v-on:input="installed.page = $event - 1"
+                    v-bind:value="installed.page + 1"
+                    :first-last-buttons="false"
+                    :prev-next-buttons="false"
+                ></pagination>
+            </div>
         </div>
         <div v-else class="w-full text-center">
             <h3>No plugins installed 😞</h3>
@@ -137,13 +161,22 @@ export default {
     props: ['availablePlugins'],
     data: function () {
         return {
-            installedPlugins: [],
+            installed: {
+                plugins: [],
+                query: '',
+                currentType: null,
+                page: 0,
+                resultsPerPage: 10,
+            },
+            available: {
+                plugins: this.availablePlugins,
+                query: '',
+                currentType: null,
+                page: 0,
+                resultsPerPage: 3,
+            },
             addPluginModalOpen: false,
-            query: '',
-            currentType: null,
-            page: 0,
             loading: true,
-            resultsPerPage: 3,
         };
     },
     methods: {
@@ -159,7 +192,7 @@ export default {
             vm.loading = true;
             axios.post(vm.route('voyager.plugins.get'))
             .then(function (response) {
-                vm.installedPlugins = response.data;
+                vm.installed.plugins = response.data;
             })
             .catch(function (errors) {
                 // TODO: ...
@@ -214,7 +247,7 @@ export default {
         hasMultiplePlugins: function (type) {
             var num = 0;
 
-            for (let plugin in this.installedPlugins) {
+            for (let plugin in this.installed.plugins) {
                 if (plugin.enabled && plugin.type == 'type') {
                     num++;
                 }
@@ -240,18 +273,18 @@ export default {
             return 'red';
         },
         pluginInstalled: function (plugin) {
-            return this.installedPlugins.filter(function (installed) {
+            return this.installed.plugins.filter(function (installed) {
                 return installed.repository == plugin.repository;
             }).length > 0;
         }
     },
     computed: {
-        filteredPlugins: function () {
+        filteredAvailablePlugins: function () {
             var vm = this;
-            var query = this.query.toLowerCase();
-            return this.availablePlugins.filter(function (plugin) {
-                if (vm.currentType !== null) {
-                    return plugin.type == vm.currentType;
+            var query = vm.available.query.toLowerCase();
+            return vm.available.plugins.filter(function (plugin) {
+                if (vm.available.currentType !== null) {
+                    return plugin.type == vm.available.currentType;
                 }
 
                 return true;
@@ -262,17 +295,46 @@ export default {
                 }).length > 0;
             });
         },
-        start: function () {
-            return this.page * this.resultsPerPage;
+        filteredInstalledPlugins: function () {
+            var vm = this;
+            var query = vm.installed.query.toLowerCase();
+            return vm.installed.plugins.filter(function (plugin) {
+                if (vm.installed.currentType !== null) {
+                    return plugin.type == vm.installed.currentType;
+                }
+
+                return true;
+            }).filter(function (plugin) {
+                return plugin.description.toLowerCase().indexOf(query) >= 0 || plugin.name.toLowerCase().indexOf(query) >= 0;
+            });
         },
-        end: function () {
-            return this.start + this.resultsPerPage;
+        availableStart: function () {
+            return this.available.page * this.available.resultsPerPage;
         },
-        pages: function () {
-            return Math.ceil(this.filteredPlugins.length / this.resultsPerPage);
+        availableEnd: function () {
+            return this.availableStart + this.available.resultsPerPage;
         },
-        types: function () {
-            return this.availablePlugins.map(function (plugin) {
+        availablePages: function () {
+            return Math.ceil(this.filteredAvailablePlugins.length / this.available.resultsPerPage);
+        },
+        installedStart: function () {
+            return this.installed.page * this.installed.resultsPerPage;
+        },
+        installedEnd: function () {
+            return this.installedStart + this.installed.resultsPerPage;
+        },
+        installedPages: function () {
+            return Math.ceil(this.filteredInstalledPlugins.length / this.installed.resultsPerPage);
+        },
+        availableTypes: function () {
+            return this.available.plugins.map(function (plugin) {
+                return plugin.type;
+            }).filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+        },
+        installedTypes: function () {
+            return this.installed.plugins.map(function (plugin) {
                 return plugin.type;
             }).filter(function (value, index, self) {
                 return self.indexOf(value) === index;
@@ -286,7 +348,7 @@ export default {
 
         var type = vm.getParameterFromUrl('type', null);
         if (type !== null) {
-            vm.currentType = type;
+            vm.available.currentType = type;
             vm.$refs.search_plugin_modal.open();
         }
     }

@@ -12,6 +12,7 @@ return [
     'preview_theme'                 => 'You see a preview of the theme ":name".<br>It will disappear when you reload the page.',
     'reload'                        => 'Reload',
     'reload_page'                   => 'You might need to reload the page in order to take effect',
+    'search_installed_plugins'      => 'Search installed plugins',
     'search_plugins'                => 'Search Plugins',
     'types'                         => [
         'authentication'                => 'Authentication',
