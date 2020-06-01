@@ -10,8 +10,7 @@
                             v-for="(type, i) in availableTypes"
                             :key="i" :color="getPluginTypeColor(type)"
                             :icon="available.currentType == type ? 'x' : ''"
-                            @click-icon.prevent.stop="available.currentType = null; available.page = 0"
-                            @click.prevent.stop="available.currentType = type; available.page = 0"
+                            @click="available.currentType = (available.currentType == null ? type : null); available.page = 0"
                         >
                             {{ __('voyager::plugins.types.'+type) }}
                         </badge>
@@ -38,8 +37,13 @@
                         </div>
                         <hr class="w-full bg-gray-300 my-4">
                     </div>
-                    <div class="w-full text-right">
-                        <pagination :page-count="availablePages" v-on:input="available.page = $event - 1" v-bind:value="available.page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
+                    <div class="w-full">
+                        <pagination
+                            :page-count="availablePages"
+                            v-on:input="available.page = $event - 1"
+                            v-bind:value="available.page + 1"
+                            :first-last-buttons="false"
+                        />
                     </div>
                     <div slot="opener" class="">
                         <button class="button green">
@@ -50,96 +54,93 @@
                 </modal>
             </div>
         </div>
-        <alert color="red" v-if="hasMultiplePlugins('auth')" class="mb-2" v-html="nl2br(__('voyager::plugins.multiple_auth_plugins'))"></alert>
-        <alert color="red" v-if="hasMultiplePlugins('menu')" class="mb-2" v-html="nl2br(__('voyager::plugins.multiple_menu_plugins'))"></alert>
-
         <div class="w-full my-3">
             <badge
                 v-for="(type, i) in installedTypes"
                 :key="i" :color="getPluginTypeColor(type)"
                 :icon="installed.currentType == type ? 'x' : ''"
-                @click-icon.prevent.stop="installed.currentType = null; installed.page = 0"
-                @click.prevent.stop="installed.currentType = type; installed.page = 0"
+                @click="installed.currentType = (installed.currentType == null ? type : null); installed.page = 0"
             >
                 {{ __('voyager::plugins.types.'+type) }}
             </badge>
         </div>
+        <div v-if="installed.plugins.length > 0">
+            <div class="voyager-table striped" :class="[loading ? 'loading' : '']">
+                <table id="bread-builder-browse">
+                    <thead>
+                        <tr>
+                            <th>
+                                {{ __('voyager::generic.name') }}
+                            </th>
+                            <th>
+                                {{ __('voyager::generic.description') }}
+                            </th>
+                            <th>
+                                {{ __('voyager::generic.type') }}
+                            </th>
+                            <th>
+                                {{ __('voyager::generic.version') }}
+                            </th>
+                            <th class="ltr:text-right rtl:text-left">
+                                {{ __('voyager::generic.actions') }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(plugin, i) in filteredInstalledPlugins.slice(installedStart, installedEnd)" :key="'installed-plugin-'+i">
+                            <td>{{ translate(plugin.name) }}</td>
+                            <td>{{ translate(plugin.description) }}</td>
+                            <td>
+                                <badge :color="getPluginTypeColor(plugin.type)">
+                                    {{ __('voyager::plugins.types.'+plugin.type) }}
+                                </badge>
+                            </td>
+                            <td>
+                                {{ plugin.version || '-' }}
+                            </td>
+                            <td class="ltr:text-right rtl:text-left">
+                                <a class="button green small" v-if="plugin.website" :href="plugin.website" target="_blank">
+                                    <icon icon="globe"></icon>
+                                    {{ __('voyager::generic.website') }}
+                                </a>
+                                <button v-if="!plugin.enabled" class="button green small" @click="enablePlugin(plugin, true)">
+                                    <icon icon="play"></icon>
+                                    {{ __('voyager::generic.enable') }}
+                                </button>
+                                <button v-else class="button red small" @click="enablePlugin(plugin, false)">
+                                    <icon icon="stop"></icon>
+                                    {{ __('voyager::generic.disable') }}
+                                </button>
+                                <a v-if="plugin.has_settings && plugin.enabled" :href="route('voyager.plugins.settings', i)" class="button blue small">
+                                    <icon icon="cog"></icon>
+                                    {{ __('voyager::generic.settings') }}
+                                </a>
 
-        <div class="voyager-table striped" v-if="installed.plugins.length > 0" :class="[loading ? 'loading' : '']">
-            <table id="bread-builder-browse">
-                <thead>
-                    <tr>
-                        <th>
-                            {{ __('voyager::generic.name') }}
-                        </th>
-                        <th>
-                            {{ __('voyager::generic.description') }}
-                        </th>
-                        <th>
-                            {{ __('voyager::generic.type') }}
-                        </th>
-                        <th>
-                            {{ __('voyager::generic.version') }}
-                        </th>
-                        <th class="ltr:text-right rtl:text-left">
-                            {{ __('voyager::generic.actions') }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(plugin, i) in filteredInstalledPlugins.slice(installedStart, installedEnd)" :key="'installed-plugin-'+i">
-                        <td>{{ translate(plugin.name) }}</td>
-                        <td>{{ translate(plugin.description) }}</td>
-                        <td>
-                            <badge :color="getPluginTypeColor(plugin.type)">
-                                {{ __('voyager::plugins.types.'+plugin.type) }}
-                            </badge>
-                        </td>
-                        <td>
-                            {{ plugin.version || '-' }}
-                        </td>
-                        <td class="ltr:text-right rtl:text-left">
-                            <a class="button green small" v-if="plugin.website" :href="plugin.website" target="_blank">
-                                <icon icon="globe"></icon>
-                                {{ __('voyager::generic.website') }}
-                            </a>
-                            <button v-if="!plugin.enabled" class="button green small" @click="enablePlugin(plugin, true)">
-                                <icon icon="play"></icon>
-                                {{ __('voyager::generic.enable') }}
-                            </button>
-                            <button v-else class="button red small" @click="enablePlugin(plugin, false)">
-                                <icon icon="stop"></icon>
-                                {{ __('voyager::generic.disable') }}
-                            </button>
-                            <a v-if="plugin.has_settings && plugin.enabled" :href="route('voyager.plugins.settings', i)" class="button blue small">
-                                <icon icon="cog"></icon>
-                                {{ __('voyager::generic.settings') }}
-                            </a>
-
-                            <button v-if="plugin.instructions" class="button blue small" @click="$refs['instructions-modal-'+i][0].open()">
-                                <icon icon="map-marker-question"></icon>
-                                {{ __('voyager::generic.instructions') }}
-                            </button>
-                            <modal v-if="plugin.instructions" :ref="'instructions-modal-'+i">
-                                <div class="flex mb-4">
-                                    <div class="w-2/3">
-                                        <h4 class="text-gray-100 text-xl">{{ __('voyager::generic.instructions') }}</h4>
+                                <button v-if="plugin.instructions" class="button blue small" @click="$refs['instructions-modal-'+i][0].open()">
+                                    <icon icon="map-marker-question"></icon>
+                                    {{ __('voyager::generic.instructions') }}
+                                </button>
+                                <modal v-if="plugin.instructions" :ref="'instructions-modal-'+i">
+                                    <div class="flex mb-4">
+                                        <div class="w-2/3">
+                                            <h4 class="text-gray-100 text-xl">{{ __('voyager::generic.instructions') }}</h4>
+                                        </div>
+                                        <div class="w-1/3 text-right text-gray-100">
+                                            <icon icon="times"></icon>
+                                        </div>
                                     </div>
-                                    <div class="w-1/3 text-right text-gray-100">
-                                        <icon icon="times"></icon>
-                                    </div>
-                                </div>
-                                <div v-html="plugin.instructions"></div>
-                            </modal>
-                            <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button purple small" @click="previewTheme(plugin.src, plugin.name)">
-                                <icon icon="eye"></icon>
-                                {{ __('voyager::generic.preview') }}
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="w-full m-4">
+                                    <div v-html="plugin.instructions"></div>
+                                </modal>
+                                <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button purple small" @click="previewTheme(plugin.src, plugin.name)">
+                                    <icon icon="eye"></icon>
+                                    {{ __('voyager::generic.preview') }}
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="w-full mt-2">
                 <pagination
                     :page-count="installedPages"
                     v-on:input="installed.page = $event - 1"
@@ -149,8 +150,8 @@
             </div>
         </div>
         <div v-else class="w-full text-center">
-            <h3>No plugins installed 😞</h3>
-            <h4>Go ahead and install one</h4>
+            <h3>{{ __('voyager::plugins.no_plugins_installed_title') }}</h3>
+            <h4>{{ __('voyager::plugins.no_plugins_installed_hint') }}</h4>
         </div>
     </card>
 </template>
@@ -165,7 +166,7 @@ export default {
                 query: '',
                 currentType: null,
                 page: 0,
-                resultsPerPage: 10,
+                resultsPerPage: 7,
             },
             available: {
                 plugins: this.availablePlugins,
@@ -242,17 +243,6 @@ export default {
             })
 
             this.$notify.notify(this.__('voyager::plugins.preview_theme', {name: name}), null, 'blue', 5000);
-        },
-        hasMultiplePlugins: function (type) {
-            var num = 0;
-
-            for (let plugin in this.installed.plugins) {
-                if (plugin.enabled && plugin.type == 'type') {
-                    num++;
-                }
-            }
-
-            return num > 1;
         },
         getPluginTypeColor: function (type) {
             if (type == 'authentication') {
