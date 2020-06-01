@@ -10,6 +10,7 @@ class Menu
 {
     protected $pluginmanager;
     protected $items;
+    protected $callbacks = [];
 
     public function __construct(PluginManager $pluginmanager)
     {
@@ -24,9 +25,19 @@ class Menu
         }
     }
 
+    public function addCallback(callable $callback)
+    {
+        $this->callbacks[] = $callback;
+    }
+
     public function getItems()
     {
-        return $this->validatePermissions($this->items);
+        $items = $this->items;
+        foreach ($this->callbacks as $callback) {
+            $items = $callback($items);
+        }
+
+        return $this->validatePermissions($items);
     }
 
     private function validatePermissions($collection)

@@ -2,11 +2,8 @@
 
 namespace Voyager\Admin\Classes;
 
-use Illuminate\Support\Str;
-
 class MenuItem implements \JsonSerializable
 {
-    public $uuid;
     public $title;
     public $icon;
     public $permission = [];
@@ -20,7 +17,6 @@ class MenuItem implements \JsonSerializable
 
     public function __construct(string $title, string $icon)
     {
-        $this->uuid = (string) Str::uuid();
         $this->title = $title;
         $this->icon = $icon;
         $this->children = collect();
