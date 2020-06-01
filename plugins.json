@@ -26,9 +26,17 @@
     {	
         "name": "User widget",	
         "description": "A widget to display some stats about your users in Voyager II",	
-        "type": "generic",	
+        "type": "widget",	
         "repository": "emptynick/voyager-user-widget",	
         "keywords": ["plugin", "user", "widget"],	
         "website": "https://github.com/emptynick/voyager-user-widget"	
+    },
+    {	
+        "name": "Voyager Permissions",	
+        "description": "Permission system for Voyager II using spatie/laravel-permission",	
+        "type": "authorization",	
+        "repository": "emptynick/voyager-permissions",	
+        "keywords": ["plugin", "user", "permissions", "roles", "spatie", "laravel-permission"],	
+        "website": "https://github.com/emptynick/voyager-permissions"	
     }
 ]

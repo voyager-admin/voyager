@@ -3,6 +3,17 @@
         <div slot="actions">
             <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="query = ''">
                 <input type="text" class="input w-full mb-3" v-model="query" :placeholder="__('voyager::generic.search')">
+                <div class="w-full my-3">
+                    <badge
+                        v-for="(type, i) in types"
+                        :key="i" :color="getPluginTypeColor(type)"
+                        :icon="currentType == type ? 'x' : ''"
+                        @click-icon.prevent.stop="currentType = null"
+                        @click.prevent.stop="currentType = type"
+                    >
+                        {{ __('voyager::plugins.types.'+type) }}
+                    </badge>
+                </div>
                 <div v-for="(plugin, i) in filteredPlugins.slice(start, end)" :key="'plugin-'+i">
                     <div class="flex">
                         <div class="w-3/5">
@@ -129,9 +140,10 @@ export default {
             installedPlugins: [],
             addPluginModalOpen: false,
             query: '',
+            currentType: null,
             page: 0,
             loading: true,
-            resultsPerPage: 5,
+            resultsPerPage: 3,
         };
     },
     methods: {
@@ -235,11 +247,16 @@ export default {
     },
     computed: {
         filteredPlugins: function () {
+            var vm = this;
             var query = this.query.toLowerCase();
             return this.availablePlugins.filter(function (plugin) {
-                if (plugin.type == query) {
-                    return true;
+                if (vm.currentType !== null) {
+                    return plugin.type == vm.currentType;
                 }
+
+                return true;
+            }).filter(function (plugin) {
+                // TODO: Also search on plugin name and description?
                 return plugin.keywords.filter(function (keyword) {
                     return keyword.toLowerCase().indexOf(query) >= 0;
                 }).length > 0;
@@ -254,6 +271,13 @@ export default {
         pages: function () {
             return Math.ceil(this.filteredPlugins.length / this.resultsPerPage);
         },
+        types: function () {
+            return this.availablePlugins.map(function (plugin) {
+                return plugin.type;
+            }).filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+        },
     },
     mounted: function () {
         var vm = this;
@@ -262,7 +286,7 @@ export default {
 
         var type = vm.getParameterFromUrl('type', null);
         if (type !== null) {
-            vm.query = type[0].toUpperCase() + type.slice(1);
+            vm.currentType = type;
             vm.$refs.search_plugin_modal.open();
         }
     }
