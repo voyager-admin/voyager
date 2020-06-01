@@ -145,7 +145,6 @@
                     v-on:input="installed.page = $event - 1"
                     v-bind:value="installed.page + 1"
                     :first-last-buttons="false"
-                    :prev-next-buttons="false"
                 ></pagination>
             </div>
         </div>
