@@ -10,8 +10,8 @@
                             v-for="(type, i) in availableTypes"
                             :key="i" :color="getPluginTypeColor(type)"
                             :icon="available.currentType == type ? 'x' : ''"
-                            @click-icon.prevent.stop="available.currentType = null"
-                            @click.prevent.stop="available.currentType = type"
+                            @click-icon.prevent.stop="available.currentType = null; available.page = 0"
+                            @click.prevent.stop="available.currentType = type; available.page = 0"
                         >
                             {{ __('voyager::plugins.types.'+type) }}
                         </badge>
@@ -58,8 +58,8 @@
                 v-for="(type, i) in installedTypes"
                 :key="i" :color="getPluginTypeColor(type)"
                 :icon="installed.currentType == type ? 'x' : ''"
-                @click-icon.prevent.stop="installed.currentType = null"
-                @click.prevent.stop="installed.currentType = type"
+                @click-icon.prevent.stop="installed.currentType = null; installed.page = 0"
+                @click.prevent.stop="installed.currentType = type; installed.page = 0"
             >
                 {{ __('voyager::plugins.types.'+type) }}
             </badge>
@@ -350,6 +350,14 @@ export default {
             vm.available.currentType = type;
             vm.$refs.search_plugin_modal.open();
         }
-    }
+    },
+    watch: {
+        'available.query': function () {
+            this.available.page = 0;
+        },
+        'installed.query': function () {
+            this.installed.page = 0;
+        }
+    },
 };
 </script>
