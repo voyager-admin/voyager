@@ -1,6 +1,7 @@
 let components = [
     'Icon',
     'LocalePicker',
+    'MenuWrapper',
     'MenuItem',
     'Search',
     'UserDropdown',

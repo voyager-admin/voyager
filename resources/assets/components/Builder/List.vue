@@ -83,7 +83,7 @@
                             v-model="formfield.translatable"
                             :disabled="!$store.getFormfieldByType(formfield.type).canBeTranslated">
                     </td>
-                    <td class="text-right">
+                    <td class="inline-flex">
                         <button class="button blue" @click="$emit('open-options', key)">
                             <icon icon="cog" />
                             <span>{{ __('voyager::generic.options') }}</span>

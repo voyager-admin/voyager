@@ -267,4 +267,17 @@ class Voyager
             file_put_contents($path, $content);
         }
     }
+
+    public function authorize($user, $ability, $arguments = [])
+    {
+        $auth_plugins = $this->pluginmanager->getPluginsByType('authorization')->where('enabled');
+        $authorized = true;
+        $auth_plugins->each(function ($plugin) use ($user, $ability, $arguments, &$authorized) {
+            if (!$plugin->authorize($user, $ability, $arguments)) {
+                $authorized = false;
+            }
+        });
+
+        return $authorized;
+    }
 }

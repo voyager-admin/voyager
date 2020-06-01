@@ -18,86 +18,12 @@
                         {{ Voyager::setting('admin.sidebar-title', 'Voyager II') }}
                     </span>
                 </div>
-                @php
-                    $current_url = Str::finish(url()->current(), '/');
-                @endphp
                 <nav class="mt-3 px-2">
-                <menu-item
-                    :title="__('voyager::generic.dashboard')"
-                    :href="route('voyager.dashboard')"
-                    icon="home" 
-                    {{ $current_url == Str::finish(route('voyager.dashboard'), '/') ? 'active' : '' }}>
-                </menu-item>
-
-                <menu-item
-                    :title="__('voyager::generic.breads')"
-                    :href="route('voyager.bread.index')"
-                    icon="bread" 
-                    {{ Str::startsWith($current_url, Str::finish(route('voyager.bread.index'), '/')) ? 'active' : '' }}>
-                    @if (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) > 0)
-                        <div>
-                        @foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread)
-                            @php
-                                $active = Str::startsWith($current_url, route('voyager.bread.edit', $bread->table));
-                            @endphp
-                            <menu-item
-                                title="{{ $bread->name_plural }}"
-                                href="{{ route('voyager.bread.edit', $bread->table) }}"
-                                icon="{{ $bread->icon }}" 
-                                {{ $active ? 'active' : '' }}>
-                            </menu-item>
-                        @endforeach
-                        </div>
-                    @endif
-                </menu-item>
-
-                <menu-item
-                    :title="__('voyager::generic.media')"
-                    :href="route('voyager.media')"
-                    icon="photograph" 
-                    {{ $current_url == Str::finish(route('voyager.media'), '/') ? 'active' : '' }}>
-                </menu-item>
-
-                <menu-item
-                    :title="__('voyager::generic.ui_components')"
-                    :href="route('voyager.ui')"
-                    icon="template" 
-                    {{ $current_url == Str::finish(route('voyager.ui'), '/') ? 'active' : '' }}>
-                </menu-item>
-
-                <menu-item
-                    :title="__('voyager::generic.settings')"
-                    :href="route('voyager.settings.index')"
-                    icon="cog" 
-                    {{ Str::startsWith($current_url, Str::finish(route('voyager.settings.index'), '/')) ? 'active' : '' }}>
-                </menu-item>
-                
-                <menu-item
-                    :title="__('voyager::plugins.plugins')"
-                    :href="route('voyager.plugins.index')"
-                    icon="puzzle" 
-                    {{ Str::startsWith($current_url, Str::finish(route('voyager.plugins.index'), '/')) ? 'active' : '' }}>
-                </menu-item>
-
-                @if (count(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) > 0)
-                    <hr class="my-3 sidebar-border" />
-                    @foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread)
-                    @php
-                        $active = Str::startsWith($current_url, Str::finish(route('voyager.'.$bread->slug.'.browse'), '/'));
-                    @endphp
-                    <menu-item
-                        title="{{ $bread->name_plural }}"
-                        href="{{ route('voyager.'.$bread->slug.'.browse') }}"
-                        icon="{{ $bread->icon }}"
-                        @if (isset($bread->badge) && $bread->badge)
-                            :badge="true"
-                            badge-content="{{ $bread->getReadableCount() }}"
-                            badge-color="{{ isset($bread->color) ? $bread->color : 'green' }}"
-                        @endif
-                        {{ $active ? 'active' : '' }}>
-                    </menu-item>
-                    @endforeach
-                @endif
+                    <menu-wrapper
+                        :items="{{ resolve(\Voyager\Admin\Manager\Menu::class)->getItems() }}"
+                        current-url="{{ Str::finish(url()->current(), '/') }}"
+                        :parent-url="null"
+                    />
                 </nav>
             </div>
             <div class="flex-shrink-0 flex border-t sidebar-border p-4">
@@ -120,88 +46,12 @@
                 <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title">
                     {{ Voyager::setting('admin.sidebar-title', 'Voyager II') }}
                 </span>
-            </div>
-            @php
-                $current_url = Str::finish(url()->current(), '/');
-            @endphp
+            </div>            
             <nav class="mt-4 flex-1 px-2">
-                <menu-item
-                    :title="__('voyager::generic.dashboard')"
-                    :href="route('voyager.dashboard')"
-                    icon="home" 
-                    {{ $current_url == Str::finish(route('voyager.dashboard'), '/') ? 'active' : '' }}>
-                </menu-item>
-
-                <menu-item
-                    :title="__('voyager::generic.breads')"
-                    :href="route('voyager.bread.index')"
-                    icon="bread" 
-                    {{ Str::startsWith($current_url, Str::finish(route('voyager.bread.index'), '/')) ? 'active' : '' }}>
-                    @if (count(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) > 0)
-                        <div>
-                        @foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread)
-                            @php
-                                $active = Str::startsWith($current_url, Str::finish(route('voyager.bread.edit', $bread->table), '/'));
-                            @endphp
-                            <menu-item
-                                title="{{ $bread->name_plural }}"
-                                href="{{ route('voyager.bread.edit', $bread->table) }}"
-                                icon="{{ $bread->icon }}" 
-                                {{ $active ? 'active' : '' }}>
-                            </menu-item>
-                        @endforeach
-                        </div>
-                    @endif
-                </menu-item>
-
-                <menu-item
-                    :title="__('voyager::generic.media')"
-                    :href="route('voyager.media')"
-                    icon="photograph" 
-                    {{ $current_url == Str::finish(route('voyager.media'), '/') ? 'active' : '' }}>
-                </menu-item>
-
-                <menu-item
-                    :title="__('voyager::generic.ui_components')"
-                    :href="route('voyager.ui')"
-                    icon="template" 
-                    {{ $current_url == Str::finish(route('voyager.ui'), '/') ? 'active' : '' }}>
-                </menu-item>
-
-                <menu-item
-                    :title="__('voyager::generic.settings')"
-                    :href="route('voyager.settings.index')"
-                    icon="cog" 
-                    {{ Str::startsWith($current_url, Str::finish(route('voyager.settings.index'), '/')) ? 'active' : '' }}>
-                </menu-item>
-                
-                <menu-item
-                    :title="__('voyager::plugins.plugins')"
-                    :href="route('voyager.plugins.index')"
-                    icon="puzzle" 
-                    {{ Str::startsWith($current_url, Str::finish(route('voyager.plugins.index'), '/')) ? 'active' : '' }}>
-                </menu-item>
-
-                @if (count(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) > 0)
-                    <hr class="my-3 sidebar-border" />
-                    @foreach (resolve(\Voyager\Admin\Manager\Breads::class)->getBreads() as $bread)
-                    @php
-                        $active = Str::startsWith($current_url, Str::finish(route('voyager.'.$bread->slug.'.browse'), '/'));
-                    @endphp
-                    <menu-item
-                        title="{{ $bread->name_plural }}"
-                        href="{{ route('voyager.'.$bread->slug.'.browse') }}"
-                        icon="{{ $bread->icon }}"
-                        @if (isset($bread->badge) && $bread->badge)
-                            :badge="true"
-                            badge-content="{{ $bread->getReadableCount() }}"
-                            badge-color="{{ isset($bread->color) ? $bread->color : 'green' }}"
-                            :badge-dot="{{ $active ? 'true' : 'false' }}"
-                        @endif
-                        {{ $active ? 'active' : '' }}>
-                    </menu-item>
-                    @endforeach
-                @endif
+                <menu-wrapper
+                    :items="{{ resolve(\Voyager\Admin\Manager\Menu::class)->getItems() }}"
+                    current-url="{{ Str::finish(url()->current(), '/') }}"
+                />
             </nav>
         </div>
         <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
