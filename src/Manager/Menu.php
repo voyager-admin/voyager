@@ -26,24 +26,7 @@ class Menu
 
     public function getItems()
     {
-        $resolved = $this->resolveUrls($this->items);
-
-        return $this->validatePermissions($resolved);
-    }
-
-    private function resolveUrls($collection)
-    {
-        return $collection->transform(function ($item) {
-            $item->children = $this->resolveUrls($item->children);
-            
-            if (!is_null($item->route) && \Route::has($item->route)) {
-                $item->href = route($item->route, $item->route_params);
-            } elseif (!is_null($item->url)) {
-                $item->href = $item->url;
-            }
-
-            return $item;
-        });
+        return $this->validatePermissions($this->items);
     }
 
     private function validatePermissions($collection)

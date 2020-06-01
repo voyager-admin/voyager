@@ -4,7 +4,7 @@ namespace Voyager\Admin\Classes;
 
 use Illuminate\Support\Str;
 
-class MenuItem
+class MenuItem implements \JsonSerializable
 {
     public $uuid;
     public $title;
@@ -74,5 +74,23 @@ class MenuItem
         }
 
         return $this;
+    }
+
+    private function resolveUrl()
+    {
+        if (!is_null($this->route) && \Route::has($this->route)) {
+            return route($this->route, $this->route_params);
+        } elseif (!is_null($this->url)) {
+            return $this->url;
+        }
+
+        return '#';
+    }
+
+    public function jsonSerialize()
+    {
+        return array_merge((array) $this, [
+            'href'  => $this->resolveUrl()
+        ]);
     }
 }
