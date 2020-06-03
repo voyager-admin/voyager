@@ -1,0 +1,36 @@
+@import "mixins/border-color";
+@import "mixins/text-color";
+
+.dark {
+    .bg-accent-500 {
+        @include bg-color(accent-bg-color-dark, 'colors.blue.500');
+    }
+
+    .border-accent-500 {
+        @include border-color(accent-border-color-dark, 'colors.blue.500');
+    }
+
+    .text-accent-500 {
+        @include text-color(accent-text-color-dark, 'colors.blue.500');
+    }
+
+    .text-accent-600 {
+        @include text-color(accent-text-color-dark, 'colors.blue.600');
+    }
+}
+
+.bg-accent-500 {
+    @include bg-color(accent-bg-color, 'colors.blue.500');
+}
+
+.border-accent-500 {
+    @include border-color(accent-border-color, 'colors.blue.500');
+}
+
+.text-accent-500 {
+    @include text-color(accent-text-color, 'colors.blue.500');
+}
+
+.text-accent-600 {
+    @include text-color(accent-text-color, 'colors.blue.600');
+}

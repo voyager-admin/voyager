@@ -9,5 +9,6 @@ $colors: 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple',
 @tailwind utilities;
 
 @import "layout";
+@import "accent";
 @import "vendor";
 @import "rtl";

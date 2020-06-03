@@ -80,6 +80,10 @@
             @apply border-#{$color}-500 #{!important};
         }
     }
+
+    &.accent {
+        @include border-color(accent-border-color, 'colors.blue.500');
+    }
 }
 
 select:not([multiple]).input {

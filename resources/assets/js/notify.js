@@ -31,7 +31,7 @@ Vue.prototype.$notification = class Notification {
     constructor(message) {
         this._message = message;
         this._icon = 'information-circle';
-        this._color = 'blue';
+        this._color = 'accent';
         this._buttons = [];
         this._uuid = this.uuid();
 
@@ -103,7 +103,7 @@ Vue.prototype.$notification = class Notification {
         } else if (this._prompt && this._buttons.length == 0) {
             this.addButton({
                 key: true,
-                value: 'voyager::generic.save',
+                value: 'voyager::generic.ok',
                 color: 'green',
             }).addButton({
                 key: false,
