@@ -386,9 +386,7 @@ export default {
             if (this.parameters.global !== null && this.parameters.global !== '') {
                 return true;
             }
-            return Object.values(this.parameters.filters).filter(function (filter) {
-                return filter !== '';
-            }).length > 0;
+            return Object.values(this.parameters.filters).whereNot('').length > 0;
         },
         resultDescription: function () {
             var type = this.translate(this.bread.name_plural, true);

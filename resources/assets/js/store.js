@@ -69,14 +69,10 @@ export default {
                     this.sidebarOpen = false;
                 },
                 getFormfieldByType (type) {
-                    return this.formfields.filter(function (formfield) {
-                        return formfield.type == type;
-                    })[0];
+                    return this.formfields.where('type', type)[0];
                 },
                 getBreadByTable (table) {
-                    return this.breads.filter(function (bread) {
-                        return bread.table == table;
-                    })[0];
+                    return this.breads.where('table', table)[0];
                 },
             },
             watch: {

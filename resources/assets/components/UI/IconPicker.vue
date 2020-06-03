@@ -46,9 +46,7 @@ export default {
         filteredIcons: function () {
             var vm = this;
             var q = vm.query.toLowerCase();
-            return Object.keys(icons).filter(function (icon) {
-                return icon.toLowerCase().includes(q);
-            }).map(function (icon) {
+            return Object.keys(icons).whereLike(q).map(function (icon) {
                 var name = icon.replace('Heroicons', '');
                 var style = 'outline';
                 if (name.endsWith('Solid')) {

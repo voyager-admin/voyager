@@ -330,9 +330,7 @@ export default {
                     vm.uploading--;
                     if (vm.uploading == 0) {
                         vm.loadFiles();
-                        vm.filesToUpload = vm.filesToUpload.filter(function (file) {
-                            return file.status !== Status.Finished;
-                        });
+                        vm.filesToUpload = vm.filesToUpload.whereNot('status', Status.Finished);
                     }
                 });
             });

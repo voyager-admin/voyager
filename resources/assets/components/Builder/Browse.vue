@@ -178,9 +178,7 @@ export default {
             });
         },
         getBackupsForTable: function (table) {
-            return this.backups.filter(function (backup) {
-                return backup.table == table;
-            });
+            return this.backups.where('table', table);
         },
         loadBreads: function () {
             var vm = this;

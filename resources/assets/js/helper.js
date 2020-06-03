@@ -1,3 +1,4 @@
+import './helper/array';
 import './helper/cookies';
 import './helper/math';
 import './helper/misc';

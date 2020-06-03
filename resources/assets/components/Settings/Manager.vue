@@ -228,9 +228,7 @@ export default {
     },
     computed: {
         filterFormfields: function () {
-            return this.$store.formfields.filter(function (formfield) {
-                return formfield.asSetting;
-            });
+            return this.$store.formfields.where('asSetting', true);
         },
         groups: function () {
             var groups = ['no-group'];

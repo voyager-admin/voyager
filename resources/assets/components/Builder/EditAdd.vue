@@ -390,9 +390,7 @@ export default {
             .show()
             .then(function (value) {
                 if (value && value !== '') {
-                    var filtered = vm.bread.layouts.filter(function (layout) {
-                        return layout.name == value;
-                    });
+                    var filtered = vm.bread.layouts.where('name', value);
 
                     if (filtered.length > 0) {
                         new vm.$notification(vm.__('voyager::builder.name_already_exists')).color('red').timeout().show();
@@ -433,9 +431,7 @@ export default {
                     if (value == vm.currentLayoutName) {
                         return;
                     }
-                    var filtered = vm.bread.layouts.filter(function (layout) {
-                        return layout.name == value;
-                    });
+                    var filtered = vm.bread.layouts.where('name', value);
 
                     if (filtered.length > 0) {
                         new vm.$notification(vm.__('voyager::builder.name_already_exists')).color('red').timeout().show();
@@ -460,9 +456,7 @@ export default {
                 if (result) {
                     var name = vm.currentLayoutName;
                     vm.currentLayoutName = null;
-                    vm.bread.layouts = vm.bread.layouts.filter(function (layout) {
-                        return layout.name !== name;
-                    });
+                    vm.bread.layouts = vm.bread.layouts.whereNot('name', name);
 
                     if (vm.bread.layouts.length > 0) {
                         vm.currentLayoutName = vm.bread.layouts[0].name;
@@ -541,14 +535,10 @@ export default {
     },
     computed: {
         views: function () {
-            return this.bread.layouts.filter(function (layout) {
-                return layout.type == 'view';
-            });
+            return this.bread.layouts.where('type', 'view');
         },
         lists: function () {
-            return this.bread.layouts.filter(function (layout) {
-                return layout.type == 'list';
-            });
+            return this.bread.layouts.where('type', 'list');
         },
         filteredFormfields: function () {
             var vm = this;

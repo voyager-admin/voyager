@@ -10,9 +10,7 @@ export default {
     computed: {
         optionValue: function () {
             var vm = this;
-            var option = vm.options.options.filter(function (option) {
-                return option.key == vm.data;
-            });
+            var option = vm.options.options.where('key', vm.data);
 
             if (option.length > 0) {
                 return vm.translate(option[0].value);

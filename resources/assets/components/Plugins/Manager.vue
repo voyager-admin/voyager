@@ -247,9 +247,7 @@ export default {
             return 'red';
         },
         pluginInstalled: function (plugin) {
-            return this.installed.plugins.filter(function (installed) {
-                return installed.repository == plugin.repository;
-            }).length > 0;
+            return this.installed.plugins.where('repository', plugin.repository).length > 0;
         }
     },
     computed: {

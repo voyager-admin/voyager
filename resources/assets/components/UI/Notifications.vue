@@ -98,9 +98,7 @@ export default {
         timeout: function (e) {
             if (e.animationName.startsWith('scale-x')) {
                 var uuid = e.target.dataset.uuid;
-                var notification = this.$notify.notifications.filter(function (n) {
-                    return n._uuid == uuid;
-                })[0];
+                var notification = this.$notify.notifications.where('_uuid', uuid)[0];
                 if (notification._timeout !== null) {
                     this.close(notification);
                 }

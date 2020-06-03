@@ -9,9 +9,7 @@ export default {
     props: ['options', 'data', 'translatable'],
     methods: {
         getOptionByKey: function (key) {
-            return this.options.options.filter(function (option) {
-                return option.key == key;
-            })[0] ?? null;
+            return this.options.options.where('key', key)[0] ?? null;
         }
     },
     computed: {
@@ -29,9 +27,7 @@ export default {
                     return vm.translate(val.value, true);
                 }
                 return '';
-            }).filter(function (value) {
-                return value !== '';
-            });
+            }).whereNot('');
         },
     }
 };

@@ -58,24 +58,18 @@ export default {
         relationship: function () {
             var method = this.column.column;
 
-            return this.relationships.filter(function (relationship) {
-                return relationship.method == method;
-            })[0];
+            return this.relationships.where('method', method)[0];
         },
         relationshipLayout: function () {
             var layout_name = this.options.browse_list;
-            return this.relationship.bread.layouts.filter(function (layout) {
-                return layout.name == layout_name && layout.type == 'list';
-            })[0];
+            return this.relationship.bread.layouts.where('name', layout_name).where('type', 'list')[0];
         },
         addLayout: function () {
             var layout_name = this.options.add_view;
             if (!layout_name) {
                 return null;
             }
-            return this.relationship.bread.layouts.filter(function (layout) {
-                return layout.name == layout_name && layout.type == 'view';
-            })[0];
+            return this.relationship.bread.layouts.where('name', layout_name).where('type', 'view')[0];
         },
     },
     methods: {

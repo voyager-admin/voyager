@@ -48,9 +48,7 @@ export default {
                 return [];
             }
 
-            return vm.relationship.bread.layouts.filter(function (layout) {
-                return layout.type == type;
-            });
+            return vm.relationship.bread.layouts.where('type', type);
         },
     },
     computed: {
@@ -59,9 +57,7 @@ export default {
             if (!vm.relationships) {
                 return null;
             }
-            return vm.relationships.filter(function (relationship) {
-                return relationship.method == vm.column.column;
-            })[0];
+            return vm.relationships.where('method', vm.column.column)[0];
         },
     },
 };
