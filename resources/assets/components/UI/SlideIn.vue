@@ -1,6 +1,6 @@
 <template>
     <slide-x-right-transition>
-        <div v-if="isOpened" class="dark slidein" :class="width" v-click-outside="close">
+        <div v-if="isOpened" class="dark slidein text-white" :class="width" v-click-outside="close">
             <div class="flex w-full mb-3">
                 <div class="flex-grow">
                     <h4>{{ title }}</h4>
@@ -74,7 +74,7 @@ export default {
 <style lang="scss" scoped>
 .slidein {
     @apply fixed top-0 left-auto right-0 h-full overflow-y-auto p-8 z-50 block;
-    background-color: rgba(0, 0, 0, .7);
+    background-color: rgba(0, 0, 0, .85);
     z-index: 100;
 }
 </style>

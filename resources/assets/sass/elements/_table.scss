@@ -4,6 +4,7 @@
 
 .dark .voyager-table {
     @include border-color(table-border-color-dark, 'colors.gray.600');
+    @include bg-color(table-bg-color-dark, 'colors.gray.800');
 
     table {
         thead{
@@ -42,6 +43,7 @@
 
 .voyager-table {
     @include border-color(table-border-color, 'colors.gray.300');
+    @include bg-color(table-bg-color, 'colors.gray.100');
     @apply shadow rounded-lg border my-5;
 
     &.loading {
