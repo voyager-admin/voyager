@@ -104,7 +104,7 @@ module.exports = {
     },
     variants: {
         float: ['responsive', 'direction'],
-        margin: ['responsive', 'direction'],
+        margin: ['responsive', 'direction', 'first', 'last'],
         padding: ['responsive', 'direction'],
         textAlign: ['responsive', 'direction']
     },
