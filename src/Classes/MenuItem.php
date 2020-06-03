@@ -6,6 +6,7 @@ class MenuItem implements \JsonSerializable
 {
     public $title;
     public $icon;
+    public $main;
     public $permission = [];
     public $url;
     public $route;
@@ -15,16 +16,17 @@ class MenuItem implements \JsonSerializable
     public $exact = false;
     public $children;
 
-    public function __construct(string $title, string $icon)
+    public function __construct(string $title, string $icon, bool $main = false)
     {
         $this->title = $title;
         $this->icon = $icon;
+        $this->main = $main;
         $this->children = collect();
 
         return $this;
     }
 
-    public function permission($ability, $arguments)
+    public function permission($ability, $arguments = [])
     {
         $this->permission = [
             'ability'   => $ability,

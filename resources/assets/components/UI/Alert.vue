@@ -15,9 +15,11 @@
                 </div>
                 <div class="ml-auto pl-3" v-if="closebutton">
                     <div class="-mx-1 -my-1">
-                        <button class="button border-none shadow-none" :class="`text-${color}-500`" @click="$emit('close'); show = false">
-                            <icon icon="x" />
-                        </button>
+                        <slot name="actions">
+                            <button class="button border-none shadow-none" :class="`text-${color}-500`" @click="$emit('close'); show = false">
+                                <icon icon="x" />
+                            </button>
+                        </slot>
                     </div>
                 </div>
             </div>
@@ -43,6 +45,17 @@ export default {
         return {
             show: true,
         };
+    },
+    methods: {
+        open: function () {
+            this.show = true;
+        },
+        close: function () {
+            this.show = false;
+        },
+        toggle: function () {
+            this.show = !this.show;
+        }
     }
 };
 </script>

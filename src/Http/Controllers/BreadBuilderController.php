@@ -32,7 +32,7 @@ class BreadBuilderController extends Controller
      */
     public function index()
     {
-        $this->authorize('browse', 'breads');
+        $this->authorize('browse breads');
         $tables = VoyagerFacade::getTables();
 
         return view('voyager::builder.index', compact('tables'));
@@ -47,7 +47,7 @@ class BreadBuilderController extends Controller
      */
     public function create($table)
     {
-        $this->authorize('create', 'bread');
+        $this->authorize('create bread');
 
         if (!in_array($table, VoyagerFacade::getTables())) {
             throw new \Voyager\Admin\Exceptions\TableNotFoundException('Table "'.$table.'" does not exist');
@@ -88,7 +88,7 @@ class BreadBuilderController extends Controller
             return redirect()->route('voyager.bread.create', $table);
         }
 
-        $this->authorize('edit', $bread);
+        $this->authorize('edit bread', $table);
 
         $new = false;
 
@@ -105,7 +105,7 @@ class BreadBuilderController extends Controller
      */
     public function update(Request $request, $table)
     {
-        $this->authorize('edit', $this->breadmanager->getBreadByTable($table));
+        $this->authorize('edit bread', $table);
 
         $bread = $request->bread;
 
@@ -158,7 +158,7 @@ class BreadBuilderController extends Controller
         if (is_null($bread)) {
             return response('', 500);
         }
-        $this->authorize('delete', $bread);
+        $this->authorize('delete bread', $table);
         event(new DeletedEvent($bread));
 
         return response('', $this->breadmanager->deleteBread($table) ? 200 : 500);
@@ -201,7 +201,7 @@ class BreadBuilderController extends Controller
      */
     public function getBreads()
     {
-        $this->authorize('browse', 'breads');
+        $this->authorize('browse breads');
         return response()->json([
             'breads'  => $this->breadmanager->getBreads(),
             'backups' => $this->breadmanager->getBackups(),
@@ -218,7 +218,7 @@ class BreadBuilderController extends Controller
     public function backupBread(Request $request)
     {
         $table = $request->get('table', '');
-        $this->authorize('backup', $table);
+        $this->authorize('backup bread', $table);
         $result = $this->breadmanager->backupBread($table);
         event(new BackedUpEvent($this->breadmanager->getBreadByTable($table)));
 
@@ -235,7 +235,7 @@ class BreadBuilderController extends Controller
     public function rollbackBread(Request $request)
     {
         $table = $request->get('table', '');
-        $this->authorize('restore', $table);
+        $this->authorize('restore bread', $table);
         $result = $this->breadmanager->rollbackBread($table, $request->get('path', ''));
         event(new RestoredEvent($this->breadmanager->getBreadByTable($table)));
 

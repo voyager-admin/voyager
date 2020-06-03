@@ -323,25 +323,16 @@ export default {
                 bread: vm.bread
             })
             .then(function (response) {
-                vm.$notify.notify(
-                    vm.__('voyager::builder.bread_saved_successfully'),
-                    null, 'green', 5000
-                );
+                new vm.$notification(vm.__('voyager::builder.bread_saved_successfully')).color('green').timeout().show();
             })
             .catch(function (errors) {
                 var errors = errors.response.data;
                 if (!vm.isObject(errors)) {
-                    vm.$notify.notify(
-                        errors,
-                        null, 'red', 5000
-                    );
+                    new vm.$notification(errors).color('red').timeout().show();
                 } else {
                     Object.entries(errors).forEach(([key, val]) => {
                         val.forEach(function (e) {
-                            vm.$notify.notify(
-                                e,
-                                null, 'red', 5000
-                            );
+                            new vm.$notification(e).color('red').timeout().show();
                         });
                     });
                 }
@@ -356,10 +347,10 @@ export default {
                 table: vm.bread.table
             })
             .then(function (response) {
-                vm.$notify.notify(vm.__('voyager::builder.bread_backed_up', { name: response.data }), null, 'blue', 5000);
+                new vm.$notification(vm.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
             .catch(function (error) {
-                vm.$notify.notify(error.response.statusText, null, 'red', 5000);
+                new vm.$notification(error.response.statusText).color('red').timeout().show();
             })
             .then(function () {
                 vm.backingUp = false;
@@ -383,10 +374,8 @@ export default {
                 });
             })
             .catch(function (error) {
-                vm.$notify.notify(
-                    error.response.data,
-                    null, 'red', 5000
-                );
+                new vm.$notification(error.response.data).color('red').timeout().show();
+                
             })
             .then(function () {
                 vm.loadingProps = false;
@@ -394,92 +383,92 @@ export default {
         },
         addLayout: function (view) {
             var vm = this;
+            new vm
+            .$notification(vm.__('voyager::builder.enter_name'))
+            .prompt()
+            .timeout()
+            .show()
+            .then(function (value) {
+                if (value && value !== '') {
+                    var filtered = vm.bread.layouts.filter(function (layout) {
+                        return layout.name == value;
+                    });
 
-            vm.$notify.prompt(
-                vm.__('voyager::builder.enter_name'), '',
-                function (value) {
-                    if (value && value !== '') {
-                        var filtered = vm.bread.layouts.filter(function (layout) {
-                            return layout.name == value;
-                        });
+                    if (filtered.length > 0) {
+                        new vm.$notification(vm.__('voyager::builder.name_already_exists')).color('red').timeout().show();
 
-                        if (filtered.length > 0) {
-                            vm.$notify.notify(
-                                vm.__('voyager::builder.name_already_exists'),
-                                null, 'red', 5000
-                            );
-                            return;
-                        }
-
-                        var view_options = {};
-                        var list_options = {
-                            default_order_column: {
-                                column: null,
-                                type: null,
-                            },
-                            soft_deletes: true,
-                            scope: null,
-                        };
-
-                        vm.bread.layouts.push({
-                            name: value,
-                            type: (view ? 'view' : 'list'),
-                            options: (view ? view_options : list_options),
-                            formfields: []
-                        });
-
-                        vm.currentLayoutName = value;
+                        return;
                     }
-                },
-                'blue', vm.__('voyager::generic.ok'), vm.__('voyager::generic.cancel'), false, 7500
-            );
+
+                    var view_options = {};
+                    var list_options = {
+                        default_order_column: {
+                            column: null,
+                            type: null,
+                        },
+                        soft_deletes: true,
+                        scope: null,
+                    };
+
+                    vm.bread.layouts.push({
+                        name: value,
+                        type: (view ? 'view' : 'list'),
+                        options: (view ? view_options : list_options),
+                        formfields: []
+                    });
+
+                    vm.currentLayoutName = value;
+                }
+            });
         },
         renameLayout: function () {
             var vm = this;
-            vm.$notify.prompt(
-                vm.__('voyager::builder.enter_new_name'), vm.currentLayoutName,
-                function (value) {
-                    if (value && value !== '') {
-                        if (value == vm.currentLayoutName) {
-                            return;
-                        }
-                        var filtered = vm.bread.layouts.filter(function (layout) {
-                            return layout.name == value;
-                        });
-
-                        if (filtered.length > 0) {
-                            vm.$notify.notify(
-                                vm.__('voyager::builder.name_already_exists'),
-                                null, 'red', 5000
-                            );
-                            return;
-                        }
-
-                        vm.currentLayout.name = value;
-                        vm.currentLayoutName = value;
+            new vm
+            .$notification(vm.__('voyager::builder.enter_new_name'))
+            .timeout()
+            .prompt(vm.currentLayoutName)
+            .show()
+            .then(function (value) {
+                if (value && value !== '') {
+                    if (value == vm.currentLayoutName) {
+                        return;
                     }
-                },
-                'blue', vm.__('voyager::generic.ok'), vm.__('voyager::generic.cancel'), false, 7500
-            );
+                    var filtered = vm.bread.layouts.filter(function (layout) {
+                        return layout.name == value;
+                    });
+
+                    if (filtered.length > 0) {
+                        new vm.$notification(vm.__('voyager::builder.name_already_exists')).color('red').timeout().show();
+
+                        return;
+                    }
+
+                    vm.currentLayout.name = value;
+                    vm.currentLayoutName = value;
+                }
+            });
         },
         deleteLayout: function () {
             var vm = this;
-             vm.$notify.confirm(
-                vm.__('voyager::builder.delete_layout_confirm'),
-                function (result) {
-                    if (result) {
-                        var name = vm.currentLayoutName;
-                        vm.currentLayoutName = null;
-                        vm.bread.layouts = vm.bread.layouts.filter(function (layout) {
-                            return layout.name !== name;
-                        });
+            new vm
+            .$notification(vm.__('voyager::builder.delete_layout_confirm'))
+            .color('yellow')
+            .timeout()
+            .confirm()
+            .show()
+            .then(function (result) {
+                if (result) {
+                    var name = vm.currentLayoutName;
+                    vm.currentLayoutName = null;
+                    vm.bread.layouts = vm.bread.layouts.filter(function (layout) {
+                        return layout.name !== name;
+                    });
 
-                        if (vm.bread.layouts.length > 0) {
-                            vm.currentLayoutName = vm.bread.layouts[0].name;
-                        }
+                    if (vm.bread.layouts.length > 0) {
+                        vm.currentLayoutName = vm.bread.layouts[0].name;
                     }
-                }, false, 'yellow', vm.__('voyager::generic.yes'), vm.__('voyager::generic.no'), 7500
-            );
+                }
+            });
         },
         cloneLayout: function () {
             var layout = JSON.parse(JSON.stringify(this.currentLayout));
@@ -516,15 +505,17 @@ export default {
         },
         deleteFormfield: function (key) {
             var vm = this;
-
-            vm.$notify.confirm(
-                vm.__('voyager::builder.delete_formfield_confirm'),
-                function (result) {
-                    if (result) {
-                        vm.currentLayout.formfields.splice(key, 1);
-                    }
-                }, false, 'yellow', vm.__('voyager::generic.yes'), vm.__('voyager::generic.no'), 7500
-            );
+            new vm
+            .$notification(vm.__('voyager::builder.delete_formfield_confirm'))
+            .color('yellow')
+            .timeout()
+            .confirm()
+            .show()
+            .then(function (result) {
+                if (result) {
+                    vm.currentLayout.formfields.splice(key, 1);
+                }
+            });
         },
         setSlug: function (value) {
             var l = this.$language.locale;

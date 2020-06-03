@@ -4,7 +4,7 @@
             <span class="flex-grow text-left" v-if="!isArray(value) && value">{{ value }}</span>
             <span class="flex-grow text-left" v-else-if="(isArray(value) && value.length == 0) || !value">{{ selectOptionText }}</span>
             <div v-else-if="isArray(value)" class="flex-grow text-left">
-                <badge icon="x" v-for="(val, i) in value" :key="i" @click-icon="$emit('input', value.filter(s => s !== val))" class="large">
+                <badge icon="x" v-for="(val, i) in value" :key="i" @click-icon.prevent.stop="$emit('input', value.filter(s => s !== val))" class="large">
                     {{ val }}
                 </badge>
             </div>

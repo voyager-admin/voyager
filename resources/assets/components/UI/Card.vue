@@ -4,7 +4,7 @@
         <div class="flex items-center justify-between flex-wrap sm:flex-no-wrap">
             <div class="inline-flex items-center" v-if="!$slots.title">
                 <icon v-if="icon" :icon="icon" :size="iconSize" class="ltr:mr-2 rtl:ml-2"></icon>
-                <component :is="`h${titleSize}`" class="leading-6 font-medium">
+                <component :is="`h${titleSize}`" class="leading-6 font-medium" :class="titlePointer ? 'cursor-pointer' : ''" @click="$emit('click-title', $event)">
                     {{ title }}
                 </component>
                 <p class="mt-1 text-sm leading-5 text-gray-500">
@@ -39,6 +39,10 @@ export default {
         titleSize: {
             type: Number,
             default: 4,
+        },
+        titlePointer: {
+            type: Boolean,
+            default: false,
         },
         icon: {
             type: String,

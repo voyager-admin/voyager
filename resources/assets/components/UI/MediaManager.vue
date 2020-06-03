@@ -300,17 +300,11 @@ export default {
                     file.progress = 100;
 
                     if (response.data.exists === true) {
-                        vm.$notify.notify(
-                            vm.__('voyager::media.file_exists', { file: file.file.name }),
-                            null, 'red', 7500
-                        );
+                        new vm.$notification(vm.__('voyager::media.file_exists', { file: file.file.name })).color('red').timeout().show();
                         file.status = Status.Failed;
                     } else {
                         if (response.data.success === false) {
-                            vm.$notify.notify(
-                                vm.__('voyager::media.file_upload_failed', { file: file.file.name }),
-                                null, 'red', 7500
-                            );
+                            new vm.$notification(vm.__('voyager::media.file_upload_failed', { file: file.file.name })).color('red').timeout().show();
                             file.status = Status.Failed;
                         }
                     }
@@ -320,15 +314,17 @@ export default {
                     file.progress = 0;
 
                     if (response.response.status == 413) {
-                        vm.$notify.notify(
-                            vm.__('voyager::generic.upload_too_large', { file: file.file.name, size: vm.readableFileSize(file.file.size) }),
-                            null, 'red', 7500
-                        );
+                        new vm
+                        .$notification(vm.__('voyager::generic.upload_too_large', { file: file.file.name, size: vm.readableFileSize(file.file.size) }))
+                        .color('red')
+                        .timeout()
+                        .show();
                     } else {
-                        vm.$notify.notify(
-                            vm.__('voyager::generic.upload_failed', { file: file.file.name }) + '<br>' + response.response.statusText,
-                            null, 'red', 7500
-                        );
+                        new vm
+                        .$notification(vm.__('voyager::generic.upload_failed', { file: file.file.name }) + '<br>' + response.response.statusText)
+                        .color('red')
+                        .timeout()
+                        .show();
                     }
                 }).then(function () {
                     vm.uploading--;
@@ -390,53 +386,21 @@ export default {
                 files.push(file.file.relative_path + file.file.name);
             });
 
-            vm.$notify.confirm(
-                vm.trans_choice('voyager::media.delete_files_confirm', files.length),
-                function (response) {
-                    if (response) {
-                        axios.delete(vm.route('voyager.media.delete'), {
-                            params: {
-                                files: files,
-                            }
-                        })
-                        .then(function (response) {
-                            vm.$notify.notify(
-                                vm.trans_choice('voyager::media.delete_files_success', files.length),
-                                null,
-                                'green',
-                                5000
-                            );
-                        })
-                        .catch(function (errors) {
-                            //
-                        })
-                        .then(function () {
-                            vm.loadFiles();
-                        });
-                    }
-                },
-                false,
-                'red',
-                vm.__('voyager::generic.yes'),
-                vm.__('voyager::generic.no'),
-                7500
-            );
-        },
-        createFolder: function () {
-            var vm = this;
-            vm.$notify.prompt(vm.__('voyager::media.create_folder_prompt'), '', function (name) {
-                if (name) {
-                    axios.post(vm.route('voyager.media.create_folder'), {
-                        path: vm.path,
-                        name: name,
+            new vm
+            .$notification(vm.trans_choice('voyager::media.delete_files_confirm', files.length))
+            .color('red')
+            .timeout()
+            .confirm()
+            .show()
+            .then(function (response) {
+                if (response === true) {
+                    axios.delete(vm.route('voyager.media.delete'), {
+                        params: {
+                            files: files,
+                        }
                     })
                     .then(function (response) {
-                        vm.$notify.notify(
-                            vm.__('voyager::media.create_folder_success', { name: name }),
-                            null,
-                            'green',
-                            5000
-                        );
+                        new vm.$notification(vm.trans_choice('voyager::media.delete_files_success', files.length)).color('green').timeout().show();
                     })
                     .catch(function (errors) {
                         //
@@ -445,11 +409,38 @@ export default {
                         vm.loadFiles();
                     });
                 }
-            }, 'blue', vm.__('voyager::generic.ok'), vm.__('voyager::generic.cancel'), false, 7500);
+            });
+        },
+        createFolder: function () {
+            var vm = this;
+            new vm
+            .$notification(vm.__('voyager::media.create_folder_prompt'))
+            .timeout()
+            .prompt()
+            .addButton({ key: true, value: vm.__('voyager::generic.ok'), color: 'green'})
+            .addButton({ key: false, value: vm.__('voyager::generic.cancel'), color: 'red'})
+            .show()
+            .then(function (result) {
+                if (result !== false) {
+                    axios.post(vm.route('voyager.media.create_folder'), {
+                        path: vm.path,
+                        name: result,
+                    })
+                    .then(function (response) {
+                        new vm.$notification(vm.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
+                    })
+                    .catch(function (errors) {
+                        //
+                    })
+                    .then(function () {
+                        vm.loadFiles();
+                    });
+                }
+            });
         },
         copyPath: function (path) {
             this.copyToClipboard(path);
-            this.$notify.notify(this.__('voyager::media.path_copied'), null, 'blue', 5000);
+            new this.$notification(this.__('voyager::media.path_copied')).timeout().show();
         },
     },
     computed: {

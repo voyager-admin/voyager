@@ -120,31 +120,28 @@ export default {
         },
         deleteBread: function (table) {
             var vm = this;
-
-            vm.$notify.confirm(
-                vm.__('voyager::builder.delete_bread_confirm', {bread: table}),
-                function (response) {
-                    if (response) {
-                        vm.deleting = true;
-                        axios.delete(vm.route('voyager.bread.delete', table))
-                        .then(function (response) {
-                            vm.$notify.notify(vm.__('voyager::builder.delete_bread_success', {bread: table}), null, 'green', 5000);
-                        })
-                        .catch(function (errors) {
-                            vm.$notify.notify(vm.__('voyager::builder.delete_bread_error', {bread: table}), null, 'red', 5000);
-                        })
-                        .then(function () {
-                            vm.loadBreads();
-                            vm.deleting = false;
-                        });
-                    }
-                },
-                false,
-                'red',
-                vm.__('voyager::generic.yes'),
-                vm.__('voyager::generic.no'),
-                7500
-            );
+            new vm
+            .$notification(vm.__('voyager::builder.delete_bread_confirm', {bread: table}))
+            .color('yellow')
+            .timeout()
+            .confirm()
+            .show()
+            .then(function (result) {
+                if (result) {
+                    vm.deleting = true;
+                    axios.delete(vm.route('voyager.bread.delete', table))
+                    .then(function (response) {
+                        new vm.$notification(vm.__('voyager::builder.delete_bread_success', {bread: table})).color('green').timeout().show();
+                    })
+                    .catch(function (errors) {
+                        new vm.$notification(vm.__('voyager::builder.delete_bread_error', {bread: table})).color('red').timeout().show();
+                    })
+                    .then(function () {
+                        vm.loadBreads();
+                        vm.deleting = false;
+                    });
+                }
+            });
         },
         backupBread: function (table) {
             var vm = this;
@@ -153,10 +150,10 @@ export default {
                 table: table
             })
             .then(function (response) {
-                vm.$notify.notify(vm.__('voyager::builder.bread_backed_up', { name: response.data }), null, 'blue', 5000);
+                new vm.$notification(vm.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
             .catch(function (error) {
-                vm.$notify.notify(error.response.statusText, null, 'red', 5000);
+                new vm.$notification(error.response.statusText).color('red').timeout().show();
             })
             .then(function () {
                 vm.backingUp = false;
@@ -171,11 +168,10 @@ export default {
                 path: backup.path
             })
             .then(function (response) {
-                console.log(response);
-                vm.$notify.notify(vm.__('voyager::builder.bread_rolled_back', { date: backup.date }), null, 'blue', 5000);
+                new vm.$notification(vm.__('voyager::builder.bread_rolled_back', { date: backup.date })).timeout().show();
             })
             .catch(function (error) {
-                vm.$notify.notify(error.response.statusText, null, 'red', 5000);
+                new vm.$notification(error.response.statusText).color('red').timeout().show();
             })
             .then(function () {
                 vm.loadBreads();
@@ -200,7 +196,7 @@ export default {
                 vm.backups = response.data.backups;
             })
             .catch(function (error) {
-                vm.$notify.notify(error.response.statusText, null, 'red', 5000);
+                new vm.$notification(error.response.statusText).color('red').timeout().show();
             })
             .then(function () {
                 vm.loading = false;

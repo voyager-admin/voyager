@@ -111,24 +111,16 @@
                                     <icon icon="stop"></icon>
                                     {{ __('voyager::generic.disable') }}
                                 </button>
-                                <a v-if="plugin.has_settings && plugin.enabled" :href="route('voyager.plugins.settings', i)" class="button blue small">
+                                <a v-if="plugin.has_settings && plugin.enabled" :href="route('voyager.plugins.settings', plugin.num)" class="button blue small">
                                     <icon icon="cog"></icon>
                                     {{ __('voyager::generic.settings') }}
                                 </a>
 
                                 <button v-if="plugin.instructions" class="button blue small" @click="$refs['instructions-modal-'+i][0].open()">
-                                    <icon icon="map-marker-question"></icon>
+                                    <icon icon="information-circle"></icon>
                                     {{ __('voyager::generic.instructions') }}
                                 </button>
-                                <modal v-if="plugin.instructions" :ref="'instructions-modal-'+i">
-                                    <div class="flex mb-4">
-                                        <div class="w-2/3">
-                                            <h4 class="text-gray-100 text-xl">{{ __('voyager::generic.instructions') }}</h4>
-                                        </div>
-                                        <div class="w-1/3 text-right text-gray-100">
-                                            <icon icon="times"></icon>
-                                        </div>
-                                    </div>
+                                <modal v-if="plugin.instructions" :ref="'instructions-modal-'+i" :title="__('voyager::generic.instructions')">
                                     <div v-html="plugin.instructions"></div>
                                 </modal>
                                 <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button purple small" @click="previewTheme(plugin.src, plugin.name)">
@@ -185,7 +177,7 @@ export default {
         },
         copy: function (plugin) {
             this.copyToClipboard('composer require ' + plugin.repository);
-            this.$notify.notify(this.__('voyager::plugins.copy_notice'), null, 'blue', 5000);
+            new this.$notification(this.__('voyager::plugins.copy_notice')).timeout().show();
         },
         loadPlugins: function () {
             var vm = this;
@@ -207,31 +199,24 @@ export default {
                 message = this.__('voyager::plugins.disable_plugin_confirm', {name: plugin.name});
             }
 
-            vm.$notify.confirm(
-                message,
-                function (response) {
-                    if (response) {
-                        axios.post(vm.route('voyager.plugins.enable'), {
-                            identifier: plugin.identifier,
-                            enable: enable,
-                        })
-                        .then(function (response) {
-                            vm.$notify.notify(vm.__('voyager::plugins.reload_page'));
-                        })
-                        .catch(function (error) {
-                            // TODO: This is not tested (error might be an array)
-                            vm.$notify.notify(vm.__('voyager::plugins.error_changing_plugin') + ' ' + error.data);
-                        }).finally(function () {
-                            vm.loadPlugins();
-                        });
-                    }
-                },
-                false,
-                'blue',
-                vm.__('voyager::generic.yes'),
-                vm.__('voyager::generic.no'),
-                7500
-            );
+            new vm.$notification(message).confirm().timeout().show().then(function (response) {
+                if (response) {
+                    axios.post(vm.route('voyager.plugins.enable'), {
+                        identifier: plugin.identifier,
+                        enable: enable,
+                    })
+                    .then(function (response) {
+                        new vm.$notification(vm.__('voyager::plugins.reload_page')).show();
+                    })
+                    .catch(function (error) {
+                        // TODO: This is not tested (error might be an array)
+                        new vm.$notification(vm.__('voyager::plugins.error_changing_plugin') + ' ' + error.data).color('red').show();
+
+                    }).finally(function () {
+                        vm.loadPlugins();
+                    });
+                }
+            });
         },
         previewTheme: function (src, name) {
             src.forEach(function (s) {
@@ -242,7 +227,7 @@ export default {
                 document.getElementsByTagName('head')[0].appendChild(file);
             })
 
-            this.$notify.notify(this.__('voyager::plugins.preview_theme', {name: name}), null, 'blue', 5000);
+            new this.$notification(this.__('voyager::plugins.preview_theme', {name: name})).timeout().show();
         },
         getPluginTypeColor: function (type) {
             if (type == 'authentication') {

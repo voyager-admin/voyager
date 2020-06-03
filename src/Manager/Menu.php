@@ -32,7 +32,9 @@ class Menu
 
     public function getItems()
     {
-        $items = $this->items;
+        $items = $this->items->sortBy(function ($item) {
+            return $item->main ? 0 : 99999999;
+        })->values();
         foreach ($this->callbacks as $callback) {
             $items = $callback($items);
         }

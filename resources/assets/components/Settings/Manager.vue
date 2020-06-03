@@ -154,14 +154,14 @@ export default {
                 settings: vm.settings
             })
             .then(function (response) {
-                vm.$notify.notify(vm.__('voyager::settings.settings_saved'), null, 'green', 5000);
+                new vm.$notification(vm.__('voyager::settings.settings_saved')).color('green').timeout().show();
             })
             .catch(function (response) {
                 if (response.response.status == 422) {
                     // Validation failed
                     vm.errors = response.response.data;
                 } else {
-                    vm.$notify.notify(response.response.data.message, false, 'red');
+                    new vm.$notification(response.response.data.message).color('red').show();
                 }
             })
             .then(function () {
@@ -184,25 +184,22 @@ export default {
         },
         deleteSetting: function (setting) {
             var vm = this;
-            vm.$notify.confirm(
-                vm.trans_choice('voyager::bread.delete_type_confirm', 1, { type: vm.__('voyager::settings.setting') } ),
-                function (response) {
-                    if (response) {
-                        vm.settings.splice(vm.settings.indexOf(setting), 1);
+            new vm
+            .$notification(vm.trans_choice('voyager::bread.delete_type_confirm', 1, { type: vm.__('voyager::settings.setting') }))
+            .color('red')
+            .timeout()
+            .confirm()
+            .show()
+            .then(function (response) {
+                if (response) {
+                    vm.settings.splice(vm.settings.indexOf(setting), 1);
 
-                        if (!vm.groups[vm.currentGroupId]) {
-                            vm.currentGroupId = 0;
-                            vm.$refs.tabs.openByIndex(0);
-                        }
+                    if (!vm.groups[vm.currentGroupId]) {
+                        vm.currentGroupId = 0;
+                        vm.$refs.tabs.openByIndex(0);
                     }
-                },
-                false,
-                'red',
-                vm.__('voyager::generic.yes'),
-                vm.__('voyager::generic.no'),
-                7500
-            );
-            
+                }
+            });
         },
         data: function (setting, value = null) {
             if (setting.translatable || false && setting.value && this.isString(setting.value)) {

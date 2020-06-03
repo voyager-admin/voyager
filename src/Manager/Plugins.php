@@ -47,6 +47,7 @@ class Plugins
                 $plugin->instructions = $plugin->getInstructionsView()->render();
             }
             $plugin->has_settings = !is_null($plugin->getSettingsView());
+            $plugin->num = $this->plugins->count();
             $this->plugins->push($plugin);
         }
     }

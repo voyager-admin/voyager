@@ -170,25 +170,26 @@
 <collapsible title="Notifications" id="ui-notifications">
     <collapsible v-for="color in $store.ui.colors" :key="'notification_'+color" :title="ucfirst(color)" :title-size="5">
         <div class="inline-flex">
-            <button @click="$notify.notify($store.ui.lorem, ucfirst(color), color)" class="button" :class="color">Message and title</button>
-            <button @click="$notify.notify($store.ui.lorem, null, color)" class="button" :class="color">Message only</button>
-            <button @click="$notify.notify($store.ui.lorem, ucfirst(color), color, null, true)" class="button" :class="color">Indeterminate</button>
-            <button @click="$notify.notify($store.ui.lorem, ucfirst(color), color, 5000, false)" class="button" :class="color">With timeout</button>
+            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).show()" class="button" :class="color">Message and title</button>
+            <button @click="new $notification($store.ui.lorem).color(color).show()" class="button" :class="color">Message only</button>
+            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).indeterminate().show()" class="button" :class="color">Indeterminate</button>
+            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).timeout().show()" class="button" :class="color">With timeout</button>
         </div>
     </collapsible>
     <collapsible title="Confirm" :title-size="5">
         <div class="inline-flex">
-            <button @click="$notify.confirm('Are you sure?', function (result) {})" class="button blue">Simple</button>
-            <button @click="$notify.confirm('Are you sure?', function (result) {}, null, 'blue', 'Yes', 'No', null, true)" class="button blue">Indeterminate</button>
-            <button @click="$notify.confirm('Are you sure?', function (result) {}, null, 'blue', 'Yes', 'No', 5000)" class="button blue">With timeout</button>
-            <button @click="$notify.confirm('Are you sure?', function (result) {}, null, 'blue', 'Of course', 'Nah')" class="button blue">Custom buttons</button>
+            <button @click="new $notification('Are you sure?').confirm().show().then((r) => {})" class="button blue">Simple</button>
+            <button @click="new $notification('Are you sure?').confirm().indeterminate().show()" class="button blue">Indeterminate</button>
+            <button @click="new $notification('Are you sure?').confirm().timeout().show()" class="button blue">With timeout</button>
+            <button @click="new $notification('Are you sure?').confirm().addButton({key: true, value: 'Yup', color: 'green'}).addButton({key: false, value: 'Nah', color: 'red'}).show()" class="button blue">Custom buttons</button>
         </div>
     </collapsible>
     <collapsible title="Prompt" :title-size="5">
         <div class="inline-flex">
-            <button @click="$notify.prompt('Enter your name', '', function (result) {})" class="button blue">Simple</button>
-            <button @click="$notify.prompt('Enter your name', '', function (result) {}, 'blue', 'Save', 'Abort')" class="button blue">Custom buttons</button>
-            <button @click="$notify.prompt('Enter your name', $store.ui.name, function (result) { if (result) { $store.ui.name = result; } })" class="button blue">Value: @{{ $store.ui.name }}</button>
+            <button @click="new $notification('Enter your name').prompt('').show()" class="button blue">Simple</button>
+            <button @click="new $notification('Enter your name').prompt('').timeout().show()" class="button blue">With timeout</button>
+            <button @click="new $notification('Enter your name').prompt('').addButton({key: true, value: 'Safe', color: 'green'}).addButton({key: false, value: 'Abort', color: 'red'}).show()" class="button blue">Custom buttons</button>
+            <button @click="new $notification('Enter your name').prompt($store.ui.name).show().then((r) => { if (r !== false) { $store.ui.name = r; } })" class="button blue">Value: @{{ $store.ui.name }}</button>
         </div>
     </collapsible>
 </collapsible>

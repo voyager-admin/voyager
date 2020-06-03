@@ -4,35 +4,37 @@
         <slide-x-right-transition group :duration="{enter: 500, leave: 0}">
             <div
                 v-for="notification in $notify.notifications"
-                :key="notification.uuid"
+                :key="notification._uuid"
                 class="notification"
-                :class="[`border-${notification.color}-500`]"
-                v-on:keyup.enter="submit(notification)"
+                :class="[`border-${notification._color}-500`]"
                 @mouseover="stopTimeout(notification)"
-                @mouseleave="startTimeout(notification)">
+                @mouseleave="startTimeout(notification)"
+            >
                 <div class="p-4">
                     <div class="flex items-start">
-                        <div class="w-6" v-if="notification.icon">
-                            <icon :icon="notification.icon" :class="`text-${notification.color}-500`" :size="6" type="solid"></icon>
+                        <div class="w-6" v-if="notification._icon">
+                            <icon :icon="notification._icon" :class="`text-${notification._color}-500`" :size="6" type="solid"></icon>
                         </div>
-                        <div class="w-0 flex-1" :class="notification.icon ? 'ml-3' : ''">
-                            <span v-if="notification.title">
-                                <p class="title">{{ notification.title }}</p>
-                                <p class="message mt-1">{{ notification.message }}</p>
+                        <div class="w-0 flex-1" :class="notification._icon ? 'ml-3' : ''">
+                            <span v-if="notification._title">
+                                <p class="title">{{ notification._title }}</p>
+                                <p class="message mt-1">{{ notification._message }}</p>
                             </span>
-                            <p class="title" v-else v-html="notification.message"></p>
-                            <div class="mt-4 flex" v-if="notification.input !== null">
+                            <p class="title" v-else v-html="notification._message"></p>
+                            <div class="mt-4 flex" v-if="notification._prompt">
                                 <input
                                     type="text"
                                     class="input small w-full"
-                                    v-model="notification.input"
+                                    v-model="notification._prompt_value"
                                     v-on:keyup="stopTimeout(notification)"
-                                    v-focus />
+                                    v-on:keypress.enter="close(notification, true, notification._prompt_value)"
+                                    v-focus
+                                />
                             </div>
-                            <div class="mt-4 flex" v-if="notification.buttons.length >= 1">
-                                <span class="inline-flex" v-for="(button, key) in notification.buttons" :key="'button-'+key">
-                                    <button type="button" class="button" :class="button.class" @click="triggerClick(button, notification)">
-                                        {{ button.text }}
+                            <div class="mt-4 flex" v-if="notification._buttons && notification._buttons.length >= 1">
+                                <span class="inline-flex" v-for="(button, key) in notification._buttons" :key="'button-'+key">
+                                    <button type="button" class="button" :class="button.color" @click="clickButton(notification, button)">
+                                        {{ button.value.startsWith('voyager::') ? __(button.value) : button.value }}
                                     </button>
                                 </span>
                             </div>
@@ -45,17 +47,18 @@
                     </div>
                 </div>
                 <div
-                    v-if="notification.indeterminate === true"
+                    v-if="notification._indeterminate === true"
                     class="w-full relative"
                     style="height: 0.4rem;"
-                    >
-                    <div class="h-full progress_bar_indeterminate" :class="`bg-${notification.color}-500`"></div>
+                >
+                    <div class="h-full progress_bar_indeterminate" :class="`bg-${notification._color}-500`"></div>
                 </div>
                 <div
-                    v-else-if="notification.timeout !== null"
+                    v-else-if="Number.isInteger(notification._timeout)"
                     class="w-full relative"
-                    style="height: 0.4rem;">
-                    <div class="h-full progress_bar" :class="`bg-${notification.color}-500`" :style="getProgressStyle(notification)" :data-uuid="notification.uuid"></div>
+                    style="height: 0.4rem;"
+                >
+                    <div class="h-full progress_bar" :class="`bg-${notification._color}-500`" :style="getProgressStyle(notification)" :data-uuid="notification._uuid"></div>
                 </div>
             </div>
         </slide-x-right-transition>
@@ -65,78 +68,45 @@
 <script>
 export default {
     methods: {
-        close: function (notification) {
-            this.$notify.remove(notification);
-
-            if (notification.onClose) {
-                notification.onClose(false);
-            }
+        close: function (notification, key = false, message = null) {
+            this.$notify.removeNotification(notification, key, message);
         },
-        triggerClick: function (button, notification) {
-            if (notification.input !== null) {
-                if (button.value == true) {
-                    button.callback(notification.input, notification);
-                } else {
-                    button.callback(false, notification);
-                }
+        clickButton: function (notification, button) {
+            if (notification._prompt) {
+                this.close(notification, button.key, notification._prompt_value);
             } else {
-                button.callback(button.value, notification);
+                this.close(notification, button.key);
             }
-
-            if (notification.autoClose) {
-                this.close(notification);
-            }
-        },
-        submit: function (notification) {
-            if (notification.input !== null) {
-                notification.buttons.forEach(function (button) {
-                    if (button.value == true) {
-                        button.callback(notification.input, notification);
-                    }
-                });
-
-                if (notification.autoClose) {
-                    this.close(notification);
-                }
-            }
+            
         },
         getProgressStyle: function (notification) {
             return {
-                animationDuration: notification.timeout + 'ms',
-                animationPlayState: notification.timeout_running ? 'running' : 'paused',
+                animationDuration: notification._timeout + 'ms',
+                animationPlayState: notification._timeout_running ? 'running' : 'paused',
             };
         },
         stopTimeout: function (notification) {
-            if (notification.timeout !== null) {
-                notification.timeout_running = false;
+            if (notification._timeout !== null) {
+                notification._timeout_running = false;
             }
         },
         startTimeout: function (notification) {
-            if (notification.timeout !== null) {
-                notification.timeout_running = true;
+            if (notification._timeout !== null) {
+                notification._timeout_running = true;
             }
         },
         timeout: function (e) {
             if (e.animationName.startsWith('scale-x')) {
                 var uuid = e.target.dataset.uuid;
                 var notification = this.$notify.notifications.filter(function (n) {
-                    return n.uuid == uuid;
+                    return n._uuid == uuid;
                 })[0];
-                if (notification.timeout !== null) {
+                if (notification._timeout !== null) {
                     this.close(notification);
                 }
             }
         },
     },
-    mounted: function () {
-        var vm = this;
-
-        vm.$eventHub.$on('add-notification', function (notification) {
-            if (notification.timeout !== null) {
-                Vue.set(notification, 'timeout_running', true);
-            }
-        });
-    }
 };
 </script>
 

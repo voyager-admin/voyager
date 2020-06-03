@@ -249,11 +249,11 @@ export default {
                     vm.parameters.order = vm.layout.options.default_order_column.column;
                 }
                 if (response.data.execution > 500) {
-                    vm.$notify.notify(vm.__('voyager::bread.execution_time_warning', { time: parseInt(response.data.execution) }), null, 'yellow', 7500);
+                    new vm.$notification(vm.__('voyager::bread.execution_time_warning', { time: parseInt(response.data.execution) })).color('yellow').timeout().show();
                 }
             })
             .catch(function (response) {
-                vm.$notify.notify(response.response.data.message, null, 'red', 7500);
+                new vm.$notification(response.response.data.message).color('red').timeout().show();
             })
             .finally(function () {
                 vm.loading = false;
@@ -292,98 +292,90 @@ export default {
         },
         deleteEntries: function (entries, force = false) {
             var vm = this;
-            vm.$notify.confirm(
-                vm.trans_choice(
-                    'voyager::bread.' + (force ? 'force_delete_type_confirm' : 'delete_type_confirm'),
-                    (force ? vm.restorableEntries : vm.deletableEntries),
-                    {
-                        num: (force ? vm.restorableEntries : vm.deletableEntries),
-                        types: vm.translate(vm.bread.name_plural, true),
-                        type: vm.translate(vm.bread.name_singular, true)
-                    }
-                ),
-                function (response) {
-                    if (response) {
-                        axios.delete(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.delete'), {
-                            params: {
-                                ids: entries,
-                                force: force
-                            }
-                        })
-                        .then(function (response) {
-                            vm.$notify.notify(
-                                vm.trans_choice('voyager::bread.' + (force ? 'force_delete_type_success' : 'delete_type_success'),
-                                response.data,
-                                {
-                                    num: response.data,
-                                    type: vm.translate(vm.bread.name_singular, true),
-                                    types: vm.translate(vm.bread.name_plural, true)
-                                }),
-                                null,
-                                'green',
-                                5000
-                            );
-                        })
-                        .catch(function (errors) {
-                            //
-                        })
-                        .then(function () {
-                            vm.load();
-                        });
-                    }
-                },
-                false,
-                'red',
-                vm.__('voyager::generic.yes'),
-                vm.__('voyager::generic.no'),
-                7500
+            var message = vm.trans_choice(
+                'voyager::bread.' + (force ? 'force_delete_type_confirm' : 'delete_type_confirm'),
+                (force ? vm.restorableEntries : vm.deletableEntries),
+                {
+                    num: (force ? vm.restorableEntries : vm.deletableEntries),
+                    types: vm.translate(vm.bread.name_plural, true),
+                    type: vm.translate(vm.bread.name_singular, true)
+                }
             );
+            new vm
+            .$notification(message)
+            .color('red')
+            .timeout()
+            .confirm()
+            .show()
+            .then(function (response) {
+                if (response) {
+                    axios.delete(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.delete'), {
+                        params: {
+                            ids: entries,
+                            force: force
+                        }
+                    })
+                    .then(function (response) {
+                        var message = vm.trans_choice('voyager::bread.' + (force ? 'force_delete_type_success' : 'delete_type_success'),
+                            response.data,
+                            {
+                                num: response.data,
+                                type: vm.translate(vm.bread.name_singular, true),
+                                types: vm.translate(vm.bread.name_plural, true)
+                            }
+                        );
+                        new vm
+                        .$notification(message)
+                        .color('green')
+                        .timeout().show();
+                    })
+                    .catch(function (errors) {
+                        //
+                    })
+                    .then(function () {
+                        vm.load();
+                    });
+                }
+            });
         },
         restoreEntries: function (entries) {
             var vm = this;
-            vm.$notify.confirm(
-                vm.trans_choice(
-                    'voyager::bread.restore_type_confirm',
-                    (vm.isArray(entries) ? entries.length : 1),
-                    {
-                        num: vm.restorableEntries,
-                        types: vm.translate(vm.bread.name_plural, true),
-                        type: vm.translate(vm.bread.name_singular, true)
-                    }
-                ),
-                function (response) {
-                    if (response) {
-                        axios.patch(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.restore'), {
-                            ids: entries
-                        })
-                        .then(function (response) {
-                            vm.$notify.notify(
-                                vm.trans_choice('voyager::bread.restore_type_success',
-                                response.data,
-                                {
-                                    num: response.data,
-                                    type: vm.translate(vm.bread.name_singular, true),
-                                    types: vm.translate(vm.bread.name_plural, true)
-                                }),
-                                null,
-                                'green',
-                                5000
-                            );
-                        })
-                        .catch(function (errors) {
-                            //
-                        })
-                        .then(function () {
-                            vm.load();
-                        });
-                    }
-                },
-                false,
-                'green',
-                vm.__('voyager::generic.yes'),
-                vm.__('voyager::generic.no'),
-                7500
+            var message = vm.trans_choice(
+                'voyager::bread.restore_type_confirm',
+                (vm.isArray(entries) ? entries.length : 1),
+                {
+                    num: vm.restorableEntries,
+                    types: vm.translate(vm.bread.name_plural, true),
+                    type: vm.translate(vm.bread.name_singular, true)
+                }
             );
+            new vm
+            .$notification(message)
+            .color('green')
+            .timeout()
+            .confirm()
+            .show()
+            .then(function (response) {
+                if (response) {
+                    axios.patch(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.restore'), {
+                        ids: entries
+                    })
+                    .then(function (response) {
+                        var message = vm.trans_choice('voyager::bread.restore_type_success', response.data, {
+                            num: response.data,
+                            type: vm.translate(vm.bread.name_singular, true),
+                            types: vm.translate(vm.bread.name_plural, true)
+                        });
+                        new vm.$notification(message).color('green').timeout().show();
+                    })
+                    .catch(function (errors) {
+                        //
+                    })
+                    .then(function () {
+                        vm.load();
+                    });
+                }
+            });
         },
     },
     computed: {

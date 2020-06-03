@@ -2,10 +2,10 @@
 
 namespace Voyager\Admin;
 
+use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Voyager\Admin\Classes\MenuItem;
 use Voyager\Admin\Commands\InstallCommand;
@@ -40,14 +40,14 @@ class VoyagerServiceProvider extends ServiceProvider
 
         // Register menu-items
         $this->menumanager->addItems(
-            (new MenuItem(__('voyager::generic.dashboard'), 'home'))->permission('browse', ['admin'])->route('voyager.dashboard')->exact()
+            (new MenuItem(__('voyager::generic.dashboard'), 'home', true))->permission('browse', ['admin'])->route('voyager.dashboard')->exact()
         );
         $this->registerBreadBuilderMenuItem($breads);
         $this->menumanager->addItems(
-            (new MenuItem(__('voyager::generic.media'), 'photograph'))->permission('browse', ['media'])->route('voyager.media'),
-            (new MenuItem(__('voyager::generic.ui_components'), 'template'))->permission('browse', ['ui'])->route('voyager.ui'),
-            (new MenuItem(__('voyager::generic.settings'), 'cog'))->permission('browse', ['settings'])->route('voyager.settings.index'),
-            (new MenuItem(__('voyager::plugins.plugins'), 'puzzle'))->permission('browse', ['plugins'])->route('voyager.plugins.index')
+            (new MenuItem(__('voyager::generic.media'), 'photograph', true))->permission('browse', ['media'])->route('voyager.media'),
+            (new MenuItem(__('voyager::generic.ui_components'), 'template', true))->permission('browse', ['ui'])->route('voyager.ui'),
+            (new MenuItem(__('voyager::generic.settings'), 'cog', true))->permission('browse', ['settings'])->route('voyager.settings.index'),
+            (new MenuItem(__('voyager::plugins.plugins'), 'puzzle', true))->permission('browse', ['plugins'])->route('voyager.plugins.index')
         );
         $this->registerBreadMenuItems($breads);
 
@@ -56,7 +56,7 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // Register permissions
-        Gate::before(function ($user, $ability, $arguments = []) {
+        app(Gate::class)->before(function ($user, $ability, $arguments = []) {
             return VoyagerFacade::authorize($user, $ability, $arguments);
         });
 
@@ -137,7 +137,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
     public function registerBreadBuilderMenuItem($breads)
     {
-        $bread_builder_item = (new MenuItem(__('voyager::generic.bread'), 'bread'))
+        $bread_builder_item = (new MenuItem(__('voyager::generic.bread'), 'bread', true))
                                 ->permission('browse', ['breads'])
                                 ->route('voyager.bread.index');
 
@@ -147,7 +147,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
         $breads->each(function ($bread) use ($bread_builder_item) {
             $bread_builder_item->addChildren(
-                (new MenuItem($bread->name_plural, $bread->icon))->permission('edit', [$bread->table])
+                (new MenuItem($bread->name_plural, $bread->icon, true))->permission('edit', [$bread->table])
                     ->route('voyager.bread.edit', ['table' => $bread->table])
             );
         });
@@ -157,12 +157,12 @@ class VoyagerServiceProvider extends ServiceProvider
     {
         if ($breads->count() > 0) {
             $this->menumanager->addItems(
-                (new MenuItem('', ''))->divider()
+                (new MenuItem('', '', true))->divider()
             );
 
             $breads->each(function ($bread) {
                 $this->menumanager->addItems(
-                    (new MenuItem($bread->name_plural, $bread->icon))->permission('browse', [$bread])
+                    (new MenuItem($bread->name_plural, $bread->icon, true))->permission('browse', [$bread])
                         ->route('voyager.'.$bread->slug.'.browse')
                 );
             });

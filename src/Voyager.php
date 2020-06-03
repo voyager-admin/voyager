@@ -277,7 +277,6 @@ class Voyager
                 $authorized = false;
             }
         });
-
         return $authorized;
     }
 }

@@ -53,7 +53,7 @@ var voyager = new Vue({
         var messages = {!! Voyager::getMessages()->toJson() !!};
 
         messages.forEach(function (m) {
-            vm.$notify.notify(m.message, null, m.color, m.timeout);
+            new vm.$notification(m.message).color(m.color).timeout(m.timeout).show();
         });
     },
     created: function () {

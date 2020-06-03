@@ -5,102 +5,133 @@ Vue.prototype.$notify = new Vue({
         };
     },
     methods: {
-        confirm: function (
-            message,
-            callback,
-            title = false,
-            color = 'blue',
-            trueText = 'Yes',
-            falseText = 'No',
-            timeout = null,
-            indeterminate = false,
-            icon = 'question-mark-circle',
-            onClose = null,
-            autoClose = true,
-            classes = ''
-        ) {
-            var buttons = [
-                {
-                    text: trueText,
-                    class: 'green',
-                    callback: callback,
-                    value: true
-                }, {
-                    text: falseText,
-                    class: 'red',
-                    callback: callback,
-                    value: false
-                }
-            ];
-            return this.notify(message, title, color, timeout, indeterminate, icon, buttons, null, onClose, autoClose, classes);
-        },
-
-        prompt: function (
-            message,
-            input,
-            callback,
-            color = 'blue',
-            okText = 'Ok',
-            cancelText = 'Cancel',
-            title = false,
-            timeout = null,
-            indeterminate = false,
-            icon = 'question-mark-circle',
-            onClose = null,
-            autoClose = true,
-            classes = ''
-        ) {
-            var buttons = [
-                {
-                    text: okText,
-                    class: 'green',
-                    callback: callback,
-                    value: true,
-                }, {
-                    text: cancelText,
-                    class: 'red',
-                    callback: callback,
-                    value: false,
-                }
-            ];
-            return this.notify(message, title, color, timeout, indeterminate, icon, buttons, input, onClose, autoClose, classes);
-        },
-
-        notify: function (message, title = null, color = 'blue', timeout = null, indeterminate = false, icon = 'information-circle', buttons = [], input = null, onClose = null, autoClose = true, classes = '') {
+        addNotification: function(obj) {
             var vm = this;
 
-            var uuid = vm.uuid();
+            return new Promise(function (resolve, reject) {
+                obj.resolve = resolve;
+                obj.reject = reject;
+                obj._timeout_running = true;
 
-            var notification = {
-                message: message,
-                title: title,
-                color: color,
-                timeout: timeout,
-                indeterminate: indeterminate,
-                icon: icon,
-                buttons: buttons,
-                input: input,
-                onClose: onClose,
-                autoClose: autoClose,
-                classes: classes,
-                uuid: uuid,
-            };
-            var i = vm.notifications.push(notification);
-
-            vm.$eventHub.$emit('add-notification', notification);
-
-            return i - 1;
+               vm.notifications.push(obj);
+            });
         },
-
-        remove: function (notification) {
-            var index = this.notifications.indexOf(notification);
-            if (index >= 0) {
-                this.notifications.splice(index, 1);
+        removeNotification: function(obj, result, message = null) {
+            if (obj._prompt == true) {
+                obj.resolve((result == true ? message : false));
+            } else {
+                obj.resolve(result);
             }
-        },
-
-        removeByIndex: function (index) {
-            this.notifications.splice(index, 1);
+            this.notifications.splice(this.notifications.indexOf(obj), 1);
         }
     }
 });
+
+Vue.prototype.$notification = class Notification {
+    constructor(message) {
+        this._message = message;
+        this._icon = 'information-circle';
+        this._color = 'blue';
+        this._buttons = [];
+        this._uuid = this.uuid();
+
+        return this;
+    }
+
+    title(title) {
+        this._title = title;
+
+        return this;
+    }
+
+    icon(icon) {
+        this._icon = icon;
+
+        return this;
+    }
+
+    color(color) {
+        this._color = color;
+
+        return this;
+    }
+
+    timeout(timeout = 7500) {
+        this._timeout = timeout;
+
+        return this;
+    }
+
+    indeterminate() {
+        this._indeterminate = true;
+
+        return this;
+    }
+
+    prompt(value = '') {
+        this._prompt = true;
+        this._prompt_value = value;
+
+        return this;
+    }
+
+    confirm() {
+        this._confirm = true;
+
+        return this;
+    }
+
+    addButton(button) {
+        this._buttons.push(button);
+
+        return this;
+    }
+
+    show() {
+        var vm = this;
+
+        if (this._confirm && this._buttons.length == 0) {
+            this.addButton({
+                key: true,
+                value: 'voyager::generic.yes',
+                color: 'green',
+            }).addButton({
+                key: false,
+                value: 'voyager::generic.no',
+                color: 'red',
+            });
+        } else if (this._prompt && this._buttons.length == 0) {
+            this.addButton({
+                key: true,
+                value: 'voyager::generic.save',
+                color: 'green',
+            }).addButton({
+                key: false,
+                value: 'voyager::generic.cancel',
+                color: 'red',
+            });
+        }
+
+        return new Promise(function(resolve, reject) {
+            Vue.prototype.$notify.addNotification(vm)
+            .then(function (result, message = null) {
+                resolve(result, message);
+            });
+        });
+    }
+
+    uuid() {
+        var dt = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (dt + Math.random()*16)%16 | 0;
+            dt = Math.floor(dt/16);
+            return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+        });
+    
+        return uuid;
+    }
+
+    remove() {
+
+    }
+}

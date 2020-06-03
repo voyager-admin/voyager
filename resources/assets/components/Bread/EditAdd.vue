@@ -140,17 +140,17 @@ export default {
                         value: true,
                     });
                 }
-                vm.$notify.notify(vm.__('voyager::bread.type_save_success', {type: vm.translate(vm.bread.name_singular, true)}), null, 'green', null, false, 'info-circle', buttons);
+                // TODO: Add proper notifications
+                //vm.$notify.notify(vm.__('voyager::bread.type_save_success', {type: vm.translate(vm.bread.name_singular, true)}), null, 'green', null, false, 'info-circle', buttons);
             })
             .catch(function (response) {
                 if (response.response.status == 422) {
                     // Validation failed
                     vm.errors = response.response.data;
                 } else {
-                    vm.$notify.notify(
-                        vm.__('voyager::bread.type_save_failed', {type: vm.translate(vm.bread.name_singular, true)}) + '<br><br>' + response.response.data.message,
-                        false, 'red'
-                    );
+                    new vm
+                    .$notification(__('voyager::bread.type_save_failed', {type: vm.translate(vm.bread.name_singular, true)}) + '<br><br>' + response.response.data.message)
+                    .color('red').timeout().show();
                 }
             })
             .finally(function () {
