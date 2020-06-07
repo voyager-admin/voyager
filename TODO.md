@@ -6,16 +6,14 @@ Instead, they are listed here:
 - Test all formfields, translatable and not translatable
 - Implement a set-setting method (?)
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
+- Move opening/closing functionality to a mixin (dropdown, modal, slide-in, ...)
 
 ## Formfields
 - **Dynamic select** needs a "read" part
 - **Relationship** not yet (fully) working
 - **Color Picker**
 - **Media Picker**
-- **WYSIWYG Editor**
-- **Maps** (external plugin)
 - **Date/Time Picker**
-- **Array**
 
 ## Nice to have
 - Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields **This is actually important**

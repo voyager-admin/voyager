@@ -24,6 +24,10 @@ export default {
             type: [Number, String, null],
             default: 72,
         },
+        openOnClick: {
+            type: Boolean,
+            default: false,
+        }
     },
     data: function () {
         return {
@@ -49,9 +53,13 @@ export default {
             }
         });
         if (vm.$slots.opener) {
-            Array.from(vm.$slots.opener[0].elm.getElementsByTagName('button')).forEach(function (el) {
+            Array.from(vm.$slots.opener[0].elm.getElementsByTagName('*')).forEach(function (el) {
                 el.addEventListener('click', event => {
-                    vm.toggle();
+                    if (!vm.openOnClick) {
+                        vm.toggle();
+                    } else {
+                        vm.open();
+                    }
                 });
             });
         }
@@ -70,7 +78,6 @@ export default {
         @include border-color(dropdown-border-color-dark, 'colors.gray.700');
 
         .body {
-            @apply overflow-auto;
             .link {
                 @apply truncate;
                 @include border-color(dropdown-border-color-dark, 'colors.gray.700');
@@ -105,7 +112,7 @@ export default {
         }
 
         .body {
-            @apply rounded-md shadow-xs;
+            @apply overflow-auto;
 
             .link {
                 @include border-color(dropdown-border-color, 'colors.gray.400');

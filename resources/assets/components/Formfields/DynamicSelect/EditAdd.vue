@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex">
-            <div class="flex-1 mx-2 first:ml-0 last:mr-0" v-for="(select, i) in selects" :key="'select-'+i">
+            <div class="flex-1 space-x-4" v-for="(select, i) in selects" :key="'select-'+i">
                 <select class="input w-full" v-model="selected[i]">
                     <option v-for="(option, b) in select" :key="'option-'+b" :value="b">
                         {{ option }}

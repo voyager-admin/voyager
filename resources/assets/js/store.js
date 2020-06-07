@@ -12,6 +12,8 @@ export default {
                 sidebarOpen: true,
                 pageLoading: true,
                 ui: {
+                    date: '2020-06-05',
+                    datetime: '2020-06-05 14:12:15',
                     name: 'Voyager',
                     colors: [
                         'accent',
@@ -73,7 +75,7 @@ export default {
                 },
                 getBreadByTable (table) {
                     return this.breads.where('table', table)[0];
-                },
+                }
             },
             watch: {
                 sidebarOpen: function (open) {
