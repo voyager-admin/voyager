@@ -482,17 +482,23 @@ export default {
 @import "../../sass/mixins/bg-color";
 
 .dark .day {
+    &:hover {
+        @apply bg-blue-700;
+    }
     &.today {
         @apply bg-blue-600;
     }
-    &.rangeStart {
-        @apply bg-blue-300;
-    }
-    &:hover, &.today, &.disabled, &.selected, &.rangeStart, &.rangeEnd, &.rangeBetween {
-        @apply text-gray-800;
-    }
     &.past, &.future {
         @apply text-gray-500;
+    }
+    &.disabled {
+        @apply text-gray-400;
+    }
+    &.selected {
+        @apply bg-blue-800;
+    }
+    &.rangeStart, &.rangeEnd, &.rangeBetween {
+        @apply bg-blue-900;
     }
 }
 
