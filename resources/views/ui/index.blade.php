@@ -143,6 +143,14 @@
             <date-time format="YYYY-MM-DD HH:mm" range select-time />
         </card>
     </div>
+    <div class="flex">
+        <card class="w-1/2" title="Date and time range with seconds" :title-size="6">
+            <date-time select-time select-seconds range format="YYYY-MM-DD HH:mm:ss" />
+        </card>
+        <card class="w-1/2" title="Date and time range 12 hours" :title-size="6">
+            <date-time select-time am-pm range format="YYYY-MM-DD hh:mm A" />
+        </card>
+    </div>
 </collapsible>
 
 <collapsible title="Listbox" id="ui-listbox">

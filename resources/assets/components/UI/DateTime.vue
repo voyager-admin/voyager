@@ -37,19 +37,30 @@
                         {{ day.date }}
                     </div>
                 </slide-y-up-transition>
-                <div v-if="selectTime" class="time-picker">
-                    <div class="flex">
-                        <div v-if="range" class="w-1/2">From:</div>
-                        <div v-else class="w-full">Time:</div>
-                        <div v-if="range" class="w-1/2">To:</div>
+                <div v-if="selectTime">
+                    <div class="w-full mt-2 inline-flex space-x-1 items-center">
+                        <span class="w-12">{{ range ? 'From:' : 'Time:' }}</span>
+                        <select class="input small" v-model="selected.hour">
+                            <option v-for="hour in 24" :key="hour" :value="hour - 1">{{ displayHour(hour) }}</option>
+                        </select>
+                        <select class="input small" v-model="selected.minute">
+                            <option v-for="minute in 60" :key="minute" :value="minute - 1">{{ minute - 1 }}</option>
+                        </select>
+                        <select class="input small" v-if="selectSeconds" v-model="selected.second">
+                            <option v-for="second in 60" :key="second" :value="second - 1">{{ second - 1 }}</option>
+                        </select>
                     </div>
-                    <div class="flex">
-                        <div :class="range ? 'w-1/2' : 'w-full'" class="cursor-pointer">
-                            {{ displayTime }}
-                        </div>
-                        <div v-if="range" class="w-1/2 cursor-pointer">
-                            {{ displayEndTime }}
-                        </div>
+                    <div v-if="range" class="w-full mt-2 inline-flex space-x-1 items-center">
+                        <span class="w-12">To:</span>
+                        <select class="input small" v-model="selectedEnd.hour">
+                            <option v-for="hour in 24" :key="hour" :value="hour - 1">{{ displayHour(hour) }}</option>
+                        </select>
+                        <select class="input small" v-model="selectedEnd.minute">
+                            <option v-for="minute in 60" :key="minute" :value="minute - 1">{{ minute - 1 }}</option>
+                        </select>
+                        <select class="input small" v-if="selectSeconds" v-model="selectedEnd.second">
+                            <option v-for="second in 60" :key="second" :value="second - 1">{{ second - 1 }}</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -113,6 +124,18 @@ export default {
         selectTime: {
             type: Boolean,
             default: false,
+        },
+        padHours: {
+            type: Boolean,
+            default: true,
+        },
+        amPm: {
+            type: Boolean,
+            default: false,
+        },
+        selectSeconds: {
+            type: Boolean,
+            default: false,
         }
     },
     data: function () {
@@ -138,8 +161,6 @@ export default {
                 minute: 0,
                 second: 0,
             },
-            pickEndTime: false,
-            pickTimeOpen: false,
         };
     },
     computed: {
@@ -196,9 +217,16 @@ export default {
             return dayjs(date).format(this.displayTimeFormat);
         },
         displayTimeFormat: function () {
-            var format = this.displayFormat || this.format;
-            // TODO: This is utterly hackish
-            return format.substring(format.indexOf(' '));
+            if (this.amPm) {
+                if (this.selectSeconds) {
+                    return 'hh:mm:ss A';
+                }
+                return 'hh:mm A';
+            } else if (this.selectSeconds) {
+                return 'HH:mm:ss';
+            }
+
+            return 'HH:mm';
         },
         inputDate: function () {
             if (this.range) {
@@ -340,11 +368,29 @@ export default {
             };
         },
         displayHour: function (hour) {
+            hour--;
+            var string = String(hour);
             if (this.amPm) {
-                return hour % 12 || 12;
+                if (hour == 0) {
+                    string = '12 AM';
+                } else if (hour <= 11) {
+                    string += ' AM';
+                } else if (hour == 12) {
+                    string = '12 PM';
+                } else {
+                    string = (hour - 12) + ' PM';
+                }
             }
 
-            return hour;
+            if (this.padHours) {
+                if (!this.amPm && hour <= 9) {
+                    return '0' + string;
+                } else if (this.amPm && ((hour >= 1 && hour <= 9) || (hour >= 13 && hour <= 21))) {
+                    return '0' + string;
+                }
+            }
+
+            return string;
         },
         isPast: function (year, month) {
             if (month == 11 && this.current.month == 0) {
@@ -433,6 +479,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../sass/mixins/bg-color";
+
 .dark .day {
     &.today {
         @apply bg-blue-600;
@@ -468,13 +516,6 @@ export default {
     }
     &.rangeStart, &.rangeEnd, &.rangeBetween {
         @apply bg-blue-300;
-    }
-}
-
-.time-picker {
-    @apply mt-2;
-    > div {
-        @apply text-center;
     }
 }
 </style>
