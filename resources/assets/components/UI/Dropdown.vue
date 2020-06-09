@@ -26,7 +26,7 @@ export default {
         },
         openOnClick: {
             type: Boolean,
-            default: false,
+            default: true,
         }
     },
     data: function () {

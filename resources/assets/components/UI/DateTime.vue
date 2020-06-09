@@ -44,10 +44,10 @@
                             <option v-for="hour in 24" :key="hour" :value="hour - 1">{{ displayHour(hour) }}</option>
                         </select>
                         <select class="input small" v-model="selected.minute">
-                            <option v-for="minute in 60" :key="minute" :value="minute - 1">{{ minute - 1 }}</option>
+                            <option v-for="minute in 60" :key="minute" :value="minute - 1">{{ displayTime(minute) }}</option>
                         </select>
                         <select class="input small" v-if="selectSeconds" v-model="selected.second">
-                            <option v-for="second in 60" :key="second" :value="second - 1">{{ second - 1 }}</option>
+                            <option v-for="second in 60" :key="second" :value="second - 1">{{ displayTime(second) }}</option>
                         </select>
                     </div>
                     <div v-if="range" class="w-full mt-2 inline-flex space-x-1 items-center">
@@ -56,10 +56,10 @@
                             <option v-for="hour in 24" :key="hour" :value="hour - 1">{{ displayHour(hour) }}</option>
                         </select>
                         <select class="input small" v-model="selectedEnd.minute">
-                            <option v-for="minute in 60" :key="minute" :value="minute - 1">{{ minute - 1 }}</option>
+                            <option v-for="minute in 60" :key="minute" :value="minute - 1">{{ displayTime(minute) }}</option>
                         </select>
                         <select class="input small" v-if="selectSeconds" v-model="selectedEnd.second">
-                            <option v-for="second in 60" :key="second" :value="second - 1">{{ second - 1 }}</option>
+                            <option v-for="second in 60" :key="second" :value="second - 1">{{ displayTime(second) }}</option>
                         </select>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        padHours: {
+        padTime: {
             type: Boolean,
             default: true,
         },
@@ -205,11 +205,6 @@ export default {
             }
 
             return years;
-        },
-        displayTime: function () {
-            var date = this.getObjectAsDate(this.selected, true);
-
-            return dayjs(date).format(this.displayTimeFormat);
         },
         displayEndTime: function () {
             var date = this.getObjectAsDate(this.selectedEnd, true);
@@ -382,7 +377,7 @@ export default {
                 }
             }
 
-            if (this.padHours) {
+            if (this.padTime) {
                 if (!this.amPm && hour <= 9) {
                     return '0' + string;
                 } else if (this.amPm && ((hour >= 1 && hour <= 9) || (hour >= 13 && hour <= 21))) {
@@ -391,6 +386,14 @@ export default {
             }
 
             return string;
+        },
+        displayTime: function (value) {
+            value = String(value--);
+            if (this.padTime && value.length == 1) {
+                return '0' + value;
+            }
+
+            return value;
         },
         isPast: function (year, month) {
             if (month == 11 && this.current.month == 0) {
