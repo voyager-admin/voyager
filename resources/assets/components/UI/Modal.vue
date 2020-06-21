@@ -9,8 +9,8 @@
             <div v-if="isOpened" class="body lg:w-3/4 xl:w-2/4">
                 <card :title="title" :icon="icon" style="margin: 0 !important">
                     <div slot="actions">
-                        <button  @click="close">
-                            <icon icon="x"></icon>
+                        <button  @click="close" class="w-5 h-5">
+                            <icon icon="x" :size="5"></icon>
                         </button>
                     </div>
                     <slot></slot>

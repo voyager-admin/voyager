@@ -7,7 +7,7 @@ module.exports = {
         options: {
             whitelistPatterns: [
                 /w-[0-9]+\/[0-9]+/,     // All variations of width classes we dynamically use in the view-builder
-                /w-[0-9]+/,             // Different sizes used for icon
+                /w-[0-9]+/,             // Different sizes used for icons
                 /h-[0-9]+/,             // ^
                 /bg-[a-z]+-[0-9]+/,     // Dynamically used colors in badges, buttons and so on
                 /text-[a-z]+-[0-9]+/,   // ^
