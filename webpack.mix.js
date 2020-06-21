@@ -11,6 +11,33 @@ const tailwindcss = require('tailwindcss');
  | file for the application as well as bundling up all the JS files.
  |
  */
+Mix.listen('configReady', function(config) {
+    const rules = config.module.rules;
+    const svgRegexPart = '|^((?!font).)*\\.svg';
+
+    for (let rule of rules) {
+        if (rule.test) {
+            if (('' + rule.test).indexOf(svgRegexPart) > -1) {
+                rule.test = new RegExp(('' + rule.test).replace(svgRegexPart, ''));
+            }
+        }
+    }
+});
+
+mix.webpackConfig({
+    module: {
+        rules: [{
+            test: /\.svg$/,
+            use: [{
+                loader: 'html-loader',
+                options: {
+                    minimize: true
+                }
+            }]
+        }]
+    }
+});
+
 mix.sass('resources/assets/sass/voyager.scss', 'resources/assets/dist/css', {
     implementation: require('sass')
 })
