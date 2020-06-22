@@ -18,3 +18,8 @@
   * [Lists](bread/formfields/text.md)
   * [Views](bread/formfields/number.md)
 * [Relationships](bread/relationships.md)
+* [Multilanguage](bread/multilanguage.md)
+
+* [Settings](settings.md)
+
+* [Plugins](plugins.md)
