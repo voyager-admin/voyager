@@ -20,8 +20,6 @@ class Bread implements \JsonSerializable
     public $controller;
     public $policy;
     public $global_search_field;
-    public $color = 'green';
-    public $badge = true;
     public $layouts = [];
     public $use_layouts = [
         'browse' => '',
@@ -65,23 +63,6 @@ class Bread implements \JsonSerializable
     public function usesSoftDeletes()
     {
         return in_array(SoftDeletes::class, class_uses($this->getModel()));
-    }
-
-    public function getReadableCount()
-    {
-        // TODO: We might need to consider withTrashed() as well.
-        $count = $this->getModel()->count();
-        if ($count >= 1100000) {
-            $count = number_format(($count / 1000000), 1).'M';
-        } elseif ($count >= 1000000) {
-            $count = number_format(($count / 1000000)).'M';
-        } elseif ($count >= 100000) {
-            $count = number_format(($count / 1000)).'K';
-        } elseif ($count >= 1000) {
-            $count = number_format(($count / 1000), 1).'K';
-        }
-
-        return $count;
     }
 
     public function jsonSerialize()

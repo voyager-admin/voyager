@@ -8,9 +8,6 @@
             </a>
         </div>
         <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open">
-            <badge :color="badgeColor" class="cursor-pointer" v-if="badge" :dot="badgeDot">
-                {{ badgeContent }}
-            </badge>
             <icon :icon="open ? 'chevron-up' : 'chevron-down'" v-if="$slots.default" :size="4" class="icon"></icon>
         </div>
     </div>
@@ -42,22 +39,6 @@ export default {
             default: false,
         },
         isOpen: {
-            type: Boolean,
-            default: false,
-        },
-        badge: {
-            type: Boolean,
-            default: false,
-        },
-        badgeColor: {
-            type: String,
-            default: 'blue',
-        },
-        badgeContent: {
-            type: String,
-            default: '',
-        },
-        badgeDot: {
             type: Boolean,
             default: false,
         },
