@@ -8,6 +8,7 @@ Instead, they are listed here:
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
 - Move opening/closing functionality to a mixin (dropdown, modal, slide-in, ...)
 - Datepicker range needs to validate time when range is same-day
+- Modal should show scrollbar inside container, not outside
 
 ## Formfields
 - **Dynamic select** needs a "read" part

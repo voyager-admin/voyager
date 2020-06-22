@@ -13,6 +13,7 @@ module.exports = {
                 /text-[a-z]+-[0-9]+/,   // ^
                 /border-[a-z]+-[0-9]+/, // ^
                 /grid-cols-[0-9]+/,     // Used for dashboard-widgets
+                /fill-current/,
             ]
         }
     },
