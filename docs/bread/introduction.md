@@ -9,7 +9,7 @@ Voyager II allows you to create backups which you can restore at any time.
 To create a backup, simply click `Backup` when browsing your BREADs or when editing a BREAD.
 
 {% hint style="info" %}
-
+When creating a backup when editing a BREAD, only the actually stored BREAD is backed-up, **NOT** the changes you already made.
 {% endhint %}
 
 Backing-up a BREAD creates an additional file named `[table].backup.[date].[time].json`. 
