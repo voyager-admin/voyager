@@ -20,6 +20,6 @@
 * [Relationships](bread/relationships.md)
 * [Multilanguage](bread/multilanguage.md)
 
-* [Settings](settings.md)
 
+* [Settings](settings.md)
 * [Plugins](plugins.md)
