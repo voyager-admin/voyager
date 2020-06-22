@@ -18,8 +18,8 @@
     </a>
 </p>
 
-# **V**oyager - The Missing Laravel Admin
 <p align="center">
+    <h2>Voyager - The Missing Laravel Admin</h2>
     <a href="https://laravelvoyager.com" target="_blank">Website & Documentation</a>
     |
     <a href="https://voyager-slack-invitation.herokuapp.com" target="_blank">Slack chat</a>
