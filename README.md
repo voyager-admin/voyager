@@ -20,9 +20,9 @@
 
 # **V**oyager - The Missing Laravel Admin
 <p align="center">
-[Website & Documentation](https://laravelvoyager.com)
-|
-[Slack chat](https://voyager-slack-invitation.herokuapp.com)
+    <a href="https://laravelvoyager.com" target="_blank">Website & Documentation</a>
+    |
+    <a href="https://voyager-slack-invitation.herokuapp.com" target="_blank">Slack chat</a>
 </p>
 
 <hr>
