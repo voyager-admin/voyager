@@ -20,7 +20,9 @@
 
 # Voyager - The Missing Laravel Admin
 <p>
-    <a href="https://laravelvoyager.com" target="_blank">Website & Documentation</a>
+    <a href="https://laravelvoyager.com" target="_blank">Website</a>
+    |
+    <a href="https://tcg.gitbook.io/voyager-2/" target="_blank">Documentation</a>
     |
     <a href="https://voyager-slack-invitation.herokuapp.com" target="_blank">Slack chat</a>
 </p>

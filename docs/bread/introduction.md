@@ -16,4 +16,6 @@ Backing-up a BREAD creates an additional file named `[table].backup.[date].[time
 For example `users.backup.2020-06-22@23-28-10.json`
 
 
-## Roll-back a backup
+## Rollback a backup
+To rollback to a certain backup, select the backup you want to restore to from the `Rollback` dropdown.  
+Your current BREAD is backed-up aswell so you can swap between two versions.
