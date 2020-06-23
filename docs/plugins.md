@@ -40,13 +40,13 @@ A generic plugin does not fit any of the other types.
 Theme plugins allow you to customize the look and feel of Voyager.  
 After a theme was installed you can preview it by clicking `Preview.  
 You won't see the theme anymore after reloading your page.  
-![](.gitbook/assets/plugins/theme-preview.jpg)
+![](./.gitbook/assets/plugins/theme-preview.png)
 
 ### Widget Plugins
 
 Widget plugins simply provide a widget which is shown on your dashboard.  
 For example stats about users registered or Google Analytics.  
-![](.gitbook/assets/plugins/widget.jpg)
+![](./.gitbook/assets/plugins/widget.png)
 
 ## Developing plugins
 
