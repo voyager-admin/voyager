@@ -16,6 +16,7 @@ Instead, they are listed here:
 - **Color Picker**
 - **Media Picker**
 - **Date/Time Picker**
+- **Masked input**
 
 ## Nice to have
 - Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields **This is actually important**

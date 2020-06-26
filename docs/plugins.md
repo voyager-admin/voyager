@@ -5,6 +5,8 @@ They are ordinary composer packages and will be installed through the console.
 
 ## Managing plugins
 
+### Installation
+
 To install a plugin, simply click `Search Plugins` and find the plugin you want to install.  
 Once found, double click the textbox next to it to copy the according command to your clipboard.  
 Next, open your console and run the command.  

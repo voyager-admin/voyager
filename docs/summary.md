@@ -19,6 +19,7 @@
   * [Views](bread/formfields/number.md)
 * [Relationships](bread/relationships.md)
 * [Multilanguage](bread/multilanguage.md)
+* [Validation](bread/validation.md)
 
 
 * [Settings](settings.md)
