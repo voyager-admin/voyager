@@ -8,8 +8,8 @@
                 
                 <div class="flex justify-end items-center">
                     <slot name="actions" />
-                    <button class="ltr:ml-2 rtl:mr-2 h-5 w-5" @click="close">
-                        <icon icon="x" :size="5" />
+                    <button class="ltr:ml-2 rtl:mr-2" @click="close">
+                        <icon icon="x" />
                     </button>
                 </div>
             </div>

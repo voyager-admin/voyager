@@ -28,6 +28,10 @@ export default {
                 return require(`../../../../node_modules/heroicons/outline/ban.svg`);
             }
         }
+    },
+    mounted: function () {
+        this.$el.firstChild.classList.add(`h-${this.size}`);
+        this.$el.firstChild.classList.add(`w-${this.size}`);
     }
 };
 </script>

@@ -16,8 +16,8 @@
             </thead>
             <sort-container v-model="reactiveFormfields" tag="tbody" :useDragHandle="true">
                 <sort-element tag="tr" v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key" :index="key">
-                    <td class="hidden md:table-cell w-5 h-5">
-                        <icon icon="selector" v-sort-handle class="cursor-move" />
+                    <td class="hidden md:table-cell">
+                        <icon icon="selector" v-sort-handle class="cursor-move" :size="5" />
                     </td>
                     <td class="hidden md:table-cell">{{ $store.getFormfieldByType(formfield.type).name }}</td>
                     <td>
