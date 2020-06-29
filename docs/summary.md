@@ -22,10 +22,13 @@
 * [Multilanguage](bread/multilanguage.md)
 * [Validation](bread/validation.md)
 
+## Miscellaneous
 
 * [Settings](settings.md)
 * [Plugins](plugins.md)
 
-* [Contributing](contributing/introduction.md)
-  * [Assets](contributing/assets.md)
-  * [CSS](contributing/css.md)
+## Contributing
+
+* [Introduction](contributing/introduction.md)
+* [Assets](contributing/assets.md)
+* [CSS](contributing/css.md)
