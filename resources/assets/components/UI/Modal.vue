@@ -1,12 +1,12 @@
 <template>
 <div>
     <fade-transition>
-        <div v-if="isOpened" class="dark modal inset-0 p-0 flex items-center justify-center z-40">
-            <div v-if="isOpened" class="fixed inset-0 transition-opacity" @click="close">
+        <div v-if="isOpen" class="dark modal inset-0 p-0 flex items-center justify-center z-40">
+            <div v-if="isOpen" class="fixed inset-0 transition-opacity" @click="close">
                 <div class="absolute inset-0 bg-black opacity-75"></div>
             </div>
 
-            <div v-if="isOpened" class="body lg:w-3/4 xl:w-2/4">
+            <div v-if="isOpen" class="body lg:w-3/4 xl:w-2/4">
                 <card :title="title" :icon="icon" style="margin: 0 !important">
                     <div slot="actions">
                         <button  @click="close" class="w-5 h-5">
@@ -22,7 +22,10 @@
 </div>
 </template>
 <script>
+import closable from '../../js/mixins/closable';
+
 export default {
+    mixins: [closable],
     props: {
         opened: {
             type: Boolean,
@@ -41,21 +44,7 @@ export default {
             default: 6
         },
     },
-    data: function () {
-        return {
-            isOpened: this.opened,
-        };
-    },
     methods: {
-        open: function () {
-            this.isOpened = true;
-        },
-        close: function () {
-            this.isOpened = false;
-        },
-        toggle: function () {
-            this.isOpened = !this.isOpened;
-        },
         click: function (e) {
             if (e.target.classList.contains('modal')) {
                 this.toggle();
@@ -64,15 +53,8 @@ export default {
     },
     watch: {
         opened: function (opened) {
-            this.isOpened = opened;
+            this.isOpen = opened;
         },
-        isOpened: function (opened) {
-            if (opened) {
-                this.$emit('opened');
-            } else {
-                this.$emit('closed');
-            }
-        }
     },
     mounted: function () {
         var vm = this;

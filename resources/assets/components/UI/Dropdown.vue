@@ -2,7 +2,7 @@
     <div class="dropdown" v-click-outside="close">
         <slot name="opener" />
         <slide-y-up-transition>
-            <div class="wrapper" :class="[`w-${width}`, pos]" v-if="show">
+            <div class="wrapper" :class="[`w-${width}`, pos]" v-if="isOpen">
                 <div class="body">
                     <slot />
                 </div>
@@ -11,7 +11,10 @@
     </div>
 </template>
 <script>
+import closable from '../../js/mixins/closable';
+
 export default {
+    mixins: [closable],
     props: {
         pos: {
             type: String,
@@ -28,22 +31,6 @@ export default {
             type: Boolean,
             default: true,
         }
-    },
-    data: function () {
-        return {
-            show: false,
-        };
-    },
-    methods: {
-        open: function () {
-            this.show = true;
-        },
-        close: function () {
-            this.show = false;
-        },
-        toggle: function () {
-            this.show = !this.show;
-        },
     },
     mounted: function () {
         var vm = this;

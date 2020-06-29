@@ -4,9 +4,7 @@ Instead, they are listed here:
 
 - Media manager should not upload all files simultaneously
 - Test all formfields, translatable and not translatable
-- Implement a set-setting method (?)
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
-- Move opening/closing functionality to a mixin (dropdown, modal, slide-in, ...)
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
 
@@ -29,7 +27,6 @@ Instead, they are listed here:
 - Computed properties need to implement an accessor AND mutator when used for adding or editing
 - Browse filters can be cleared by double-clicking the input
 - Browse searching on translatable formfields searches in the currently selected locale
-- BREAD menu-badge only shows non-soft-deleted entries
 - Translatable: Use `getTranslated($column, $locale, $fallback, $default)` to get a translated value (which is not the default locale)
 - Translatable: Use `setTranslated($column, $value, $locale)` to set a translated value (which is not the default locale)
 - Translatable: Use `Ctrl` + `up/right` to select the next locale, `Ctrl` + `down/left` to select the previous locale

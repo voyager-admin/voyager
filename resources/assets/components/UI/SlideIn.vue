@@ -1,6 +1,6 @@
 <template>
     <slide-x-right-transition>
-        <div v-if="isOpened" class="dark slidein text-white" :class="width" v-click-outside="close">
+        <div v-if="isOpen" class="dark slidein text-white" :class="width" v-click-outside="close">
             <div class="flex w-full mb-3">
                 <div class="flex-grow">
                     <h4>{{ title }}</h4>
@@ -18,7 +18,10 @@
     </slide-x-right-transition>
 </template>
 <script>
+import closable from '../../js/mixins/closable';
+
 export default {
+    mixins: [closable],
     props: {
         opened: {
             type: Boolean,
@@ -32,36 +35,15 @@ export default {
             type: String,
         }
     },
-    data: function () {
-        return {
-            isOpened: this.opened,
-        };
-    },
-    methods: {
-        open: function () {
-            this.isOpened = true;
-        },
-        close: function () {
-            this.isOpened = false;
-        },
-        toggle: function () {
-            this.isOpened = !this.isOpened;
-        }
-    },
     watch: {
         opened: function (opened) {
-            this.isOpened = opened;
+            this.isOpen = opened;
         },
-        isOpened: function (opened) {
-            if (opened) {
-                this.$emit('opened');
-            } else {
-                this.$emit('closed');
-            }
-        }
     },
     mounted: function () {
         var vm = this;
+
+        vm.isOpen = this.opened;
         document.body.addEventListener('keydown', event => {
             if (event.keyCode === 27) {
                 vm.close();
