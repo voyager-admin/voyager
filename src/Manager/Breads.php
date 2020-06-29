@@ -249,7 +249,10 @@ class Breads
      */
     public function getBreadSearchPlaceholder()
     {
-        $breads = $this->getBreads()->shuffle();
+        $breads = $this->getBreads()
+        ->reject(function ($bread) {
+            return empty($bread->global_search_field);
+        })->shuffle();
 
         if ($breads->count() > 1) {
             return __('voyager::generic.search_for_breads', [

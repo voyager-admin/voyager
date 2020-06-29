@@ -60,7 +60,7 @@ class VoyagerController extends Controller
         $results = collect([]);
 
         $this->breadmanager->getBreads()->each(function ($bread) use ($q, &$results) {
-            if ($bread->global_search_field !== '') {
+            if (!empty($bread->global_search_field)) {
                 $layout = $this->getLayoutForAction($bread, 'browse');
                 if ($layout) {
                     $query = $bread->getModel()->select('*');
