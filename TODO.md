@@ -23,6 +23,3 @@ Instead, they are listed here:
 - Scopes need to start with `scope` (ex. `scopeCurrentUser()`)
 - Accessors need to be named `getFieldAttribute` (ex. `getFullNameAttribute`)
 - Computed properties need to implement an accessor AND mutator when used for adding or editing
-
-## Things to note
-- When using variables in CSS: ALWAYS use the provided mixins. This allows us to easily extract used variables by a script

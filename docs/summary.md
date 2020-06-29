@@ -25,3 +25,7 @@
 
 * [Settings](settings.md)
 * [Plugins](plugins.md)
+
+* [Contributing](contributing/introduction.md)
+  * [Assets](contributing/assets.md)
+  * [CSS](contributing/css.md)
