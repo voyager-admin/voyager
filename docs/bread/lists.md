@@ -4,7 +4,9 @@ Lists are used for browsing a BREAD and browsing relationships.
 
 ## Ordering items
 
-Simply
+Click and hold the up/down arrows on the left side of your formfield and move your mouse to the desired positions.
+
+![](../.gitbook/assets/bread-builder/list-order.png) 
 
 ## Options
 
