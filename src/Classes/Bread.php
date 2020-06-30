@@ -77,8 +77,6 @@ class Bread implements \JsonSerializable
             'controller'          => $this->controller,
             'policy'              => $this->policy,
             'global_search_field' => $this->global_search_field,
-            'badge'               => $this->badge,
-            'color'               => $this->color,
             'layouts'             => $this->layouts,
             'use_layouts'         => $this->use_layouts,
         ];
