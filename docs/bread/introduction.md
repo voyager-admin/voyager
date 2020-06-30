@@ -1,6 +1,5 @@
 # BREAD Builder
 
-The BREAD builder is the heart of Voyager.  
 ...
 
 
