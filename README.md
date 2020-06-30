@@ -20,7 +20,7 @@
 
 # Voyager - The Missing Laravel Admin
 <p>
-    <a href="https://laravelvoyager.com" target="_blank">Website</a>
+    <a href="https://voyager-admin.com/" target="_blank">Website</a>
     |
     <a href="https://tcg.gitbook.io/voyager-2/" target="_blank">Documentation</a>
     |
@@ -49,4 +49,4 @@ Now we are ready to install Voyager. To do so, run
 php artisan voyager:install
 ```
 
-And that's it. You can now to `http://[YOUR URL]/admin` and login with any existing user.
+And that's it. You can now go to `http://[YOUR URL]/admin` and login with any existing user.

@@ -29,4 +29,4 @@ Searching and ordering does **not** work on accessors and ordering does not work
 ### Translatable
 
 Check this checkbox if you want this field to be translatable.  
-Read more about multi language [here](multilanguage.md).
+Read more about multilanguage [here](multilanguage.md).

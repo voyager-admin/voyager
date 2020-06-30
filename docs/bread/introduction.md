@@ -2,6 +2,20 @@
 
 ...
 
+## Storage path
+
+By default, BREADs are stored under `storage/voyager/breads`.  
+You can change this behavious by calling `setPath` on the BREAD manager in your Service Provider:
+
+```php
+use Voyager\Admin\Manager\Breads as BreadManager;
+
+public function boot(Router $router, BreadManager $breadmanager)
+{
+    $breadmanager->setPath('your/new/path');
+}
+```
+
 
 ## Backup
 Voyager II allows you to create backups which you can restore at any time.  
