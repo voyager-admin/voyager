@@ -8,7 +8,7 @@ The BREAD builder is the heart of Voyager.
 Voyager II allows you to create backups which you can restore at any time.  
 To create a backup, simply click `Backup` when browsing your BREADs or when editing a BREAD.
 
-![](./.gitbook/assets/bread-builder/backup.png) 
+![](../.gitbook/assets/bread-builder/backup.png) 
 
 {% hint style="info" %}
 When creating a backup while editing a BREAD, only the actually stored BREAD is backed-up.  
@@ -23,7 +23,7 @@ For example `users.backup.2020-06-22@23-28-10.json`
 
 To roll back a backup, simply click the `Rollback` button and select the backup you want to rollback.
 
-![](./.gitbook/assets/bread-builder/rollback.png) 
+![](../.gitbook/assets/bread-builder/rollback.png) 
 
 {% hint style="info" %}
 When rolling back a BREAD the current version will be backed-up as well allowing you to easily switch between two version.
