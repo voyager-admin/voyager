@@ -24,5 +24,6 @@ return [
     'soft_delete_hide'              => 'Hide soft-deleted',
     'soft_delete_only'              => 'Only show soft-deleted',
     'type_save_failed'              => 'There was an error saving this :type!',
-    'type_save_success'             => ':type was successfully saved!',
+    'type_store_success'            => ':type was successfully stored!',
+    'type_supdate_success'          => ':type was successfully updated!',
 ];

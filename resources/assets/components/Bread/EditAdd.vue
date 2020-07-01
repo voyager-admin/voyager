@@ -1,10 +1,9 @@
 <template>
     <div>
-        <card :title="__('voyager::generic.'+action+'_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
+        <card :title="__('voyager::generic.'+currentAction+'_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
             <div slot="actions">
                     <div class="flex items-center">
                         <a class="button accent ltr:mr-2 rtl:ml-2" v-if="prevUrl !== ''" :href="prevUrl">
-                            <icon icon="arrow-left"></icon>
                             <span>{{ __('voyager::generic.back') }}</span>
                         </a>
                         <locale-picker v-if="$language.localePicker" :small="false"></locale-picker>
@@ -33,7 +32,7 @@
                                         :options="formfield.options"
                                         :column="formfield.column"
                                         :relationships="relationships"
-                                        :show="action" />
+                                        :show="currentAction" />
                                     <p class="description" v-if="translate(formfield.options.description, true) !== ''">
                                         {{ translate(formfield.options.description, true) }}
                                     </p>
@@ -62,6 +61,8 @@ export default {
             isSaving: false,
             isSaved: false,
             errors: [],
+            currentAction: this.action,
+            id: this.input.id
         };
     },
     methods: {
@@ -102,8 +103,8 @@ export default {
             vm.isSaved = false;
             vm.errors = [];
             axios({
-                method: vm.action == 'add' ? 'post' : 'put',
-                url: vm.action == 'add' ? vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.store') : vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.update', vm.input.id),
+                method: vm.currentAction == 'add' ? 'post' : 'put',
+                url: vm.currentAction == 'add' ? vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.store') : vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.update', vm.id),
                 data: {
                     data: vm.output
                 }
@@ -113,35 +114,19 @@ export default {
                     vm.$emit('saved', response.data);
                     return;
                 }
-                var buttons = [
-                    {
-                        text: vm.__('voyager::bread.add_another'),
-                        class: 'green',
-                        callback: () => {
-                            window.location = route('voyager.'+vm.translate(vm.bread.slug, true)+'.add');
-                        },
-                        value: true,
-                    }, {
-                        text: vm.__('voyager::generic.read'),
-                        class: 'blue',
-                        callback: (val) => {
-                            window.location = route('voyager.'+vm.translate(vm.bread.slug, true)+'.read', response.data);
-                        },
-                        value: true,
-                    }
-                ];
-                if (vm.action == 'add') {
-                    buttons.push({
-                        text: vm.__('voyager::generic.edit'),
-                        class: 'yellow',
-                        callback: () => {
-                            window.location = route('voyager.'+vm.translate(vm.bread.slug, true)+'.edit', response.data);
-                        },
-                        value: true,
-                    });
+
+                if (vm.currentAction == 'add') {
+                    vm.currentAction = 'edit';
+                    vm.id = response.data;
+
+                    new vm
+                    .$notification(vm.__('voyager::bread.type_store_success', {type: vm.translate(vm.bread.name_singular, true)}))
+                    .color('green').timeout().show();
+                } else {
+                    new vm
+                    .$notification(vm.__('voyager::bread.type_update_success', {type: vm.translate(vm.bread.name_singular, true)}))
+                    .color('green').timeout().show();
                 }
-                // TODO: Add proper notifications
-                //vm.$notify.notify(vm.__('voyager::bread.type_save_success', {type: vm.translate(vm.bread.name_singular, true)}), null, 'green', null, false, 'info-circle', buttons);
             })
             .catch(function (response) {
                 if (response.response.status == 422) {
@@ -149,7 +134,7 @@ export default {
                     vm.errors = response.response.data;
                 } else {
                     new vm
-                    .$notification(__('voyager::bread.type_save_failed', {type: vm.translate(vm.bread.name_singular, true)}) + '<br><br>' + response.response.data.message)
+                    .$notification(vm.__('voyager::bread.type_save_failed', {type: vm.translate(vm.bread.name_singular, true)}) + '<br><br>' + response.response.data.message)
                     .color('red').timeout().show();
                 }
             })
