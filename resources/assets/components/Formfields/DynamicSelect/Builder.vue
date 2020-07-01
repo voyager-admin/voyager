@@ -1,9 +1,6 @@
 <template>
     <div>
-        <div v-if="show == 'list-options'">
-            
-        </div>
-        <div v-else-if="show == 'view-options'">
+        <div v-if="show == 'view-options' || show == 'list-options'">
             <label class="label mt-4">{{ __('voyager::formfields.dynamic_select.route_name') }}</label>
             <input
                 class="input w-full"

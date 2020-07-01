@@ -36,15 +36,6 @@ export default {
         loadOptions: function () {
             var vm = this;
 
-            if (this.value !== null && this.value !== '') {
-                try {
-                    var json = JSON.parse(this.value);
-                    if (vm.isArray(json)) {
-                        this.selected = json;
-                    }
-                } catch { }
-            }
-
             if (vm.options.route_name == '') {
                 return;
             }
@@ -58,6 +49,15 @@ export default {
         }
     },
     mounted: function () {
+        if (this.value !== null && this.value !== '') {
+            try {
+                var json = JSON.parse(this.value);
+                if (this.isArray(json)) {
+                    this.selected = json;
+                }
+            } catch { }
+        }
+
         this.loadOptions();
         this.selected.push(this.value);
     }

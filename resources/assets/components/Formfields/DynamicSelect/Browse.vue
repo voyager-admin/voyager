@@ -17,14 +17,51 @@
 <script>
 export default {
     props: ['show', 'options', 'value', 'translatable'],
+    data: function () {
+        return {
+            selects: [],
+        }
+    },
     computed: {
-        displayValues: function () {
+        parsedValues: function () {
             if (this.isArray(this.value)) {
                 return this.value;
             }
 
             return [];
+        },
+        displayValues: function () {
+            var values = [];
+            var vm = this;
+
+            vm.selects.forEach(function (select, i) {
+                if (vm.parsedValues.length >= i) {
+                    var value = select[vm.parsedValues[i]] || null;
+                    if (value !== null) {
+                        values.push(value);
+                    }
+                }
+            });
+
+            return values;
         }
     },
+    mounted: function () {
+        if (this.value == '' || this.value === null) {
+            return;
+        }
+
+        var vm = this;
+
+        if (vm.options.route_name == '') {
+            return;
+        }
+        axios.post(vm.route(vm.options.route_name), {
+            selected: vm.parsedValues,
+        })
+        .then(function (response) {
+            vm.selects = response.data;
+        });
+    }
 };
 </script>

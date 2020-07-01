@@ -8,7 +8,6 @@ Instead, they are listed here:
 - Modal should show scrollbar inside container, not outside
 
 ## Formfields
-- **Dynamic select** needs to call the route when browsing or reading to get the values (instead of stored keys)
 - **Relationship** not yet (fully) working
 - **Color Picker**
 - **Media Picker**

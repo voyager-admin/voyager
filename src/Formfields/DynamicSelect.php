@@ -18,7 +18,9 @@ class DynamicSelect extends Formfield
 
     public function listOptions(): array
     {
-        return [];
+        return [
+            'route_name'  => '',
+        ];
     }
 
     public function viewOptions(): array

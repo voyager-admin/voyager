@@ -10,19 +10,54 @@
 <script>
 export default {
     props: ['options', 'data', 'translatable'],
-    computed: {
-        displayValues: function () {
-            if (this.data !== null && this.data !== '') {
-                try {
-                    var json = JSON.parse(this.data);
-                    if (this.isArray(json)) {
-                        return json;
-                    }
-                } catch { }
-            }
-
-            return [];
+    data: function () {
+        return {
+            selects: [],
         }
     },
+    computed: {
+        parsedValues: function () {
+            try {
+                var json = JSON.parse(this.data);
+                if (this.isArray(json)) {
+                    console.log(json);
+                    return json;
+                }
+            } catch { }
+
+            return [];
+        },
+        displayValues: function () {
+            var values = [];
+            var vm = this;
+            vm.selects.forEach(function (select, i) {
+                if (vm.parsedValues.length >= i) {
+                    var value = select[vm.parsedValues[i]] || null;
+                    if (value !== null) {
+                        values.push(value);
+                    }
+                }
+            });
+
+            return values;
+        }
+    },
+    mounted: function () {
+        if (this.data == '' || this.data === null) {
+            return;
+        }
+
+        var vm = this;
+
+        if (vm.options.route_name == '') {
+            return;
+        }
+        axios.post(vm.route(vm.options.route_name), {
+            selected: vm.parsedValues,
+        })
+        .then(function (response) {
+            vm.selects = response.data;
+        });
+    }
 };
 </script>
