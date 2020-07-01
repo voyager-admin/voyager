@@ -11,7 +11,7 @@
                 v-model="options.route_name" />
         </div>
         <div v-else-if="show == 'view'">
-            ...
+            <select class="input w-full" disabled></select>
         </div>
     </div>
 </template>

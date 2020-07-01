@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="flex">
-            <div class="flex-1 space-x-4" v-for="(select, i) in selects" :key="'select-'+i">
+        <div class="flex space-x-4">
+            <div class="flex-1" v-for="(select, i) in selects" :key="'select-'+i">
                 <select class="input w-full" v-model="selected[i]">
                     <option v-for="(option, b) in select" :key="'option-'+b" :value="b">
                         {{ option }}
@@ -35,6 +35,16 @@ export default {
     methods: {
         loadOptions: function () {
             var vm = this;
+
+            if (this.value !== null && this.value !== '') {
+                try {
+                    var json = JSON.parse(this.value);
+                    if (vm.isArray(json)) {
+                        this.selected = json;
+                    }
+                } catch { }
+            }
+
             if (vm.options.route_name == '') {
                 return;
             }

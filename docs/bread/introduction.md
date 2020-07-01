@@ -1,12 +1,13 @@
 # BREAD Builder
 
-...
+The BREAD builder is the heart of Voyager.  
+This page will walk you through 
 
 ## Model
 
 When adding a BREAD, you have to provide a fully qualified model name.  
 After that, you'll have to click `Reload properties`.  
-This will then load all fields from your model, accessors and relationships.
+This will then load all fields from your model, accessors, scopes and relationships.
 
 ![](../.gitbook/assets/bread-builder/model-warning.png) 
 
@@ -70,3 +71,5 @@ Simply select the layout you want to use for browsing, reading, editing and addi
 Some plugins might override this section, allowing you to select layouts for various conditions.
 
 ![](../.gitbook/assets/bread-builder/layout-mapping.png) 
+
+Read more about layouts in the next [article](layouts.md).
