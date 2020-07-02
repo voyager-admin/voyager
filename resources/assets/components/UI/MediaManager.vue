@@ -28,12 +28,12 @@
         <div class="w-full mb-2 rounded-md breadcrumbs">
             <div class="button-group">
                 <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="flex inline-block items-center">
-                    <button class="button" @click.prevent.stop="openPath(path, i)">
+                    <button class="m-2" @click.prevent.stop="openPath(path, i)">
                         <icon v-if="path == ''" icon="home"></icon>
                         <span v-else>{{ path }}</span>
                     </button>
-                    <button class="button cursor-default px-0 py-0 icon-only" v-if="pathSegments.length !== (i+1)">
-                        <icon icon="chevron-right"></icon>
+                    <button class="cursor-default px-0 py-0" v-if="pathSegments.length !== (i+1)">
+                        /
                     </button>
                 </span>
             </div>
@@ -573,7 +573,7 @@ export default {
     }
 
     .breadcrumbs {
-        @include bg-color(media-breadcrumbs-bg-color, 'colors.gray.150');
+        @include bg-color(media-breadcrumbs-bg-color, 'colors.gray.100');
         @include border-color(media-breadcrumbs-border-color, 'colors.gray.300');
     }
 
