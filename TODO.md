@@ -13,6 +13,7 @@ Instead, they are listed here:
 - **Media Picker**
 - **Date/Time Picker**
 - **Masked input**
+- **Repeater**
 
 ## Nice to have
 - Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields **This is actually important**

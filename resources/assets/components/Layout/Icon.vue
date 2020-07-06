@@ -24,7 +24,7 @@ export default {
             try {
                 return require(`../../../../node_modules/heroicons/outline/${this.icon}.svg`);
             } catch (e) {
-                console.warn(`Icon ${this.icon} does not exist`);
+                console.warn(`Icon "${this.icon}" does not exist`);
                 return require(`../../../../node_modules/heroicons/outline/ban.svg`);
             }
         }

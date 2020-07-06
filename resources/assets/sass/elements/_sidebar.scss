@@ -1,6 +1,6 @@
-@import "mixins/bg-color";
-@import "mixins/border-color";
-@import "mixins/text-color";
+@import "../mixins/bg-color";
+@import "../mixins/border-color";
+@import "../mixins/text-color";
 
 .dark .sidebar {
     @include bg-color(sidebar-bg-color-dark, 'colors.gray.800');

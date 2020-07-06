@@ -10,13 +10,13 @@
         "cross-env": "^7.0.2",
         "laravel-mix": "^5.0.4",
         "sass": "^1.26.9",
-        "sass-loader": "^8.0.2",
+        "sass-loader": "^9.0.1",
         "tailwindcss-dir": "^4.0.0",
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
         "axios": "^0.19.2",
-        "dayjs": "^1.8.28",
+        "dayjs": "^1.8.29",
         "debounce": "^1.2.0",
         "heroicons": "^0.3.6",
         "inter-ui": "^3.13.1",

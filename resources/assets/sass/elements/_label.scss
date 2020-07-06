@@ -1,4 +1,4 @@
-@import "mixins/text-color";
+@import "../mixins/text-color";
 
 .dark .label {
     @include text-color(label-text-color-dark, 'colors.gray.200');
