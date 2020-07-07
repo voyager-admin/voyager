@@ -8,6 +8,10 @@ return [
         'name'          => 'Dynamic Select',
         'route_name'    => 'Route name',
     ],
+    'media_picker'  => [
+        'name'                  => 'Media Picker',
+        'max_warning'           => 'You can\'t select more than :max files!',
+    ],
     'number'        => [
         'name'                  => 'Number',
         'decimals'              => 'Decimals',

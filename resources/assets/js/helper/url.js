@@ -41,6 +41,9 @@ Vue.mixin({
                     .map(s => s[0] == '{' ? args.shift() : s)
                     .join('/');
             }
+        },
+        asset: function (path) {
+            return document.head.querySelector('meta[name="asset-url"]').content + path;
         }
     }
 });

@@ -47,5 +47,10 @@ Vue.mixin({
         
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         },
+        stringAfterLast: function (char, input) {
+            var parts = input.split(char);
+
+            return parts[parts.length - 1];
+        }
     }
 });
