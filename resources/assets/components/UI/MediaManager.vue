@@ -1,34 +1,32 @@
 <template>
     <div class="min-h-64 w-full media-manager border rounded-lg p-4 mb-4">
         <input class="hidden" type="file" :multiple="multiple" @change="addUploadFiles($event.target.files)" :accept="accept" ref="upload_input">
-        <fade-transition>
-            <div class="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full mb-2" v-show="pickFiles && value.length > 0">
-                <div v-for="(file, i) in value" :key="i" class="item rounded-md border select-none h-auto">
-                    <div class="flex p-3">
-                        <div class="flex-none" v-show="isFileImage(file.path)">
-                            <div class="w-full flex justify-center">
-                                <div class="w-full flex justify-center h-24">
-                                    <img :src="asset(file.path)" />
-                                </div>
+        <div class="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full mb-4" v-show="pickFiles && pickedFiles.length > 0">
+            <div v-for="(file, i) in pickedFiles" :key="i" class="item rounded-md border select-none h-auto">
+                <div class="flex p-3">
+                    <div class="flex-none" v-show="isFileImage(file.name)">
+                        <div class="w-full flex justify-center">
+                            <div class="w-full flex justify-center h-24">
+                                <img :src="file.url" class="rounded object-contain h-24 max-w-full" />
                             </div>
                         </div>
-                        <div class="flex-grow ml-3 overflow-hidden">
-                            <div class="flex flex-col h-full">
-                                <div class="flex-none">
-                                    <p class="whitespace-no-wrap" v-tooltip="file.path">{{ file.path }}</p>
-                                </div>
-                                <div class="flex items-end justify-end flex-grow">
-                                    <button @click.stop="removePickedFile(file.path)">
-                                        <icon icon="x" :size="4"></icon>
-                                    </button>
-                                </div>
+                    </div>
+                    <div class="flex-grow ml-3 overflow-hidden">
+                        <div class="flex flex-col h-full">
+                            <div class="flex-none">
+                                <p class="whitespace-no-wrap" v-tooltip="file.name">{{ file.name }}</p>
                             </div>
-                            
+                            <div class="flex items-end justify-end flex-grow">
+                                <button @click.stop="removePickedFile(file.url)">
+                                    <icon icon="x" :size="4"></icon>
+                                </button>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
-        </fade-transition>
+        </div>
         <slide-y-down-transition>
             <div>
                 <div class="w-full mb-2" v-if="showToolbar">
@@ -412,21 +410,18 @@ export default {
             });
         },
         addPickedFile: function (file) {
-            console.log(file);
-            var path = file.file.relative_path + file.file.name;
-            if (this.pickedFiles.where('path', path).length > 0) {
-                this.removePickedFile(path);
+            if (this.pickedFiles.where('url', file.file.url).length > 0) {
+                this.removePickedFile(file.file.url);
             } else {
-                this.pickedFiles.push({
-                    path: path,
-                    meta: this.meta
-                });
+                var fileObj = JSON.parse(JSON.stringify(file.file));
+                fileObj.meta = {};
+                this.pickedFiles.push(fileObj);
             }
             this.$emit('input', this.pickedFiles);
             this.$forceUpdate();
         },
-        removePickedFile: function (path) {
-            this.pickedFiles = this.pickedFiles.filter(f => f.path !== path);
+        removePickedFile: function (url) {
+            this.pickedFiles = this.pickedFiles.filter(f => f.url !== url);
         },
         deleteUpload: function (file) {
             this.filesToUpload.splice(this.filesToUpload.indexOf(file), 1);
@@ -548,7 +543,7 @@ export default {
     },
     watch: {
         value: function (files) {
-             this.pickedFiles = files;
+            this.pickedFiles = files;
         }
     },
     mounted: function () {
