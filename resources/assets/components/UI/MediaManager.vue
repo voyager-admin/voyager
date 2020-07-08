@@ -430,7 +430,6 @@ export default {
         addPickedFile: function (file) {
             if (this.pickedFiles.where('url', file.file.url).length > 0) {
                 this.removePickedFile(file.url);
-                console.log('Mup');
             } else {
                 if (this.max > 1 && this.pickedFiles.length >= this.max) {
                     new this.$notification(this.trans_choice('voyager::formfields.media_picker.max_warning', this.max))
@@ -441,10 +440,8 @@ export default {
                 fileObj.meta = {};
                 if (this.max == 1) {
                     this.pickedFiles = [fileObj];
-                    console.log('2');
                 } else {
                     this.pickedFiles.push(fileObj);
-                    console.log('3');
                 }
             }
             this.$emit('input', this.pickedFiles);
