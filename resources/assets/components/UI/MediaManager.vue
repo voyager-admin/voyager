@@ -443,7 +443,7 @@ export default {
                 fileObj.meta = {};
                 var vm = this;
                 Object.keys(this.meta).forEach(function (i) {
-                    fileObj.meta[vm.meta[i].key] = '';
+                    fileObj.meta[vm.meta[i].key] = vm.get_translatable_object('');
                 });
                 if (this.max == 1) {
                     this.pickedFiles = [fileObj];

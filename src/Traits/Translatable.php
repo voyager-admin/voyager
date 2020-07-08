@@ -8,8 +8,8 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 trait Translatable
 {
     private $translate = true;
-    private $current_locale;
-    private $fallback_locale;
+    public $current_locale;
+    public $fallback_locale;
 
     public function setLocales()
     {

@@ -200,6 +200,13 @@ class Voyager
      */
     public function translate($value, $locale = null, $fallback = null)
     {
+        if ($locale == null) {
+            $locale = app()->getLocale();
+        }
+        if ($fallback == null) {
+            $fallback = config('app.fallback_locale');
+        }
+
         if (is_string($value)) {
             $json = $this->getJson($value);
             if (($json = $this->getJson($value)) === false) {

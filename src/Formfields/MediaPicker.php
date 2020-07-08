@@ -42,22 +42,28 @@ class MediaPicker extends Formfield
 
     public function read($input)
     {
-        return json_decode($input);
+        return $this->browse($input);
     }
 
     public function edit($input)
     {
-        return json_decode($input);
+        return $this->browse($input);
     }
 
     public function update($model, $input, $old)
     {
-        return json_encode($input);
+        return $this->store($input);
     }
 
     public function store($input)
     {
-        return json_encode($input);
+        if (is_array($input)) {
+            return json_encode($input);
+        } elseif ($input == '') {
+            return [];
+        }
+
+        return $input;
     }
 
     public function browseDataAsArray()
