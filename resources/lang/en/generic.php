@@ -75,6 +75,7 @@ return [
     'placeholder'               => 'Placeholder',
     'please_wait'               => 'Please wait',
     'preview'                   => 'Preview',
+    'property'                  => 'Property',
     'range'                     => 'Range',
     'read'                      => 'Read',
     'relationships'             => 'Relationships',

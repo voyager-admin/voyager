@@ -2,7 +2,15 @@
     <div>
         <div v-if="show == 'view-options'">
             <label class="label mt-4">{{ __('voyager::generic.max') }}</label>
-            <input type="number" min="0" max="100000" class="input w-full" v-model.number="options.max"> 
+            <input type="number" min="0" max="100000" class="input w-full" v-model.number="options.max">
+
+            <key-value-form
+                class="mt-2"
+                v-model="options.meta"
+                title-text="voyager::formfields.media_picker.meta_fields"
+                key-text="voyager::generic.property"
+                value-text="voyager::generic.title"
+            />
         </div>
         <div v-if="show == 'list-options'">
             

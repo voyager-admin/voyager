@@ -2,7 +2,7 @@
     <div>
         <div class="w-full flex">
             <div class="w-4/6">
-                <h5>{{ __('voyager::generic.options') }}</h5>
+                <h5>{{ __(titleText) }}</h5>
             </div>
             <div class="w-2/6 text-right">
                 <button class="button green small icon-only" @click.stop="addOption">
@@ -14,21 +14,21 @@
             <table>
                 <thead>
                     <tr>
-                        <th>{{ __('voyager::generic.key') }}</th>
-                        <th>{{ __('voyager::generic.value') }}</th>
+                        <th>{{ __(keyText) }}</th>
+                        <th>{{ __(valueText) }}</th>
                         <th>{{ __('voyager::generic.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(option, i) in dynamicOptions" :key="'option-'+i">
                         <td>
-                            <input type="text" class="input w-full" v-model="option.key" :placeholder="__('voyager::generic.key')">
+                            <input type="text" class="input w-full" v-model="option.key" :placeholder="__(keyText)">
                         </td>
                         <td>
                             <language-input
                                 class="input w-full"
                                 type="text"
-                                :placeholder="__('voyager::generic.value')"
+                                :placeholder="__(valueText)"
                                 v-bind:value="option.value"
                                 v-on:input="option.value = $event" />
                         </td>
@@ -49,7 +49,25 @@ export default {
         value: {
             type: Array,
             required: true,
-        }
+        },
+        titleText: {
+            type: String,
+            default: function () {
+               return 'voyager::generic.options'; 
+            }
+        },
+        keyText: {
+            type: String,
+            default: function () {
+               return 'voyager::generic.key'; 
+            }
+        },
+        valueText: {
+            type: String,
+            default: function () {
+               return 'voyager::generic.value'; 
+            }
+        },
     },
     data: function () {
         return {

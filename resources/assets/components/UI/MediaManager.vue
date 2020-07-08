@@ -15,9 +15,17 @@
                         <div class="flex flex-col h-full">
                             <div class="flex-none">
                                 <p class="whitespace-no-wrap" v-tooltip="file.name">{{ file.name }}</p>
+                                <p v-for="(field, i) in meta" :key="i">
+                                    <language-input
+                                        class="input w-full small mt-1"
+                                        type="text" :placeholder="translate(field.value)"
+                                        v-bind:value="file.meta[field.key]"
+                                        v-on:input="file.meta[field.key] = $event"
+                                    />
+                                </p>
                             </div>
                             <div class="flex items-end justify-end flex-grow">
-                                <button @click.stop="removePickedFile(file.url)">
+                                <button @click.stop="addPickedFile(file)">
                                     <icon icon="x" :size="4"></icon>
                                 </button>
                             </div>
@@ -230,6 +238,12 @@ export default {
             type: Number,
             default: 0,
         },
+        'meta': {
+            type: Array,
+            default: function () {
+                return [];
+            },
+        },
         'value': {
             type: Array,
             default: function () {
@@ -415,7 +429,8 @@ export default {
         },
         addPickedFile: function (file) {
             if (this.pickedFiles.where('url', file.file.url).length > 0) {
-                this.removePickedFile(file.file.url);
+                this.removePickedFile(file.url);
+                console.log('Mup');
             } else {
                 if (this.max > 1 && this.pickedFiles.length >= this.max) {
                     new this.$notification(this.trans_choice('voyager::formfields.media_picker.max_warning', this.max))
@@ -426,12 +441,13 @@ export default {
                 fileObj.meta = {};
                 if (this.max == 1) {
                     this.pickedFiles = [fileObj];
+                    console.log('2');
                 } else {
                     this.pickedFiles.push(fileObj);
+                    console.log('3');
                 }
             }
             this.$emit('input', this.pickedFiles);
-            this.$forceUpdate();
         },
         removePickedFile: function (url) {
             this.pickedFiles = this.pickedFiles.filter(f => f.url !== url);
