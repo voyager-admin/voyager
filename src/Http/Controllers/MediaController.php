@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
@@ -45,15 +46,17 @@ class MediaController extends Controller
     {
         $storage = Storage::disk($this->disk);
         $path = Util::normalizePath($this->path.$request->get('path', ''));
-        $files = collect($storage->listContents($path))->transform(function ($file) use ($storage, $path) {
+        $files = collect($storage->addPlugin(new ListWith())->listWith(['mimetype'], $path))->transform(function ($file) use ($storage, $path) {
+            $relative = Str::finish(str_replace('\\', '/', $file['dirname']), '/');
             return [
                 'is_upload' => false,
                 'file'      => [
+                    'type'          => $file['type'] == 'dir' ? 'directory' : $file['mimetype'],
                     'name'          => $file['basename'],
-                    'relative_path' => Str::finish(str_replace('\\', '/', $file['dirname']), '/'),
-                    'url'           => $storage->url($file['path']),
-                    'type'          => $storage->getMimetype($file['path']),
+                    'relative_path' => $relative,
                     'size'          => $file['size'] ?? 0,
+                    'url'           => $storage->url($file['path']),
+                    'disk'          => $this->disk,
                 ],
             ];
         })->sortBy('file.name')->sortBy(function ($file) {
