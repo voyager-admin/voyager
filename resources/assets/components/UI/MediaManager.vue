@@ -226,6 +226,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        'max': {
+            type: Number,
+            default: 0,
+        },
         'value': {
             type: Array,
             default: function () {
@@ -413,9 +417,18 @@ export default {
             if (this.pickedFiles.where('url', file.file.url).length > 0) {
                 this.removePickedFile(file.file.url);
             } else {
+                if (this.max > 1 && this.pickedFiles.length >= this.max) {
+                    new this.$notification(this.trans_choice('voyager::formfields.media_picker.max_warning', this.max))
+                    .color('orange').timeout().show();
+                    return;
+                }
                 var fileObj = JSON.parse(JSON.stringify(file.file));
                 fileObj.meta = {};
-                this.pickedFiles.push(fileObj);
+                if (this.max == 1) {
+                    this.pickedFiles = [fileObj];
+                } else {
+                    this.pickedFiles.push(fileObj);
+                }
             }
             this.$emit('input', this.pickedFiles);
             this.$forceUpdate();

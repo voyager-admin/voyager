@@ -10,7 +10,7 @@ return [
     ],
     'media_picker'  => [
         'name'                  => 'Media Picker',
-        'max_warning'           => 'You can\'t select more than :max files!',
+        'max_warning'           => 'You can\'t select more than :num file!|You can\'t select more than :num files!',
     ],
     'number'        => [
         'name'                  => 'Number',

@@ -1,7 +1,8 @@
 <template>
     <div>
         <div v-if="show == 'view-options'">
-            
+            <label class="label mt-4">{{ __('voyager::generic.max') }}</label>
+            <input type="number" min="0" max="100000" class="input w-full" v-model.number="options.max"> 
         </div>
         <div v-if="show == 'list-options'">
             
