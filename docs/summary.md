@@ -15,6 +15,7 @@
   * [Lists](bread/lists.md)
   * [Views](bread/views.md)
 * [Formfields](bread/formfields/introduction.md)
+  * [Media Picker](bread/formfields/media-picker.md)
   * [Number](bread/formfields/number.md)
   * [Tags](bread/formfields/tags.md)
   * [Text](bread/formfields/text.md)
@@ -26,6 +27,7 @@
 
 * [Settings](settings.md)
 * [Plugins](plugins.md)
+* [Media Manager](media-manager.md)
 
 ## Contributing
 
