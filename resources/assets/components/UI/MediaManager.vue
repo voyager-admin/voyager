@@ -428,7 +428,10 @@ export default {
             });
         },
         addPickedFile: function (file) {
-            if (this.pickedFiles.where('url', file.file.url).length > 0) {
+            if (file.hasOwnProperty('file')) {
+                file = file.file;
+            }
+            if (this.pickedFiles.where('url', file.url).length > 0) {
                 this.removePickedFile(file.url);
             } else {
                 if (this.max > 1 && this.pickedFiles.length >= this.max) {
@@ -436,7 +439,7 @@ export default {
                     .color('orange').timeout().show();
                     return;
                 }
-                var fileObj = JSON.parse(JSON.stringify(file.file));
+                var fileObj = JSON.parse(JSON.stringify(file));
                 fileObj.meta = {};
                 if (this.max == 1) {
                     this.pickedFiles = [fileObj];
