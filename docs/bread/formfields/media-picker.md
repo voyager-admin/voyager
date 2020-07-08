@@ -20,10 +20,23 @@ Defines the maximum amount of files that can be picked.
 0 means infinity.  
 When using 1 as the maximum, the currently picked file will automatically be replaced when picking another.
 
+### Meta properties
+
+This option lets you add simple textboxes to every picked file.  
+For example, when you want to pick images, you could add a title and an alt-tag.  
+Click `+` to add a new property and add the key (for example `title`) and the textbox placeholder (`Title`).
+
+![](../../.gitbook/assets/bread/formfields/media-picker/meta.png) 
+
+{% hint style="info" %}
+Meta properties are translatable. Simply toggle the locale and enter the translated text!
+{% endhint %}
+
 ### Mime types
 
 With this field you can decide which files can be uploaded and picked.  
-Simply add a new item and insert the mime-types you want to support. Here are some examples:  
+Simply add a new item and insert the mime-types you want to support.  
+Here are some examples:  
 - image/jpg - only allow JPG images
 - image/* - allow all images
 - directory - display directories
