@@ -441,6 +441,10 @@ export default {
                 }
                 var fileObj = JSON.parse(JSON.stringify(file));
                 fileObj.meta = {};
+                var vm = this;
+                Object.keys(this.meta).forEach(function (i) {
+                    fileObj.meta[vm.meta[i].key] = '';
+                });
                 if (this.max == 1) {
                     this.pickedFiles = [fileObj];
                 } else {
