@@ -8,6 +8,7 @@
         v-model="pickedFiles"
         :meta="options.meta || {}"
         :max="options.max || 0"
+        :allowed-mime-types="options.mimes || []"
         @pick="pickFile($event)"
     />
 </template>

@@ -20,6 +20,21 @@ Defines the maximum amount of files that can be picked.
 0 means infinity.  
 When using 1 as the maximum, the currently picked file will automatically be replaced when picking another.
 
+### Mime types
+
+With this field you can decide which files can be uploaded and picked.  
+Simply add a new item and insert the mime-types you want to support. Here are some examples:  
+- image/jpg - only allow JPG images
+- image/* - allow all images
+- directory - display directories
+
+When no types are defined all are allowed.  
+
+{% hint style="warning" %}
+Note that a mime-type can not be guessed for all files.  
+Always consider official resources like the [official IANA MIME type list](http://www.iana.org/assignments/media-types/media-types.xhtml).
+{% endhint %}
+
 ## Using media files in your model
 
 Voyager provides a simple way to retreive files in your model.  

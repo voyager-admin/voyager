@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-64 w-full media-manager border rounded-lg p-4 mb-4">
-        <input class="hidden" type="file" :multiple="multiple" @change="addUploadFiles($event.target.files)" :accept="accept" ref="upload_input">
+        <input class="hidden" type="file" :multiple="multiple" @change="addUploadFiles($event.target.files)" ref="upload_input">
         <div class="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full mb-4" v-show="pickFiles && pickedFiles.length > 0">
             <div v-for="(file, i) in pickedFiles" :key="i" class="item rounded-md border select-none h-auto">
                 <div class="flex p-3">
@@ -222,13 +222,15 @@ export default {
             type: String,
             default: 'Drop it like its 🔥',
         },
-        'accept': {
-            type: String,
-            default: '*/*'
-        },
         'showToolbar': {
             type: Boolean,
             default: true,
+        },
+        'allowedMimeTypes': {
+            type: Array,
+            default: function () {
+                return [];
+            }
         },
         'pickFiles': {
             type: Boolean,
@@ -277,9 +279,17 @@ export default {
 
                 if (file.type !== '') {
                     // Validate mime type
-                    var matcher = new vm.MimeMatcher(vm.accept);
-                    if (!matcher.match(file.type.toLowerCase())) {
-                        return null;
+                    if (vm.allowedMimeTypes.length > 0) {
+                        var result = false;
+                        vm.allowedMimeTypes.forEach(function (mime) {
+                            if (vm.mimeMatch(file.type, mime.toLowerCase())) {
+                                result = true;
+                            }
+                        });
+
+                        if (!result) {
+                            return null;
+                        }
                     }
                 } else {
                     // TODO: Not all documents send a mimetype. Check extension?
@@ -559,7 +569,25 @@ export default {
     },
     computed: {
         combinedFiles: function () {
-            return this.files.concat(this.filesToUpload);
+            var vm = this;
+
+            return vm.files.filter(function (file) {
+                if (vm.allowedMimeTypes.length == 0) {
+                    return true;
+                }
+                var result = false;
+                vm.allowedMimeTypes.forEach(function (mime) {
+                    if (mime === 'directory') {
+                        if (file.file.type === 'directory') {
+                            result = true;
+                        }
+                    } else if (vm.mimeMatch(file.file.type, mime.toLowerCase())) {
+                        result = true;
+                    }
+                });
+
+                return result;
+            }).concat(vm.filesToUpload);
         },
         selectedFilesSize: function () {
             var size = 0;

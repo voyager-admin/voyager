@@ -12,6 +12,7 @@ return [
         'name'                  => 'Media Picker',
         'max_warning'           => 'You can\'t select more than :num file!|You can\'t select more than :num files!',
         'meta_fields'           => 'Meta fields',
+        'mime_types'            => 'Mime types',
     ],
     'number'        => [
         'name'                  => 'Number',

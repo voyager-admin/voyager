@@ -3,6 +3,7 @@ It only contains small things that came to our minds which we couldn't implement
 Instead, they are listed here:
 
 - Media manager should not upload all files simultaneously
+- Media manager styling breaks on small screens
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside

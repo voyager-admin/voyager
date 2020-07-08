@@ -11,6 +11,13 @@
                 key-text="voyager::generic.property"
                 value-text="voyager::generic.title"
             />
+
+            <array-form
+                class="mt-2"
+                v-model="options.mimes"
+                title-text="voyager::formfields.media_picker.mime_types"
+                item-text="voyager::generic.type"
+            />
         </div>
         <div v-if="show == 'list-options'">
             

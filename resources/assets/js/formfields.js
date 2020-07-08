@@ -22,3 +22,4 @@ formfields.forEach(function (formfield) {
 });
 
 Vue.component('key-value-form', require('../components/Formfields/KeyValueForm').default);
+Vue.component('array-form', require('../components/Formfields/ArrayForm').default);
