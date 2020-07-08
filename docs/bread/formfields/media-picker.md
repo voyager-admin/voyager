@@ -26,7 +26,8 @@ This option lets you add simple textboxes to every picked file.
 For example, when you want to pick images, you could add a title and an alt-tag.  
 Click `+` to add a new property and add the key (for example `title`) and the textbox placeholder (`Title`).
 
-![](../../.gitbook/assets/bread/formfields/media-picker/meta.png) 
+![](../../.gitbook/assets/bread/formfields/media-picker/meta-options.png) 
+![](../../.gitbook/assets/bread/formfields/media-picker/meta-result.png) 
 
 {% hint style="info" %}
 Meta properties are translatable. Simply toggle the locale and enter the translated text!
