@@ -1,6 +1,24 @@
 # Media Picker
 
-The media-picker provides an easy way to the [media manager](../../media-manager.md)
+The media-picker provides an easy way to use the [media manager](../../media-manager.md) as a powerful formfield for your BREADs.
+
+## Picking files
+
+There are two ways to pick files.  
+1. Double click the file you want to pick
+2. Select multiple files and hit the button "Select X files"
+
+{% hint style="info" %}
+Files that are already picked will be removed when picking them again
+{% endhint %}
+
+## Options
+
+### Max
+
+Defines the maximum amount of files that can be picked.  
+0 means infinity.  
+When using 1 as the maximum, the currently picked file will automatically be replaced when picking another.
 
 ## Using media files in your model
 
