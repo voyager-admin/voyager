@@ -263,7 +263,11 @@ export default {
             var vm = this;
             if (asArray && vm.isArray(result[formfield.column.column])) {
                 return result[formfield.column.column].slice(0, 3).map(function (r) {
-                    return vm.translate((r || ''), !formfield.translatable);
+                    if (formfield.translatable) {
+                        return vm.translate((r || ''), !formfield.translatable);
+                    }
+
+                    return r;
                 });
             }
 

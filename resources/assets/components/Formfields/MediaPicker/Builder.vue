@@ -20,7 +20,8 @@
             />
         </div>
         <div v-if="show == 'list-options'">
-            
+            <label class="label mt-4">{{ __('voyager::formfields.media_picker.show_icons') }}</label>
+            <input type="checkbox" class="input" v-model.number="options.icons">
         </div>
         <div v-else-if="show == 'view'">
             <media-manager

@@ -39,29 +39,23 @@
             <div>
                 <div class="w-full mb-2" v-if="showToolbar">
                     <div class="inline-block">
-                        <button class="button green" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload">
+                        <button class="button green small icon-only" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload">
                             <icon icon="upload"></icon>
-                            {{ __('voyager::media.upload') }}
                         </button>
-                        <button class="button accent" @click="selectFilesToUpload()">
+                        <button class="button accent small icon-only" @click="selectFilesToUpload()">
                             <icon icon="check-circle"></icon>
-                            {{ __('voyager::media.select_upload_files') }}
                         </button>
-                        <button class="button accent" @click="loadFiles()">
+                        <button class="button accent small icon-only" @click="loadFiles()">
                             <icon icon="refresh"></icon>
-                            {{ __('voyager::generic.reload') }}
                         </button>
-                        <button class="button accent" @click="createFolder()">
+                        <button class="button accent small icon-only" @click="createFolder()">
                             <icon icon="folder-add"></icon>
-                            {{ __('voyager::media.create_folder') }}
                         </button>
-                        <button class="button red" @click="deleteSelected()" v-if="selectedFiles.length > 0">
+                        <button class="button red small icon-only" @click="deleteSelected()" v-if="selectedFiles.length > 0">
                             <icon icon="trash"></icon>
-                            {{ trans_choice('voyager::media.delete_files', selectedFiles.length) }}
                         </button>
-                        <button class="button green" v-show="pickFiles && selectedFiles.length > 0" @click="pickSelectedFiles()">
+                        <button class="button green small icon-only" v-show="pickFiles && selectedFiles.length > 0" @click="pickSelectedFiles()">
                             <icon icon="check-circle"></icon>
-                            {{ trans_choice('voyager::media.select_files', selectedFiles.length) }}
                         </button>
                     </div>
                 </div>
@@ -554,7 +548,7 @@ export default {
                         new vm.$notification(vm.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
                     })
                     .catch(function (errors) {
-                        //
+                        // TODO: ...
                     })
                     .then(function () {
                         vm.loadFiles();
