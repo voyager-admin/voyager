@@ -2,25 +2,23 @@
     <div>
         <slot v-if="show == 'query'"></slot>
         <div v-else>
-            <div class="inline-flex items-center space-x-1 space-y-1" v-if="options.icons">
-                <div v-for="(file, i) in items.slice(0, 3)" :key="i">
+            <div class="flex items-center space-x-1" v-if="options.icons">
+                <div v-for="(file, i) in items.slice(0, displayItems)" :key="i" class="flex-1">
                     <div v-tooltip="file.relative_path + file.name">
-                        <img :src="file.url" class="rounded object-contain h-16 max-w-full" v-if="mimeMatch(file.type, 'image/*')" />
-                        <div v-else class="h-16">
-                            <icon icon="document" size="16"></icon>
-                        </div>
+                        <img :src="file.url" class="rounded-lg object-contain h-16 max-w-full" v-if="mimeMatch(file.type, 'image/*')" />
+                        <icon v-else icon="document" size="16"></icon>
                     </div>
                 </div>
-                <span v-if="items.length > 3" class="italic text-sm">
-                    {{ __('voyager::generic.more_results', { num: items.length - 3 }) }}
+                <span v-if="items.length > displayItems" class="italic text-sm">
+                    {{ __('voyager::generic.more_results', { num: items.length - displayItems }) }}
                 </span>
             </div>
             <div v-else>
-                <span v-for="(file, i) in items.slice(0, 3)" :key="i" v-tooltip="file.relative_path + file.name">
+                <span v-for="(file, i) in items.slice(0, displayItems)" :key="i" v-tooltip="file.relative_path + file.name">
                     {{ file.name }}<br>
                 </span>
-                <span v-if="items.length > 3" class="italic text-sm">
-                    {{ __('voyager::generic.more_results', { num: items.length - 3 }) }}
+                <span v-if="items.length > displayItems" class="italic text-sm">
+                    {{ __('voyager::generic.more_results', { num: items.length - displayItems }) }}
                 </span>
             </div>
         </div>
@@ -37,6 +35,9 @@ export default {
             }
 
             return [];
+        },
+        displayItems: function () {
+            return this.options.display || 3;
         }
     },
 };

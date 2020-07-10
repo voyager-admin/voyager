@@ -22,6 +22,9 @@
         <div v-if="show == 'list-options'">
             <label class="label mt-4">{{ __('voyager::formfields.media_picker.show_icons') }}</label>
             <input type="checkbox" class="input" v-model.number="options.icons">
+
+            <label class="label mt-4">{{ __('voyager::generic.max') }}</label>
+            <input type="number" min="0" max="50" class="input w-full" v-model.number="options.display">
         </div>
         <div v-else-if="show == 'view'">
             <media-manager
