@@ -9,11 +9,13 @@ return [
         'route_name'    => 'Route name',
     ],
     'media_picker'  => [
+        'display_items'         => 'Display items',
         'name'                  => 'Media Picker',
         'max_warning'           => 'You can\'t select more than :num file!|You can\'t select more than :num files!',
         'meta_fields'           => 'Meta fields',
         'mime_types'            => 'Mime types',
         'show_icons'            => 'Show icons',
+        'shuffle_items'         => 'Shuffle items',
     ],
     'number'        => [
         'name'                  => 'Number',

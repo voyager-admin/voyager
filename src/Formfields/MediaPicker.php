@@ -21,6 +21,7 @@ class MediaPicker extends Formfield
         return [
             'display'   => 3,
             'icons'     => true,
+            'shuffle'   => true,
         ];
     }
 
