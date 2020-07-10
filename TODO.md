@@ -7,6 +7,7 @@ Instead, they are listed here:
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
+- Browse BREAD should pass values as whole array when intended, otherwise display maximum 3
 
 ## Formfields
 - **Relationship** not yet (fully) working

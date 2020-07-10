@@ -262,7 +262,7 @@ export default {
         getData: function (result, formfield, asArray = false) {
             var vm = this;
             if (asArray && vm.isArray(result[formfield.column.column])) {
-                return result[formfield.column.column].slice(0, 3).map(function (r) {
+                return result[formfield.column.column].map(function (r) {
                     if (formfield.translatable) {
                         return vm.translate((r || ''), !formfield.translatable);
                     }
