@@ -3,7 +3,7 @@
         <slot v-if="show == 'query'"></slot>
         <div v-else>
             <div class="inline-flex items-center space-x-1 space-y-1" v-if="options.icons">
-                <div v-for="(file, i) in value.slice(0, 3)" :key="i">
+                <div v-for="(file, i) in items.slice(0, 3)" :key="i">
                     <div v-tooltip="file.relative_path + file.name">
                         <img :src="file.url" class="rounded object-contain h-16 max-w-full" v-if="mimeMatch(file.type, 'image/*')" />
                         <div v-else class="h-16">
@@ -11,16 +11,16 @@
                         </div>
                     </div>
                 </div>
-                <span v-if="value.length > 3" class="italic text-sm">
-                    {{ __('voyager::generic.more_results', { num: value.length - 3 }) }}
+                <span v-if="items.length > 3" class="italic text-sm">
+                    {{ __('voyager::generic.more_results', { num: items.length - 3 }) }}
                 </span>
             </div>
             <div v-else>
-                <span v-for="(file, i) in value.slice(0, 3)" :key="i" v-tooltip="file.relative_path + file.name">
+                <span v-for="(file, i) in items.slice(0, 3)" :key="i" v-tooltip="file.relative_path + file.name">
                     {{ file.name }}<br>
                 </span>
-                <span v-if="value.length > 3" class="italic text-sm">
-                    {{ __('voyager::generic.more_results', { num: value.length - 3 }) }}
+                <span v-if="items.length > 3" class="italic text-sm">
+                    {{ __('voyager::generic.more_results', { num: items.length - 3 }) }}
                 </span>
             </div>
         </div>
@@ -30,10 +30,14 @@
 <script>
 export default {
     props: ['show', 'options', 'value', 'translatable'],
-    data: function () {
-        return {
-            
-        };
+    computed: {
+        items: function () {
+            if (this.isArray(this.value)) {
+                return this.value;
+            }
+
+            return [];
+        }
     },
 };
 </script>

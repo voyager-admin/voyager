@@ -104,15 +104,22 @@
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
-                                        v-if="!isArray(result[formfield.column.column]) || $store.getFormfieldByType(formfield.type).browseArray"
+                                        v-if="$store.getFormfieldByType(formfield.type).browseArray"
                                         :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         :translatable="formfield.translatable"
-                                        :value="getData(result, formfield, $store.getFormfieldByType(formfield.type).browseArray)">
+                                        :value="getData(result, formfield, true)">
+                                    </component>
+                                    <component
+                                        v-if="!isArray(result[formfield.column.column])"
+                                        :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
+                                        :options="formfield.options"
+                                        :translatable="formfield.translatable"
+                                        :value="getData(result, formfield, false)">
                                     </component>
                                     <div v-else>
                                         <component
-                                            v-for="(val, i) in getData(result, formfield, true)"
+                                            v-for="(val, i) in getData(result, formfield, false)"
                                             :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
                                             :options="formfield.options"
                                             :translatable="formfield.translatable"
@@ -120,6 +127,7 @@
                                             :value="val">
                                         </component>
                                     </div>
+                                    <!-- When browseArray pass whole array, else if isArray pass sliced -->
                                 </td>
                                 <td class="flex justify-end" v-if="!fromRelationship">
                                     <div class="button-group flex-no-wrap">
@@ -261,8 +269,12 @@ export default {
         },
         getData: function (result, formfield, asArray = false) {
             var vm = this;
-            if (asArray && vm.isArray(result[formfield.column.column])) {
-                return result[formfield.column.column].map(function (r) {
+            var results = result[formfield.column.column];
+            if (vm.isArray(results)) {
+                if (!asArray) {
+                    results = results.slice(0, 3);
+                }
+                return results.map(function (r) {
                     if (formfield.translatable) {
                         return vm.translate((r || ''), !formfield.translatable);
                     }
@@ -271,7 +283,7 @@ export default {
                 });
             }
 
-            return vm.translate((result[formfield.column.column] || ''), !formfield.translatable);
+            return vm.translate((results || ''), !formfield.translatable);
         },
         orderBy: function (column) {
             if (this.parameters.order == column) {
