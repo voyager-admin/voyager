@@ -39,22 +39,22 @@
             <div>
                 <div class="w-full mb-2" v-if="showToolbar">
                     <div class="inline-block">
-                        <button class="button green small icon-only" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload">
+                        <button class="button green small icon-only" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload" v-tooltip="__('voyager::media.upload')">
                             <icon icon="upload"></icon>
                         </button>
-                        <button class="button accent small icon-only" @click="selectFilesToUpload()">
+                        <button class="button accent small icon-only" @click="selectFilesToUpload()" v-tooltip="__('voyager::media.select_upload_files')">
                             <icon icon="check-circle"></icon>
                         </button>
-                        <button class="button accent small icon-only" @click="loadFiles()">
+                        <button class="button accent small icon-only" @click="loadFiles()" v-tooltip="__('voyager::generic.reload')">
                             <icon icon="refresh"></icon>
                         </button>
-                        <button class="button accent small icon-only" @click="createFolder()">
+                        <button class="button accent small icon-only" @click="createFolder()" v-tooltip="__('voyager::media.create_folder')">
                             <icon icon="folder-add"></icon>
                         </button>
-                        <button class="button red small icon-only" @click="deleteSelected()" v-if="selectedFiles.length > 0">
+                        <button class="button red small icon-only" @click="deleteSelected()" v-if="selectedFiles.length > 0" v-tooltip="trans_choice('voyager::media.delete_files', selectedFiles.length)">
                             <icon icon="trash"></icon>
                         </button>
-                        <button class="button green small icon-only" v-show="pickFiles && selectedFiles.length > 0" @click="pickSelectedFiles()">
+                        <button class="button green small icon-only" v-show="pickFiles && selectedFiles.length > 0" @click="pickSelectedFiles()" v-tooltip="trans_choice('voyager::media.select_files', selectedFiles.length)">
                             <icon icon="check-circle"></icon>
                         </button>
                     </div>

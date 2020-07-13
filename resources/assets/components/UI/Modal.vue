@@ -68,7 +68,7 @@ export default {
     @apply fixed w-full top-0 left-0 h-full z-40 text-white text-left overflow-y-hidden;
 
     .body {
-        @apply z-50 rounded-lg absolute overflow-y-auto max-h-3/4;
+        @apply z-50 rounded-lg overflow-y-auto max-h-3/4;
     }
 }
 </style>
