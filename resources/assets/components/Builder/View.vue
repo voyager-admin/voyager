@@ -13,16 +13,16 @@
             :class="formfield.options.width">
             <card :title="translate(formfield.options.title) || ''" :border="formfield.options.border || 'default'" :title-size="5">
                 <div slot="actions">
-                    <button class="button small blue icon-only">
+                    <button class="button small blue">
                         <icon icon="arrows-expand" v-sort-handle class="cursor-move" />
                     </button>
-                    <button class="button small blue icon-only" @mousedown="startResize(key)">
+                    <button class="button small blue" @mousedown="startResize(key)">
                         <icon icon="switch-horizontal" class="cursor-move" />
                     </button>
-                    <button class="button small blue icon-only" @click="$emit('open-options', key)">
+                    <button class="button small blue" @click="$emit('open-options', key)">
                         <icon icon="cog" />
                     </button>
-                    <button class="button small red icon-only" @click="$emit('delete', key)">
+                    <button class="button small red" @click="$emit('delete', key)">
                         <icon icon="trash" />
                     </button>
                     <slide-in :opened="optionsId == key" v-on:closed="$emit('open-options', null)" width="w-1/3" class="text-left" :title="__('voyager::generic.options')">

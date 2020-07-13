@@ -5,7 +5,7 @@
                 <h5>{{ __(titleText) }}</h5>
             </div>
             <div class="w-2/6 text-right">
-                <button class="button green small icon-only" @click.stop="addOption">
+                <button class="button green small" @click.stop="addOption">
                     <icon icon="plus" />
                 </button>
             </div>
@@ -33,7 +33,7 @@
                                 v-on:input="option.value = $event" />
                         </td>
                         <td>
-                            <button class="button red small icon-only" @click.stop="removeOption(i)">
+                            <button class="button red small" @click.stop="removeOption(i)">
                                 <icon icon="trash" />
                             </button>
                         </td>

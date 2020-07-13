@@ -48,7 +48,7 @@
                     <div slot="opener" class="">
                         <button class="button green">
                             <icon icon="search"></icon>
-                            {{ __('voyager::plugins.search_plugins') }}
+                            <span>{{ __('voyager::plugins.search_plugins') }}</span>
                         </button>
                     </div>
                 </modal>
@@ -105,27 +105,27 @@
                                 </a>
                                 <button v-if="!plugin.enabled" class="button green small" @click="enablePlugin(plugin, true)">
                                     <icon icon="play"></icon>
-                                    {{ __('voyager::generic.enable') }}
+                                    <span>{{ __('voyager::generic.enable') }}</span>
                                 </button>
                                 <button v-else class="button red small" @click="enablePlugin(plugin, false)">
                                     <icon icon="stop"></icon>
-                                    {{ __('voyager::generic.disable') }}
+                                    <span>{{ __('voyager::generic.disable') }}</span>
                                 </button>
                                 <a v-if="plugin.has_settings && plugin.enabled" :href="route('voyager.plugins.settings', plugin.num)" class="button blue small">
                                     <icon icon="cog"></icon>
-                                    {{ __('voyager::generic.settings') }}
+                                    <span>{{ __('voyager::generic.settings') }}</span>
                                 </a>
 
                                 <button v-if="plugin.instructions" class="button blue small" @click="$refs['instructions-modal-'+i][0].open()">
                                     <icon icon="information-circle"></icon>
-                                    {{ __('voyager::generic.instructions') }}
+                                    <span>{{ __('voyager::generic.instructions') }}</span>
                                 </button>
                                 <modal v-if="plugin.instructions" :ref="'instructions-modal-'+i" :title="__('voyager::generic.instructions')">
                                     <div v-html="plugin.instructions"></div>
                                 </modal>
                                 <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button purple small" @click="previewTheme(plugin.src, plugin.name)">
                                     <icon icon="eye"></icon>
-                                    {{ __('voyager::generic.preview') }}
+                                    <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>
                             </td>
                         </tr>

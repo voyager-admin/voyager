@@ -38,7 +38,7 @@
             </slot>
 
             <div class="flex items-center justify-between mt-4">
-                <button dusk="login-button" class="button large accent w-full justify-center" type="submit">
+                <button class="button large accent w-full justify-center" type="submit">
                     {{ __('voyager::auth.login') }}
                 </button>
                 

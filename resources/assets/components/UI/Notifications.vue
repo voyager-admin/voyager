@@ -34,7 +34,7 @@
                             <div class="mt-4 flex" v-if="notification._buttons && notification._buttons.length >= 1">
                                 <span class="inline-flex" v-for="(button, key) in notification._buttons" :key="'button-'+key">
                                     <button type="button" class="button" :class="button.color" @click="clickButton(notification, button)">
-                                        {{ button.value.startsWith('voyager::') ? __(button.value) : button.value }}
+                                        <span>{{ button.value.startsWith('voyager::') ? __(button.value) : button.value }}</span>
                                     </button>
                                 </span>
                             </div>

@@ -4,12 +4,12 @@
             <div slot="actions">
                 <div class="flex items-center">
                     <button class="button blue" @click.stop="toggleFocusMode">
-                        <icon icon="arrows-expand" class="focus" :size="4" />
-                        {{ __('voyager::generic.focus') }}
+                        <icon icon="arrows-expand" :size="4" />
+                        <span>{{ __('voyager::generic.focus') }}</span>
                     </button>
                     <button class="button green" @click="loadProperties">
                         <icon icon="refresh" class="rotating-ccw" :size="4" v-if="loadingProps" />
-                        {{ __('voyager::builder.reload_properties') }}
+                        <span>{{ __('voyager::builder.reload_properties') }}</span>
                     </button>
                     <locale-picker :small="false" class="ltr:ml-2 rtl:mr-2" />
                 </div>
@@ -57,7 +57,7 @@
                         <modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
                             <icon-picker v-on:select="$refs.icon_modal.close(); bread.icon = $event" />
                             <div slot="opener" class="w-full">
-                                <button class="button green icon-only">
+                                <button class="button green">
                                     <icon class="cursor-pointer text-white my-1 content-center" :size="6" :icon="bread.icon" />
                                 </button>
                             </div>
@@ -102,14 +102,14 @@
                 </div>
             </div>
 
-            <div slot="footer">
+            <div slot="footer" class="inline-flex">
                 <button class="button blue" @click="saveBread">
-                    <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingBread" />
-                    {{ __('voyager::generic.save') }}
+                    <icon icon="refresh" class="rotating-ccw" :size="4" v-if="savingBread" />
+                    <span>{{ __('voyager::generic.save') }}</span>
                 </button>
                 <button class="button green" @click="backupBread">
-                    <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="backingUp" />
-                    {{ __('voyager::generic.backup') }}
+                    <icon icon="refresh" class="rotating-ccw" :size="4" v-if="backingUp" />
+                    <span>{{ __('voyager::generic.backup') }}</span>
                 </button>
             </div>
         </collapsible>

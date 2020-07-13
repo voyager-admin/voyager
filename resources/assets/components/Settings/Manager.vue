@@ -5,7 +5,7 @@
                 <div class="flex items-center">
                     <button class="button accent" @click="saveSettings">
                         <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingSettings" />
-                        {{ __('voyager::generic.save') }}
+                        <span>{{ __('voyager::generic.save') }}</span>
                     </button>
                     <dropdown ref="formfield_dd">
                         <div>
@@ -57,16 +57,16 @@
                                 </div>
                                 <div slot="actions" v-if="editMode">
                                     <div class="flex items-center">
-                                        <button class="button green icon-only" v-sort-handle>
+                                        <button class="button green" v-sort-handle>
                                             <icon icon="selector" :size="4"></icon>
                                         </button>
                                         <button class="button blue" @click="optionsId = i">
                                             <icon icon="cog" :size="4"></icon>
-                                            {{ __('voyager::generic.options') }}
+                                            <span>{{ __('voyager::generic.options') }}</span>
                                         </button>
                                         <button class="button red" @click="deleteSetting(setting)">
                                             <icon icon="trash" :size="4"></icon>
-                                            {{ __('voyager::generic.delete') }}
+                                            <span>{{ __('voyager::generic.delete') }}</span>
                                         </button>
                                         <slide-in :opened="optionsId == i" v-on:closed="optionsId = null" width="w-1/3" class="text-left" :title="__('voyager::generic.options')">
                                             <locale-picker v-if="$language.localePicker" slot="actions" />

@@ -5,7 +5,7 @@
                 <h5>{{ __('voyager::generic.validation') }}</h5>
             </div>
             <div class="w-2/6 text-right">
-                <button class="button green small icon-only" @click.stop="addRule">
+                <button class="button green small" @click.stop="addRule">
                     <icon icon="plus" />
                 </button>
             </div>
@@ -32,7 +32,7 @@
                                 v-on:input="rule.message = $event" />
                         </td>
                         <td>
-                            <button class="button red small icon-only" @click.stop="removeRule(key)">
+                            <button class="button red small" @click.stop="removeRule(key)">
                                 <icon icon="trash" />
                             </button>
                         </td>

@@ -3,7 +3,7 @@
         <div slot="actions">
             <button class="button green" @click.stop="loadBreads">
                 <icon icon="refresh" class="rotating-ccw" :size="4" v-if="loading" />
-                {{ __('voyager::builder.reload_breads') }}
+                <span>{{ __('voyager::builder.reload_breads') }}</span>
             </button>
         </div>
         <div class="voyager-table striped" :class="[loading ? 'loading' : '']">

@@ -29,6 +29,10 @@
         @apply outline-none;
     }
 
+    > :not(template) + :not(template) {
+        @apply ml-1;
+    }
+
     &:disabled {
         @apply opacity-75 cursor-not-allowed;
     }
@@ -92,20 +96,6 @@
 
     &.large {
         @apply px-4 py-2 text-sm leading-5;
-    }
-
-    i {
-        @apply mr-0;
-
-        @media(min-width: theme('screens.md')) {
-            @apply mr-2;
-        }
-    }
-
-    &.icon-only {
-        i {
-            @apply mr-0 #{!important};
-        }
     }
 
     span {

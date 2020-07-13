@@ -4,7 +4,7 @@
             <button
                 v-for="(color, key) in $store.ui.colors" :key="'color-'+key"
                 @click="$emit('input', color); current = color"
-                class="button mb-2 icon-only" :class="[color]">
+                class="button mb-2" :class="[color]">
                 <icon :icon="current == color ? 'check-circle' : 'dots-circle-horizontal'"></icon>
             </button>
         </div>
@@ -14,7 +14,7 @@
                     <button
                         v-for="(color, key) in $store.ui.colors" :key="'color-'+key"
                         @click="$emit('input', color+'-'+shade); current = color+'-'+shade"
-                        class="button mb-2 icon-only" :class="`bg-${color}-${shade}`">
+                        class="button mb-2" :class="`bg-${color}-${shade}`">
                         <icon :icon="current == color+'-'+shade ? 'check-circle' : 'dots-circle-horizontal'"></icon>
                     </button>
                 </div>

@@ -13,27 +13,27 @@
                     <option value="hide">{{ __('voyager::bread.soft_delete_hide') }}</option>
                     <option value="only">{{ __('voyager::bread.soft_delete_only') }}</option>
                 </select>
-                <button class="button accent m-0 ml-2" @click.stop="load">
+                <button class="button accent" @click.stop="load">
                     <icon icon="refresh" :class="[loading ? 'rotating-ccw' : '']"></icon>
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
-                <button class="button red m-0 ml-2" v-if="deletableEntries > 0" @click.prevent="deleteEntries(selected)">
+                <button class="button red" v-if="deletableEntries > 0" @click.prevent="deleteEntries(selected)">
                     <icon icon="trash"></icon>
                     <span>{{ trans_choice('voyager::bread.delete_type', deletableEntries, { types: translate(bread.name_plural, true), type: translate(bread.name_singular, true)}) }}</span>
                 </button>
-                <button class="button red m-0 ml-2" v-if="restorableEntries > 0" @click.prevent="deleteEntries(selected, true)">
+                <button class="button red" v-if="restorableEntries > 0" @click.prevent="deleteEntries(selected, true)">
                     <icon icon="trash"></icon>
                     <span>{{ trans_choice('voyager::bread.force_delete_type', restorableEntries, { types: translate(bread.name_plural, true), type: translate(bread.name_singular, true) }) }}</span>
                 </button>
-                <button class="button green m-0 ml-2" v-if="restorableEntries > 0" @click.prevent="restoreEntries(selected)">
+                <button class="button green" v-if="restorableEntries > 0" @click.prevent="restoreEntries(selected)">
                     <icon icon="history"></icon>
                     <span>{{ trans_choice('voyager::bread.restore_type', restorableEntries, { types: translate(bread.name_plural, true), type: translate(bread.name_singular, true) }) }}</span>
                 </button>
-                <a class="button green m-0 ml-2" :href="route('voyager.'+translate(bread.slug, true)+'.add')">
+                <a class="button green" :href="route('voyager.'+translate(bread.slug, true)+'.add')">
                     <icon icon="plus"></icon>
                     <span>{{ __('voyager::generic.add') }}</span>
                 </a>
-                <locale-picker class="m-0 ml-2" :small="false" v-if="$language.localePicker" />
+                <locale-picker :small="false" v-if="$language.localePicker" />
             </div>
         </div>
         <div>

@@ -27,7 +27,7 @@
                 </nav>
             </div>
             <div class="flex-shrink-0 flex border-t sidebar-border p-4">
-                <button class="button accent icon-only" @click="$store.toggleDarkMode()">
+                <button class="button accent" @click="$store.toggleDarkMode()">
                     <icon :icon="$store.darkmode ? 'sun' : 'moon'"></icon>
                 </button>
                 <img src="{{ Voyager::assetUrl('images/default-avatar.png') }}" class="rounded-full m-4 w-8" alt="User Avatar">
@@ -55,13 +55,13 @@
             </nav>
         </div>
         <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
-            <button class="button accent small icon-only" @click="$store.toggleDarkMode()">
+            <button class="button accent small" @click="$store.toggleDarkMode()">
                 <icon :icon="$store.darkmode ? 'sun' : 'moon'" />
             </button>
-            <button class="button accent small icon-only" v-scroll-to="''">
+            <button class="button accent small" v-scroll-to="''">
                 <icon icon="arrow-up" />
             </button>
-            <button class="button accent small icon-only" @click="$store.toggleDirection()">
+            <button class="button accent small" @click="$store.toggleDirection()">
                 <icon icon="switch-horizontal" />
             </button>
         </div>
