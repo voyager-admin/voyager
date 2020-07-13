@@ -118,6 +118,9 @@
     <collapsible title="Colors" :opened="false" :title-size="5">
         <input v-for="color in $store.ui.colors" type="text" class="input w-full mb-2" :class="color" :placeholder="ucfirst(color)" :key="'input-'+color">
     </collapsible>
+    <collapsible title="Plus/Minus" :opened="false" :title-size="5">
+        <plus-minus-input :value="1.5" :step="0.5" :max="10" />
+    </collapsible>
 </collapsible>
 
 <collapsible title="Date/Time picker" id="ui-datetime">
