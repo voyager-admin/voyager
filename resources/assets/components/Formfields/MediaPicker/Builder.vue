@@ -2,7 +2,7 @@
     <div>
         <div v-if="show == 'view-options'">
             <label class="label mt-4">{{ __('voyager::generic.max') }}</label>
-            <input type="number" min="0" max="100000" class="input w-full" v-model.number="options.max">
+            <plus-minus-input class="input w-full" v-model.number="options.max" />
 
             <key-value-form
                 class="mt-2"
@@ -24,7 +24,7 @@
             <input type="checkbox" class="input" v-model.number="options.icons">
 
             <label class="label mt-4">{{ __('voyager::formfields.media_picker.display_items') }}</label>
-            <input type="number" min="0" max="50" class="input w-full" v-model.number="options.display">
+            <plus-minus-input :max="50" class="input w-full" v-model.number="options.display" />
 
             <label class="label mt-4">{{ __('voyager::formfields.media_picker.shuffle_items') }}</label>
             <input type="checkbox" class="input" v-model.number="options.shuffle">

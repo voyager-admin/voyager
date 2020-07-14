@@ -2,9 +2,9 @@
     <div>
         <div v-if="show == 'list-options'">
             <label class="label mt-4">{{ __('voyager::formfields.number.decimals') }}</label>
-            <input
+            <plus-minus-input
                 class="input w-full"
-                type="number" :placeholder="__('voyager::formfields.number.decimals')"
+                :placeholder="__('voyager::formfields.number.decimals')"
                 v-model.number="options.decimals" />
 
             <label class="label mt-4">{{ __('voyager::formfields.number.decimal_separator') }}</label>
@@ -28,21 +28,21 @@
                 v-on:input="options.placeholder = $event" /> 
 
             <label class="label mt-4">{{ __('voyager::generic.minimum') }}</label>
-            <input
+            <plus-minus-input
                 class="input w-full"
-                type="number" :placeholder="__('voyager::generic.minimum')"
+                :placeholder="__('voyager::generic.minimum')"
                 v-model.number="options.min" />
 
             <label class="label mt-4">{{ __('voyager::generic.maximum') }}</label>
-            <input
+            <plus-minus-input
                 class="input w-full"
-                type="number" :placeholder="__('voyager::generic.maximum')"
+                :placeholder="__('voyager::generic.maximum')"
                 v-model.number="options.max" />
 
             <label class="label mt-4">{{ __('voyager::generic.step') }}</label>
-            <input
+            <plus-minus-input
                 class="input w-full"
-                type="number" :placeholder="__('voyager::generic.placeholder')"
+                :placeholder="__('voyager::generic.placeholder')"
                 v-model.number="options.step" />
         </div>
         <div v-else-if="show == 'view'">
