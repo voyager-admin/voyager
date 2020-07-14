@@ -11,7 +11,7 @@
             axis="xy"
             class="m-0"
             :class="formfield.options.width">
-            <card :title="translate(formfield.options.title) || ''" :border="formfield.options.border || 'default'" :title-size="5">
+            <card :title="translate(formfield.options.title) || ''" :title-size="5">
                 <div slot="actions">
                     <button class="button small blue">
                         <icon icon="arrows-expand" v-sort-handle class="cursor-move" />
@@ -80,22 +80,6 @@
                             v-bind:relationships="relationships"
                             show="view-options" />
                         <bread-builder-validation v-model="formfield.validation" />
-
-                        <dropdown :ref="'border-'+_uid" pos="right" :width="null">
-                            <div class="m-4">
-                                <color-picker
-                                    v-on:input="$refs['border-'+_uid][0].close(); formfield.options.border = $event"
-                                    v-bind:value="formfield.options.border"
-                                    palette="tailwind-shades"
-                                    :describe="false">
-                                </color-picker>
-                            </div>
-                            <div slot="opener">
-                                <button :class="`bg-${formfield.options.border}`" class="button">
-                                    {{ __('voyager::builder.border_color') + ': ' + ucfirst(formfield.options.border || 'none') }}
-                                </button>
-                            </div>
-                        </dropdown>
                     </slide-in>
                 </div>
 

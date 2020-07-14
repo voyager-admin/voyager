@@ -15,8 +15,7 @@
                             <card
                                 :title="translate(formfield.options.title, true)"
                                 :title-size="5"
-                                :show-title="translate(formfield.options.label, true) !== ''"
-                                :border="formfield.options.border || 'default'">
+                                :show-title="translate(formfield.options.label, true) !== ''">
                                 <div>
                                     <alert v-if="getErrors(formfield.column).length > 0" color="red" :closebutton="false">
                                         <ul class="list-disc ml-4">
