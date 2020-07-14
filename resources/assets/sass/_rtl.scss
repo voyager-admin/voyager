@@ -19,7 +19,10 @@
 
     // BUTTONS
     .button {
-        // TODO: Icon should have margin-left instead of right
+        > :not(template) + :not(template) {
+            @apply ml-0 #{!important};
+            @apply mr-1;
+        }
     }
 
     // SELECT

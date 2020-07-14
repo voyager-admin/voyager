@@ -304,7 +304,12 @@ export default {
             var failed = vm.validateLayouts();
 
             if (failed) {
-                new vm.$notification(this.__('voyager::builder.layout_field_warning')).confirm().color('red').timeout().show().then(function (response) {
+                new vm.$notification(vm.nl2br(vm.__('voyager::builder.layout_field_warning')))
+                        .confirm()
+                        .color('red')
+                        .timeout()
+                        .show()
+                        .then(function (response) {
                     if (response) {
                         vm.storeBread();
                     }

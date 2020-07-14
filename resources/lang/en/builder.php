@@ -29,7 +29,7 @@ return [
     'global_search_display_field'       => 'Global search field',
     'global_search_display_field_hint'  => 'This field will be shown in the global search',
     'json_output'                       => 'JSON Output',
-    'layout_field_warning'              => 'There are formfields without fields assigned. This might lead to unexpected behaviour! Do you want to save anyway?',
+    'layout_field_warning'              => 'There are formfields without fields assigned.\nThis might lead to unexpected behaviour!\n\nDo you want to save anyway?',
     'layout_mapping'                    => 'Layout mapping',
     'list'                              => 'List',
     'model'                             => 'Model',
