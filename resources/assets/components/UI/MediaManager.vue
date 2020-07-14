@@ -156,8 +156,8 @@
                                         type="text"
                                         class="input small w-full mt-1 select-none"
                                         v-if="selectedFiles[0].file.type !== 'directory'"
-                                        :value="selectedFiles[0].file.url"
-                                        @dblclick="copyPath(selectedFiles[0].file.url)">
+                                        :value="encodeURI(selectedFiles[0].file.url)"
+                                        @dblclick="copyPath(encodeURI(selectedFiles[0].file.url))">
                                 </div>
                                 <div v-else>
                                     <p>{{ __('voyager::media.files_selected', { num: selectedFiles.length }) }}</p>
@@ -194,7 +194,7 @@ export default {
         },
         'instantUpload': {
             type: Boolean,
-            default: true,
+            default: false,
         },
         'multiple': {
             type: Boolean,
@@ -345,61 +345,64 @@ export default {
         },
         upload: function () {
             var vm = this;
-            vm.filesToUpload.forEach(function (file) {
-                vm.uploading++;
-                if (file.status == Status.Uploading || file.status == Status.Finished) {
-                    return;
-                }
-                let formData = new FormData();
-                formData.append('file', file.file);
-                formData.append('path', vm.path);
-                axios.post(vm.uploadUrl, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    onUploadProgress: function(e) {
-                        file.status = Status.Uploading;
-                        file.progress = Math.round((e.loaded * 100) / e.total);
-                    }
-                })
-                .then(function (response) {
-                    file.status = Status.Finished;
-                    file.progress = 100;
 
-                    if (response.data.exists === true) {
-                        new vm.$notification(vm.__('voyager::media.file_exists', { file: file.file.name })).color('red').timeout().show();
-                        file.status = Status.Failed;
-                    } else {
-                        if (response.data.success === false) {
-                            new vm.$notification(vm.__('voyager::media.file_upload_failed', { file: file.file.name })).color('red').timeout().show();
-                            file.status = Status.Failed;
-                        }
-                    }
-                })
-                .catch(function (response) {
+            var file = vm.filesToUpload.whereNot('status', Status.Finished)[0];
+
+            if (file === undefined) {
+                vm.loadFiles();
+                vm.filesToUpload = vm.filesToUpload.whereNot('status', Status.Finished);
+                return;
+            }
+
+            vm.uploadFile(file)
+            .then(function (response) {
+                file.status = Status.Finished;
+                file.progress = 100;
+
+                if (response.data.exists === true) {
+                    new vm.$notification(vm.__('voyager::media.file_exists', { file: file.file.name })).color('red').timeout().show();
                     file.status = Status.Failed;
-                    file.progress = 0;
+                } else {
+                    if (response.data.success === false) {
+                        new vm.$notification(vm.__('voyager::media.file_upload_failed', { file: file.file.name })).color('red').timeout().show();
+                        file.status = Status.Failed;
+                    }
+                }
+            })
+            .catch(function (response) {
+                file.status = Status.Failed;
+                file.progress = 0;
 
-                    if (response.response.status == 413) {
-                        new vm
-                        .$notification(vm.__('voyager::generic.upload_too_large', { file: file.file.name, size: vm.readableFileSize(file.file.size) }))
-                        .color('red')
-                        .timeout()
-                        .show();
-                    } else {
-                        new vm
-                        .$notification(vm.__('voyager::generic.upload_failed', { file: file.file.name }) + '<br>' + response.response.statusText)
-                        .color('red')
-                        .timeout()
-                        .show();
-                    }
-                }).then(function () {
-                    vm.uploading--;
-                    if (vm.uploading == 0) {
-                        vm.loadFiles();
-                        vm.filesToUpload = vm.filesToUpload.whereNot('status', Status.Finished);
-                    }
-                });
+                if (response.response.status == 413) {
+                    new vm
+                    .$notification(vm.__('voyager::generic.upload_too_large', { file: file.file.name, size: vm.readableFileSize(file.file.size) }))
+                    .color('red')
+                    .timeout()
+                    .show();
+                } else {
+                    new vm
+                    .$notification(vm.__('voyager::generic.upload_failed', { file: file.file.name }) + '<br>' + response.response.statusText)
+                    .color('red')
+                    .timeout()
+                    .show();
+                }
+            }).then(function () {
+                vm.upload();
+            });
+        },
+        uploadFile: function (file) {
+            var vm = this;
+            let formData = new FormData();
+            formData.append('file', file.file);
+            formData.append('path', vm.path);
+            return axios.post(vm.uploadUrl, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress: function(e) {
+                    file.status = Status.Uploading;
+                    file.progress = Math.round((e.loaded * 100) / e.total);
+                }
             });
         },
         selectFilesToUpload: function () {
@@ -546,6 +549,7 @@ export default {
                     })
                     .then(function (response) {
                         new vm.$notification(vm.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
+                        // TODO: Open newly created folder?
                     })
                     .catch(function (errors) {
                         // TODO: ...
