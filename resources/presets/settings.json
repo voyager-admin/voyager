@@ -98,5 +98,35 @@
             "border": "default"
         },
         "validation": []
+    },
+    {
+        "type": "select",
+        "group": "admin",
+        "key": "json-output",
+        "name": "JSON output",
+        "value": true,
+        "translatable": false,
+        "canBeTranslated": false,
+        "options": {
+            "multiple": false,
+            "options": [
+                {
+                    "key": "true",
+                    "value": {
+                        "en": "Show"
+                    }
+                },
+                {
+                    "key": "false",
+                    "value": {
+                        "en": "Hide"
+                    }
+                }
+            ],
+            "title": null,
+            "description": null,
+            "border": "default"
+        },
+        "validation": []
     }
 ]

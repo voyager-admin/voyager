@@ -7,6 +7,7 @@ export default {
                 breads: [],
                 csrf_token: document.head.querySelector('meta[name="csrf-token"]').content,
                 debug: false,
+                json_output: true,
                 darkmode: false,
                 rtl: false,
                 sidebarOpen: true,

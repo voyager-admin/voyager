@@ -63,6 +63,7 @@ var voyager = new Vue({
         this.$store.breads = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) !!};
         this.$store.formfields = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!};
         this.$store.debug = {{ var_export(config('app.debug') ?? false, true) }};
+        this.$store.json_output = {{ var_export(Voyager::setting('admin.json-output', true)) }};
     }
 });
 </script>
