@@ -525,7 +525,7 @@ export default {
             if (this.focusMode) {
                 this.$refs.bread_settings.close();
                 this.$refs.layout_mapping.close();
-                if (this.$store.debug) {
+                if (this.$store.json_output) {
                     this.$refs.bread_json.close();
                 }
                 this.$store.closeSidebar();
