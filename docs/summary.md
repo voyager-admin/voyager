@@ -17,6 +17,7 @@
 * [Formfields](bread/formfields/introduction.md)
   * [Media Picker](bread/formfields/media-picker.md)
   * [Number](bread/formfields/number.md)
+  * [Select](bread/formfields/select.md)
   * [Tags](bread/formfields/tags.md)
   * [Text](bread/formfields/text.md)
 * [Relationships](bread/relationships.md)

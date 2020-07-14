@@ -205,7 +205,7 @@ export default {
             if (setting.translatable || false && setting.value && this.isString(setting.value)) {
                 Vue.set(setting, 'value', this.get_translatable_object(setting.value));
             }
-            if (value) {
+            if (value !== null) {
                 if (setting.translatable || false) {
                     Vue.set(setting.value, this.$language.locale, value);
                 } else {

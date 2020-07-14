@@ -45,7 +45,15 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->registerBreadBuilderMenuItem($breads);
         $this->menumanager->addItems(
             (new MenuItem(__('voyager::generic.media'), 'photograph', true))->permission('browse', ['media'])->route('voyager.media'),
-            (new MenuItem(__('voyager::generic.ui_components'), 'template', true))->permission('browse', ['ui'])->route('voyager.ui'),
+        );
+
+        if ($this->settingmanager->setting('admin.ui-components', true)) {
+            $this->menumanager->addItems(
+                (new MenuItem(__('voyager::generic.ui_components'), 'template', true))->permission('browse', ['ui'])->route('voyager.ui'),
+            );
+        }
+
+        $this->menumanager->addItems(
             (new MenuItem(__('voyager::generic.settings'), 'cog', true))->permission('browse', ['settings'])->route('voyager.settings.index'),
             (new MenuItem(__('voyager::plugins.plugins'), 'puzzle', true))->permission('browse', ['plugins'])->route('voyager.plugins.index')
         );

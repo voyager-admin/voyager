@@ -4,7 +4,7 @@
             class="input w-full"
             :multiple="options.multiple || false"
             v-model="selected">
-            <option v-for="option in options.options" :value="option.key" :key="option.key">
+            <option v-for="option in options.options" :value="parsedKey(option.key)" :key="option.key">
                 {{ translate(option.value, true) }}
             </option>
         </select>
@@ -24,7 +24,7 @@ export default {
             this.parseInput();
         },
         selected: function (value) {
-            this.$emit('input', value);
+            this.$emit('input', this.parsedKey(value));
         }
     },
     methods: {
@@ -39,6 +39,15 @@ export default {
                 this.selected = this.value;
             }
         },
+        parsedKey: function (key) {
+            if (key == 'true') {
+                return true;
+            } else if (key == 'false') {
+                return false;
+            }
+
+            return key;
+        }
     },
     mounted: function () {
         this.parseInput();
