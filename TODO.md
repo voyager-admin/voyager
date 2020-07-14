@@ -17,7 +17,6 @@ Instead, they are listed here:
 - **Repeater**
 
 ## Nice to have
-- Validate layouts when saving a BREAD for formfields that don't have a field or double-assigned fields **This is actually important**
 - Add dark boxshadow variant to tailwind (currently not possible but should be with official dark-mode support)
 
 ## Documentation

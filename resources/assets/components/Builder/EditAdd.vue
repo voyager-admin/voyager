@@ -301,7 +301,20 @@ export default {
     methods: {
         saveBread: function () {
             var vm = this;
+            var failed = vm.validateLayouts();
 
+            if (failed) {
+                new vm.$notification(this.__('voyager::builder.layout_field_warning')).confirm().color('red').timeout().show().then(function (response) {
+                    if (response) {
+                        vm.storeBread();
+                    }
+                });
+            } else {
+                vm.storeBread();
+            }
+        },
+        storeBread: function () {
+            var vm = this;
             vm.savingBread = true;
 
             axios.put(this.route('voyager.bread.update', this.bread.table), {
@@ -516,7 +529,21 @@ export default {
                 this.$refs.layout_mapping.open();
                 this.$store.openSidebar();
             }
-        }
+        },
+        validateLayouts: function () {
+            var vm = this;
+            var failed = false;
+
+            vm.bread.layouts.forEach(function (layout) {
+                layout.formfields.forEach(function (formfield) {
+                    if (formfield.column == '' || formfield.column === null || (vm.isObject(formfield.column) && (formfield.column.column == '' || formfield.column.column === null))) {
+                        failed = true;
+                    }
+                });
+            });
+
+            return failed;
+        },
     },
     computed: {
         views: function () {
