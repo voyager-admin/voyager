@@ -128,5 +128,23 @@
             "border": "default"
         },
         "validation": []
+    },
+    {
+        "type": "simple_array",
+        "group": "media",
+        "key": "mime-types",
+        "name": "Mime types",
+        "value": [],
+        "translatable": false,
+        "canBeTranslated": false,
+        "options": {
+            "max": 0,
+            "item_text": {
+                "en": "Mime type"
+            },
+            "title": null,
+            "description": null
+        },
+        "validation": []
     }
 ]

@@ -7,6 +7,7 @@ let formfields = [
     'Radios',
     'Relationship',
     'Select',
+    'SimpleArray',
     'Slug',
     'Tags',
     'Text',

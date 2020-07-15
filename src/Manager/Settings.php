@@ -68,6 +68,7 @@ class Settings
             if ($setting->group !== null && $setting->group !== '') {
                 $key = implode('.', [$setting->group, $setting->key]);
             }
+            // TODO: if translate AND formfield is translatable
             if ($translate) {
                 return [$key => VoyagerFacade::translate($setting->value, app()->getLocale(), config('app.fallback_locale')) ?? $default];
             }

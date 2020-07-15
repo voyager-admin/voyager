@@ -47,6 +47,7 @@ return [
     'heads_up'                  => 'Heads Up!',
     'hide'                      => 'Hide',
     'icon'                      => 'Icon',
+    'item'                      => 'Item',
     'instructions'              => 'Instructions',
     'key'                       => 'Key',
     'last'                      => 'Last',

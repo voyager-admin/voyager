@@ -38,6 +38,10 @@ return [
     'select'        => [
         'name'          => 'Select',
     ],
+    'simple_array'      => [
+        'item_text'     => 'Item text',
+        'name'          => 'Simple Array',
+    ],
     'slug'          => [
         'lower'         => 'Lower',
         'name'          => 'Slug',
