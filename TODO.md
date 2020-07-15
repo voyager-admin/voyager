@@ -7,7 +7,6 @@ Instead, they are listed here:
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
 - Check if layouts are assigned to all actions
-- Settings doesn't return array when translate = true
 
 ## Formfields
 - **Relationship** not yet (fully) working
