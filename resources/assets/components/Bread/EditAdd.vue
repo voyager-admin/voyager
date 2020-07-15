@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { EventBus } from '../../js/eventbus';
+
 export default {
     props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'translatable', 'relationships', 'fromRelationship'],
     data: function () {
@@ -83,10 +85,16 @@ export default {
                 } else {
                     Vue.set(this.output, formfield.column.column, value);
                 }
+
+                EventBus.$emit('input', {
+                    column: formfield.column,
+                    value: value,
+                });
             }
             if (formfield.translatable || false) {
                 return this.translate(this.get_translatable_object(this.output[formfield.column.column]));
             }
+
             return this.input[formfield.column.column];
         },
         getErrors: function (column) {

@@ -38,6 +38,12 @@ return [
     'select'        => [
         'name'          => 'Select',
     ],
+    'slug'          => [
+        'lower'         => 'Lower',
+        'name'          => 'Slug',
+        'replacement'   => 'Replacement',
+        'strict'        => 'Strict',
+    ],
     'tags'          => [
         'name'              => 'Tags',
         'allow_reordering'  => 'Allow reordering',
