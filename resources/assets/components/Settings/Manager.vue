@@ -305,11 +305,19 @@ export default {
         }
     },
     mounted: function () {
-        var group = this.getParameterFromUrl('group', 'no-group');
+        var vm = this;
+        var group = vm.getParameterFromUrl('group', 'no-group');
 
         if (group !== null && group !== 'null' && group !== 'no-group') {
-            this.currentEnteredGroup = group;
+            vm.currentEnteredGroup = group;
         }
+
+        document.addEventListener('keydown', function (e) {
+            if (event.ctrlKey && event.key === 's') {
+                e.preventDefault();
+                vm.saveSettings();
+            }
+        });
     }
 };
 </script>
