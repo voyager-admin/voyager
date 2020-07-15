@@ -41,22 +41,23 @@
                     <sort-container v-model="groupedSettings" :useDragHandle="true">
                         <sort-element v-for="(setting, i) in settingsByGroup(group.name)" :key="'settings-'+i" :index="i">
                             <card :title="setting.name">
-                                <div slot="title" v-if="editMode" class="flex items-end">
+                                <div slot="title" v-if="editMode" class="flex space-x-1">
                                     <input
                                         type="text"
-                                        class="input small"
+                                        class="input small w-full md:w-1/3"
                                         v-model="setting.name"
                                         v-on:input="setting.key = slugify($event.target.value, { lower: true, strict: true })"
-                                        :placeholder="__('voyager::generic.name')">
-                                    <input type="text" class="input small ml-2" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
-                                    <input type="text" class="input small ml-2" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
+                                        :placeholder="__('voyager::generic.name')"
+                                    >
+                                    <input type="text" class="input small hidden md:block md:w-1/3" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
+                                    <input type="text" class="input small w-full md:w-1/3" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
                                 </div>
                                 <div slot="title" v-else class="flex items-end">
                                     <h4>{{ setting.name }}</h4>
                                     <p class="mx-4">{{ setting.key }}</p>
                                 </div>
                                 <div slot="actions" v-if="editMode">
-                                    <div class="flex items-center">
+                                    <div class="flex items-center mt-1 md:mt-0">
                                         <button class="button green" v-sort-handle>
                                             <icon icon="selector" :size="4"></icon>
                                         </button>
