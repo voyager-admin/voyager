@@ -5,6 +5,7 @@
         "key": "title",
         "name": "Title",
         "value": "Voyager II",
+        "info": "The title shown in your browser",
         "translatable": false,
         "canBeTranslated": true,
         "options": {
@@ -23,6 +24,7 @@
         "key": "sidebar-title",
         "name": "Sidebar title",
         "value": "Voyager II",
+        "info": "The title shown in the sidebar",
         "translatable": false,
         "canBeTranslated": true,
         "options": {
@@ -41,6 +43,7 @@
         "key": "disk",
         "name": "Disk",
         "value": "public",
+        "info": "The default disk for the media manager",
         "translatable": false,
         "canBeTranslated": false,
         "options": {
@@ -57,6 +60,7 @@
         "key": "path",
         "name": "Path",
         "value": "\/",
+        "info": "Starting path for the media manager",
         "translatable": false,
         "canBeTranslated": true,
         "options": {
@@ -75,6 +79,7 @@
         "key": "ui-components",
         "name": "UI components",
         "value": true,
+        "info": "Display or hide the UI components page",
         "translatable": false,
         "canBeTranslated": false,
         "options": {
@@ -105,6 +110,7 @@
         "key": "json-output",
         "name": "JSON output",
         "value": true,
+        "info": "Display JSON output on the bottom of the page",
         "translatable": false,
         "canBeTranslated": false,
         "options": {
@@ -135,6 +141,7 @@
         "key": "mime-types",
         "name": "Mime types",
         "value": [],
+        "info": "Allowed mime types for the media manager",
         "translatable": false,
         "canBeTranslated": false,
         "options": {

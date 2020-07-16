@@ -49,8 +49,9 @@
                                         v-on:input="setting.key = slugify($event.target.value, { lower: true, strict: true })"
                                         :placeholder="__('voyager::generic.name')"
                                     >
-                                    <input type="text" class="input small hidden md:block md:w-1/3" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
-                                    <input type="text" class="input small w-full md:w-1/3" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
+                                    <input type="text" class="input small hidden md:block md:w-1/4" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
+                                    <input type="text" class="input small w-full md:w-1/4" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
+                                    <input type="text" class="input small w-full md:w-1/4" v-model="setting.info" :placeholder="__('voyager::generic.info')">
                                 </div>
                                 <div slot="title" v-else class="flex items-end">
                                     <h4>{{ setting.name }}</h4>
@@ -177,6 +178,7 @@ export default {
                 key: '',
                 name: '',
                 value: null,
+                info: '',
                 translatable: false,
                 canBeTranslated: formfield.canBeTranslated,
                 options: formfield.viewOptions,
