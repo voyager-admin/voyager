@@ -15,7 +15,7 @@ Instead, they are listed here:
 - **Media Picker**
 - **Date/Time Picker**
 - **Masked input**
-- **Repeater**
+- **Repeater** should "simply" use another view
 
 ## Nice to have
 - Add dark boxshadow variant to tailwind (currently not possible but should be with official dark-mode support)

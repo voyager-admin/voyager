@@ -30,7 +30,7 @@ return [
         'name'          => 'Radios',
     ],
     'relationship'  => [
-        'name'                  => 'Relationships',
+        'name'                  => 'Relationship',
         'add_view'              => 'Add view',
         'browse_list'           => 'Browse list',
         'select_relationship'   => 'Please select a relationship first!',
