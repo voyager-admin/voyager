@@ -38,5 +38,13 @@
         "repository": "emptynick/voyager-permissions",	
         "keywords": ["plugin", "user", "permissions", "roles", "spatie", "laravel-permission"],	
         "website": "https://github.com/emptynick/voyager-permissions"	
+    },
+    {	
+        "name": "Voyager Docs",	
+        "description": "Display the Voyager documentation directly in the UI",	
+        "type": "generic",	
+        "repository": "emptynick/voyager-docs",	
+        "keywords": ["docs", "documentation"],	
+        "website": "https://github.com/emptynick/voyager-docs"	
     }
 ]
