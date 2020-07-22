@@ -1,5 +1,5 @@
 <template>
-<div class="button-group">
+<div class="button-group" v-show="Object.keys(pages).length >= 2">
     <a
         v-if="firstLastButtons"
         @click="selectFirstPage()"
