@@ -84,7 +84,12 @@ class VoyagerServiceProvider extends ServiceProvider
             return $this->menumanager;
         });
 
-        $this->pluginmanager = new PluginManager($this->menumanager);
+        $this->settingmanager = new SettingManager();
+        $this->app->singleton(SettingManager::class, function () {
+            return $this->settingmanager;
+        });
+
+        $this->pluginmanager = new PluginManager($this->menumanager, $this->settingmanager);
         $this->app->singleton(PluginManager::class, function () {
             return $this->pluginmanager;
         });
@@ -92,11 +97,6 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->breadmanager = new BreadManager();
         $this->app->singleton(BreadManager::class, function () {
             return $this->breadmanager;
-        });
-
-        $this->settingmanager = new SettingManager();
-        $this->app->singleton(SettingManager::class, function () {
-            return $this->settingmanager;
         });
 
         $this->app->singleton('voyager', function () {

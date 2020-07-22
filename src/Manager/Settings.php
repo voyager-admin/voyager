@@ -42,6 +42,11 @@ class Settings
         return $this->settings;
     }
 
+    public function mergeSettings($settings)
+    {
+        $this->settings = $this->settings->merge($settings);
+    }
+
     public function setting($key = null, $default = null, $translate = true)
     {
         $this->loadSettings();

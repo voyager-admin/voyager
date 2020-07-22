@@ -11,13 +11,15 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 class Plugins
 {
     protected $menumanager;
+    protected $settingsmanager;
     protected $plugins;
     protected $enabled_plugins;
     protected $path;
 
-    public function __construct(Menu $menumanager)
+    public function __construct(Menu $menumanager, Settings $settingsmanager)
     {
         $this->menumanager = $menumanager;
+        $this->settingsmanager = $settingsmanager;
         $this->plugins = collect();
         $this->path = Str::finish(storage_path('voyager'), '/').'plugins.json';
     }
@@ -77,6 +79,12 @@ class Plugins
                 $plugin->registerPublicRoutes();
                 if (method_exists($plugin, 'registerMenuItems')) {
                     $plugin->registerMenuItems($this->menumanager);
+                }
+                if (method_exists($plugin, 'registerSettings')) {
+                    $settings = $plugin->registerSettings();
+                    if (is_array($settings)) {
+                        $this->settingsmanager->mergeSettings($settings);
+                    }
                 }
                 Route::group(['middleware' => 'voyager.admin'], function () use ($plugin) {
                     $plugin->registerProtectedRoutes();
