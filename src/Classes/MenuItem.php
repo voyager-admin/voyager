@@ -16,7 +16,7 @@ class MenuItem implements \JsonSerializable
     public $exact = false;
     public $children;
 
-    public function __construct(string $title, string $icon, bool $main = false)
+    public function __construct(string $title = '', string $icon = '', bool $main = false)
     {
         $this->title = $title;
         $this->icon = $icon;

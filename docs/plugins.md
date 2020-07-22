@@ -90,3 +90,12 @@ class MyPlugin implements GenericPlugin
     }
 }
 ```
+
+You can also add a divider before or after your item like this:
+
+```php
+$menumanager->addItems(
+    (new MenuItem())->divider(),
+    (new MenuItem('My Title', 'icon'))->route('my-route')
+);
+```
