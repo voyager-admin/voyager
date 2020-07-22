@@ -88,15 +88,23 @@ h6 {
     @apply text-lg;
 }
 
+pre {
+    @include bg-color(code-bg-color, 'colors.gray.100');
+    @include text-color(code-text-color, 'colors.gray.800');
+    @apply p-2 rounded-md;
+}
+
 code {
-    @include bg-color(code-bg-color, 'colors.gray.300');
+    @include bg-color(code-bg-color, 'colors.gray.100');
     @include text-color(code-text-color, 'colors.gray.800');
     @apply py-0.5 px-1 rounded-md;
 }
 
-.dark code {
-    @include bg-color(code-bg-color-dark, 'colors.gray.900');
-    @include text-color(code-text-color-dark, 'colors.gray.200');
+.dark {
+    code, pre {
+        @include bg-color(code-bg-color-dark, 'colors.gray.900');
+        @include text-color(code-text-color-dark, 'colors.gray.200');
+    }
 }
 
 .dark .loader {
