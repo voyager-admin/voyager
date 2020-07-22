@@ -10,8 +10,7 @@ They are ordinary composer packages and will be installed through the console.
 To install a plugin, simply click `Search Plugins` and find the plugin you want to install.  
 Once found, double click the textbox next to it to copy the according command to your clipboard.  
 Next, open your console and run the command.  
-After that, your plugin will appear on your plugins page as disabled. Click `Enable` to enable it.  
-YOur plugin is now active!  
+After that, your plugin will appear on your plugins page as disabled. Click `Enable` to enable it. Your plugin is now active!  
 There might be additional steps to install a plugin. Please revise the instructions by clicking the `Instructions` button or by visiting the plugin page.
 
 ## Plugin Types
