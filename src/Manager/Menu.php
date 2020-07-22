@@ -3,18 +3,15 @@
 namespace Voyager\Admin\Manager;
 
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
-use Voyager\Admin\Manager\Plugins as PluginManager;
 use Illuminate\Support\Str;
 
 class Menu
 {
-    protected $pluginmanager;
     protected $items;
     protected $callbacks = [];
 
-    public function __construct(PluginManager $pluginmanager)
+    public function __construct()
     {
-        $this->pluginmanager = $pluginmanager;
         $this->items = collect();
     }
 

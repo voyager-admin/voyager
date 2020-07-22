@@ -79,7 +79,12 @@ class VoyagerServiceProvider extends ServiceProvider
         $loader = AliasLoader::getInstance();
         $loader->alias('Voyager', VoyagerFacade::class);
 
-        $this->pluginmanager = new PluginManager();
+        $this->menumanager = new MenuManager();
+        $this->app->singleton(MenuManager::class, function () {
+            return $this->menumanager;
+        });
+
+        $this->pluginmanager = new PluginManager($this->menumanager);
         $this->app->singleton(PluginManager::class, function () {
             return $this->pluginmanager;
         });
@@ -92,11 +97,6 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->settingmanager = new SettingManager();
         $this->app->singleton(SettingManager::class, function () {
             return $this->settingmanager;
-        });
-
-        $this->menumanager = new MenuManager($this->pluginmanager);
-        $this->app->singleton(MenuManager::class, function () {
-            return $this->menumanager;
         });
 
         $this->app->singleton('voyager', function () {
