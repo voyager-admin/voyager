@@ -91,7 +91,7 @@ h6 {
 pre {
     @include bg-color(code-bg-color, 'colors.gray.100');
     @include text-color(code-text-color, 'colors.gray.800');
-    @apply p-2 rounded-md;
+    @apply my-2 p-2 rounded-md;
 }
 
 code {
@@ -110,6 +110,14 @@ code {
 .dark .loader {
     @include bg-color(loader-bg-color-dark, 'colors.gray.800');
     @include text-color(loader-text-color-dark, 'colors.gray.200');
+}
+
+ul {
+    @apply list-disc list-inside;
+}
+
+ol {
+    @apply list-decimal list-inside;
 }
 
 .loader {
