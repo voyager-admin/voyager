@@ -1,11 +1,11 @@
 <template>
-<div class="button-group" v-show="Object.keys(pages).length >= 2">
+<div class="button-group" v-show="pageCount >= 2">
     <a
         v-if="firstLastButtons"
         @click="selectFirstPage()"
         class="button"
-        :disabled="firstPageSelected"
-        :class="[firstPageSelected ? 'disabled' : '', color]">
+        :disabled="isFirstPage"
+        :class="[isFirstPage ? 'disabled' : '', color]">
         {{ __('voyager::generic.first') }}
     </a>
 
@@ -13,14 +13,14 @@
         v-if="prevNextButtons"
         @click="prevPage()"
         class="button"
-        :class="[firstPageSelected ? 'disabled' : '', color]">
+        :class="[isFirstPage ? 'disabled' : '', color]">
         <icon icon="chevron-left"></icon>
     </a>
 
     <a
         v-for="(page, i) in pages"
         :key="'page-'+i"
-        @click="handlePageSelected(page.index + 1)"
+        @click="selectPage(page.index + 1)"
         class="button"
         :class="[page.selected ? 'active' : '', page.disabled ? 'disabled' : '', color]">
         <span
@@ -39,16 +39,16 @@
         v-if="prevNextButtons"
         @click="nextPage()"
         class="button"
-        :class="[lastPageSelected ? 'disabled' : '', color]"
-        :tabindex="lastPageSelected ? -1 : 0">
+        :class="[isLastPage ? 'disabled' : '', color]"
+        :tabindex="isLastPage ? -1 : 0">
         <icon icon="chevron-right"></icon>
     </a>
     <a
         v-if="firstLastButtons"
         @click="selectLastPage()"
         class="button"
-        :class="[lastPageSelected ? 'disabled' : '', color]"
-        :tabindex="lastPageSelected ? -1 : 0">
+        :class="[isLastPage ? 'disabled' : '', color]"
+        :tabindex="isLastPage ? -1 : 0">
         {{ __('voyager::generic.last') }}
     </a>
 </div>
@@ -92,14 +92,14 @@ export default {
     computed: {
         selected: {
             get: function () {
-                return this.value || this.innerValue;
+                return this.value || this.pageValue;
             },
             set: function (newValue) {
-                this.innerValue = newValue;
+                this.pageValue = newValue;
             }
         },
         pages: function () {
-            let items = {};
+            let pages = {};
             if (this.pageCount <= this.pageRange) {
                 for (let index = 0; index < this.pageCount; index++) {
                     let page = {
@@ -107,7 +107,7 @@ export default {
                         content: index + 1,
                         selected: index === (this.selected - 1)
                     };
-                    items[index] = page;
+                    pages[index] = page;
                 }
             } else {
                 const halfPageRange = Math.floor(this.pageRange / 2);
@@ -117,14 +117,14 @@ export default {
                         content: index + 1,
                         selected: index === (this.selected - 1)
                     }
-                    items[index] = page;
+                    pages[index] = page;
                 };
                 let setBreakView = index => {
                     let breakView = {
                         disabled: true,
                         breakView: true
                     }
-                    items[index] = breakView;
+                    pages[index] = breakView;
                 };
                 for (let i = 0; i < this.marginPages; i++) {
                     setPageItem(i);
@@ -151,46 +151,47 @@ export default {
                     setPageItem(i);
                 }
             }
-            return items
+
+            return pages;
         },
-        firstPageSelected: function () {
+        isFirstPage: function () {
             return this.selected === 1;
         },
-        lastPageSelected: function () {
+        isLastPage: function () {
             return (this.selected === this.pageCount) || (this.pageCount === 0);
         },
     },
     data: function () {
         return {
-            innerValue: 1,
+            pageValue: 1,
         }
     },
     methods: {
-        handlePageSelected: function (selected) {
+        selectPage: function (selected) {
             if (this.selected !== selected && this.isNumber(selected) && selected >= 1) {
-                this.innerValue = selected;
+                this.pageValue = selected;
                 this.$emit('input', selected);
             }
         },
         prevPage: function () {
             if (this.selected > 1) {
-                this.handlePageSelected(this.selected - 1);
+                this.selectPage(this.selected - 1);
             }
         },
         nextPage: function () {
             if (this.selected < this.pageCount) {
-                this.handlePageSelected(this.selected + 1);
+                this.selectPage(this.selected + 1);
             }
         },
         
         selectFirstPage: function () {
             if (this.selected !== 1) {
-                this.handlePageSelected(1);
+                this.selectPage(1);
             }
         },
         selectLastPage: function () {
             if (this.selected !== this.pageCount) {
-                this.handlePageSelected(this.pageCount);
+                this.selectPage(this.pageCount);
             }
         }
     }
