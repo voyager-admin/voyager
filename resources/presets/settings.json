@@ -153,5 +153,31 @@
             "description": null
         },
         "validation": []
+    },
+    {
+        "type": "select",
+        "group": "media",
+        "key": "optimize",
+        "name": "Optimize",
+        "value": true,
+        "info": "Optimize uploaded images using spatie\/laravel-image-optimizer",
+        "translatable": false,
+        "canBeTranslated": true,
+        "options": {
+            "multiple": false,
+            "options": [
+                {
+                    "key": "true",
+                    "value": "Yes"
+                },
+                {
+                    "key": "false",
+                    "value": "No"
+                }
+            ],
+            "title": null,
+            "description": null
+        },
+        "validation": []
     }
 ]

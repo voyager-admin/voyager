@@ -8,12 +8,20 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
+use ImageOptimizer;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class MediaController extends Controller
 {
     public $disk;
     public $path;
+
+    protected $imagemimes = [
+        'image/png',
+        'image/gif',
+        'image/jpeg',
+        'image/svg+xml'
+    ];
 
     public function __construct()
     {
@@ -37,8 +45,14 @@ class MediaController extends Controller
             $count++;
         } while (Storage::disk($this->disk)->exists($path.$name));
 
+        $result = Storage::disk($this->disk)->putFileAs($path, $file, $name);
+
+        if (in_array($file->getClientMimeType(), $this->imagemimes) && VoyagerFacade::setting('media.optimize', true)) {
+            ImageOptimizer::optimize(Storage::disk($this->disk)->path($path.$name));
+        }
+
         return response()->json([
-            'result' => Storage::disk($this->disk)->putFileAs($path, $request->file('file'), $name),
+            'result' => $result,
         ]);
     }
 

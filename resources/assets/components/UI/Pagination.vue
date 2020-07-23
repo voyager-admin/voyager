@@ -5,7 +5,8 @@
         @click="selectFirstPage()"
         class="button"
         :disabled="isFirstPage"
-        :class="[isFirstPage ? 'disabled' : '', color]">
+        :class="[isFirstPage ? 'disabled' : '', color]"
+    >
         {{ __('voyager::generic.first') }}
     </a>
 
@@ -13,7 +14,8 @@
         v-if="prevNextButtons"
         @click="prevPage()"
         class="button"
-        :class="[isFirstPage ? 'disabled' : '', color]">
+        :class="[isFirstPage ? 'disabled' : '', color]"
+    >
         <icon icon="chevron-left"></icon>
     </a>
 
@@ -22,7 +24,8 @@
         :key="'page-'+i"
         @click="selectPage(page.index + 1)"
         class="button"
-        :class="[page.selected ? 'active' : '', page.disabled ? 'disabled' : '', color]">
+        :class="[page.selected ? 'active' : '', page.disabled ? 'disabled' : '', color]"
+    >
         <span
             v-if="page.breakView"
             v-html="breakText">
@@ -40,7 +43,8 @@
         @click="nextPage()"
         class="button"
         :class="[isLastPage ? 'disabled' : '', color]"
-        :tabindex="isLastPage ? -1 : 0">
+        :tabindex="isLastPage ? -1 : 0"
+    >
         <icon icon="chevron-right"></icon>
     </a>
     <a
@@ -48,7 +52,8 @@
         @click="selectLastPage()"
         class="button"
         :class="[isLastPage ? 'disabled' : '', color]"
-        :tabindex="isLastPage ? -1 : 0">
+        :tabindex="isLastPage ? -1 : 0"
+    >
         {{ __('voyager::generic.last') }}
     </a>
 </div>
