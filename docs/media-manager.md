@@ -16,3 +16,14 @@ Read more about this [here](./bread/formfields/media-picker.md#mime-types).
 By default all images are optimized through [spatie/laravel-image-optimization](https://github.com/spatie/laravel-image-optimizer).  
 You can turn this off in the settings.  
 Please follow the [official documentation](https://github.com/spatie/image-optimizer#optimization-tools) on how to install various optimization plugins.
+
+## Thumbnails
+
+You can generate thumbnails by adding settings to a group called "Thumbnails".  
+Add a formfield `Dynamic select` and enter `voyager.get-thumbnail-options` as the route in the options.  
+The name of the setting will be the suffix of your filename.  
+For example, creating a setting called `small` will generate a thumbnail named `myfile_small.jpg`.
+
+
+Save your settings and refresh the page.  
+You will now be able to select the method (fit, crop or resize) and enter the required parameter.
