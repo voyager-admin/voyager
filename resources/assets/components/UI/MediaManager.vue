@@ -287,6 +287,9 @@ export default {
                     if (vm.allowedMimeTypes.length > 0) {
                         var result = false;
                         vm.allowedMimeTypes.forEach(function (mime) {
+                            if (mime == '' || mime === null || mime == 'directory') {
+                                return;
+                            }
                             if (vm.mimeMatch(file.type, mime.toLowerCase())) {
                                 result = true;
                             }

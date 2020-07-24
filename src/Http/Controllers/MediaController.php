@@ -49,14 +49,30 @@ class MediaController extends Controller
         $result = Storage::disk($this->disk)->putFileAs($path, $file, $name);
 
         if (in_array($file->getClientMimeType(), $this->imagemimes)) {
-            if (VoyagerFacade::setting('media.optimize', true)) {
-                ImageOptimizer::optimize(Storage::disk($this->disk)->path($path.$name));
+            // Add waterwark to image
+            $wm = VoyagerFacade::setting('watermark.image', []);
+            if (is_array($wm) && isset($wm[0])) {
+                $wm = $wm[0];
+            }
+            $wm_add = false;
+            $wm_pos = VoyagerFacade::setting('watermark.position', 'bottom-right');
+            $wm_size = VoyagerFacade::setting('watermark.size', 15);
+            $wm_x = VoyagerFacade::setting('watermark.x', 10);
+            $wm_y = VoyagerFacade::setting('watermark.y', 10);
+            $wm_opac = VoyagerFacade::setting('watermark.opacity', 50);
+
+            $wm_path = '';
+
+            
+            if (isset($wm->relative_path) && Storage::disk($this->disk)->exists($wm->relative_path.$wm->name)) {
+                $wm_path = Storage::disk($this->disk)->path($wm->relative_path.$wm->name);
+                $wm_add = true;
             }
 
             extract(pathinfo($name));
             
             // Generate thumbnails
-            VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension) {
+            VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension, $wm_add, $wm_pos, $wm_size, $wm_x, $wm_y, $wm_opac, $wm_path) {
                 $image = Intervention::make(Storage::disk($this->disk)->path($path.$name));
                 $thumbname = $filename.'_'.$thumb['name'].'.'.$extension;
 
@@ -83,10 +99,41 @@ class MediaController extends Controller
                 
                 $image->save(Storage::disk($this->disk)->path($path.$thumbname));
 
+                // Add watermark to thumbnail
+                if ($wm_add) {
+                    $this->addThumbnail(
+                        Storage::disk($this->disk)->path($path.$thumbname),
+                        $wm_path,
+                        $wm_size,
+                        $wm_x,
+                        $wm_y,
+                        $wm_pos,
+                        $wm_opac
+                    )->save();
+                }
+
                 if (VoyagerFacade::setting('media.optimize', true)) {
                     ImageOptimizer::optimize(Storage::disk($this->disk)->path($path.$thumbname));
                 }
             });
+
+            // Add watermark to the "main" image
+            if ($wm_add) {
+                $this->addThumbnail(
+                    Storage::disk($this->disk)->path($path.$name),
+                    $wm_path,
+                    $wm_size,
+                    $wm_x,
+                    $wm_y,
+                    $wm_pos,
+                    $wm_opac
+                )->save();
+            }
+
+            // Optimize image
+            if (VoyagerFacade::setting('media.optimize', true)) {
+                ImageOptimizer::optimize(Storage::disk($this->disk)->path($path.$name));
+            }
         }
 
         return response()->json([
@@ -192,5 +239,28 @@ class MediaController extends Controller
         }
 
         return $name.'.'.$pathinfo['extension'];
+    }
+
+    private function addThumbnail($original, $watermark, $size, $x, $y, $position, $opacity)
+    {
+        $original = Intervention::make($original);
+        $watermark = Intervention::make($watermark);
+
+        if ($opacity < 100) {
+            $watermark->opacity($opacity);
+        }
+
+        $width = $original->width() * ($size / 100);
+        $watermark->resize($width, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        return $original->insert(
+            $watermark,
+            $position,
+            $x,
+            $y,
+        );
+
     }
 }

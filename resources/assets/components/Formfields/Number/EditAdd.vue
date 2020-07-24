@@ -3,7 +3,7 @@
         <plus-minus-input
             class="input w-full"
             v-bind:value="value"
-            @input="$emit('input', $event.target.value)"
+            @input="$emit('input', $event)"
             :min="options.min"
             :max="options.max"
             :step="options.step"

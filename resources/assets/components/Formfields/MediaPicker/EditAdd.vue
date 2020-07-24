@@ -30,11 +30,7 @@ export default {
                 return [this.value];
             },
             set: function (value) {
-                if (this.options.max == 1) {
-                    this.$emit('input', value[0].path);
-                } else {
-                    this.$emit('input', value);
-                }
+                this.$emit('input', value);
             }
         }
     },

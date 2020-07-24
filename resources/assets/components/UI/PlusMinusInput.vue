@@ -1,6 +1,14 @@
 <template>
     <div class="input flex items-center space-x-1">
-        <input type="number" class="bg-transparent border-0 focus:outline-none w-full" v-model="reactiveValue" :min="min" :max="max" :step="step" :placeholder="placeholder" />
+        <input
+            type="number"
+            class="bg-transparent border-0 focus:outline-none w-full"
+            :min="min"
+            :max="max"
+            :step="step"
+            :placeholder="placeholder"
+            v-model.number="reactiveValue"
+        >
         <icon icon="plus-circle" :size="6" class="cursor-pointer" @click.prevent.stop="plus" />
         <icon icon="minus-circle" :size="6" class="cursor-pointer" @click.prevent.stop="minus" />
     </div>
@@ -10,18 +18,15 @@
 export default {
     props: {
         value: {
-            type: Number,
             required: true,
         },
         min: {
-            type: Number,
             default: 0,
         },
         max: {
             type: Number,
         },
         step: {
-            type: Number,
             default: 1,
         },
         placeholder: {
@@ -41,6 +46,10 @@ export default {
             }
 
             this.reactiveValue += this.step;
+
+            if (this.reactiveValue < this.min) {
+                this.reactiveValue = this.min;
+            }
         },
         minus: function () {
             if (this.min !== undefined && (this.reactiveValue - this.step) < this.min) {
