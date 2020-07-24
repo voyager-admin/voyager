@@ -156,7 +156,12 @@ class MediaController extends Controller
 
         foreach ($files as $file) {
             $path = Storage::disk($this->disk)->path($file['file']['relative_path'].$file['file']['name']);
-            $zip->addFile($path, $file['file']['name']);
+
+            if ($file['file']['type'] == 'directory') {
+                $zip = $this->addDirectoryToZip($zip, $path, $file['file']['name']);
+            } else {
+                $zip->addFile($path, $file['file']['name']);
+            }
         }
         $zip->close();
 
@@ -302,5 +307,23 @@ class MediaController extends Controller
             $image->destroy();
         }
         catch (\Exception $e) { }
+    }
+
+    private function addDirectoryToZip($zip, $path, $relative)
+    {
+        $files = array_diff(scandir($path), ['.', '..']);
+        
+        foreach ($files as $file) {
+            $new_path = $path.'/'.$file;
+            $new_relative = $relative.'/'.$file;
+            if (is_dir($new_path)) {
+                $zip->addEmptyDir($new_relative);
+                $zip = $this->addDirectoryToZip($zip, $new_path, $new_relative);
+            } else {
+                $zip->addFile($new_path, $new_relative);
+            }
+        }
+
+        return $zip;
     }
 }
