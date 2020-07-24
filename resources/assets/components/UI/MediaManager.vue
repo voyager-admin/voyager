@@ -457,7 +457,7 @@ export default {
         pickSelectedFiles: function () {
             var vm = this;
             vm.selectedFiles.forEach(function (file) {
-                this.addPickedFile(file);
+                vm.addPickedFile(file);
             });
         },
         addPickedFile: function (file) {

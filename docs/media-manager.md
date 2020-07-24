@@ -27,3 +27,10 @@ For example, creating a setting called `small` will generate a thumbnail named `
 
 Save your settings and refresh the page.  
 You will now be able to select the method (fit, crop or resize) and enter the required parameter.
+
+## Watermark
+
+You can automatically add a watermark to each uploaded image.  
+To do this, go to `Settings` and select the `Watermark` tab.  
+There you can pick an image, set the size, position and opacity of the watermark.  
+If you don't want to add watermarks anymore, simply remove the watermark image from the media-picker.
