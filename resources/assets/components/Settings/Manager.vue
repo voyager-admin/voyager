@@ -184,15 +184,15 @@ export default {
         addFormfield: function (formfield) {
             var group = this.groups[this.currentGroupId].name
             this.settings.push({
-                type: formfield.type,
+                type: JSON.parse(JSON.stringify(formfield.type)),
                 group: (group == 'no-group' ? null : group),
                 key: '',
                 name: '',
                 value: null,
                 info: '',
                 translatable: false,
-                canBeTranslated: formfield.canBeTranslated,
-                options: formfield.viewOptions,
+                canBeTranslated: JSON.parse(JSON.stringify(formfield.canBeTranslated)),
+                options: JSON.parse(JSON.stringify(formfield.viewOptions)),
                 validation: [],
             });
         },

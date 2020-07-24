@@ -71,6 +71,10 @@ class MediaController extends Controller
                 }
                 
                 $image->save(Storage::disk($this->disk)->path($path.$thumbname));
+
+                if (VoyagerFacade::setting('media.optimize', true)) {
+                    ImageOptimizer::optimize(Storage::disk($this->disk)->path($path.$thumbname));
+                }
             });
         }
 
