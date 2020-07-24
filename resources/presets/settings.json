@@ -179,5 +179,31 @@
             "description": null
         },
         "validation": []
+    },
+    {
+        "type": "select",
+        "group": "media",
+        "key": "hide-thumbnails",
+        "name": "Hide thumbnails",
+        "value": true,
+        "info": "Hide thumbnails and only display them in the parent",
+        "translatable": false,
+        "canBeTranslated": true,
+        "options": {
+            "multiple": false,
+            "options": [
+                {
+                    "key": "true",
+                    "value": "Hide"
+                },
+                {
+                    "key": "false",
+                    "value": "Show"
+                }
+            ],
+            "title": null,
+            "description": null
+        },
+        "validation": []
     }
 ]

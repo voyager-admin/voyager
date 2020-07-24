@@ -81,13 +81,14 @@ class MediaController extends Controller
 
     public function listFiles(Request $request)
     {
+        $hide_thumbnails = VoyagerFacade::setting('media.hide-thumbnails', true);
         $thumbnail_names = VoyagerFacade::getThumbnailDefinitions()->pluck('name')->transform(function ($name) {
             return '_'.$name;
         })->toArray();
         $thumbnails = [];
         $storage = Storage::disk($this->disk);
         $path = Util::normalizePath($this->path.$request->get('path', ''));
-        $files = collect($storage->addPlugin(new ListWith())->listWith(['mimetype'], $path))->transform(function ($file) use ($storage, $path, $thumbnail_names, &$thumbnails) {
+        $files = collect($storage->addPlugin(new ListWith())->listWith(['mimetype'], $path))->transform(function ($file) use ($storage, $path, $thumbnail_names, &$thumbnails, $hide_thumbnails) {
             $relative = Str::finish(str_replace('\\', '/', $file['dirname']), '/');
 
             $f = [
@@ -112,7 +113,9 @@ class MediaController extends Controller
                         'file'      => $f['file'],
                     ];
 
-                    return null;
+                    if ($hide_thumbnails) {
+                        return null;
+                    }
                 }
             }
             
