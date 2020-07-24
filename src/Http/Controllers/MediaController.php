@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ImageOptimizer;
+use Intervention\Image\Facades\Image as Intervention;
 use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
-use Voyager\Admin\Classes\Image;
 
 class MediaController extends Controller
 {
@@ -57,17 +57,28 @@ class MediaController extends Controller
             
             // Generate thumbnails
             VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension) {
-                $image = new Image(Storage::disk($this->disk)->path($path.$name));
+                $image = Intervention::make(Storage::disk($this->disk)->path($path.$name));
                 $thumbname = $filename.'_'.$thumb['name'].'.'.$extension;
 
                 extract($thumb);
 
                 if ($method == 'fit') {
-                    $image = $image->fit($width, $height, $position, $upsize);
+                    $image = $image->fit($width, $height, function ($constraint) use ($upsize) {
+                        if ($upsize === false) {
+                            $constraint->upsize();
+                        }
+                    }, $position);
                 } elseif ($method == 'crop') {
                     $image = $image->crop($width, $height, $x, $y);
                 } elseif ($method == 'resize') {
-                    $image = $image->resize($width, $height, $aspect, $upsize);
+                    $image = $image->resize($width, $height, function ($constraint) use ($aspect, $upsize) {
+                        if ($aspect === true) {
+                            $constraint->aspectRatio();
+                        }
+                        if ($upsize === false) {
+                            $constraint->upsize();
+                        }
+                    });
                 }
                 
                 $image->save(Storage::disk($this->disk)->path($path.$thumbname));
