@@ -3,6 +3,7 @@
         <card :title="__('voyager::settings.settings')" icon="cog">
             <div slot="actions">
                 <div class="flex items-center">
+                    <input type="text" class="input small" v-model="query" :placeholder="__('voyager::settings.search_settings')">
                     <button class="button accent" @click="saveSettings">
                         <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingSettings" />
                         <span>{{ __('voyager::generic.save') }}</span>
@@ -106,6 +107,7 @@
                     </sort-container>
                     <div v-if="groupedSettings.length == 0" class="w-full text-center">
                         <h4>{{ __('voyager::settings.no_settings_in_group') }}</h4>
+                        <h6 v-if="query !== ''">{{ __('voyager::settings.search_warning') }}</h6>
                     </div>
                 </div>
             </tabs>
@@ -136,15 +138,24 @@ export default {
             optionsId: null,
             currentEnteredGroup: null,
             errors: [],
+            query: '',
         };
     },
     methods: {
         settingsByGroup: function (group) {
+            var vm = this;
             return this.settings.filter(function (setting) {
+                var in_group = setting.group == group;
                 if (group == 'no-group') {
-                    return setting.group == null;
+                    in_group = setting.group == null;
                 }
-                return setting.group == group;
+                var match = true;
+
+                if (vm.query !== '') {
+                    return in_group && setting.key.indexOf(vm.query.toLowerCase()) >= 0;
+                }
+
+                return in_group;
             });
         },
         saveSettings: function () {
