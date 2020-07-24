@@ -18,6 +18,9 @@
                 title-text="voyager::formfields.media_picker.mime_types"
                 item-text="voyager::generic.type"
             />
+
+            <label>{{ __('voyager::formfields.media_picker.open_by_default') }}</label>
+            <input type="checkbox" class="input" v-model="options.opened" />
         </div>
         <div v-if="show == 'list-options'">
             <label class="label mt-4">{{ __('voyager::formfields.media_picker.show_icons') }}</label>

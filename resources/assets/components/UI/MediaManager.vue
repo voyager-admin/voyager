@@ -35,8 +35,11 @@
                 </div>
             </div>
         </div>
-        <slide-y-down-transition>
-            <div>
+        <button class="button accent mb-2 w-full cursor-pointer flex justify-center" v-show="pickFiles" @click="toggle">
+            <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="5"></icon>
+        </button>
+        <slide-y-up-transition>
+            <div v-show="isOpen">
                 <div class="w-full mb-2" v-if="showToolbar">
                     <div class="inline-block">
                         <button class="button green small" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload" v-tooltip="__('voyager::media.upload')">
@@ -180,10 +183,12 @@
                     </slide-x-right-transition>
                 </div>
             </div>
-        </slide-y-down-transition>
+        </slide-y-up-transition>
     </div>
 </template>
 <script>
+import closable from '../../js/mixins/closable';
+
 var Status = {
     Pending  : 1,
     Uploading: 2,
@@ -194,6 +199,7 @@ var Status = {
 Vue.prototype.Status = Status;
 
 export default {
+    mixins: [closable],
     props: {
         'uploadUrl': {
             type: String,
@@ -257,6 +263,10 @@ export default {
                 return [];
             },
         },
+        'closed': {
+            type: Boolean,
+            default: false,
+        }
     },
     data: function () {
         return {
@@ -671,6 +681,13 @@ export default {
         }
 
         vm.loadFiles();
+    },
+    created: function () {
+        if (this.closed) {
+            this.close();
+        } else {
+            this.open();
+        }
     }
 };
 </script>

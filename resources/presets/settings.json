@@ -220,6 +220,7 @@
             "max": 1,
             "list_url": null,
             "upload_url": null,
+            "opened": false,
             "meta": [],
             "mimes": [
                 "image\/*",

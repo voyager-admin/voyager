@@ -34,6 +34,7 @@ class MediaPicker extends Formfield
             'upload_url'  => null,
             'meta'        => [],
             'mimes'       => [],
+            'opened'      => true,
         ];
     }
 

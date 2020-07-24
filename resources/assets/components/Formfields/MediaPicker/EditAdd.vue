@@ -9,6 +9,7 @@
         :meta="options.meta || {}"
         :max="options.max || 0"
         :allowed-mime-types="options.mimes || []"
+        :closed="!options.opened || false"
         @pick="pickFile($event)"
     />
 </template>
