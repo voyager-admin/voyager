@@ -18,7 +18,7 @@
         "axios": "^0.19.2",
         "dayjs": "^1.8.30",
         "debounce": "^1.2.0",
-        "heroicons": "^0.3.6",
+        "heroicons": "^0.3.7",
         "inter-ui": "^3.13.1",
         "mime-matcher": "^1.0.5",
         "node-sass": "^4.14.1",
