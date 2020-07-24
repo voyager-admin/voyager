@@ -85,9 +85,87 @@ class VoyagerController extends Controller
     {
         $disks = collect(array_keys(config('filesystems.disks', [])))->mapWithKeys(function ($disk) {
             return [$disk => $disk];
-        });
-        return [
-            $disks
+        })->toArray();
+
+        return response()->json([$disks]);
+    }
+
+    public function getThumbnailOptions(Request $request)
+    {
+        $selected = $request->get('selected', []);
+
+        $options = [
+            [
+                'fit'    => __('voyager::media.thumbnails.fit'),
+                'crop'   => __('voyager::media.thumbnails.crop'),
+                'resize' => __('voyager::media.thumbnails.resize'),
+                'label'  => __('voyager::media.thumbnails.label'),
+            ]
         ];
+
+        if (count($selected) > 0 && $selected[0] !== null) {
+            if ($selected[0] == 'fit') {
+                $options[] = [
+                    'type'  => 'number',
+                    'label' => __('voyager::media.thumbnails.width'),
+                ];
+                $options[] = [
+                    'type'  => 'number',
+                    'label' => __('voyager::media.thumbnails.height_optional'),
+                ];
+                $options[] = [
+                    'top-left'      => __('voyager::media.thumbnails.pos.top_left'),
+                    'top'           => __('voyager::media.thumbnails.pos.top'),
+                    'top-right'     => __('voyager::media.thumbnails.pos.top_right'),
+                    'left'          => __('voyager::media.thumbnails.pos.left'),
+                    'center'        => __('voyager::media.thumbnails.pos.center'),
+                    'right'         => __('voyager::media.thumbnails.pos.right'),
+                    'bottom-left'   => __('voyager::media.thumbnails.pos.bottom_left'),
+                    'bottom'        => __('voyager::media.thumbnails.pos.bottom'),
+                    'bottom-right'  => __('voyager::media.thumbnails.pos.bottom_right'),
+                    'label'         => __('voyager::media.thumbnails.position'),
+                ];
+                $options[] = [
+                    'type'  => 'checkbox',
+                    'label' => __('voyager::media.thumbnails.dont_upsize'),
+                ];
+            } elseif ($selected[0] == 'crop') {
+                $options[] = [
+                    'type'  => 'number',
+                    'label' => __('voyager::media.thumbnails.width'),
+                ];
+                $options[] = [
+                    'type'  => 'number',
+                    'label' => __('voyager::media.thumbnails.height'),
+                ];
+                $options[] = [
+                    'type'  => 'number',
+                    'label' => __('voyager::media.thumbnails.x_optional'),
+                ];
+                $options[] = [
+                    'type'  => 'number',
+                    'label' => __('voyager::media.thumbnails.y_optional'),
+                ];
+            } elseif ($selected[0] == 'resize') {
+                $options[] = [
+                    'type'  => 'number',
+                    'label' => __('voyager::media.thumbnails.width'),
+                ];
+                $options[] = [
+                    'type'  => 'number',
+                    'label' => __('voyager::media.thumbnails.height'),
+                ];
+                $options[] = [
+                    'type'  => 'checkbox',
+                    'label' => __('voyager::media.thumbnails.keep_aspect_ratio'),
+                ];
+                $options[] = [
+                    'type'  => 'checkbox',
+                    'label' => __('voyager::media.thumbnails.dont_upsize'),
+                ];
+            }
+        }
+
+        return response()->json($options);
     }
 }

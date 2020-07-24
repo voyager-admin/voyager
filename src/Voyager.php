@@ -4,6 +4,7 @@ namespace Voyager\Admin;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
@@ -285,5 +286,49 @@ class Voyager
             }
         });
         return $authorized;
+    }
+
+    public function getThumbnailDefinitions()
+    {
+        $thumbs = collect($this->settingmanager->setting('thumbnails'));
+
+        return $thumbs->map(function ($thumb, $name) {
+            $name = Str::after($name, 'thumbnails.');
+
+            if (is_array($thumb) && count($thumb) == 5) {
+                if ($thumb[0] == 'fit') {
+                    return [
+                        'name'      => $name,
+                        'method'    => 'fit',
+                        'width'     => $thumb[1],
+                        'height'    => empty($thumb[2]) ? null : $thumb[2],
+                        'position'  => empty($thumb[3]) ? 'center' : $thumb[3],
+                        'upsize'    => empty($thumb[4]) ? false : $thumb[4],
+                    ];
+                } elseif ($thumb[0] == 'crop') {
+                    return [
+                        'name'      => $name,
+                        'method'    => 'crop',
+                        'width'     => $thumb[1],
+                        'height'    => $thumb[2],
+                        'x'         => empty($thumb[3]) ? null : $thumb[3],
+                        'y'         => empty($thumb[4]) ? null : $thumb[4],
+                    ];
+                } elseif ($thumb[0] == 'resize') {
+                    return [
+                        'name'      => $name,
+                        'method'    => 'resize',
+                        'width'     => empty($thumb[1]) ? null : $thumb[1],
+                        'height'    => empty($thumb[2]) ? null : $thumb[2],
+                        'aspect'    => empty($thumb[3]) ? true : $thumb[3],
+                        'upsize'    => empty($thumb[4]) ? false : $thumb[4],
+                    ];
+                }
+            }
+
+            return null;
+        })->filter(function ($thumb) {
+            return $thumb !== null;
+        });
     }
 }

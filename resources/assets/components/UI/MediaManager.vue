@@ -119,6 +119,7 @@
                                     v-if="file.status == Status.Uploading"
                                     :style="{ width: file.progress+'%' }">
                                 </div>
+                                <!-- TODO: Display indeterminate when progress == 100 -->
                                 <div
                                     class="flex-none h-1 w-full bg-green-500 rounded-b-md"
                                     v-if="file.status == Status.Finished">
@@ -735,6 +736,26 @@ export default {
 
     .loader {
         @include bg-color(media-bg-color, 'colors.white');
+    }
+
+    @keyframes indeterminate {
+        0% {
+            width: 30%;
+            left: -40%;
+        }
+        50% {
+            left: 100%;
+            width: 100%;
+        }
+        to {
+            left: 100%;
+            width: 0;
+        }
+    }
+
+    .progress_bar_indeterminate {
+        transition: width 0.25s ease;
+        animation: indeterminate 2s ease infinite;
     }
 }
 </style>

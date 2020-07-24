@@ -80,6 +80,7 @@ Route::group(['as' => 'voyager.'], function () {
 
         //
         Route::post('get-disks', ['uses' => $namespace.'VoyagerController@getDisks', 'as' => 'get-disks']);
+        Route::post('get-thumbnail-options', ['uses' => $namespace.'VoyagerController@getThumbnailOptions', 'as' => 'get-thumbnail-options']);
     });
 
     // Login

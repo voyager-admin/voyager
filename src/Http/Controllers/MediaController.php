@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use ImageOptimizer;
 use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -47,9 +48,30 @@ class MediaController extends Controller
 
         $result = Storage::disk($this->disk)->putFileAs($path, $file, $name);
 
-        if (in_array($file->getClientMimeType(), $this->imagemimes) && VoyagerFacade::setting('media.optimize', true)) {
-            $image = new Image(Storage::disk($this->disk)->path($path.$name));
-            $image->optimize();
+        if (in_array($file->getClientMimeType(), $this->imagemimes)) {
+            if (VoyagerFacade::setting('media.optimize', true)) {
+                ImageOptimizer::optimize(Storage::disk($this->disk)->path($path.$name));
+            }
+
+            extract(pathinfo($file->getClientOriginalName()));
+            
+            // Generate thumbnails
+            VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension) {
+                $image = new Image(Storage::disk($this->disk)->path($path.$name));
+                $thumbname = $filename.'_'.$thumb['name'].'.'.$extension;
+
+                extract($thumb);
+
+                if ($method == 'fit') {
+                    $image = $image->fit($width, $height, $position, $upsize);
+                } elseif ($method == 'crop') {
+                    $image = $image->crop($width, $height, $x, $y);
+                } elseif ($method == 'resize') {
+                    $image = $image->resize($width, $height, $aspect, $upsize);
+                }
+                
+                $image->save(Storage::disk($this->disk)->path($path.$thumbname));
+            });
         }
 
         return response()->json([
