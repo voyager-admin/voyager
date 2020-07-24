@@ -49,6 +49,9 @@ class MediaController extends Controller
         $result = Storage::disk($this->disk)->putFileAs($path, $file, $name);
 
         if (in_array($file->getClientMimeType(), $this->imagemimes)) {
+            // Orientate image
+            $this->orientateImage(Storage::disk($this->disk)->path($path.$name));
+    
             // Add waterwark to image
             $wm = VoyagerFacade::setting('watermark.image', []);
             if (is_array($wm) && isset($wm[0])) {
@@ -101,7 +104,7 @@ class MediaController extends Controller
 
                 // Add watermark to thumbnail
                 if ($wm_add) {
-                    $this->addThumbnail(
+                    $this->addWatermark(
                         Storage::disk($this->disk)->path($path.$thumbname),
                         $wm_path,
                         $wm_size,
@@ -119,7 +122,7 @@ class MediaController extends Controller
 
             // Add watermark to the "main" image
             if ($wm_add) {
-                $this->addThumbnail(
+                $this->addWatermark(
                     Storage::disk($this->disk)->path($path.$name),
                     $wm_path,
                     $wm_size,
@@ -241,7 +244,7 @@ class MediaController extends Controller
         return $name.'.'.$pathinfo['extension'];
     }
 
-    private function addThumbnail($original, $watermark, $size, $x, $y, $position, $opacity)
+    private function addWatermark($original, $watermark, $size, $x, $y, $position, $opacity)
     {
         $original = Intervention::make($original);
         $watermark = Intervention::make($watermark);
@@ -262,5 +265,20 @@ class MediaController extends Controller
             $y,
         );
 
+    }
+
+    private function orientateImage($path)
+    {
+        try {
+            $image = Intervention::make($path);
+            $orientation = $image->exif('Orientation');
+
+            if ($orientation !== 1) {
+                $image->orientate()->save();
+            }
+
+            $image->destroy();
+        }
+        catch (\Exception $e) { }
     }
 }
