@@ -103,6 +103,9 @@
                                         <div class="flex flex-col h-full">
                                             <div class="flex-none">
                                                 <p class="whitespace-no-wrap" v-tooltip="file.file.name">{{ file.file.name }}</p>
+                                                <p class="text-sm" v-if="file.file.thumbnails.length > 0">
+                                                    {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
+                                                </p>
                                                 <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
                                             </div>
                                             <div class="flex items-end justify-end flex-grow">
@@ -159,6 +162,13 @@
                                         v-if="selectedFiles[0].file.type !== 'directory'"
                                         :value="encodeURI(selectedFiles[0].file.url)"
                                         @dblclick="copyPath(encodeURI(selectedFiles[0].file.url))">
+
+                                    <ul v-if="selectedFiles[0].file.thumbnails.length > 0" class="mt-2">
+                                        <span>{{ __('voyager::media.thumbnails.thumbnails') }}</span>
+                                        <li v-for="(thumb, i) in selectedFiles[0].file.thumbnails" :key="i" @dblclick="copyPath(encodeURI(thumb.file.url))">
+                                            <a :href="thumb.file.url" target="_blank">{{ thumb.file.name }}</a>
+                                        </li>
+                                    </ul>
                                 </div>
                                 <div v-else>
                                     <p>{{ __('voyager::media.files_selected', { num: selectedFiles.length }) }}</p>
@@ -195,7 +205,7 @@ export default {
         },
         'instantUpload': {
             type: Boolean,
-            default: false,
+            default: true,
         },
         'multiple': {
             type: Boolean,
@@ -300,6 +310,8 @@ export default {
                 if (exists) {
                     return null;
                 }
+
+                file.thumbnails = [];
 
                 var f = {
                     file: file,

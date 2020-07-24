@@ -16,6 +16,7 @@ return [
     'select_files'              => 'Select file|Select :num files',
     'select_upload_files'       => 'Select files to upload',
     'size'                      => 'Size',
+    'thumbnail_amount'          => 'One thumbnail|:num thumbnails',
     'thumbnails'                => [
         'crop'              => 'Crop',
         'dont_upsize'       => 'Don\'t upsize',
@@ -26,6 +27,7 @@ return [
         'label'             => 'Method',
         'position'          => 'Position',
         'resize'            => 'Resize',
+        'thumbnails'        => 'Thumbnails',
         'width'             => 'Width',
         'x_optional'        => 'X (optional)',
         'y_optional'        => 'Y (optional)',

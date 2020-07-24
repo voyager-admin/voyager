@@ -53,7 +53,7 @@ class MediaController extends Controller
                 ImageOptimizer::optimize(Storage::disk($this->disk)->path($path.$name));
             }
 
-            extract(pathinfo($file->getClientOriginalName()));
+            extract(pathinfo($name));
             
             // Generate thumbnails
             VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension) {
@@ -81,21 +81,53 @@ class MediaController extends Controller
 
     public function listFiles(Request $request)
     {
+        $thumbnail_names = VoyagerFacade::getThumbnailDefinitions()->pluck('name')->transform(function ($name) {
+            return '_'.$name;
+        })->toArray();
+        $thumbnails = [];
         $storage = Storage::disk($this->disk);
         $path = Util::normalizePath($this->path.$request->get('path', ''));
-        $files = collect($storage->addPlugin(new ListWith())->listWith(['mimetype'], $path))->transform(function ($file) use ($storage, $path) {
+        $files = collect($storage->addPlugin(new ListWith())->listWith(['mimetype'], $path))->transform(function ($file) use ($storage, $path, $thumbnail_names, &$thumbnails) {
             $relative = Str::finish(str_replace('\\', '/', $file['dirname']), '/');
-            return [
+
+            $f = [
                 'is_upload' => false,
                 'file'      => [
                     'type'          => $file['type'] == 'dir' ? 'directory' : $file['mimetype'],
                     'name'          => $file['basename'],
+                    'filename'      => $file['filename'],
                     'relative_path' => $relative,
                     'size'          => $file['size'] ?? 0,
                     'url'           => $storage->url($file['path']),
                     'disk'          => $this->disk,
+                    'thumbnails'    => [],
                 ],
             ];
+
+            foreach ($thumbnail_names as $thumb) {
+                if (Str::endsWith($file['filename'], $thumb)) {
+                    $original = str_replace($thumb, '', $file['filename']);
+                    $thumbnails[] = [
+                        'original'  => $original,
+                        'file'      => $f['file'],
+                    ];
+
+                    return null;
+                }
+            }
+            
+            return $f;
+        })->filter(function ($file) {
+            return $file !== null;
+        })->transform(function ($file) use (&$thumbnails) {
+            foreach ($thumbnails as $key => $thumb) {
+                if ($thumb['original'] == $file['file']['filename']) {
+                    unset($thumbnails[$key]);
+                    $file['file']['thumbnails'][] = $thumb;
+                }
+            }
+
+            return $file;
         })->sortBy('file.name')->sortBy(function ($file) {
             return $file['file']['type'] == 'directory' ? 0 : 99999999;
         })->values();
