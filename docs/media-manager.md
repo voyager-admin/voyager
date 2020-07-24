@@ -6,6 +6,11 @@
 
 You can select multiple files by pressing `Ctrl` while clicking your desired files.
 
+## Downloading files
+
+After selecting your file(s) you can click the Download button in the toolbar.  
+If you selected more than one file a ZIP archive will be generated.
+
 ## Mime types
 
 You can set which mime-types are shown in the media-manager by adding mimes to the `media.mime-types` setting.  
