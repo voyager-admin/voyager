@@ -144,6 +144,28 @@ class MediaController extends Controller
         ]);
     }
 
+    public function download(Request $request)
+    {
+        $files = $request->get('files', []);
+        if (count($files) == 1) {
+            return Storage::disk($this->disk)->get($files[0]['file']['relative_path'].$files[0]['file']['name']);
+        }
+
+        $zip = new \ZipArchive();
+        $zip->open('download.zip', \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+
+        foreach ($files as $file) {
+            $path = Storage::disk($this->disk)->path($file['file']['relative_path'].$file['file']['name']);
+            $zip->addFile($path, $file['file']['name']);
+        }
+        $zip->close();
+
+        $content = file_get_contents('download.zip');
+        unlink('download.zip');
+
+        return $content;
+    }
+
     public function listFiles(Request $request)
     {
         $hide_thumbnails = VoyagerFacade::setting('media.hide-thumbnails', true);
