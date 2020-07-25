@@ -46,16 +46,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full h-1 overflow-hidden" v-if="notification._indeterminate === true">
+                <div class="w-full h-1.5 overflow-hidden" v-if="notification._indeterminate === true">
                     <div class="indeterminate">
-                        <div class="before bg-red-400 rounded" :class="`bg-${notification._color}-500`"></div>
-                        <div class="after bg-red-400 rounded" :class="`bg-${notification._color}-500`"></div>
+                        <div class="before rounded" :class="`bg-${notification._color}-500`"></div>
+                        <div class="after rounded" :class="`bg-${notification._color}-500`"></div>
                     </div>
                 </div>
                 <div
                     v-else-if="Number.isInteger(notification._timeout)"
-                    class="w-full relative"
-                    style="height: 0.4rem;"
+                    class="w-full h-1.5 overflow-hidden"
                 >
                     <div
                         class="h-full origin-left scale-x rounded"
