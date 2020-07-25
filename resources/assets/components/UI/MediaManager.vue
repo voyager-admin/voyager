@@ -80,7 +80,7 @@
                 </div>
                 <div class="flex w-full min-h-64">
                     <div class="w-full max-h-256 overflow-y-auto" @click="selectedFiles = []">
-                        <div class="relative flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div class="relative flex-grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                             <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
                                 <h4>{{ dragging ? dropText : dragText }}</h4>
                             </div>
@@ -89,7 +89,7 @@
                             </div>
                             <div v-if="combinedFiles.length == 0" class="h-64"></div>
                             <div
-                                class="item rounded-md border cursor-pointer select-none h-auto"
+                                class="item w-full rounded-md border cursor-pointer select-none h-auto"
                                 v-for="(file, i) in combinedFiles"
                                 :key="i"
                                 :class="[fileSelected(file) ? 'selected' : '', file.is_upload ? 'opacity-50' : '']"
@@ -124,10 +124,15 @@
                                 </div>
                                 <div
                                     class="flex-none h-1 bg-blue-500 rounded-b-md"
-                                    v-if="file.status == Status.Uploading"
+                                    v-if="file.status == Status.Uploading && file.progress < 100"
                                     :style="{ width: file.progress+'%' }">
                                 </div>
-                                <!-- TODO: Display indeterminate when progress == 100 -->
+                                <div class="max-w-full h-1 overflow-hidden" v-if="file.status == Status.Uploading && file.progress >= 100">
+                                    <div class="indeterminate">
+                                        <div class="before bg-blue-500 rounded"></div>
+                                        <div class="after bg-blue-500 rounded"></div>
+                                    </div>
+                                </div>
                                 <div
                                     class="flex-none h-1 w-full bg-green-500 rounded-b-md"
                                     v-if="file.status == Status.Finished">

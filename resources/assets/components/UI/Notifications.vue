@@ -46,19 +46,23 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    v-if="notification._indeterminate === true"
-                    class="w-full relative"
-                    style="height: 0.4rem;"
-                >
-                    <div class="h-full progress_bar_indeterminate" :class="`bg-${notification._color}-500`"></div>
+                <div class="w-full h-1 overflow-hidden" v-if="notification._indeterminate === true">
+                    <div class="indeterminate">
+                        <div class="before bg-red-400 rounded" :class="`bg-${notification._color}-500`"></div>
+                        <div class="after bg-red-400 rounded" :class="`bg-${notification._color}-500`"></div>
+                    </div>
                 </div>
                 <div
                     v-else-if="Number.isInteger(notification._timeout)"
                     class="w-full relative"
                     style="height: 0.4rem;"
                 >
-                    <div class="h-full progress_bar" :class="`bg-${notification._color}-500`" :style="getProgressStyle(notification)" :data-uuid="notification._uuid"></div>
+                    <div
+                        class="h-full origin-left scale-x rounded"
+                        :class="`bg-${notification._color}-500`"
+                        :style="getProgressStyle(notification)"
+                        :data-uuid="notification._uuid"
+                    ></div>
                 </div>
             </div>
         </slide-x-right-transition>
@@ -109,38 +113,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@keyframes scale-x {
-    0% {
-        transform: scaleX(1);
-    }
-    100% {
-        transform: scaleX(0);
-    }
-}
 
-@keyframes indeterminate {
-    0% {
-        width: 30%;
-        left: -40%;
-    }
-    50% {
-        left: 100%;
-        width: 100%;
-    }
-    to {
-        left: 100%;
-        width: 0;
-    }
-}
-
-.progress_bar {
-    @apply rounded;
-    transform-origin: left;
-    animation: scale-x linear 1 forwards;
-}
-.progress_bar_indeterminate {
-    @apply relative rounded;
-    transition: width 0.25s ease;
-    animation: indeterminate 2s ease infinite;
-}
 </style>

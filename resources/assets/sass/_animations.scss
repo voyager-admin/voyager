@@ -67,3 +67,68 @@
     -o-animation: rotating-cw 2s linear infinite;
     animation: rotating-cw 2s linear infinite;
 }
+
+@keyframes scale-x {
+    0% {
+        transform: scaleX(1);
+    }
+    100% {
+        transform: scaleX(0);
+    }
+}
+
+.scale-x {
+    -webkit-animation: scale-x linear 1 forwards;
+    -moz-animation: scale-x linear 1 forwards;
+    -ms-animation: scale-x linear 1 forwards;
+    -o-animation: scale-x linear 1 forwards;
+    animation: scale-x linear 1 forwards;
+}
+
+@keyframes indeterminate_first {
+    0% {
+        left: -100%;
+        width: 100%;
+    }
+    100% {
+        left: 100%;
+        width: 10%;
+    }
+}
+
+@keyframes indeterminate_second {
+    0% {
+        left: -150%;
+        width: 100%;
+    }
+    100% {
+        left: 100%;
+        width: 10%;
+    }
+}
+
+.indeterminate {
+    @apply h-full w-full relative;
+
+    .before {
+        @apply absolute h-full;
+        content: '';
+
+        -webkit-animation: indeterminate_first 1.5s ease-out infinite;
+        -moz-animation: indeterminate_first 1.5s ease-out infinite;
+        -ms-animation: indeterminate_first 1.5s ease-out infinite;
+        -o-animation: indeterminate_first 1.5s ease-out infinite;
+        animation: indeterminate_first 1.5s ease-out infinite;
+    }
+
+    .after {
+        @apply absolute h-full;
+        content: '';
+
+        -webkit-animation: indeterminate_second 1.5s ease-in infinite;
+        -moz-animation: indeterminate_second 1.5s ease-in infinite;
+        -ms-animation: indeterminate_second 1.5s ease-in infinite;
+        -o-animation: indeterminate_second 1.5s ease-in infinite;
+        animation: indeterminate_second 1.5s ease-in infinite;
+    }
+}
