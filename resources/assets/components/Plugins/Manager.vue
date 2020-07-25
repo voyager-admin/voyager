@@ -2,9 +2,22 @@
     <card :title="__('voyager::plugins.plugins')" icon="puzzle">
         <div slot="actions">
             <div class="flex items-center">
-                <input type="text" v-model="installed.query" class="input w-full small ltr:mr-2 rtl:ml-2" :placeholder="__('voyager::plugins.search_installed_plugins')">
+                <input
+                    type="text"
+                    v-model="installed.query"
+                    class="input w-full small ltr:mr-2 rtl:ml-2"
+                    :placeholder="__('voyager::plugins.search_installed_plugins')"
+                    @dblclick="installed.query = ''"
+                >
                 <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
-                    <input type="text" class="input w-full mb-3" v-model="available.query" :placeholder="__('voyager::generic.search')">
+                    <input
+                        type="text"
+                        class="input w-full mb-3"
+                        v-model="available.query"
+                        :placeholder="__('voyager::generic.search')"
+                        @dblclick="available.query = ''"
+                        @keydown.esc="available.query = ''"
+                    >
                     <div class="w-full my-3">
                         <badge
                             v-for="(type, i) in availableTypes"

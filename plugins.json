@@ -41,7 +41,7 @@
     },
     {	
         "name": "Voyager Docs",	
-        "description": "Display the Voyager documentation directly in the UI",	
+        "description": "Display the Voyager documentation directly in your admin panel",	
         "type": "generic",	
         "repository": "emptynick/voyager-docs",	
         "keywords": ["docs", "documentation"],	

@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-64 w-full media-manager border rounded-lg p-4 mb-4">
+    <div class="w-full media-manager border rounded-lg p-4" :class="[isOpen ? 'mb-4 min-h-64' : '']">
         <input class="hidden" type="file" :multiple="multiple" @change="addUploadFiles($event.target.files)" ref="upload_input">
         <div class="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full mb-4" v-show="pickFiles && pickedFiles.length > 0">
             <div v-for="(file, i) in pickedFiles" :key="i" class="item rounded-md border select-none h-auto">
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <button class="button accent mb-2 w-full cursor-pointer flex justify-center" v-show="pickFiles" @click="toggle">
+        <button class="button accent w-full cursor-pointer flex justify-center" :class="[isOpen ? 'mb-2' : '']" v-show="pickFiles" @click="toggle">
             <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="5"></icon>
         </button>
         <slide-y-up-transition>
@@ -120,7 +120,6 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
                                 <div

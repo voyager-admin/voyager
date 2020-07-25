@@ -7,6 +7,7 @@
                     class="input w-full small ltr:mr-2 rtl:ml-2"
                     v-model="parameters.global"
                     @dblclick="parameters.global = null"
+                    @keydown.esc="parameters.global = null"
                     :placeholder="'Search ' + translate(bread.name_plural, true)">
                 <select class="input small ltr:mr-2 rtl:ml-2" v-model="parameters.softdeleted" v-if="uses_soft_deletes">
                     <option value="show">{{ __('voyager::bread.soft_delete_show') }}</option>
@@ -78,6 +79,7 @@
                                         <input type="text" class="input small w-full"
                                             :placeholder="'Search ' + translate(formfield.title, true)"
                                             @dblclick="parameters.filters[formfield.column.column] = ''"
+                                            @keydown.esc="parameters.filters[formfield.column.column] = ''"
                                             v-model="parameters.filters[formfield.column.column]">
                                     </component>
                                 </th>
