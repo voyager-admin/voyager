@@ -38,10 +38,6 @@
                 @include text-color(sidebar-item-icon-color-dark, 'colors.gray.300');
             }
         }
-
-        .submenu {
-            @include bg-color(sidebar-sub-item-color-dark, 'colors.gray.850');
-        }
     }
 
     .sidebar-border {
@@ -84,10 +80,6 @@
             .icon {
                 @include text-color(sidebar-item-icon-color, 'colors.gray.300');
             }
-        }
-
-        .submenu {
-            @include bg-color(sidebar-sub-item-color, 'colors.gray.850');
         }
     }
 

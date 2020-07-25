@@ -70,12 +70,12 @@ export default {
         @apply flex items-center justify-between flex-wrap rounded-md font-medium mt-1 px-2 py-2;
 
         .link {
-            @apply flex items-center flex-wrap;
+            @apply inline-flex items-center;
         }
     }
 
     .submenu {
-        @apply rounded-md ml-2;
+        @apply ml-5;
     }
 }
 </style>
