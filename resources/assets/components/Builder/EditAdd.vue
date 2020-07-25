@@ -8,7 +8,7 @@
                         <span>{{ __('voyager::generic.focus') }}</span>
                     </button>
                     <button class="button green" @click="loadProperties">
-                        <icon icon="refresh" class="rotating-ccw" :size="4" v-if="loadingProps" />
+                        <icon icon="refresh" :size="4" :class="loadingProps ? 'rotating-ccw' : ''" />
                         <span>{{ __('voyager::builder.reload_properties') }}</span>
                     </button>
                     <locale-picker :small="false" class="ltr:ml-2 rtl:mr-2" />
@@ -104,12 +104,12 @@
 
             <div slot="footer" class="inline-flex">
                 <button class="button blue" @click="saveBread">
-                    <icon icon="refresh" class="rotating-ccw" :size="4" v-if="savingBread" />
-                    <span>{{ __('voyager::generic.save') }}</span>
+                    <icon icon="refresh" class="rotating-ccw ltr:mr-1 rtl:ml-1" :size="4" v-if="savingBread" />
+                    {{ __('voyager::generic.save') }}
                 </button>
                 <button class="button green" @click="backupBread">
-                    <icon icon="refresh" class="rotating-ccw" :size="4" v-if="backingUp" />
-                    <span>{{ __('voyager::generic.backup') }}</span>
+                    <icon icon="refresh" class="rotating-ccw ltr:mr-1 rtl:ml-1" :size="4" v-if="backingUp" />
+                    {{ __('voyager::generic.backup') }}
                 </button>
             </div>
         </collapsible>
