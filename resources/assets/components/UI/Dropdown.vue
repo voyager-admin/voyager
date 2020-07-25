@@ -30,6 +30,10 @@ export default {
         openOnClick: {
             type: Boolean,
             default: true,
+        },
+        dontOpenOnClick: {
+            type: Boolean,
+            default: false,
         }
     },
     mounted: function () {
@@ -40,6 +44,9 @@ export default {
             }
         });
         if (vm.$slots.opener) {
+            if (vm.dontOpenOnClick) {
+                return;
+            }
             Array.from(vm.$slots.opener[0].elm.getElementsByTagName('*')).forEach(function (el) {
                 el.addEventListener('click', event => {
                     if (!vm.openOnClick) {

@@ -1,25 +1,33 @@
 <template>
-    <div v-click-outside="close">
-        <input
-            autocomplete="off"
-            type="text"
-            class="py-2 hidden sm:block text-lg appearance-none bg-transparent leading-normal w-full focus:outline-none"
-            v-model="query" @input="search" :placeholder="placeholder">
-        <input
-            autocomplete="off"
-            type="text"
-            class="py-2 block sm:hidden text-lg appearance-none bg-transparent leading-normal w-full focus:outline-none"
-            v-model="query" @input="search" :placeholder="mobilePlaceholder">
-        <dropdown ref="results_dd" pos="right">
-            <span v-for="(bread, table) in searchResults" :key="'bread-results-'+table">
-                <h6 class="ml-3 mt-3">{{ translate($store.getBreadByTable(table).name_plural, true) }}</h6>
-                <a v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="link" :href="getResultUrl(table, key)">
-                    {{ translate(result, true) }}
-                </a>
-                <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="link underline text-sm">
-                    {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
-                </a>
-            </span>
+    <div class="w-full" v-click-outside="close">
+        <dropdown ref="results_dd" pos="right" :width="'full'" class="w-full" dont-open-on-click>
+            <div class="grid p-2" :class="gridClasses">
+                <div v-for="(bread, table) in searchResults" :key="'bread-results-'+table">
+                    <h6 class="ml-3 mt-3">{{ translate($store.getBreadByTable(table).name_plural, true) }}</h6>
+                    <a v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="link rounded-md" :href="getResultUrl(table, key)">
+                        {{ translate(result, true) }}
+                    </a>
+                    <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="link underline text-sm rounded-md">
+                        {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
+                    </a>
+                </div>
+            </div>
+            <div slot="opener">
+                <input
+                    autocomplete="off"
+                    type="text"
+                    class="py-2 hidden sm:block text-lg appearance-none bg-transparent leading-normal w-full focus:outline-none"
+                    @dblclick="query = ''"
+                    @keydown.esc="query = ''"
+                    v-model="query" @input="search" :placeholder="placeholder"
+                >
+                <input
+                    autocomplete="off"
+                    type="text"
+                    class="py-2 block sm:hidden text-lg appearance-none bg-transparent leading-normal w-full focus:outline-none"
+                    v-model="query" @input="search" :placeholder="mobilePlaceholder"
+                >
+            </div>
         </dropdown>
     </div>
 </template>
@@ -37,7 +45,24 @@ export default {
             this.search(query);
         }
     },
+    computed: {
+        gridClasses: function () {
+            return [
+                'grid-cols-' + this.max(1),
+                'md:grid-cols-' + this.max(2),
+                'lg:grid-cols-' + this.max(3),
+                'xl:grid-cols-' + this.max(4)
+            ];
+        }
+    },
     methods: {
+        max: function (val) {
+            if (Object.keys(this.searchResults).length < val) {
+                return Object.keys(this.searchResults).length;
+            }
+
+            return val;
+        },
         close: function () {
             this.$refs.results_dd.close();
             this.query = '';

@@ -7,6 +7,7 @@ Instead, they are listed here:
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
 - Check if layouts are assigned to all actions
+- Check global-search styling with >= 4 BREADs
 
 ## Formfields
 - **Relationship** not yet (fully) working
