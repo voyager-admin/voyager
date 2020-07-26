@@ -214,6 +214,10 @@ export default {
             type: Boolean,
             default: true
         },
+        primaryKey: {
+            type: String,
+            default: 'id'
+        },
         perPage: {
             type: Number,
             default: 10,
@@ -227,7 +231,7 @@ export default {
             filtered: 0, // Amount of filtered entries
             layout: this.relationshipLayout,
             selected: this.relationshipSelected, // Array of selected primary-keys
-            primary: 'id', // The primary key
+            primary: this.primaryKey, // The primary key
             uses_soft_deletes: false, // If the model uses soft-deleting
             translatable: false, // If the layout contains translatable fields (will show/hide the locale picker)
             parameters: {

@@ -163,6 +163,7 @@ export default {
         document.addEventListener('keydown', function (e) {
             if (event.ctrlKey && event.key === 's') {
                 e.preventDefault();
+                e.stopPropagation();
                 vm.save();
             }
         });

@@ -12,7 +12,7 @@
                             :relationships="[]"
                             :prev-url="''"
                             :input="{}"
-                            v-on:saved="addedNewEntry($event)"
+                            v-on:saved="addedNewEntry"
                             :from-relationship="true"
                         ></bread-edit-add>
                         <div slot="opener" class="w-full">
@@ -28,8 +28,9 @@
                     style="padding: 0 !important; box-shadow: none !important"
                     :bread="relationship.bread"
                     :relationship-layout="relationshipLayout"
-                    :relationship-selected="reactiveValue"
+                    :relationship-selected="selected"
                     :relationship-multiple="relationship.multiple"
+                    :primary-key="relationship.key_name"
                     :per-page="5"
                     :ref="'browse-'+_uid"
                     v-on:select="$emit('input', $event)"
@@ -51,7 +52,7 @@ export default {
     props: ['options', 'value', 'column', 'relationships'],
     data: function () {
         return {
-            reactiveValue: this.value,
+            reactiveValue: this.isArray(this.value) ? this.value : [this.value],
         };
     },
     computed: {
@@ -71,13 +72,26 @@ export default {
             }
             return this.relationship.bread.layouts.where('name', layout_name).where('type', 'view')[0];
         },
+        selected: function () {
+            var vm = this;
+            var values = vm.reactiveValue;
+            var primary = vm.relationship.key_name;
+            if (vm.isObject(vm.reactiveValue)) {
+                values = [vm.reactiveValue];
+            }
+            var selected = [];
+            values.forEach(function (val) {
+                selected.push(val[primary]);
+            });
+
+            return selected;
+        }
     },
     methods: {
         addedNewEntry: function (key) {
             this.$refs['add-'+this._uid].close();
             this.$refs['browse-'+this._uid].load();
-            this.reactiveValue.push(key);
-        }
-    }
+        },
+    },
 };
 </script>
