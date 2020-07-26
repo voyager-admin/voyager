@@ -121,13 +121,16 @@
                                     </component>
                                     <div v-else>
                                         <component
-                                            v-for="(val, i) in getData(result, formfield, false)"
+                                            v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
                                             :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
                                             :options="formfield.options"
                                             :translatable="formfield.translatable"
                                             :key="'relationship-'+i"
                                             :value="val">
                                         </component>
+                                        <span v-if="getData(result, formfield, true).length > 3">
+                                            {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
+                                        </span>
                                     </div>
                                     <!-- When browseArray pass whole array, else if isArray pass sliced -->
                                 </td>

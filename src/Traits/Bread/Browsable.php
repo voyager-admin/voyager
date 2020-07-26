@@ -108,6 +108,15 @@ trait Browsable
                             }
                         });
                         $item->{$column} = $pivot;
+                    } elseif ($property == 'relationship_amount') {
+                        // Set as string so 0/1 doesn't get evaluated as bool by javascript
+                        if ($item->{$relationship} instanceof Collection) {
+                            $item->{$column} = ''.$item->{$relationship}->count();
+                        } elseif (is_array($item->{$relationship})) {
+                            $item->{$column} = ''.count($item->{$relationship});
+                        } else {
+                            $item->{$column} = '1';
+                        }
                     } elseif ($item->{$relationship} instanceof Collection) {
                         // X-Many relationship
                         $item->{$column} = $item->{$relationship}->pluck($property)->transform(function ($value) use ($formfield) {

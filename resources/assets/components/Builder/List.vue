@@ -39,6 +39,7 @@
                                 <option v-for="(column, i) in relationship.pivot" :key="'pivot_'+i" :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="$store.getFormfieldByType(formfield.type).allowPivot">
                                     pivot.{{ column }}
                                 </option>
+                                <option :value="{column: relationship.method+'.relationship_amount', type: 'relationship'}">{{ __('voyager::generic.relationship_amount') }}</option>
                             </optgroup>
                             <optgroup v-if="$store.getFormfieldByType(formfield.type).allowRelationships" :label="__('voyager::generic.relationships')">
                                 <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
@@ -59,7 +60,7 @@
                             class="input"
                             type="checkbox"
                             v-model="formfield.searchable"
-                            :disabled="formfield.column.type !== 'column' && formfield.column.type !== 'relationship'" />
+                            :disabled="(formfield.column.type !== 'column' && formfield.column.type !== 'relationship') || (formfield.column.type == 'relationship' && formfield.column.column.includes('relationship_amount'))" />
                     </td>
                     <td class="hidden md:table-cell">
                         <input

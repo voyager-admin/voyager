@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -345,7 +347,14 @@ class Breads
 
     public function getModelRelationships(\ReflectionClass $reflection, Model $model, bool $resolve = false): Collection
     {
-        $types = [BelongsTo::class, BelongsToMany::class, HasMany::class, HasOne::class];
+        $types = [
+            BelongsTo::class,
+            BelongsToMany::class,
+            HasMany::class,
+            HasManyThrough::class,
+            HasOne::class,
+            HasOneThrough::class,
+        ];
 
         return collect($reflection->getMethods())->transform(function ($method) use ($types, $model, $resolve) {
             $type = $method->getReturnType();

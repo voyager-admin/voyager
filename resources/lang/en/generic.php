@@ -80,6 +80,7 @@ return [
     'property'                  => 'Property',
     'range'                     => 'Range',
     'read'                      => 'Read',
+    'relationship_amount'       => 'Relationship amount',
     'relationships'             => 'Relationships',
     'reload'                    => 'Reload',
     'remove'                    => 'Remove',
