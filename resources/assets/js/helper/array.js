@@ -36,3 +36,17 @@ Array.prototype.shuffle = function () {
 
     return this;
 }
+
+Array.prototype.first = function () {
+    return this[0];
+}
+
+Array.prototype.pluck = function (prop) {
+    return this.map(function (el) {
+        return el[prop];
+    });
+}
+
+Array.prototype.diff = function (arr) {
+    return this.filter(x => !arr.includes(x))
+}

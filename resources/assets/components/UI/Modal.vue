@@ -27,10 +27,6 @@ import closable from '../../js/mixins/closable';
 export default {
     mixins: [closable],
     props: {
-        opened: {
-            type: Boolean,
-            default: false
-        },
         title: {
             type: String,
             default: ''

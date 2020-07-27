@@ -30,14 +30,14 @@ export default {
                     lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
                     tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
                     select_options: [
-                        { key: 12, value: 'Lorem first', icon: 'arrow-circle-right' },
-                        { key: 1, value: 'ipsum', icon: 'arrow-circle-right' },
-                        { key: 2, value: 'dolor', icon: 'arrow-circle-right' },
-                        { key: 3, value: 'sit', icon: 'arrow-circle-right' },
-                        { key: 4, value: 'amet', icon: 'arrow-circle-right' },
-                        { key: 5, value: 'consectetur', icon: 'arrow-circle-right' },
-                        { key: 6, value: 'adipisicing', icon: 'arrow-circle-right' },
-                        { key: 7, value: 'elit last', icon: 'arrow-circle-right' },
+                        { key: 12, value: 'Lorem first' },
+                        { key: 1, value: 'ipsum' },
+                        { key: 2, value: 'dolor' },
+                        { key: 3, value: 'sit' },
+                        { key: 4, value: 'amet' },
+                        { key: 5, value: 'consectetur' },
+                        { key: 6, value: 'adipisicing' },
+                        { key: 7, value: 'elit last' },
                     ],
                     selected_option: null,
                     selected_options: [],
@@ -70,10 +70,10 @@ export default {
                     this.sidebarOpen = false;
                 },
                 getFormfieldByType (type) {
-                    return this.formfields.where('type', type)[0];
+                    return this.formfields.where('type', type).first();
                 },
                 getBreadByTable (table) {
-                    return this.breads.where('table', table)[0];
+                    return this.breads.where('table', table).first();
                 }
             },
             watch: {

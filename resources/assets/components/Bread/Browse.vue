@@ -1,5 +1,5 @@
 <template>
-    <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon" :show-header="!fromRelationship">
+    <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
         <div slot="actions">
             <div class="flex items-center">
                 <input
@@ -44,10 +44,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <input type="checkbox" class="input" @change="selectAll($event.target.checked)" :checked="allSelected" v-if="relationshipMultiple" />
-                                    <button class="button blue" v-if="fromRelationship && !relationshipMultiple" @click="$emit('select', []); selected = []">
-                                        {{ __('voyager::generic.none') }}
-                                    </button>
+                                    <input type="checkbox" class="input" @change="selectAll($event.target.checked)" :checked="allSelected" />
                                 </th>
                                 <th
                                     v-for="(formfield, key) in layout.formfields" :key="'thead-' + key"
@@ -63,7 +60,7 @@
                                         ></icon>
                                     </div>
                                 </th>
-                                <th class="ltr:text-right rtl:text-left" v-if="!fromRelationship">
+                                <th class="ltr:text-right rtl:text-left">
                                     {{ __('voyager::generic.actions') }}
                                 </th>
                             </tr>
@@ -83,26 +80,18 @@
                                             v-model="parameters.filters[formfield.column.column]">
                                     </component>
                                 </th>
-                                <th v-if="!fromRelationship"></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(result, key) in results" :key="'row-' + key">
                                 <td>
                                     <input
-                                        v-if="relationshipMultiple"
                                         type="checkbox"
                                         class="input"
                                         v-model="selected"
-                                        :value="result[primary]" />
-
-                                    <input
-                                        v-else
-                                        type="radio"
-                                        class="input"
-                                        :name="'radio-'+_uid"
-                                        :checked="selected.includes(result[primary])"
-                                        @change="selected = []; selected.push(result[primary])" />
+                                        :value="result[primary]"
+                                    />
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
@@ -110,14 +99,16 @@
                                         :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         :translatable="formfield.translatable"
-                                        :value="getData(result, formfield, true)">
+                                        :value="getData(result, formfield, true)"
+                                    >
                                     </component>
                                     <component
                                         v-if="!isArray(result[formfield.column.column])"
                                         :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         :translatable="formfield.translatable"
-                                        :value="getData(result, formfield, false)">
+                                        :value="getData(result, formfield, false)"
+                                    >
                                     </component>
                                     <div v-else>
                                         <component
@@ -134,7 +125,7 @@
                                     </div>
                                     <!-- When browseArray pass whole array, else if isArray pass sliced -->
                                 </td>
-                                <td class="flex justify-end" v-if="!fromRelationship">
+                                <td class="flex justify-end">
                                     <div class="button-group flex-no-wrap">
                                         <a :href="route('voyager.'+translate(bread.slug, true)+'.read', result[primary])" class="button blue small">
                                             <icon icon="book-open"></icon>
@@ -196,24 +187,6 @@ export default {
             type: Object,
             required: true,
         },
-        fromRelationship: {
-            type: Boolean,
-            default: false,
-        },
-        relationshipLayout: {
-            type: Object,
-            default: null,
-        },
-        relationshipSelected: {
-            type: Array,
-            default: function () {
-                return [];
-            }
-        },
-        relationshipMultiple: {
-            type: Boolean,
-            default: true
-        },
         primaryKey: {
             type: String,
             default: 'id'
@@ -227,10 +200,10 @@ export default {
         return {
             loading: false,
             results: [],
+            layout: null,
             total: 0,    // Total unfiltered amount of entries
             filtered: 0, // Amount of filtered entries
-            layout: this.relationshipLayout,
-            selected: this.relationshipSelected, // Array of selected primary-keys
+            selected: [], // Array of selected primary-keys
             primary: this.primaryKey, // The primary key
             uses_soft_deletes: false, // If the model uses soft-deleting
             translatable: false, // If the layout contains translatable fields (will show/hide the locale picker)
@@ -255,9 +228,7 @@ export default {
             .post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.data'), vm.parameters)
             .then(function (response) {
                 for (var key in response.data) {
-                    if (key == 'layout' && vm.relationshipLayout) {
-                        // Do nothing
-                    } else if (response.data.hasOwnProperty(key) && vm.hasOwnProperty(key)) {
+                    if (response.data.hasOwnProperty(key) && vm.hasOwnProperty(key)) {
                         vm[key] = response.data[key];
                     }
                 }
@@ -489,7 +460,7 @@ export default {
         }
     },
     watch: {
-        selected: function (selected, old) {
+        selected: function (selected) {
             this.$emit('select', selected);
         },
         'parameters.page': function () {
@@ -498,19 +469,17 @@ export default {
         parameters: {
             handler: debounce(function (val) {
                 // Remove all parameters from URL
-                if (!this.fromRelationship) {
-                    var url = window.location.href.split('?')[0];
-                    for (var key in val) {
-                        if (val.hasOwnProperty(key) && val[key] !== null) {
-                            if (this.isObject(val[key])) {
-                                url = this.addParameterToUrl(key, JSON.stringify(val[key]), url);
-                            } else {
-                                url = this.addParameterToUrl(key, val[key], url);
-                            }
+                var url = window.location.href.split('?')[0];
+                for (var key in val) {
+                    if (val.hasOwnProperty(key) && val[key] !== null) {
+                        if (this.isObject(val[key])) {
+                            url = this.addParameterToUrl(key, JSON.stringify(val[key]), url);
+                        } else {
+                            url = this.addParameterToUrl(key, val[key], url);
                         }
                     }
-                    this.pushToUrlHistory(url);
                 }
+                this.pushToUrlHistory(url);
                 this.load();
             }, 250),
             deep: true,

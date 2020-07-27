@@ -5,7 +5,7 @@
         @click="selectFirstPage()"
         class="button"
         :disabled="isFirstPage"
-        :class="[isFirstPage ? 'disabled' : '', color]"
+        :class="[isFirstPage ? 'disabled' : '', color, small ? 'small' : '']"
     >
         {{ __('voyager::generic.first') }}
     </a>
@@ -14,7 +14,7 @@
         v-if="prevNextButtons"
         @click="prevPage()"
         class="button"
-        :class="[isFirstPage ? 'disabled' : '', color]"
+        :class="[isFirstPage ? 'disabled' : '', color, small ? 'small' : '']"
     >
         <icon icon="chevron-left"></icon>
     </a>
@@ -24,7 +24,7 @@
         :key="'page-'+i"
         @click="selectPage(page.index + 1)"
         class="button"
-        :class="[page.selected ? 'active' : '', page.disabled ? 'disabled' : '', color]"
+        :class="[page.selected ? 'active' : '', page.disabled ? 'disabled' : '', color, small ? 'small' : '']"
     >
         <span
             v-if="page.breakView"
@@ -42,7 +42,7 @@
         v-if="prevNextButtons"
         @click="nextPage()"
         class="button"
-        :class="[isLastPage ? 'disabled' : '', color]"
+        :class="[isLastPage ? 'disabled' : '', color, small ? 'small' : '']"
         :tabindex="isLastPage ? -1 : 0"
     >
         <icon icon="chevron-right"></icon>
@@ -51,7 +51,7 @@
         v-if="firstLastButtons"
         @click="selectLastPage()"
         class="button"
-        :class="[isLastPage ? 'disabled' : '', color]"
+        :class="[isLastPage ? 'disabled' : '', color, small ? 'small' : '']"
         :tabindex="isLastPage ? -1 : 0"
     >
         {{ __('voyager::generic.last') }}
@@ -92,6 +92,10 @@ export default {
         color: {
             type: String,
             default: 'accent'
+        },
+        small: {
+            type: Boolean,
+            default: false,
         }
     },
     computed: {

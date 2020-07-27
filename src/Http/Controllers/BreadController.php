@@ -155,7 +155,9 @@ class BreadController extends Controller
         $reflection = $this->breadmanager->getModelReflectionClass($bread->model);
         $relationships = $this->breadmanager->getModelRelationships($reflection, $data, true)->values();
 
-        $layout->formfields->each(function ($formfield) use (&$data) {
+        $breadData = (object) json_decode($data->toJson());
+
+        $layout->formfields->each(function ($formfield) use (&$data, &$breadData) {
             $value = $data->{$formfield->column->column};
 
             if ($formfield->translatable ?? false) {
@@ -164,11 +166,13 @@ class BreadController extends Controller
                 foreach ($value as $locale => $translated) {
                     $translations[$locale] = $formfield->edit($translated);
                 }
-                $data->{$formfield->column->column} = json_encode($translations);
+                $breadData->{$formfield->column->column} = json_encode($translations);
             } else {
-                $data->{$formfield->column->column} = $formfield->edit($value);
+                $breadData->{$formfield->column->column} = $formfield->edit($value);
             }
         });
+
+        $data = $breadData;
 
         return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships'));
     }
@@ -262,5 +266,41 @@ class BreadController extends Controller
         }
 
         return $restored;
+    }
+
+    public function relationship(Request $request)
+    {
+        // TODO: Validate that the method exists in edit/add layout
+        $bread = $this->getBread($request);
+        $data = [];
+        $perpage = 3;
+
+        $query = $request->get('query', null);
+        $page = $request->get('page', 1);
+        $method = $request->get('method');
+        $column = $request->get('column');
+
+        $data = $bread->getModel()->{$method}()->getRelated();
+
+        if (!empty($query)) {
+            // TODO: What about translatable?
+            $data = $data->where($column, 'like', '%'.$query.'%');
+        }
+        $data = $data->get();
+        $count = $data->count();
+
+        $data = $data->slice(($page - 1) * $perpage)->take($perpage);
+
+        $data->transform(function ($item) use ($column) {
+            return [
+                'key'   => $item->getKey(),
+                'value' => $item->{$column},
+            ];
+        });
+
+        return [
+            'pages' => ceil($count / $perpage),
+            'data'  => $data->values(),
+        ];
     }
 }

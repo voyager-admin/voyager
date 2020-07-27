@@ -161,7 +161,7 @@
         <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_option"></listbox>
     </collapsible>
     <collapsible title="Multiple" :title-size="5">
-        <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_options" :close-on-select="false"></listbox>
+        <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_options" :close-on-select="false" multiple></listbox>
     </collapsible>
 </collapsible>
 

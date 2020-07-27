@@ -32,9 +32,10 @@ return [
     ],
     'relationship'  => [
         'name'                  => 'Relationship',
-        'add_view'              => 'Add view',
-        'browse_list'           => 'Browse list',
+        'allow_null'            => 'Allow null',
         'select_relationship'   => 'Please select a relationship first!',
+        'search_text'           => 'Search text',
+        'select_text'           => 'Select text',
     ],
     'select'        => [
         'name'          => 'Select',

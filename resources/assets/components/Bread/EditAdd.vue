@@ -28,6 +28,7 @@
                                         :is="'formfield-'+kebab_case(formfield.type)+'-edit-add'"
                                         v-bind:value="data(formfield, null)"
                                         v-on:input="data(formfield, $event)"
+                                        :bread="bread"
                                         :options="formfield.options"
                                         :column="formfield.column"
                                         :relationships="relationships"
@@ -94,7 +95,7 @@ export default {
                 return this.translate(this.get_translatable_object(this.output[formfield.column.column]));
             }
 
-            return this.input[formfield.column.column];
+            return this.output[formfield.column.column];
         },
         getErrors: function (column) {
             return this.errors[column.column] || [];

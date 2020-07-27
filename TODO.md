@@ -8,6 +8,7 @@ Instead, they are listed here:
 - Modal should show scrollbar inside container, not outside
 - Check if layouts are assigned to all actions
 - Check global-search styling with >= 4 BREADs
+- Relationship selected can't get cleared when changing pages
 
 ## Formfields
 - **Relationship** not yet (fully) working

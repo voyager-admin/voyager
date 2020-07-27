@@ -1,55 +1,71 @@
 <template>
-    <Listbox v-bind:value="value" v-on:input="$emit('input', $event)" v-slot="{ isOpen }" class="listbox input" :close-on-select="closeOnSelect">
-        <ListboxButton class="w-full inline-flex items-center" style="outline: none !important;">
-            <span class="flex-grow text-left" v-if="!isArray(value) && value">{{ value }}</span>
-            <span class="flex-grow text-left" v-else-if="(isArray(value) && value.length == 0) || !value">{{ selectOptionText }}</span>
-            <div v-else-if="isArray(value)" class="flex-grow text-left">
-                <badge icon="x" v-for="(val, i) in value" :key="i" @click-icon.prevent.stop="$emit('input', value.whereNot(val))" class="large">
-                    {{ val }}
-                </badge>
-            </div>
-            <icon class="flex-grow-0 ltr:ml-2 rtl:mr-2" icon="selector"></icon>
-        </ListboxButton>
+    <div class="listbox input w-full" v-click-outside="close">
+        <div @click="toggle" class="w-full cursor-pointer">
+            <slot>
+                <div v-if="$slots.default === null">
+                    <span v-if="selectedOptions.length == 0">
+                        {{ selectOptionText }}
+                    </span>
+                    <div v-else>
+                        <div v-if="multiple">
+                            <badge
+                                color="accent"
+                                v-for="(option, i) in selectedOptions"
+                                :key="i"
+                                icon="x"
+                                @click-icon.prevent.stop="select(option)"
+                            >
+                                {{ option.value }}
+                            </badge>
+                        </div>
+                        <span v-else>
+                            {{ selectedOptions[0].value }}
+                        </span>
+                    </div>
+                </div>
+            </slot>
+        </div>
         <collapse-transition class="options-container -m-3">
-            <ListboxList v-show="isOpen" class="rounded-md py-1 max-h-128 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
-                <ListboxOption
-                    v-for="(option, i) in options"
-                    :key="i"
-                    :value="option.value"
-                    v-slot="{ isActive, isSelected }"
-                >
-                    <div class="option" :class="[isActive ? 'focused' : '', isSelected ? 'selected' : '']">
+            <div v-show="isOpen" class="rounded-md py-1 max-h-128 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
+                <div v-if="!loading">
+                    <div v-if="search" class="px-1 pb-1">
+                        <input class="input small w-full" :placeholder="searchOptionsText" @input="$emit('search', $event.target.value)">
+                    </div>
+                    <div class="option" v-for="(option, i) in options" :key="i" :class="selected(option) ? 'selected' : ''" @click="select(option)">
                         <div class="flex items-center space-x-3">
-                            <span :class="[isSelected ? 'font-semibold' : 'font-normal']" class="block truncate">
+                            <span class="font-normal block truncate">
                                 {{ option.value }}
                             </span>
                         </div>
-                        <span v-show="isSelected" class="check">
+                        <span v-show="selected(option)" class="check">
                             <icon icon="check" :size="5"></icon>
                         </span>
                     </div>
-                </ListboxOption>
-            </ListboxList>
+                    <div v-if="options.length == 0" class="w-full flex justify-center text-xl">
+                        {{ noResultsText }}
+                    </div>
+                    <div v-if="pages > 0" class="w-full flex justify-center mt-1">
+                        <pagination
+                            :page-count="pages"
+                            v-model.number="currentPage"
+                            :first-last-buttons="false"
+                            small
+                        />
+                    </div>
+                </div>
+                <div class="text-lg p-2" v-else>
+                    {{ loadingText }}
+                </div>
+            </div>
         </collapse-transition>
-    </Listbox>
+    </div>
 </template>
 
 <script>
-// TODO: This can be replaced once @tailwindui/vue does support multiple values
-import {
-    Listbox,
-    ListboxButton,
-    ListboxList,
-    ListboxOption
-} from '../../js/listbox';
+import closable from '../../js/mixins/closable';
 
 export default {
-    components: {
-        Listbox,
-        ListboxButton,
-        ListboxList,
-        ListboxOption
-    },
+    mixins: [closable],
     props: {
         options: {
             type: Array,
@@ -58,15 +74,100 @@ export default {
         value: {
             required: true
         },
+        multiple: {
+            type: Boolean,
+            default: false,
+        },
+        loading: {
+            type: Boolean,
+            default: false,
+        },
+        search: {
+            type: Boolean,
+            default: false,
+        },
+        searchOptionsText: {
+            type: String,
+            default: 'Search options',
+        },
         selectOptionText: {
             type: String,
             default: 'Select an option',
+        },
+        noResultsText: {
+            type: String,
+            default: 'No results',
+        },
+        loadingText: {
+            type: String,
+            default: 'Loading...',
         },
         closeOnSelect: {
             type: Boolean,
             default: true,
         },
+        pages: {
+            type: Number,
+            default: 0,
+        }
     },
+    data: function () {
+        return {
+            currentPage: 1,
+        };
+    },
+    methods: {
+        select: function (option) {
+            if (this.multiple) {
+                if (this.value.includes(option.key)) {
+                    this.$emit('input', this.value.whereNot(option.key));
+                } else {
+                    this.$emit('input', [...this.value || [], option.key]);
+                }
+            } else {
+                if (this.value == option.key) {
+                    this.$emit('input', null);
+                } else {
+                    this.$emit('input', option.key);
+                }
+            }
+
+            if (this.closeOnSelect) {
+                this.close();
+            }
+        },
+        selected: function (option) {
+            if (this.value === null) {
+                return false;
+            }
+            if (this.multiple) {
+                return this.value.includes(option.key);
+            }
+
+            return this.value == option.key;
+        },
+    },
+    computed: {
+        selectedOptions: function () {
+            var vm = this;
+            var selected = vm.value;
+            if (!vm.isArray(selected)) {
+                if (selected === null) {
+                    return [];
+                }
+                selected = [selected];
+            }
+
+            return selected.map(function (option) {
+                return vm.options.where('key', option)[0];
+            });
+        },
+    },
+    watch: {
+        currentPage: function (page) {
+            this.$emit('page', page);
+        }
+    }
 };
 </script>
 
@@ -83,7 +184,7 @@ export default {
             .check {
                 @include text-color(accent-text-color-dark, 'colors.blue.500');
             }
-            &.focused {
+            &:hover {
                 @include text-color(select-text-focused-color-dark, 'colors.gray.100');
                 @include bg-color(select-bg-focused-color-dark, 'colors.gray.700');
             }
@@ -107,7 +208,7 @@ export default {
                 @include text-color(accent-text-color, 'colors.blue.500');
                 @apply absolute inset-y-0 right-0 flex items-center pr-4;
             }
-            &.focused {
+            &:hover {
                 @include text-color(select-text-focused-color, 'colors.gray.900');
                 @include bg-color(select-bg-focused-color, 'colors.gray.150');
             }

@@ -1,39 +1,42 @@
 <template>
     <div>
         <div v-if="show == 'view-options'">
-            <div v-if="relationship">
-                <card title="BREAD" class="mt-3" v-if="relationship.has_bread">
-                    <label for="browse_list">{{ __('voyager::formfields.relationship.browse_list') }}</label>
-                    <select v-model="options.browse_list" class="input small w-full" id="browse_list">
-                        <option :value="null">{{ __('voyager::generic.none') }}</option>
-                        <option v-for="(list, i) in relationshipLayouts('list')" :key="'list-'+i">
-                            {{ list.name }}
-                        </option>
-                    </select>
+            <label class="label mt-4">Display field</label>
+            <select class="input w-full" v-if="relationship !== null && relationship.hasOwnProperty('columns')" v-model="options.display_column">
+                <optgroup :label="__('voyager::builder.columns')">
+                    <option v-for="(column, i) in relationship.columns" :key="i">
+                        {{ column }}
+                    </option>
+                </optgroup>
+                <optgroup :label="__('voyager::builder.computed')">
+                    <option v-for="(column, i) in relationship.computed" :key="i">
+                        {{ column }}
+                    </option>
+                </optgroup>
+            </select>
+            <select class="input w-full" disabled v-else>
+                <option>Select a relationship first</option>
+            </select>
 
-                    <label for="add_view">{{ __('voyager::formfields.relationship.add_view') }}</label>
-                    <select v-model="options.add_view" class="input small w-full" id="add_view">
-                        <option :value="null">{{ __('voyager::generic.none') }}</option>
-                        <option v-for="(view, i) in relationshipLayouts('view')" :key="'view-'+i">
-                            {{ view.name }}
-                        </option>
-                    </select>
-                </card>
-                <card title="Field">
-                    <select v-model="options.column" class="input small w-full">
-                        <option :value="null">{{ __('voyager::generic.none') }}</option>
-                        <option v-for="(column, i) in relationship.columns" :key="'column-'+i">
-                            {{ column }}
-                        </option>
-                    </select>
-                </card>
-            </div>
-            <div v-else>
-                {{ __('voyager::formfields.relationship.select_relationship') }}
-            </div>
+            <label class="label mt-4">{{ __('voyager::formfields.relationship.allow_null') }}</label>
+            <input type="checkbox" class="input" v-model="options.allow_null">
+            
+            <label class="label mt-4">{{ __('voyager::formfields.relationship.select_text') }}</label>
+            <language-input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::formfields.relationship.select_text')"
+                v-bind:value="options.select_text"
+                v-on:input="options.select_text = $event" />
+
+            <label class="label mt-4">{{ __('voyager::formfields.relationship.search_text') }}</label>
+            <language-input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::formfields.relationship.search_text')"
+                v-bind:value="options.search_text"
+                v-on:input="options.search_text = $event" /> 
         </div>
         <div v-else-if="show == 'view'">
-            ...
+            <select class="input w-full" disabled></select>
         </div>
     </div>
 </template>
@@ -42,22 +45,16 @@
 export default {
     props: ['options', 'column', 'show', 'relationships'],
     methods: {
-        relationshipLayouts: function (type) {
-            var vm = this;
-            if (!vm.relationship || !vm.relationship.has_bread) {
-                return [];
-            }
-
-            return vm.relationship.bread.layouts.where('type', type);
-        },
+        
     },
     computed: {
         relationship: function () {
             var vm = this;
-            if (!vm.relationships) {
+            if (!vm.relationships || !vm.column.column) {
                 return null;
             }
-            return vm.relationships.where('method', vm.column.column)[0];
+
+            return vm.relationships.where('method', vm.column.column).first();
         },
     },
 };

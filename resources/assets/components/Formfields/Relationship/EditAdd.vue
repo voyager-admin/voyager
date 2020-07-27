@@ -1,97 +1,141 @@
 <template>
     <div>
-        <div v-if="options.browse_list">
-            <div v-if="relationship">
-                <div class="w-full text-right" v-if="addLayout">
-                    <modal :ref="'add-'+_uid">
-                        <bread-edit-add
-                            :bread="relationship.bread"
-                            action="add"
-                            :layout="addLayout"
-                            :translatable="true"
-                            :relationships="[]"
-                            :prev-url="''"
-                            :input="{}"
-                            v-on:saved="addedNewEntry"
-                            :from-relationship="true"
-                        ></bread-edit-add>
-                        <div slot="opener" class="w-full">
-                            <button class="button green">
-                                <icon icon="plus"></icon>
-                                <span>{{ __('voyager::generic.add_type', { type: translate(relationship.bread.name_singular, true)}) }}</span>
-                            </button>
-                        </div>
-                    </modal>
+        <listbox
+            :options="selectable"
+            v-model="selected"
+            :close-on-select="!relationship.multiple"
+            :loading="loading"
+            :multiple="relationship.multiple"
+            search
+            @search="search"
+            :pages="pages"
+            @page="page = $event"
+            :search-options-text="translate(options.search_text, true)"
+            :select-option-text="translate(options.select_text, true)"
+        >
+            <div>
+                <div v-if="relationship.multiple">
+                    <badge
+                        v-for="(option, i) in value"
+                        :key="i"
+                        icon="x"
+                        @click-icon.stop.prevent="remove(option.key)"
+                    >
+                        {{ option.value }}
+                    </badge>
+                    <span v-if="value.length == 0">
+                        {{ translate(options.select_text, true) }}
+                    </span>
                 </div>
-                <bread-browse
-                    class="border-none shadow-none"
-                    style="padding: 0 !important; box-shadow: none !important"
-                    :bread="relationship.bread"
-                    :relationship-layout="relationshipLayout"
-                    :relationship-selected="selected"
-                    :relationship-multiple="relationship.multiple"
-                    :primary-key="relationship.key_name"
-                    :per-page="5"
-                    :ref="'browse-'+_uid"
-                    v-on:select="$emit('input', $event)"
-                    from-relationship
-                ></bread-browse>
+                <div v-else>
+                    <span v-if="value.length !== 0">
+                        {{ value[0].value }}
+                    </span>
+                    <span v-else>
+                        {{ translate(options.select_text, true) }}
+                    </span>
+                </div>
             </div>
-        </div>
-        <div v-else-if="options.column">
-
-        </div>
-        <div v-else>
-            Please provider a BREAD browse-list or a column for this relationship!
-        </div>
+        </listbox>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['options', 'value', 'column', 'relationships'],
+    props: ['options', 'value', 'column', 'relationships', 'bread'],
     data: function () {
         return {
-            reactiveValue: this.isArray(this.value) ? this.value : [this.value],
+            loading: false,
+            page: 1,
+            pages: 1,
+            selectable: [
+                { key: 0, value: 'First value' },
+                { key: 1, value: 'Second value' },
+                { key: 2, value: 'Third value' },
+                { key: 3, value: 'Firth value' },
+                { key: 4, value: 'Fifth value' },
+                { key: 5, value: 'Sixth value' },
+                { key: 6, value: 'Seventh value' },
+                { key: 7, value: 'Eigth value' },
+                { key: 8, value: 'Ninth value' },
+                { key: 9, value: 'Tenth value' },
+            ]
         };
     },
     computed: {
         relationship: function () {
-            var method = this.column.column;
+            return this.relationships.where('method', this.column.column).first() || null;
+        },
+        selected: {
+            get: function () {
+                return this.value.map(function (item) {
+                    return item.key;
+                });
+            },
+            set: function (value) {
+                if (!this.relationship.multiple) {
+                    this.$emit('input', [{
+                        key: value,
+                        value: this.selectable.where('key', value).first().value
+                    }]);
 
-            return this.relationships.where('method', method)[0];
-        },
-        relationshipLayout: function () {
-            var layout_name = this.options.browse_list;
-            return this.relationship.bread.layouts.where('name', layout_name).where('type', 'list')[0];
-        },
-        addLayout: function () {
-            var layout_name = this.options.add_view;
-            if (!layout_name) {
-                return null;
-            }
-            return this.relationship.bread.layouts.where('name', layout_name).where('type', 'view')[0];
-        },
-        selected: function () {
-            var vm = this;
-            var values = vm.reactiveValue;
-            var primary = vm.relationship.key_name;
-            if (vm.isObject(vm.reactiveValue)) {
-                values = [vm.reactiveValue];
-            }
-            var selected = [];
-            values.forEach(function (val) {
-                selected.push(val[primary]);
-            });
+                    return;
+                }
+                var keys = this.value.pluck('key');
 
-            return selected;
+                var diff = value.diff(keys).first();
+                if (diff !== undefined) {
+                    // Added an entry
+                    this.$emit('input', [
+                        ...this.value,
+                        {
+                            key: diff,
+                            value: this.selectable.where('key', diff).first().value,
+                        }
+                    ]);
+                } else {
+                    diff = keys.diff(value).first();
+                    this.$emit('input', this.value.whereNot('key', diff));
+                }
+            }
         }
     },
     methods: {
-        addedNewEntry: function (key) {
-            this.$refs['add-'+this._uid].close();
-            this.$refs['browse-'+this._uid].load();
+        loadResults: function () {
+            var vm = this;
+
+            axios.post(vm.route('voyager.'+vm.translate(this.bread.slug, true)+'.relationship'), {
+                query: vm.query,
+                method: vm.relationship.method,
+                page: vm.page,
+                column: vm.options.display_column,
+            })
+            .then(function (response) {
+                vm.selectable = response.data.data;
+                vm.pages = response.data.pages;
+                if (vm.relationship.type === 'BelongsTo' && (vm.options.allow_null)) {
+                    vm.selectable.unshift({
+                        key: null,
+                        value: vm.__('voyager::generic.none'),
+                    });
+                }
+            });
+        },
+        search: debounce(function (query) {
+            this.query = query;
+            this.loadResults();
+        }, 250),
+        remove: function (key) {
+            this.$emit('input', this.value.whereNot('key', key));
         },
     },
+    watch: {
+        page: function () {
+            this.loadResults();
+        }
+    },
+    mounted: function () {
+        this.loadResults();
+    }
 };
 </script>

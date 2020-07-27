@@ -361,28 +361,30 @@ class Breads
             if ($type && in_array(strval($type->getName()), $types)) {
                 $columns = [];
                 $pivot = [];
+                $computed = [];
                 if ($resolve) {
                     $relationship = $model->{$method->getName()}();
-                    $table = $relationship->getRelated()->getTable();
+                    $related = $relationship->getRelated();
+                    $table = $related->getTable();
                     if ($type->getName() == BelongsToMany::class) {
                         $pivot = array_values(array_diff(VoyagerFacade::getColumns($relationship->getTable()), [
                             $relationship->getForeignPivotKeyName(),
                             $relationship->getRelatedPivotKeyName(),
                         ]));
                     }
-
                     $columns = VoyagerFacade::getColumns($table);
+                    $computed = $this->getModelComputedProperties($this->getModelReflectionClass(get_class($related)))->values();
                 }
 
                 return [
                     'method'    => $method->getName(),
                     'type'      => class_basename($type->getName()),
+                    'table'     => $table,
                     'columns'   => $columns,
                     'pivot'     => $pivot,
-                    'has_bread' => $this->hasBread($table),
-                    'bread'     => $this->getBread($table),
+                    'computed'  => $computed,
                     'key_name'  => $relationship->getRelated()->getKeyName(),
-                    'multiple'  => in_array(strval($type->getName()), [BelongsToMany::class, HasMany::class]),
+                    'multiple'  => in_array(strval($type->getName()), [BelongsToMany::class, HasMany::class, HasManyThrough::class]),
                 ];
             }
 

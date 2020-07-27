@@ -50,6 +50,9 @@ Route::group(['as' => 'voyager.'], function () {
 
                 // Read
                 Route::get('/{id}', ['uses' => $controller.'@read', 'as' => 'read', 'bread' => $bread]);
+
+                // Relationship data
+                Route::post('/relationship', ['uses' => $controller.'@relationship', 'as' => 'relationship', 'bread' => $bread]);
             });
         }
 

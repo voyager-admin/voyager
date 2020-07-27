@@ -25,9 +25,10 @@ class Relationship extends Formfield
     public function viewOptions(): array
     {
         return [
-            'column'        => null,
-            'browse_list'   => null,
-            'add_view'      => null,
+            'display_column'    => null,
+            'search_text'       => '',
+            'select_text'       => '',
+            'allow_null'        => true,
         ];
     }
 
@@ -38,13 +39,20 @@ class Relationship extends Formfield
 
     public function edit($value)
     {
+        $column = $this->options->display_column ?? null;
         if ($value instanceof \Illuminate\Support\Collection) {
-            return $value->map(function ($item) {
-                return $item->getKey();
+            return $value->map(function ($item) use ($column) {
+                return [
+                    'key'   => $item->getKey(),
+                    'value' => $item[$column]
+                ];
             });
         }
-        if ($value) {
-            return [$value->getKey()];
+        if ($value instanceof \Illuminate\Database\Eloquent\Model) {
+            return [[
+                'key'   => $value->getKey(),
+                'value' => $value[$column]
+            ]];
         }
 
         return [];
@@ -52,19 +60,41 @@ class Relationship extends Formfield
 
     public function update($model, $value, $old)
     {
+        $keys = collect($value)->pluck('key')->toArray();
+
         $column = $this->column->column;
         $relationship = $model->{$column}();
         $type = class_basename(get_class($relationship));
-        if (is_array($value)) {
+
+        if (is_array($keys)) {
             if ($type == 'BelongsToMany') {
-                $model->{$column}()->sync($value);
+                $model->{$column}()->sync($keys);
             } elseif ($type == 'BelongsTo') {
-                $relationship->associate($value[0]);
-            } elseif ($type == 'BelongsTo') {
-                if (count($value) == 0) {
+                if (count($keys) == 0) {
                     $relationship->dissociate();
                 } else {
-                    $relationship->associate($value[0]);
+                    $relationship->associate($keys[0]);
+                }
+            } elseif ($type == 'HasMany' || $type == 'HasOne' || $type == 'HasManyThrough' || $type == 'HasOneThrough') {
+                $old_keys = [];
+                if ($old instanceof \Illuminate\Support\Collection) {
+                    $old_keys = $old->modelKeys();
+                }
+                $related = $relationship->getRelated();
+                $key = $relationship->getForeignKeyName();
+                $removed = array_diff($old_keys, $keys);
+                $added = array_diff($keys, $old_keys);
+
+                foreach ($removed as $remove) {
+                    $m = $related->find($remove);
+                    $m->{$key} = null;
+                    $m->save();
+                }
+
+                foreach ($added as $add) {
+                    $m = $related->find($add);
+                    $m->{$key} = $model->getKey();
+                    $m->save();
                 }
             }
         }
@@ -72,7 +102,7 @@ class Relationship extends Formfield
 
     public function stored($model, $value)
     {
-        $this->update($model, $value, []);
+        $this->update($model, $value, collect());
     }
 
     public function canBeTranslated()

@@ -9,7 +9,7 @@ export default {
     props: ['options', 'data', 'translatable'],
     methods: {
         getOptionByKey: function (key) {
-            return this.options.options.where('key', key)[0] ?? null;
+            return this.options.options.where('key', key).first() ?? null;
         }
     },
     computed: {
