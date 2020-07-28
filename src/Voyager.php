@@ -33,7 +33,7 @@ class Voyager
     public function routes()
     {
         $this->pluginmanager->launchPlugins();
-        require __DIR__.'/../routes/voyager.php';
+        require __DIR__ . '/../routes/web.php';
     }
 
     /**
