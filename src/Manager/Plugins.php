@@ -98,7 +98,7 @@ class Plugins
         $plugin = $this->getPluginsByType($type)->where('enabled')->first();
         if (!$plugin && $fallback !== null) {
             $plugin = $fallback;
-            if (!($fallback instanceof IsGenericPlugin)) {
+            if (!($fallback instanceof GenericPlugin)) {
                 $plugin = new $fallback();
             }
         }
