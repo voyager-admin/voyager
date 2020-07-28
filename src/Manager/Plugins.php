@@ -75,7 +75,7 @@ class Plugins
     public function launchPlugins()
     {
         $this->getAllPlugins()->each(function ($plugin) {
-            if ($plugin->enabled || $plugin->type == 'theme') {
+            if ($plugin->enabled || $plugin->type === 'theme') {
                 $plugin->registerPublicRoutes();
                 if (method_exists($plugin, 'registerMenuItems')) {
                     $plugin->registerMenuItems($this->menumanager);
