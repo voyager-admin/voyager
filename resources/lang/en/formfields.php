@@ -33,6 +33,7 @@ return [
     'relationship'  => [
         'name'                  => 'Relationship',
         'allow_null'            => 'Allow null',
+        'pivots'                => 'Pivots',
         'select_relationship'   => 'Please select a relationship first!',
         'search_text'           => 'Search text',
         'select_text'           => 'Select text',

@@ -44,7 +44,7 @@
                     <div v-if="options.length == 0" class="w-full flex justify-center text-xl my-2">
                         {{ noResultsText }}
                     </div>
-                    <div v-if="pages > 0" class="w-full flex justify-center mt-1">
+                    <div v-if="pages > 0" class="w-full py-1 pl-1">
                         <pagination
                             :page-count="pages"
                             v-model.number="currentPage"

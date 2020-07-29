@@ -33,7 +33,16 @@
                 class="input w-full"
                 type="text" :placeholder="__('voyager::formfields.relationship.search_text')"
                 v-bind:value="options.search_text"
-                v-on:input="options.search_text = $event" /> 
+                v-on:input="options.search_text = $event" />
+
+            <label class="label mt-4" v-if="relationship && relationship.type == 'BelongsToMany'">
+                {{ __('voyager::formfields.relationship.pivots') }}
+            </label>
+            <select multiple class="input w-full" v-if="relationship && relationship.type == 'BelongsToMany'" v-model="options.pivots">
+                <option v-for="(pivot, i) in relationship.pivot" :key="i">
+                    {{ pivot }}
+                </option>
+            </select>
         </div>
         <div v-else-if="show == 'view'">
             <select class="input w-full" disabled></select>

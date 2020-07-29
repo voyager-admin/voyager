@@ -30,6 +30,7 @@ class Relationship extends Formfield
             'search_text'       => '',
             'select_text'       => '',
             'allow_null'        => true,
+            'pivots'            => [],
         ];
     }
 
