@@ -15,7 +15,10 @@
         }
     ],
     "require": {
-        "illuminate/support": "~7.0",
+        "php": "^7.2",
+        "ext-json": "*",
+        "illuminate/contracts": "^7.0",
+        "illuminate/support": "^7.0",
         "doctrine/dbal": ">=2.10",
         "composer/composer": "^1.10",
         "spatie/laravel-image-optimizer": "^1.6",
@@ -39,7 +42,10 @@
         "laravel": {
             "providers": [
                 "Voyager\\Admin\\VoyagerServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Voyager": "Voyager\\Admin\\Facades\\Voyager"
+            }
         }
     }
 }

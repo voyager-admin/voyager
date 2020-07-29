@@ -46,7 +46,7 @@ class Plugins
             $plugin->type = $this->getPluginType($plugin);
 
             $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
-            $plugin->enabled = in_array($plugin->identifier, $this->enabled_plugins);
+            $plugin->enabled = in_array($plugin->identifier, $this->enabled_plugins, true);
             if ($plugin->getInstructionsView()) {
                 $plugin->instructions = $plugin->getInstructionsView()->render();
             }
@@ -75,7 +75,7 @@ class Plugins
     public function launchPlugins()
     {
         $this->getAllPlugins()->each(function ($plugin) {
-            if ($plugin->enabled || $plugin->type == 'theme') {
+            if ($plugin->enabled || $plugin->type === 'theme') {
                 $plugin->registerPublicRoutes();
                 if (method_exists($plugin, 'registerMenuItems')) {
                     $plugin->registerMenuItems($this->menumanager);
@@ -98,7 +98,7 @@ class Plugins
         $plugin = $this->getPluginsByType($type)->where('enabled')->first();
         if (!$plugin && $fallback !== null) {
             $plugin = $fallback;
-            if (!($fallback instanceof IsGenericPlugin)) {
+            if (!($fallback instanceof GenericPlugin)) {
                 $plugin = new $fallback();
             }
         }
@@ -113,14 +113,14 @@ class Plugins
 
     public function getAvailablePlugins()
     {
-        return VoyagerFacade::getJson(File::get(realpath(__DIR__.'/../../plugins.json')), []);
+        return VoyagerFacade::getJson(File::get(dirname(__DIR__, 2) . '/plugins.json'), []);
     }
 
     protected function getPluginType($class)
     {
-        return collect(class_implements($class))->filter(function ($interface) {
+        return collect(class_implements($class))->filter(static function ($interface) {
             return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\');
-        })->transform(function ($interface) {
+        })->transform(static function ($interface) {
             return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
         })->first();
     }
