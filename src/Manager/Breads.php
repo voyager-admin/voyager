@@ -371,7 +371,6 @@ class Breads
                             $relationship->getForeignPivotKeyName(),
                             $relationship->getRelatedPivotKeyName(),
                         ]));
-                        debug($pivot);
                     }
                     $columns = VoyagerFacade::getColumns($table);
                     $computed = $this->getModelComputedProperties($this->getModelReflectionClass(get_class($related)))->values();
