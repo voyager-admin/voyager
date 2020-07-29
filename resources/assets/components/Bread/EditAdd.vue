@@ -18,7 +18,7 @@
                                 :show-title="translate(formfield.options.label, true) !== ''">
                                 <div>
                                     <alert v-if="getErrors(formfield.column).length > 0" color="red" :closebutton="false" class="mb-1">
-                                        <ul class="list-disc ml-4">
+                                        <ul class="list-disc">
                                             <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
                                                 {{ error }}
                                             </li>

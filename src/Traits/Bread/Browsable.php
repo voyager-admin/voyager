@@ -115,7 +115,7 @@ trait Browsable
                         } elseif (is_array($item->{$relationship})) {
                             $item->{$column} = ''.count($item->{$relationship});
                         } else {
-                            $item->{$column} = '1';
+                            $item->{$column} = $item->{$relationship} == null ? '0' : '1';
                         }
                     } elseif ($item->{$relationship} instanceof Collection) {
                         // X-Many relationship

@@ -10,6 +10,7 @@ Instead, they are listed here:
 - Check global-search styling with >= 4 BREADs
 - Relationship selected can't get cleared when changing pages
 - Focus has to stay on search-input when querying relationships
+- Discuss validation of translatables (validate all, current locale, ...)
 
 ## Formfields
 - **Relationship** not yet (fully) working
