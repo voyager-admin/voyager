@@ -4,6 +4,7 @@ namespace Voyager\Admin\Formfields;
 
 use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Relationship extends Formfield
 {
@@ -44,14 +45,14 @@ class Relationship extends Formfield
             return $value->map(function ($item) use ($column) {
                 return [
                     'key'   => $item->getKey(),
-                    'value' => $item[$column]
+                    'value' => $item->{$column}
                 ];
             });
         }
         if ($value instanceof \Illuminate\Database\Eloquent\Model) {
             return [[
                 'key'   => $value->getKey(),
-                'value' => $value[$column]
+                'value' => $value->{$column}
             ]];
         }
 

@@ -9,6 +9,7 @@ Instead, they are listed here:
 - Check if layouts are assigned to all actions
 - Check global-search styling with >= 4 BREADs
 - Relationship selected can't get cleared when changing pages
+- Focus has to stay on search-input when querying relationships
 
 ## Formfields
 - **Relationship** not yet (fully) working

@@ -12,6 +12,7 @@
             @page="page = $event"
             :search-options-text="translate(options.search_text, true)"
             :select-option-text="translate(options.select_text, true)"
+            @opened="!initial_loaded ? loadResults() : null"
         >
             <div>
                 <div v-if="relationship.multiple">
@@ -42,24 +43,14 @@
 
 <script>
 export default {
-    props: ['options', 'value', 'column', 'relationships', 'bread'],
+    props: ['options', 'value', 'column', 'relationships', 'bread', 'translatable'],
     data: function () {
         return {
             loading: false,
+            initial_loaded: false,
             page: 1,
             pages: 1,
-            selectable: [
-                { key: 0, value: 'First value' },
-                { key: 1, value: 'Second value' },
-                { key: 2, value: 'Third value' },
-                { key: 3, value: 'Firth value' },
-                { key: 4, value: 'Fifth value' },
-                { key: 5, value: 'Sixth value' },
-                { key: 6, value: 'Seventh value' },
-                { key: 7, value: 'Eigth value' },
-                { key: 8, value: 'Ninth value' },
-                { key: 9, value: 'Tenth value' },
-            ]
+            selectable: []
         };
     },
     computed: {
@@ -103,6 +94,7 @@ export default {
     methods: {
         loadResults: function () {
             var vm = this;
+            vm.loading = true;
 
             axios.post(vm.route('voyager.'+vm.translate(this.bread.slug, true)+'.relationship'), {
                 query: vm.query,
@@ -119,6 +111,9 @@ export default {
                         value: vm.__('voyager::generic.none'),
                     });
                 }
+
+                vm.loading = false;
+                vm.initial_loaded = true;
             });
         },
         search: debounce(function (query) {
@@ -135,7 +130,7 @@ export default {
         }
     },
     mounted: function () {
-        this.loadResults();
+        //this.loadResults();
     }
 };
 </script>

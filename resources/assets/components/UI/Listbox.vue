@@ -29,7 +29,7 @@
             <div v-show="isOpen" class="rounded-md py-1 max-h-128 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
                 <div v-if="!loading">
                     <div v-if="search" class="px-1 pb-1">
-                        <input class="input small w-full" :placeholder="searchOptionsText" @input="$emit('search', $event.target.value)">
+                        <input class="input small w-full" :placeholder="searchOptionsText" v-model="query" @input="$emit('search', $event.target.value)">
                     </div>
                     <div class="option" v-for="(option, i) in options" :key="i" :class="selected(option) ? 'selected' : ''" @click="select(option)">
                         <div class="flex items-center space-x-3">
@@ -41,7 +41,7 @@
                             <icon icon="check" :size="5"></icon>
                         </span>
                     </div>
-                    <div v-if="options.length == 0" class="w-full flex justify-center text-xl">
+                    <div v-if="options.length == 0" class="w-full flex justify-center text-xl my-2">
                         {{ noResultsText }}
                     </div>
                     <div v-if="pages > 0" class="w-full flex justify-center mt-1">
@@ -53,7 +53,7 @@
                         />
                     </div>
                 </div>
-                <div class="text-lg p-2" v-else>
+                <div class="w-full flex justify-center text-xl my-2" v-else>
                     {{ loadingText }}
                 </div>
             </div>
@@ -114,6 +114,7 @@ export default {
     data: function () {
         return {
             currentPage: 1,
+            query: '',
         };
     },
     methods: {

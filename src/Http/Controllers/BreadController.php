@@ -2,13 +2,16 @@
 
 namespace Voyager\Admin\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Traits\Bread\Browsable;
 use Voyager\Admin\Traits\Bread\Saveable;
+use Voyager\Admin\Traits\Translatable;
 
 class BreadController extends Controller
 {
@@ -279,12 +282,21 @@ class BreadController extends Controller
         $page = $request->get('page', 1);
         $method = $request->get('method');
         $column = $request->get('column');
+        $locale = VoyagerFacade::getLocale();
+        $translatable = false;
+        $model = $bread->getModel();
+        $data = $model->{$method}()->getRelated();
 
-        $data = $bread->getModel()->{$method}()->getRelated();
+        if (in_array(Translatable::class, class_uses($data)) && in_array($column, $data->translatable)) {
+            $translatable = true;
+        }
 
         if (!empty($query)) {
-            // TODO: What about translatable?
-            $data = $data->where($column, 'like', '%'.$query.'%');
+            if ($translatable) {
+                $data = $data->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($query).'%');
+            } else {
+                $data = $data->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($query).'%');
+            }
         }
         $data = $data->get();
         $count = $data->count();
