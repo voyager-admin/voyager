@@ -59,10 +59,6 @@ class TestCase extends DuskTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['router']->prefix('admin')->group(function (\Illuminate\Routing\Router $router) {
-            Voyager::routes($router);
-        });
-
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',

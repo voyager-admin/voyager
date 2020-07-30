@@ -16,12 +16,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->loadLaravelMigrations(['--database' => 'testbench']);
 
-        $route_dir = realpath($this->getBasePath());
-        if (!is_dir($route_dir.'/routes')) {	
-            @mkdir($route_dir.'/routes');	
-        }	
-        file_put_contents($route_dir.'/routes/web.php', "<?php\nRoute::group(['prefix' => 'admin'], function () {\n    Voyager::routes();\n});");
-
         // Pre-fetch routes
         $this->get(route('voyager.bread.index'));
 
