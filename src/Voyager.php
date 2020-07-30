@@ -26,13 +26,25 @@ class Voyager
     }
 
     /**
-     * Get Voyagers routes.
-     *
-     * @return array an array of routes
+     * Register admin area routes for all Voyager plugins.
      */
     public function pluginRoutes()
     {
         $this->pluginmanager->registerRoutes();
+    }
+
+    /**
+     * Generate a Voyager route URL for Voyager resources and paths.
+     *
+     * @param       $name
+     * @param array $parameters
+     * @param bool  $absolute
+     *
+     * @return string
+     */
+    public function route($name, $parameters = [], $absolute = true): string
+    {
+        return route('voyager.' . $name, $parameters, $absolute);
     }
 
     /**

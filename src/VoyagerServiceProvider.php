@@ -32,6 +32,7 @@ class VoyagerServiceProvider extends ServiceProvider
     protected $pluginmanager;
     protected $breadmanager;
     protected $menumanager;
+    protected $settingmanager;
 
     /**
      * Bootstrap the application services.
@@ -87,11 +88,14 @@ class VoyagerServiceProvider extends ServiceProvider
         Route::group([
             'as'         => 'voyager.',
             'prefix'     => '/admin',
-            'namespace'  => 'Voyager\Admin\Http\Controllers',
             'middleware' => 'web',
         ], function () use ($breadsCollection) {
-            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-            $this->registerBreadRoutes($breadsCollection);
+            Route::group([
+                'namespace' => 'Voyager\Admin\Http\Controllers',
+            ], function () use ($breadsCollection) {
+                $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+                $this->registerBreadRoutes($breadsCollection);
+            });
             VoyagerFacade::pluginRoutes();
         });
     }
@@ -106,7 +110,6 @@ class VoyagerServiceProvider extends ServiceProvider
             Route::group([
                 'as'         => $bread->slug.'.',
                 'prefix'     => $bread->slug,
-                'middleware' => config('voyager.adminMiddleware', 'voyager.admin')
             ], static function () use ($bread, $controller) {
                 // Browse
                 Route::view('/', 'voyager::bread.browse', compact('bread'))->name('browse');
