@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
 use Voyager\Admin\Contracts\Plugins\HasFrontendFeatures;
+use Voyager\Admin\Contracts\Plugins\RegistersMenuItems;
+use Voyager\Admin\Contracts\Plugins\RegistersSettings;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Plugins
@@ -94,14 +96,11 @@ class Plugins
         $this->getAllPlugins()->filter(static function ($plugin) {
             return $plugin->enabled || $plugin->type === 'theme';
         })->each(function ($plugin) {
-            if (method_exists($plugin, 'registerMenuItems')) {
+            if ($plugin instanceof RegistersMenuItems) {
                 $plugin->registerMenuItems($this->menumanager);
             }
-            if (method_exists($plugin, 'registerSettings')) {
-                $settings = $plugin->registerSettings();
-                if (is_array($settings)) {
-                    $this->settingsmanager->mergeSettings($settings);
-                }
+            if ($plugin instanceof RegistersSettings) {
+                $this->settingsmanager->mergeSettings($plugin->registerSettings());
             }
         });
         $this->plugins_loaded = true;
