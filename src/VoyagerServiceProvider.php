@@ -6,7 +6,10 @@ use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\MenuItem;
 use Voyager\Admin\Commands\InstallCommand;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -17,6 +20,12 @@ use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
 use Voyager\Admin\Policies\BasePolicy;
 
+/**
+ * @property array $policies
+ * @property PluginManager $pluginmanager
+ * @property BreadManager $breadmanager
+ * @property MenuManager $menumanager
+ */
 class VoyagerServiceProvider extends ServiceProvider
 {
     protected $policies = [];
@@ -31,32 +40,15 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $this->loadViewsFrom(realpath(__DIR__.'/../resources/views'), 'voyager');
-        $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager');
+        $this->registerResources();
 
         $this->loadPluginFormfields();
 
         $breads = $this->breadmanager->getBreads();
 
         // Register menu-items
-        $this->menumanager->addItems(
-            (new MenuItem(__('voyager::generic.dashboard'), 'home', true))->permission('browse', ['admin'])->route('voyager.dashboard')->exact()
-        );
+        $this->registerMenuItems();
         $this->registerBreadBuilderMenuItem($breads);
-        $this->menumanager->addItems(
-            (new MenuItem(__('voyager::generic.media'), 'photograph', true))->permission('browse', ['media'])->route('voyager.media'),
-        );
-
-        if ($this->settingmanager->setting('admin.ui-components', true)) {
-            $this->menumanager->addItems(
-                (new MenuItem(__('voyager::generic.ui_components'), 'template', true))->permission('browse', ['ui'])->route('voyager.ui'),
-            );
-        }
-
-        $this->menumanager->addItems(
-            (new MenuItem(__('voyager::generic.settings'), 'cog', true))->permission('browse', ['settings'])->route('voyager.settings.index'),
-            (new MenuItem(__('voyager::plugins.plugins'), 'puzzle', true))->permission('browse', ['plugins'])->route('voyager.plugins.index')
-        );
         $this->registerBreadMenuItems($breads);
 
         // Register BREAD policies
@@ -64,66 +56,78 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // Register permissions
-        app(Gate::class)->before(function ($user, $ability, $arguments = []) {
+        app(Gate::class)->before(static function ($user, $ability, $arguments = []) {
             return VoyagerFacade::authorize($user, $ability, $arguments);
         });
 
         $router->aliasMiddleware('voyager.admin', VoyagerAdminMiddleware::class);
+
+        $this->registerRoutes($breads);
+    }
+
+
+    /**
+     * Register the Voyager resources.
+     *
+     * @return void
+     */
+    protected function registerResources(): void
+    {
+        $this->loadViewsFrom(realpath(__DIR__.'/../resources/views'), 'voyager');
+        $this->loadTranslationsFrom(realpath(__DIR__.'/../resources/lang'), 'voyager');
     }
 
     /**
-     * Register the application services.
+     * Register the Voyager routes.
+     *
+     * @return void
      */
-    public function register()
+    protected function registerRoutes(Collection $breadsCollection)
     {
-        $loader = AliasLoader::getInstance();
-        $loader->alias('Voyager', VoyagerFacade::class);
-
-        $this->menumanager = new MenuManager();
-        $this->app->singleton(MenuManager::class, function () {
-            return $this->menumanager;
+        Route::group([
+            'as'         => 'voyager.',
+            'prefix'     => '/admin',
+            'namespace'  => 'Voyager\Admin\Http\Controllers',
+            'middleware' => 'web',
+        ], function () use ($breadsCollection) {
+            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+            $this->registerBreadRoutes($breadsCollection);
+            VoyagerFacade::pluginRoutes();
         });
-
-        $this->settingmanager = new SettingManager();
-        $this->app->singleton(SettingManager::class, function () {
-            return $this->settingmanager;
-        });
-
-        $this->pluginmanager = new PluginManager($this->menumanager, $this->settingmanager);
-        $this->app->singleton(PluginManager::class, function () {
-            return $this->pluginmanager;
-        });
-
-        $this->breadmanager = new BreadManager();
-        $this->app->singleton(BreadManager::class, function () {
-            return $this->breadmanager;
-        });
-
-        $this->app->singleton('voyager', function () {
-            return new Voyager($this->breadmanager, $this->pluginmanager, $this->settingmanager);
-        });
-
-        $this->settingmanager->loadSettings();
-
-        $this->commands(InstallCommand::class);
-
-        $this->registerFormfields();
     }
 
-    public function registerFormfields()
+    private function registerBreadRoutes(Collection $breadsCollection): void
     {
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Checkboxes::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\DynamicSelect::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\MediaPicker::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Number::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Password::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Radios::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Relationship::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Select::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\SimpleArray::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Slug::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Tags::class);
-        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Text::class);
+        $breadsCollection->each(static function (Bread $bread) {
+            $controller = 'BreadController';
+            if (!empty($bread->controller)) {
+                $controller = \Illuminate\Support\Str::start($bread->controller, '\\');
+            }
+            Route::group([
+                'as'         => $bread->slug.'.',
+                'prefix'     => $bread->slug,
+                'middleware' => config('voyager.adminMiddleware', 'voyager.admin')
+            ], static function () use ($bread, $controller) {
+                // Browse
+                Route::view('/', 'voyager::bread.browse', compact('bread'))->name('browse');
+                Route::post('/data', ['uses'=> $controller.'@data', 'as' => 'data', 'bread' => $bread]);
+
+                // Edit
+                Route::get('/edit/{id}', ['uses' => $controller.'@edit', 'as' => 'edit', 'bread' => $bread]);
+                Route::put('/{id}', ['uses' => $controller.'@update', 'as' => 'update', 'bread' => $bread]);
+
+                // Add
+                Route::get('/add', ['uses' => $controller.'@add', 'as' => 'add', 'bread' => $bread]);
+                Route::post('/', ['uses' => $controller.'@store', 'as' => 'store', 'bread' => $bread]);
+
+                // Delete
+                Route::delete('/', ['uses' => $controller.'@delete', 'as' => 'delete', 'bread' => $bread]);
+                Route::patch('/', ['uses' => $controller.'@restore', 'as' => 'restore', 'bread' => $bread]);
+
+                // Read
+                Route::get('/{id}', ['uses' => $controller.'@read', 'as' => 'read', 'bread' => $bread]);
+            });
+        });
     }
 
     public function loadPluginFormfields()
@@ -178,5 +182,81 @@ class VoyagerServiceProvider extends ServiceProvider
                 );
             });
         }
+    }
+
+    private function registerMenuItems()
+    {
+        $this->menumanager->addItems(
+            (new MenuItem(__('voyager::generic.dashboard'), 'home', true))->permission('browse', ['admin'])->route('voyager.dashboard')->exact()
+        );
+        $this->menumanager->addItems(
+            (new MenuItem(__('voyager::generic.media'), 'photograph', true))->permission('browse', ['media'])->route('voyager.media'),
+        );
+
+        if ($this->settingmanager->setting('admin.ui-components', true)) {
+            $this->menumanager->addItems(
+                (new MenuItem(__('voyager::generic.ui_components'), 'template', true))->permission('browse', ['ui'])->route('voyager.ui'),
+            );
+        }
+
+        $this->menumanager->addItems(
+            (new MenuItem(__('voyager::generic.settings'), 'cog', true))->permission('browse', ['settings'])->route('voyager.settings.index'),
+            (new MenuItem(__('voyager::plugins.plugins'), 'puzzle', true))->permission('browse', ['plugins'])->route('voyager.plugins.index')
+        );
+    }
+
+    /**
+     * Register the application services.
+     */
+    public function register()
+    {
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Voyager', VoyagerFacade::class);
+
+        $this->menumanager = new MenuManager();
+        $this->app->singleton(MenuManager::class, function () {
+            return $this->menumanager;
+        });
+
+        $this->settingmanager = new SettingManager();
+        $this->app->singleton(SettingManager::class, function () {
+            return $this->settingmanager;
+        });
+
+        $this->pluginmanager = new PluginManager($this->menumanager, $this->settingmanager);
+        $this->app->singleton(PluginManager::class, function () {
+            return $this->pluginmanager;
+        });
+
+        $this->breadmanager = new BreadManager();
+        $this->app->singleton(BreadManager::class, function () {
+            return $this->breadmanager;
+        });
+
+        $this->app->singleton('voyager', function () {
+            return new Voyager($this->breadmanager, $this->pluginmanager, $this->settingmanager);
+        });
+
+        $this->settingmanager->loadSettings();
+
+        $this->commands(InstallCommand::class);
+
+        $this->registerFormfields();
+    }
+
+    private function registerFormfields()
+    {
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Checkboxes::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\DynamicSelect::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\MediaPicker::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Number::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Password::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Radios::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Relationship::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Select::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\SimpleArray::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Slug::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Tags::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Text::class);
     }
 }

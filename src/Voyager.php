@@ -30,10 +30,9 @@ class Voyager
      *
      * @return array an array of routes
      */
-    public function routes()
+    public function pluginRoutes()
     {
         $this->pluginmanager->launchPlugins();
-        require __DIR__ . '/../routes/web.php';
     }
 
     /**
