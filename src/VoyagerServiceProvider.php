@@ -154,7 +154,10 @@ class VoyagerServiceProvider extends ServiceProvider
         });
     }
 
-    public function loadPluginFormfields()
+    /**
+     * Fetch enabled form field plugins and register them with the bread manager.
+     */
+    public function loadPluginFormfields(): void
     {
         $this->pluginmanager->getPluginsByType('formfield')->where('enabled')->each(function ($formfield) {
             $this->breadmanager->addFormfield($formfield->getFormfield());
@@ -194,7 +197,7 @@ class VoyagerServiceProvider extends ServiceProvider
             $bread_builder_item
         );
 
-        $breads->each(function ($bread) use ($bread_builder_item) {
+        $breads->each(static function ($bread) use ($bread_builder_item) {
             $bread_builder_item->addChildren(
                 (new MenuItem($bread->name_plural, $bread->icon, true))->permission('edit', [$bread->table])
                     ->route('voyager.bread.edit', ['table' => $bread->table])
