@@ -98,6 +98,7 @@ class VoyagerServiceProvider extends ServiceProvider
             });
             VoyagerFacade::pluginRoutes();
         });
+        VoyagerFacade::pluginFrontendRoutes();
     }
 
     private function registerBreadRoutes(Collection $breadsCollection): void

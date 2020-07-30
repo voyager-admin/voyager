@@ -2,10 +2,12 @@
 
 namespace Voyager\Admin\Manager;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
+use Voyager\Admin\Contracts\Plugins\HasFrontendFeatures;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Plugins
@@ -25,6 +27,11 @@ class Plugins
      * @var bool
      */
     protected $routes_registered = false;
+
+    /**
+     * @var bool
+     */
+    protected $frontend_routes_registered = false;
 
     public function __construct(Menu $menumanager, Settings $settingsmanager)
     {
@@ -77,40 +84,52 @@ class Plugins
         });
     }
 
-    public function getAllPlugins()
+    public function getAllPlugins(): Collection
     {
-        return collect($this->plugins);
+        return $this->plugins;
     }
 
-    public function launchPlugins()
+    public function launchPlugins(): void
     {
-        $this->getAllPlugins()->each(function ($plugin) {
-            if ($plugin->enabled || $plugin->type === 'theme') {
-                if (method_exists($plugin, 'registerMenuItems')) {
-                    $plugin->registerMenuItems($this->menumanager);
-                }
-                if (method_exists($plugin, 'registerSettings')) {
-                    $settings = $plugin->registerSettings();
-                    if (is_array($settings)) {
-                        $this->settingsmanager->mergeSettings($settings);
-                    }
+        $this->getAllPlugins()->filter(static function ($plugin) {
+            return $plugin->enabled || $plugin->type === 'theme';
+        })->each(function ($plugin) {
+            if (method_exists($plugin, 'registerMenuItems')) {
+                $plugin->registerMenuItems($this->menumanager);
+            }
+            if (method_exists($plugin, 'registerSettings')) {
+                $settings = $plugin->registerSettings();
+                if (is_array($settings)) {
+                    $this->settingsmanager->mergeSettings($settings);
                 }
             }
         });
         $this->plugins_loaded = true;
     }
 
-    public function registerRoutes()
+    public function registerRoutes(): void
     {
-        $this->getAllPlugins()->each(static function ($plugin) {
-            if ($plugin->enabled || $plugin->type === 'theme') {
-                $plugin->registerPublicRoutes();
-                Route::group(['middleware' => 'voyager.admin'], static function () use ($plugin) {
-                    $plugin->registerProtectedRoutes();
-                });
-            }
+        $this->getAllPlugins()->filter(static function ($plugin) {
+            return $plugin->enabled || $plugin->type === 'theme';
+        })->each(static function ($plugin) {
+            $plugin->registerPublicRoutes();
+            Route::group(['middleware' => 'voyager.admin'], static function () use ($plugin) {
+                $plugin->registerProtectedRoutes();
+            });
         });
         $this->routes_registered = true;
+    }
+
+    public function registerFrontendRoutes(): void
+    {
+        $this->getAllPlugins()->filter(static function ($plugin) {
+            return $plugin->enabled && $plugin instanceof HasFrontendFeatures;
+        })->each(static function ($plugin) {
+            Route::group(['middleware' => 'web'], static function () use ($plugin) {
+                $plugin->registerFrontendRoutes();
+            });
+        });
+        $this->frontend_routes_registered = true;
     }
 
     public function getPluginByType($type, $fallback = null)

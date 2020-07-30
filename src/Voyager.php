@@ -34,6 +34,14 @@ class Voyager
     }
 
     /**
+     * Register admin area routes for all Voyager plugins.
+     */
+    public function pluginFrontendRoutes()
+    {
+        $this->pluginmanager->registerFrontendRoutes();
+    }
+
+    /**
      * Generate a Voyager route URL for Voyager resources and paths.
      *
      * @param       $name
