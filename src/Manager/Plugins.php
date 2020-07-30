@@ -16,6 +16,16 @@ class Plugins
     protected $enabled_plugins;
     protected $path;
 
+    /**
+     * @var bool
+     */
+    protected $plugins_loaded = false;
+
+    /**
+     * @var bool
+     */
+    protected $routes_registered = false;
+
     public function __construct(Menu $menumanager, Settings $settingsmanager)
     {
         $this->menumanager = $menumanager;
@@ -76,7 +86,6 @@ class Plugins
     {
         $this->getAllPlugins()->each(function ($plugin) {
             if ($plugin->enabled || $plugin->type === 'theme') {
-                $plugin->registerPublicRoutes();
                 if (method_exists($plugin, 'registerMenuItems')) {
                     $plugin->registerMenuItems($this->menumanager);
                 }
@@ -86,11 +95,22 @@ class Plugins
                         $this->settingsmanager->mergeSettings($settings);
                     }
                 }
-                Route::group(['middleware' => 'voyager.admin'], function () use ($plugin) {
+            }
+        });
+        $this->plugins_loaded = true;
+    }
+
+    public function registerRoutes()
+    {
+        $this->getAllPlugins()->each(static function ($plugin) {
+            if ($plugin->enabled || $plugin->type === 'theme') {
+                $plugin->registerPublicRoutes();
+                Route::group(['middleware' => 'voyager.admin'], static function () use ($plugin) {
                     $plugin->registerProtectedRoutes();
                 });
             }
         });
+        $this->routes_registered = true;
     }
 
     public function getPluginByType($type, $fallback = null)

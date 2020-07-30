@@ -238,6 +238,7 @@ class VoyagerServiceProvider extends ServiceProvider
         });
 
         $this->settingmanager->loadSettings();
+        $this->pluginmanager->launchPlugins();
 
         $this->commands(InstallCommand::class);
 

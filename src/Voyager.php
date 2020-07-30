@@ -32,7 +32,7 @@ class Voyager
      */
     public function pluginRoutes()
     {
-        $this->pluginmanager->launchPlugins();
+        $this->pluginmanager->registerRoutes();
     }
 
     /**
