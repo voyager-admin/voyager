@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -196,7 +197,8 @@ class Voyager
      */
     public function getWidgets()
     {
-        return collect($this->pluginmanager->getPluginsByType('widget')->where('enabled')->transform(function ($plugin) {
+        return collect($this->pluginmanager->getPluginsByType('widget')
+            ->where('enabled')->transform(function ($plugin) {
             $width = $plugin->getWidth();
             if ($width >= 1 && $width <= 11) {
                 $width = 'w-'.$width.'/12';
