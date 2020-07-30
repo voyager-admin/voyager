@@ -20,18 +20,31 @@ use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
 use Voyager\Admin\Policies\BasePolicy;
 
-/**
- * @property array $policies
- * @property PluginManager $pluginmanager
- * @property BreadManager $breadmanager
- * @property MenuManager $menumanager
- */
 class VoyagerServiceProvider extends ServiceProvider
 {
+    /**
+     * @var array
+     */
     protected $policies = [];
+
+    /**
+     * @var PluginManager
+     */
     protected $pluginmanager;
+
+    /**
+     * @var BreadManager
+     */
     protected $breadmanager;
+
+    /**
+     * @var MenuManager
+     */
     protected $menumanager;
+
+    /**
+     * @var SettingManager
+     */
     protected $settingmanager;
 
     /**
