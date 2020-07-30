@@ -102,7 +102,7 @@ class VoyagerServiceProvider extends ServiceProvider
     {
         Route::group([
             'as'         => 'voyager.',
-            'prefix'     => '/admin',
+            'prefix'     => Voyager::$routePath,
             'middleware' => 'web',
         ], function () use ($breads) {
             Route::group([

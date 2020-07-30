@@ -13,6 +13,13 @@ use Voyager\Admin\Plugins\AuthenticationPlugin;
 
 class Voyager
 {
+    /**
+     * The route prefix that Voyage will use when registering routes.
+     *
+     * @var string
+     */
+    public static $routePath = '/admin';
+
     protected $messages = [];
     protected $tables = [];
     protected $breadmanager;
@@ -24,6 +31,23 @@ class Voyager
         $this->breadmanager = $breadmanager;
         $this->pluginmanager = $pluginmanager;
         $this->settingmanager = $settingmanager;
+    }
+
+    /**
+     * Set the callback that should be used to authenticate Horizon users.
+     *
+     * @param string $pathPrefix
+     * @return static
+     */
+    public static function path(string $pathPrefix)
+    {
+        static::$routePath = $pathPrefix;
+
+        return new static(
+            app(BreadManager::class),
+            app(PluginManager::class),
+            app(SettingManager::class)
+        );
     }
 
     /**
@@ -199,20 +223,20 @@ class Voyager
     {
         return collect($this->pluginmanager->getPluginsByType('widget')
             ->where('enabled')->transform(function ($plugin) {
-            $width = $plugin->getWidth();
-            if ($width >= 1 && $width <= 11) {
-                $width = 'w-'.$width.'/12';
-            } else {
-                $width = 'w-full';
-            }
+                $width = $plugin->getWidth();
+                if ($width >= 1 && $width <= 11) {
+                    $width = 'w-'.$width.'/12';
+                } else {
+                    $width = 'w-full';
+                }
 
-            return (object) [
-                'width' => $width,
-                'title' => $plugin->getTitle(),
-                'icon'  => $plugin->getIcon(),
-                'view'  => $plugin->getWidgetView(),
-            ];
-        }));
+                return (object) [
+                    'width' => $width,
+                    'title' => $plugin->getTitle(),
+                    'icon'  => $plugin->getIcon(),
+                    'view'  => $plugin->getWidgetView(),
+                ];
+            }));
     }
 
     /**
