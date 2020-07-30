@@ -37,6 +37,7 @@ return [
     'disabled'                  => 'Disabled',
     'display_length'            => 'Display length',
     'edit'                      => 'Edit',
+    'editable'                  => 'Editable',
     'edit_type'                 => 'Edit :type',
     'enable'                    => 'Enable',
     'first'                     => 'First',

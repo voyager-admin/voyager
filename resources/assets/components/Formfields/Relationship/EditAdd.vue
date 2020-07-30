@@ -13,13 +13,14 @@
             :search-options-text="translate(options.search_text, true)"
             :select-option-text="translate(options.select_text, true)"
             @opened="!initial_loaded ? loadResults() : null"
+            :disabled="!options.editable || false"
         >
             <div>
                 <div v-if="relationship.multiple">
                     <badge
                         v-for="(option, i) in value"
                         :key="i"
-                        icon="x"
+                        :icon="options.editable ? 'x' : ''"
                         @click-icon.stop.prevent="remove(option.key)"
                     >
                         {{ option.value }}
@@ -121,6 +122,9 @@ export default {
             this.loadResults();
         }, 250),
         remove: function (key) {
+            if (!this.options.editable) {
+                return;
+            }
             this.$emit('input', this.value.whereNot('key', key));
         },
     },

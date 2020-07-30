@@ -31,7 +31,13 @@
                     <div v-if="search" class="px-1 pb-1">
                         <input class="input small w-full" :placeholder="searchOptionsText" v-model="query" @input="$emit('search', $event.target.value)">
                     </div>
-                    <div class="option" v-for="(option, i) in options" :key="i" :class="selected(option) ? 'selected' : ''" @click="select(option)">
+                    <div
+                        class="option"
+                        v-for="(option, i) in options"
+                        :key="i"
+                        :class="[selected(option) ? 'selected' : '', disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
+                        @click="select(option)"
+                    >
                         <div class="flex items-center space-x-3">
                             <span class="font-normal block truncate">
                                 {{ option.value }}
@@ -78,6 +84,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
         loading: {
             type: Boolean,
             default: false,
@@ -119,6 +129,9 @@ export default {
     },
     methods: {
         select: function (option) {
+            if (this.disabled) {
+                return;
+            }
             if (this.multiple) {
                 if (this.value.includes(option.key)) {
                     this.$emit('input', this.value.whereNot(option.key));
@@ -204,7 +217,7 @@ export default {
         @include border-color(select-bg-color, 'colors.gray.400');
         .option {
             @include text-color(select-text-color, 'colors.gray.900');
-            @apply cursor-pointer select-none relative py-2 pl-4 pr-8;
+            @apply select-none relative py-2 pl-4 pr-8;
             .check {
                 @include text-color(accent-text-color, 'colors.blue.500');
                 @apply absolute inset-y-0 right-0 flex items-center pr-4;

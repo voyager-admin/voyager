@@ -26,6 +26,7 @@ class Relationship extends Formfield
     public function viewOptions(): array
     {
         return [
+            'editable'          => true,
             'display_column'    => null,
             'search_text'       => '',
             'select_text'       => '',
@@ -62,6 +63,10 @@ class Relationship extends Formfield
 
     public function update($model, $value, $old)
     {
+        if (!$this->options->editable) {
+            return $old;
+        }
+
         $keys = collect($value)->pluck('key')->toArray();
 
         $column = $this->column->column;

@@ -20,6 +20,9 @@
 
             <label class="label mt-4">{{ __('voyager::formfields.relationship.allow_null') }}</label>
             <input type="checkbox" class="input" v-model="options.allow_null">
+
+            <label class="label mt-4">{{ __('voyager::generic.editable') }}</label>
+            <input type="checkbox" class="input" v-model="options.editable">
             
             <label class="label mt-4">{{ __('voyager::formfields.relationship.select_text') }}</label>
             <language-input
