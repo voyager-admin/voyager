@@ -94,29 +94,36 @@ class VoyagerServiceProvider extends ServiceProvider
     /**
      * Register the Voyager routes.
      *
+     * @param Collection $breads A collection of the Voyager apps current bread types.
+     *
      * @return void
      */
-    protected function registerRoutes(Collection $breadsCollection)
+    protected function registerRoutes(Collection $breads)
     {
         Route::group([
             'as'         => 'voyager.',
             'prefix'     => '/admin',
             'middleware' => 'web',
-        ], function () use ($breadsCollection) {
+        ], function () use ($breads) {
             Route::group([
                 'namespace' => 'Voyager\Admin\Http\Controllers',
-            ], function () use ($breadsCollection) {
+            ], function () use ($breads) {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-                $this->registerBreadRoutes($breadsCollection);
+                $this->registerBreadRoutes($breads);
             });
             VoyagerFacade::pluginRoutes();
         });
         VoyagerFacade::pluginFrontendRoutes();
     }
 
-    private function registerBreadRoutes(Collection $breadsCollection): void
+    /**
+     * Register all the dynamic BREAD type routes.
+     *
+     * @param Collection $breads A collection of the Voyager apps current bread types.
+     */
+    private function registerBreadRoutes(Collection $breads): void
     {
-        $breadsCollection->each(static function (Bread $bread) {
+        $breads->each(static function (Bread $bread) {
             $controller = 'BreadController';
             if (!empty($bread->controller)) {
                 $controller = \Illuminate\Support\Str::start($bread->controller, '\\');
@@ -154,7 +161,12 @@ class VoyagerServiceProvider extends ServiceProvider
         });
     }
 
-    public function registerBreadPolicies($breads)
+    /**
+     * Register all policies from the the BREAD types.
+     *
+     * @param Collection $breads A collection of the Voyager apps current bread types.
+     */
+    public function registerBreadPolicies(Collection $breads): void
     {
         $breads->each(function ($bread) {
             $policy = BasePolicy::class;
@@ -167,7 +179,12 @@ class VoyagerServiceProvider extends ServiceProvider
         });
     }
 
-    public function registerBreadBuilderMenuItem($breads)
+    /**
+     * Register the menu items for each BREAD type's builder.
+     *
+     * @param Collection $breads A collection of the Voyager apps current bread types.
+     */
+    public function registerBreadBuilderMenuItem(Collection $breads): void
     {
         $bread_builder_item = (new MenuItem(__('voyager::generic.bread'), 'bread', true))
                                 ->permission('browse', ['breads'])
@@ -185,7 +202,10 @@ class VoyagerServiceProvider extends ServiceProvider
         });
     }
 
-    public function registerBreadMenuItems($breads)
+    /**
+     * @param Collection $breads A collection of the Voyager apps current bread types.
+     */
+    public function registerBreadMenuItems(Collection $breads)
     {
         if ($breads->count() > 0) {
             $this->menumanager->addItems(
