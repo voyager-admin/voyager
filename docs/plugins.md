@@ -135,3 +135,24 @@ public function registerSettings()
 
 Make sure to always return an array containing settings (as an array).  
 The best way to generate this setting is to simply create it through the UI and then copy/paste it from your `settings.json` file.
+
+### Voyager plugin route URLs
+
+All Voyager related routes will be constructed under the base Voyager path - this defaults to `/admin`. In order to keep
+calling those routes uniform they're all similarly using route names prefixed with `voyager.`.
+
+So in your plugins you should either use the `Voyager::route()` method, or manually append `voyager.` to the route names
+ you're using.
+
+
+#### Example
+In this example both of these would register identical paths to the JS asset.
+```php
+    public function getJsRoutes(): array
+    {
+        return [
+            \Voyager::route('my-plugin.singleJsAsset'),
+            route('voyager.my-plugin.singleJsAsset'),
+        ];
+    }
+```
