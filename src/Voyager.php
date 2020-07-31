@@ -39,7 +39,7 @@ class Voyager
      * @param string $pathPrefix
      * @return static
      */
-    public static function path(string $pathPrefix)
+    public static function path(string $pathPrefix = '/admin')
     {
         static::$routePath = $pathPrefix;
 
