@@ -212,6 +212,13 @@
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
                             <option v-for="(scope, i) in scopes" :key="i">{{ scope }}</option>
                         </select>
+                        <div v-if="currentLayout.type == 'view'">
+                            <label class="label" for="validate_locales">{{ __('voyager::builder.validate_locales') }}</label>
+                            <select class="input w-full" v-model="currentLayout.options.validate_locales">
+                                <option value="all">{{ __('voyager::builder.validate_all_locales') }}</option>
+                                <option value="current">{{ __('voyager::builder.validate_current_locale') }}</option>
+                            </select>
+                        </div>
                     </div>
                 </slide-in>
             </div>
@@ -405,6 +412,7 @@ export default {
 
                     var view_options = {
                         scope: null,
+                        validate_locales: 'current',
                     };
                     var list_options = {
                         default_order_column: {

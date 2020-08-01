@@ -31,35 +31,55 @@ abstract class Controller extends BaseController
         return $this->pluginmanager->getPluginByType('authentication', AuthenticationPlugin::class);
     }
 
-    protected function validateData($formfields, $data): array
+    protected function validateData($formfields, $data, $all_locales = false): array
     {
         $errors = [];
 
-        $formfields->each(function ($formfield) use (&$errors, $data) {
+        $formfields->each(function ($formfield) use (&$errors, $data, $all_locales) {
             $formfield->validation = $formfield->validation ?? [];
             $value = $data[$formfield->column->column] ?? '';
-            if ($formfield->translatable && is_array($value)) {
+            if ($formfield->translatable && is_array($value) && !$all_locales) {
                 $value = $value[VoyagerFacade::getLocale()] ?? $value[VoyagerFacade::getFallbackLocale()] ?? '';
             }
             foreach ($formfield->validation as $rule) {
                 if ($rule->rule == '') {
                     continue;
                 }
-                $validator = Validator::make(['col' => $value], ['col' => $rule->rule]);
-
-                if ($validator->fails()) {
-                    $message = $rule->message;
-                    if (is_object($message)) {
-                        $message = $message->{VoyagerFacade::getLocale()} ?? $message->{VoyagerFacade::getFallbackLocale()} ?? '';
-                    } elseif (is_array($message)) {
-                        $message = $message[VoyagerFacade::getLocale()] ?? $message[VoyagerFacade::getFallbackLocale()] ?? '';
+                if ($all_locales && $formfield->translatable && is_array($value)) {
+                    $locales = VoyagerFacade::getLocales();
+                    foreach ($locales as $locale) {
+                        $val = $value[$locale];
+                        $result = $this->validateField($val, $rule->rule, $rule->message);
+                        if (!is_null($result)) {
+                            $errors[$formfield->column->column][] = strtoupper($locale.': ').$result;
+                        }
                     }
-                    $errors[$formfield->column->column][] = $message;
+                } else {
+                    $result = $this->validateField($value, $rule->rule, $rule->message);
+                    if (!is_null($result)) {
+                        $errors[$formfield->column->column][] = $result;
+                    }
                 }
             }
         });
 
         return $errors;
+    }
+
+    protected function validateField($value, $rule, $message)
+    {
+        $validator = Validator::make(['col' => $value], ['col' => $rule]);
+
+        if ($validator->fails()) {
+            if (is_object($message)) {
+                $message = $message->{VoyagerFacade::getLocale()} ?? $message->{VoyagerFacade::getFallbackLocale()} ?? '';
+            } elseif (is_array($message)) {
+                $message = $message[VoyagerFacade::getLocale()] ?? $message[VoyagerFacade::getFallbackLocale()] ?? '';
+            }
+           return $message;
+        }
+
+        return null;
     }
 
     protected function getBread(Request $request)

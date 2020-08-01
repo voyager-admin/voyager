@@ -10,7 +10,6 @@ Instead, they are listed here:
 - Check global-search styling with >= 4 BREADs
 - Relationship selected can't get cleared when changing pages
 - Focus has to stay on search-input when querying relationships
-- Add language selection to views (validate all locales, ...)
 - Add some sort of action buttons
 - Make listbox search and pagination sticky
 

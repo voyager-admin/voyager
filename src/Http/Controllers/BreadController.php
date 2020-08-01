@@ -111,7 +111,8 @@ class BreadController extends Controller
         }
 
         // Validate Data
-        $validation_errors = $this->validateData($layout->formfields, $data);
+        $validate_all_locales = $layout->options->validate_locales == 'all' ?? false;
+        $validation_errors = $this->validateData($layout->formfields, $data, $validate_all_locales);
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);
         }
@@ -203,7 +204,8 @@ class BreadController extends Controller
         }
 
         // Validate Data
-        $validation_errors = $this->validateData($layout->formfields, $data);
+        $validate_all_locales = $layout->options->validate_locales == 'all' ?? false;
+        $validation_errors = $this->validateData($layout->formfields, $data, $validate_all_locales);
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);
         }
@@ -287,7 +289,7 @@ class BreadController extends Controller
         // TODO: Validate that the method exists in edit/add layout
         $bread = $this->getBread($request);
         $data = [];
-        $perpage = 5;
+        $perpage = 10;
 
         $query = $request->get('query', null);
         $page = $request->get('page', 1);
@@ -304,6 +306,7 @@ class BreadController extends Controller
         }
 
         if (!empty($scope)) {
+            // TODO: Get scope from layout instead of request
             $data = $data->{$scope}();
         }
 

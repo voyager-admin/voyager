@@ -48,5 +48,8 @@ return [
     'searchable'                        => 'Searchable',
     'show_menu_badge'                   => 'Show badge in menu',
     'show_soft_deleted'                 => 'Show soft-deleted',
+    'validate_all_locales'              => 'Validate all locales',
+    'validate_current_locale'           => 'Validate current locale',
+    'validate_locales'                  => 'Validate locales',
     'view'                              => 'View',
 ];
