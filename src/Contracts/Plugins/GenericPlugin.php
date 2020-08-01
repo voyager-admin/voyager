@@ -13,8 +13,18 @@ use Illuminate\View\View;
  */
 interface GenericPlugin
 {
+    /**
+     * Registers the plugin's Voyager auth protected routes.
+     *
+     * @return void
+     */
     public function registerProtectedRoutes();
 
+    /**
+     * Registers the plugin's Voyager public routes.
+     *
+     * @return void
+     */
     public function registerPublicRoutes();
 
     public function getSettingsView(): ?View;

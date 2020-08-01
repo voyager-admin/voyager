@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -12,6 +13,13 @@ use Voyager\Admin\Plugins\AuthenticationPlugin;
 
 class Voyager
 {
+    /**
+     * The route prefix that Voyage will use when registering routes.
+     *
+     * @var string
+     */
+    public static $routePath = '/admin';
+
     protected $messages = [];
     protected $tables = [];
     protected $breadmanager;
@@ -26,14 +34,50 @@ class Voyager
     }
 
     /**
-     * Get Voyagers routes.
+     * Set the callback that should be used to authenticate Horizon users.
      *
-     * @return array an array of routes
+     * @param string $pathPrefix
+     * @return static
      */
-    public function routes()
+    public static function path(string $pathPrefix = '/admin')
     {
-        $this->pluginmanager->launchPlugins();
-        require __DIR__.'/../routes/voyager.php';
+        static::$routePath = $pathPrefix;
+
+        return new static(
+            app(BreadManager::class),
+            app(PluginManager::class),
+            app(SettingManager::class)
+        );
+    }
+
+    /**
+     * Register admin area routes for all Voyager plugins.
+     */
+    public function pluginRoutes()
+    {
+        $this->pluginmanager->registerRoutes();
+    }
+
+    /**
+     * Register admin area routes for all Voyager plugins.
+     */
+    public function pluginFrontendRoutes()
+    {
+        $this->pluginmanager->registerFrontendRoutes();
+    }
+
+    /**
+     * Generate a Voyager route URL for Voyager resources and paths.
+     *
+     * @param       $name
+     * @param array $parameters
+     * @param bool  $absolute
+     *
+     * @return string
+     */
+    public function route($name, $parameters = [], $absolute = true): string
+    {
+        return route('voyager.' . $name, $parameters, $absolute);
     }
 
     /**
@@ -177,21 +221,22 @@ class Voyager
      */
     public function getWidgets()
     {
-        return collect($this->pluginmanager->getPluginsByType('widget')->where('enabled')->transform(function ($plugin) {
-            $width = $plugin->getWidth();
-            if ($width >= 1 && $width <= 11) {
-                $width = 'w-'.$width.'/12';
-            } else {
-                $width = 'w-full';
-            }
+        return collect($this->pluginmanager->getPluginsByType('widget')
+            ->where('enabled')->transform(function ($plugin) {
+                $width = $plugin->getWidth();
+                if ($width >= 1 && $width <= 11) {
+                    $width = 'w-'.$width.'/12';
+                } else {
+                    $width = 'w-full';
+                }
 
-            return (object) [
-                'width' => $width,
-                'title' => $plugin->getTitle(),
-                'icon'  => $plugin->getIcon(),
-                'view'  => $plugin->getWidgetView(),
-            ];
-        }));
+                return (object) [
+                    'width' => $width,
+                    'title' => $plugin->getTitle(),
+                    'icon'  => $plugin->getIcon(),
+                    'view'  => $plugin->getWidgetView(),
+                ];
+            }));
     }
 
     /**

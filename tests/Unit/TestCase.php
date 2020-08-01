@@ -17,10 +17,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $this->loadLaravelMigrations(['--database' => 'testbench']);
 
         $route_dir = realpath($this->getBasePath());
-        if (!is_dir($route_dir.'/routes')) {	
-            @mkdir($route_dir.'/routes');	
-        }	
-        file_put_contents($route_dir.'/routes/web.php', "<?php\nRoute::group(['prefix' => 'admin'], function () {\n    Voyager::routes();\n});");
+        if (!is_dir($route_dir.'/routes')) {
+            @mkdir($route_dir.'/routes');
+        }
+        if (!file_exists($route_dir.'/routes/web.php')) {
+            file_put_contents($route_dir.'/routes/web.php', "<?php\n");
+        }
 
         // Pre-fetch routes
         $this->get(route('voyager.bread.index'));
@@ -62,9 +64,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['router']->prefix('admin')->group(function (\Illuminate\Routing\Router $router) {
-            Voyager::routes($router);
-        });
 
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [

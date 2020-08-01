@@ -24,32 +24,15 @@ class InstallCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param \Illuminate\Filesystem\Filesystem $filesystem
      * @param \Voyager\Admin\Manager\Settings $settingsmanager
      *
      * @return void
      */
-    public function handle(Filesystem $filesystem, SettingManager $settingsmanager)
+    public function handle(SettingManager $settingsmanager)
     {
-        $this->setRoutes($filesystem);
         $this->setSettings($settingsmanager);
 
         $this->info('Successfully installed Voyager! Enjoy');
-    }
-
-    private function setRoutes(Filesystem $filesystem)
-    {
-        $routes_contents = $filesystem->get(base_path('routes/web.php'));
-        if (strpos($routes_contents, 'Voyager::routes()') === false) {
-            $filesystem->append(
-                base_path('routes/web.php'),
-                "\n\nRoute::group(['prefix' => 'admin'], function () {\n    Voyager::routes();\n});\n"
-            );
-
-            $this->info('Added Voyager routes to routes/web.php');
-        } else {
-            $this->warn('Voyager routes already exist in routes/web.php');
-        }
     }
 
     private function setSettings(SettingManager $settingsmanager)
