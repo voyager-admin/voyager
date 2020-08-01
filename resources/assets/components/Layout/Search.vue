@@ -42,6 +42,9 @@ export default {
     },
     watch: {
         query: function (query) {
+            if (query === '' || query === null) {
+                this.$refs.results_dd.close();
+            }
             this.search(query);
         }
     },

@@ -64,6 +64,10 @@ class VoyagerController extends Controller
                 $layout = $this->getLayoutForAction($bread, 'browse');
                 if ($layout) {
                     $query = $bread->getModel()->select('*');
+                    // TODO: This can be removed when the global search allows querying relationships
+                    if ($layout->searchableFormfields()->where('column.type', 'column')->count() == 0) {
+                        return;
+                    }
                     $query = $this->globalSearchQuery($q, $layout, VoyagerFacade::getLocale(), $query);
                     $bread_results = $query->get();
                     if (count($bread_results) > 0) {
