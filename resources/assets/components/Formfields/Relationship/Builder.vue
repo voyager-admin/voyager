@@ -46,6 +46,12 @@
                     {{ pivot }}
                 </option>
             </select>
+
+            <label class="label" for="scope" v-if="relationship && relationship.scopes">{{ __('voyager::builder.scope') }}</label>
+            <select class="input w-full" v-if="relationship && relationship.scopes" v-model="options.scope">
+                <option :value="null">{{ __('voyager::generic.none') }}</option>
+                <option v-for="(scope, i) in relationship.scopes" :key="i">{{ scope }}</option>
+            </select>
         </div>
         <div v-else-if="show == 'view'">
             <select class="input w-full" disabled></select>
@@ -56,9 +62,6 @@
 <script>
 export default {
     props: ['options', 'column', 'show', 'relationships'],
-    methods: {
-        
-    },
     computed: {
         relationship: function () {
             var vm = this;

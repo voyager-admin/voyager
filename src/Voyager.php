@@ -22,6 +22,7 @@ class Voyager
 
     protected $messages = [];
     protected $tables = [];
+    protected $locales = [];
     protected $breadmanager;
     protected $pluginmanager;
     protected $settingmanager;
@@ -164,6 +165,12 @@ class Voyager
         return DB::connection()->getDoctrineSchemaManager()->listTableNames();
     }
 
+    /**
+     * Get all columns in a given table
+     * 
+     * @param string $table The table name
+     * @return array The columns of the table
+     */
     public function getColumns($table)
     {
         if (!array_key_exists($table, $this->tables)) {
@@ -181,7 +188,17 @@ class Voyager
      */
     public function getLocales()
     {
-        return config('app.locales', [$this->getLocale()]);
+        return array_unique(array_merge($this->locales, config('app.locales', [$this->getLocale()])));
+    }
+
+    /**
+     * Add a locale to the supported locales
+     *
+     * @param string $locale The locale
+     */
+    public function addLocale($locale)
+    {
+        $this->locales[] = $locale;
     }
 
     /**

@@ -19,6 +19,11 @@ class PluginsController extends Controller
         $this->pluginmanager = $pluginmanager;
     }
 
+    public function index()
+    {
+        return view('voyager::plugins.browse');
+    }
+
     public function enable(Request $request)
     {
         $identifier = $request->get('identifier');

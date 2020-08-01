@@ -150,6 +150,9 @@ class VoyagerServiceProvider extends ServiceProvider
 
                 // Read
                 Route::get('/{id}', ['uses' => $controller.'@read', 'as' => 'read', 'bread' => $bread]);
+
+                // Relationship
+                Route::post('/relationship', ['uses' => $controller.'@relationship', 'as' => 'relationship', 'bread' => $bread]);
             });
         });
     }

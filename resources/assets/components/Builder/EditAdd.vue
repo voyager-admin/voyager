@@ -193,7 +193,7 @@
                         </button>
                     </div>
                 </dropdown>
-                <button class="button blue small" @click="layoutOptionsOpen = true" :disabled="!currentLayout || currentLayout.type !== 'list'">
+                <button class="button blue small" @click="layoutOptionsOpen = true" :disabled="!currentLayout">
                     <icon icon="cog" />
                     <span>
                         {{ __('voyager::generic.options') }}
@@ -201,9 +201,11 @@
                 </button>
                 <slide-in v-if="currentLayout" :opened="layoutOptionsOpen" width="w-1/3" class="text-left" v-on:closed="layoutOptionsOpen = false" :title="__('voyager::generic.options')">
                     <locale-picker v-if="$language.localePicker" slot="actions" />
-                    <div v-if="currentLayout.type == 'list'">
-                        <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
-                        <input type="checkbox" v-model="currentLayout.options.soft_deletes">
+                    <div>
+                        <div v-if="currentLayout.type == 'list'">
+                            <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
+                            <input type="checkbox" v-model="currentLayout.options.soft_deletes">
+                        </div>
 
                         <label class="label" for="scope">{{ __('voyager::builder.scope') }}</label>
                         <select class="input w-full" v-model="currentLayout.options.scope">
@@ -401,7 +403,9 @@ export default {
                         return;
                     }
 
-                    var view_options = {};
+                    var view_options = {
+                        scope: null,
+                    };
                     var list_options = {
                         default_order_column: {
                             column: null,

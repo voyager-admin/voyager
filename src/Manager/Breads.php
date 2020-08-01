@@ -360,6 +360,7 @@ class Breads
             $type = $method->getReturnType();
             if ($type && in_array(strval($type->getName()), $types)) {
                 $columns = [];
+                $scopes = [];
                 $pivot = [];
                 $computed = [];
                 if ($resolve) {
@@ -373,7 +374,9 @@ class Breads
                         ]));
                     }
                     $columns = VoyagerFacade::getColumns($table);
-                    $computed = $this->getModelComputedProperties($this->getModelReflectionClass(get_class($related)))->values();
+                    $relationship_reflection = $this->getModelReflectionClass(get_class($related));
+                    $computed = $this->getModelComputedProperties($relationship_reflection)->values();
+                    $scopes = $this->getModelScopes($relationship_reflection)->values();
                 }
 
                 return [
@@ -381,6 +384,7 @@ class Breads
                     'type'      => class_basename($type->getName()),
                     'table'     => $table,
                     'columns'   => $columns,
+                    'scopes'    => $scopes,
                     'pivot'     => $pivot,
                     'computed'  => $computed,
                     'key_name'  => $relationship->getRelated()->getKeyName(),

@@ -102,6 +102,7 @@ export default {
                 method: vm.relationship.method,
                 page: vm.page,
                 column: vm.options.display_column,
+                scope: vm.options.scope,
             })
             .then(function (response) {
                 vm.selectable = response.data.data;

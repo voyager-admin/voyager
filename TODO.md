@@ -2,7 +2,7 @@ This Todo list does **not** contain big improvements.
 It only contains small things that came to our minds which we couldn't implement immediately and would be forgotten otherwise.  
 Instead, they are listed here:
 
-- Test everything on mobile (especially media manager)
+- Test everything on mobile (especially media manager and listbox/relationship select)
 - Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
@@ -10,7 +10,10 @@ Instead, they are listed here:
 - Check global-search styling with >= 4 BREADs
 - Relationship selected can't get cleared when changing pages
 - Focus has to stay on search-input when querying relationships
-- Discuss validation of translatables (validate all, current locale, ...)
+- Add language selection to views (validate all locales, ...)
+- Add some sort of action buttons
+- Make listbox search and pagination sticky
+
 
 ## Formfields
 - **Relationship** not yet (fully) working

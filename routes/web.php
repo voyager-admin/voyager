@@ -28,7 +28,7 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
     Route::post('settings', ['uses' => 'SettingsController@store', 'as' => 'settings.store']);
 
     // Plugins
-    Route::get('plugins', 'PluginsIndex')->name('plugins.index');
+    Route::get('plugins', ['uses' => 'PluginsController@index', 'as' => 'plugins.index']);
     Route::post('plugins/enable', ['uses' => 'PluginsController@enable', 'as' => 'plugins.enable']);
     Route::post('plugins', ['uses' => 'PluginsController@get', 'as' => 'plugins.get']);
     Route::get('plugins/settings/{key}', ['uses' => 'PluginsController@settings', 'as' => 'plugins.settings']);

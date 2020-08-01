@@ -32,6 +32,7 @@ class Relationship extends Formfield
             'select_text'       => '',
             'allow_null'        => true,
             'pivots'            => [],
+            'scope'             => null,
         ];
     }
 

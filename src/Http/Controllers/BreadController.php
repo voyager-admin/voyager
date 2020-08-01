@@ -35,8 +35,8 @@ class BreadController extends Controller
         extract($request->only(['page', 'perpage', 'global', 'filters', 'order', 'direction', 'softdeleted', 'locale']));
 
         $query = $bread->getModel()->select('*');
-        if (!empty($layout->scope)) {
-            $query = $bread->getModel()->{$layout->scope}()->select('*');
+        if (!empty($layout->options->scope)) {
+            $query = $bread->getModel()->{$layout->options->scope}()->select('*');
         }
 
         // Soft-deletes
@@ -134,6 +134,9 @@ class BreadController extends Controller
         $bread = $this->getBread($request);
         $layout = $this->getLayoutForAction($bread, 'read');
         $data = $bread->getModel()->findOrFail($id);
+        if (!empty($layout->options->scope)) {
+            $data = $bread->getModel()->{$layout->options->scope}()->findOrFail($id);
+        }
 
         $layout->formfields->each(function ($formfield) use (&$data) {
             $value = $data->{$formfield->column->column};
@@ -150,6 +153,10 @@ class BreadController extends Controller
         $new = false;
 
         $data = $bread->getModel()->findOrFail($id);
+
+        if (!empty($layout->options->scope)) {
+            $data = $bread->getModel()->{$layout->options->scope}()->findOrFail($id);
+        }
 
         if ($bread->usesTranslatableTrait()) {
             $data->dontTranslate();
@@ -186,6 +193,9 @@ class BreadController extends Controller
         $layout = $this->getLayoutForAction($bread, 'add');
 
         $model = $bread->getModel()->findOrFail($id);
+        if (!empty($layout->options->scope)) {
+            $model = $bread->getModel()->{$layout->options->scope}()->findOrFail($id);
+        }
         $data = $request->get('data', []);
 
         if ($bread->usesTranslatableTrait()) {
@@ -225,6 +235,7 @@ class BreadController extends Controller
             $model->find($ids)->each(function ($entry) use ($bread, $force, &$deleted) {
                 if ($force == 'true' && $bread->usesSoftDeletes()) {
                     // TODO: Check if layout allows usage of soft-deletes
+                    // TODO: Check if scope allows accessing this ID
                     if ($entry->trashed()) {
                         $this->authorize('force-delete', $entry);
                         $entry->forceDelete();
@@ -282,6 +293,7 @@ class BreadController extends Controller
         $page = $request->get('page', 1);
         $method = $request->get('method');
         $column = $request->get('column');
+        $scope = $request->get('scope', null);
         $locale = VoyagerFacade::getLocale();
         $translatable = false;
         $model = $bread->getModel();
@@ -289,6 +301,10 @@ class BreadController extends Controller
 
         if (in_array(Translatable::class, class_uses($data)) && in_array($column, $data->translatable)) {
             $translatable = true;
+        }
+
+        if (!empty($scope)) {
+            $data = $data->{$scope}();
         }
 
         if (!empty($query)) {
