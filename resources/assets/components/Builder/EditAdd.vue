@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div>
-                <alert color="yellow" v-if="!bread.model || bread.model == ''" class="mx-4">
+                <alert color="yellow" v-if="!propsLoaded" class="mx-4">
                     <span slot="title">
                         {{ __('voyager::generic.heads_up') }}
                     </span>
@@ -305,6 +305,7 @@ export default {
             openOptionsId: null,
             layoutOptionsOpen: false,
             focusMode: false,
+            propsLoaded: false,
         };
     },
     methods: {
@@ -384,6 +385,7 @@ export default {
                 Object.keys(response.data).map(function(key) {
                     Vue.set(vm, key, response.data[key]);
                 });
+                vm.propsLoaded = true;
             })
             .catch(function (error) {
                 new vm.$notification(error.response.data).color('red').timeout().show();
