@@ -8,20 +8,22 @@
                         <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingSettings" />
                         <span>{{ __('voyager::generic.save') }}</span>
                     </button>
-                    <dropdown ref="formfield_dd">
+                    <dropdown ref="formfield_dd" :width="88">
                         <div>
-                            <a v-for="formfield in filterFormfields"
-                                :key="'formfield-'+formfield.type"
-                                href="#"
-                                @click.prevent="addFormfield(formfield); $refs.formfield_dd.close()"
-                                class="link">
-                                {{ formfield.name }}
-                            </a>
+                            <div class="grid grid-cols-2">
+                                <a v-for="formfield in filterFormfields"
+                                    :key="'formfield-'+formfield.type"
+                                    href="#"
+                                    @click.prevent="addFormfield(formfield); $refs.formfield_dd.close()"
+                                    class="link rounded">
+                                    {{ formfield.name }}
+                                </a>
+                            </div>
                             <div class="divider"></div>
                             <a
                                 :href="route('voyager.plugins.index')+'/?type=formfield'"
                                 target="_blank"
-                                class="italic link">
+                                class="w-full text-center italic link">
                                 {{ __('voyager::builder.formfields_more') }}
                             </a>
                         </div>

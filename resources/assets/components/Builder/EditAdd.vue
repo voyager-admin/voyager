@@ -128,19 +128,22 @@
                         <option v-for="list in lists" :key="'list-' + list.name">{{ list.name }}</option>
                     </optgroup>
                 </select>
-                <dropdown ref="formfield_dd" pos="right" class="self-center">
+                <dropdown ref="formfield_dd" pos="right" class="self-center" :width="88">
                     <div>
-                        <a v-for="formfield in filteredFormfields"
-                            :key="'formfield-'+formfield.type"
-                            href="#"
-                            @click.prevent="addFormfield(formfield); $refs.formfield_dd.close()"
-                            class="link">
-                            {{ formfield.name }}
-                        </a>
+                        <div class="grid grid-cols-2">
+                            <a v-for="formfield in filteredFormfields"
+                                :key="'formfield-'+formfield.type"
+                                href="#"
+                                @click.prevent="addFormfield(formfield); $refs.formfield_dd.close()"
+                                class="link rounded">
+                                {{ formfield.name }}
+                            </a>
+                        </div>
+                        <div class="divider"></div>
                         <a
                             :href="route('voyager.plugins.index')+'/?type=formfield'"
                             target="_blank"
-                            class="italic link">
+                            class="w-full italic link text-center">
                             {{ __('voyager::builder.formfields_more') }}
                         </a>
                     </div>
