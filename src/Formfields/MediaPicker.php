@@ -34,7 +34,7 @@ class MediaPicker extends Formfield
             'upload_url'  => null,
             'meta'        => [],
             'mimes'       => [],
-            'opened'      => true,
+            'select_text' => null,
         ];
     }
 
@@ -53,6 +53,11 @@ class MediaPicker extends Formfield
         return $this->browse($input);
     }
 
+    public function add()
+    {
+        return [];
+    }
+
     public function update($model, $input, $old)
     {
         return $this->store($input);
@@ -62,11 +67,9 @@ class MediaPicker extends Formfield
     {
         if (is_array($input)) {
             return json_encode($input);
-        } elseif ($input == '') {
-            return [];
         }
 
-        return $input;
+        return '[]';
     }
 
     public function browseDataAsArray()

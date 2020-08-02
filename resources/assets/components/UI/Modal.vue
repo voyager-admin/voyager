@@ -6,7 +6,7 @@
                 <div class="absolute inset-0 bg-black opacity-75"></div>
             </div>
 
-            <div v-if="isOpen" class="body lg:w-3/4 xl:w-2/4">
+            <div v-if="isOpen" class="body" :class="size === 'full' ? 'w-full max-h-full p-10' : 'lg:w-3/4 xl:w-2/4 max-h-3/4'">
                 <card :title="title" :icon="icon" style="margin: 0 !important">
                     <div slot="actions">
                         <button  @click="close()">
@@ -39,6 +39,10 @@ export default {
             type: Number,
             default: 6
         },
+        size: {
+            type: String,
+            default: 'normal',
+        }
     },
     mounted: function () {
         var vm = this;
@@ -64,7 +68,7 @@ export default {
     @apply fixed w-full top-0 left-0 h-full z-40 text-white text-left overflow-y-hidden;
 
     .body {
-        @apply z-50 rounded-lg overflow-y-auto max-h-3/4;
+        @apply z-50 rounded-lg overflow-y-auto;
     }
 }
 </style>

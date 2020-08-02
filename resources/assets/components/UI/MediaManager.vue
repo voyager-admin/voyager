@@ -1,197 +1,153 @@
 <template>
-    <div class="w-full media-manager border rounded-lg p-4" :class="[isOpen ? 'mb-4 min-h-64' : '']">
+    <div class="w-full media-manager border rounded-lg p-4 mb-4 min-h-64">
         <input class="hidden" type="file" :multiple="multiple" @change="addUploadFiles($event.target.files)" ref="upload_input">
-        <div class="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full mb-4" v-show="pickFiles && pickedFiles.length > 0">
-            <div v-for="(file, i) in pickedFiles" :key="i" class="item rounded-md border select-none h-auto">
-                <div class="flex p-3">
-                    <div class="flex-none" v-show="isFileImage(file.name)">
-                        <div class="w-full flex justify-center">
-                            <div class="w-full flex justify-center h-24">
-                                <img :src="file.url" class="rounded object-contain h-24 max-w-full" />
+        <div class="w-full mb-2" v-if="showToolbar">
+            <div class="inline-block">
+                <button class="button green small" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload" v-tooltip="__('voyager::media.upload')">
+                    <icon icon="upload"></icon>
+                </button>
+                <button class="button accent small" @click="selectFilesToUpload()" v-tooltip="__('voyager::media.select_upload_files')">
+                    <icon icon="check-circle"></icon>
+                </button>
+                <button class="button accent small" @click="loadFiles()" v-tooltip="__('voyager::generic.reload')">
+                    <icon icon="refresh"></icon>
+                </button>
+                <button class="button accent small" @click="createFolder()" v-tooltip="__('voyager::media.create_folder')">
+                    <icon icon="folder-add"></icon>
+                </button>
+                <button class="button red small" @click="deleteSelected()" v-if="selectedFiles.length > 0" v-tooltip="trans_choice('voyager::media.delete_files', selectedFiles.length)">
+                    <icon icon="trash"></icon>
+                </button>
+                <button class="button accent small" v-show="selectedFiles.length > 0" @click="downloadFiles()" v-tooltip="trans_choice('voyager::media.download_files', selectedFiles.length)">
+                    <icon icon="download"></icon>
+                </button>
+            </div>
+        </div>
+        <div class="w-full mb-2 rounded-md breadcrumbs">
+            <div class="button-group">
+                <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="inline-block items-center">
+                    <button class="m-2" @click.prevent.stop="openPath(path, i)">
+                        <icon v-if="path == ''" icon="home"></icon>
+                        <span v-else>{{ path }}</span>
+                    </button>
+                    <button class="cursor-default px-0 py-0" v-if="pathSegments.length !== (i+1)">
+                        /
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div class="flex w-full min-h-64">
+            <div class="w-full max-h-256 overflow-y-auto" @click="selectedFiles = []">
+                <div class="relative flex-grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
+                        <h4>{{ dragging ? dropText : dragText }}</h4>
+                    </div>
+                    <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading pointer-events-none" v-if="loadingFiles">
+                        <icon icon="helm" :size="32" class="block rotating-cw"></icon>
+                    </div>
+                    <div v-if="combinedFiles.length == 0" class="h-64"></div>
+                    <div
+                        class="item w-full rounded-md border cursor-pointer select-none h-auto"
+                        v-for="(file, i) in combinedFiles"
+                        :key="i"
+                        :class="[fileSelected(file) ? 'selected' : '', filePicked(file) ? 'picked' : '', file.is_upload ? 'opacity-50' : '']"
+                        v-on:click.prevent.stop="selectFile(file, $event)"
+                        v-on:dblclick.prevent.stop="openFile(file)">
+                        <div class="flex p-3">
+                            <div class="flex-none">
+                                <div class="w-full flex justify-center">
+                                    <img :src="file.preview" class="rounded object-contain h-24 max-w-full" v-if="file.preview" />
+                                    <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="mimeMatch(file.file.type, 'image/*')" />
+                                    <div v-else class="w-full flex justify-center h-24">
+                                        <icon :icon="getFileIcon(file.file.type)" size="24"></icon>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="flex-grow ml-3 overflow-hidden">
+                                <div class="flex flex-col h-full">
+                                    <div class="flex-none">
+                                        <p class="whitespace-no-wrap" v-tooltip="file.file.name">{{ file.file.name }}</p>
+                                        <p class="text-sm" v-if="file.file.thumbnails.length > 0">
+                                            {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
+                                        </p>
+                                        <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
+                                    </div>
+                                    <div class="flex items-end justify-end flex-grow">
+                                        <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
+                                            <icon icon="x" :size="4"></icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="flex-none h-1 bg-blue-500 rounded-b-md"
+                            v-if="file.status == Status.Uploading && file.progress < 100"
+                            :style="{ width: file.progress+'%' }">
+                        </div>
+                        <div class="max-w-full h-1 overflow-hidden" v-if="file.status == Status.Uploading && file.progress >= 100">
+                            <div class="indeterminate">
+                                <div class="before bg-blue-500 rounded"></div>
+                                <div class="after bg-blue-500 rounded"></div>
+                            </div>
+                        </div>
+                        <div
+                            class="flex-none h-1 w-full bg-green-500 rounded-b-md"
+                            v-if="file.status == Status.Finished">
+                        </div>
+                        <div
+                            class="flex-none h-1 w-full bg-red-500 rounded-b-md"
+                            v-if="file.status == Status.Failed">
                         </div>
                     </div>
-                    <div class="flex-grow ml-3 overflow-hidden">
-                        <div class="flex flex-col h-full">
-                            <div class="flex-none">
-                                <p class="whitespace-no-wrap" v-tooltip="file.name">{{ file.name }}</p>
-                                <p v-for="(field, i) in meta" :key="i">
-                                    <language-input
-                                        class="input w-full small mt-1"
-                                        type="text" :placeholder="translate(field.value)"
-                                        v-bind:value="file.meta[field.key]"
-                                        v-on:input="file.meta[field.key] = $event"
-                                    />
-                                </p>
+                </div>
+            </div>
+            <div class="flex-none">
+                <div class="sidebar h-full border rounded-md p-2 ml-3 w-56">
+                    <div v-if="selectedFiles.length > 0">
+                        <div class="w-full flex justify-center">
+                            <div v-if="selectedFiles.length > 1" class="w-full flex justify-center h-32">
+                                <icon icon="document-duplicate" size="32"></icon>
                             </div>
-                            <div class="flex items-end justify-end flex-grow">
-                                <button @click.stop="addPickedFile(file)">
-                                    <icon icon="x" :size="4"></icon>
-                                </button>
+                            <img :src="selectedFiles[0].preview" class="rounded object-contain h-32 max-w-full" v-else-if="selectedFiles[0].preview" />
+                            <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="mimeMatch(selectedFiles[0].file.type, 'image/*')" />
+                            <video v-else-if="mimeMatch(selectedFiles[0].file.type, 'video/*')" controls>
+                                <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
+                            </video>
+                            <audio v-else-if="mimeMatch(selectedFiles[0].file.type, 'audio/*')" controls>
+                                <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
+                            </audio>
+                            <div v-else class="w-full flex justify-center h-32">
+                                <icon :icon="getFileIcon(selectedFiles[0].file.type)" size="32"></icon>
                             </div>
                         </div>
-                        
+                        <div class="w-full flex justify-start mt-2">
+                            <div v-if="selectedFiles.length == 1">
+                                <p>{{ selectedFiles[0].file.name }}</p>
+                                <p>{{ __('voyager::media.size') }}: {{ readableFileSize(selectedFiles[0].file.size) }}</p>
+                                <input
+                                    type="text"
+                                    class="input small w-full mt-1 select-none"
+                                    v-if="selectedFiles[0].file.type !== 'directory'"
+                                    :value="encodeURI(selectedFiles[0].file.url)"
+                                    @dblclick="copyPath(encodeURI(selectedFiles[0].file.url))">
+
+                                <ul v-if="selectedFiles[0].file.thumbnails.length > 0" class="mt-2">
+                                    <span>{{ __('voyager::media.thumbnails.thumbnails') }}</span>
+                                    <li v-for="(thumb, i) in selectedFiles[0].file.thumbnails" :key="i" @dblclick="copyPath(encodeURI(thumb.file.url))">
+                                        <a :href="thumb.file.url" target="_blank">{{ thumb.file.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div v-else>
+                                <p>{{ __('voyager::media.files_selected', { num: selectedFiles.length }) }}</p>
+                                <p>{{ __('voyager::generic.approximately') }} {{ readableFileSize(selectedFilesSize) }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="button accent w-full cursor-pointer flex justify-center" :class="[isOpen ? 'mb-2' : '']" v-show="pickFiles" @click="toggle">
-            <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="5"></icon>
-        </button>
-        <slide-y-up-transition>
-            <div v-show="isOpen">
-                <div class="w-full mb-2" v-if="showToolbar">
-                    <div class="inline-block">
-                        <button class="button green small" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload" v-tooltip="__('voyager::media.upload')">
-                            <icon icon="upload"></icon>
-                        </button>
-                        <button class="button accent small" @click="selectFilesToUpload()" v-tooltip="__('voyager::media.select_upload_files')">
-                            <icon icon="check-circle"></icon>
-                        </button>
-                        <button class="button accent small" @click="loadFiles()" v-tooltip="__('voyager::generic.reload')">
-                            <icon icon="refresh"></icon>
-                        </button>
-                        <button class="button accent small" @click="createFolder()" v-tooltip="__('voyager::media.create_folder')">
-                            <icon icon="folder-add"></icon>
-                        </button>
-                        <button class="button red small" @click="deleteSelected()" v-if="selectedFiles.length > 0" v-tooltip="trans_choice('voyager::media.delete_files', selectedFiles.length)">
-                            <icon icon="trash"></icon>
-                        </button>
-                        <button class="button green small" v-show="pickFiles && selectedFiles.length > 0" @click="pickSelectedFiles()" v-tooltip="trans_choice('voyager::media.select_files', selectedFiles.length)">
-                            <icon icon="check-circle"></icon>
-                        </button>
-                        <button class="button accent small" v-show="selectedFiles.length > 0" @click="downloadFiles()" v-tooltip="trans_choice('voyager::media.download_files', selectedFiles.length)">
-                            <icon icon="download"></icon>
-                        </button>
-                    </div>
-                </div>
-                <div class="w-full mb-2 rounded-md breadcrumbs">
-                    <div class="button-group">
-                        <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="inline-block items-center">
-                            <button class="m-2" @click.prevent.stop="openPath(path, i)">
-                                <icon v-if="path == ''" icon="home"></icon>
-                                <span v-else>{{ path }}</span>
-                            </button>
-                            <button class="cursor-default px-0 py-0" v-if="pathSegments.length !== (i+1)">
-                                /
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <div class="flex w-full min-h-64">
-                    <div class="w-full max-h-256 overflow-y-auto" @click="selectedFiles = []">
-                        <div class="relative flex-grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                            <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
-                                <h4>{{ dragging ? dropText : dragText }}</h4>
-                            </div>
-                            <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading pointer-events-none" v-if="loadingFiles">
-                                <icon icon="helm" :size="32" class="block rotating-cw"></icon>
-                            </div>
-                            <div v-if="combinedFiles.length == 0" class="h-64"></div>
-                            <div
-                                class="item w-full rounded-md border cursor-pointer select-none h-auto"
-                                v-for="(file, i) in combinedFiles"
-                                :key="i"
-                                :class="[fileSelected(file) ? 'selected' : '', file.is_upload ? 'opacity-50' : '']"
-                                v-on:click.prevent.stop="selectFile(file, $event)"
-                                v-on:dblclick.prevent.stop="openFile(file)">
-                                <div class="flex p-3">
-                                    <div class="flex-none">
-                                        <div class="w-full flex justify-center">
-                                            <img :src="file.preview" class="rounded object-contain h-24 max-w-full" v-if="file.preview" />
-                                            <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="mimeMatch(file.file.type, 'image/*')" />
-                                            <div v-else class="w-full flex justify-center h-24">
-                                                <icon :icon="getFileIcon(file.file.type)" size="24"></icon>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow ml-3 overflow-hidden">
-                                        <div class="flex flex-col h-full">
-                                            <div class="flex-none">
-                                                <p class="whitespace-no-wrap" v-tooltip="file.file.name">{{ file.file.name }}</p>
-                                                <p class="text-sm" v-if="file.file.thumbnails.length > 0">
-                                                    {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
-                                                </p>
-                                                <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
-                                            </div>
-                                            <div class="flex items-end justify-end flex-grow">
-                                                <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
-                                                    <icon icon="x" :size="4"></icon>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="flex-none h-1 bg-blue-500 rounded-b-md"
-                                    v-if="file.status == Status.Uploading && file.progress < 100"
-                                    :style="{ width: file.progress+'%' }">
-                                </div>
-                                <div class="max-w-full h-1 overflow-hidden" v-if="file.status == Status.Uploading && file.progress >= 100">
-                                    <div class="indeterminate">
-                                        <div class="before bg-blue-500 rounded"></div>
-                                        <div class="after bg-blue-500 rounded"></div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="flex-none h-1 w-full bg-green-500 rounded-b-md"
-                                    v-if="file.status == Status.Finished">
-                                </div>
-                                <div
-                                    class="flex-none h-1 w-full bg-red-500 rounded-b-md"
-                                    v-if="file.status == Status.Failed">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-none">
-                        <div class="sidebar h-full border rounded-md p-2 ml-3 w-56">
-                            <div v-if="selectedFiles.length > 0">
-                                <div class="w-full flex justify-center">
-                                    <div v-if="selectedFiles.length > 1" class="w-full flex justify-center h-32">
-                                        <icon icon="document-duplicate" size="32"></icon>
-                                    </div>
-                                    <img :src="selectedFiles[0].preview" class="rounded object-contain h-32 max-w-full" v-else-if="selectedFiles[0].preview" />
-                                    <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="mimeMatch(selectedFiles[0].file.type, 'image/*')" />
-                                    <video v-else-if="mimeMatch(selectedFiles[0].file.type, 'video/*')" controls>
-                                        <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
-                                    </video>
-                                    <audio v-else-if="mimeMatch(selectedFiles[0].file.type, 'audio/*')" controls>
-                                        <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
-                                    </audio>
-                                    <div v-else class="w-full flex justify-center h-32">
-                                        <icon :icon="getFileIcon(selectedFiles[0].file.type)" size="32"></icon>
-                                    </div>
-                                </div>
-                                <div class="w-full flex justify-start mt-2">
-                                    <div v-if="selectedFiles.length == 1">
-                                        <p>{{ selectedFiles[0].file.name }}</p>
-                                        <p>{{ __('voyager::media.size') }}: {{ readableFileSize(selectedFiles[0].file.size) }}</p>
-                                        <input
-                                            type="text"
-                                            class="input small w-full mt-1 select-none"
-                                            v-if="selectedFiles[0].file.type !== 'directory'"
-                                            :value="encodeURI(selectedFiles[0].file.url)"
-                                            @dblclick="copyPath(encodeURI(selectedFiles[0].file.url))">
-
-                                        <ul v-if="selectedFiles[0].file.thumbnails.length > 0" class="mt-2">
-                                            <span>{{ __('voyager::media.thumbnails.thumbnails') }}</span>
-                                            <li v-for="(thumb, i) in selectedFiles[0].file.thumbnails" :key="i" @dblclick="copyPath(encodeURI(thumb.file.url))">
-                                                <a :href="thumb.file.url" target="_blank">{{ thumb.file.name }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div v-else>
-                                        <p>{{ __('voyager::media.files_selected', { num: selectedFiles.length }) }}</p>
-                                        <p>{{ __('voyager::generic.approximately') }} {{ readableFileSize(selectedFilesSize) }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </slide-y-up-transition>
     </div>
 </template>
 <script>
@@ -251,29 +207,19 @@ export default {
                 return [];
             }
         },
-        'pickFiles': {
-            type: Boolean,
-            default: false,
-        },
         'max': {
             type: Number,
             default: 0,
         },
-        'meta': {
-            type: Array,
-            default: function () {
-                return [];
-            },
-        },
-        'value': {
-            type: Array,
-            default: function () {
-                return [];
-            },
-        },
         'closed': {
             type: Boolean,
             default: false,
+        },
+        'pickedFiles': {
+            type: Array,
+            default: function () {
+                return [];
+            }
         }
     },
     data: function () {
@@ -287,7 +233,6 @@ export default {
             dragging: false,
             loadingFiles: false,
             dragEnterTarget: null,
-            pickedFiles: this.value,
         };
     },
     methods: {
@@ -480,51 +425,19 @@ export default {
         fileSelected: function (file) {
             return this.selectedFiles.indexOf(file) >= 0;
         },
+        filePicked: function (file) {
+            return this.pickedFiles.filter(function (f) {
+                return f.disk == file.file.disk && file.file.relative_path == f.path && f.name == file.file.name;
+            }).length > 0;
+        },
         openFile: function (file) {
             if (file.file.type == 'directory') {
                 this.path = this.path + '/' + file.file.name;
-                if (!this.pickFiles) {
-                    this.pushCurrentPathToUrl();
-                }
+                this.pushCurrentPathToUrl();
                 this.loadFiles();
-            } else if (this.pickFiles) {
-                this.addPickedFile(file);
-            }
-        },
-        pickSelectedFiles: function () {
-            var vm = this;
-            vm.selectedFiles.forEach(function (file) {
-                vm.addPickedFile(file);
-            });
-        },
-        addPickedFile: function (file) {
-            if (file.hasOwnProperty('file')) {
-                file = file.file;
-            }
-            if (this.pickedFiles.where('url', file.url).length > 0) {
-                this.removePickedFile(file.url);
             } else {
-                if (this.max > 1 && this.pickedFiles.length >= this.max) {
-                    new this.$notification(this.trans_choice('voyager::formfields.media_picker.max_warning', this.max))
-                    .color('orange').timeout().show();
-                    return;
-                }
-                var fileObj = JSON.parse(JSON.stringify(file));
-                fileObj.meta = {};
-                var vm = this;
-                Object.keys(this.meta).forEach(function (i) {
-                    fileObj.meta[vm.meta[i].key] = vm.get_translatable_object('');
-                });
-                if (this.max == 1) {
-                    this.pickedFiles = [fileObj];
-                } else {
-                    this.pickedFiles.push(fileObj);
-                }
+                this.$emit('select', file.file);
             }
-            this.$emit('input', this.pickedFiles);
-        },
-        removePickedFile: function (url) {
-            this.pickedFiles = this.pickedFiles.filter(f => f.url !== url);
         },
         deleteUpload: function (file) {
             this.filesToUpload.splice(this.filesToUpload.indexOf(file), 1);
@@ -552,9 +465,7 @@ export default {
             this.path = this.pathSegments.slice(0, (index + 1)).join('/');
 
             // Push path to URL
-            if (!this.pickFiles) {
-                this.pushCurrentPathToUrl();
-            }
+            this.pushCurrentPathToUrl();
 
             this.loadFiles();
         },
@@ -663,11 +574,6 @@ export default {
             return this.path.split('/');
         }
     },
-    watch: {
-        value: function (files) {
-            this.pickedFiles = files;
-        }
-    },
     mounted: function () {
         var vm = this;
 
@@ -715,7 +621,7 @@ export default {
         }
 
         var path = vm.getParameterFromUrl('path', '');
-        if (path !== '/' && !vm.pickFiles) {
+        if (path !== '/') {
             vm.path = path;
         }
 
@@ -751,6 +657,11 @@ export default {
         &.selected {
             @include bg-color(media-item-selected-bg-color-dark, 'colors.gray.750');
             @include border-color(media-item-selected-border-color-dark, 'colors.blue.700');
+        }
+
+        &.picked {
+            @include bg-color(media-item-picked-bg-color-dark, 'colors.gray.750');
+            @include border-color(media-item-picked-border-color-dark, 'colors.green.700');
         }
     }
 
@@ -788,6 +699,11 @@ export default {
         &.selected {
             @include bg-color(media-item-selected-bg-color, 'colors.gray.250');
             @include border-color(media-item-selected-border-color, 'colors.blue.300');
+        }
+
+        &.picked {
+            @include bg-color(media-item-picked-bg-color, 'colors.gray.250');
+            @include border-color(media-item-picked-border-color, 'colors.green.300');
         }
     }
 

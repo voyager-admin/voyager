@@ -74,12 +74,28 @@ You can now call `media(field)` where `field` is the column you use in the formf
 `media()` will **always** return a [collection](https://laravel.com/docs/collections) containing your files.  
 
 The following properties exist on each item in the collection:  
-- URL
-- Size
-- Relative path
-- ...
+- Disk - The disk where the file is stored
+- Path - The relative path to the disk
+- Name - The name of the file
+- URL - The fully qualified URL of this file
 
 ### Meta properties
 
 Meta properties are automatically translated and injected into the items.  
 If you defined a meta prop `title` you can access it like `$model->media('field')->first()->title`
+
+### Thumbnails
+
+When a file has thumbnails you can iterate them like:
+
+```php
+foreach ($mymodel->thumbnails as $thumbnail) {
+    $thumbnail->url()
+}
+```
+
+or get a thumbnail by its name like:
+
+```php
+$mymodel->thumbnails->where('thumbnail', 'crop')->first();
+```

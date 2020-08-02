@@ -14,7 +14,7 @@ return [
         'max_warning'           => 'You can\'t select more than :num file!|You can\'t select more than :num files!',
         'meta_fields'           => 'Meta fields',
         'mime_types'            => 'Mime types',
-        'open_by_default'       => 'Open by default',
+        'select_text'           => 'Select text',
         'show_icons'            => 'Show icons',
         'shuffle_items'         => 'Shuffle items',
     ],

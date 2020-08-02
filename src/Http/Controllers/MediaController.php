@@ -67,8 +67,8 @@ class MediaController extends Controller
             $wm_path = '';
 
             
-            if (isset($wm->relative_path) && Storage::disk($this->disk)->exists($wm->relative_path.$wm->name)) {
-                $wm_path = Storage::disk($this->disk)->path($wm->relative_path.$wm->name);
+            if (isset($wm->path) && Storage::disk($this->disk)->exists($wm->path.$wm->name)) {
+                $wm_path = Storage::disk($this->disk)->path($wm->path.$wm->name);
                 $wm_add = true;
             }
 
@@ -200,7 +200,11 @@ class MediaController extends Controller
             foreach ($thumbnail_names as $thumb) {
                 if (Str::endsWith($file['filename'], $thumb)) {
                     $original = str_replace($thumb, '', $file['filename']);
+                    if (Str::startsWith($thumb, '_')) {
+                        $thumb = substr($thumb, 1);
+                    }
                     $thumbnails[] = [
+                        'thumbnail' => $thumb,
                         'original'  => $original,
                         'file'      => $f['file'],
                     ];

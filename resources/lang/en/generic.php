@@ -40,6 +40,7 @@ return [
     'editable'                  => 'Editable',
     'edit_type'                 => 'Edit :type',
     'enable'                    => 'Enable',
+    'file'                      => 'File',
     'first'                     => 'First',
     'focus'                     => 'Focus',
     'force_delete'              => 'Force delete',
