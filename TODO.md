@@ -7,7 +7,6 @@ Instead, they are listed here:
 - Modal should show scrollbar inside container, not outside
 - Check if layouts are assigned to all actions
 - Relationship selected can't get cleared when changing pages
-- Focus has to stay on search-input when querying relationships
 - Add some sort of action buttons
 - Make listbox search and pagination sticky
 

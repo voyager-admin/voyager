@@ -289,7 +289,7 @@ class BreadController extends Controller
         // TODO: Validate that the method exists in edit/add layout
         $bread = $this->getBread($request);
         $data = [];
-        $perpage = 10;
+        $perpage = 5;
 
         $query = $request->get('query', null);
         $page = $request->get('page', 1);

@@ -27,9 +27,12 @@
         </div>
         <collapse-transition class="options-container -m-3">
             <div v-show="isOpen" class="rounded-md py-1 max-h-128 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
-                <div v-if="!loading">
+                <div>
                     <div v-if="search" class="px-1 pb-1">
-                        <input class="input small w-full" :placeholder="searchOptionsText" v-model="query" @input="$emit('search', $event.target.value)">
+                        <input class="input small w-full" :placeholder="searchOptionsText" v-model="query" @input="$emit('search', $event.target.value)" ref="search_input">
+                    </div>
+                    <div class="w-full flex justify-center text-xl my-2" v-if="loading">
+                        {{ loadingText }}
                     </div>
                     <div
                         class="option"
@@ -58,9 +61,6 @@
                             small
                         />
                     </div>
-                </div>
-                <div class="w-full flex justify-center text-xl my-2" v-else>
-                    {{ loadingText }}
                 </div>
             </div>
         </collapse-transition>
@@ -160,6 +160,14 @@ export default {
 
             return this.value == option.key;
         },
+        focusSearchInput: function () {
+            var vm = this;
+            Vue.nextTick(function () {
+                if (vm.$refs.search_input) {
+                    vm.$refs.search_input.focus();
+                }
+            });
+        }
     },
     computed: {
         selectedOptions: function () {
@@ -180,6 +188,16 @@ export default {
     watch: {
         currentPage: function (page) {
             this.$emit('page', page);
+            this.focusSearchInput();
+        },
+        isOpen: function () {
+            this.focusSearchInput();
+        },
+        'options': {
+            deep: true,
+            handler: function () {
+                this.focusSearchInput();
+            }
         }
     }
 };
