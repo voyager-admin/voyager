@@ -192,11 +192,22 @@ class Breads
      */
     public function createBread($table)
     {
+        // Guess the model name
+        // TODO: Get namespace from somewhere
+        $model = null;
+        $modelname = ucfirst(Str::camel(Str::singular($table)));
+        if (class_exists('\App\\'.$modelname)) {
+            $model = 'App\\'.$modelname;
+        } elseif (class_exists('\App\Models\\'.$modelname)) {
+            $model = 'App\Models\\'.$modelname;
+        }
+
         $bread = [
             'table'         => $table,
             'slug'          => Str::slug($table),
-            'name_singular' => Str::singular(Str::title($table)),
-            'name_plural'   => Str::plural(Str::title($table)),
+            'name_singular' => str_replace('_', ' ', Str::singular(Str::title($table))),
+            'name_plural'   => str_replace('_', ' ', Str::plural(Str::title($table))),
+            'model'         => $model,
             'layouts'       => [],
         ];
 

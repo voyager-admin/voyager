@@ -15,7 +15,7 @@ class Bread implements \JsonSerializable
     protected $slug;
     protected $name_singular;
     protected $name_plural;
-    public $icon = 'fire';
+    public $icon = 'bread';
     public $model;
     public $controller;
     public $policy;

@@ -36,7 +36,7 @@ return [
     'name_already_exists'               => 'This name already exists!',
     'name_plural'                       => 'Name plural',
     'name_singular'                     => 'Name singular',
-    'new_breads_prop_warning'           => 'Please enter a model name and click "Reload properties" to see scopes, computed properties and relationships!',
+    'new_breads_prop_warning'           => 'Please enter a model name and click "Reload properties" to see columns, scopes, computed properties and relationships!',
     'orderable'                         => 'Orderable',
     'order_default'                     => 'Ordered by default',
     'policy'                            => 'Policy',

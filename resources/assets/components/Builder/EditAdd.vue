@@ -395,6 +395,7 @@ export default {
         },
         addLayout: function (view) {
             var vm = this;
+            vm.$refs.layout_dd.close();
             new vm
             .$notification(vm.__('voyager::builder.enter_name'))
             .prompt()

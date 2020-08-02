@@ -3,11 +3,9 @@ It only contains small things that came to our minds which we couldn't implement
 Instead, they are listed here:
 
 - Test everything on mobile (especially media manager and listbox/relationship select)
-- Let formfield push something into the cards actions-slot (Vue 3 Portals?) when editing/adding
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
 - Check if layouts are assigned to all actions
-- Check global-search styling with >= 4 BREADs
 - Relationship selected can't get cleared when changing pages
 - Focus has to stay on search-input when querying relationships
 - Add some sort of action buttons
