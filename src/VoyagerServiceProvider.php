@@ -233,12 +233,12 @@ class VoyagerServiceProvider extends ServiceProvider
             (new MenuItem(__('voyager::generic.dashboard'), 'home', true))->permission('browse', ['admin'])->route('voyager.dashboard')->exact()
         );
         $this->menumanager->addItems(
-            (new MenuItem(__('voyager::generic.media'), 'photograph', true))->permission('browse', ['media'])->route('voyager.media'),
+            (new MenuItem(__('voyager::generic.media'), 'photograph', true))->permission('browse', ['media'])->route('voyager.media')
         );
 
         if ($this->settingmanager->setting('admin.ui-components', true)) {
             $this->menumanager->addItems(
-                (new MenuItem(__('voyager::generic.ui_components'), 'template', true))->permission('browse', ['ui'])->route('voyager.ui'),
+                (new MenuItem(__('voyager::generic.ui_components'), 'template', true))->permission('browse', ['ui'])->route('voyager.ui')
             );
         }
 
