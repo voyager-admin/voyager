@@ -9,7 +9,7 @@ Instead, they are listed here:
 - Relationship selected can't get cleared when changing pages
 - Add some sort of action buttons
 - Make listbox search and pagination sticky
-
+- Discuss who/what should decide which layout is used for an action
 
 ## Formfields
 - **Relationship** not yet (fully) working

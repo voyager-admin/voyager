@@ -251,7 +251,7 @@
             <div class="flex">
                 <div class="w-1/4">
                     <h6>{{ __('voyager::generic.browse') }}</h6>
-                    <select class="input w-full mt-2" v-model="bread.use_layouts.browse">
+                    <select class="input w-full mt-2" v-model="bread.layout_map.browse" multiple>
                         <option v-for="(list, i) in lists" :key="'browse-layout'+i">
                             {{ list.name }}
                         </option>
@@ -259,7 +259,7 @@
                 </div>
                 <div class="w-1/4 ml-2">
                     <h6>{{ __('voyager::generic.read') }}</h6>
-                    <select class="input w-full mt-2" v-model="bread.use_layouts.read">
+                    <select class="input w-full mt-2" v-model="bread.layout_map.read" multiple>
                         <option v-for="(view, i) in views" :key="'read-layout'+i">
                             {{ view.name }}
                         </option>
@@ -267,7 +267,7 @@
                 </div>
                 <div class="w-1/4 ml-2">
                     <h6>{{ __('voyager::generic.edit') }}</h6>
-                    <select class="input w-full mt-2" v-model="bread.use_layouts.edit">
+                    <select class="input w-full mt-2" v-model="bread.layout_map.edit" multiple>
                         <option v-for="(view, i) in views" :key="'edit-layout'+i">
                             {{ view.name }}
                         </option>
@@ -275,7 +275,7 @@
                 </div>
                 <div class="w-1/4 ml-2">
                     <h6>{{ __('voyager::generic.add') }}</h6>
-                    <select class="input w-full mt-2" v-model="bread.use_layouts.add">
+                    <select class="input w-full mt-2" v-model="bread.layout_map.add" multiple>
                         <option v-for="(view, i) in views" :key="'add-layout'+i">
                             {{ view.name }}
                         </option>
@@ -314,10 +314,20 @@ export default {
     methods: {
         saveBread: function () {
             var vm = this;
-            var failed = vm.validateLayouts();
 
-            if (failed) {
+            if (vm.validateLayouts()) {
                 new vm.$notification(vm.nl2br(vm.__('voyager::builder.layout_field_warning')))
+                        .confirm()
+                        .color('red')
+                        .timeout()
+                        .show()
+                        .then(function (response) {
+                    if (response) {
+                        vm.storeBread();
+                    }
+                });
+            } else if (vm.validateLayoutMapping()) {
+                new vm.$notification(vm.nl2br(vm.__('voyager::builder.layout_mapping_warning')))
                         .confirm()
                         .color('red')
                         .timeout()
@@ -563,6 +573,18 @@ export default {
                         failed = true;
                     }
                 });
+            });
+
+            return failed;
+        },
+        validateLayoutMapping: function () {
+            var vm = this;
+            var failed = false;
+
+            Object.keys(vm.bread.layout_map).forEach(function (action) {
+                if (vm.bread.layout_map[action].length == 0) {
+                    failed = true;
+                }
             });
 
             return failed;

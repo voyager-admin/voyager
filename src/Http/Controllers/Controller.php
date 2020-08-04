@@ -90,9 +90,9 @@ abstract class Controller extends BaseController
     protected function getLayoutForAction($bread, $action)
     {
         if ($action == 'browse') {
-            return $bread->layouts->where('name', $bread->use_layouts->{$action})->where('type', 'list')->first();
+            return $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', 'list')->first();
         }
 
-        return $bread->layouts->where('name', $bread->use_layouts->{$action})->where('type', 'view')->first();
+        return $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', 'view')->first();
     }
 }

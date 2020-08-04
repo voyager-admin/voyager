@@ -149,10 +149,10 @@
             ]
         }
     ],
-    "use_layouts": {
-        "browse": "Browse List",
-        "read": "Edit\/Add View",
-        "edit": "Edit\/Add View",
-        "add": "Edit\/Add View"
+    "layout_map": {
+        "browse": ["Browse List"],
+        "read": ["Edit\/Add View"],
+        "edit": ["Edit\/Add View"],
+        "add": ["Edit\/Add View"]
     }
 }
