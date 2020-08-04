@@ -34,8 +34,7 @@ class Breads
      * Sets the path where the BREAD-files are stored.
      *
      * @param string $path
-     *
-     * @return string the current path
+     * @return string the current path.
      */
     public function setPath($path = null)
     {
@@ -359,18 +358,21 @@ class Breads
 
     public function getModelRelationships(\ReflectionClass $reflection, Model $model, bool $resolve = false): Collection
     {
-        $types = [
+        $single = [
             BelongsTo::class,
-            BelongsToMany::class,
-            HasMany::class,
-            HasManyThrough::class,
             HasOne::class,
             HasOneThrough::class,
         ];
 
-        return collect($reflection->getMethods())->transform(function ($method) use ($types, $model, $resolve) {
+        $multi = [
+            BelongsToMany::class,
+            HasMany::class,
+            HasManyThrough::class,
+        ];
+
+        return collect($reflection->getMethods())->transform(function ($method) use ($single, $multi, $model, $resolve) {
             $type = $method->getReturnType();
-            if ($type && in_array(strval($type->getName()), $types)) {
+            if ($type && in_array(strval($type->getName()), array_merge($single, $multi))) {
                 $columns = [];
                 $scopes = [];
                 $pivot = [];
@@ -400,7 +402,7 @@ class Breads
                     'pivot'     => $pivot,
                     'computed'  => $computed,
                     'key_name'  => $relationship->getRelated()->getKeyName(),
-                    'multiple'  => in_array(strval($type->getName()), [BelongsToMany::class, HasMany::class, HasManyThrough::class]),
+                    'multiple'  => in_array(strval($type->getName()), $multi),
                 ];
             }
 
