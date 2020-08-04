@@ -5,8 +5,6 @@ Instead, they are listed here:
 - Test everything on mobile (especially media manager and listbox/relationship select)
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
-- Check if layouts are assigned to all actions
-- Relationship selected can't get cleared when changing pages
 - Add some sort of action buttons
 - Make listbox search and pagination sticky
 - Discuss who/what should decide which layout is used for an action

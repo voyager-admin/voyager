@@ -2,7 +2,7 @@
     <div class="listbox input w-full" v-click-outside="close">
         <div @click="toggle" class="w-full cursor-pointer">
             <slot>
-                <div v-if="$slots.default === null">
+                <div v-if="$slots.default === undefined">
                     <span v-if="selectedOptions.length == 0">
                         {{ selectOptionText }}
                     </span>
