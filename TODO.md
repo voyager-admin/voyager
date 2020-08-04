@@ -10,6 +10,7 @@ Instead, they are listed here:
 - Add some sort of action buttons
 - Make listbox search and pagination sticky
 - Discuss who/what should decide which layout is used for an action
+- Discuss how/why widgets are displayed (permission, order, ...)
 
 ## Formfields
 - **Relationship** not yet (fully) working

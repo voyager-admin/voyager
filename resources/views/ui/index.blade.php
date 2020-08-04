@@ -157,7 +157,7 @@
 </collapsible>
 
 <collapsible title="Listbox" id="ui-listbox">
-<collapsible title="Single" :title-size="5">
+    <collapsible title="Single" :title-size="5">
         <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_option"></listbox>
     </collapsible>
     <collapsible title="Multiple" :title-size="5">
@@ -193,7 +193,17 @@
         </badge>
     </collapsible>
     <collapsible title="Large" :title-size="5">
-        <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color" class="large">
+        <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color" large>
+            @{{ color[0].toUpperCase() + color.slice(1) }}
+        </badge>
+    </collapsible>
+    <collapsible title="With icon" :title-size="5">
+        <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color" icon="x">
+            @{{ color[0].toUpperCase() + color.slice(1) }}
+        </badge>
+    </collapsible>
+    <collapsible title="Large with icon" :title-size="5">
+        <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color" icon="information-circle" large>
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </badge>
     </collapsible>

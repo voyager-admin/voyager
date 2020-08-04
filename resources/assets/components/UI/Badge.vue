@@ -1,16 +1,13 @@
 <template>
     <span
         class="badge"
-        :class="`button ${color}`"
+        :class="[`button ${color}`, large ? 'large' : null]"
         v-on="$listeners">
-        <svg class="ltr:mr-1 rtl:ml-1 h-2 w-2" :class="`text-${color}-700`" fill="currentColor" viewBox="0 0 8 8" v-if="dot">
-            <circle cx="4" cy="4" r="3" />
-        </svg>
         <slot></slot>
         <icon
             v-on:click.native="$emit('click-icon', $event)"
             class="ltr:ml-1 ltr:mr-0 rtl:mr-1 rtl:ml-0 cursor-pointer"
-            :size="5"
+            :size="large ? 5 : 4"
             v-if="icon !== ''"
             :icon="icon">
         </icon>
@@ -23,13 +20,13 @@ export default {
             type: String,
             default: 'green',
         },
-        dot: {
-            type: Boolean,
-            default: false,
-        },
         icon: {
             type: String,
             default: '',
+        },
+        large: {
+            type: Boolean,
+            default: false,
         }
     },
 };

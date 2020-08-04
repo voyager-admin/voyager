@@ -67,12 +67,12 @@
                 </modal>
             </div>
         </div>
-        <div class="w-full my-3">
+        <div class="w-full">
             <badge
                 v-for="(type, i) in installedTypes"
                 :key="i" :color="getPluginTypeColor(type)"
                 :icon="installed.currentType == type ? 'x' : ''"
-                @click="installed.currentType = (installed.currentType == null ? type : null); installed.page = 0"
+                @click="setTypeFilter(type)"
             >
                 {{ __('voyager::plugins.types.'+type) }}
             </badge>
@@ -261,6 +261,14 @@ export default {
         },
         pluginInstalled: function (plugin) {
             return this.installed.plugins.where('repository', plugin.repository).length > 0;
+        },
+        setTypeFilter: function (type) {
+            if (this.installed.currentType == type) {
+                this.installed.currentType = null;
+            } else {
+                this.installed.currentType = type;
+            }
+            this.installed.page = 0;
         }
     },
     computed: {
