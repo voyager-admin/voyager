@@ -11,9 +11,8 @@ Instead, they are listed here:
 - Discuss how/why widgets are displayed (permission, order, ...)
 
 ## Formfields
-- **Relationship** not yet (fully) working
+- **Relationship** support polymorphic relationships
 - **Color Picker**
-- **Media Picker**
 - **Date/Time Picker**
 - **Masked input**
 - **Repeater** should "simply" use another view

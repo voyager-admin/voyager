@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Manager;
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -193,13 +194,13 @@ class Breads
     public function createBread($table)
     {
         // Guess the model name
-        // TODO: Get namespace from somewhere
+        $namespace = Str::start(Container::getInstance()->getNamespace() ?? 'App\\', '\\');
         $model = null;
         $modelname = ucfirst(Str::camel(Str::singular($table)));
-        if (class_exists('\App\\'.$modelname)) {
-            $model = 'App\\'.$modelname;
-        } elseif (class_exists('\App\Models\\'.$modelname)) {
-            $model = 'App\Models\\'.$modelname;
+        if (class_exists($namespace.$modelname)) {
+            $model = $namespace.$modelname;
+        } elseif (class_exists($namespace.'Models\\'.$modelname)) {
+            $model = $namespace.'Models\\'.$modelname;
         }
 
         $bread = [
