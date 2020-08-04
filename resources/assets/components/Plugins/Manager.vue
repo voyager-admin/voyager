@@ -154,7 +154,7 @@
                 ></pagination>
             </div>
         </div>
-        <div v-else class="w-full text-center">
+        <div v-else-if="!loading" class="w-full text-center">
             <h3>{{ __('voyager::plugins.no_plugins_installed_title') }}</h3>
             <h4>{{ __('voyager::plugins.no_plugins_installed_hint') }}</h4>
         </div>
