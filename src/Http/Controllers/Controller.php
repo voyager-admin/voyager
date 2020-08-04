@@ -89,10 +89,12 @@ abstract class Controller extends BaseController
 
     protected function getLayoutForAction($bread, $action)
     {
-        if ($action == 'browse') {
-            return $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', 'list')->first();
+        $layout = $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', $action == 'browse' ? 'list' : 'view')->first();
+
+        if ($layout == null) {
+            throw new \Exception(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)]));
         }
 
-        return $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', 'view')->first();
+        return $layout;
     }
 }

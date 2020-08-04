@@ -12,6 +12,7 @@ return [
     'force_delete_type_confirm'     => 'Are you sure you want to permanently delete this :type?|Are you sure you want to permanently delete :num :types?',
     'force_delete_type_success'     => ':type sucessfully deleted permanently!|Successfully deleted :num :types permanently!',
     'force_delete_type'             => 'Force delete one :type|Force delete :num :types',
+    'no_layout_assigned'            => 'There is no layout assigned to action ":action"',
     'no_results'                    => 'No Results 😢',
     'order_by_field_asc'            => 'Order ascending by :field',
     'order_by_field_desc'           => 'Order descending by :field',

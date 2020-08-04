@@ -150,7 +150,7 @@ class BreadController extends Controller
     public function edit(Request $request, $id)
     {
         $bread = $this->getBread($request);
-        $layout = $this->getLayoutForAction($bread, 'add');
+        $layout = $this->getLayoutForAction($bread, 'edit');
         $new = false;
 
         $data = $bread->getModel()->findOrFail($id);
@@ -191,7 +191,7 @@ class BreadController extends Controller
     public function update(Request $request, $id)
     {
         $bread = $this->getBread($request);
-        $layout = $this->getLayoutForAction($bread, 'add');
+        $layout = $this->getLayoutForAction($bread, 'edit');
 
         $model = $bread->getModel()->findOrFail($id);
         if (!empty($layout->options->scope)) {
