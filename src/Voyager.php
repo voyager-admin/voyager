@@ -14,7 +14,7 @@ use Voyager\Admin\Plugins\AuthenticationPlugin;
 class Voyager
 {
     /**
-     * The route prefix that Voyage will use when registering routes.
+     * The route prefix that Voyager will use when registering routes.
      *
      * @var string
      */
@@ -84,7 +84,7 @@ class Voyager
     /**
      * Generate an absolute URL for an asset-file.
      *
-     * @param string $path the relative path, e.g. js/voyager.js
+     * @param string $path the relative path, e.g. js/voyager.js.
      *
      * @return string
      */
@@ -98,7 +98,7 @@ class Voyager
      *
      * @param string $message The message
      * @param string $color   The tailwind color of the exception: blue, yellow, green, red...
-     * @param bool   $next    If the message should be flashed after the next request
+     * @param bool   $next    If the message should be flashed after the next request.
      */
     public function flashMessage($message, $color, $timeout = 5000, $next = false)
     {
@@ -119,7 +119,7 @@ class Voyager
     /**
      * Get all messages.
      *
-     * @return array The messages
+     * @return array The messages.
      */
     public function getMessages()
     {
@@ -132,11 +132,11 @@ class Voyager
     /**
      * Get all Voyager translation strings.
      *
-     * @return array The language strings
+     * @return array The language strings.
      */
     public function getLocalization()
     {
-        return collect(['auth', 'bread', 'builder', 'formfields', 'generic', 'media', 'plugins', 'settings', 'validation', 'wysiwyg'])->flatMap(function ($file) {
+        return collect(['auth', 'bread', 'builder', 'formfields', 'generic', 'media', 'plugins', 'settings', 'validation'])->flatMap(function ($file) {
             return ['voyager::'.$file => trans('voyager::'.$file)];
         })->toJson();
     }
@@ -144,7 +144,7 @@ class Voyager
     /**
      * Get all Routes.
      *
-     * @return array The routes
+     * @return array The routes.
      */
     public function getRoutes()
     {
@@ -166,10 +166,10 @@ class Voyager
     }
 
     /**
-     * Get all columns in a given table
+     * Get all columns in a given table.
      * 
-     * @param string $table The table name
-     * @return array The columns of the table
+     * @param string $table The table name.
+     * @return array The columns of the table.
      */
     public function getColumns($table)
     {
@@ -184,7 +184,7 @@ class Voyager
     /**
      * Get all locales supported by the app.
      *
-     * @return array The locales
+     * @return array The locales.
      */
     public function getLocales()
     {
@@ -192,9 +192,9 @@ class Voyager
     }
 
     /**
-     * Add a locale to the supported locales
+     * Add a locale to the supported locales.
      *
-     * @param string $locale The locale
+     * @param string $locale The locale.
      */
     public function addLocale($locale)
     {
@@ -202,9 +202,19 @@ class Voyager
     }
 
     /**
+     * Set and override all locales.
+     *
+     * @param array $locales The locales.
+     */
+    public function setLocales(array $locales)
+    {
+        $this->locales = $locales;
+    }
+
+    /**
      * Get the current app-locale.
      *
-     * @return string The current locale
+     * @return string The current locale.
      */
     public function getLocale()
     {
@@ -214,7 +224,7 @@ class Voyager
     /**
      * Get the app fallback-locale.
      *
-     * @return string The fallback locale
+     * @return string The fallback locale.
      */
     public function getFallbackLocale()
     {
@@ -234,7 +244,7 @@ class Voyager
     /**
      * Gets all widgets from installed and enabled plugins.
      *
-     * @return Collection The widgets
+     * @return Collection The widgets.
      */
     public function getWidgets()
     {
@@ -259,7 +269,10 @@ class Voyager
     /**
      * Translate a given string/object/array.
      *
-     * @return string The translated value
+     * @param  mixed  $value The value as a string, object or array.
+     * @param  string $locale The locale which should be returned.
+     * @param  string $fallback The fallback locale.
+     * @return string The translated value.
      */
     public function translate($value, $locale = null, $fallback = null)
     {
@@ -271,7 +284,6 @@ class Voyager
         }
 
         if (is_string($value)) {
-            $json = $this->getJson($value);
             if (($json = $this->getJson($value)) === false) {
                 return $value;
             } else {
@@ -288,6 +300,14 @@ class Voyager
         return $value;
     }
 
+    /**
+     * Get a setting, settings in a group or all settings.
+     *
+     * @param string $key The key of the setting or the group name.
+     * @param mixed  $default The value that should be returned when the setting does not exist.
+     * @param bool   $translate Should the setting be translated?
+     * @return mixed The setting(s).
+     */
     public function setting($key = null, $default = null, $translate = true)
     {
         return $this->settingmanager->setting($key, $default, $translate);
@@ -303,26 +323,51 @@ class Voyager
         return $default;
     }
 
+    /**
+     * Set the path where BREAD JSON files are loaded from/stored to.
+     *
+     * @param string $path The path where BREAD JSON files should be loaded from/stored to.
+     */
     public function setBreadPath($path)
     {
         $this->breadmanager->setPath($path);
     }
 
+    /**
+     * Set the path where the plugins JSON file is loaded from/stored to.
+     *
+     * @param string $path The path where the plugins JSON file should be loaded from/stored to.
+     */
     public function setPluginsPath($path)
     {
         $this->pluginmanager->setPath($path);
     }
 
+    /**
+     * Set the path where the settings JSON file is loaded from/stored to.
+     *
+     * @param string $path The path where the settings JSON file should be loaded from/stored to.
+     */
     public function setSettingsPath($path)
     {
         $this->settingmanager->setPath($path);
     }
 
+    /**
+     * Gets the authentication plugin.
+     *
+     * @return AuthenticationPlugin The AuthenticationPlugin instance.
+     */
     public function auth()
     {
         return $this->pluginmanager->getPluginByType('authentication', AuthenticationPlugin::class);
     }
 
+    /**
+     * Ensures that a directory exists.
+     *
+     * @param string $path The path to the directory.
+     */
     public function ensureDirectoryExists($path)
     {
         if (!File::isDirectory($path)) {
@@ -330,6 +375,12 @@ class Voyager
         }
     }
 
+    /**
+     * Ensures that a file exists.
+     *
+     * @param string $path The path to the file.
+     * @param string $content The content to write to the file if it doesn't exist.
+     */
     public function ensureFileExists($path, $content = '')
     {
         $this->ensureDirectoryExists(dirname($path));
@@ -338,6 +389,14 @@ class Voyager
         }
     }
 
+    /**
+     * Authorize an action for a user.
+     *
+     * @param mixed $user The user.
+     * @param mixed $ability The ability.
+     * @param array $arguments Additional arguments.
+     * @return bool Wether the action is authorized or not.
+     */
     public function authorize($user, $ability, $arguments = [])
     {
         $auth_plugins = $this->pluginmanager->getPluginsByType('authorization')->where('enabled');
@@ -350,6 +409,11 @@ class Voyager
         return $authorized;
     }
 
+    /**
+     * Get sanitized thumbnail definitions made in the settings.
+     *
+     * @return Collection The thumbnail definitions.
+     */
     public function getThumbnailDefinitions()
     {
         $thumbs = collect($this->settingmanager->setting('thumbnails'));

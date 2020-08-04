@@ -94,7 +94,7 @@ class VoyagerServiceProvider extends ServiceProvider
     /**
      * Register the Voyager routes.
      *
-     * @param Collection $breads A collection of the Voyager apps current bread types.
+     * @param Collection $breads A collection of the Voyager apps current BREADs.
      *
      * @return void
      */
@@ -119,7 +119,7 @@ class VoyagerServiceProvider extends ServiceProvider
     /**
      * Register all the dynamic BREAD type routes.
      *
-     * @param Collection $breads A collection of the Voyager apps current bread types.
+     * @param Collection $breads A collection of the Voyager apps current BREADs.
      */
     private function registerBreadRoutes(Collection $breads): void
     {
@@ -158,7 +158,7 @@ class VoyagerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Fetch enabled form field plugins and register them with the bread manager.
+     * Fetch enabled formfield plugins and register them with the BREAD manager.
      */
     public function loadPluginFormfields(): void
     {
@@ -168,9 +168,9 @@ class VoyagerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register all policies from the the BREAD types.
+     * Register all policies from the BREADs.
      *
-     * @param Collection $breads A collection of the Voyager apps current bread types.
+     * @param Collection $breads A collection of the Voyager apps current BREADs.
      */
     public function registerBreadPolicies(Collection $breads): void
     {
@@ -186,9 +186,9 @@ class VoyagerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the menu items for each BREAD type's builder.
+     * Register the menu items for each BREAD builder.
      *
-     * @param Collection $breads A collection of the Voyager apps current bread types.
+     * @param Collection $breads A collection of the Voyager apps current BREADs.
      */
     public function registerBreadBuilderMenuItem(Collection $breads): void
     {
@@ -196,9 +196,7 @@ class VoyagerServiceProvider extends ServiceProvider
                                 ->permission('browse', ['breads'])
                                 ->route('voyager.bread.index');
 
-        $this->menumanager->addItems(
-            $bread_builder_item
-        );
+        $this->menumanager->addItems($bread_builder_item);
 
         $breads->each(static function ($bread) use ($bread_builder_item) {
             $bread_builder_item->addChildren(
@@ -209,7 +207,9 @@ class VoyagerServiceProvider extends ServiceProvider
     }
 
     /**
-     * @param Collection $breads A collection of the Voyager apps current bread types.
+     * Register BREAD-browse menu items for all BREADs.
+     * 
+     * @param Collection $breads A collection of the Voyager apps current BREADs.
      */
     public function registerBreadMenuItems(Collection $breads)
     {
@@ -227,6 +227,9 @@ class VoyagerServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Register generic menu items.
+     */
     private function registerMenuItems()
     {
         $this->menumanager->addItems(
@@ -288,6 +291,9 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->registerFormfields();
     }
 
+    /**
+     * Register all core formfields.
+     */
     private function registerFormfields()
     {
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Checkboxes::class);
