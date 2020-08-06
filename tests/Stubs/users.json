@@ -78,7 +78,9 @@
         {
             "name": "Edit\/Add View",
             "type": "view",
-            "options": [],
+            "options": {
+                "validate_locales": "current"
+            },
             "formfields": [
                 {
                     "type": "text",
