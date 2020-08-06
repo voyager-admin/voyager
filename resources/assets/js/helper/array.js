@@ -4,7 +4,7 @@ Array.prototype.where = function (prop, value = null) {
             return el[prop] == value;
         }
 
-        return el !== prop;
+        return el == prop;
     });
 }
 

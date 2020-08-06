@@ -109,7 +109,10 @@ Vue.mixin({
 
         trans_choice: function (key, count = 1, replace = {})
         {
-            let translation = key.split('.').reduce((t, i) => t[i] || null, this.$language.localization).split('|');
+            if (key === null) {
+                return key;
+            }
+            let translation = key.split('.').reduce((t, i) => t[i] || key, this.$language.localization).split('|');
 
             translation = count > 1 ? translation[1] : translation[0];
 

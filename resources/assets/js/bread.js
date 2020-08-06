@@ -1,4 +1,5 @@
 let bread_components = [
+    'Bread/Actions',
     'Bread/Browse',
     'Bread/EditAdd',
     'Bread/Read',

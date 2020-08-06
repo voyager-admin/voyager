@@ -23,6 +23,7 @@
 * [Relationships](bread/relationships.md)
 * [Multilanguage](bread/multilanguage.md)
 * [Validation](bread/validation.md)
+* [Actions](bread/actions.md)
 
 ## Miscellaneous
 

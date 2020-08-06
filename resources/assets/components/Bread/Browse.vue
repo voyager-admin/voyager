@@ -8,7 +8,7 @@
                     v-model="parameters.global"
                     @dblclick="parameters.global = null"
                     @keydown.esc="parameters.global = null"
-                    :placeholder="'Search ' + translate(bread.name_plural, true)">
+                    :placeholder="__('voyager::bread.search_type', {type: translate(bread.name_plural, true)})">
                 <select class="input small ltr:mr-2 rtl:ml-2" v-model="parameters.softdeleted" v-if="uses_soft_deletes">
                     <option value="show">{{ __('voyager::bread.soft_delete_show') }}</option>
                     <option value="hide">{{ __('voyager::bread.soft_delete_hide') }}</option>
@@ -18,22 +18,7 @@
                     <icon icon="refresh" :class="[loading ? 'rotating-ccw' : '']"></icon>
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
-                <button class="button red" v-if="deletableEntries > 0" @click.prevent="deleteEntries(selected)">
-                    <icon icon="trash"></icon>
-                    <span>{{ trans_choice('voyager::bread.delete_type', deletableEntries, { types: translate(bread.name_plural, true), type: translate(bread.name_singular, true)}) }}</span>
-                </button>
-                <button class="button red" v-if="restorableEntries > 0" @click.prevent="deleteEntries(selected, true)">
-                    <icon icon="trash"></icon>
-                    <span>{{ trans_choice('voyager::bread.force_delete_type', restorableEntries, { types: translate(bread.name_plural, true), type: translate(bread.name_singular, true) }) }}</span>
-                </button>
-                <button class="button green" v-if="restorableEntries > 0" @click.prevent="restoreEntries(selected)">
-                    <icon icon="history"></icon>
-                    <span>{{ trans_choice('voyager::bread.restore_type', restorableEntries, { types: translate(bread.name_plural, true), type: translate(bread.name_singular, true) }) }}</span>
-                </button>
-                <a class="button green" :href="route('voyager.'+translate(bread.slug, true)+'.add')">
-                    <icon icon="plus"></icon>
-                    <span>{{ __('voyager::generic.add') }}</span>
-                </a>
+                <bread-actions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
                 <locale-picker :small="false" v-if="$language.localePicker" />
             </div>
         </div>
@@ -74,7 +59,7 @@
                                         :options="formfield.options"
                                         show="query">
                                         <input type="text" class="input small w-full"
-                                            :placeholder="'Search ' + translate(formfield.title, true)"
+                                            :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
                                             @dblclick="parameters.filters[formfield.column.column] = ''"
                                             @keydown.esc="parameters.filters[formfield.column.column] = ''"
                                             v-model="parameters.filters[formfield.column.column]">
@@ -90,7 +75,7 @@
                                         type="checkbox"
                                         class="input"
                                         v-model="selected"
-                                        :value="result[primary]"
+                                        :value="result.primary_key"
                                     />
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
@@ -126,28 +111,7 @@
                                     <!-- When browseArray pass whole array, else if isArray pass sliced -->
                                 </td>
                                 <td class="flex justify-end">
-                                    <div class="button-group flex-no-wrap">
-                                        <a :href="route('voyager.'+translate(bread.slug, true)+'.read', result[primary])" class="button blue small">
-                                            <icon icon="book-open"></icon>
-                                            <span>{{ __('voyager::generic.read') }}</span>
-                                        </a>
-                                        <a :href="route('voyager.'+translate(bread.slug, true)+'.edit', result[primary])" class="button yellow small">
-                                            <icon icon="pencil"></icon>
-                                            <span>{{ __('voyager::generic.edit') }}</span>
-                                        </a>
-                                        <button @click.prevent="deleteEntries(result[primary])" class="button red small" v-if="(uses_soft_deletes && !result.is_soft_deleted) || !uses_soft_deletes">
-                                            <icon icon="trash"></icon>
-                                            <span>{{ __('voyager::generic.delete') }}</span>
-                                        </button>
-                                        <button @click.prevent="deleteEntries(result[primary], true)" v-if="uses_soft_deletes && result.is_soft_deleted" class="button red small">
-                                            <icon icon="trash"></icon>
-                                            <span>{{ __('voyager::generic.force_delete') }}</span>
-                                        </button>
-                                        <button @click.prevent="restoreEntries(result[primary])" v-if="uses_soft_deletes && result.is_soft_deleted" class="button green small">
-                                            <icon icon="history"></icon>
-                                            <span>{{ __('voyager::generic.restore') }}</span>
-                                        </button>
-                                    </div>
+                                    <bread-actions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
                                 </td>
                             </tr>
                             <tr v-if="results.length == 0 && !loading">
@@ -187,10 +151,6 @@ export default {
             type: Object,
             required: true,
         },
-        primaryKey: {
-            type: String,
-            default: 'id'
-        },
         perPage: {
             type: Number,
             default: 10,
@@ -204,9 +164,9 @@ export default {
             total: 0,    // Total unfiltered amount of entries
             filtered: 0, // Amount of filtered entries
             selected: [], // Array of selected primary-keys
-            primary: this.primaryKey, // The primary key
             uses_soft_deletes: false, // If the model uses soft-deleting
             translatable: false, // If the layout contains translatable fields (will show/hide the locale picker)
+            actions: [], // The actions which should be displayed
             parameters: {
                 page: 1,
                 perpage: this.perPage,
@@ -282,96 +242,9 @@ export default {
             vm.selected = [];
             if (checked) {
                 vm.results.forEach(function (result) {
-                    vm.selected.push(result[vm.primary]);
+                    vm.selected.push(result.primary_key);
                 });
             }
-        },
-        deleteEntries: function (entries, force = false) {
-            var vm = this;
-            var message = vm.trans_choice(
-                'voyager::bread.' + (force ? 'force_delete_type_confirm' : 'delete_type_confirm'),
-                (force ? vm.restorableEntries : vm.deletableEntries),
-                {
-                    num: (force ? vm.restorableEntries : vm.deletableEntries),
-                    types: vm.translate(vm.bread.name_plural, true),
-                    type: vm.translate(vm.bread.name_singular, true)
-                }
-            );
-            new vm
-            .$notification(message)
-            .color('red')
-            .timeout()
-            .confirm()
-            .show()
-            .then(function (response) {
-                if (response) {
-                    axios.delete(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.delete'), {
-                        params: {
-                            ids: entries,
-                            force: force
-                        }
-                    })
-                    .then(function (response) {
-                        var message = vm.trans_choice('voyager::bread.' + (force ? 'force_delete_type_success' : 'delete_type_success'),
-                            response.data,
-                            {
-                                num: response.data,
-                                type: vm.translate(vm.bread.name_singular, true),
-                                types: vm.translate(vm.bread.name_plural, true)
-                            }
-                        );
-                        new vm
-                        .$notification(message)
-                        .color('green')
-                        .timeout().show();
-                    })
-                    .catch(function (errors) {
-                        //
-                    })
-                    .then(function () {
-                        vm.load();
-                    });
-                }
-            });
-        },
-        restoreEntries: function (entries) {
-            var vm = this;
-            var message = vm.trans_choice(
-                'voyager::bread.restore_type_confirm',
-                (vm.isArray(entries) ? entries.length : 1),
-                {
-                    num: vm.restorableEntries,
-                    types: vm.translate(vm.bread.name_plural, true),
-                    type: vm.translate(vm.bread.name_singular, true)
-                }
-            );
-            new vm
-            .$notification(message)
-            .color('green')
-            .timeout()
-            .confirm()
-            .show()
-            .then(function (response) {
-                if (response) {
-                    axios.patch(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.restore'), {
-                        ids: entries
-                    })
-                    .then(function (response) {
-                        var message = vm.trans_choice('voyager::bread.restore_type_success', response.data, {
-                            num: response.data,
-                            type: vm.translate(vm.bread.name_singular, true),
-                            types: vm.translate(vm.bread.name_plural, true)
-                        });
-                        new vm.$notification(message).color('green').timeout().show();
-                    })
-                    .catch(function (errors) {
-                        //
-                    })
-                    .then(function () {
-                        vm.load();
-                    });
-                }
-            });
         },
     },
     computed: {
@@ -419,26 +292,18 @@ export default {
 
             var not_found = false;
             vm.results.forEach(function (result) {
-                if (!vm.selected.includes(result[vm.primary])) {
+                if (!vm.selected.includes(result.primary_key)) {
                     not_found = true;
                 }
             });
 
             return !not_found;
         },
-        // Returns the number of entries which are selected and are NOT soft-deleted
-        deletableEntries: function () {
+        selectedEntries: function () {
             var vm = this;
             return vm.results.filter(function (result) {
-                return !result.is_soft_deleted && vm.selected.includes(result[vm.primary]);
-            }).length;
-        },
-        // Returns the number of entries which are selected and ARE soft-deleted (can also be used for force-delete)
-        restorableEntries: function () {
-            var vm = this;
-            return vm.results.filter(function (result) {
-                return result.is_soft_deleted && vm.selected.includes(result[vm.primary]);
-            }).length;
+                return vm.selected.includes(result.primary_key);
+            });
         },
     },
     mounted: function () {

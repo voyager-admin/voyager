@@ -9,6 +9,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Voyager\Admin\Classes\Action;
 use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\MenuItem;
 use Voyager\Admin\Commands\InstallCommand;
@@ -68,6 +69,10 @@ class VoyagerServiceProvider extends ServiceProvider
         // Register BREAD policies
         $this->registerBreadPolicies($breads);
         $this->registerPolicies();
+
+        // Register actions
+        $this->registerActions();
+        $this->registerBulkActions();
 
         // Register permissions
         app(Gate::class)->before(static function ($user, $ability, $arguments = []) {
@@ -144,6 +149,9 @@ class VoyagerServiceProvider extends ServiceProvider
                 Route::get('/add', ['uses' => $controller.'@add', 'as' => 'add', 'bread' => $bread]);
                 Route::post('/', ['uses' => $controller.'@store', 'as' => 'store', 'bread' => $bread]);
 
+                
+                Route::post('/download', ['uses' => $controller.'@download', 'as' => 'download', 'bread' => $bread]);
+
                 // Delete
                 Route::delete('/', ['uses' => $controller.'@delete', 'as' => 'delete', 'bread' => $bread]);
                 Route::patch('/', ['uses' => $controller.'@restore', 'as' => 'restore', 'bread' => $bread]);
@@ -155,6 +163,84 @@ class VoyagerServiceProvider extends ServiceProvider
                 Route::post('/relationship', ['uses' => $controller.'@relationship', 'as' => 'relationship', 'bread' => $bread]);
             });
         });
+    }
+
+    /**
+     * Register the default BREAD actions (single entry).
+     *
+     * @return void
+     */
+    public function registerActions()
+    {
+        $read_action = (new Action('voyager::generic.read', 'book-open', 'accent'))
+        ->route(function ($bread) {
+            return 'voyager.'.$bread->slug.'.read';
+        });
+        $edit_action = (new Action('voyager::generic.edit', 'pencil', 'yellow'))
+        ->route(function ($bread) {
+            return 'voyager.'.$bread->slug.'.edit';
+        });
+        $delete_action = (new Action('voyager::generic.delete', 'trash', 'red'))
+        ->route(function ($bread) {
+            return 'voyager.'.$bread->slug.'.delete';
+        })
+        ->method('delete')
+        ->confirm('voyager::bread.delete_type_confirm', null, 'red')
+        ->success('voyager::bread.delete_type_success', null, 'green')
+        ->displayDeletable()
+        ->reloadAfter();
+
+        $restore_action = (new Action('voyager::generic.restore', 'trash', 'yellow'))
+        ->route(function ($bread) {
+            return 'voyager.'.$bread->slug.'.restore';
+        })
+        ->method('patch')
+        ->confirm('voyager::bread.restore_type_confirm', null, 'yellow')
+        ->success('voyager::bread.restore_type_success', null, 'green')
+        ->displayRestorable()
+        ->reloadAfter();
+
+        $this->breadmanager->addAction(
+            $read_action,
+            $edit_action,
+            $delete_action,
+            $restore_action
+        );
+    }
+
+    /**
+     * Register the default BREAD actions (multiple entries).
+     *
+     * @return void
+     */
+    public function registerBulkActions()
+    {
+        $delete_action = (new Action('voyager::bread.delete_type', 'trash', 'red'))
+        ->route(function ($bread) {
+            return 'voyager.'.$bread->slug.'.delete';
+        })
+        ->method('delete')
+        ->confirm('voyager::bread.delete_type_confirm', null, 'red')
+        ->success('voyager::bread.delete_type_success', null, 'green')
+        ->bulk()
+        ->displayDeletable()
+        ->reloadAfter();
+
+        $restore_action = (new Action('voyager::bread.restore_type', 'trash', 'yellow'))
+        ->route(function ($bread) {
+            return 'voyager.'.$bread->slug.'.restore';
+        })
+        ->method('patch')
+        ->confirm('voyager::bread.restore_type_confirm', null, 'yellow')
+        ->success('voyager::bread.restore_type_success', null, 'green')
+        ->bulk()
+        ->displayRestorable()
+        ->reloadAfter();
+
+        $this->breadmanager->addAction(
+            $delete_action,
+            $restore_action
+        );
     }
 
     /**

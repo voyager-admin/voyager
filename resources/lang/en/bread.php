@@ -21,6 +21,7 @@ return [
     'restore_type_success'          => ':type sucessfully restored!|Successfully restored :num :types',
     'restore_type'                  => 'Restore one :type|Restore :num :types',
     'results_description'           => 'Showing :start to :end from :total :type',
+    'search_type'                   => 'Search :type',
     'soft_delete_show'              => 'Show soft-deleted',
     'soft_delete_hide'              => 'Hide soft-deleted',
     'soft_delete_only'              => 'Only show soft-deleted',

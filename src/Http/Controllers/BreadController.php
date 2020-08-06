@@ -75,8 +75,8 @@ class BreadController extends Controller
             'layout'            => $layout,
             'execution'         => number_format(((microtime(true) - $start) * 1000), 0, '.', ''),
             'uses_soft_deletes' => $this->uses_soft_deletes,
-            'primary'           => $query->get(0) ? $query->get(0)->getKeyName() : 'id',
             'translatable'      => $layout->hasTranslatableFormfields(),
+            'actions'           => $this->breadmanager->getActionsForBread($bread),
         ];
     }
 
@@ -222,36 +222,24 @@ class BreadController extends Controller
     {
         $bread = $this->getBread($request);
         $model = $bread->getModel();
-        if ($bread->usesSoftDeletes()) {
-            $model = $model->withTrashed();
-        }
 
         $deleted = 0;
 
-        $force = $request->get('force', 'false');
-        if ($request->has('ids')) {
-            $ids = $request->get('ids');
+        if ($request->has('primary')) {
+            $ids = $request->get('primary');
             if (!is_array($ids)) {
                 $ids = [$ids];
             }
-            $model->find($ids)->each(function ($entry) use ($bread, $force, &$deleted) {
-                if ($force == 'true' && $bread->usesSoftDeletes()) {
-                    // TODO: Check if layout allows usage of soft-deletes
-                    // TODO: Check if scope allows accessing this ID
-                    if ($entry->trashed()) {
-                        $this->authorize('force-delete', $entry);
-                        $entry->forceDelete();
-                        $deleted++;
-                    }
-                } else {
-                    $this->authorize('delete', $entry);
-                    $entry->delete();
-                    $deleted++;
-                }
+            $model->find($ids)->each(function ($entry) use ($bread, &$deleted) {
+                $this->authorize('delete', $entry);
+                $entry->delete();
+                $deleted++;
             });
         }
 
-        return $deleted;
+        return [
+            'amount' => $deleted,
+        ];
     }
 
     public function restore(Request $request)
@@ -266,8 +254,8 @@ class BreadController extends Controller
 
         $model = $bread->getModel()->withTrashed();
 
-        if ($request->has('ids')) {
-            $ids = $request->get('ids');
+        if ($request->has('primary')) {
+            $ids = $request->get('primary');
             if (!is_array($ids)) {
                 $ids = [$ids];
             }
@@ -281,7 +269,27 @@ class BreadController extends Controller
             });
         }
 
-        return $restored;
+        return [
+            'amount' => $restored,
+        ];
+    }
+
+    public function download(Request $request)
+    {
+        if ($request->has('primary')) {
+            $ids = $request->get('primary');
+            if (!is_array($ids)) {
+                $ids = [$ids];
+            }
+
+            $string = '';
+
+            foreach ($ids as $id) {
+                $string .= $id.', ';
+            }
+
+            return $string;
+        }
     }
 
     public function relationship(Request $request)

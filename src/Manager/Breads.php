@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Voyager\Admin\Classes\Action as ActionClass;
 use Voyager\Admin\Classes\Bread as BreadClass;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
@@ -24,6 +25,7 @@ class Breads
     protected $path;
     protected $breads;
     protected $backups = [];
+    protected $actions;
 
     public function __construct()
     {
@@ -408,5 +410,55 @@ class Breads
 
             return null;
         })->filter();
+    }
+
+    /**
+     * Add an action to BREADs.
+     *
+     * @param Action $action One or more action instances.
+     */
+    
+    public function addAction()
+    {
+        if (is_null($this->actions)) {
+            $this->actions = collect();
+        }
+
+        foreach (func_get_args() as $action) {
+            $this->actions->push($action);
+        }
+    }
+
+    /**
+     * Gets all actions for a BREAD.
+     *
+     * @param BreadClass $bread The BREAD.
+     * @return Collection The collection of Actions
+     */
+    public function getActionsForBread(BreadClass $bread)
+    {
+        return $this->actions->filter(function ($action) use ($bread) {
+            $display = true;
+            if (is_callable($action->callback)) {
+                $display = $action->callback->call($this, $bread) ?? true;
+            }
+
+            if (!is_null($action->permission)) {
+                if (!VoyagerFacade::authorize(VoyagerFacade::auth()->user(), $action->permission['ability'], $action->permission['arguments'])) {
+                    $display = false;
+                }
+            }
+
+            return $display;
+        })->transform(function ($action) use ($bread) {
+            // Resolve route
+            if (is_callable($action->route_callback)) {
+                $action->route_name = $action->route_callback->call($this, $bread) ?? '#';
+            } else {
+                $action->route_name = $action->route_callback;
+            }
+
+            return $action;
+        });
     }
 }

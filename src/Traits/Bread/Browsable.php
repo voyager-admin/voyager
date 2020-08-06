@@ -87,6 +87,7 @@ trait Browsable
     public function transformResults($layout, $translatable, $query)
     {
         return $query->transform(function ($item) use ($translatable, $layout) {
+            $item->primary_key = $item->getKey();
             if ($translatable) {
                 $item->dontTranslate();
             }
