@@ -3,15 +3,12 @@
         <card :title="__('voyager::generic.'+currentAction+'_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
             <div slot="actions">
                     <div class="flex items-center">
-                        <a class="button accent ltr:mr-2 rtl:ml-2" v-if="prevUrl !== ''" :href="prevUrl">
-                            <span>{{ __('voyager::generic.back') }}</span>
-                        </a>
                         <locale-picker v-if="$language.localePicker" :small="false"></locale-picker>
                     </div>
                 </div>
                 <div>
                     <div class="flex flex-wrap w-full">
-                        <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
+                        <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0 w-full" :class="'md:' + formfield.options.width">
                             <card
                                 :title="translate(formfield.options.title, true)"
                                 :title-size="5"

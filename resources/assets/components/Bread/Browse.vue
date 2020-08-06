@@ -1,10 +1,10 @@
 <template>
     <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
         <div slot="actions">
-            <div class="flex items-center">
+            <div class="flex flex-wrap items-center">
                 <input
                     type="text"
-                    class="input w-full small ltr:mr-2 rtl:ml-2"
+                    class="input small ltr:mr-2 rtl:ml-2"
                     v-model="parameters.global"
                     @dblclick="parameters.global = null"
                     @keydown.esc="parameters.global = null"
@@ -14,7 +14,7 @@
                     <option value="hide">{{ __('voyager::bread.soft_delete_hide') }}</option>
                     <option value="only">{{ __('voyager::bread.soft_delete_only') }}</option>
                 </select>
-                <button class="button accent" @click.stop="load">
+                <button class="button accent small" @click.stop="load">
                     <icon icon="refresh" :class="[loading ? 'rotating-ccw' : '']"></icon>
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>

@@ -26,16 +26,16 @@
         class="button"
         :class="[page.selected ? 'active' : '', page.disabled ? 'disabled' : '', color, small ? 'small' : '']"
     >
-        <span
+        <i
             v-if="page.breakView"
             v-html="breakText">
-        </span>
-        <span v-else-if="page.disabled">
+        </i>
+        <i v-else-if="page.disabled">
             {{ page.content }}
-        </span>
-        <span v-else>
+        </i>
+        <i v-else>
             {{ page.content }}
-        </span>
+        </i>
     </a>
 
     <a
