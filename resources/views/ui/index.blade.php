@@ -61,40 +61,40 @@
 
 <collapsible title="Buttons" id="ui-buttons">
     <collapsible title="Default" :title-size="5">
-        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]">
+        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
     <collapsible title="Disabled" :title-size="5">
-        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]" disabled>
+        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']" disabled>
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
     <collapsible title="Small" :title-size="5">
-        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color]">
+        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
     <collapsible title="Large" :title-size="5">
-        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'large', color]">
+        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'large', color, 'mb-1']">
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
     <collapsible title="With Icon" :title-size="5">
-        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color]">
+        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
             <icon icon="information-circle" class="mr-1"></icon>
             @{{ color[0].toUpperCase() + color.slice(1) }}
         </button>
     </collapsible>
     <collapsible title="Responsive" :title-size="5">
-        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color]">
+        <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
             <icon icon="information-circle"></icon>
             <span>@{{ color[0].toUpperCase() + color.slice(1) }}</span>
         </button>
     </collapsible>
     <collapsible title="Button group" :title-size="5">
         <div class="button-group">
-            <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color]">
+            <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
                 @{{ color[0].toUpperCase() + color.slice(1) }}
             </button>
         </div>
@@ -124,33 +124,33 @@
 </collapsible>
 
 <collapsible title="Date/Time picker" id="ui-datetime">
-    <div class="flex">
-        <card class="w-1/3" title="Date" :title-size="6">
+    <div class="flex flex-wrap lg:flex-no-wrap">
+        <card class="w-full lg:w-1/3" title="Date" :title-size="6">
             <date-time />
         </card>
-        <card class="w-1/3" title="Date and time" :title-size="6">
+        <card class="w-full lg:w-1/3" title="Date and time" :title-size="6">
             <date-time select-time format="YYYY-MM-DD HH:mm" />
         </card>
-        <card class="w-1/3" title="Date and time with second" :title-size="6">
+        <card class="w-full lg:w-1/3" title="Date and time with second" :title-size="6">
             <date-time select-time select-seconds format="YYYY-MM-DD HH:mm:ss" />
         </card>
     </div>
-    <div class="flex">
-        <card class="w-1/3" title="Date and time 12 hours" :title-size="6">
+    <div class="flex flex-wrap lg:flex-no-wrap">
+        <card class="w-full lg:w-1/3" title="Date and time 12 hours" :title-size="6">
             <date-time select-time am-pm format="YYYY-MM-DD hh:mm A" />
         </card>
-        <card class="w-1/3" title="Date range" :title-size="6">
+        <card class="w-full lg:w-1/3" title="Date range" :title-size="6">
             <date-time format="YYYY-MM-DD" range />
         </card>
-        <card class="w-1/3" title="Date and time range" :title-size="6">
+        <card class="w-full lg:w-1/3" title="Date and time range" :title-size="6">
             <date-time format="YYYY-MM-DD HH:mm" range select-time />
         </card>
     </div>
-    <div class="flex">
-        <card class="w-1/2" title="Date and time range with seconds" :title-size="6">
+    <div class="flex flex-wrap lg:flex-no-wrap">
+        <card class="w-full lg:w-1/2" title="Date and time range with seconds" :title-size="6">
             <date-time select-time select-seconds range format="YYYY-MM-DD HH:mm:ss" />
         </card>
-        <card class="w-1/2" title="Date and time range 12 hours" :title-size="6">
+        <card class="w-full lg:w-1/2" title="Date and time range 12 hours" :title-size="6">
             <date-time select-time am-pm range format="YYYY-MM-DD hh:mm A" />
         </card>
     </div>
@@ -218,27 +218,27 @@
 
 <collapsible title="Notifications" id="ui-notifications">
     <collapsible v-for="color in $store.ui.colors" :key="'notification_'+color" :title="ucfirst(color)" :title-size="5">
-        <div class="inline-flex">
-            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).show()" class="button" :class="color">Message and title</button>
-            <button @click="new $notification($store.ui.lorem).color(color).show()" class="button" :class="color">Message only</button>
-            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).indeterminate().show()" class="button" :class="color">Indeterminate</button>
-            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).timeout().show()" class="button" :class="color">With timeout</button>
+        <div class="inline-flex flex-wrap">
+            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).show()" class="button mb-1" :class="color">Message and title</button>
+            <button @click="new $notification($store.ui.lorem).color(color).show()" class="button mb-1" :class="color">Message only</button>
+            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).indeterminate().show()" class="button mb-1" :class="color">Indeterminate</button>
+            <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).timeout().show()" class="button mb-1" :class="color">With timeout</button>
         </div>
     </collapsible>
     <collapsible title="Confirm" :title-size="5">
-        <div class="inline-flex">
-            <button @click="new $notification('Are you sure?').confirm().show().then((r) => {})" class="button blue">Simple</button>
-            <button @click="new $notification('Are you sure?').confirm().indeterminate().show()" class="button blue">Indeterminate</button>
-            <button @click="new $notification('Are you sure?').confirm().timeout().show()" class="button blue">With timeout</button>
-            <button @click="new $notification('Are you sure?').confirm().addButton({key: true, value: 'Yup', color: 'green'}).addButton({key: false, value: 'Nah', color: 'red'}).show()" class="button blue">Custom buttons</button>
+        <div class="inline-flex flex-wrap">
+            <button @click="new $notification('Are you sure?').confirm().show().then((r) => {})" class="button blue mb-1">Simple</button>
+            <button @click="new $notification('Are you sure?').confirm().indeterminate().show()" class="button blue mb-1">Indeterminate</button>
+            <button @click="new $notification('Are you sure?').confirm().timeout().show()" class="button blue mb-1">With timeout</button>
+            <button @click="new $notification('Are you sure?').confirm().addButton({key: true, value: 'Yup', color: 'green'}).addButton({key: false, value: 'Nah', color: 'red'}).show()" class="button blue mb-1">Custom buttons</button>
         </div>
     </collapsible>
     <collapsible title="Prompt" :title-size="5">
-        <div class="inline-flex">
-            <button @click="new $notification('Enter your name').prompt('').show()" class="button blue">Simple</button>
-            <button @click="new $notification('Enter your name').prompt('').timeout().show()" class="button blue">With timeout</button>
-            <button @click="new $notification('Enter your name').prompt('').addButton({key: true, value: 'Safe', color: 'green'}).addButton({key: false, value: 'Abort', color: 'red'}).show()" class="button blue">Custom buttons</button>
-            <button @click="new $notification('Enter your name').prompt($store.ui.name).show().then((r) => { if (r !== false) { $store.ui.name = r; } })" class="button blue">Value: @{{ $store.ui.name }}</button>
+        <div class="inline-flex flex-wrap">
+            <button @click="new $notification('Enter your name').prompt('').show()" class="button blue mb-1">Simple</button>
+            <button @click="new $notification('Enter your name').prompt('').timeout().show()" class="button blue mb-1">With timeout</button>
+            <button @click="new $notification('Enter your name').prompt('').addButton({key: true, value: 'Safe', color: 'green'}).addButton({key: false, value: 'Abort', color: 'red'}).show()" class="button blue mb-1">Custom buttons</button>
+            <button @click="new $notification('Enter your name').prompt($store.ui.name).show().then((r) => { if (r !== false) { $store.ui.name = r; } })" class="button blue mb-1">Value: @{{ $store.ui.name }}</button>
         </div>
     </collapsible>
 </collapsible>

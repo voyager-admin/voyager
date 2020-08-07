@@ -3,7 +3,7 @@
         <sort-container v-model="tags" tag="span" axis="x" :hideSortableGhost="false" :useDragHandle="true">
             <sort-element v-for="(tag, i) in tags" :key="'tag-'+i" :index="i" tag="span" :disabled="!allowReorder">
                 <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[allowReorder ? 'cursor-move' : '']">
-                    <span v-sort-handle>{{ tag }}</span>
+                    <i v-sort-handle>{{ tag }}</i>
                 </badge>
             </sort-element>
         </sort-container>

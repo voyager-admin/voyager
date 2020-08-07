@@ -1,7 +1,7 @@
 <template>
 <div class="card" :class="`border-${border}`">
     <div class="header" v-if="showHeader">
-        <div class="flex items-center justify-between flex-wrap sm:flex-wrap">
+        <div class="flex items-center justify-between">
             <div class="flex items-center" v-if="!$slots.title">
                 <icon v-if="icon" :icon="icon" :size="iconSize" class="ltr:mr-2 rtl:ml-2"></icon>
                 <component :is="`h${titleSize}`" class="leading-6 font-medium" :class="titlePointer ? 'cursor-pointer' : ''" @click="$emit('click-title', $event)">
