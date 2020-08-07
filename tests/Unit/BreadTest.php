@@ -63,7 +63,7 @@ class BreadTest extends TestCase
         $user = \Voyager\Admin\Tests\Stubs\User::where('name', 'Voyager')->where('email', 'mail@something.com')->first();
 
         $res = $this->deleteJson(route('voyager.users.delete'), [
-            'ids' => $user->getKey(),
+            'primary' => $user->getKey(),
         ])
         ->assertStatus(200);
         $this->assertDeleted('users', [
