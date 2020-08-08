@@ -34,22 +34,10 @@ jobs:
   run-tests:
     needs: compile-assets
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         laravel: [7.*]
-        php: [7.2, 7.3, 7.4]
-        experimental: [false]
-        include:
-        - laravel: 8.x-dev
-          php: 8.0
-          experimental: true
-        - laravel: 7.*
-          php: 8.0
-          experimental: true
-        - laravel: 8.x-dev
-          php: 7.4
-          experimental: true
+        php: [7.3, 7.4]
 
     steps:
       - uses: actions/checkout@master
