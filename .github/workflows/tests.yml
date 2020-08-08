@@ -47,6 +47,9 @@ jobs:
         - laravel: 7.*
           php: 8.0
           experimental: true
+        - laravel: 8.x-dev
+          php: 7.4
+          experimental: true
 
     steps:
       - uses: actions/checkout@master
