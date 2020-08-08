@@ -4,7 +4,8 @@
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "icons": "node resources/assets/js/helper/generate-icons.js"
     },
     "devDependencies": {
         "cross-env": "^7.0.2",
@@ -18,7 +19,7 @@
         "axios": "^0.19.2",
         "dayjs": "^1.8.32",
         "debounce": "^1.2.0",
-        "heroicons": "^0.3.7",
+        "heroicons": "github:tailwindlabs/heroicons#master",
         "inter-ui": "^3.13.1",
         "mime-matcher": "^1.0.5",
         "node-sass": "^4.14.1",

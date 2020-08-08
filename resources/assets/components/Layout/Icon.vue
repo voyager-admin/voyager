@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import icons from '../../js/icons';
+
 export default {
     props: {
         icon: {
@@ -21,12 +23,13 @@ export default {
             } else if (this.icon == 'bread') {
                 return require(`../../svg/bread.svg`);
             }
-            try {
+
+            if (icons.includes(this.icon)) {
                 return require(`../../../../node_modules/heroicons/outline/${this.icon}.svg`);
-            } catch (e) {
-                console.warn(`Icon "${this.icon}" does not exist`);
-                return require(`../../../../node_modules/heroicons/outline/ban.svg`);
             }
+            console.warn(`Icon "${this.icon}" does not exist`);
+
+            return require(`../../../../node_modules/heroicons/outline/ban.svg`);
         }
     },
     mounted: function () {

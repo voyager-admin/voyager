@@ -15,26 +15,7 @@
     </div>
 </template>
 <script>
-var icons = [
-    "Adjustments","Annotation","Archive","ArrowCircleDown","ArrowCircleLeft","ArrowCircleRight","ArrowCircleUp",
-    "ArrowDown","ArrowLeft","ArrowNarrowDown","ArrowNarrowLeft","ArrowNarrowRight","ArrowNarrowUp","ArrowRight",
-    "ArrowUp","ArrowsExpand","AtSymbol","BadgeCheck","Ban","Bell","BookOpen","BookmarkAlt","Bookmark","Briefcase",
-    "Calendar","Camera","Cash","ChartBar","ChartPie","ChartSquareBar","ChatAlt-2","ChatAlt","Chat","CheckCircle",
-    "Check","ChevronDown","ChevronLeft","ChevronRight","ChevronUp","ClipboardCheck","ClipboardCopy","ClipboardList",
-    "Clipboard","Clock","CloudDownload","CloudUpload","Code","Cog","Collection","ColorSwatch","CreditCard","CurrencyDollar",
-    "CurrencyEuro","CurrencyPound","CurrencyRupee","CurrencyYen","CursorClick","DesktopComputer","DocumentAdd","DocumentDownload",
-    "DocumentDuplicate","DocumentRemove","DocumentReport","Document","DotsCircleHorizontal","DotsHorizontal","DotsVertical",
-    "Download","Duplicate","EmojiHappy","EmojiSad","ExclamationCircle","Exclamation","ExternalLink","EyeOff","Eye","Filter",
-    "Fire","Flag","FolderAdd","FolderDownload","FolderRemove","Folder","GlobeAlt","Globe","Hand","Hashtag","Heart","Home",
-    "InboxIn","Inbox","InformationCircle","Key","Library","LightBulb","LightningBolt","Link","LocationMarker","LockClosed",
-    "LockOpen","Logout","MailOpen","Mail","MenuAlt-1","MenuAlt-2","MenuAlt-3","MenuAlt-4","Menu","Microphone","MinusCircle",
-    "Moon","Newspaper","OfficeBuilding","PaperClip","Pause","PencilAlt","Pencil","PhoneIncoming","PhoneOutgoing","Phone",
-    "Photograph","Play","PlusCircle","Plus","Printer","Puzzle","Qrcode","QuestionMarkCircle","ReceiptRefund","Refresh","Reply",
-    "Scale","Search","Selector","Share","ShieldCheck","ShieldExclamation","ShoppingBag","ShoppingCart","SortAscending","SortDescending",
-    "Sparkles","Speakerphone","Star","Stop","Sun","Support","SwitchHorizontal","SwitchVertical","Tag","Template","Terminal","ThumbDown",
-    "ThumbUp","Ticket","Translate","Trash","TrendingDown","TrendingUp","Upload","UserAdd","UserCircle","UserGroup","UserRemove","User",
-    "Users","ViewBoards","ViewGridAdd","ViewGrid","ViewList","VolumeOff","VolumeUp","XCircle","X","ZoomIn","ZoomOut"
-];
+import icons from '../../js/icons';
 
 export default {
     data: function () {
