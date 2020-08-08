@@ -31,10 +31,6 @@ jobs:
       - name: Compile Assets
         run: npm run prod
 
-      # Make sure the proper Chromedriver for Dusk is installed
-      - name: Install Chromedriver for Dusk
-        run: ./vendor/bin/dusk-updater detect --auto-update
-
   run-tests:
     needs: compile-assets
     runs-on: ubuntu-latest
@@ -55,6 +51,10 @@ jobs:
       # Install PHP dependencies
       - name: Install Composer dependencies
         run: composer require "illuminate/support:${{ matrix.laravel }}"
+
+      # Make sure the proper Chromedriver for Dusk is installed
+      - name: Install Chromedriver for Dusk
+        run: ./vendor/bin/dusk-updater detect --auto-update
 
       # Run tests
       - name: Run tests
