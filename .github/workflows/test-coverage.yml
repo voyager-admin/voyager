@@ -1,0 +1,76 @@
+name: Tests and coverage
+
+on:
+  push:
+    branches:
+      - '2.*'
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - edited
+      - reopened
+
+jobs:
+  compile-assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+
+      # Configure NPM
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      # Install NPM dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Build static assets
+      - name: Compile Assets
+        run: npm run prod
+
+      # Make sure the proper Chromedriver for Dusk is installed
+      - name: Install Chromedriver for Dusk
+        run: ./vendor/bin/dusk-updater detect --auto-update
+
+  run-tests:
+    needs: compile_assets
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        laravel: [7.*]
+        php: [7.2, 7.3, 7.4]
+
+    steps:
+      # Configure PHP
+      - name: Select PHP version
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo_sqlite, fileinfo, gd
+          coverage: pcov
+
+      # Install PHP dependencies
+      - name: Install Composer dependencies
+        run: composer require "illuminate/support:${{ matrix.laravel }}"
+
+      # Run tests
+      - name: Run tests
+        run: php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-clover=coverage.xml
+
+
+  publish-coverage:
+    needs: run-tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Publish coverage to codeclimate
+      - name: Publish coverage to codeclimate
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: d7ac50851610b4bfae417c6942bba6a399435943951ee9c1fb470ad29c94f0ed
+        with:
+          coverageLocations: |
+            ${{github.workspace}}/coverage.xml:clover
