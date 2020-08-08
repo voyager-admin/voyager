@@ -36,7 +36,7 @@ jobs:
         run: ./vendor/bin/dusk-updater detect --auto-update
 
   run-tests:
-    needs: compile_assets
+    needs: compile-assets
     runs-on: ubuntu-latest
     strategy:
       matrix:
