@@ -7,6 +7,7 @@ return [
     'delete_files'              => 'Delete file|Delete :num files',
     'delete_files_confirm'      => 'Are you sure you want to delete this file?|Are you sure you want to :num files?',
     'delete_files_success'      => 'Deleted one file|Deleted :num files',
+    'delete_folder_success'     => 'Deleted one folder|Deleted :num folders',
     'download_files'            => 'Download file|Download :num files',
     'drag_files_here'           => 'Drag your files here',
     'drop_files'                => 'Drop it like its 🔥',

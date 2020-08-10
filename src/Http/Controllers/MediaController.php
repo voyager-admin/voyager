@@ -227,11 +227,18 @@ class MediaController extends Controller
             }
 
             return $file;
-        })->sortBy('file.name')->sortBy(function ($file) {
-            return $file['file']['type'] == 'directory' ? 0 : 99999999;
-        })->values();
+        });
 
-        return response()->json($files);
+        // Push thumbnails back because there is no "parent" image
+        foreach ($thumbnails as $thumbnail) {
+            $files = $files->push($thumbnail);
+        }
+
+        $files = $files->sortBy('file.name')->sortBy(function ($file) {
+            return $file['file']['type'] == 'directory' ? 0 : 99999999;
+        });
+
+        return response()->json($files->values());
     }
 
     public function delete(Request $request)
@@ -241,18 +248,30 @@ class MediaController extends Controller
         $dirs_deleted = 0;
 
         foreach ($request->get('files', []) as $file) {
-            if ($storage->getMimetype($file) == 'directory') {
-                $storage->deleteDirectory($file);
+            if (!is_object($file)) {
+                $file = json_decode($file);
+            }
+            $path = $file->file->relative_path.$file->file->name;
+
+            if ($storage->getMimetype($path) == 'directory') {
+                $storage->deleteDirectory($path);
                 $dirs_deleted++;
             } else {
-                $storage->delete($file);
+                $storage->delete($path);
                 $files_deleted++;
+
+                foreach($file->file->thumbnails ?? [] as $thumb) {
+                    // TODO: This could be a setting
+                    $path = $thumb->file->relative_path.$thumb->file->name;
+                    $storage->delete($path);
+                    $files_deleted++;
+                }
             }
         }
 
         return response()->json([
-            'files' => $files_deleted,
-            'dirs'  => $dirs_deleted,
+            'files'         => $files_deleted,
+            'dirs'          => $dirs_deleted,
         ]);
     }
 

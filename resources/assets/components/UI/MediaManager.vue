@@ -476,13 +476,9 @@ export default {
         },
         deleteSelected: function () {
             var vm = this;
-            var files = [];
-            vm.selectedFiles.forEach(function (file) {
-                files.push(file.file.relative_path + file.file.name);
-            });
 
             new vm
-            .$notification(vm.trans_choice('voyager::media.delete_files_confirm', files.length))
+            .$notification(vm.trans_choice('voyager::media.delete_files_confirm', vm.selectedFiles.length))
             .color('red')
             .timeout()
             .confirm()
@@ -491,17 +487,23 @@ export default {
                 if (response === true) {
                     axios.delete(vm.route('voyager.media.delete'), {
                         params: {
-                            files: files,
+                            files: vm.selectedFiles,
                         }
                     })
                     .then(function (response) {
-                        new vm.$notification(vm.trans_choice('voyager::media.delete_files_success', files.length)).color('green').timeout().show();
+                        if (response.data.files > 0) {
+                            new vm.$notification(vm.trans_choice('voyager::media.delete_files_success', response.data.files)).color('green').timeout().show();
+                        }
+                        if (response.data.dirs > 0) {
+                            new vm.$notification(vm.trans_choice('voyager::media.delete_folder_success', response.data.dirs)).color('green').timeout().show();
+                        }
                     })
                     .catch(function (errors) {
                         //
                     })
                     .then(function () {
                         vm.loadFiles();
+                        vm.selectedFiles = [];
                     });
                 }
             });
