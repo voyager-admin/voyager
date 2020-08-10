@@ -14,9 +14,10 @@ return [
     'files_selected'            => ':num files selected',
     'file_exists'               => 'File ":file" already exists',
     'file_upload_failed'        => 'Uploading file ":file" failed',
+    'folder_exists'             => 'A folder with the name ":name" already exists!',
     'path_copied'               => 'Path copied to clipboard!',
     'select_files'              => 'Select file|Select :num files',
-    'select_upload_files'       => 'Select files to upload',
+    'select_upload_files'       => 'Select files',
     'size'                      => 'Size',
     'thumbnail_amount'          => 'One thumbnail|:num thumbnails',
     'thumbnails'                => [

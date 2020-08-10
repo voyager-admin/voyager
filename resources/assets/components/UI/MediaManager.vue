@@ -3,23 +3,29 @@
         <input class="hidden" type="file" :multiple="multiple" @change="addUploadFiles($event.target.files)" ref="upload_input">
         <div class="w-full mb-2" v-if="showToolbar">
             <div class="inline-block">
-                <button class="button green small" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload" v-tooltip="__('voyager::media.upload')">
+                <button class="button green small" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload">
                     <icon icon="upload"></icon>
+                    <span>{{ __('voyager::media.upload') }}</span>
                 </button>
-                <button class="button accent small" @click="selectFilesToUpload()" v-tooltip="__('voyager::media.select_upload_files')">
+                <button class="button accent small" @click="selectFilesToUpload()">
                     <icon icon="check-circle"></icon>
+                    <span>{{ __('voyager::media.select_upload_files') }}</span>
                 </button>
-                <button class="button accent small" @click="loadFiles()" v-tooltip="__('voyager::generic.reload')">
-                    <icon icon="refresh"></icon>
+                <button class="button accent small" @click="loadFiles()">
+                    <icon icon="refresh" :class="loadingFiles ? 'rotating-ccw' : null"></icon>
+                    <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
-                <button class="button accent small" @click="createFolder()" v-tooltip="__('voyager::media.create_folder')">
+                <button class="button accent small" @click="createFolder()">
                     <icon icon="folder-add"></icon>
+                    <span>{{ __('voyager::media.create_folder') }}</span>
                 </button>
-                <button class="button red small" @click="deleteSelected()" v-if="selectedFiles.length > 0" v-tooltip="trans_choice('voyager::media.delete_files', selectedFiles.length)">
+                <button class="button red small" @click="deleteSelected()" v-if="selectedFiles.length > 0">
                     <icon icon="trash"></icon>
+                    <span>{{ trans_choice('voyager::media.delete_files', selectedFiles.length) }}</span>
                 </button>
-                <button class="button accent small" v-show="selectedFiles.length > 0" @click="downloadFiles()" v-tooltip="trans_choice('voyager::media.download_files', selectedFiles.length)">
+                <button class="button accent small" v-show="selectedFiles.length > 0" @click="downloadFiles()">
                     <icon icon="download"></icon>
+                    <span>{{ trans_choice('voyager::media.download_files', selectedFiles.length) }}</span>
                 </button>
             </div>
         </div>
@@ -519,6 +525,19 @@ export default {
             .show()
             .then(function (result) {
                 if (result !== false) {
+                    // Check if a folder with this name already exists
+                    var exists = false;
+                    vm.files.forEach(function (file) {
+                        if (file.file.type == 'directory' && file.file.name == result) {
+                            new vm.$notification(vm.__('voyager::media.folder_exists', { name: result })).color('yellow').timeout().show();
+                            exists = true;
+                        }
+                    });
+
+                    if (exists) {
+                        return;
+                    }
+
                     axios.post(vm.route('voyager.media.create_folder'), {
                         path: vm.path,
                         name: result,
