@@ -349,6 +349,9 @@ export default {
             }, 250),
             deep: true,
         },
+        'parameters.softdeleted': function () {
+            this.parameters.page = 1;
+        },
         '$language.locale': function (locale) {
             this.parameters.locale = locale;
         },

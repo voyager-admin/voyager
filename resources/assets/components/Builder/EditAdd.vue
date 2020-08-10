@@ -207,7 +207,7 @@
                     <div>
                         <div v-if="currentLayout.type == 'list'">
                             <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
-                            <input type="checkbox" v-model="currentLayout.options.soft_deletes">
+                            <input type="checkbox" class="input" v-model="currentLayout.options.soft_deletes">
                         </div>
 
                         <label class="label" for="scope">{{ __('voyager::builder.scope') }}</label>
