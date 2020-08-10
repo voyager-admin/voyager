@@ -154,6 +154,24 @@
                 </div>
             </div>
         </div>
+        <modal ref="lightbox" :title="openedFile ? openedFile.name : ''">
+            <div v-if="openedFile">
+                <div class="w-full flex justify-center">
+                    <img :src="openedFile.url" class="rounded object-contain max-w-full" />
+                </div>
+                <div class="w-full mt-2 justify-center items-center flex space-x-1 space-y-1">
+                    <img
+                        v-for="(image, i) in images"
+                        :key="i"
+                        class="rounded object-contain h-24 cursor-pointer"
+                        :class="openedFile.url == image.file.url ? 'border border-blue-500' : null"
+                        :src="image.file.url"
+                        v-tooltip="image.file.relative_path+image.file.name"
+                        @click="openedFile = image.file"
+                    />
+                </div>
+            </div>
+        </modal>
     </div>
 </template>
 <script>
@@ -239,6 +257,7 @@ export default {
             dragging: false,
             loadingFiles: false,
             dragEnterTarget: null,
+            openedFile: null,
         };
     },
     methods: {
@@ -443,6 +462,11 @@ export default {
                 this.loadFiles();
             } else {
                 this.$emit('select', file.file);
+                // TODO: Don't open modal when used as a media-picker
+                if (this.mimeMatch(file.file.type, 'image/*')) {
+                    this.openedFile = file.file;
+                    this.$refs.lightbox.open();
+                }
             }
         },
         deleteUpload: function (file) {
@@ -593,6 +617,13 @@ export default {
         },
         pathSegments: function () {
             return this.path.split('/');
+        },
+        images: function () {
+            var vm = this;
+
+            return vm.files.filter(function (file) {
+                return vm.mimeMatch(file.file.type, 'image/*');
+            });
         }
     },
     mounted: function () {
