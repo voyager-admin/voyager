@@ -260,11 +260,12 @@ class MediaController extends Controller
                 $storage->delete($path);
                 $files_deleted++;
 
-                foreach($file->file->thumbnails ?? [] as $thumb) {
-                    // TODO: This could be a setting
-                    $path = $thumb->file->relative_path.$thumb->file->name;
-                    $storage->delete($path);
-                    $files_deleted++;
+                if (VoyagerFacade::setting('media.delete-thumbnails', true)) {
+                    foreach($file->file->thumbnails ?? [] as $thumb) {
+                        $path = $thumb->file->relative_path.$thumb->file->name;
+                        $storage->delete($path);
+                        $files_deleted++;
+                    }
                 }
             }
         }

@@ -207,6 +207,32 @@
         "validation": []
     },
     {
+        "type": "select",
+        "group": "media",
+        "key": "delete-thumbnails",
+        "name": "Delete thumbnails",
+        "value": true,
+        "info": "Delete thumbnails when parent image is deleted",
+        "translatable": false,
+        "canBeTranslated": true,
+        "options": {
+            "multiple": false,
+            "options": [
+                {
+                    "key": "true",
+                    "value": "Delete"
+                },
+                {
+                    "key": "false",
+                    "value": "Keep"
+                }
+            ],
+            "title": null,
+            "description": null
+        },
+        "validation": []
+    },
+    {
         "type": "media_picker",
         "group": "watermark",
         "key": "image",
