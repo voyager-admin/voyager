@@ -34,9 +34,9 @@ class BreadController extends Controller
 
         extract($request->only(['page', 'perpage', 'global', 'filters', 'order', 'direction', 'softdeleted', 'locale']));
 
-        $query = $bread->getModel()->select('*');
+        $query = $bread->getModel();
         if (!empty($layout->options->scope)) {
-            $query = $bread->getModel()->{$layout->options->scope}()->select('*');
+            $query = $query->{$layout->options->scope}();
         }
 
         // Soft-deletes
@@ -53,11 +53,10 @@ class BreadController extends Controller
         // Ordering ($order and $direction)
         $query = $this->orderQuery($layout, $direction, $order, $query, $locale);
 
-        $query = $query->get();
         $filtered = $query->count();
 
         // Pagination ($page and $perpage)
-        $query = $query->slice(($page - 1) * $perpage)->take($perpage);
+        $query = $query->skip(($page - 1) * $perpage)->take($perpage)->get();
 
         // Load accessors
         $accessors = $layout->getFormfieldsByColumnType('computed')->pluck('column.column')->toArray();
