@@ -130,7 +130,7 @@ export default {
 @import "../../../sass/mixins/border-color";
 @import "../../../sass/mixins/text-color";
 
-.item {
+.dark .item {
     @include bg-color(media-item-bg-color-dark, 'colors.gray.800');
     @include border-color(media-item-border-color-dark, 'colors.gray.700');
 
@@ -146,6 +146,25 @@ export default {
     &.picked {
         @include bg-color(media-item-picked-bg-color-dark, 'colors.gray.750');
         @include border-color(media-item-picked-border-color-dark, 'colors.green.700');
+    }
+}
+
+.item {
+    @include bg-color(media-item-bg-color, 'colors.gray.100');
+    @include border-color(media-item-border-color, 'colors.gray.300');
+
+    &:hover {
+        @include bg-color(media-item-hover-bg-color, 'colors.gray.200');
+    }
+
+    &.selected {
+        @include bg-color(media-item-selected-bg-color, 'colors.gray.250');
+        @include border-color(media-item-selected-border-color, 'colors.blue.300');
+    }
+
+    &.picked {
+        @include bg-color(media-item-picked-bg-color, 'colors.gray.250');
+        @include border-color(media-item-picked-border-color, 'colors.green.300');
     }
 }
 </style>
