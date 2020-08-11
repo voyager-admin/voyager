@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
+use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Traits\Bread\Browsable;
 
 class VoyagerController extends Controller
@@ -15,9 +16,10 @@ class VoyagerController extends Controller
 
     protected $breadmanager;
 
-    public function __construct(BreadManager $breadmanager)
+    public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager)
     {
         $this->breadmanager = $breadmanager;
+        parent::__construct($pluginmanager);
     }
 
     private $mime_extensions = [
