@@ -7,6 +7,7 @@ Instead, they are listed here:
 - Modal should show scrollbar inside container, not outside
 - Make listbox search and pagination sticky
 - Measure bread loading times and cache them if necessary
+- Replace BREAD rollback dropdown so tables can get `overflow-x-auto`
 
 ## Formfields
 - **Relationship** support polymorphic relationships

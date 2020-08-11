@@ -1,6 +1,6 @@
 <template>
     <slide-x-right-transition>
-        <div v-if="isOpen" class="dark slidein text-white" :class="width" v-click-outside="close">
+        <div v-if="isOpen" class="dark slidein text-white w-full" :class="'lg:'+width" v-click-outside="close">
             <div class="flex w-full mb-3">
                 <div class="flex-grow">
                     <h4>{{ title }}</h4>
