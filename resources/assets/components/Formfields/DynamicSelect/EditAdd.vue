@@ -5,11 +5,11 @@
                 <label class="label" v-if="isObject(select) && select.hasOwnProperty('label')">{{ select.label }}</label>
 
                 <div v-if="isObject(select) && select.hasOwnProperty('type')">
-                    <input type="number" class="input w-full" v-if="select.type == 'number'" v-model.number="selected[i]" />
-                    <input type="text" class="input w-full" v-if="select.type == 'text'" v-model="selected[i]" />
+                    <input type="number" class="input w-full small" v-if="select.type == 'number'" v-model.number="selected[i]" />
+                    <input type="text" class="input w-full small" v-if="select.type == 'text'" v-model="selected[i]" />
                     <input type="checkbox" class="input" v-if="select.type == 'checkbox'" v-model="selected[i]" />
                 </div>
-                <select class="input w-full" v-model="selected[i]" v-else-if="isArray(select) || isObject(select)">
+                <select class="input w-full small" v-model="selected[i]" v-else-if="isArray(select) || isObject(select)">
                     <option v-for="(option, b) in select" :key="'option-'+b" :value="b" v-if="b !== 'label'">
                         {{ option }}
                     </option>
