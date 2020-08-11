@@ -54,7 +54,7 @@
 import { EventBus } from '../../js/eventbus';
 
 export default {
-    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'translatable', 'relationships', 'fromRelationship'],
+    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'relationships', 'fromRelationship'],
     data: function () {
         return {
             output: (this.input || {}),
@@ -155,9 +155,7 @@ export default {
     },
     mounted: function () {
         var vm = this;
-        if (vm.translatable) {
-            Vue.prototype.$language.localePicker = true;
-        }
+        Vue.prototype.$language.localePicker = true;
 
         document.addEventListener('keydown', function (e) {
             if (event.ctrlKey && event.key === 's') {

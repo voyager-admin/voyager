@@ -5,7 +5,6 @@
     :bread="{{ json_encode($bread) }}"
     :layout="{{ json_encode($layout) }}"
     :data="{{ json_encode($data) }}"
-    :translatable="{{ $layout->hasTranslatableFormfields() ? 'true' : 'false' }}"
     :primary="{{ $data->getKey() }}"
     :input="{{ json_encode($data) }}"
     prev-url="{{ url()->previous() }}"

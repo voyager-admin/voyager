@@ -36,16 +36,14 @@
 
 <script>
 export default {
-    props: ['bread', 'data', 'primary', 'layout', 'prevUrl', 'translatable'],
+    props: ['bread', 'data', 'primary', 'layout', 'prevUrl'],
     methods: {
         getData: function (column) {
             return this.data[column.column];
         }
     },
     mounted: function () {
-        if (this.translatable) {
-            Vue.prototype.$language.localePicker = true;
-        }
+        Vue.prototype.$language.localePicker = true;
     }
 };
 </script>

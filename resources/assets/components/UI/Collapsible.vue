@@ -1,6 +1,6 @@
 <template>
 <card :title="title" :title-size="titleSize">
-    <div slot="actions" class="inline-flex">
+    <div slot="actions" class="inline-flex items-center">
         <slot name="actions"></slot>
         <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="6" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click.native="toggle"></icon>
     </div>

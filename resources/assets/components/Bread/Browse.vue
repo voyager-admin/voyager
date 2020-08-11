@@ -165,7 +165,6 @@ export default {
             filtered: 0, // Amount of filtered entries
             selected: [], // Array of selected primary-keys
             uses_soft_deletes: false, // If the model uses soft-deleting
-            translatable: false, // If the layout contains translatable fields (will show/hide the locale picker)
             actions: [], // The actions which should be displayed
             parameters: {
                 page: 1,
@@ -227,11 +226,7 @@ export default {
         },
         orderBy: function (column) {
             if (this.parameters.order == column) {
-                if (this.parameters.direction == 'asc') {
-                    this.parameters.direction = 'desc';
-                } else {
-                    this.parameters.direction = 'asc';
-                }
+                this.parameters.direction = this.parameters.direction == 'asc' ? 'desc' : 'asc';
             } else {
                 this.parameters.order = column;
                 this.parameters.direction = 'asc';
@@ -246,6 +241,19 @@ export default {
                 });
             }
         },
+        pushParameterToUrl: function (params) {
+            var url = window.location.href.split('?')[0];
+            for (var key in params) {
+                if (params.hasOwnProperty(key) && params[key] !== null) {
+                    if (this.isObject(params[key])) {
+                        url = this.addParameterToUrl(key, JSON.stringify(params[key]), url);
+                    } else {
+                        url = this.addParameterToUrl(key, params[key], url);
+                    }
+                }
+            }
+            this.pushToUrlHistory(url);
+        }
     },
     computed: {
         pages: function () {
@@ -307,6 +315,8 @@ export default {
         },
     },
     mounted: function () {
+        Vue.prototype.$language.localePicker = true;
+
         var parameter_found = false;
         for (var param of this.getParametersFromUrl()) {
             try {
@@ -319,8 +329,8 @@ export default {
             parameter_found = true;
         }
 
-        // Data will automatically be loaded in the watcher when parameters were set above
         if (!parameter_found) {
+            this.pushParameterToUrl(this.parameters);
             this.load();
         }
     },
@@ -333,18 +343,7 @@ export default {
         },
         parameters: {
             handler: debounce(function (val) {
-                // Remove all parameters from URL
-                var url = window.location.href.split('?')[0];
-                for (var key in val) {
-                    if (val.hasOwnProperty(key) && val[key] !== null) {
-                        if (this.isObject(val[key])) {
-                            url = this.addParameterToUrl(key, JSON.stringify(val[key]), url);
-                        } else {
-                            url = this.addParameterToUrl(key, val[key], url);
-                        }
-                    }
-                }
-                this.pushToUrlHistory(url);
+                this.pushParameterToUrl(val);
                 this.load();
             }, 250),
             deep: true,
@@ -355,9 +354,6 @@ export default {
         '$language.locale': function (locale) {
             this.parameters.locale = locale;
         },
-        translatable: function (value) {
-            Vue.prototype.$language.localePicker = value;
-        }
     }
 };
 </script>

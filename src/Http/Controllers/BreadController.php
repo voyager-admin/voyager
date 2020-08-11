@@ -74,7 +74,6 @@ class BreadController extends Controller
             'layout'            => $layout,
             'execution'         => number_format(((microtime(true) - $start) * 1000), 0, '.', ''),
             'uses_soft_deletes' => $this->uses_soft_deletes,
-            'translatable'      => $layout->hasTranslatableFormfields(),
             'actions'           => $this->breadmanager->getActionsForBread($bread),
         ];
     }
