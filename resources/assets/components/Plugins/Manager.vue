@@ -282,7 +282,6 @@ export default {
 
                 return true;
             }).filter(function (plugin) {
-                // TODO: Also search on plugin name and description?
                 return plugin.keywords.filter(function (keyword) {
                     return keyword.toLowerCase().indexOf(query) >= 0;
                 }).length > 0;

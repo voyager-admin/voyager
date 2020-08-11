@@ -52,7 +52,6 @@ export default {
             }
         });
         if (vm.$slots.opener) {
-            // TODO: We might need to check for other element aswell
             Array.from(vm.$slots.opener[0].elm.getElementsByTagName('button')).forEach(function (el) {
                 el.addEventListener('click', event => {
                     vm.open();
