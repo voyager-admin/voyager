@@ -243,7 +243,7 @@ class Voyager
     }
 
     /**
-     * Gets all widgets from installed and enabled plugins.
+     * Gets all widgets from installed and enabled plugins filtered by plugins.
      *
      * @return Collection The widgets.
      */

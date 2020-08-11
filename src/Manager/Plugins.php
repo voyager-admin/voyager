@@ -138,11 +138,8 @@ class Plugins
 
     public function getPluginByType($type, $fallback = null, $enabled = true)
     {
-        $plugin = $this->getPluginsByType($type);
-        if ($enabled) {
-            $plugin = $plugin->where('enabled');
-        }
-        $plugin = $plugin->first();
+        $plugin = $this->getPluginsByType($type, $enabled)->first();
+
         if (!$plugin && $fallback !== null) {
             $plugin = $fallback;
             if (!($fallback instanceof GenericPlugin)) {
@@ -155,12 +152,7 @@ class Plugins
 
     public function getPluginsByType($type, $enabled = true)
     {
-        $plugins = $this->getAllPlugins()->where('type', $type);
-        if ($enabled) {
-            $plugins = $plugins->where('enabled');
-        }
-
-        return $plugins;
+        return $this->getAllPlugins($enabled)->where('type', $type);
     }
 
     public function getAvailablePlugins()
