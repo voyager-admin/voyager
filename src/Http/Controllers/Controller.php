@@ -6,8 +6,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
-use Voyager\Admin\Manager\Plugins as PluginManager;
+use Voyager\Admin\Contracts\Plugins\RegistersLayoutFilter;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Plugins\AuthenticationPlugin;
 use Voyager\Admin\Plugins\AuthorizationPlugin;
 
@@ -20,11 +21,6 @@ abstract class Controller extends BaseController
     public function __construct(PluginManager $pluginmanager)
     {
         $this->pluginmanager = $pluginmanager;
-    }
-
-    protected function getAuthorizationPlugins()
-    {
-        return $this->pluginmanager->getPluginsByType('authorization');
     }
 
     protected function getAuthenticationPlugin()
@@ -91,8 +87,11 @@ abstract class Controller extends BaseController
     protected function getLayoutForAction($bread, $action)
     {
         $layouts = $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', $action == 'browse' ? 'list' : 'view');
-        $this->getAuthorizationPlugins()->each(function ($plugin) use ($bread, $action, &$layouts) {
-            $layouts = $plugin->filterLayouts($bread, $action, $layouts);
+
+        $this->pluginmanager->getAllPlugins()->each(function ($plugin) use ($bread, $action, &$layouts) {
+            if ($plugin instanceof RegistersLayoutFilter) {
+                $layouts = $plugin->filterLayouts($bread, $action, $layouts);
+            }
         });
 
         if ($layouts->count() < 1) {

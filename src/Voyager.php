@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Voyager\Admin\Contracts\Plugins\RegistersWidgetFilter;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
@@ -248,21 +249,29 @@ class Voyager
      */
     public function getWidgets()
     {
-        return collect($this->pluginmanager->getPluginsByType('widget')->transform(function ($plugin) {
-                $width = $plugin->getWidth();
-                if ($width >= 1 && $width <= 11) {
-                    $width = 'w-'.$width.'/12';
-                } else {
-                    $width = 'w-full';
-                }
+        $widgets = collect($this->pluginmanager->getPluginsByType('widget')->transform(function ($plugin) {
+            $width = $plugin->getWidth();
+            if ($width >= 1 && $width <= 11) {
+                $width = 'w-'.$width.'/12';
+            } else {
+                $width = 'w-full';
+            }
 
-                return (object) [
-                    'width' => $width,
-                    'title' => $plugin->getTitle(),
-                    'icon'  => $plugin->getIcon(),
-                    'view'  => $plugin->getWidgetView(),
-                ];
-            }));
+            return (object) [
+                'width' => $width,
+                'title' => $plugin->getTitle(),
+                'icon'  => $plugin->getIcon(),
+                'view'  => $plugin->getWidgetView(),
+            ];
+        }));
+
+        $this->pluginmanager->getAllPlugins()->each(function ($plugin) use (&$widgets) {
+            if ($plugin instanceof RegistersWidgetFilter) {
+                $widgets = $plugin->filterWidgets($widgets);
+            }
+        });
+
+        return $widgets;
     }
 
     /**
