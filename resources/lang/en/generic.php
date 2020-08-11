@@ -56,6 +56,7 @@ return [
     'last'                      => 'Last',
     'load'                      => 'Load',
     'loading'                   => 'Loading',
+    'loading_please_wait'       => 'Loading. Please wait',
     'main'                      => 'Main',
     'max'                       => 'Max',
     'maximum'                   => 'Maximum',

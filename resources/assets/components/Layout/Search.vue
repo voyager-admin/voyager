@@ -1,15 +1,20 @@
 <template>
     <div class="w-full" v-click-outside="close">
         <dropdown ref="results_dd" pos="right" :width="'full'" class="w-full" dont-open-on-click>
-            <div class="grid p-2" :class="gridClasses">
-                <div v-for="(bread, table) in searchResults" :key="'bread-results-'+table">
-                    <h6 class="ml-3 mt-3">{{ translate($store.getBreadByTable(table).name_plural, true) }}</h6>
-                    <a v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="link rounded-md" :href="getResultUrl(table, key)">
-                        {{ translate(result, true) }}
-                    </a>
-                    <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="link underline text-sm rounded-md">
-                        {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
-                    </a>
+            <div>
+                <div class="grid p-2" :class="gridClasses" v-if="!loading">
+                    <div v-for="(bread, table) in searchResults" :key="'bread-results-'+table">
+                        <h6 class="ml-3 mt-3">{{ translate($store.getBreadByTable(table).name_plural, true) }}</h6>
+                        <a v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="link rounded-md" :href="getResultUrl(table, key)">
+                            {{ translate(result, true) }}
+                        </a>
+                        <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="link underline text-sm rounded-md">
+                            {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
+                        </a>
+                    </div>
+                </div>
+                <div v-if="loading" class="m-4">
+                    <h6>{{ __('voyager::generic.loading_please_wait') }}</h6>
                 </div>
             </div>
             <div slot="opener">
@@ -38,6 +43,7 @@ export default {
         return {
             searchResults: {},
             query: '',
+            loading: false,
         };
     },
     watch: {
@@ -77,6 +83,8 @@ export default {
                 return;
             }
 
+            vm.loading = true;
+
             axios.post(vm.route('voyager.globalsearch'), {
                 query: vm.query,
             })
@@ -89,7 +97,10 @@ export default {
                 }
             })
             .catch(function (errors) {
-                //
+                // TODO: ...
+            })
+            .then(function () {
+                vm.loading = false;
             });
             
         }, 250),

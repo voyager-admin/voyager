@@ -58,14 +58,13 @@ class VoyagerController extends Controller
     public function globalSearch(Request $request)
     {
         $q = $request->get('query');
-        $breads = $this->breadmanager->getBreads();
         $results = collect([]);
 
         $this->breadmanager->getBreads()->each(function ($bread) use ($q, &$results) {
             if (!empty($bread->global_search_field)) {
                 $layout = $this->getLayoutForAction($bread, 'browse');
                 if ($layout) {
-                    $query = $bread->getModel();
+                    $query = $bread->getModel()->select();
                     // TODO: This can be removed when the global search allows querying relationships
                     if ($layout->searchableFormfields()->where('column.type', 'column')->count() == 0) {
                         return;
