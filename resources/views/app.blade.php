@@ -10,7 +10,7 @@
 
     <title>@yield('page-title') - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
-    @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins()->where('enabled') as $plugin)
+    @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
         @foreach ($plugin->getCssRoutes() as $css)
         <link href="{{ $css }}" rel="stylesheet">
         @endforeach
@@ -40,7 +40,7 @@
     </slide-x-left-transition>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
-@foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins()->where('enabled') as $plugin)
+@foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
     @foreach ($plugin->getJsRoutes() as $js)
     <script src="{{ $js }}" type="text/javascript"></script>
     @endforeach

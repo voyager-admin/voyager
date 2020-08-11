@@ -6,7 +6,6 @@ Instead, they are listed here:
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
 - Make listbox search and pagination sticky
-- Discuss who/what should decide which layout is used for an action
 - Discuss how/why widgets are displayed (permission, order, ...)
 - Measure bread loading times and cache them if necessary
 

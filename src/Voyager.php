@@ -248,8 +248,7 @@ class Voyager
      */
     public function getWidgets()
     {
-        return collect($this->pluginmanager->getPluginsByType('widget')
-            ->where('enabled')->transform(function ($plugin) {
+        return collect($this->pluginmanager->getPluginsByType('widget')->transform(function ($plugin) {
                 $width = $plugin->getWidth();
                 if ($width >= 1 && $width <= 11) {
                     $width = 'w-'.$width.'/12';
@@ -399,7 +398,7 @@ class Voyager
      */
     public function authorize($user, $ability, $arguments = [])
     {
-        $auth_plugins = $this->pluginmanager->getPluginsByType('authorization')->where('enabled');
+        $auth_plugins = $this->pluginmanager->getPluginsByType('authorization');
         $authorized = true;
         $auth_plugins->each(function ($plugin) use ($user, $ability, $arguments, &$authorized) {
             if (!$plugin->authorize($user, $ability, $arguments)) {

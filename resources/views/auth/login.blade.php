@@ -9,7 +9,7 @@
 
     <title>{{ __('voyager::auth.login') }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
-    @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getPluginsByType('theme')->where('enabled') as $theme)
+    @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getPluginsByType('theme') as $theme)
         <link href="{{ $theme->getStyleRoute() }}" rel="stylesheet">
     @endforeach
 </head>

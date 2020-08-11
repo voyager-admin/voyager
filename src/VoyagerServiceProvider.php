@@ -248,7 +248,7 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function loadPluginFormfields(): void
     {
-        $this->pluginmanager->getPluginsByType('formfield')->where('enabled')->each(function ($formfield) {
+        $this->pluginmanager->getPluginsByType('formfield')->each(function ($formfield) {
             $this->breadmanager->addFormfield($formfield->getFormfield());
         });
     }

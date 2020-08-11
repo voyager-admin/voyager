@@ -86,14 +86,19 @@ class Plugins
         });
     }
 
-    public function getAllPlugins(): Collection
+    public function getAllPlugins($enabled = true): Collection
     {
-        return $this->plugins;
+        $plugins = $this->plugins;
+        if ($enabled) {
+            $plugins = $plugins->where('enabled');
+        }
+
+        return $plugins;
     }
 
     public function launchPlugins(): void
     {
-        $this->getAllPlugins()->filter(static function ($plugin) {
+        $this->getAllPlugins(false)->filter(static function ($plugin) {
             return $plugin->enabled || $plugin->type === 'theme';
         })->each(function ($plugin) {
             if ($plugin instanceof RegistersMenuItems) {
@@ -131,9 +136,13 @@ class Plugins
         $this->frontend_routes_registered = true;
     }
 
-    public function getPluginByType($type, $fallback = null)
+    public function getPluginByType($type, $fallback = null, $enabled = true)
     {
-        $plugin = $this->getPluginsByType($type)->where('enabled')->first();
+        $plugin = $this->getPluginsByType($type);
+        if ($enabled) {
+            $plugin = $plugin->where('enabled');
+        }
+        $plugin = $plugin->first();
         if (!$plugin && $fallback !== null) {
             $plugin = $fallback;
             if (!($fallback instanceof GenericPlugin)) {
@@ -144,9 +153,14 @@ class Plugins
         return $plugin;
     }
 
-    public function getPluginsByType($type)
+    public function getPluginsByType($type, $enabled = true)
     {
-        return $this->getAllPlugins()->where('type', $type);
+        $plugins = $this->getAllPlugins()->where('type', $type);
+        if ($enabled) {
+            $plugins = $plugins->where('enabled');
+        }
+
+        return $plugins;
     }
 
     public function getAvailablePlugins()

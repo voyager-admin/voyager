@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Plugins\AuthenticationPlugin;
+use Voyager\Admin\Plugins\AuthorizationPlugin;
 
 abstract class Controller extends BaseController
 {
@@ -21,7 +22,7 @@ abstract class Controller extends BaseController
         $this->pluginmanager = $pluginmanager;
     }
 
-    protected function getAuthorizationPlugin()
+    protected function getAuthorizationPlugins()
     {
         return $this->pluginmanager->getPluginsByType('authorization');
     }
@@ -89,12 +90,15 @@ abstract class Controller extends BaseController
 
     protected function getLayoutForAction($bread, $action)
     {
-        $layout = $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', $action == 'browse' ? 'list' : 'view')->first();
+        $layouts = $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', $action == 'browse' ? 'list' : 'view');
+        $this->getAuthorizationPlugins()->each(function ($plugin) use ($bread, $action, &$layouts) {
+            $layouts = $plugin->filterLayouts($bread, $action, $layouts);
+        });
 
-        if ($layout == null) {
+        if ($layouts->count() < 1) {
             throw new \Exception(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)]));
         }
 
-        return $layout;
+        return $layouts->first();
     }
 }
