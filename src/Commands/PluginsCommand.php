@@ -38,7 +38,7 @@ class PluginsCommand extends Command
             if ($plugin->count() > 1) {
                 // TODO: Test this
                 $selected = $this->choice('Package "'.$name.'" contains multiple plugins. Please select the plugin you want to use:', $plugin->pluck('name'), 0);
-                $plugin = $plugin->get($selected);
+                $plugin = $plugin->where('name', $selected)->first();
             } else {
                 $plugin = $plugin->first();
             }
@@ -79,7 +79,12 @@ class PluginsCommand extends Command
                 return;
             }
         } else {
-            // Display all registered plugins
+            $plugins = $pluginmanager->getAllPlugins(false);
+            $selected = $this->choice('The following plugins are registered. Select one to get details', $pluginmanager->getAllPlugins(false)->pluck('name')->toArray());
+            $this->call('voyager:plugins', [
+                'plugin' => $pluginmanager->getAllPlugins(false)->where('name', $selected)->first()->repository,
+            ]);
+
             return;
         }
 
