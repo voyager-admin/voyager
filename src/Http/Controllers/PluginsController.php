@@ -28,10 +28,10 @@ class PluginsController extends Controller
     {
         $identifier = $request->get('identifier');
         if ($request->get('enable', false)) {
-            return $this->enablePlugin($identifier);
+            return $this->pluginmanager->enablePlugin($identifier);
         }
 
-        return $this->enablePlugin($identifier, false);
+        return $this->pluginmanager->enablePlugin($identifier, false);
     }
 
     public function get()
@@ -56,22 +56,5 @@ class PluginsController extends Controller
         }
 
         return redirect()->back();
-    }
-
-    private function enablePlugin($identifier, $enable = true)
-    {
-        $this->pluginmanager->getAllPlugins();
-
-        $plugins = collect(VoyagerFacade::getJson(File::get($this->pluginmanager->getPath()), []));
-        if (!$plugins->contains('identifier', $identifier)) {
-            $plugins->push([
-                'identifier' => $identifier,
-                'enabled'    => $enable,
-            ]);
-        } else {
-            $plugins->where('identifier', $identifier)->first()->enabled = $enable;
-        }
-
-        return File::put($this->pluginmanager->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
     }
 }

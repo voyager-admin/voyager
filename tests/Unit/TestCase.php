@@ -46,6 +46,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function setupVoyager(): void
     {
         $this->artisan('voyager:install');
+        $this->artisan('voyager:plugins emptynick/voyager-user-widget --enable');
     }
 
     protected function getPackageProviders($app)

@@ -160,6 +160,28 @@ class Plugins
         return VoyagerFacade::getJson(File::get(dirname(__DIR__, 2) . '/plugins.json'), []);
     }
 
+    public function enablePlugin($identifier, $enable = true)
+    {
+        $this->getAllPlugins(false);
+
+        $plugins = collect(VoyagerFacade::getJson(File::get($this->getPath()), []));
+        if (!$plugins->contains('identifier', $identifier)) {
+            $plugins->push([
+                'identifier' => $identifier,
+                'enabled'    => $enable,
+            ]);
+        } else {
+            $plugins->where('identifier', $identifier)->first()->enabled = $enable;
+        }
+
+        return File::put($this->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
+    }
+
+    public function disablePlugin($identifier)
+    {
+        return $this->enablePlugin($identifier, false);
+    }
+
     protected function getPluginType($class)
     {
         return collect(class_implements($class))->filter(static function ($interface) {

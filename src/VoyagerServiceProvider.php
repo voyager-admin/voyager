@@ -13,6 +13,7 @@ use Voyager\Admin\Classes\Action;
 use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\MenuItem;
 use Voyager\Admin\Commands\InstallCommand;
+use Voyager\Admin\Commands\PluginsCommand;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Http\Middleware\VoyagerAdminMiddleware;
 use Voyager\Admin\Manager\Breads as BreadManager;
@@ -373,6 +374,7 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->pluginmanager->launchPlugins();
 
         $this->commands(InstallCommand::class);
+        $this->commands(PluginsCommand::class);
 
         $this->registerFormfields();
     }
