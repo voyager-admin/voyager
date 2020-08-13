@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Manager;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -64,40 +65,42 @@ class Plugins
             $plugin->instructions = $plugin->getInstructionsView()->render();
         }
 
-        if ($plugin->enabled || $plugin->type == 'theme') {
-            if ($plugin->enabled) {
-                // Register menu items
-                if ($plugin instanceof ProvideMenuItems) {
-                    $plugin->registerMenuItems($this->menumanager);
-                }
-                // Merge settings
-                if ($plugin instanceof ProvideSettings) {
-                    $this->settingsmanager->mergeSettings($plugin->registerSettings());
-                }
-                // Provide frontend routes
-                if ($plugin instanceof ProvideFrontendRoutes) {
-                    $plugin->provideFrontendRoutes();
-                }
-    
-                // Provide protected routes under voyager namespace
-                if ($plugin instanceof ProvideProtectedRoutes) {
-                    Route::group(['as' => 'voyager.', 'prefix' => Voyager::$routePath, 'middleware' => 'voyager.admin'], function () use ($plugin) {
-                        $plugin->provideProtectedRoutes();
-                    });
-                }
-            }
-            // Theme plugins need to register their routes so it can be previewed
-            if ($plugin instanceof ProvidePublicRoutes) {
-                Route::group(['as' => 'voyager.', 'prefix' => Voyager::$routePath], function () use ($plugin) {
-                    $plugin->providePublicRoutes();
-                });
-            }
-        }
-
         $plugin->has_settings = ($plugin instanceof ProvideSettingsView);
         
         $plugin->num = $this->plugins->count();
         $this->plugins->push($plugin);
+    }
+
+    public function launchPlugins($protected = false, $public = false)
+    {
+        $this->getAllPlugins(false)->each(function ($plugin) use ($protected, $public) {
+            if ($plugin->enabled || $plugin->type == 'theme') {
+                if ($protected) {
+                    if ($plugin instanceof ProvideProtectedRoutes) {
+                        $plugin->provideProtectedRoutes();
+                    }
+                } elseif ($public) {
+                    if ($plugin instanceof ProvideFrontendRoutes) {
+                        $plugin->provideFrontendRoutes();
+                    }
+                } else {
+                    if ($plugin->enabled) {
+                        // Register menu items
+                        if ($plugin instanceof ProvideMenuItems) {
+                            $plugin->provideMenuItems($this->menumanager);
+                        }
+                        // Merge settings
+                        if ($plugin instanceof ProvideSettings) {
+                            $this->settingsmanager->mergeSettings($plugin->registerSettings());
+                        }
+                    }
+                    // Theme plugins need to register their routes so it can be previewed
+                    if ($plugin instanceof ProvidePublicRoutes) {
+                        $plugin->providePublicRoutes();
+                    }
+                }
+            }
+        });
     }
 
     public function loadEnabledPlugins()

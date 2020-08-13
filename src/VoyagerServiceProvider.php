@@ -56,6 +56,8 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
+        $router->aliasMiddleware('voyager.admin', VoyagerAdminMiddleware::class);
+
         $this->registerResources();
 
         $this->loadPluginFormfields();
@@ -79,10 +81,6 @@ class VoyagerServiceProvider extends ServiceProvider
         app(Gate::class)->before(static function ($user, $ability, $arguments = []) {
             return VoyagerFacade::authorize($user, $ability, $arguments);
         });
-
-        $router->aliasMiddleware('voyager.admin', VoyagerAdminMiddleware::class);
-
-        $this->registerRoutes($breads);
     }
 
 
@@ -106,18 +104,19 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     protected function registerRoutes(Collection $breads)
     {
-        Route::group([
-            'as'         => 'voyager.',
-            'prefix'     => Voyager::$routePath,
-            'middleware' => 'web',
-        ], function () use ($breads) {
-            Route::group([
-                'namespace' => 'Voyager\Admin\Http\Controllers',
-            ], function () use ($breads) {
+        Route::group(['as' => 'voyager.', 'prefix' => Voyager::$routePath, 'namespace' => 'Voyager\Admin\Http\Controllers'], function () use ($breads) {
+            Route::group(['middleware' => 'web'], function () use ($breads) {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-                $this->registerBreadRoutes($breads);
+                $this->pluginmanager->launchPlugins();
+                // Protected routes
+                Route::group(['middleware' => 'voyager.admin'], function () use ($breads) {
+                    $this->registerBreadRoutes($breads);
+                    $this->pluginmanager->launchPlugins(true);
+                });
             });
         });
+        
+        $this->pluginmanager->launchPlugins(false, true);
     }
 
     /**
@@ -374,6 +373,10 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->commands(PluginsCommand::class);
 
         $this->registerFormfields();
+
+        $this->app->booted(function () {
+            $this->registerRoutes($this->breadmanager->getBreads());
+        });
     }
 
     /**

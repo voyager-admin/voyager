@@ -6,5 +6,5 @@ use Voyager\Admin\Manager\Menu;
 
 interface ProvideMenuItems
 {
-    public function provideMenuItems(Menu $menuManager): array;
+    public function provideMenuItems(Menu $menuManager): void;
 }

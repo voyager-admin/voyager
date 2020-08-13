@@ -75,8 +75,6 @@ class AuthenticationPlugin implements AuthContract
         }
 
         return redirect()->guest(route('voyager.login'));
-
-        return $next($request);
     }
 
     public function loginView(): ?View
@@ -87,16 +85,6 @@ class AuthenticationPlugin implements AuthContract
     public function forgotPasswordView(): ?View
     {
         return view('voyager::auth.forgot_password');
-    }
-
-    public function registerProtectedRoutes()
-    {
-        //
-    }
-
-    public function registerPublicRoutes()
-    {
-        //
     }
 
     public function getSettingsView(): ?View
