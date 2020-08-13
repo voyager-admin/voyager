@@ -2,13 +2,14 @@
 
 namespace Voyager\Admin\Manager;
 
-use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Illuminate\Support\Str;
+use Voyager\Admin\Classes\MenuItem;
+use Voyager\Admin\Contracts\Plugins\Features\MenuItemFilter;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Menu
 {
     protected $items;
-    protected $callbacks = [];
 
     public function __construct()
     {
@@ -18,23 +19,23 @@ class Menu
     public function addItems()
     {
         foreach (func_get_args() as $item) {
-            $this->items->push($item);
+            if ($item instanceof MenuItem) {
+                $this->items->push($item);
+            }
         }
     }
 
-    public function addCallback(callable $callback)
-    {
-        $this->callbacks[] = $callback;
-    }
-
-    public function getItems()
+    public function getItems(Plugins $pluginmanager)
     {
         $items = $this->items->sortBy(function ($item) {
             return $item->main ? 0 : 99999999;
         })->values();
-        foreach ($this->callbacks as $callback) {
-            $items = $callback($items);
-        }
+        
+        $pluginmanager->getAllPlugins()->each(function ($plugin) use (&$items) {
+            if ($plugin instanceof MenuItemFilter) {
+                $items = $plugin->filterMenuItems($items);
+            }
+        });
 
         return $this->validatePermissions($items);
     }

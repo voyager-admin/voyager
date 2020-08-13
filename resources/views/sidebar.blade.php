@@ -20,7 +20,7 @@
                 </div>
                 <nav class="mt-3 px-2">
                     <menu-wrapper
-                        :items="{{ resolve(\Voyager\Admin\Manager\Menu::class)->getItems() }}"
+                        :items="{{ resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) }}"
                         current-url="{{ Str::finish(url()->current(), '/') }}"
                         :parent-url="null"
                     />
@@ -49,7 +49,7 @@
             </div>            
             <nav class="mt-4 flex-1 px-2">
                 <menu-wrapper
-                    :items="{{ resolve(\Voyager\Admin\Manager\Menu::class)->getItems() }}"
+                    :items="{{ resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) }}"
                     current-url="{{ Str::finish(url()->current(), '/') }}"
                 />
             </nav>
