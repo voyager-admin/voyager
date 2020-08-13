@@ -43,6 +43,18 @@ class TranslationTest extends TestCase
         $this->assertTrue($fallback == $english);
     }
 
+    public function test_can_translate_array_to_default()
+    {
+        $string = json_encode([
+            'en' => 'English',
+            'de' => 'Deutsch'
+        ]);
+
+        $english = Voyager::translate($string);
+
+        $this->assertTrue($english == 'English');
+    }
+
     public function test_can_not_translate_invalid_json_string()
     {
         $string = 'Not-Json';

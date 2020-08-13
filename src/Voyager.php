@@ -173,7 +173,11 @@ class Voyager
      */
     public function getLocales()
     {
-        return array_unique(array_merge($this->locales, config('app.locales', [$this->getLocale()])));
+        if (count($this->locales) == 0) {
+            return config('app.locales', [$this->getLocale()]);
+        }
+
+        return $this->locales;
     }
 
     /**

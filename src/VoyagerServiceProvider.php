@@ -129,7 +129,7 @@ class VoyagerServiceProvider extends ServiceProvider
         $breads->each(static function (Bread $bread) {
             $controller = 'BreadController';
             if (!empty($bread->controller)) {
-                $controller = \Illuminate\Support\Str::start($bread->controller, '\\');
+                $controller = Str::start($bread->controller, '\\');
             }
             Route::group([
                 'as'         => $bread->slug.'.',
