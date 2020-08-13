@@ -4,6 +4,7 @@ namespace Voyager\Admin\Tests\Unit;
 
 use Voyager\Admin\Facades\Voyager;
 use Voyager\Admin\VoyagerServiceProvider;
+use Voyager\TestbenchPlugin\TestbenchPluginServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -15,17 +16,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->loadLaravelMigrations(['--database' => 'testbench']);
-
-        $route_dir = realpath($this->getBasePath());
-        if (!is_dir($route_dir.'/routes')) {
-            @mkdir($route_dir.'/routes');
-        }
-        if (!file_exists($route_dir.'/routes/web.php')) {
-            file_put_contents($route_dir.'/routes/web.php', "<?php\n");
-        }
-
-        // Pre-fetch routes
-        $this->get(route('voyager.bread.index'));
 
         // Create user BREAD
         $bread = json_decode(file_get_contents(__DIR__.'/../Stubs/users.json'));
@@ -60,6 +50,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             VoyagerServiceProvider::class,
+            TestbenchPluginServiceProvider::class
         ];
     }
 
