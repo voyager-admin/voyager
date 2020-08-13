@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
-use Voyager\Admin\Contracts\Plugins\Features\ProvideFrontendRoutes;
-use Voyager\Admin\Contracts\Plugins\Features\ProvideInstructionsView;
-use Voyager\Admin\Contracts\Plugins\Features\ProvideMenuItems;
-use Voyager\Admin\Contracts\Plugins\Features\ProvideProtectedRoutes;
-use Voyager\Admin\Contracts\Plugins\Features\ProvidePublicRoutes;
-use Voyager\Admin\Contracts\Plugins\Features\ProvideSettings;
-use Voyager\Admin\Contracts\Plugins\Features\ProvideSettingsView;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\FrontendRoutes;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\InstructionsView;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\MenuItems;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\ProtectedRoutes;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\PublicRoutes;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\Settings as SettingsProvider;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\SettingsView;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Voyager;
 
@@ -61,11 +61,11 @@ class Plugins
 
         $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
         $plugin->enabled = in_array($plugin->identifier, $this->enabled_plugins, true);
-        if ($plugin instanceof ProvideInstructionsView) {
+        if ($plugin instanceof InstructionsView) {
             $plugin->instructions = $plugin->getInstructionsView()->render();
         }
 
-        $plugin->has_settings = ($plugin instanceof ProvideSettingsView);
+        $plugin->has_settings = ($plugin instanceof SettingsView);
         
         $plugin->num = $this->plugins->count();
         $this->plugins->push($plugin);
@@ -76,26 +76,26 @@ class Plugins
         $this->getAllPlugins(false)->each(function ($plugin) use ($protected, $public) {
             if ($plugin->enabled || $plugin->type == 'theme') {
                 if ($protected) {
-                    if ($plugin instanceof ProvideProtectedRoutes) {
+                    if ($plugin instanceof ProtectedRoutes) {
                         $plugin->provideProtectedRoutes();
                     }
                 } elseif ($public) {
-                    if ($plugin instanceof ProvideFrontendRoutes) {
+                    if ($plugin instanceof FrontendRoutes) {
                         $plugin->provideFrontendRoutes();
                     }
                 } else {
                     if ($plugin->enabled) {
                         // Register menu items
-                        if ($plugin instanceof ProvideMenuItems) {
+                        if ($plugin instanceof MenuItems) {
                             $plugin->provideMenuItems($this->menumanager);
                         }
                         // Merge settings
-                        if ($plugin instanceof ProvideSettings) {
+                        if ($plugin instanceof SettingsProvider) {
                             $this->settingsmanager->mergeSettings($plugin->registerSettings());
                         }
                     }
                     // Theme plugins need to register their routes so it can be previewed
-                    if ($plugin instanceof ProvidePublicRoutes) {
+                    if ($plugin instanceof PublicRoutes) {
                         $plugin->providePublicRoutes();
                     }
                 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Voyager\Admin\Contracts\Plugins\Features;
+namespace Voyager\Admin\Contracts\Plugins\Features\Filter;
 
 use Illuminate\Support\Collection;
 
-interface WidgetFilter
+interface Widgets
 {
     public function filterWidgets($widgets): Collection;
 }
