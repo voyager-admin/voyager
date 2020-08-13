@@ -21,4 +21,10 @@ class SettingsTest extends TestCase
             is_array($settings) && count($settings) > 0
         );
     }
+
+    public function test_can_get_setting()
+    {
+        $setting = VoyagerFacade::setting('admin.title');
+        $this->assertEquals($setting, 'Voyager II');
+    }
 }

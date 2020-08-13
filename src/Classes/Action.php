@@ -132,16 +132,12 @@ class Action
     /**
      * Authorize the action based on a permission.
      *
-     * @param string $ability   The ability.
-     * @param array  $arguments The arguments.
+     * @param string $ability The ability.
      * @return self
      */
-    public function permission(string $ability, array $arguments = [])
+    public function permission(string $ability)
     {
-        $this->permission = [
-            'ability'     => $ability,
-            'arguments'   => $arguments,
-        ];
+        $this->permission = $ability;
 
         return $this;
     }

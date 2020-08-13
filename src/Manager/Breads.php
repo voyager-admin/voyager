@@ -144,34 +144,6 @@ class Breads
     }
 
     /**
-     * Get a BREAD by the slug.
-     *
-     * @param string $slug
-     *
-     * @return \Voyager\Admin\Classes\Bread
-     */
-    public function getBreadBySlug($slug)
-    {
-        return $this->getBreads()->filter(function ($bread) use ($slug) {
-            return $bread->slug == $slug;
-        })->first();
-    }
-
-    /**
-     * Get a BREAD by the table.
-     *
-     * @param string $table
-     *
-     * @return \Voyager\Admin\Classes\Bread
-     */
-    public function getBreadByTable($table)
-    {
-        return $this->getBreads()->filter(function ($bread) use ($table) {
-            return $bread->table == $table;
-        })->first();
-    }
-
-    /**
      * Store a BREAD-file.
      *
      * @param string $bread
@@ -444,7 +416,7 @@ class Breads
             }
 
             if (!is_null($action->permission)) {
-                if (!VoyagerFacade::authorize(VoyagerFacade::auth()->user(), $action->permission['ability'], $action->permission['arguments'])) {
+                if (!VoyagerFacade::authorize(VoyagerFacade::auth()->user(), $action->permission, $bread)) {
                     $display = false;
                 }
             }

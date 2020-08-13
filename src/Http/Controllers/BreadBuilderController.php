@@ -127,16 +127,16 @@ class BreadBuilderController extends Controller
         ]);
 
         if ($validator->passes()) {
-            $exists = $this->breadmanager->getBreadByTable($table);
+            $exists = $this->breadmanager->getBread($table);
             if (!$this->breadmanager->storeBread($bread)) {
                 $validator->errors()->add('bread', __('voyager::builder.bread_save_failed'));
 
                 return response()->json($validator->errors(), 422);
             }
             if ($exists) {
-                event(new UpdatedEvent($this->breadmanager->getBreadByTable($table)));
+                event(new UpdatedEvent($this->breadmanager->getBread($table)));
             } else {
-                event(new CreatedEvent($this->breadmanager->getBreadByTable($table)));
+                event(new CreatedEvent($this->breadmanager->getBread($table)));
             }
         } else {
             return response()->json($validator->errors(), 422);
@@ -154,7 +154,7 @@ class BreadBuilderController extends Controller
      */
     public function destroy($table)
     {
-        $bread = $this->breadmanager->getBreadByTable($table);
+        $bread = $this->breadmanager->getBread($table);
         if (is_null($bread)) {
             return response('', 500);
         }
@@ -220,7 +220,7 @@ class BreadBuilderController extends Controller
         $table = $request->get('table', '');
         $this->authorize('backup bread', $table);
         $result = $this->breadmanager->backupBread($table);
-        event(new BackedUpEvent($this->breadmanager->getBreadByTable($table)));
+        event(new BackedUpEvent($this->breadmanager->getBread($table)));
 
         return response($result, $result === false ? 500 : 200);
     }
@@ -237,7 +237,7 @@ class BreadBuilderController extends Controller
         $table = $request->get('table', '');
         $this->authorize('restore bread', $table);
         $result = $this->breadmanager->rollbackBread($table, $request->get('path', ''));
-        event(new RestoredEvent($this->breadmanager->getBreadByTable($table)));
+        event(new RestoredEvent($this->breadmanager->getBread($table)));
 
         return response($result, $result === false ? 500 : 200);
     }

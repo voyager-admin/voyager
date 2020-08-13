@@ -173,11 +173,11 @@ class VoyagerServiceProvider extends ServiceProvider
         $read_action = (new Action('voyager::generic.read', 'book-open', 'accent'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.read';
-        });
+        })->permission('read');
         $edit_action = (new Action('voyager::generic.edit', 'pencil', 'yellow'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.edit';
-        });
+        })->permission('edit');
         $delete_action = (new Action('voyager::generic.delete', 'trash', 'red'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.delete';
@@ -186,7 +186,8 @@ class VoyagerServiceProvider extends ServiceProvider
         ->confirm('voyager::bread.delete_type_confirm', null, 'red')
         ->success('voyager::bread.delete_type_success', null, 'green')
         ->displayDeletable()
-        ->reloadAfter();
+        ->reloadAfter()
+        ->permission('delete');
 
         $restore_action = (new Action('voyager::generic.restore', 'trash', 'yellow'))
         ->route(function ($bread) {
@@ -196,7 +197,8 @@ class VoyagerServiceProvider extends ServiceProvider
         ->confirm('voyager::bread.restore_type_confirm', null, 'yellow')
         ->success('voyager::bread.restore_type_success', null, 'green')
         ->displayRestorable()
-        ->reloadAfter();
+        ->reloadAfter()
+        ->permission('restore');
 
         $this->breadmanager->addAction(
             $read_action,
