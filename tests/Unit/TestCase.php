@@ -46,8 +46,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function setupVoyager(): void
     {
         $this->artisan('voyager:install');
-        $this->artisan('voyager:plugins voyager-admin/voyager-testbench-plugin@ThemePlugin --enable');
-        $this->artisan('voyager:plugins voyager-admin/voyager-testbench-plugin@GenericPlugin --enable');
+        $this->artisan('voyager:plugins', [
+            'name'      => 'voyager-admin/voyager-testbench-plugin@GenericPlugin',
+            '--enable'  => true,
+        ]);
+        $this->artisan('voyager:plugins', [
+            'name'      => 'voyager-admin/voyager-testbench-plugin@ThemePlugin',
+            '--enable'  => true,
+        ]);
     }
 
     protected function getPackageProviders($app)
