@@ -25,7 +25,8 @@
         "intervention/image": "^2.5"
     },
     "require-dev": {
-        "orchestra/testbench-dusk": ">=5.0"
+        "orchestra/testbench-dusk": ">=5.0",
+        "voyager-admin/voyager-testbench-plugin": "^1.0"
     },
     "autoload": {
         "psr-4": {
