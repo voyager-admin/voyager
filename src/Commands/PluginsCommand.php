@@ -34,10 +34,12 @@ class PluginsCommand extends Command
         $name = $this->argument('plugin');
         $plugin = null;
         if (!is_null($name)) {
-            $plugin = $pluginmanager->getAllPlugins(false)->where('repository', $name);
+            $plugin = $pluginmanager->getAllPlugins(false)->filter(function ($plugin) use ($name) {
+                return $plugin->repository == $name || $plugin->identifier == $name;
+            });
             if ($plugin->count() > 1) {
                 // TODO: Test this
-                $selected = $this->choice('Package "'.$name.'" contains multiple plugins. Please select the plugin you want to use:', $plugin->pluck('name'), 0);
+                $selected = $this->choice('Package "'.$name.'" contains multiple plugins. Please select the plugin you want to use:', $plugin->pluck('name')->toArray(), 0);
                 $plugin = $plugin->where('name', $selected)->first();
             } else {
                 $plugin = $plugin->first();
@@ -82,7 +84,7 @@ class PluginsCommand extends Command
             $plugins = $pluginmanager->getAllPlugins(false);
             $selected = $this->choice('The following plugins are registered. Select one to get details', $pluginmanager->getAllPlugins(false)->pluck('name')->toArray());
             $this->call('voyager:plugins', [
-                'plugin' => $pluginmanager->getAllPlugins(false)->where('name', $selected)->first()->repository,
+                'plugin' => $pluginmanager->getAllPlugins(false)->where('name', $selected)->first()->identifier,
             ]);
 
             return;

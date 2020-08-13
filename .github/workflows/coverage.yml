@@ -33,7 +33,7 @@ jobs:
 
       # Install PHP dependencies
       - name: Install Composer dependencies
-        run: composer require "illuminate/support:7.*" "emptynick/voyager-user-widget"
+        run: composer require "illuminate/support:7.*" "voyager-admin/voyager-testbench-plugin"
       
       # Make sure the proper Chromedriver for Dusk is installed
       - name: Install Chromedriver for Dusk

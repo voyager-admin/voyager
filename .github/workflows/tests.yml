@@ -50,7 +50,7 @@ jobs:
 
       # Install PHP dependencies
       - name: Install Composer dependencies
-        run: composer require "illuminate/support:${{ matrix.laravel }}" "emptynick/voyager-user-widget"
+        run: composer require "illuminate/support:${{ matrix.laravel }}" "voyager-admin/voyager-testbench-plugin"
 
       # Make sure the proper Chromedriver for Dusk is installed
       - name: Install Chromedriver for Dusk

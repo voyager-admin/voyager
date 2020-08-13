@@ -41,7 +41,8 @@ class TestCase extends DuskTestCase
     protected function setupVoyager(): void
     {
         $this->artisan('voyager:install');
-        $this->artisan('voyager:plugins emptynick/voyager-user-widget --enable');
+        $this->artisan('voyager:plugins voyager-admin/voyager-testbench-plugin@ThemePlugin --enable');
+        $this->artisan('voyager:plugins voyager-admin/voyager-testbench-plugin@GenericPlugin --enable');
     }
 
     protected function getPackageProviders($app)
