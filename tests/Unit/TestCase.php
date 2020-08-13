@@ -47,11 +47,11 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         $this->artisan('voyager:install');
         $this->artisan('voyager:plugins', [
-            'name'      => 'voyager-admin/voyager-testbench-plugin@GenericPlugin',
+            'plugin'    => 'voyager-admin/voyager-testbench-plugin@GenericPlugin',
             '--enable'  => true,
         ]);
         $this->artisan('voyager:plugins', [
-            'name'      => 'voyager-admin/voyager-testbench-plugin@ThemePlugin',
+            'plugin'    => 'voyager-admin/voyager-testbench-plugin@ThemePlugin',
             '--enable'  => true,
         ]);
     }
