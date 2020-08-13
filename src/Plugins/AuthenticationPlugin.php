@@ -86,24 +86,4 @@ class AuthenticationPlugin implements AuthContract
     {
         return view('voyager::auth.forgot_password');
     }
-
-    public function getSettingsView(): ?View
-    {
-        return null;
-    }
-
-    public function getInstructionsView(): ?View
-    {
-        return null;
-    }
-
-    public function getCssRoutes(): array
-    {
-        return [];
-    }
-
-    public function getJsRoutes(): array
-    {
-        return [];
-    }
 }

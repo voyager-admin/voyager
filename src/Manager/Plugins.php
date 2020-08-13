@@ -150,7 +150,16 @@ class Plugins
 
     public function enablePlugin($identifier, $enable = true)
     {
-        $this->getAllPlugins(false);
+        $found = false;
+        $this->getAllPlugins(false)->each(function ($plugin) use (&$found, $identifier) {
+            if ($plugin->identifier == $identifier) {
+                $found = true;
+            }
+        });
+
+        if (!$found) {
+            throw new \Exception('Plugin with identifier "'.$identifier.'" is not registered and can not be enabled/disabled!');
+        }
 
         $plugins = collect(VoyagerFacade::getJson(File::get($this->getPath()), []));
         if (!$plugins->contains('identifier', $identifier)) {

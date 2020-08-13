@@ -26,12 +26,9 @@ class Settings
      */
     public function setPath($path = null)
     {
-        if ($path) {
-            $old_path = $this->path;
+        if (!is_null($path)) {
             $this->path = $path;
-            if ($this->path !== $path) {
-                $this->loadSettings();
-            }
+            $this->loadSettings();
         }
 
         return $this->path;
@@ -44,6 +41,7 @@ class Settings
 
     public function mergeSettings($settings)
     {
+        // TODO: Validate settings
         $this->settings = $this->settings->merge($settings);
     }
 
