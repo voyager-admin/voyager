@@ -16,7 +16,7 @@ class SettingsTest extends TestCase
 
     public function test_can_get_settings_group()
     {
-        $settings = VoyagerFacade::setting('admin');
+        $settings = VoyagerFacade::setting('admin')->toArray();
         $this->assertTrue(
             is_array($settings) && count($settings) > 0
         );
