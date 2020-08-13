@@ -7,6 +7,4 @@ use Illuminate\Support\Collection;
 interface AuthorizationPlugin extends GenericPlugin
 {
     public function authorize($user, $ability, $arguments = []): ?bool;
-
-    public function filterLayouts($bread, $action, $layouts): Collection;
 }

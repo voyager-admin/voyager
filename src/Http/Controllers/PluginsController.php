@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Voyager\Admin\Contracts\Plugins\ThemePlugin;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 
@@ -38,8 +39,8 @@ class PluginsController extends Controller
     {
         return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {
             // This is only used to preview a theme
-            if ($plugin->type == 'theme') {
-                $plugin->src = $plugin->getCssRoutes();
+            if ($plugin->type == 'theme' && $plugin instanceof ThemePlugin) {
+                $plugin->src = $plugin->provideCSS();
             }
 
             return $plugin;

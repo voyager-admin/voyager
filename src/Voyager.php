@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Voyager\Admin\Contracts\Plugins\RegistersWidgetFilter;
+use Voyager\Admin\Contracts\Plugins\Features\WidgetFilter;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
@@ -50,22 +50,6 @@ class Voyager
             app(PluginManager::class),
             app(SettingManager::class)
         );
-    }
-
-    /**
-     * Register admin area routes for all Voyager plugins.
-     */
-    public function pluginRoutes()
-    {
-        $this->pluginmanager->registerRoutes();
-    }
-
-    /**
-     * Register admin area routes for all Voyager plugins.
-     */
-    public function pluginFrontendRoutes()
-    {
-        $this->pluginmanager->registerFrontendRoutes();
     }
 
     /**
@@ -266,7 +250,7 @@ class Voyager
         }));
 
         $this->pluginmanager->getAllPlugins()->each(function ($plugin) use (&$widgets) {
-            if ($plugin instanceof RegistersWidgetFilter) {
+            if ($plugin instanceof WidgetFilter) {
                 $widgets = $plugin->filterWidgets($widgets);
             }
         });

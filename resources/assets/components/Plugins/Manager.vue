@@ -232,13 +232,11 @@ export default {
             });
         },
         previewTheme: function (src, name) {
-            src.forEach(function (s) {
-                var file = document.createElement('link');
-                file.setAttribute('rel', 'stylesheet');
-                file.setAttribute('type', 'text/css');
-                file.setAttribute('href', s);
-                document.getElementsByTagName('head')[0].appendChild(file);
-            })
+            var file = document.createElement('link');
+            file.setAttribute('rel', 'stylesheet');
+            file.setAttribute('type', 'text/css');
+            file.setAttribute('href', src);
+            document.getElementsByTagName('head')[0].appendChild(file);
 
             new this.$notification(this.__('voyager::plugins.preview_theme', {name: name})).timeout().show();
         },

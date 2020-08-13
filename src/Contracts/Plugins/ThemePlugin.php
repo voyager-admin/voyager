@@ -2,6 +2,9 @@
 
 namespace Voyager\Admin\Contracts\Plugins;
 
-interface ThemePlugin extends GenericPlugin
+use Voyager\Admin\Contracts\Plugins\Features\ProvideCSS;
+use Voyager\Admin\Contracts\Plugins\Features\ProvidePublicRoutes;
+
+interface ThemePlugin extends GenericPlugin, ProvideCSS, ProvidePublicRoutes
 {
 }

@@ -74,6 +74,7 @@ return [
     'none'                      => 'None',
     'no_group'                  => 'No group',
     'no_results'                => 'No results',
+    'no_results_for_query'      => 'No results for your query 😢',
     'ok'                        => 'OK',
     'only'                      => 'Only',
     'options'                   => 'Options',

@@ -44,6 +44,7 @@ export default {
             searchResults: {},
             query: '',
             loading: false,
+            no_result_notification: null,
         };
     },
     watch: {
@@ -90,10 +91,15 @@ export default {
             })
             .then(function (response) {
                 vm.searchResults = response.data;
+                if (vm.no_result_notification !== null) {
+                    vm.no_result_notification.close();
+                    vm.no_result_notification = null;
+                }
                 if (Object.keys(vm.searchResults).length > 0) {
                     vm.$refs.results_dd.open();
                 } else {
                     vm.$refs.results_dd.close();
+                    vm.no_result_notification = new vm.$notification(vm.__('voyager::generic.no_results_for_query')).color('accent').timeout(3500).show();
                 }
             })
             .catch(function (errors) {

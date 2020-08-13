@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
-use Voyager\Admin\Contracts\Plugins\RegistersLayoutFilter;
+use Voyager\Admin\Contracts\Plugins\Features\LayoutFilter;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Plugins\AuthenticationPlugin;
@@ -89,7 +89,7 @@ abstract class Controller extends BaseController
         $layouts = $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', $action == 'browse' ? 'list' : 'view');
 
         $this->pluginmanager->getAllPlugins()->each(function ($plugin) use ($bread, $action, &$layouts) {
-            if ($plugin instanceof RegistersLayoutFilter) {
+            if ($plugin instanceof LayoutFilter) {
                 $layouts = $plugin->filterLayouts($bread, $action, $layouts);
             }
         });

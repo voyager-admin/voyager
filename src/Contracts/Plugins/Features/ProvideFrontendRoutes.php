@@ -1,6 +1,6 @@
 <?php
 
-namespace Voyager\Admin\Contracts\Plugins;
+namespace Voyager\Admin\Contracts\Plugins\Features;
 
 /**
  * An interface for plugins that want to expand their functionality to frontend route space.
@@ -11,12 +11,12 @@ namespace Voyager\Admin\Contracts\Plugins;
  *
  * @package Voyager\Admin\Contracts\Plugins
  */
-interface HasFrontendFeatures
+interface ProvideFrontendRoutes
 {
     /**
      * Registers the plugin's frontend routes.
      *
      * @return void
      */
-    public function registerFrontendRoutes();
+    public function provideFrontendRoutes();
 }

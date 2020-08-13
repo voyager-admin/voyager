@@ -117,9 +117,7 @@ class VoyagerServiceProvider extends ServiceProvider
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
                 $this->registerBreadRoutes($breads);
             });
-            VoyagerFacade::pluginRoutes();
         });
-        VoyagerFacade::pluginFrontendRoutes();
     }
 
     /**
@@ -371,7 +369,6 @@ class VoyagerServiceProvider extends ServiceProvider
         });
 
         $this->settingmanager->loadSettings();
-        $this->pluginmanager->launchPlugins();
 
         $this->commands(InstallCommand::class);
         $this->commands(PluginsCommand::class);

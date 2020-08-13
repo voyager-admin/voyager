@@ -19,7 +19,7 @@ Vue.prototype.$notify = new Vue({
         removeNotification: function(obj, result, message = null) {
             if (obj._prompt == true) {
                 obj.resolve((result == true ? message : false));
-            } else {
+            } else if (result !== null) {
                 obj.resolve(result);
             }
             this.notifications.splice(this.notifications.indexOf(obj), 1);
@@ -111,6 +111,11 @@ Vue.prototype.$notification = class Notification {
                 color: 'red',
             });
         }
+        if (!this._prompt && !this._confirm) {
+            Vue.prototype.$notify.addNotification(vm);
+
+            return this;
+        }
 
         return new Promise(function(resolve, reject) {
             Vue.prototype.$notify.addNotification(vm)
@@ -118,6 +123,11 @@ Vue.prototype.$notification = class Notification {
                 resolve(result, message);
             });
         });
+    }
+
+    close() {
+        console.log('Close');
+        Vue.prototype.$notify.removeNotification(vm, null);
     }
 
     uuid() {
