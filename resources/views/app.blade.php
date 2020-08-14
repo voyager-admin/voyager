@@ -11,7 +11,7 @@
     <title>@yield('page-title') - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
-        @if ($plugin instanceof Voyager\Admin\Contracts\Plugins\Features\ProvideCSS)
+        @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\CSS)
             <link href="{{ $plugin->provideCSS() }}" rel="stylesheet">
         @endif
     @endforeach
@@ -41,7 +41,7 @@
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
-    @if ($plugin instanceof Voyager\Admin\Contracts\Plugins\Features\ProvideJS)
+    @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\JS)
         <script src="{{ $plugin->provideJS() }}" type="text/javascript"></script>
     @endif
 @endforeach
