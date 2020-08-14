@@ -89,9 +89,13 @@ export default {
                 // Toggle darkmode when cookie is set or dark-mode is the prefered color scheme
                 var dark_mode = vm.getCookie('dark-mode');
                 if (window.matchMedia && dark_mode == '') {
-                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        dark_mode = 'true';
+                    var dark = window.matchMedia('(prefers-color-scheme: dark)');
+                    if (dark.matches) {
+                        vm.toggleDarkMode(true);
                     }
+                    dark.addListener(function (e) {
+                        vm.toggleDarkMode(e.matches);
+                    });
                 }
                 if (dark_mode == 'true') {
                     vm.toggleDarkMode(true);
