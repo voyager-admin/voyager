@@ -10,7 +10,7 @@
     <title>{{ __('voyager::auth.login') }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
-        @if ($plugin instanceof Voyager\Admin\Contracts\Plugins\Features\ProvideCSS)
+        @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\CSS)
             <link href="{{ $plugin->provideCSS() }}" rel="stylesheet">
         @endif
     @endforeach
