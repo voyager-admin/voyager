@@ -7,6 +7,7 @@ return [
     'error_changing_plugin'         => 'There was an error changing the plugin:',
     'no_plugins_installed_title'    => 'No plugins installed 😞',
     'no_plugins_installed_hint'     => 'Go ahead and install one',
+    'no_plugins_match_search'       => 'No plugins match your search',
     'plugins'                       => 'Plugins',
     'plugin_installed'              => 'Already installed!',
     'preview_theme'                 => 'You see a preview of the theme ":name".<br>It will disappear when you reload the page.',

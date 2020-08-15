@@ -28,6 +28,9 @@
                             {{ __('voyager::plugins.types.'+type) }}
                         </badge>
                     </div>
+                    <div v-if="filteredAvailablePlugins.length == 0" class="w-full text-center">
+                        <h4>{{ __('voyager::plugins.no_plugins_match_search') }}</h4>
+                    </div>
                     <div v-for="(plugin, i) in filteredAvailablePlugins.slice(availableStart, availableEnd)" :key="'plugin-'+i">
                         <div class="flex">
                             <div class="w-3/5">
@@ -78,7 +81,10 @@
             </badge>
         </div>
         <div v-if="installed.plugins.length > 0">
-            <div class="voyager-table striped" :class="[loading ? 'loading' : '']">
+            <div v-if="filteredInstalledPlugins.length == 0" class="w-full text-center">
+                <h3>{{ __('voyager::plugins.no_plugins_match_search') }}</h3>
+            </div>
+            <div class="voyager-table striped" :class="[loading ? 'loading' : '']" v-else>
                 <table id="bread-builder-browse">
                     <thead>
                         <tr>
