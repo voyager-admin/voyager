@@ -27,6 +27,7 @@ class Voyager
     protected $breadmanager;
     protected $pluginmanager;
     protected $settingmanager;
+    protected $translations = [];
 
     public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager, SettingManager $settingmanager)
     {
@@ -123,7 +124,18 @@ class Voyager
     {
         return collect(['auth', 'bread', 'builder', 'formfields', 'generic', 'media', 'plugins', 'settings', 'validation'])->flatMap(function ($file) {
             return ['voyager::'.$file => trans('voyager::'.$file)];
-        })->toJson();
+        })->merge($this->translations)->toJson();
+    }
+
+    /**
+     * Add translations to the Voyager namespace.
+     *
+     * @param string $namespace   The namespace.
+     * @param array $translations The translationss.
+     */
+    public function addTranslations(string $namespace, array $translations)
+    {
+        $this->translations['voyager::'.$namespace] = $translations;
     }
 
     /**

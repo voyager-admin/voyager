@@ -46,9 +46,6 @@
 
 <script>
 export default {
-    props: ['options', 'column', 'show'],
-    mounted: function () {
-        console.log(this.__('voyager::generic.inputmodes'));
-    }
+    props: ['options', 'column', 'show']
 };
 </script>

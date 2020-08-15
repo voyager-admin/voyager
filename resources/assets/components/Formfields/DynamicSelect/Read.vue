@@ -20,7 +20,6 @@ export default {
             try {
                 var json = JSON.parse(this.data);
                 if (this.isArray(json)) {
-                    console.log(json);
                     return json;
                 }
             } catch { }

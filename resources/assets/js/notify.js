@@ -126,7 +126,6 @@ Vue.prototype.$notification = class Notification {
     }
 
     close() {
-        console.log('Close');
         Vue.prototype.$notify.removeNotification(vm, null);
     }
 
