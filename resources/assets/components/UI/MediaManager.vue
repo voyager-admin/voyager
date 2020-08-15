@@ -30,13 +30,13 @@
             </div>
         </div>
         <div class="w-full mb-2 rounded-md breadcrumbs">
-            <div class="button-group">
-                <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="inline-block items-center">
-                    <button class="m-2" @click.prevent.stop="openPath(path, i)">
+            <div class="flex">
+                <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="h-full flex items-center my-2 pl-2 space-x-2">
+                    <button @click.prevent.stop="openPath(path, i)" class="focus:outline-none">
                         <icon v-if="path == ''" icon="home"></icon>
                         <span v-else>{{ path }}</span>
                     </button>
-                    <button class="cursor-default px-0 py-0" v-if="pathSegments.length !== (i+1)">
+                    <button class="cursor-default focus:outline-none" v-if="pathSegments.length !== (i+1)">
                         /
                     </button>
                 </span>
@@ -568,7 +568,12 @@ export default {
                     })
                     .then(function (response) {
                         new vm.$notification(vm.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
-                        // TODO: Open newly created folder?
+                        vm.openFile({
+                            file: {
+                                type: 'directory',
+                                name: result,
+                            }
+                        });
                     })
                     .catch(function (errors) {
                         // TODO: ...
