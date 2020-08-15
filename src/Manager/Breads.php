@@ -389,7 +389,6 @@ class Breads
      *
      * @param Action $action One or more action instances.
      */
-    
     public function addAction()
     {
         if (is_null($this->actions)) {
@@ -399,6 +398,16 @@ class Breads
         foreach (func_get_args() as $action) {
             $this->actions->push($action);
         }
+    }
+
+    /**
+     * Manipulate all actions.
+     *
+     * @param callable $callback A callback which gets all actions and returns a manipulated version of them.
+     */
+    public function manipulateActions(callable $callback)
+    {
+        $this->actions = $callback($this->actions);
     }
 
     /**
