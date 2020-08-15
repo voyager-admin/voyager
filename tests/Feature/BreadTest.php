@@ -58,7 +58,8 @@ class BreadTest extends TestCase
             'order'       => 'name',
             'direction'   => 'asc',
             'softdeleted' => 'show',
-            'locale'      => 'en'
+            'locale'      => 'en',
+            'filter'      => null,
         ])->assertStatus(200);
     }
 
