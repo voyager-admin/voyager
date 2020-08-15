@@ -3,9 +3,13 @@
 @import "../mixins/text-color";
 
 .dark .button {
+    @include bg-color(button-bg-color-dark, 'colors.gray.800');
+    @include border-color(button-border-color-dark, 'colors.gray.700');
+    @include text-color(button-text-color-dark, 'colors.gray.100');
     &.accent {
         @include bg-color(accent-bg-color-dark, 'colors.blue.500');
         @include border-color(accent-border-color-dark, 'colors.transparent');
+        @apply text-white #{!important};
         &:hover {
             @include bg-color(accent-hover-color-dark, 'colors.blue.600');
         }
@@ -23,7 +27,10 @@
 .button {
     @apply whitespace-no-wrap inline-flex items-center mx-1 px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md cursor-pointer;
     @apply transition duration-150 ease-in-out;
-    @apply text-white #{!important};
+
+    @include bg-color(button-bg-color, 'colors.gray.50');
+    @include border-color(button-border-color, 'colors.gray.300');
+    @include text-color(button-text-color, 'colors.gray.600');
 
     &:focus {
         @apply outline-none;
@@ -44,6 +51,8 @@
     @each $color in $colors {
         &.#{$color} {
             @apply bg-#{$color}-500;
+            @apply text-white #{!important};
+            @apply border-none #{!important};
             &:hover {
                 @apply bg-#{$color}-600;
             }
@@ -61,6 +70,7 @@
     &.accent {
         @include bg-color(accent-bg-color, 'colors.blue.500');
         @include border-color(accent-border-color, 'colors.transparent');
+        @apply text-white #{!important};
         &:hover {
             @include bg-color(accent-hover-color, 'colors.blue.600');
         }
@@ -71,22 +81,6 @@
 
         &.active {
             @include bg-color(accent-active-color, 'colors.blue.800');
-        }
-    }
-
-    // TODO: Add this to tailwind palette
-    &.dark-gray {
-        @apply bg-gray-750;
-        &:hover {
-            @apply bg-gray-800;
-        }
-
-        &:focus {
-            @apply bg-gray-850;
-        }
-
-        &.active {
-            @apply bg-gray-900;
         }
     }
 
