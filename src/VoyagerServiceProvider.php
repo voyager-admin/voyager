@@ -147,9 +147,6 @@ class VoyagerServiceProvider extends ServiceProvider
                 Route::get('/add', ['uses' => $controller.'@add', 'as' => 'add', 'bread' => $bread]);
                 Route::post('/', ['uses' => $controller.'@store', 'as' => 'store', 'bread' => $bread]);
 
-                
-                Route::post('/download', ['uses' => $controller.'@download', 'as' => 'download', 'bread' => $bread]);
-
                 // Delete
                 Route::delete('/', ['uses' => $controller.'@delete', 'as' => 'delete', 'bread' => $bread]);
                 Route::patch('/', ['uses' => $controller.'@restore', 'as' => 'restore', 'bread' => $bread]);

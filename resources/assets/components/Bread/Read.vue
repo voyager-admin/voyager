@@ -7,10 +7,6 @@
                         <icon icon="chevron-left"></icon>
                         <span>{{ __('voyager::generic.back') }}</span>
                     </a>
-                    <a class="button yellow" :href="route('voyager.'+translate(bread.slug, true)+'.edit', primary)">
-                        <icon icon="pencil"></icon>
-                        <span>{{ __('voyager::generic.edit') }}</span>
-                    </a>
                     <locale-picker v-if="$language.localePicker" :small="false"></locale-picker>
                 </div>
             </div>

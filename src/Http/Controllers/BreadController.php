@@ -275,24 +275,6 @@ class BreadController extends Controller
         ];
     }
 
-    public function download(Request $request)
-    {
-        if ($request->has('primary')) {
-            $ids = $request->get('primary');
-            if (!is_array($ids)) {
-                $ids = [$ids];
-            }
-
-            $string = '';
-
-            foreach ($ids as $id) {
-                $string .= $id.', ';
-            }
-
-            return $string;
-        }
-    }
-
     public function relationship(Request $request)
     {
         // TODO: Validate that the method exists in edit/add layout
