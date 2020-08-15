@@ -1,39 +1,54 @@
 <template>
-    <div class="w-full" v-click-outside="close">
-        <dropdown ref="results_dd" pos="right" :width="'full'" class="w-full" dont-open-on-click>
+    <div class="w-full">
+        <modal ref="results_modal" :title="placeholder" icon="search">
             <div>
-                <div class="grid p-2" :class="gridClasses" v-if="!loading">
-                    <div v-for="(bread, table) in searchResults" :key="'bread-results-'+table">
-                        <h6 class="ml-3 mt-3">{{ translate($store.getBreadByTable(table).name_plural, true) }}</h6>
-                        <a v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="link rounded-md" :href="getResultUrl(table, key)">
-                            {{ translate(result, true) }}
-                        </a>
+                <input
+                    autocomplete="off"
+                    type="text"
+                    class="input w-full mb-2"
+                    @dblclick="query = ''"
+                    @keydown.esc="query = ''"
+                    v-model="query" @input="search" :placeholder="placeholder"
+                    ref="search_input"
+                >
+                <div v-if="query === null || query === ''">
+                    <h5>{{ __('voyager::generic.enter_query') }}</h5>
+                </div>
+                <div v-else-if="loading">
+                    <h5>{{ __('voyager::generic.loading_please_wait') }}</h5>
+                </div>
+                <div v-else-if="Object.keys(searchResults).length == 0">
+                    <h5>{{ __('voyager::generic.no_results') }}</h5>
+                </div>
+                <div class="grid" :class="gridClasses" v-else>
+                    <div v-for="(bread, table) in searchResults" :key="'bread-results-'+table" class="w-full">
+                        <h5>{{ translate($store.getBreadByTable(table).name_plural, true) }}</h5>
+                        <p v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key">
+                            <a :href="getResultUrl(table, key)">
+                                {{ translate(result, true) }}
+                            </a>
+                        </p>
                         <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="link underline text-sm rounded-md">
                             {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
                         </a>
                     </div>
                 </div>
-                <div v-if="loading" class="m-4">
-                    <h6>{{ __('voyager::generic.loading_please_wait') }}</h6>
-                </div>
             </div>
-            <div slot="opener">
-                <input
-                    autocomplete="off"
-                    type="text"
-                    class="py-2 hidden sm:block text-lg appearance-none bg-transparent leading-normal w-full focus:outline-none"
-                    @dblclick="query = ''"
-                    @keydown.esc="query = ''"
-                    v-model="query" @input="search" :placeholder="placeholder"
-                >
-                <input
-                    autocomplete="off"
-                    type="text"
-                    class="py-2 block sm:hidden text-lg appearance-none bg-transparent leading-normal w-full focus:outline-none"
-                    v-model="query" @input="search" :placeholder="mobilePlaceholder"
-                >
-            </div>
-        </dropdown>
+        </modal>
+        <input
+            autocomplete="off"
+            type="text"
+            class="py-2 hidden sm:block text-lg appearance-none bg-transparent leading-normal w-full focus:outline-none"
+            @dblclick="query = ''"
+            @keydown.esc="query = ''"
+            v-model="query" @input="search" :placeholder="placeholder"
+        >
+        <input
+            autocomplete="off"
+            type="text"
+            class="py-2 block sm:hidden text-lg appearance-none bg-transparent leading-normal w-full focus:outline-none"
+            v-model="query" @input="search" :placeholder="mobilePlaceholder"
+        >
     </div>
 </template>
 <script>
@@ -49,10 +64,13 @@ export default {
     },
     watch: {
         query: function (query) {
-            if (query === '' || query === null) {
-                this.$refs.results_dd.close();
-            }
-            this.search(query);
+            var vm = this;
+            vm.loading = true;
+            vm.$refs.results_modal.open();
+            Vue.nextTick(function () {
+                vm.$refs.search_input.focus();
+            });
+            vm.search(query);
         }
     },
     computed: {
@@ -73,10 +91,6 @@ export default {
 
             return val;
         },
-        close: function () {
-            this.$refs.results_dd.close();
-            this.query = '';
-        },
         search: debounce(function (e) {
             var vm = this;
             vm.searchResults = [];
@@ -91,16 +105,6 @@ export default {
             })
             .then(function (response) {
                 vm.searchResults = response.data;
-                if (vm.no_result_notification !== null) {
-                    vm.no_result_notification.close();
-                    vm.no_result_notification = null;
-                }
-                if (Object.keys(vm.searchResults).length > 0) {
-                    vm.$refs.results_dd.open();
-                } else {
-                    vm.$refs.results_dd.close();
-                    vm.no_result_notification = new vm.$notification(vm.__('voyager::generic.no_results_for_query')).color('accent').timeout(3500).show();
-                }
             })
             .catch(function (errors) {
                 // TODO: ...
