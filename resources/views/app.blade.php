@@ -22,7 +22,7 @@
         <div key="loader">
             <fade-transition :duration="500">
                 <div class="loader" v-if="$store.pageLoading">
-                    <icon icon="helm" size="auto" class="block icon rotating-cw"></icon>
+                    <icon icon="helm" size="auto" class="block icon animate-spin-slow"></icon>
                 </div>
             </fade-transition>
         </div>

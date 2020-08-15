@@ -5,7 +5,7 @@
                 <div class="flex items-center">
                     <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
                     <button class="button accent" @click="saveSettings">
-                        <icon icon="refresh" class="mr-0 md:mr-1 rotating-ccw" :size="4" v-if="savingSettings" />
+                        <icon icon="refresh" class="mr-0 md:mr-1 animate-spin-reverse" :size="4" v-if="savingSettings" />
                         <span>{{ __('voyager::generic.save') }}</span>
                     </button>
                     <dropdown ref="formfield_dd" :width="88">

@@ -2,7 +2,7 @@
     <card :title="__('voyager::generic.breads')" icon="bread">
         <div slot="actions">
             <button class="button green" @click.stop="loadBreads">
-                <icon icon="refresh" class="rotating-ccw" :size="4" v-if="loading" />
+                <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="loading" />
                 <span>{{ __('voyager::builder.reload_breads') }}</span>
             </button>
         </div>
@@ -38,7 +38,7 @@
                                     </span>
                                 </a>
                                 <button class="button green" @click="backupBread(table)">
-                                    <icon icon="clock" :class="[backingUp ? 'rotating-ccw' : '']" :size="4" />
+                                    <icon icon="clock" :class="[backingUp ? 'animate-spin-reverse' : '']" :size="4" />
                                     <span v-if="getBackupsForTable(table).length > 0">
                                         {{ __('voyager::generic.backup') }} ({{ getBackupsForTable(table).length }})
                                     </span>
@@ -72,7 +72,7 @@
                                     </span>
                                 </a>
                                 <button class="button red" @click="deleteBread(table)">
-                                    <icon :icon="deleting ? 'refresh' : 'trash'" :class="[deleting ? 'rotating-ccw' : '']" :size="4" />
+                                    <icon :icon="deleting ? 'refresh' : 'trash'" :class="[deleting ? 'animate-spin-reverse' : '']" :size="4" />
                                     <span>
                                         {{ __('voyager::generic.delete') }}
                                     </span>

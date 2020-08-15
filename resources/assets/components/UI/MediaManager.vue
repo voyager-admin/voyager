@@ -12,7 +12,7 @@
                     <span>{{ __('voyager::media.select_upload_files') }}</span>
                 </button>
                 <button class="button accent small" @click="loadFiles()">
-                    <icon icon="refresh" :class="loadingFiles ? 'rotating-ccw' : null"></icon>
+                    <icon icon="refresh" :class="loadingFiles ? 'animate-spin-reverse' : null"></icon>
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <button class="button accent small" @click="createFolder()">
@@ -49,7 +49,7 @@
                         <h4>{{ dragging ? dropText : dragText }}</h4>
                     </div>
                     <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading pointer-events-none" v-if="loadingFiles">
-                        <icon icon="helm" :size="32" class="block rotating-cw"></icon>
+                        <icon icon="helm" :size="32" class="block animate-spin-slow"></icon>
                     </div>
                     <div v-if="combinedFiles.length == 0" class="h-64"></div>
                     <div

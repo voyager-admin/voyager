@@ -57,7 +57,7 @@
                     class="w-full h-1.5 overflow-hidden"
                 >
                     <div
-                        class="h-full origin-left scale-x rounded"
+                        class="h-full origin-left animate-scale-x rounded"
                         :class="`bg-${notification._color}-500`"
                         :style="getProgressStyle(notification)"
                         :data-uuid="notification._uuid"
@@ -99,7 +99,7 @@ export default {
             }
         },
         timeout: function (e) {
-            if (e.animationName.startsWith('scale-x')) {
+            if (e.animationName.startsWith('animate-scale-x')) {
                 var uuid = e.target.dataset.uuid;
                 var notification = this.$notify.notifications.where('_uuid', uuid).first();
                 if (notification._timeout !== null) {

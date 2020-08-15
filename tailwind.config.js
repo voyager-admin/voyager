@@ -62,28 +62,28 @@ module.exports = {
                 '80': '20rem',
             },
             maxHeight: {
-                '0': '0',
-                '1/4': '25%',
-                '1/2': '50%',
                 '3/4': '75%',
                 'full': '100%',
-                '64': '8rem',
                 '128': '16rem',
                 '256': '24rem',
             },
             minHeight: {
-                '1': '0.25rem',
-                '2': '0.5rem',
-                '4': '1rem',
-                '8': '2rem',
-                '16': '4rem',
-                '32': '6rem',
                 '64': '8rem',
             },
-            width: {
-                '72': '18rem',
-                '80': '20rem',
-                '88': '22rem',
+            animation: {
+                'spin-reverse': 'spin-reverse 1s linear infinite',
+                'spin-slow': 'spin 2s linear infinite',
+                'scale-x': 'scale-x linear 1s forwards',
+            },
+            keyframes: {
+                'spin-reverse': {
+                    'from': { transform: 'rotate(360deg)' },
+                    'to': { transform: 'rotate(0deg)' },
+                },
+                'scale-x': {
+                    '0%': { transform: 'scaleX(1)' },
+                    '100%': { transform: 'scaleX(0)' },
+                }
             }
         },
     },

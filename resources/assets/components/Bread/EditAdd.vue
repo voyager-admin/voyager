@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <button class="button green" @click="save">
-                        <icon icon="refresh" class="rotating-ccw" :size="4" v-if="isSaving" />
+                        <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="isSaving" />
                         <span>{{ __('voyager::generic.save') }}</span>
                     </button>
                 </div>
