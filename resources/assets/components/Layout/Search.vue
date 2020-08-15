@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <modal ref="results_modal" :title="placeholder" icon="search">
+        <modal ref="results_modal" :title="placeholder" icon="search" @closed="query = ''">
             <div>
                 <input
                     autocomplete="off"
@@ -64,13 +64,15 @@ export default {
     },
     watch: {
         query: function (query) {
-            var vm = this;
-            vm.loading = true;
-            vm.$refs.results_modal.open();
-            Vue.nextTick(function () {
-                vm.$refs.search_input.focus();
-            });
-            vm.search(query);
+            if (query !== '') {
+                var vm = this;
+                vm.loading = true;
+                vm.$refs.results_modal.open();
+                Vue.nextTick(function () {
+                    vm.$refs.search_input.focus();
+                });
+                vm.search(query);
+            }
         }
     },
     computed: {
