@@ -20,7 +20,12 @@
                 v-on:input="options.default_value = $event" /> 
 
             <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
-            <plus-minus-input :min="1" :max="1000" class="input w-full" v-model="options.rows" /> 
+            <plus-minus-input :min="1" :max="1000" class="input w-full" v-model="options.rows" />
+
+            <label class="label mt-4">{{ __('voyager::generic.inputmode') }}</label>
+            <select class="input w-full" v-model="options.inputmode">
+                <option v-for="(mode, key) in __('voyager::generic.inputmodes')" :key="key" :value="key">{{ mode }}</option>
+            </select>
         </div>
         <div v-else-if="show == 'view'">
             <input
@@ -42,5 +47,8 @@
 <script>
 export default {
     props: ['options', 'column', 'show'],
+    mounted: function () {
+        console.log(this.__('voyager::generic.inputmodes'));
+    }
 };
 </script>

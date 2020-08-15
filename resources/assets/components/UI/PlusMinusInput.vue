@@ -7,6 +7,7 @@
             :max="max"
             :step="step"
             :placeholder="placeholder"
+            :inputmode="inputmode"
             v-model.number="reactiveValue"
         >
         <icon icon="plus-circle" :size="6" class="cursor-pointer" @click.prevent.stop="plus" />
@@ -38,6 +39,15 @@ export default {
         return {
             reactiveValue: this.value
         };
+    },
+    computed: {
+        inputmode: function () {
+            if (this.step % 1 === 0) {
+                return 'numeric';
+            }
+
+            return 'decimal';
+        }
     },
     methods: {
         plus: function () {

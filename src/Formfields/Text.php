@@ -29,6 +29,7 @@ class Text extends Formfield
             'placeholder'   => '',
             'default_value' => '',
             'rows'          => 1,
+            'inputmode'     => 'text',
         ];
     }
 }
