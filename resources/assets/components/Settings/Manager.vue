@@ -28,7 +28,7 @@
                             </a>
                         </div>
                         <div slot="opener">
-                            <button class="button green small">
+                            <button class="button green">
                                 <icon icon="plus" />
                                 <span>
                                     {{ __('voyager::builder.add_formfield') }}
@@ -62,10 +62,10 @@
                                 </div>
                                 <div slot="actions" v-if="editMode">
                                     <div class="flex items-center mt-1 md:mt-0">
-                                        <button class="button green" v-sort-handle>
+                                        <button class="button" v-sort-handle>
                                             <icon icon="selector" :size="4"></icon>
                                         </button>
-                                        <button class="button blue" @click="optionsId = i">
+                                        <button class="button" @click="optionsId = i">
                                             <icon icon="cog" :size="4"></icon>
                                             <span>{{ __('voyager::generic.options') }}</span>
                                         </button>

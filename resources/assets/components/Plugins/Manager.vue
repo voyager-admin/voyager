@@ -59,7 +59,7 @@
                         />
                     </div>
                     <div slot="opener" class="">
-                        <button class="button green">
+                        <button class="button">
                             <icon icon="search"></icon>
                             <span>{{ __('voyager::plugins.search_plugins') }}</span>
                         </button>
@@ -112,7 +112,7 @@
                                 {{ plugin.version || '-' }}
                             </td>
                             <td class="ltr:text-right rtl:text-left">
-                                <a class="button green small" v-if="plugin.website" :href="plugin.website" target="_blank">
+                                <a class="button small" v-if="plugin.website" :href="plugin.website" target="_blank">
                                     <icon icon="globe"></icon>
                                     {{ __('voyager::generic.website') }}
                                 </a>
@@ -136,7 +136,7 @@
                                 <modal v-if="plugin.instructions" :ref="'instructions-modal-'+i" :title="__('voyager::generic.instructions')">
                                     <div v-html="plugin.instructions"></div>
                                 </modal>
-                                <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button purple small" @click="previewTheme(plugin.src, plugin.name)">
+                                <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button small" @click="previewTheme(plugin.src, plugin.name)">
                                     <icon icon="eye"></icon>
                                     <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>

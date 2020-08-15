@@ -84,6 +84,11 @@ module.exports = {
                     '0%': { transform: 'scaleX(1)' },
                     '100%': { transform: 'scaleX(0)' },
                 }
+            },
+            width: {
+                '72': '18rem',
+                '80': '20rem',
+                '88': '22rem',
             }
         },
     },

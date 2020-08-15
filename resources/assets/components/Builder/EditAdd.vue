@@ -107,7 +107,7 @@
                     <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="savingBread" />
                     {{ __('voyager::generic.save') }}
                 </button>
-                <button class="button green" @click="backupBread">
+                <button class="button" @click="backupBread">
                     <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="backingUp" />
                     {{ __('voyager::generic.backup') }}
                 </button>
@@ -148,7 +148,7 @@
                         </a>
                     </div>
                     <div slot="opener">
-                        <button class="button green small ml-2"
+                        <button class="button small ml-2"
                                 :disabled="bread.layouts.length == 0">
                             <icon icon="plus" />
                             <span>
@@ -167,7 +167,7 @@
                         </a>
                     </div>
                     <div slot="opener">
-                        <button class="button green small">
+                        <button class="button small">
                             <icon icon="plus" />
                             <span>
                                 {{ __('voyager::builder.add_layout') }}
@@ -188,7 +188,7 @@
                         </a>
                     </div>
                     <div slot="opener">
-                        <button class="button blue small">
+                        <button class="button small">
                             <icon icon="fire" />
                             <span>
                                 {{ __('voyager::generic.actions') }}
@@ -196,7 +196,7 @@
                         </button>
                     </div>
                 </dropdown>
-                <button class="button blue small" @click="layoutOptionsOpen = true" :disabled="!currentLayout">
+                <button class="button small" @click="layoutOptionsOpen = true" :disabled="!currentLayout">
                     <icon icon="cog" />
                     <span>
                         {{ __('voyager::generic.options') }}

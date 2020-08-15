@@ -86,7 +86,7 @@
                                 :disabled="!$store.getFormfieldByType(formfield.type).canBeTranslated">
                         </td>
                         <td class="inline-flex">
-                            <button class="button blue" @click="$emit('open-options', key)">
+                            <button class="button" @click="$emit('open-options', key)">
                                 <icon icon="cog" />
                                 <span>{{ __('voyager::generic.options') }}</span>
                             </button>

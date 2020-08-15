@@ -1,7 +1,7 @@
 <template>
     <card :title="__('voyager::generic.breads')" icon="bread">
         <div slot="actions">
-            <button class="button green" @click.stop="loadBreads">
+            <button class="button" @click.stop="loadBreads">
                 <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="loading" />
                 <span>{{ __('voyager::builder.reload_breads') }}</span>
             </button>
