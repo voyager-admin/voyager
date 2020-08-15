@@ -18,6 +18,9 @@
             <button class="button accent my-2" v-scroll-to="'ui-inputs'">
                 Inputs
             </button>
+            <button class="button accent my-2" v-scroll-to="'ui-color-picker'">
+                Color picker
+            </button>
             <button class="button accent my-2" v-scroll-to="'ui-datetime'">
                 Date/Time picker
             </button>
@@ -139,7 +142,16 @@
         <input v-for="color in $store.ui.colors" type="text" class="input w-full mb-2" :class="color" :placeholder="__('voyager::generic.color_names.'+color)" :key="'input-'+color">
     </collapsible>
     <collapsible title="Plus/Minus" :opened="false" :title-size="5">
-        <plus-minus-input :value="1.5" :step="0.5" :max="10" />
+        <plus-minus-input :value="1" :step="1.5" :max="10" />
+    </collapsible>
+</collapsible>
+
+<collapsible title="Color picker" id="ui-color-picker">
+    <collapsible title="Colors" id="ui-color-picker">
+        <color-picker :describe="true"></color-picker>
+    </collapsible>
+    <collapsible title="Shades" id="ui-color-picker">
+        <color-picker :describe="true" palette="tailwind-shades"></color-picker>
     </collapsible>
 </collapsible>
 

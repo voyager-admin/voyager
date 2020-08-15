@@ -3,19 +3,23 @@
         <div v-if="palette == 'tailwind-colors'" class="w-full text-center">
             <button
                 v-for="(color, key) in $store.ui.colors" :key="'color-'+key"
+                v-tooltip="__('voyager::generic.color_names.'+color)"
                 @click="$emit('input', color); current = color"
-                class="button mb-2" :class="[color]">
-                <icon :icon="current == color ? 'check-circle' : 'dots-circle-horizontal'"></icon>
+                class="button mb-2" :class="[color]"
+            >
+                <input type="radio" class="input opacity-75" :checked="current == color">
             </button>
         </div>
         <div v-if="palette == 'tailwind-shades'" class="w-full text-center">
-            <div class="grid grid-rows-9 grid-flow-col gap-1">
+            <div class="grid grid-rows-9 gap-1">
                 <div v-for="(shade, i) in [100, 200, 300, 400, 500, 600, 700, 800, 900]" :key="'shade-'+i">
                     <button
-                        v-for="(color, key) in $store.ui.colors" :key="'color-'+key"
+                        v-for="(color, key) in $store.ui.colors.whereNot('accent')" :key="'color-'+key"
+                        v-tooltip="__('voyager::generic.color_names.'+color) + ' ' + shade"
                         @click="$emit('input', color+'-'+shade); current = color+'-'+shade"
-                        class="button mb-2" :class="`bg-${color}-${shade}`">
-                        <icon :icon="current == color+'-'+shade ? 'check-circle' : 'dots-circle-horizontal'"></icon>
+                        class="inline-flex items-center mx-1 px-3 py-1.5 rounded-md focus:outline-none" :class="`bg-${color}-${shade}`"
+                    >
+                        <input type="radio" class="input opacity-75" :checked="current == color+'-'+shade">
                     </button>
                 </div>
             </div>
