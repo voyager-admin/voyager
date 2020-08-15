@@ -114,7 +114,7 @@
                 </div>
             </tabs>
         </card>
-        <collapsible v-if="$store.json_output" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible v-if="$store.json_output" :title="__('voyager::builder.json_output')" closed>
             <textarea class="input w-full" rows="10" v-model="jsonSettings"></textarea>
         </collapsible>
     </div>

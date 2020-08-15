@@ -94,7 +94,7 @@
                                 <icon icon="trash" />
                                 <span>{{ __('voyager::generic.delete') }}</span>
                             </button>
-                            <slide-in :opened="optionsId == key" width="w-full md:w-1/3" v-on:closed="$emit('open-options', null)" class="text-left" :title="__('voyager::generic.options')">
+                            <slide-in :opened="optionsId == key" width="w-1/3" v-on:closed="$emit('open-options', null)" class="text-left" :title="__('voyager::generic.options')">
                                 <locale-picker v-if="$language.localePicker" slot="actions" />
                                 <component
                                     :is="'formfield-'+kebab_case(formfield.type)+'-builder'"
@@ -108,16 +108,11 @@
             </table>
         </div>
 
-        <div class="mt-5">
-            <div class="w-full flex">
-                <div class="w-4/6">
-                    <h5>{{ __('voyager::generic.filter') }}</h5>
-                </div>
-                <div class="w-2/6 text-right">
-                    <button class="button green small" @click.stop="addFilter">
-                        <icon icon="plus" />
-                    </button>
-                </div>
+        <collapsible :title="__('voyager::generic.filter')" closed>
+            <div slot="actions">
+                <button class="button green small" @click.stop="addFilter">
+                    <icon icon="plus" />
+                </button>
             </div>
             <div class="voyager-table">
                 <table>
@@ -179,7 +174,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </collapsible>
     </div>
 </template>
 

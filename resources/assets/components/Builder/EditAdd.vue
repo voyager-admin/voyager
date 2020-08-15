@@ -284,7 +284,7 @@
             </div>
         </collapsible>
 
-        <collapsible ref="bread_json" v-if="$store.json_output" :title="__('voyager::builder.json_output')" :opened="false">
+        <collapsible ref="bread_json" v-if="$store.json_output" :title="__('voyager::builder.json_output')" closed>
             <textarea class="input w-full" rows="10" v-model="jsonBread"></textarea>
         </collapsible>
     </div>
