@@ -116,14 +116,6 @@
                                     <icon icon="globe"></icon>
                                     {{ __('voyager::generic.website') }}
                                 </a>
-                                <button v-if="!plugin.enabled" class="button green small" @click="enablePlugin(plugin, true)">
-                                    <icon icon="play"></icon>
-                                    <span>{{ __('voyager::generic.enable') }}</span>
-                                </button>
-                                <button v-else class="button red small" @click="enablePlugin(plugin, false)">
-                                    <icon icon="stop"></icon>
-                                    <span>{{ __('voyager::generic.disable') }}</span>
-                                </button>
                                 <a v-if="plugin.has_settings && plugin.enabled" :href="route('voyager.plugins.settings', plugin.num)" class="button blue small">
                                     <icon icon="cog"></icon>
                                     <span>{{ __('voyager::generic.settings') }}</span>
@@ -139,6 +131,14 @@
                                 <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button small" @click="previewTheme(plugin.src, plugin.name)">
                                     <icon icon="eye"></icon>
                                     <span>{{ __('voyager::generic.preview') }}</span>
+                                </button>
+                                <button v-if="!plugin.enabled" class="button green small" @click="enablePlugin(plugin, true)">
+                                    <icon icon="play"></icon>
+                                    <span>{{ __('voyager::generic.enable') }}</span>
+                                </button>
+                                <button v-else class="button red small" @click="enablePlugin(plugin, false)">
+                                    <icon icon="stop"></icon>
+                                    <span>{{ __('voyager::generic.disable') }}</span>
                                 </button>
                             </td>
                         </tr>
