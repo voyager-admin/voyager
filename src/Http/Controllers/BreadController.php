@@ -32,7 +32,7 @@ class BreadController extends Controller
         $bread = $this->getBread($request);
         $layout = $this->getLayoutForAction($bread, 'browse');
 
-        extract($request->only(['page', 'perpage', 'global', 'filters', 'order', 'direction', 'softdeleted', 'locale']));
+        extract($request->only(['page', 'perpage', 'global', 'filters', 'order', 'direction', 'softdeleted', 'locale', 'filter']));
 
         $query = $bread->getModel();
         if (!empty($layout->options->scope)) {
@@ -43,6 +43,9 @@ class BreadController extends Controller
         $query = $this->loadSoftDeletesQuery($bread, $layout, $softdeleted, $query);
 
         $total = $query->count();
+
+        // Custom filter
+        $query = $this->applyCustomFilter($bread, $layout, $filter, $query);
 
         // Global search ($global)
         $query = $this->globalSearchQuery($global, $layout, $locale, $query);

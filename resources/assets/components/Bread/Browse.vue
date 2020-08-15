@@ -24,6 +24,17 @@
         </div>
         <div>
             <div v-if="layout !== null">
+                <div class="inline-flex w-full" v-if="layout.options.filter.length > 0">
+                    <badge
+                        v-for="(filter, i) in layout.options.filter"
+                        :key="i"
+                        :color="filter.color"
+                        @click="setFilter(filter)"
+                        :icon="isFilterSelected(filter)"
+                    >
+                        {{ translate(filter.name, true) }}
+                    </badge>
+                </div>
                 <div class="voyager-table" :class="[loading ? 'loading' : '']">
                     <table>
                         <thead>
@@ -175,13 +186,13 @@ export default {
                 direction: 'asc',
                 softdeleted: 'show', // show, hide, only
                 locale: this.$language.locale,
+                filter: null, // The current selected filter
             },
         };
     },
     methods: {
         load: function () {
             var vm = this;
-
             vm.loading = true;
             axios
             .post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.data'), vm.parameters)
@@ -244,7 +255,7 @@ export default {
         pushParameterToUrl: function (params) {
             var url = window.location.href.split('?')[0];
             for (var key in params) {
-                if (params.hasOwnProperty(key) && params[key] !== null) {
+                if (params.hasOwnProperty(key) && params[key] !== null && key !== 'filter') {
                     if (this.isObject(params[key])) {
                         url = this.addParameterToUrl(key, JSON.stringify(params[key]), url);
                     } else {
@@ -253,6 +264,21 @@ export default {
                 }
             }
             this.pushToUrlHistory(url);
+        },
+        setFilter: function (filter) {
+            if (this.isFilterSelected(filter)) {
+                this.parameters.filter = null;
+            } else {
+                this.parameters.filter = filter;
+            }
+        },
+        isFilterSelected: function (filter) {
+            var p_filter = this.parameters.filter;
+            if (filter && p_filter && p_filter.column == filter.column && p_filter.operator == filter.operator && p_filter.value == filter.value) {
+                return 'x';
+            }
+
+            return '';
         }
     },
     computed: {
@@ -316,9 +342,10 @@ export default {
     },
     mounted: function () {
         Vue.prototype.$language.localePicker = true;
+        var vm = this;
 
         var parameter_found = false;
-        for (var param of this.getParametersFromUrl()) {
+        for (var param of vm.getParametersFromUrl()) {
             try {
                 var val = JSON.parse(param[1]);
                 Vue.set(this.parameters, param[0], val);

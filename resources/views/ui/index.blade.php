@@ -62,40 +62,40 @@
 <collapsible title="Buttons" id="ui-buttons">
     <collapsible title="Default" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </button>
     </collapsible>
     <collapsible title="Disabled" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']" disabled>
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </button>
     </collapsible>
     <collapsible title="Small" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </button>
     </collapsible>
     <collapsible title="Large" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'large', color, 'mb-1']">
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </button>
     </collapsible>
     <collapsible title="With Icon" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
             <icon icon="information-circle" class="mr-1"></icon>
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </button>
     </collapsible>
     <collapsible title="Responsive" :title-size="5">
         <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
             <icon icon="information-circle"></icon>
-            <span>@{{ color[0].toUpperCase() + color.slice(1) }}</span>
+            <span>@{{ __('voyager::generic.color_names.'+color) }}</span>
         </button>
     </collapsible>
     <collapsible title="Button group" :title-size="5">
         <div class="button-group">
             <button v-for="color in $store.ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
-                @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
             </button>
         </div>
     </collapsible>
@@ -116,7 +116,7 @@
         <input type="text" class="input w-full" id="labeled-input" placeholder="Placeholder" />
     </collapsible>
     <collapsible title="Colors" :opened="false" :title-size="5">
-        <input v-for="color in $store.ui.colors" type="text" class="input w-full mb-2" :class="color" :placeholder="ucfirst(color)" :key="'input-'+color">
+        <input v-for="color in $store.ui.colors" type="text" class="input w-full mb-2" :class="color" :placeholder="__('voyager::generic.color_names.'+color)" :key="'input-'+color">
     </collapsible>
     <collapsible title="Plus/Minus" :opened="false" :title-size="5">
         <plus-minus-input :value="1.5" :step="0.5" :max="10" />
@@ -189,35 +189,35 @@
 <collapsible title="Badges" id="ui-badges">
     <collapsible title="Default" :title-size="5">
         <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color">
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </badge>
     </collapsible>
     <collapsible title="Large" :title-size="5">
         <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color" large>
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </badge>
     </collapsible>
     <collapsible title="With icon" :title-size="5">
         <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color" icon="x">
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </badge>
     </collapsible>
     <collapsible title="Large with icon" :title-size="5">
         <badge v-for="color in $store.ui.colors" :color="color" :key="'badge-'+color" icon="information-circle" large>
-            @{{ color[0].toUpperCase() + color.slice(1) }}
+            @{{ __('voyager::generic.color_names.'+color) }}
         </badge>
     </collapsible>
 </collapsible>
 
 <collapsible title="Alerts" id="ui-alerts">
     <alert v-for="color in $store.ui.colors" :color="color" :key="'alert-'+color" class="mb-3">
-        <span slot="title">@{{ color[0].toUpperCase() + color.slice(1) }}</span>
+        <span slot="title">@{{ __('voyager::generic.color_names.'+color) }}</span>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.</p>
     </alert>
 </collapsible>
 
 <collapsible title="Notifications" id="ui-notifications">
-    <collapsible v-for="color in $store.ui.colors" :key="'notification_'+color" :title="ucfirst(color)" :title-size="5">
+    <collapsible v-for="color in $store.ui.colors" :key="'notification_'+color" :title="__('voyager::generic.color_names.'+color)" :title-size="5">
         <div class="inline-flex flex-wrap">
             <button @click="new $notification($store.ui.lorem).title(ucfirst(color)).color(color).show()" class="button mb-1" :class="color">Message and title</button>
             <button @click="new $notification($store.ui.lorem).color(color).show()" class="button mb-1" :class="color">Message only</button>

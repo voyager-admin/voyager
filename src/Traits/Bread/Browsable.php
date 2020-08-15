@@ -69,6 +69,18 @@ trait Browsable
         return $query;
     }
 
+    public function applyCustomFilter($bread, $layout, $filter, $query)
+    {
+        if (!is_null($filter) && is_array($filter)) {
+            // Validate filter exists in layout
+            if (collect($layout->options->filter)->where('column', $filter['column'])->where('operator', $filter['operator'])->where('value', $filter['value'])->count() > 0) {
+                $query = $query->where($filter['column'], $filter['operator'], $filter['value']);
+            }
+        }
+
+        return $query;
+    }
+
     public function orderQuery($layout, $direction, $order, $query, $locale)
     {
         if (!empty($direction) && !empty($order)) {
