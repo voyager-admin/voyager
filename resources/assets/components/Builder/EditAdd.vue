@@ -3,11 +3,11 @@
         <collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
             <div slot="actions">
                 <div class="flex items-center">
-                    <button class="button blue" @click.stop="toggleFocusMode">
+                    <button class="button" @click.stop="toggleFocusMode">
                         <icon icon="arrows-expand" :size="4" />
                         <span>{{ __('voyager::generic.focus') }}</span>
                     </button>
-                    <button class="button green" @click="loadProperties">
+                    <button class="button" @click="loadProperties">
                         <icon icon="refresh" :size="4" :class="loadingProps ? 'rotating-ccw' : ''" />
                         <span>{{ __('voyager::builder.reload_properties') }}</span>
                     </button>
@@ -57,8 +57,8 @@
                         <modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
                             <icon-picker v-on:select="$refs.icon_modal.close(); bread.icon = $event" />
                             <div slot="opener" class="w-full">
-                                <button class="button green">
-                                    <icon class="cursor-pointer text-white my-1 content-center" :size="6" :icon="bread.icon" />
+                                <button class="button">
+                                    <icon class="cursor-pointer my-1 content-center" :size="6" :icon="bread.icon" />
                                 </button>
                             </div>
                         </modal>
