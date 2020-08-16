@@ -26,7 +26,6 @@
 
 .button {
     @apply whitespace-no-wrap inline-flex items-center mx-1 px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md cursor-pointer;
-    @apply transition duration-75 ease-in-out;
 
     @include bg-color(button-bg-color, 'colors.gray.50');
     @include border-color(button-border-color, 'colors.gray.300');
@@ -34,6 +33,11 @@
 
     &:focus {
         @apply outline-none;
+        @apply transition-colors duration-200 ease-in-out;
+    }
+
+    &:hover {
+        @apply transition-colors duration-200 ease-in-out;
     }
 
     > :not(template) + :not(template) {
@@ -41,10 +45,6 @@
     }
 
     &:disabled {
-        @apply opacity-75 cursor-not-allowed;
-    }
-
-    &.disabled {
         @apply opacity-75 cursor-not-allowed;
     }
 

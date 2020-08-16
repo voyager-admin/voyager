@@ -85,6 +85,9 @@ module.exports = {
                     '100%': { transform: 'scaleX(0)' },
                 }
             },
+            transitionDuration: {
+                '50': '50ms',
+            },
             width: {
                 '72': '18rem',
                 '80': '20rem',
