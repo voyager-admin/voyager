@@ -24,9 +24,9 @@
         </div>
         <div>
             <div v-if="layout !== null">
-                <div class="inline-flex w-full" v-if="layout.options.filter.length > 0">
+                <div class="inline-flex w-full" v-if="layout.options.filters.length > 0">
                     <badge
-                        v-for="(filter, i) in layout.options.filter"
+                        v-for="(filter, i) in layout.options.filters"
                         v-if="displayFilter(filter)"
                         :key="i"
                         :color="filter.color"
@@ -40,7 +40,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>
+                                <th class="w-2">
                                     <input type="checkbox" class="input" @change="selectAll($event.target.checked)" :checked="allSelected" />
                                 </th>
                                 <th
@@ -120,9 +120,8 @@
                                             {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
                                         </span>
                                     </div>
-                                    <!-- When browseArray pass whole array, else if isArray pass sliced -->
                                 </td>
-                                <td class="flex justify-end">
+                                <td class="justify-end">
                                     <bread-actions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
                                 </td>
                             </tr>

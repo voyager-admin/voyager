@@ -55,7 +55,7 @@ return [
     'enable'                    => 'Enable',
     'enter_query'               => 'Enter your search query',
     'file'                      => 'File',
-    'filter'                    => 'Filter',
+    'filters'                   => 'Filters',
     'first'                     => 'First',
     'focus'                     => 'Focus',
     'force_delete'              => 'Force delete',

@@ -108,7 +108,7 @@
             </table>
         </div>
 
-        <collapsible :title="__('voyager::generic.filter')" closed>
+        <collapsible :title="__('voyager::generic.filters')" closed>
             <div slot="actions">
                 <button class="button green small" @click.stop="addFilter">
                     <icon icon="plus" />
@@ -127,7 +127,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(f, key) in reactiveOptions.filter" :key="'filter-'+key">
+                        <tr v-for="(f, key) in reactiveOptions.filters" :key="'filter-'+key">
                             <td>
                                 <language-input
                                     class="input w-full"
@@ -189,10 +189,10 @@ export default {
     },
     methods: {
         addFilter: function () {
-            if (!this.isArray(this.reactiveOptions.filter)) {
-                this.reactiveOptions.filter = [];
+            if (!this.isArray(this.reactiveOptions.filters)) {
+                Vue.set(this.reactiveOptions, 'filters', []);
             }
-            this.reactiveOptions.filter.push({
+            this.reactiveOptions.filters.push({
                 name: '',
                 column: '',
                 operator: '=',
@@ -201,7 +201,7 @@ export default {
             });
         },
         removeFilter: function (key) {
-            this.reactiveOptions.filter.splice(key, 1);
+            this.reactiveOptions.filters.splice(key, 1);
         }
     },
     watch: {

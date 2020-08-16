@@ -60,7 +60,7 @@
                 @apply border-b;
                 @include border-color(table-head-border-color, 'colors.gray.300');
                 th {
-                    @apply px-6 py-3 text-left text-xs leading-4 font-medium uppercase tracking-wider;
+                    @apply p-3 text-left text-xs leading-4 font-medium uppercase tracking-wider;
                 }
             }
         }
@@ -93,7 +93,7 @@
                 }
 
                 td {
-                    @apply px-6 py-4;
+                    @apply p-3;
                 }
             }
         }
