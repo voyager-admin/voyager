@@ -33,6 +33,7 @@ return [
     'layout_mapping'                    => 'Layout mapping',
     'layout_mapping_warning'            => 'There are actions without assigned layouts.\nThis might lead to unexpected behaviour!\n\nDo you want to save anyway?',
     'list'                              => 'List',
+    'lists'                             => 'Lists',
     'model'                             => 'Model',
     'name_already_exists'               => 'This name already exists!',
     'name_plural'                       => 'Name plural',
@@ -62,4 +63,5 @@ return [
     'validate_current_locale'           => 'Validate current locale',
     'validate_locales'                  => 'Validate locales',
     'view'                              => 'View',
+    'views'                             => 'Views',
 ];

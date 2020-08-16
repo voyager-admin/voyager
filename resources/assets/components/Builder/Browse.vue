@@ -14,6 +14,8 @@
                         <th class="hidden md:table-cell">{{ __('voyager::generic.slug') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.name_singular') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.name_plural') }}</th>
+                        <th class="hidden md:table-cell">{{ __('voyager::builder.lists') }}</th>
+                        <th class="hidden md:table-cell">{{ __('voyager::builder.views') }}</th>
                         <th style="text-align:right !important">{{ __('voyager::generic.actions') }}</th>
                     </tr>
                 </thead>
@@ -29,6 +31,12 @@
                         <td class="hidden md:table-cell">
                             <span v-if="hasBread(table)">{{ translate(getBread(table).name_plural) }}</span>
                         </td>
+                        <td class="hidden md:table-cell">
+                            <span v-if="hasBread(table)">{{ getBread(table).layouts.where('type', 'list').length }}</span>
+                        </td>
+                        <td class="hidden md:table-cell">
+                            <span v-if="hasBread(table)">{{ getBread(table).layouts.where('type', 'view').length }}</span>
+                        </td>
                         <td class="text-right">
                             <div v-if="hasBread(table)">
                                 <a class="button blue" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
@@ -39,10 +47,7 @@
                                 </a>
                                 <button class="button green" @click="backupBread(table)">
                                     <icon icon="clock" :class="[backingUp ? 'animate-spin-reverse' : '']" :size="4" />
-                                    <span v-if="getBackupsForTable(table).length > 0">
-                                        {{ __('voyager::generic.backup') }} ({{ getBackupsForTable(table).length }})
-                                    </span>
-                                    <span v-else>
+                                    <span>
                                         {{ __('voyager::generic.backup') }}
                                     </span>
                                 </button>
@@ -59,9 +64,13 @@
                                     <div slot="opener">
                                         <button class="button green">
                                             <icon icon="clock" :size="4" />
-                                            <span>
+                                            <span v-if="getBackupsForTable(table).length > 0">
+                                                {{ __('voyager::builder.rollback') }} ({{ getBackupsForTable(table).length }})
+                                            </span>
+                                            <span v-else>
                                                 {{ __('voyager::builder.rollback') }}
                                             </span>
+                                            
                                         </button>
                                     </div>
                                 </dropdown>
