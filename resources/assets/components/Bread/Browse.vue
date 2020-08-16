@@ -27,6 +27,7 @@
                 <div class="inline-flex w-full" v-if="layout.options.filter.length > 0">
                     <badge
                         v-for="(filter, i) in layout.options.filter"
+                        v-if="displayFilter(filter)"
                         :key="i"
                         :color="filter.color"
                         @click="setFilter(filter)"
@@ -279,6 +280,9 @@ export default {
             }
 
             return '';
+        },
+        displayFilter: function (filter) {
+            return !(filter.column == '' || filter.operator == '' || this.translate(filter.name, true) == '');
         }
     },
     computed: {
