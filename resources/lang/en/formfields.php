@@ -32,6 +32,7 @@ return [
     ],
     'relationship'  => [
         'name'                  => 'Relationship',
+        'add_view'              => 'Add View',
         'allow_null'            => 'Allow null',
         'pivots'                => 'Pivots',
         'select_relationship'   => 'Please select a relationship first!',

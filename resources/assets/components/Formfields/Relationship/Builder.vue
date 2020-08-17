@@ -52,6 +52,12 @@
                 <option :value="null">{{ __('voyager::generic.none') }}</option>
                 <option v-for="(scope, i) in relationship.scopes" :key="i">{{ scope }}</option>
             </select>
+
+            <label class="label" for="add_view" v-if="relatedBread">{{ __('voyager::formfields.relationship.add_view') }}</label>
+            <select class="input w-full" v-if="relatedBread" v-model="options.add_view">
+                <option :value="null">{{ __('voyager::generic.none') }}</option>
+                <option v-for="(view, i) in relatedBread.layouts.where('type', 'view')" :key="i" :value="view.name">{{ view.name }}</option>
+            </select>
         </div>
         <div v-else-if="show == 'view'">
             <select class="input w-full" disabled></select>
@@ -72,6 +78,9 @@ export default {
             return vm.relationships.where('method', vm.column.column).first();
         },
         relatedBread: function () {
+            if (this.relationship) {
+                return this.$store.getBreadByTable(this.relationship.table);
+            }
 
             return null;
         }
