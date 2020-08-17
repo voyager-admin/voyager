@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="show == 'view-options'">
-            <label class="label mt-4">Display field</label>
+            <label class="label mt-4">{{ __('voyager::generic.display_column') }}</label>
             <select class="input w-full" v-if="relationship !== null && relationship.hasOwnProperty('columns')" v-model="options.display_column">
                 <optgroup :label="__('voyager::builder.columns')">
                     <option v-for="(column, i) in relationship.columns" :key="i">
@@ -15,7 +15,7 @@
                 </optgroup>
             </select>
             <select class="input w-full" disabled v-else>
-                <option>Select a relationship first</option>
+                <option>{{ __('voyager::formfields.relationship.select_relationship') }}</option>
             </select>
 
             <label class="label mt-4">{{ __('voyager::formfields.relationship.allow_null') }}</label>
@@ -71,6 +71,10 @@ export default {
 
             return vm.relationships.where('method', vm.column.column).first();
         },
+        relatedBread: function () {
+
+            return null;
+        }
     },
 };
 </script>

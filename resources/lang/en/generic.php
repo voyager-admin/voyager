@@ -48,6 +48,7 @@ return [
     'description'               => 'Description',
     'disable'                   => 'Disable',
     'disabled'                  => 'Disabled',
+    'display_column'            => 'Display column',
     'display_length'            => 'Display length',
     'edit'                      => 'Edit',
     'editable'                  => 'Editable',
