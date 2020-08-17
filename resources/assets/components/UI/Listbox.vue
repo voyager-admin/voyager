@@ -15,11 +15,11 @@
                                 icon="x"
                                 @click-icon.prevent.stop="select(option)"
                             >
-                                {{ option.value }}
+                                {{ translateValue ? translate(option.value) : option.value }}
                             </badge>
                         </div>
                         <span v-else>
-                            {{ selectedOptions[0].value }}
+                            {{ translateValue ? translate(selectedOptions[0].value) : selectedOptions[0].value }}
                         </span>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     >
                         <div class="flex items-center space-x-3">
                             <span class="font-normal block truncate">
-                                {{ option.value }}
+                                {{ translateValue ? translate(option.value) : option.value }}
                             </span>
                         </div>
                         <span v-show="selected(option)" class="check">
@@ -119,6 +119,10 @@ export default {
         pages: {
             type: Number,
             default: 0,
+        },
+        translateValue: {
+            type: Boolean,
+            default: true
         }
     },
     data: function () {

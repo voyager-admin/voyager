@@ -11,7 +11,7 @@
             :pages="pages"
             @page="page = $event"
             :search-options-text="translate(options.search_text, true)"
-            :select-option-text="translate(options.select_text, true)"
+            :select-option-text="selectText"
             @opened="!initial_loaded ? loadResults() : null"
             :disabled="!options.editable || false"
         >
@@ -23,18 +23,18 @@
                         :icon="options.editable ? 'x' : ''"
                         @click-icon.stop.prevent="remove(option.key)"
                     >
-                        {{ option.value }}
+                        {{ translate(option.value) }}
                     </badge>
                     <span v-if="value.length == 0">
-                        {{ translate(options.select_text, true) }}
+                        {{ selectText }}
                     </span>
                 </div>
                 <div v-else>
                     <span v-if="value.length !== 0">
-                        {{ value[0].value }}
+                        {{ translate(value[0].value) }}
                     </span>
                     <span v-else>
-                        {{ translate(options.select_text, true) }}
+                        {{ selectText }}
                     </span>
                 </div>
             </div>
@@ -90,6 +90,14 @@ export default {
                     this.$emit('input', this.value.whereNot('key', diff));
                 }
             }
+        },
+        selectText: function () {
+            var text = this.translate(this.options.select_text, true);
+            if (text == '') {
+                text = 'Select';
+            }
+
+            return text;
         }
     },
     methods: {

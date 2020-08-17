@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-no-wrap space-x-0.5">
+    <div class="flex flex-no-wrap space-x-0.5 justify-end">
         <div v-for="(action, i) in filteredActions" :key="i">
             <component
                 :is="action.method == 'get' ? 'a' : 'button'"

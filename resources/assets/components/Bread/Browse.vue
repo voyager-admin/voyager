@@ -121,7 +121,7 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td class="justify-end">
+                                <td>
                                     <bread-actions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
                                 </td>
                             </tr>
@@ -136,7 +136,7 @@
                 <div class="flex w-full">
                     <div class="hidden lg:block w-1/2 whitespace-no-wrap">
                         {{ resultDescription }}
-                        <a href="#" @click.prevent="parameters.filters = {}; parameters.global = null" v-if="showClearFilterButton">
+                        <a href="#" @click.prevent="parameters.filters = {}; parameters.global = null; parameters.filter = null" v-if="showClearFilterButton">
                             {{ __('voyager::bread.clear_all_filters') }}
                         </a>
                     </div>
