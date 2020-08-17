@@ -96,6 +96,10 @@ class BreadController extends Controller
             $data->put($formfield->column->column, $formfield->add());
         });
 
+        if ($request->has('from_relationship')) {
+            return compact('bread', 'layout', 'new', 'data', 'relationships');
+        }
+
         return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships'));
     }
 

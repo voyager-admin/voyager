@@ -1,5 +1,32 @@
 <template>
     <div>
+        <div v-if="addView">
+            <modal
+                :title="__('voyager::generic.add_type', { type: translate(relatedBread.name_singular, true) })"
+                :icon="relatedBread.icon"
+                ref="add_modal"
+            >
+                <bread-edit-add
+                    :bread="add_data.bread"
+                    action="add"
+                    :input="add_data.data"
+                    :layout="addView"
+                    :new="true"
+                    :prevUrl="''"
+                    :fromRelationship="true"
+                    @saved="added($event)"
+                />
+                <div slot="actions">
+                    <locale-picker :small="false"></locale-picker>
+                </div>
+            </modal>
+            <div class="w-full mb-2 flex justify-end">
+                <button class="button green" @click="fetchRelationshipData">
+                    <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="fetching_add_data" />
+                    {{ __('voyager::generic.add_type', { type: translate(relatedBread.name_singular, true) }) }}
+                </button>
+            </div>
+        </div>
         <listbox
             :options="selectable"
             v-model="selected"
@@ -51,12 +78,28 @@ export default {
             initial_loaded: false,
             page: 1,
             pages: 1,
-            selectable: []
+            selectable: [],
+            fetching_add_data: false,
+            add_data: {}
         };
     },
     computed: {
         relationship: function () {
             return this.relationships.where('method', this.column.column).first() || null;
+        },
+        relatedBread: function () {
+            if (this.relationship) {
+                return this.$store.getBreadByTable(this.relationship.table);
+            }
+
+            return null;
+        },
+        addView: function () {
+            if (this.options.add_view && this.relationship && this.relatedBread) {
+                return this.relatedBread.layouts.where('type', 'view').where('name', this.options.add_view).first();
+            }
+
+            return null;
         },
         selected: {
             get: function () {
@@ -136,14 +179,35 @@ export default {
             }
             this.$emit('input', this.value.whereNot('key', key));
         },
+        fetchRelationshipData: function () {
+            var vm = this;
+            vm.fetching_add_data = true;
+            axios.get(vm.route('voyager.'+vm.translate(vm.relatedBread.slug, true)+'.add'), {
+                params: {
+                    from_relationship: true
+                }
+            })
+            .then(function (response) {
+                vm.add_data = response.data;
+                vm.$refs.add_modal.open();
+            })
+            .catch(function () {
+
+            })
+            .then(function () {
+                vm.fetching_add_data = false;
+            });
+        },
+        added: function (key) {
+            // TODO: We could automatically add key here
+            this.loadResults();
+            this.$refs.add_modal.close();
+        }
     },
     watch: {
         page: function () {
             this.loadResults();
         }
     },
-    mounted: function () {
-        //this.loadResults();
-    }
 };
 </script>

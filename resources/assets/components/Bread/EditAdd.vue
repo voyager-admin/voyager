@@ -1,13 +1,19 @@
 <template>
     <div>
-        <card :title="__('voyager::generic.'+currentAction+'_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
+        <card
+            :title="__('voyager::generic.'+currentAction+'_type', { type: translate(bread.name_singular, true) })"
+            :class="fromRelationship ? 'border-none' : null"
+            :style="fromRelationship ? 'box-shadow: none !important' : null"
+            :icon="bread.icon"
+            :showHeader="!fromRelationship"
+        >
             <div slot="actions">
                     <div class="flex items-center">
                         <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
                             <icon icon="chevron-left"></icon>
                             <span>{{ __('voyager::generic.back') }}</span>
                         </a>
-                        <locale-picker v-if="$language.localePicker" :small="false"></locale-picker>
+                        <locale-picker v-if="$language.localePicker" class="ltr:mr-2 rtl:ml-2"></locale-picker>
                     </div>
                 </div>
                 <div>

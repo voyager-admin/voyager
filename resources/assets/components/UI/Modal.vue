@@ -8,7 +8,8 @@
 
             <div v-if="isOpen" class="body" :class="size === 'full' ? 'w-full max-h-full p-10' : 'lg:w-3/4 xl:w-2/4 max-h-3/4'">
                 <card :title="title" :icon="icon" style="margin: 0 !important">
-                    <div slot="actions">
+                    <div slot="actions" class="inline-flex">
+                        <slot name="actions"></slot>
                         <button  @click="close()">
                             <icon icon="x"></icon>
                         </button>
