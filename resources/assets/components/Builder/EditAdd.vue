@@ -437,7 +437,7 @@ export default {
                         },
                         soft_deletes: true,
                         scope: null,
-                        filter: [],
+                        filters: [],
                     };
 
                     vm.bread.layouts.push({

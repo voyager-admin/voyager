@@ -17,9 +17,6 @@ Instead, they are listed here:
 - **Masked input**
 - **Repeater** should "simply" use another view
 
-## Nice to have
-- Add dark boxshadow variant to tailwind (currently not possible but should be with official dark-mode support)
-
 ## Documentation
 - Scopes need to start with `scope` (ex. `scopeCurrentUser()`)
 - Accessors need to be named `getFieldAttribute` (ex. `getFullNameAttribute`)
