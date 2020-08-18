@@ -99,8 +99,9 @@ class BreadController extends Controller
         if ($request->has('from_relationship')) {
             return compact('bread', 'layout', 'new', 'data', 'relationships');
         }
+        $pk = null;
 
-        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships'));
+        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships', 'pk'));
     }
 
     public function store(Request $request)
@@ -163,6 +164,7 @@ class BreadController extends Controller
         $new = false;
 
         $data = $bread->getModel()->findOrFail($id);
+        $pk = $id;
 
         if (!empty($layout->options->scope)) {
             $data = $bread->getModel()->{$layout->options->scope}()->findOrFail($id);
@@ -194,7 +196,7 @@ class BreadController extends Controller
 
         $data = $breadData;
 
-        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships'));
+        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships', 'pk'));
     }
 
     public function update(Request $request, $id)
@@ -295,10 +297,15 @@ class BreadController extends Controller
         $method = $request->get('method');
         $column = $request->get('column');
         $scope = $request->get('scope', null);
+        $editable = $request->get('editable', true);
         $locale = VoyagerFacade::getLocale();
         $translatable = false;
         $model = $bread->getModel();
         $data = $model->{$method}()->getRelated();
+
+        if (!$editable) {
+            $data = $model->findOrFail($request->get('primary', null))->{$method}()->getQuery();
+        }
 
         if (in_array(Translatable::class, class_uses($data)) && in_array($column, $data->translatable)) {
             $translatable = true;

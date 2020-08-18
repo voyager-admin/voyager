@@ -42,7 +42,8 @@
                                         :relationships="relationships"
                                         :translatable="formfield.translatable"
                                         :from-relationship="fromRelationship"
-                                        :show="currentAction" />
+                                        :show="currentAction"
+                                        :primary-key="primaryKey" />
                                     <p class="description" v-if="translate(formfield.options.description, true) !== ''">
                                         {{ translate(formfield.options.description, true) }}
                                     </p>
@@ -66,7 +67,7 @@
 import { EventBus } from '../../js/eventbus';
 
 export default {
-    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'relationships', 'fromRelationship'],
+    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'relationships', 'fromRelationship', 'primaryKey'],
     data: function () {
         return {
             output: (this.input || {}),

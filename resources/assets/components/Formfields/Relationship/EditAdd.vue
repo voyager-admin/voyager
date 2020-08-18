@@ -23,7 +23,7 @@
             </modal>
         </div>
         <!-- Selected -->
-        <div class="w-full flex">
+        <div class="w-full flex" v-if="options.editable">
             <div class="flex-grow">
                 <fade-transition :group="relationship.multiple" :duration="500">
                     <badge
@@ -52,7 +52,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="w-2">
+                            <th class="w-2" v-if="options.editable">
                                 <input
                                     type="checkbox"
                                     class="input"
@@ -68,7 +68,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(option, i) in selectable" :key="i" @click="select(option)" class="cursor-pointer">
-                            <td>
+                            <td v-if="options.editable">
                                 <input
                                     :type="relationship.multiple ? 'checkbox' : 'radio'"
                                     class="input"
@@ -90,7 +90,7 @@
 
 <script>
 export default {
-    props: ['options', 'value', 'column', 'relationships', 'bread', 'translatable', 'fromRelationship'],
+    props: ['options', 'value', 'column', 'relationships', 'bread', 'translatable', 'fromRelationship', 'primaryKey'],
     data: function () {
         return {
             loading: false,
@@ -145,11 +145,13 @@ export default {
                 page: vm.page,
                 column: vm.options.display_column,
                 scope: vm.options.scope,
+                editable: vm.options.editable,
+                primary: vm.primaryKey,
             })
             .then(function (response) {
                 vm.selectable = response.data.data;
                 vm.pages = response.data.pages;
-                if (vm.options.allow_null) {
+                if (vm.options.allow_null && vm.options.editable) {
                     vm.selectable.unshift({
                         key: null,
                         value: vm.__('voyager::generic.none'),

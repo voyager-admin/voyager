@@ -8,5 +8,6 @@
     :relationships="{{ json_encode($relationships) }}"
     :input="{{ json_encode($data) }}"
     prev-url="{{ url()->previous() }}"
+    :primary-key="{{ $pk }}"
 ></bread-edit-add>
 @endsection
