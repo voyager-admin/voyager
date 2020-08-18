@@ -72,12 +72,12 @@ Vue.mixin({
             return input;
         },
 
-        translate: function (input, once = false) {
+        translate: function (input, once = false, default_value = '') {
             if (!this.isObject(input)) {
                 input = this.get_translatable_object(input);
             }
             if (this.isObject(input)) {
-                return input[once ? this.$language.initial_locale : this.$language.locale] || '';
+                return input[once ? this.$language.initial_locale : this.$language.locale] || default_value;
             }
 
             return input;

@@ -33,7 +33,7 @@
                         @click-icon.stop.prevent="remove(option)"
                         v-if="option.key !== null"
                     >
-                        {{ translate(option.value) }}
+                        {{ translate(option.value, false, '&nbsp;') }}
                     </badge>
                 </fade-transition>
             </div>
@@ -77,7 +77,7 @@
                                 />
                             </td>
                             <td>
-                                {{ translate(option.value) }}
+                                {{ option.key === null ? __('voyager::generic.none') : translate(option.value) }}
                             </td>
                         </tr>
                     </tbody>
