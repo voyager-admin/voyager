@@ -114,7 +114,7 @@
                                             :options="formfield.options"
                                             :translatable="formfield.translatable"
                                             :key="'relationship-'+i"
-                                            :value="val">
+                                            :value="translate(val)">
                                         </component>
                                         <span v-if="getData(result, formfield, true).length > 3">
                                             {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
