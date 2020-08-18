@@ -24,9 +24,6 @@
             <button class="button accent my-2" v-scroll-to="'ui-datetime'">
                 Date/Time picker
             </button>
-            <button class="button accent my-2" v-scroll-to="'ui-listbox'">
-                Listbox
-            </button>
             <button class="button accent my-2" v-scroll-to="'ui-tags'">
                 Tag input
             </button>
@@ -186,15 +183,6 @@
             <date-time select-time am-pm range format="YYYY-MM-DD hh:mm A" />
         </card>
     </div>
-</collapsible>
-
-<collapsible title="Listbox" id="ui-listbox">
-    <collapsible title="Single" :title-size="5">
-        <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_option"></listbox>
-    </collapsible>
-    <collapsible title="Multiple" :title-size="5">
-        <listbox :options="$store.ui.select_options" v-model="$store.ui.selected_options" :close-on-select="false" multiple></listbox>
-    </collapsible>
 </collapsible>
 
 <collapsible title="Tag input" id="ui-tags">

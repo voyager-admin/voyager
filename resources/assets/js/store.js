@@ -29,18 +29,6 @@ export default {
                     ],
                     lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
                     tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
-                    select_options: [
-                        { key: 12, value: 'Lorem first' },
-                        { key: 1, value: 'ipsum' },
-                        { key: 2, value: 'dolor' },
-                        { key: 3, value: 'sit' },
-                        { key: 4, value: 'amet' },
-                        { key: 5, value: 'consectetur' },
-                        { key: 6, value: 'adipisicing' },
-                        { key: 7, value: 'elit last' },
-                    ],
-                    selected_option: null,
-                    selected_options: [],
                 },
             },
             methods: {

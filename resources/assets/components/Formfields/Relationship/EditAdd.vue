@@ -25,15 +25,17 @@
         <!-- Selected -->
         <div class="w-full flex">
             <div class="flex-grow">
-                <badge
-                    v-for="(option, i) in value"
-                    :key="i"
-                    :icon="options.editable ? 'x' : ''"
-                    @click-icon.stop.prevent="remove(option.key)"
-                    v-if="option.key !== null"
-                >
-                    {{ translate(option.value) }}
-                </badge>
+                <fade-transition :group="relationship.multiple" :duration="500">
+                    <badge
+                        v-for="(option, i) in value"
+                        :key="i"
+                        :icon="options.editable && relationship.multiple ? 'x' : ''"
+                        @click-icon.stop.prevent="remove(option)"
+                        v-if="option.key !== null"
+                    >
+                        {{ translate(option.value) }}
+                    </badge>
+                </fade-transition>
             </div>
             <div class="flex-none" v-if="addView && options.editable && fromRelationship !== true">
                 <button class="button green" @click="fetchRelationshipData">
