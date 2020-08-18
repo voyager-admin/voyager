@@ -11,6 +11,7 @@
                     action="add"
                     :input="add_data.data"
                     :layout="addView"
+                    :relationships="add_data.relationships"
                     :new="true"
                     :prevUrl="''"
                     :fromRelationship="true"

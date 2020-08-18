@@ -105,6 +105,7 @@ class Relationship extends Formfield
                     $m->save();
                 }
             }
+            $model->save();
         }
     }
 
