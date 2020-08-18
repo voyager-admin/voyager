@@ -351,17 +351,8 @@ export default {
             .then(function (response) {
                 new vm.$notification(vm.__('voyager::builder.bread_saved_successfully')).color('green').timeout().show();
             })
-            .catch(function (errors) {
-                var errors = errors.response.data;
-                if (!vm.isObject(errors)) {
-                    new vm.$notification(errors).color('red').timeout().show();
-                } else {
-                    Object.entries(errors).forEach(([key, val]) => {
-                        val.forEach(function (e) {
-                            new vm.$notification(e).color('red').timeout().show();
-                        });
-                    });
-                }
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             }).then(function () {
                 vm.savingBread = false;
             });
@@ -375,8 +366,8 @@ export default {
             .then(function (response) {
                 new vm.$notification(vm.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
-            .catch(function (error) {
-                new vm.$notification(error.response.statusText).color('red').timeout().show();
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             })
             .then(function () {
                 vm.backingUp = false;
@@ -400,9 +391,8 @@ export default {
                 });
                 vm.propsLoaded = true;
             })
-            .catch(function (error) {
-                new vm.$notification(error.response.data).color('red').timeout().show();
-                
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             })
             .then(function () {
                 vm.loadingProps = false;

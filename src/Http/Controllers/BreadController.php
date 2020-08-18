@@ -99,7 +99,7 @@ class BreadController extends Controller
         if ($request->has('from_relationship')) {
             return compact('bread', 'layout', 'new', 'data', 'relationships');
         }
-        $pk = null;
+        $pk = 0;
 
         return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships', 'pk'));
     }
@@ -302,7 +302,7 @@ class BreadController extends Controller
             $translatable = true;
         }
 
-        if (!$request->get('editable', true)) {
+        if (!$request->get('editable', true) && $request->get('primary', 0) !== 0) {
             $data = $bread->getModel()->findOrFail($request->get('primary', null))->{$method}()->getQuery();
         }
 

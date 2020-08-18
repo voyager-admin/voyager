@@ -340,7 +340,7 @@ export default {
                 vm.files = response.data;
             })
             .catch(function (response) {
-                
+                vm.$store.handleAjaxError(response);
             })
             .then(function () {
                 // When loaded, clear finished filesToUpload
@@ -427,6 +427,9 @@ export default {
                     } else {
                         vm.downloadBlob(response.data, 'download.zip');
                     }
+                })
+                .catch(function (response) {
+                    vm.$store.handleAjaxError(response);
                 });
             }
         },
@@ -529,7 +532,7 @@ export default {
                         }
                     })
                     .catch(function (errors) {
-                        //
+                        vm.$store.handleAjaxError(response);
                     })
                     .then(function () {
                         vm.loadFiles();
@@ -575,8 +578,8 @@ export default {
                             }
                         });
                     })
-                    .catch(function (errors) {
-                        // TODO: ...
+                    .catch(function (response) {
+                        vm.$store.handleAjaxError(response);
                     })
                     .then(function () {
                         vm.loadFiles();

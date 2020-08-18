@@ -211,7 +211,7 @@ export default {
                 }
             })
             .catch(function (response) {
-                new vm.$notification(response.response.data.message).color('red').timeout().show();
+                vm.$store.handleAjaxError(response);
             })
             .finally(function () {
                 vm.loading = false;

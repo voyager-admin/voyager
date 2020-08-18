@@ -108,8 +108,8 @@ export default {
             .then(function (response) {
                 vm.searchResults = response.data;
             })
-            .catch(function (errors) {
-                // TODO: ...
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             })
             .then(function () {
                 vm.loading = false;

@@ -169,6 +169,9 @@ export default {
 
                 vm.loading = false;
                 vm.initial_loaded = true;
+            })
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             });
         },
         fetchRelationshipData: function () {
@@ -184,7 +187,7 @@ export default {
                 vm.$refs.add_modal.open();
             })
             .catch(function () {
-
+                vm.$store.handleAjaxError(response);
             })
             .then(function () {
                 vm.fetching_add_data = false;

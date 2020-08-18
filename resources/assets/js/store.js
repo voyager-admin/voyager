@@ -62,6 +62,17 @@ export default {
                 },
                 getBreadByTable (table) {
                     return this.breads.where('table', table).first();
+                },
+                handleAjaxError: function (response) {
+                    if (response.hasOwnProperty('response')) {
+                        return this.handleAjaxError(response.response);
+                    }
+                    var notification = new this.$notification(response.data.message).color('red').timeout();
+                    if (response.data.hasOwnProperty('exception')) {
+                        notification = notification.title(response.data.exception);
+                    }
+
+                    return notification.show();
                 }
             },
             watch: {

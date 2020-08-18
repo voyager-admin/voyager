@@ -153,9 +153,7 @@ export default {
                     // Validation failed
                     vm.errors = response.response.data;
                 } else {
-                    new vm
-                    .$notification(vm.__('voyager::bread.type_save_failed', {type: vm.translate(vm.bread.name_singular, true)}) + '<br><br>' + response.response.data.message)
-                    .color('red').timeout().show();
+                    vm.$store.handleAjaxError(response);
                 }
             })
             .finally(function () {

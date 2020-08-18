@@ -120,6 +120,9 @@ export default {
                 if (action.reload_after) {
                     vm.$emit('reload');
                 }
+            })
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             });
         },
         selectedPrimarys: function (action) {

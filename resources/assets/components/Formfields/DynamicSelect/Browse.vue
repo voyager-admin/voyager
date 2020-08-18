@@ -61,6 +61,9 @@ export default {
         })
         .then(function (response) {
             vm.selects = response.data;
+        })
+        .catch(function (response) {
+            vm.$store.handleAjaxError(response);
         });
     }
 };

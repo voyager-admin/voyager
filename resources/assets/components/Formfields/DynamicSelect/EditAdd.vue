@@ -53,6 +53,9 @@ export default {
                 vm.selected.length = response.data.length;
 
                 vm.triggerChange();
+            })
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             });
         },
         triggerChange: function () {

@@ -18,7 +18,6 @@ return [
     'create_layout_first'               => 'Create a layout first',
     'create_select_layout'              => 'Please select or create a Layout',
     'delete_bread_confirm'              => 'Are you sure you want to delete the BREAD for table ":bread"?',
-    'delete_bread_error'                => 'Could not delete BREAD for table ":bread"!',
     'delete_bread_success'              => 'BREAD for table ":bread" deleted successful!',
     'delete_formfield_confirm'          => 'Do you want to delete this formfield?',
     'delete_layout_confirm'             => 'Do you want to delete this layout?',

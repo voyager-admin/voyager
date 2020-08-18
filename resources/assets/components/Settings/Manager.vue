@@ -176,7 +176,7 @@ export default {
                     // Validation failed
                     vm.errors = response.response.data;
                 } else {
-                    new vm.$notification(response.response.data.message).color('red').show();
+                    vm.$store.handleAjaxError(response);
                 }
             })
             .then(function () {

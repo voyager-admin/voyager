@@ -143,7 +143,7 @@ export default {
                         new vm.$notification(vm.__('voyager::builder.delete_bread_success', {bread: table})).color('green').timeout().show();
                     })
                     .catch(function (errors) {
-                        new vm.$notification(vm.__('voyager::builder.delete_bread_error', {bread: table})).color('red').timeout().show();
+                        vm.$store.handleAjaxError(response);
                     })
                     .then(function () {
                         vm.loadBreads();
@@ -161,8 +161,8 @@ export default {
             .then(function (response) {
                 new vm.$notification(vm.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
-            .catch(function (error) {
-                new vm.$notification(error.response.statusText).color('red').timeout().show();
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             })
             .then(function () {
                 vm.backingUp = false;
@@ -179,8 +179,8 @@ export default {
             .then(function (response) {
                 new vm.$notification(vm.__('voyager::builder.bread_rolled_back', { date: backup.date })).timeout().show();
             })
-            .catch(function (error) {
-                new vm.$notification(error.response.statusText).color('red').timeout().show();
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             })
             .then(function () {
                 vm.loadBreads();
@@ -202,8 +202,8 @@ export default {
                 vm.breads = response.data.breads;
                 vm.backups = response.data.backups;
             })
-            .catch(function (error) {
-                new vm.$notification(error.response.statusText).color('red').timeout().show();
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             })
             .then(function () {
                 vm.loading = false;

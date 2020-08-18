@@ -205,8 +205,8 @@ export default {
             .then(function (response) {
                 vm.installed.plugins = response.data;
             })
-            .catch(function (errors) {
-                // TODO: ...
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
             }).finally(function () {
                 vm.loading = false;
             });
@@ -227,10 +227,8 @@ export default {
                     .then(function (response) {
                         new vm.$notification(vm.__('voyager::plugins.reload_page')).show();
                     })
-                    .catch(function (error) {
-                        // TODO: This is not tested (error might be an array)
-                        new vm.$notification(vm.__('voyager::plugins.error_changing_plugin') + ' ' + error.data).color('red').show();
-
+                    .catch(function (response) {
+                        vm.$store.handleAjaxError(response);
                     }).finally(function () {
                         vm.loadPlugins();
                     });
