@@ -28,12 +28,21 @@ trait Browsable
     public function globalSearchQuery($global, $layout, $locale, $query)
     {
         if (!empty($global)) {
-            $query->where(function ($query) use ($global, $layout, $locale) {
+            return $query->where(function ($query) use ($global, $layout, $locale) {
                 $layout->searchableFormfields()->each(function ($formfield) use (&$query, $global, $locale) {
                     if ($formfield->translatable ?? false) {
                         $query->orWhere(DB::raw('lower('.$formfield->column->column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($global).'%');
                     } elseif ($formfield->column->type == 'column') {
                         $query->orWhere(DB::raw('lower('.$formfield->column->column.')'), 'LIKE', '%'.strtolower($global).'%');
+                    } elseif ($formfield->column->type == 'relationship') {
+                        list($name, $column) = explode('.', $formfield->column->column);
+                        $query = $query->orWhereHas($name, function ($q) use ($column, $global, $locale, $formfield) {
+                            if ($formfield->translatable ?? false) {
+                                $q->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($global).'%');
+                            } else {
+                                $q->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($global).'%');
+                            }
+                        });
                     }
                 });
             });
@@ -44,19 +53,19 @@ trait Browsable
 
     public function columnSearchQuery($filters, $layout, $query, $locale)
     {
-        collect(array_filter($filters))->each(function ($filter, $column) use ($layout, $query, $locale) {
+        collect(array_filter($filters))->each(function ($filter, $column) use ($layout, &$query, $locale) {
             $formfield = $layout->getFormfieldByColumn($column);
             $translatable = $formfield->translatable ?? false;
             if (!$formfield) {
                 return;
             }
             if ($formfield->column->type == 'column' && $translatable) {
-                $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
+                $query = $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
             } elseif ($formfield->column->type == 'column') {
-                $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
+                $query = $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
             } elseif ($formfield->column->type == 'relationship') {
                 list($name, $column) = explode('.', $formfield->column->column);
-                $query->whereHas($name, function ($q) use ($column, $filter, $translatable, $locale) {
+                $query = $query->whereHas($name, function ($q) use ($column, $filter, $translatable, $locale) {
                     if ($translatable) {
                         $q->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
                     } else {
