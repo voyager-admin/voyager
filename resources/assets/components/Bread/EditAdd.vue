@@ -6,6 +6,7 @@
             :style="fromRelationship ? 'box-shadow: none !important' : null"
             :icon="bread.icon"
             :showHeader="!fromRelationship"
+            :no-padding="fromRelationship"
         >
             <div slot="actions">
                     <div class="flex items-center">

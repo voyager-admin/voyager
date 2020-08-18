@@ -1,5 +1,5 @@
 <template>
-<div class="card" :class="`border-${border}`">
+<div class="card" :class="[`border-${border}`, !noPadding ? 'p-4 mx-1' : null]">
     <div class="header" v-if="showHeader">
         <div class="flex items-center justify-between">
             <div class="flex items-center" v-if="!$slots.title">
@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <div class="content">
+    <div class="content" :class="[!noPadding ? 'px-2' : null]">
         <slot></slot>
     </div>
     <div class="footer" v-if="$slots.footer">
@@ -59,6 +59,10 @@ export default {
         border: {
             type: String,
             default: 'default'
+        },
+        noPadding: {
+            type: Boolean,
+            default: false,
         }
     }
 };
@@ -91,7 +95,7 @@ export default {
 }
 
 .card {
-    @apply shadow border rounded-lg p-4 mb-4 mx-1;
+    @apply shadow border rounded-lg mb-4;
     @include bg-color(card-bg-color, 'colors.white');
     @include text-color(card-text-color, 'colors.gray.700');
 
@@ -108,7 +112,6 @@ export default {
     }
 
     .content {
-        @apply px-2;
     }
 
     .footer {
