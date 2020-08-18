@@ -126,7 +126,7 @@ export default {
             var vm = this;
 
             vm.selectable.forEach(function (option) {
-                if (vm.value.where('key', option.key).where('value', option.value).length == 0) {
+                if (option.key !== null && vm.value.where('key', option.key).length == 0) {
                     all = false;
                 }
             });
