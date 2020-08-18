@@ -67,6 +67,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr v-if="loading">
+                            <td :colspan="relationship.multiple ? 2 : 1">
+                                {{ __('voyager::generic.loading_please_wait') }}
+                            </td>
+                        </tr>
                         <tr v-for="(option, i) in selectable" :key="i" @click="select(option)" class="cursor-pointer">
                             <td v-if="options.editable">
                                 <input
@@ -78,6 +83,11 @@
                             </td>
                             <td>
                                 {{ option.key === null ? __('voyager::generic.none') : translate(option.value) }}
+                            </td>
+                        </tr>
+                        <tr v-if="!loading && (options.allow_null ? selectable.length == 1 : selectable.length == 0)">
+                            <td :colspan="relationship.multiple ? 2 : 1">
+                                {{ __('voyager::generic.no_results') }}
                             </td>
                         </tr>
                     </tbody>
@@ -138,7 +148,6 @@ export default {
         loadResults: function () {
             var vm = this;
             vm.loading = true;
-
             axios.post(vm.route('voyager.'+vm.translate(this.bread.slug, true)+'.relationship'), {
                 query: vm.query,
                 method: vm.relationship.method,

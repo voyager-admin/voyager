@@ -318,10 +318,10 @@ class BreadController extends Controller
                 $data = $data->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.$query.'%');
             }
         }
-        $data = $data->get();
+
         $count = $data->count();
 
-        $data = $data->slice(($request->get('page', 1) - 1) * $perpage)->take($perpage);
+        $data = $data->skip(($request->get('page', 1) - 1) * $perpage)->take($perpage)->get();
 
         $data->transform(function ($item) use ($column) {
             return [
