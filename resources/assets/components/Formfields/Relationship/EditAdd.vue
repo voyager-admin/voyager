@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="addView && options.editable">
+        <div v-if="addView && options.editable && fromRelationship !== true">
             <modal
                 :title="__('voyager::generic.add_type', { type: translate(relatedBread.name_singular, true) })"
                 :icon="relatedBread.icon"
@@ -35,7 +35,7 @@
                     {{ translate(option.value) }}
                 </badge>
             </div>
-            <div class="flex-none">
+            <div class="flex-none" v-if="addView && options.editable && fromRelationship !== true">
                 <button class="button green" @click="fetchRelationshipData">
                     <icon icon="refresh" class="animate-spin-reverse" v-if="fetching_add_data" />
                     <icon icon="plus" v-else />
@@ -89,7 +89,7 @@
 
 <script>
 export default {
-    props: ['options', 'value', 'column', 'relationships', 'bread', 'translatable'],
+    props: ['options', 'value', 'column', 'relationships', 'bread', 'translatable', 'fromRelationship'],
     data: function () {
         return {
             loading: false,

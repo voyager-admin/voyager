@@ -40,6 +40,7 @@
                                         :column="formfield.column"
                                         :relationships="relationships"
                                         :translatable="formfield.translatable"
+                                        :from-relationship="fromRelationship"
                                         :show="currentAction" />
                                     <p class="description" v-if="translate(formfield.options.description, true) !== ''">
                                         {{ translate(formfield.options.description, true) }}
