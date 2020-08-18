@@ -298,12 +298,12 @@ class BreadController extends Controller
 
         $data = $bread->getModel()->{$method}()->getRelated();
 
-        if (!$request->get('editable', true)) {
-            $data = $bread->getModel()->findOrFail($request->get('primary', null))->{$method}()->getQuery();
-        }
-
         if (in_array(Translatable::class, class_uses($data)) && in_array($column, $data->translatable)) {
             $translatable = true;
+        }
+
+        if (!$request->get('editable', true)) {
+            $data = $bread->getModel()->findOrFail($request->get('primary', null))->{$method}()->getQuery();
         }
 
         if (!empty($scope)) {
