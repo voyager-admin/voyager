@@ -52,7 +52,7 @@ Vue.mixin({
             if (this.isString(input) || this.isNumber(input) || this.isBoolean(input)) {
                 try {
                     input = JSON.parse(input);
-                } catch (e) {
+                } catch {
                     var value = input;
                     input = {};
                     input[this.$language.initial_locale] = value;

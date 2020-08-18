@@ -65,12 +65,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(option, i) in selectable" :key="i">
+                        <tr v-for="(option, i) in selectable" :key="i" @click="select(option)" class="cursor-pointer">
                             <td>
                                 <input
                                     :type="relationship.multiple ? 'checkbox' : 'radio'"
                                     class="input"
-                                    @change="select(option)"
                                     :checked="selected(option)"
                                     :disabled="!options.editable"
                                 />
