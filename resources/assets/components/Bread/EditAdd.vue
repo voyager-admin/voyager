@@ -125,7 +125,10 @@ export default {
             })
             .then(function (response) {
                 if (vm.fromRelationship === true) {
-                    vm.$emit('saved', response.data);
+                    vm.$emit('saved', {
+                        key: response.data,
+                        data: vm.output
+                    });
                     return;
                 }
 

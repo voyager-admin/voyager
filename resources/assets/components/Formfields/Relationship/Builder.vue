@@ -23,13 +23,6 @@
 
             <label class="label mt-4">{{ __('voyager::generic.editable') }}</label>
             <input type="checkbox" class="input" v-model="options.editable">
-            
-            <label class="label mt-4">{{ __('voyager::formfields.relationship.select_text') }}</label>
-            <language-input
-                class="input w-full"
-                type="text" :placeholder="__('voyager::formfields.relationship.select_text')"
-                v-bind:value="options.select_text"
-                v-on:input="options.select_text = $event" />
 
             <label class="label mt-4">{{ __('voyager::formfields.relationship.search_text') }}</label>
             <language-input

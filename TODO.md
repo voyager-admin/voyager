@@ -2,10 +2,9 @@ This Todo list does **not** contain big improvements.
 It only contains small things that came to our minds which we couldn't implement immediately and would be forgotten otherwise.  
 Instead, they are listed here:
 
-- Test everything on mobile (especially media manager and listbox/relationship select)
+- Test everything on mobile (especially media manager)
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
-- Make listbox search and pagination sticky
 - Measure bread loading times and cache them if necessary
 - Replace BREAD rollback dropdown so tables can get `overflow-x-auto`
 - Ordering settings does not really work

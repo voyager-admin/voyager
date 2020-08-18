@@ -30,7 +30,6 @@ class Relationship extends Formfield
             'editable'          => true,
             'display_column'    => null,
             'search_text'       => '',
-            'select_text'       => '',
             'allow_null'        => true,
             'pivots'            => [],
             'scope'             => null,
