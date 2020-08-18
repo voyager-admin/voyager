@@ -129,6 +129,10 @@ class BreadController extends Controller
                 $formfield->stored($model, $data[$formfield->column->column]);
             });
 
+            // Some formfields need to do something after the model was stored.
+            // Relationships for example need to know the key of the created entry.
+            $model->save();
+
             return response($model->getKey(), 200);
         } else {
             return response($model->getKey(), 500);
