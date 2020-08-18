@@ -68,7 +68,7 @@ class Relationship extends Formfield
             return $old;
         }
 
-        $keys = collect($value)->pluck('key')->toArray();
+        $keys = collect($value)->pluck('key')->unique()->filter()->toArray();
 
         $column = $this->column->column;
         $relationship = $model->{$column}();

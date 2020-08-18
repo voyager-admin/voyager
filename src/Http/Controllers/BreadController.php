@@ -289,22 +289,17 @@ class BreadController extends Controller
     {
         // TODO: Validate that the method exists in edit/add layout
         $bread = $this->getBread($request);
-        $data = [];
         $perpage = 5;
-
-        $query = $request->get('query', null);
-        $page = $request->get('page', 1);
+        $query = strtolower($request->get('query', null));
         $method = $request->get('method');
         $column = $request->get('column');
         $scope = $request->get('scope', null);
-        $editable = $request->get('editable', true);
-        $locale = VoyagerFacade::getLocale();
         $translatable = false;
-        $model = $bread->getModel();
-        $data = $model->{$method}()->getRelated();
 
-        if (!$editable) {
-            $data = $model->findOrFail($request->get('primary', null))->{$method}()->getQuery();
+        $data = $bread->getModel()->{$method}()->getRelated();
+
+        if (!$request->get('editable', true)) {
+            $data = $bread->getModel()->findOrFail($request->get('primary', null))->{$method}()->getQuery();
         }
 
         if (in_array(Translatable::class, class_uses($data)) && in_array($column, $data->translatable)) {
@@ -318,15 +313,15 @@ class BreadController extends Controller
 
         if (!empty($query)) {
             if ($translatable) {
-                $data = $data->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($query).'%');
+                $data = $data->where(DB::raw('lower('.$column.'->"$.'.VoyagerFacade::getLocale().'")'), 'LIKE', '%'.$query.'%');
             } else {
-                $data = $data->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($query).'%');
+                $data = $data->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.$query.'%');
             }
         }
         $data = $data->get();
         $count = $data->count();
 
-        $data = $data->slice(($page - 1) * $perpage)->take($perpage);
+        $data = $data->slice(($request->get('page', 1) - 1) * $perpage)->take($perpage);
 
         $data->transform(function ($item) use ($column) {
             return [
