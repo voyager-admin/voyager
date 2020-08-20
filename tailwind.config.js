@@ -24,6 +24,8 @@ module.exports = {
         borderOpacity: false,
         placeholderOpacity: false,
         divideOpacity: false,
+        gradientColorStops: false,
+        backgroundClip: false,
     },
     prefix: '',
     important: false,

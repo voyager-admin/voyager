@@ -302,7 +302,14 @@ class BreadController extends Controller
             $translatable = true;
         }
 
-        if (!$request->get('editable', true) && $request->get('primary', 0) !== 0) {
+        if (!$request->get('editable', true)) {
+            // Non-editable adding. We can't return anything here
+            if ($request->get('primary', 0) == 0) {
+                return [
+                    'pages' => 0,
+                    'data'  => [],
+                ];
+            }
             $data = $bread->getModel()->findOrFail($request->get('primary', null))->{$method}()->getQuery();
         }
 
