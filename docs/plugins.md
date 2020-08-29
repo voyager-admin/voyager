@@ -67,6 +67,33 @@ For example, a plugin could provide multiple widgets or even different types of 
 All plugins can be enabled/disabled independently.
 {% endhint %}
 
+### Preferences
+
+A plugin can store and access preferences which are stored on the filesystem.  
+To write a preferences, simply call
+
+```php
+// Not translatable
+$this->preferences->set('my_key', 'My value');
+
+// Translatable
+$this->preferences->set('my_key', 'My value', 'en');
+$this->preferences->set('my_key', 'Mein Wert', 'de');
+```
+
+inside your plugin class.  
+To get a preference, call:
+
+```php
+$this->preferences->get('my_key', 'Default value');
+```
+
+If your preference is translatable, it will be automatically translated to the current locale.  
+If you don't want your value to be translated, simply pass `false` as the third parameter.  
+You can then translate it through Voyagers Facade into another locale:
+
+`Voyager::translate($this->preferences->get('my_key', 'Default value', false), 'de')`
+
 ### Providing menu items
 
 You can inject menu items to the menu by simply adding a method `registerMenuItems` to your plugin like this:
