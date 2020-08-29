@@ -309,6 +309,38 @@ class Voyager
     }
 
     /**
+     * Set a translation in a given string/object/array.
+     *
+     * @param  mixed  $input The input as a string, object or array.
+     * @param  mixed  $value The value which should be set.
+     * @param  string $locale The fallback locale.
+     * @return mixed The translated value.
+     */
+    public function setTranslation($input, $value, $locale = null)
+    {
+        if ($locale == null) {
+            $locale = app()->getLocale();
+        }
+
+        if (is_string($input)) {
+            $json = $this->getJson($input);
+            if ($json === false) {
+                $input = [];
+            } else {
+                $input = $json;
+            }
+        }
+
+        if (is_array($input)) {
+            $input[$locale] = $value;
+        } elseif (is_object($input)) {
+            $input->{$locale} = $value;
+        }
+
+        return $input;
+    }
+
+    /**
      * Get a setting, settings in a group or all settings.
      *
      * @param string $key The key of the setting or the group name.

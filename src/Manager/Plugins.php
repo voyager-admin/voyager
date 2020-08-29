@@ -60,12 +60,28 @@ class Plugins
         $plugin->type = $this->getPluginType($plugin);
 
         $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
-        $plugin->enabled = in_array($plugin->identifier, $this->enabled_plugins, true);
+        $plugin->enabled = array_key_exists($plugin->identifier, $this->enabled_plugins);
         if ($plugin instanceof InstructionsView) {
             $plugin->instructions = $plugin->getInstructionsView()->render();
         }
 
         $plugin->has_settings = ($plugin instanceof SettingsView);
+        $plugin->preferences = new class ($plugin, $this) {
+            private $plugin, $pluginmanager;
+
+            public function __construct(GenericPlugin $plugin, Plugins $pluginmanager) {
+                $this->plugin = $plugin;
+                $this->pluginmanager = $pluginmanager;
+            }
+
+            public function set($key, $value, $locale = null) {
+                return $this->pluginmanager->setPreference($this->plugin->identifier, $key, $value, $locale);
+            }
+
+            public function get($key, $default = null, $translate = true) {
+                return $this->pluginmanager->getPreference($this->plugin->identifier, $key, $default, $translate);
+            }
+        };
         
         $plugin->num = $this->plugins->count();
         $this->plugins->push($plugin);
@@ -110,7 +126,9 @@ class Plugins
         VoyagerFacade::ensureFileExists($this->path, '[]');
 
         collect(VoyagerFacade::getJson(File::get($this->path), []))->where('enabled')->each(function ($plugin) {
-            $this->enabled_plugins[] = $plugin->identifier;
+            $this->enabled_plugins[$plugin->identifier] = [
+                'preferences'   => (array) ($plugin->preferences ?? []),
+            ];
         });
     }
 
@@ -186,5 +204,41 @@ class Plugins
         })->transform(static function ($interface) {
             return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
         })->first();
+    }
+
+    public function setPreference($identifier, $key, $value, $locale = null)
+    {
+        if (!is_null($locale)) {
+            $value = VoyagerFacade::setTranslation(
+                $this->enabled_plugins[$identifier]['preferences'][$key],
+                $value,
+                $locale
+            );
+        }
+        
+        $this->enabled_plugins[$identifier]['preferences'][$key] = $value;
+        $this->preferences_changed = true;
+    }
+
+    public function getPreference($identifier, $key, $default = null, $translate = true)
+    {
+        if ($translate) {
+            return VoyagerFacade::translate($this->enabled_plugins[$identifier]['preferences'][$key] ?? $default);
+        }
+
+        return $this->enabled_plugins[$identifier]['preferences'][$key] ?? $default;
+    }
+
+    public function __destruct()
+    {
+        if ($this->preferences_changed) {
+            $plugins = collect(VoyagerFacade::getJson(File::get($this->getPath()), []))->transform(function ($plugin) {
+                $plugin->preferences = $this->enabled_plugins[$plugin->identifier]['preferences'] ?? [];
+
+                return $plugin;
+            });
+
+            File::put($this->getPath(), json_encode($plugins, JSON_PRETTY_PRINT));
+        }
     }
 }
