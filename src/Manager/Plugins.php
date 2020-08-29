@@ -222,8 +222,8 @@ class Plugins
 
     public function getPreference($identifier, $key, $default = null, $translate = true)
     {
-        if ($translate) {
-            return VoyagerFacade::translate($this->enabled_plugins[$identifier]['preferences'][$key] ?? $default);
+        if ($translate !== false) {
+            return VoyagerFacade::translate($this->enabled_plugins[$identifier]['preferences'][$key] ?? $default, ($translate === true ? null : $translate));
         }
 
         return $this->enabled_plugins[$identifier]['preferences'][$key] ?? $default;

@@ -89,10 +89,7 @@ $this->preferences->get('my_key', 'Default value');
 ```
 
 If your preference is translatable, it will be automatically translated to the current locale.  
-If you don't want your value to be translated, simply pass `false` as the third parameter.  
-You can then translate it through Voyagers Facade into another locale:
-
-`Voyager::translate($this->preferences->get('my_key', 'Default value', false), 'de')`
+If you don't want your value to be translated, simply pass `false` as the third parameter or the locale to translate it to another locale.
 
 ### Providing menu items
 
