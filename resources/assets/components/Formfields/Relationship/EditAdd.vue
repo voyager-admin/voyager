@@ -99,6 +99,8 @@
 </template>
 
 <script>
+import fetch from '../../../js/fetch';
+
 export default {
     props: ['options', 'value', 'column', 'relationships', 'bread', 'translatable', 'fromRelationship', 'primaryKey'],
     data: function () {
@@ -148,7 +150,7 @@ export default {
         loadResults: function () {
             var vm = this;
             vm.loading = true;
-            axios.post(vm.route('voyager.'+vm.translate(this.bread.slug, true)+'.relationship'), {
+            fetch.post(vm.route('voyager.'+vm.translate(this.bread.slug, true)+'.relationship'), {
                 query: vm.query,
                 method: vm.relationship.method,
                 page: vm.page,
@@ -166,27 +168,25 @@ export default {
                         value: vm.__('voyager::generic.none'),
                     });
                 }
-
-                vm.loading = false;
                 vm.initial_loaded = true;
             })
             .catch(function (response) {
                 vm.$store.handleAjaxError(response);
+            })
+            .then(function () {
+                vm.loading = false;
             });
         },
         fetchRelationshipData: function () {
             var vm = this;
             vm.fetching_add_data = true;
-            axios.get(vm.route('voyager.'+vm.translate(vm.relatedBread.slug, true)+'.add'), {
-                params: {
-                    from_relationship: true
-                }
-            })
+
+            fetch.get(vm.route('voyager.'+vm.translate(vm.relatedBread.slug, true)+'.add'), { from_relationship: true })
             .then(function (response) {
                 vm.add_data = response.data;
                 vm.$refs.add_modal.open();
             })
-            .catch(function () {
+            .catch(function (response) {
                 vm.$store.handleAjaxError(response);
             })
             .then(function () {

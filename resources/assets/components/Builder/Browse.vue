@@ -102,6 +102,8 @@
 </template>
 
 <script>
+import fetch from '../../js/fetch';
+
 export default {
     props: ['tables'],
     data: function () {
@@ -138,11 +140,11 @@ export default {
             .then(function (result) {
                 if (result) {
                     vm.deleting = true;
-                    axios.delete(vm.route('voyager.bread.delete', table))
+                    fetch.delete(vm.route('voyager.bread.delete', table))
                     .then(function (response) {
                         new vm.$notification(vm.__('voyager::builder.delete_bread_success', {bread: table})).color('green').timeout().show();
                     })
-                    .catch(function (errors) {
+                    .catch(function (response) {
                         vm.$store.handleAjaxError(response);
                     })
                     .then(function () {
@@ -155,7 +157,8 @@ export default {
         backupBread: function (table) {
             var vm = this;
             vm.backingUp = true;
-            axios.post(vm.route('voyager.bread.backup-bread'), {
+
+            fetch.post(vm.route('voyager.bread.backup-bread'), {
                 table: table
             })
             .then(function (response) {
@@ -172,7 +175,8 @@ export default {
         rollbackBread: function (table, backup) {
             var vm = this;
             vm.$refs.rollbackdd[0].close();
-            axios.post(vm.route('voyager.bread.rollback-bread'), {
+
+            fetch.post(vm.route('voyager.bread.rollback-bread'), {
                 table: table,
                 path: backup.path
             })
@@ -197,7 +201,7 @@ export default {
             }
 
             vm.loading = true;
-            axios.post(vm.route('voyager.bread.get-breads'))
+            fetch.post(vm.route('voyager.bread.get-breads'))
             .then(function (response) {
                 vm.breads = response.data.breads;
                 vm.backups = response.data.backups;

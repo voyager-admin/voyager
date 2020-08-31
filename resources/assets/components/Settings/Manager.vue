@@ -121,6 +121,8 @@
 </template>
 
 <script>
+import fetch from '../../js/fetch';
+
 export default {
     props: {
         input: {
@@ -165,16 +167,16 @@ export default {
             vm.savingSettings = true;
             vm.errors = [];
 
-            axios.post(vm.route('voyager.settings.store'), {
+            fetch.post(vm.route('voyager.settings.store'), {
                 settings: vm.settings
             })
             .then(function (response) {
                 new vm.$notification(vm.__('voyager::settings.settings_saved')).color('green').timeout().show();
             })
             .catch(function (response) {
-                if (response.response.status == 422) {
+                if (response.status == 422) {
                     // Validation failed
-                    vm.errors = response.response.data;
+                    vm.errors = response.data;
                 } else {
                     vm.$store.handleAjaxError(response);
                 }

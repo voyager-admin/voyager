@@ -176,6 +176,7 @@
 </template>
 <script>
 import closable from '../../js/mixins/closable';
+import fetch from '../../js/fetch';
 
 var Status = {
     Pending  : 1,
@@ -333,9 +334,8 @@ export default {
             var vm = this;
             vm.loadingFiles = true;
             vm.selectedFiles = [];
-            axios.post(vm.listUrl, {
-                path: vm.path
-            })
+
+            fetch.post(vm.listUrl, { path: vm.path })
             .then(function (response) {
                 vm.files = response.data;
             })
@@ -343,7 +343,6 @@ export default {
                 vm.$store.handleAjaxError(response);
             })
             .then(function () {
-                // When loaded, clear finished filesToUpload
                 vm.loadingFiles = false;
             });
         },
@@ -377,7 +376,7 @@ export default {
                 file.status = Status.Failed;
                 file.progress = 0;
 
-                if (response.response.status == 413) {
+                if (response.status == 413) {
                     new vm
                     .$notification(vm.__('voyager::generic.upload_too_large', { file: file.file.name, size: vm.readableFileSize(file.file.size) }))
                     .color('red')
@@ -385,7 +384,7 @@ export default {
                     .show();
                 } else {
                     new vm
-                    .$notification(vm.__('voyager::generic.upload_failed', { file: file.file.name }) + '<br>' + response.response.statusText)
+                    .$notification(vm.__('voyager::generic.upload_failed', { file: file.file.name }) + '<br>' + response.statusText)
                     .color('red')
                     .timeout()
                     .show();
@@ -399,28 +398,21 @@ export default {
             let formData = new FormData();
             formData.append('file', file.file);
             formData.append('path', vm.path);
-            return axios.post(vm.uploadUrl, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-                onUploadProgress: function(e) {
-                    file.status = Status.Uploading;
-                    file.progress = Math.round((e.loaded * 100) / e.total);
-                }
-            });
+
+            file.status = Status.Uploading;
+            file.progress = 0;
+
+            return fetch.post(vm.uploadUrl, formData, 'text');
+
+            // TODO: When fetch API implements upload progress:
+            //file.status = Status.Uploading;
+            //file.progress = Math.round((e.loaded * 100) / e.total);
         },
         downloadFiles: function () {
             var vm = this;
 
             if (vm.selectedFiles.length > 0) {
-                axios({
-                    url: vm.route('voyager.media.download'),
-                    method: 'POST',
-                    responseType: 'blob',
-                    data: {
-                        files: vm.selectedFiles
-                    }
-                })
+                fetch.post(vm.route('voyager.media.download'), { files: vm.selectedFiles }, 'blob')
                 .then(function (response) {
                     if (vm.selectedFiles.length == 1) {
                         vm.downloadBlob(response.data, vm.selectedFiles[0]['file']['name']);
@@ -518,11 +510,7 @@ export default {
             .show()
             .then(function (response) {
                 if (response === true) {
-                    axios.delete(vm.route('voyager.media.delete'), {
-                        params: {
-                            files: vm.selectedFiles,
-                        }
-                    })
+                    fetch.delete(vm.route('voyager.media.delete'), { files: vm.selectedFiles })
                     .then(function (response) {
                         if (response.data.files > 0) {
                             new vm.$notification(vm.trans_choice('voyager::media.delete_files_success', response.data.files)).color('green').timeout().show();
@@ -531,7 +519,7 @@ export default {
                             new vm.$notification(vm.trans_choice('voyager::media.delete_folder_success', response.data.dirs)).color('green').timeout().show();
                         }
                     })
-                    .catch(function (errors) {
+                    .catch(function (response) {
                         vm.$store.handleAjaxError(response);
                     })
                     .then(function () {
@@ -565,10 +553,7 @@ export default {
                         return;
                     }
 
-                    axios.post(vm.route('voyager.media.create_folder'), {
-                        path: vm.path,
-                        name: result,
-                    })
+                    fetch.post(vm.route('voyager.media.create_folder'), { type: 'directory', name: result, })
                     .then(function (response) {
                         new vm.$notification(vm.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
                         vm.openFile({

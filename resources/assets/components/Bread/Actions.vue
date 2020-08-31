@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import fetch from '../../js/fetch';
+
 export default {
     props: {
         bulk: {
@@ -86,14 +88,9 @@ export default {
         },
         executeAction: function (action) {
             var vm = this;
-            axios({
-                method: action.method.toLowerCase(),
-                url: vm.route(action.route_name),
-                responseType: action.download === true ? 'blob' : 'json',
-                data: {
-                    primary: vm.selectedPrimarys(action),
-                }
-            })
+            fetch.createRequest(vm.route(action.route_name), (action.method.toLowerCase() || 'post'), {
+                primary: vm.selectedPrimarys(action)
+            }, action.download === true ? 'blob' : 'json')
             .then(function (response) {
                 if (vm.isObject(action.success)) {
                     var amount = response.data.amount || 1;

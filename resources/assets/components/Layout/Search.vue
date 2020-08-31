@@ -52,6 +52,8 @@
     </div>
 </template>
 <script>
+import fetch from '../../js/fetch';
+
 export default {
     props: ['placeholder', 'mobilePlaceholder'],
     data: function () {
@@ -102,7 +104,7 @@ export default {
 
             vm.loading = true;
 
-            axios.post(vm.route('voyager.globalsearch'), {
+            fetch.post(vm.route('voyager.globalsearch'), {
                 query: vm.query,
             })
             .then(function (response) {

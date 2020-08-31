@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import fetch from '../../../js/fetch';
+
 export default {
     props: ['options', 'data', 'translatable'],
     data: function () {
@@ -51,7 +53,8 @@ export default {
         if (vm.options.route_name == '') {
             return;
         }
-        axios.post(vm.route(vm.options.route_name), {
+
+        fetch.post(vm.route(vm.options.route_name), {
             selected: vm.parsedValues,
         })
         .then(function (response) {

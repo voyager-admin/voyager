@@ -156,6 +156,8 @@
 </template>
 
 <script>
+import fetch from '../../js/fetch';
+
 export default {
     props: {
         bread: {
@@ -194,8 +196,8 @@ export default {
         load: function () {
             var vm = this;
             vm.loading = true;
-            axios
-            .post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.data'), vm.parameters)
+
+            fetch.post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.data'), vm.parameters)
             .then(function (response) {
                 for (var key in response.data) {
                     if (response.data.hasOwnProperty(key) && vm.hasOwnProperty(key)) {
@@ -213,7 +215,7 @@ export default {
             .catch(function (response) {
                 vm.$store.handleAjaxError(response);
             })
-            .finally(function () {
+            .then(function () {
                 vm.loading = false;
             });
         },

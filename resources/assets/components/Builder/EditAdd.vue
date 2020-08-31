@@ -291,6 +291,8 @@
 </template>
 
 <script>
+import fetch from '../../js/fetch';
+
 export default {
     props: ['data', 'isNew'],
     data: function () {
@@ -345,7 +347,7 @@ export default {
             var vm = this;
             vm.savingBread = true;
 
-            axios.put(this.route('voyager.bread.update', this.bread.table), {
+            fetch.put(this.route('voyager.bread.update', this.bread.table), {
                 bread: vm.bread
             })
             .then(function (response) {
@@ -353,14 +355,16 @@ export default {
             })
             .catch(function (response) {
                 vm.$store.handleAjaxError(response);
-            }).then(function () {
+            })
+            .then(function () {
                 vm.savingBread = false;
             });
         },
         backupBread: function () {
             var vm = this;
             vm.backingUp = true;
-            axios.post(vm.route('voyager.bread.backup-bread'), {
+
+            fetch.post(vm.route('voyager.bread.backup-bread'), {
                 table: vm.bread.table
             })
             .then(function (response) {
@@ -381,7 +385,8 @@ export default {
             }
 
             vm.loadingProps = true;
-            axios.post(vm.route('voyager.bread.get-properties'), {
+
+            fetch.post(vm.route('voyager.bread.get-properties'), {
                 model: vm.bread.model,
                 resolve_relationships: true,
             })

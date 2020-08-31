@@ -5,11 +5,6 @@ window.Vue = require('vue');
 window.debounce = require('debounce');
 Vue.prototype.debounce = debounce;
 
-// https://github.com/axios/axios
-window.axios = require('axios');
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['X-CSRF-TOKEN'] = document.head.querySelector('meta[name="csrf-token"]').content;
-
 // https://github.com/simov/slugify
 window.slugify = require('slugify');
 Vue.prototype.slugify = window.slugify;

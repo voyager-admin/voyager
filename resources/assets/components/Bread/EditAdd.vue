@@ -65,6 +65,7 @@
 
 <script>
 import { EventBus } from '../../js/eventbus';
+import fetch from '../../js/fetch';
 
 export default {
     props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'relationships', 'fromRelationship', 'primaryKey'],
@@ -119,13 +120,11 @@ export default {
             vm.isSaving = true;
             vm.isSaved = false;
             vm.errors = [];
-            axios({
-                method: vm.currentAction == 'add' ? 'post' : 'put',
-                url: vm.currentAction == 'add' ? vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.store') : vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.update', vm.id),
-                data: {
-                    data: vm.output
-                }
-            })
+            fetch.createRequest(
+                (vm.currentAction == 'add' ? vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.store') : vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.update', vm.id)),
+                (vm.currentAction == 'add' ? 'post' : 'put'),
+                { data: vm.output }
+            )
             .then(function (response) {
                 if (vm.fromRelationship === true) {
                     vm.$emit('saved', {
@@ -156,7 +155,7 @@ export default {
                     vm.$store.handleAjaxError(response);
                 }
             })
-            .finally(function () {
+            .then(function () {
                 vm.isSaving = false;
                 vm.isSaved = true;
             });

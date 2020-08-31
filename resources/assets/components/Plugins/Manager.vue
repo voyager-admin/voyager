@@ -168,6 +168,8 @@
 </template>
 
 <script>
+import fetch from '../../js/fetch';
+
 export default {
     props: ['availablePlugins'],
     data: function () {
@@ -201,13 +203,14 @@ export default {
         loadPlugins: function () {
             var vm = this;
             vm.loading = true;
-            axios.post(vm.route('voyager.plugins.get'))
+            fetch.post(vm.route('voyager.plugins.get'))
             .then(function (response) {
                 vm.installed.plugins = response.data;
             })
             .catch(function (response) {
                 vm.$store.handleAjaxError(response);
-            }).finally(function () {
+            })
+            .then(function () {
                 vm.loading = false;
             });
         },
@@ -220,7 +223,7 @@ export default {
 
             new vm.$notification(message).confirm().timeout().show().then(function (response) {
                 if (response) {
-                    axios.post(vm.route('voyager.plugins.enable'), {
+                    fetch.post(vm.route('voyager.plugins.enable'), {
                         identifier: plugin.identifier,
                         enable: enable,
                     })
@@ -229,7 +232,8 @@ export default {
                     })
                     .catch(function (response) {
                         vm.$store.handleAjaxError(response);
-                    }).finally(function () {
+                    })
+                    .then(function () {
                         vm.loadPlugins();
                     });
                 }
