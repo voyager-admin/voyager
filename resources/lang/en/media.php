@@ -12,7 +12,6 @@ return [
     'drag_files_here'           => 'Drag your files here',
     'drop_files'                => 'Drop it like its 🔥',
     'files_selected'            => ':num files selected',
-    'file_exists'               => 'File ":file" already exists',
     'file_upload_failed'        => 'Uploading file ":file" failed',
     'folder_exists'             => 'A folder with the name ":name" already exists!',
     'path_copied'               => 'Path copied to clipboard!',

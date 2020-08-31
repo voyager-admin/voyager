@@ -349,64 +349,54 @@ export default {
         upload: function () {
             var vm = this;
 
-            var file = vm.filesToUpload.whereNot('status', Status.Finished)[0];
+            var files = vm.filesToUpload.whereNot('status', Status.Finished);
 
-            if (file === undefined) {
+            if (files.length == 0) {
                 vm.loadFiles();
                 vm.filesToUpload = vm.filesToUpload.whereNot('status', Status.Finished);
                 return;
             }
 
-            vm.uploadFile(file)
-            .then(function (response) {
-                file.status = Status.Finished;
-                file.progress = 100;
-
-                if (response.data.exists === true) {
-                    new vm.$notification(vm.__('voyager::media.file_exists', { file: file.file.name })).color('red').timeout().show();
-                    file.status = Status.Failed;
-                } else {
-                    if (response.data.success === false) {
-                        new vm.$notification(vm.__('voyager::media.file_upload_failed', { file: file.file.name })).color('red').timeout().show();
-                        file.status = Status.Failed;
-                    }
-                }
-            })
-            .catch(function (response) {
-                file.status = Status.Failed;
-                file.progress = 0;
-
-                if (response.status == 413) {
-                    new vm
-                    .$notification(vm.__('voyager::generic.upload_too_large', { file: file.file.name, size: vm.readableFileSize(file.file.size) }))
-                    .color('red')
-                    .timeout()
-                    .show();
-                } else {
-                    new vm
-                    .$notification(vm.__('voyager::generic.upload_failed', { file: file.file.name }) + '<br>' + response.statusText)
-                    .color('red')
-                    .timeout()
-                    .show();
-                }
-            }).then(function () {
-                vm.upload();
-            });
-        },
-        uploadFile: function (file) {
-            var vm = this;
             let formData = new FormData();
-            formData.append('file', file.file);
             formData.append('path', vm.path);
 
-            file.status = Status.Uploading;
-            file.progress = 0;
+            files.forEach(function (file) {
+                file.status = Status.Uploading;
+                file.progress = 100;
+                formData.append('files[]', file.file);
+            });
 
-            return fetch.post(vm.uploadUrl, formData, 'text');
+            fetch
+            .post(vm.uploadUrl, formData, 'text')
+            .then(function (response) {
+                response.data.forEach(function (file) {
+                    var uploadFile = null;
+                    files.forEach(function (f) {
+                        if (f.file.name == file.original) {
+                            uploadFile = f;
+                        }
+                    });
+                    
+                    if (uploadFile) {
+                        uploadFile.progress = 100;
 
-            // TODO: When fetch API implements upload progress:
-            //file.status = Status.Uploading;
-            //file.progress = Math.round((e.loaded * 100) / e.total);
+                        if (file.uploaded === false) {
+                            uploadFile.status = Status.Failed;
+                            new vm.$notification(vm.__('voyager::media.file_upload_failed', { file: file.original })).color('red').timeout().show();
+                        } else {
+                            uploadFile.status = Status.Finished;
+                            // TODO: Display a message?
+                        }
+                    }
+                });
+
+                // Cleanup finished files
+                vm.loadFiles();
+                vm.filesToUpload = vm.filesToUpload.whereNot('status', Status.Finished);
+            })
+            .catch(function (response) {
+                // TODO: Handle fails
+            });
         },
         downloadFiles: function () {
             var vm = this;

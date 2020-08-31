@@ -38,15 +38,27 @@ class MediaController extends Controller
     public function uploadFile(Request $request)
     {
         $path = Str::finish($this->path.$request->get('path', ''), '/');
-        $file = $request->file('file');
+        $files = $request->file('files', []);
+        $result = [];
+
+        foreach ($files as $file) {
+            $result[] = $this->processUploadedFile($file, $path);
+        }
+
+        return response()->json($result);
+    }
+
+    protected function processUploadedFile($file, $path)
+    {
         $name = '';
         $count = 0;
+        $thumbnails = 0;
         do {
             $name = $this->getFileName($file, $count);
             $count++;
         } while (Storage::disk($this->disk)->exists($path.$name));
 
-        $result = Storage::disk($this->disk)->putFileAs($path, $file, $name);
+        $uploaded = Storage::disk($this->disk)->putFileAs($path, $file, $name);
 
         if (in_array($file->getClientMimeType(), $this->imagemimes)) {
             // Orientate image
@@ -75,7 +87,7 @@ class MediaController extends Controller
             extract(pathinfo($name));
             
             // Generate thumbnails
-            VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension, $wm_add, $wm_pos, $wm_size, $wm_x, $wm_y, $wm_opac, $wm_path) {
+            VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension, $wm_add, $wm_pos, $wm_size, $wm_x, $wm_y, $wm_opac, $wm_path, &$thumbnails) {
                 $image = Intervention::make(Storage::disk($this->disk)->path($path.$name));
                 $thumbname = $filename.'_'.$thumb['name'].'.'.$extension;
 
@@ -118,6 +130,8 @@ class MediaController extends Controller
                 if (VoyagerFacade::setting('media.optimize', true)) {
                     ImageOptimizer::optimize(Storage::disk($this->disk)->path($path.$thumbname));
                 }
+
+                $thumbnails++;
             });
 
             // Add watermark to the "main" image
@@ -139,9 +153,12 @@ class MediaController extends Controller
             }
         }
 
-        return response()->json([
-            'result' => $result,
-        ]);
+        return [
+            'uploaded'      => !($uploaded === false),
+            'original'      => $file->getClientOriginalName(),
+            'new'           => $uploaded,
+            'thumbnails'    => $thumbnails,
+        ];
     }
 
     public function download(Request $request)
