@@ -23,8 +23,7 @@
             <language-input
                 class="input w-full"
                 type="text" :placeholder="__('voyager::formfields.media_picker.select_text')"
-                v-bind:value="options.select_text"
-                v-on:input="options.select_text = $event"
+                v-model="options.select_text"
             /> 
         </div>
         <div v-if="show == 'list-options'">

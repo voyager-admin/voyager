@@ -28,8 +28,7 @@
                             class="input w-full"
                             id="slug"
                             type="text" :placeholder="__('voyager::generic.slug')"
-                            v-bind:value="bread.slug"
-                            v-on:input="bread.slug = $event" />
+                            v-model="bread.slug" />
                     </div>
                 </div>
                 
@@ -40,8 +39,7 @@
                             class="input w-full"
                             id="name-singular"
                             type="text" :placeholder="__('voyager::builder.name_singular')"
-                            v-bind:value="bread.name_singular"
-                            v-on:input="bread.name_singular = $event" />
+                            v-model="bread.name_singular" />
                     </div>
                     <div class="w-full md:w-5/12 m-1">
                         <label class="label" for="name-plural">{{ __('voyager::builder.name_plural') }}</label>

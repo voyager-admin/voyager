@@ -63,15 +63,13 @@
                         <language-input
                             class="input w-full"
                             type="text" :placeholder="__('voyager::generic.title')"
-                            v-bind:value="formfield.options.title"
-                            v-on:input="formfield.options.title = $event" />
+                            v-model="formfield.options.title" />
 
                         <label class="label mt-4">{{ __('voyager::generic.description') }}</label>
                         <language-input
                             class="input w-full"
                             type="text" :placeholder="__('voyager::generic.description')"
-                            v-bind:value="formfield.options.description"
-                            v-on:input="formfield.options.description = $event" />
+                            v-model="formfield.options.description" />
 
                         <component
                             :is="'formfield-'+kebab_case(formfield.type)+'-builder'"

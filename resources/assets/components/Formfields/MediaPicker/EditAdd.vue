@@ -19,8 +19,7 @@
                                     <language-input
                                         class="input w-full small"
                                         type="text" :placeholder="translate(field.value, true)"
-                                        v-bind:value="file.meta[field.key]"
-                                        v-on:input="file.meta[field.key] = $event"
+                                        v-model="file.meta[field.key]"
                                     />
                                 </div>
                             </div>

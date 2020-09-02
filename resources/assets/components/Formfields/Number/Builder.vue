@@ -24,8 +24,7 @@
             <language-input
                 class="input w-full"
                 type="text" :placeholder="__('voyager::generic.placeholder')"
-                v-bind:value="options.placeholder"
-                v-on:input="options.placeholder = $event" /> 
+                v-model="options.placeholder" /> 
 
             <label class="label mt-4">{{ __('voyager::generic.minimum') }}</label>
             <plus-minus-input

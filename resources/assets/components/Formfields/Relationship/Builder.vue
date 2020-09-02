@@ -28,8 +28,7 @@
             <language-input
                 class="input w-full"
                 type="text" :placeholder="__('voyager::formfields.relationship.search_text')"
-                v-bind:value="options.search_text"
-                v-on:input="options.search_text = $event" />
+                v-model="options.search_text" />
 
             <label class="label mt-4" v-if="relationship && relationship.type == 'BelongsToMany'">
                 {{ __('voyager::formfields.relationship.pivots') }}

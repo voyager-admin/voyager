@@ -29,8 +29,7 @@
                                 class="input w-full"
                                 type="text"
                                 :placeholder="__(valueText)"
-                                v-bind:value="option.value"
-                                v-on:input="option.value = $event" />
+                                v-model="option.value" />
                         </td>
                         <td>
                             <button class="button red small" @click.stop="removeOption(i)">

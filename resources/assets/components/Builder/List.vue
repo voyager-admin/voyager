@@ -53,8 +53,7 @@
                             <language-input
                                 class="input small w-full"
                                 type="text" placeholder="Title"
-                                v-bind:value="formfield.title"
-                                v-on:input="formfield.title = $event" />
+                                v-model="formfield.title" />
                         </td>
                         <td class="hidden md:table-cell">
                             <input
@@ -132,8 +131,7 @@
                                 <language-input
                                     class="input w-full"
                                     type="text" :placeholder="__('voyager::generic.name')"
-                                    v-bind:value="f.name"
-                                    v-on:input="f.name = $event" />
+                                    v-model="f.name" />
                             </td>
                             <td>
                                 <select class="input small w-full" v-model="f.column">

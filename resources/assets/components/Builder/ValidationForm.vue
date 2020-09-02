@@ -28,8 +28,7 @@
                             <language-input
                                 class="input w-full"
                                 type="text" :placeholder="__('voyager::generic.message')"
-                                v-bind:value="rule.message"
-                                v-on:input="rule.message = $event" />
+                                v-model="rule.message" />
                         </td>
                         <td>
                             <button class="button red small" @click.stop="removeRule(key)">

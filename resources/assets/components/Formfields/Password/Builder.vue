@@ -5,8 +5,7 @@
             <language-input
                 class="input w-full"
                 type="text" :placeholder="__('voyager::generic.placeholder')"
-                v-bind:value="options.placeholder"
-                v-on:input="options.placeholder = $event" />
+                v-model="options.placeholder" />
         </div>
         <div v-else-if="show == 'view'">
             <input

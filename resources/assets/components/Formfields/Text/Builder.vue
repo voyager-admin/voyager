@@ -9,15 +9,13 @@
             <language-input
                 class="input w-full"
                 type="text" :placeholder="__('voyager::generic.placeholder')"
-                v-bind:value="options.placeholder"
-                v-on:input="options.placeholder = $event" /> 
+                v-model="options.placeholder" /> 
 
             <label class="label mt-4">{{ __('voyager::generic.default_value') }}</label>
             <language-input
                 class="input w-full"
                 type="text" :placeholder="__('voyager::generic.default_value')"
-                v-bind:value="options.default_value"
-                v-on:input="options.default_value = $event" /> 
+                v-model="options.default_value" /> 
 
             <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
             <plus-minus-input :min="1" :max="1000" class="input w-full" v-model="options.rows" />
