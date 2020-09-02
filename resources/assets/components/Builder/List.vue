@@ -107,7 +107,7 @@
             </table>
         </div>
 
-        <collapsible :title="__('voyager::generic.filters')" closed>
+        <collapsible :title="__('voyager::generic.filters')" closed ref="filters_collapsible">
             <div slot="actions">
                 <button class="button green small" @click.stop="addFilter">
                     <icon icon="plus" />
@@ -214,6 +214,9 @@ export default {
         },
         options: function (options) {
             this.reactiveOptions = options;
+        },
+        'reactiveOptions.filters': function () {
+            this.$refs.filters_collapsible.open();
         }
     },
 };
