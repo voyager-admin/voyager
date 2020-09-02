@@ -24,8 +24,6 @@ let components = [
     'Pagination',
     'PlusMinusInput',
     'SlideIn',
-    'SortContainer',
-    'SortElement',
     'Tabs',
     'TagInput',
 ];

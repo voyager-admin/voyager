@@ -1,20 +1,10 @@
 <template>
-    <sort-container
-        class="flex flex-wrap w-full"
-        tag="div"
-        :useDragHandle="true"
-        v-model="reactiveFormfields">
-        <sort-element
-            v-for="(formfield, key) in reactiveFormfields"
-            :key="'formfield-'+key"
-            :index="key"
-            axis="xy"
-            class="m-0"
-            :class="formfield.options.width">
+    <div class="flex flex-wrap w-full">
+        <div v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
             <card :title="translate(formfield.options.title) || ''" :title-size="5">
                 <div slot="actions">
                     <button class="button small blue">
-                        <icon icon="arrows-expand" v-sort-handle class="cursor-move" />
+                        <icon icon="arrows-expand" class="cursor-move" />
                     </button>
                     <button class="button small blue" @mousedown="startResize(key)">
                         <icon icon="switch-horizontal" class="cursor-move" />
@@ -90,9 +80,9 @@
                     {{ translate(formfield.options.description) }}
                 </p>
             </card>
-        </sort-element>
+        </div>
         <slot v-if="reactiveFormfields.length == 0" />
-    </sort-container>
+    </div>
 </template>
 
 <script>

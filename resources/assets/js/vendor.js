@@ -13,10 +13,6 @@ Vue.prototype.slugify = window.slugify;
 import Transitions from 'vue2-transitions';
 Vue.use(Transitions);
 
-// https://github.com/Jexordexan/vue-slicksort
-import { HandleDirective } from 'vue-slicksort';
-Vue.directive('sort-handle', HandleDirective);
-
 // https://github.com/katlasik/mime-matcher
 import MimeMatcher from 'mime-matcher';
 Vue.prototype.MimeMatcher = MimeMatcher;

@@ -15,10 +15,10 @@
                         <th style="text-align:right !important">{{ __('voyager::generic.actions') }}</th>
                     </tr>
                 </thead>
-                <sort-container v-model="reactiveFormfields" tag="tbody" :useDragHandle="true">
-                    <sort-element tag="tr" v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key" :index="key">
+                <tbody>
+                    <tr v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key">
                         <td class="hidden md:table-cell">
-                            <icon icon="selector" v-sort-handle class="cursor-move" :size="5" />
+                            <icon icon="selector" class="cursor-move" :size="5" />
                         </td>
                         <td class="hidden md:table-cell">{{ $store.getFormfieldByType(formfield.type).name }}</td>
                         <td>
@@ -102,8 +102,8 @@
                                     show="list-options" />
                             </slide-in>
                         </td>
-                    </sort-element>
-                </sort-container>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
