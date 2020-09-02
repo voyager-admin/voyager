@@ -46,6 +46,19 @@
     </div>
 </card>
 
+<collapsible title="Tooltips" id="ui-tooltips">
+    <div class="w-full flex justify-center">
+        <button v-tooltip:top="'Tooltip on top'" class="button">Top</button>
+    </div>
+    <div class="w-full inline-flex justify-center my-2">
+        <button v-tooltip:left="'Tooltip on the left'" class="button">Left</button>
+        <button v-tooltip:right="'Tooltip on the right'" class="button">Right</button>
+    </div>
+    <div class="w-full flex justify-center">
+        <button v-tooltip="'Tooltip on the bottom'" class="button">Bottom</button>
+    </div>
+</collapsible>
+
 <collapsible title="Heading" id="ui-headings">
     <h1>H1 Heading</h1>
     <h2>H2 Heading</h2>

@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { EventBus } from '../../js/eventbus';
+import EventBus from '../../js/eventbus';
 import fetch from '../../js/fetch';
 
 export default {

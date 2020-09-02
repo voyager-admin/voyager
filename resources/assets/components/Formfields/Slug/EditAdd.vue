@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { EventBus } from '../../../js/eventbus';
+import EventBus from '../../../js/eventbus';
 
 export default {
     props: ['options', 'value'],
