@@ -212,6 +212,12 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function registerBulkActions()
     {
+        $add_action = (new Action('voyager::generic.add_type', 'plus', 'green'))
+        ->route(function ($bread) {
+            return 'voyager.'.$bread->slug.'.add';
+        })
+        ->bulk();
+
         $delete_action = (new Action('voyager::bread.delete_type', 'trash', 'red'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.delete';
@@ -235,6 +241,7 @@ class VoyagerServiceProvider extends ServiceProvider
         ->reloadAfter();
 
         $this->breadmanager->addAction(
+            $add_action,
             $delete_action,
             $restore_action
         );

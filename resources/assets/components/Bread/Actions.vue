@@ -57,8 +57,12 @@ export default {
     },
     methods: {
         getUrl: function (action) {
-            if (this.selected.length == 1) {
+            if (action.method !== 'get') {
+                return;
+            } else if (this.selected.length == 1) {
                 return this.route(action.route_name, this.selected[0].primary_key);
+            } else if (action.display_deletable === null) {
+                return this.route(action.route_name);
             }
 
             return '#';
@@ -134,6 +138,8 @@ export default {
                 return action.bulk ? this.deletable : (this.selected[0].is_soft_deleted ? 0 : 1);
             } else if (action.display_deletable === false) {
                 return action.bulk ? this.restorable : (this.selected[0].is_soft_deleted ? 1 : 0);
+            } else if (action.display_deletable === null) {
+                return 1;
             }
 
             return this.selected.length;

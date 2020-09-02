@@ -44,6 +44,7 @@ class Action
      */
     public function method(string $method)
     {
+        $method = strtolower($method);
         if (!in_array($method, ['get', 'post', 'put', 'patch', 'delete'])) {
             throw new \Exception('Method "'.$method.'" can not be used in an action!');
         }
