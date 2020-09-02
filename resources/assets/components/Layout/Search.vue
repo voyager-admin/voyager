@@ -131,20 +131,11 @@ export default {
     },
     mounted: function () {
         var vm = this;
-        document.body.addEventListener('keydown', event => {
-            if (event.keyCode === 27) {
+        document.body.addEventListener('keydown', function (e) {
+            if (e.code === 'Escape') {
                 vm.search('');
             }
         });
     },
 };
 </script>
-<style lang="scss" scoped>
-.voyager-search-results {
-    @apply absolute bg-white text-black rounded-lg border-gray-600 p-8 origin-top-left;
-}
-
-.dark .voyager-search-results {
-    @apply bg-black text-white;
-}
-</style>

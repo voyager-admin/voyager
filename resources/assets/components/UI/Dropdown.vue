@@ -38,8 +38,8 @@ export default {
     },
     mounted: function () {
         var vm = this;
-        document.body.addEventListener('keydown', event => {
-            if (event.keyCode === 27) {
+        document.body.addEventListener('keydown', function (e) {
+            if (e.code === 'Escape') {
                 vm.close();
             }
         });

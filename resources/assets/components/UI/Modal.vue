@@ -47,14 +47,14 @@ export default {
     },
     mounted: function () {
         var vm = this;
-        document.body.addEventListener('keydown', event => {
-            if (event.keyCode === 27) {
+        document.body.addEventListener('keydown', function (e) {
+            if (e.code === 'Escape') {
                 vm.close();
             }
         });
         if (vm.$slots.opener) {
             Array.from(vm.$slots.opener[0].elm.getElementsByTagName('button')).forEach(function (el) {
-                el.addEventListener('click', event => {
+                el.addEventListener('click', function () {
                     vm.open();
                 });
             });

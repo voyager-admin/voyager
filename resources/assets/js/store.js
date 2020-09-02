@@ -111,6 +111,7 @@ export default {
                     if (dark.matches) {
                         vm.toggleDarkMode(true);
                     }
+                    // TODO: Once Safari follow the specs, this should be .dark.addEventListener('change', () => {})
                     dark.addListener(function (e) {
                         vm.toggleDarkMode(e.matches);
                     });
@@ -126,7 +127,7 @@ export default {
                 }
 
                 // Hide loader when page is loaded
-                document.addEventListener("DOMContentLoaded", function(event) {
+                document.addEventListener('DOMContentLoaded', function() {
                     vm.pageLoading = false;
                 });
             }

@@ -35,10 +35,10 @@ Vue.prototype.$language = new Vue({
     created: function () {
         var vm = this;
         document.addEventListener('keydown', function (e) {
-            if (event.ctrlKey) {
-                if (e.keyCode == 38 || e.keyCode == 39) {
+            if (e.ctrlKey) {
+                if (e.code == 'ArrowRight' || e.code == 'ArrowDown') {
                     vm.nextLocale();
-                } else if (e.keyCode == 37 || e.keyCode == 40) {
+                } else if (e.code == 'ArrowLeft' || e.code == 'ArrowUp') {
                     vm.previousLocale();
                 }
             }
