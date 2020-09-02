@@ -26,7 +26,10 @@
                                 :show-title="translate(formfield.options.label, true) !== ''">
                                 <div>
                                     <alert v-if="getErrors(formfield.column).length > 0" color="red" :closebutton="false" class="mb-1">
-                                        <ul class="list-disc">
+                                        <span v-if="getErrors(formfield.column).length == 1">
+                                            {{ getErrors(formfield.column)[0] }}
+                                        </span>
+                                        <ul class="list-disc" v-else>
                                             <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
                                                 {{ error }}
                                             </li>
@@ -148,9 +151,9 @@ export default {
                 }
             })
             .catch(function (response) {
-                if (response.response.status == 422) {
+                if (response.status == 422) {
                     // Validation failed
-                    vm.errors = response.response.data;
+                    vm.errors = response.data;
                 } else {
                     vm.$store.handleAjaxError(response);
                 }
