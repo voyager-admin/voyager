@@ -1,4 +1,4 @@
-Vue.directive('scroll-to', {
+export default {
     inserted: function (el, binding) {
         el.addEventListener('click', function (e) {
             var element = document.getElementById('top');
@@ -22,4 +22,4 @@ Vue.directive('scroll-to', {
             }
         });
     }
-});
+};

@@ -284,6 +284,15 @@ export default {
         },
         displayFilter: function (filter) {
             return !(filter.column == '' || filter.operator == '' || this.translate(filter.name, true) == '');
+        },
+        clamp: function (num, min, max) {
+            if (num < min) {
+                return min;
+            } else if (num > max) {
+                return max;
+            }
+        
+            return num;
         }
     },
     computed: {

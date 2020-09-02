@@ -53,6 +53,7 @@ export default {
             })
             .then(function (response) {
                 vm.selects = response.data;
+                // TODO: Never set length of an array in Vue as it can't detect this change
                 vm.selected.length = response.data.length;
 
                 vm.triggerChange();

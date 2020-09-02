@@ -8,6 +8,7 @@ Instead, they are listed here:
 - Measure bread loading times and cache them if necessary
 - Replace BREAD rollback dropdown so tables can get `overflow-x-auto`
 - Ordering settings does not really work
+- Media manager: While uploading files, they are shown in every folder
 
 ## Formfields
 - **Relationship** support polymorphic relationships

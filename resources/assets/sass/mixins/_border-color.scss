@@ -1,5 +1,21 @@
-@mixin border-color($var, $default) {
+@mixin border-color($var, $default, $direction: null) {
     /* VARIABLE:#{$var}|#{$default}| */
-    border-color: theme($default);
-    border-color: var(--#{$var}, theme($default));
+    @if $direction == null {
+        border-color: theme($default);
+        border-color: var(--#{$var}, theme($default));
+    } @else if $direction == top {
+        border-top-color: theme($default);
+        border-top-color: var(--#{$var}, theme($default));
+    } @else if $direction == bottom {
+        border-bottom-color: theme($default);
+        border-bottom-color: var(--#{$var}, theme($default));
+    } @else if $direction == left {
+        border-left-color: theme($default);
+        border-left-color: var(--#{$var}, theme($default));
+    } @else if $direction == right {
+        border-right-color: theme($default);
+        border-right-color: var(--#{$var}, theme($default));
+    } @else {
+        @error "Unknown direction #{$direction}.";
+    }
 }

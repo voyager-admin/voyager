@@ -12,16 +12,3 @@ Vue.mixin({
         }
     }
 });
-
-Vue.prototype.firstExistingComponent = function () {
-    var components = '';
-    for (i = 0; i < arguments.length; i++) {
-        components = components + arguments[i] + ', ';
-
-        if (Vue.options.components[arguments[i]] !== undefined) {
-            return arguments[i];
-        }
-    }
-
-    console.error('None of the following components exists: ' + components.slice(0, -2));
-}
