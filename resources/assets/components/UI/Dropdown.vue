@@ -111,7 +111,7 @@ export default {
             .link {
                 @include border-color(dropdown-border-color, 'colors.gray.400');
                 @include text-color(dropdown-link-color, 'colors.blue.600');
-                @apply block px-6 py-3 leading-tight;
+                @apply block px-6 py-3 leading-tight cursor-pointer;
 
                 &:hover {
                     @include bg-color(dropdown-link-hover-color, 'colors.gray.100');

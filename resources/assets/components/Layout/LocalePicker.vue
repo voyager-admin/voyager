@@ -1,13 +1,25 @@
 <template>
-    <div class="button-group" v-if="$language.locales.length > 1">
+    <div v-if="$language.locales.length > 1">
         <button
-            v-for="locale in $language.locales"
-            v-bind:key="locale"
             class="button accent uppercase"
-            :class="[$language.locale == locale ? 'active' : '', small ? 'small' : '']"
-            @click="$language.locale = locale">
-            {{ locale }}
+            :class="[small ? 'small' : '']"
+            @click.prevent.stop="$refs.locale_dropdown.open()"
+        >
+            <span>{{ $language.locale }}</span>
+            <icon icon="chevron-down" :size="4" />
         </button>
+        <dropdown ref="locale_dropdown" :width="24">
+            <div>
+                <a
+                    v-for="locale in $language.locales"
+                    v-bind:key="locale"
+                    @click="$language.locale = locale"
+                    class="link uppercase"
+                >
+                    {{ locale }}
+                </a>
+            </div>
+        </dropdown>
     </div>
 </template>
 
