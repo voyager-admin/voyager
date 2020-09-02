@@ -41,8 +41,8 @@
             </div>
             <tabs v-on:select="currentGroupId = $event" :tabs="groups" ref="tabs">
                 <div v-for="(group, i) in groups" :key="'group-'+i" :slot="group.name">
-                    <sort-container v-model="groupedSettings" :useDragHandle="true">
-                        <sort-element v-for="(setting, i) in settingsByGroup(group.name)" :key="'settings-'+i" :index="i">
+                    <div>
+                        <div v-for="(setting, i) in settingsByGroup(group.name)" :key="'settings-'+i">
                             <card :title="setting.name">
                                 <div slot="title" v-if="editMode" class="flex space-x-1">
                                     <input
@@ -62,7 +62,7 @@
                                 </div>
                                 <div slot="actions" v-if="editMode">
                                     <div class="flex items-center mt-1 md:mt-0">
-                                        <button class="button" v-sort-handle>
+                                        <button class="button">
                                             <icon icon="selector" :size="4"></icon>
                                         </button>
                                         <button class="button" @click="optionsId = i">
@@ -105,8 +105,8 @@
                                         :show="'edit'" />
                                 </div>
                             </card>
-                        </sort-element>
-                    </sort-container>
+                        </div>
+                    </div>
                     <div v-if="groupedSettings.length == 0" class="w-full text-center">
                         <h4>{{ __('voyager::settings.no_settings_in_group') }}</h4>
                         <h6 v-if="query !== ''">{{ __('voyager::settings.search_warning') }}</h6>

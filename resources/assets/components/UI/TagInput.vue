@@ -1,12 +1,12 @@
 <template>
     <div class="input" @click="$refs.input.focus()">
-        <sort-container v-model="tags" tag="span" axis="x" :hideSortableGhost="false" :useDragHandle="true">
-            <sort-element v-for="(tag, i) in tags" :key="'tag-'+i" :index="i" tag="span" :disabled="!allowReorder">
+        <span>
+            <span v-for="(tag, i) in tags" :key="'tag-'+i">
                 <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[allowReorder ? 'cursor-move' : '']">
-                    <i v-sort-handle>{{ tag }}</i>
+                    <i>{{ tag }}</i>
                 </badge>
-            </sort-element>
-        </sort-container>
+            </span>
+        </span>
         <input type="text" class="bg-transparent border-0 focus:outline-none" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
     </div>
 </template>
