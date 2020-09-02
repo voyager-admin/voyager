@@ -36,6 +36,9 @@
             <button class="button accent my-2" v-scroll-to="'ui-alerts'">
                 Alerts
             </button>
+            <button class="button accent my-2" v-scroll-to="'ui-tooltips'">
+                Tooltips
+            </button>
             <button class="button accent my-2" v-scroll-to="'ui-notifications'">
                 Notifications
             </button>
@@ -45,19 +48,6 @@
         </div>
     </div>
 </card>
-
-<collapsible title="Tooltips" id="ui-tooltips">
-    <div class="w-full flex justify-center">
-        <button v-tooltip:top="'Tooltip on top'" class="button">Top</button>
-    </div>
-    <div class="w-full inline-flex justify-center my-2">
-        <button v-tooltip:left="'Tooltip on the left'" class="button">Left</button>
-        <button v-tooltip:right="'Tooltip on the right'" class="button">Right</button>
-    </div>
-    <div class="w-full flex justify-center">
-        <button v-tooltip="'Tooltip on the bottom'" class="button">Bottom</button>
-    </div>
-</collapsible>
 
 <collapsible title="Heading" id="ui-headings">
     <h1>H1 Heading</h1>
@@ -244,6 +234,19 @@
         <span slot="title">@{{ __('voyager::generic.color_names.'+color) }}</span>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.</p>
     </alert>
+</collapsible>
+
+<collapsible title="Tooltips" id="ui-tooltips">
+    <div class="w-full flex justify-center">
+        <button v-tooltip:top="'Tooltip on top'" class="button">Top</button>
+    </div>
+    <div class="w-full inline-flex justify-center my-2">
+        <button v-tooltip:left="'Tooltip on the left'" class="button">Left</button>
+        <button v-tooltip:right="'Tooltip on the right'" class="button">Right</button>
+    </div>
+    <div class="w-full flex justify-center">
+        <button v-tooltip="'Tooltip on the bottom'" class="button">Bottom</button>
+    </div>
 </collapsible>
 
 <collapsible title="Notifications" id="ui-notifications">
