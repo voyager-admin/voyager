@@ -33,12 +33,12 @@
 
         p.title {
             @include text-color(notification-title-color, 'colors.gray.900');
-            @apply text-sm leading-5 font-medium;
+            @apply text-sm leading-5 font-medium break-words;
         }
 
         p.message {
             @include text-color(notification-message-color, 'colors.gray.500');
-            @apply text-sm leading-5;
+            @apply text-sm leading-5 break-words;
         }
     }
 }

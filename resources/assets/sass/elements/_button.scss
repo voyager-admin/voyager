@@ -22,6 +22,18 @@
             @include bg-color(accent-active-color-dark, 'colors.blue.800');
         }
     }
+
+    &:hover {
+        @include bg-color(button-hover-bg-color-dark, 'colors.gray.850');
+    }
+
+    &:focus {
+        @include bg-color(button-focus-bg-color-dark, 'colors.gray.900');
+    }
+
+    &.active {
+        @include bg-color(button-active-bg-color-dark, 'colors.gray.950');
+    }
 }
 
 .button {
@@ -38,6 +50,15 @@
 
     &:hover {
         @apply transition-colors duration-200 ease-in-out;
+        @include bg-color(button-hover-bg-color, 'colors.gray.100');
+    }
+
+    &:focus {
+        @include bg-color(button-focus-bg-color, 'colors.gray.150');
+    }
+
+    &.active {
+        @include bg-color(button-active-bg-color, 'colors.gray.200');
     }
 
     > :not(template) + :not(template) {

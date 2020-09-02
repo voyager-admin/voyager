@@ -147,9 +147,6 @@
     <collapsible title="Colors" id="ui-color-picker">
         <color-picker :describe="true"></color-picker>
     </collapsible>
-    <collapsible title="Shades" id="ui-color-picker">
-        <color-picker :describe="true" palette="tailwind-shades"></color-picker>
-    </collapsible>
 </collapsible>
 
 <collapsible title="Date/Time picker" id="ui-datetime">
