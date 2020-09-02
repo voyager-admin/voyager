@@ -28,4 +28,5 @@ return [
     'type_save_failed'              => 'There was an error saving this :type!',
     'type_store_success'            => ':type was successfully stored!',
     'type_update_success'           => ':type was successfully updated!',
+    'validation_errors'             => 'There were problems validating your data.',
 ];

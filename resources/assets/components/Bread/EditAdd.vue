@@ -37,8 +37,8 @@
                                     </alert>
                                     <component
                                         :is="'formfield-'+kebab_case(formfield.type)+'-edit-add'"
-                                        v-bind:value="data(formfield, null)"
-                                        v-on:input="data(formfield, $event)"
+                                        v-bind:value="getData(formfield)"
+                                        v-on:input="setData(formfield, $event)"
                                         :bread="bread"
                                         :options="formfield.options"
                                         :column="formfield.column"
@@ -83,34 +83,37 @@ export default {
         };
     },
     methods: {
-        data: function (formfield, value = null) {
+        getData: function (formfield) {
             if (formfield.translatable || false && this.output[formfield.column.column] && this.isString(this.output[formfield.column.column])) {
                 Vue.set(this.output, formfield.column.column, this.get_translatable_object(this.output[formfield.column.column]));
             }
-            if (value) {
-                if (!this.output.hasOwnProperty(formfield.column.column)) {
-                    if (formfield.translatable || false) {
-                        Vue.set(this.output, formfield.column.column, {});
-                    } else {
-                        Vue.set(this.output, formfield.column.column, '');
-                    }
-                }
-                if (formfield.translatable || false) {
-                    Vue.set(this.output[formfield.column.column], this.$language.locale, value);
-                } else {
-                    Vue.set(this.output, formfield.column.column, value);
-                }
-
-                EventBus.$emit('input', {
-                    column: formfield.column,
-                    value: value,
-                });
-            }
+            
             if (formfield.translatable || false) {
                 return this.translate(this.get_translatable_object(this.output[formfield.column.column]));
             }
 
             return this.output[formfield.column.column];
+        },
+        setData: function (formfield, value) {
+            this.getData(formfield);
+
+            if (!this.output.hasOwnProperty(formfield.column.column)) {
+                if (formfield.translatable || false) {
+                    Vue.set(this.output, formfield.column.column, {});
+                } else {
+                    Vue.set(this.output, formfield.column.column, '');
+                }
+            }
+            if (formfield.translatable || false) {
+                Vue.set(this.output[formfield.column.column], this.$language.locale, value);
+            } else {
+                Vue.set(this.output, formfield.column.column, value);
+            }
+
+            EventBus.$emit('input', {
+                column: formfield.column,
+                value: value,
+            });
         },
         getErrors: function (column) {
             return this.errors[column.column] || [];
@@ -154,6 +157,9 @@ export default {
                 if (response.status == 422) {
                     // Validation failed
                     vm.errors = response.data;
+                    new vm
+                    .$notification(vm.__('voyager::bread.validation_errors'))
+                    .color('red').timeout().show();
                 } else {
                     vm.$store.handleAjaxError(response);
                 }
