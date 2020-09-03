@@ -3,13 +3,16 @@
         <div v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
             <card :title="translate(formfield.options.title) || ''" :title-size="5">
                 <div slot="actions">
-                    <button class="button small blue">
-                        <icon icon="arrows-expand" class="cursor-move" />
+                    <button class="button small">
+                        <icon icon="chevron-left" @click.prevent.stop="prev(formfield)" />
                     </button>
-                    <button class="button small blue" @mousedown="startResize(key)">
+                    <button class="button small">
+                        <icon icon="chevron-right" @click.prevent.stop="next(formfield)" />
+                    </button>
+                    <button class="button small" @mousedown="startResize(key)">
                         <icon icon="switch-horizontal" class="cursor-move" />
                     </button>
-                    <button class="button small blue" @click="$emit('open-options', key)">
+                    <button class="button small" @click="$emit('open-options', key)">
                         <icon icon="cog" />
                     </button>
                     <button class="button small red" @click="$emit('delete', key)">
@@ -106,7 +109,19 @@ export default {
     methods: {
         startResize: function (key) {
             this.resizingFormfield = key;
-        }
+        },
+        prev: function (formfield) {
+            var current_index = this.reactiveFormfields.indexOf(formfield);
+            if (current_index > 0) {
+                this.reactiveFormfields.splice((current_index - 1), 2, formfield, this.reactiveFormfields[current_index - 1]);
+            }
+        },
+        next: function (formfield) {
+            var current_index = this.reactiveFormfields.indexOf(formfield);
+            if (current_index < (this.reactiveFormfields.length - 1)) {
+                this.reactiveFormfields.splice((current_index), 2, this.reactiveFormfields[current_index + 1], formfield);
+            }
+        },
     },
     watch: {
         reactiveFormfields: function (formfields) {

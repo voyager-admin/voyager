@@ -18,7 +18,8 @@
                 <tbody>
                     <tr v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key">
                         <td class="hidden md:table-cell">
-                            <icon icon="selector" class="cursor-move" :size="5" />
+                            <icon icon="chevron-up" class="cursor-pointer" :size="4" @click.prevent.stop="up(formfield)" />
+                            <icon icon="chevron-down" class="cursor-pointer" :size="4" @click.prevent.stop="down(formfield)" />
                         </td>
                         <td class="hidden md:table-cell">{{ $store.getFormfieldByType(formfield.type).name }}</td>
                         <td>
@@ -186,6 +187,18 @@ export default {
         };
     },
     methods: {
+        up: function (formfield) {
+            var current_index = this.reactiveFormfields.indexOf(formfield);
+            if (current_index > 0) {
+                this.reactiveFormfields.splice((current_index - 1), 2, formfield, this.reactiveFormfields[current_index - 1]);
+            }
+        },
+        down: function (formfield) {
+            var current_index = this.reactiveFormfields.indexOf(formfield);
+            if (current_index < (this.reactiveFormfields.length - 1)) {
+                this.reactiveFormfields.splice((current_index), 2, this.reactiveFormfields[current_index + 1], formfield);
+            }
+        },
         addFilter: function () {
             if (!this.isArray(this.reactiveOptions.filters)) {
                 Vue.set(this.reactiveOptions, 'filters', []);
