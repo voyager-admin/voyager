@@ -286,6 +286,31 @@ class BreadController extends Controller
         ];
     }
 
+    public function order(Request $request)
+    {
+        $key = $request->get('key', null);
+        $up = $request->get('up', true);
+
+        if (!is_null($key)) {
+            $bread = $this->getBread($request);
+            $model = $bread->getModel();
+
+            $move_item = $model->findOrFail($key);
+            $current_order = $move_item->{$bread->order_field};
+
+            $next_item = $model->where($bread->order_field, ($up ? $current_order - 1 : $current_order + 1))->first();
+            if ($next_item) {
+                $next_item->{$bread->order_field} = $current_order;
+                $next_item->save();
+
+                $move_item->{$bread->order_field} = ($up ? $current_order - 1 : $current_order + 1);
+                $move_item->save();
+            }
+        }
+
+        return response(200);
+    }
+
     public function relationship(Request $request)
     {
         // TODO: Validate that the method exists in edit/add layout

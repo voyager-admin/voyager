@@ -10,6 +10,7 @@ Instead, they are listed here:
 - Ordering settings does not really work
 - Media manager: While uploading files, they are shown in every folder
 - Tooltips don't update value when changed
+- Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
 
 ## Formfields
 - **Relationship** support polymorphic relationships

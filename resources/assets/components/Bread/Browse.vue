@@ -94,8 +94,8 @@
                                     />
                                 </td>
                                 <td v-if="uses_ordering">
-                                    <icon icon="chevron-up" class="cursor-pointer" :size="3" @click.prevent.stop="orderUp(result.primary_key)" />
-                                    <icon icon="chevron-down" class="cursor-pointer" :size="3" @click.prevent.stop="orderDown(result.primary_key)" />
+                                    <icon icon="chevron-up" class="cursor-pointer" :size="3" @click.prevent.stop="orderUp(result.primary_key, key)" />
+                                    <icon icon="chevron-down" class="cursor-pointer" :size="3" @click.prevent.stop="orderDown(result.primary_key, key)" />
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
@@ -293,14 +293,28 @@ export default {
         displayFilter: function (filter) {
             return !(filter.column == '' || filter.operator == '' || this.translate(filter.name, true) == '');
         },
-        orderUp: function (key) {
+        orderUp: function (key, i) {
+            if (i == 0 && this.parameters.page == 1) {
+                return;
+            }
             this.order(key, true);
         },
-        orderDown: function (key) {
+        orderDown: function (key, i) {
             this.order(key, false);
         },
         order: function (key, up) {
-            //
+            var vm = this;
+
+            fetch.post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.order'), {
+                key: key,
+                up: up,
+            })
+            .then(function (response) {
+                vm.load();
+            })
+            .catch(function (response) {
+                vm.$store.handleAjaxError(response);
+            });
         },
         clamp: function (num, min, max) {
             if (num < min) {
