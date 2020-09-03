@@ -1,7 +1,7 @@
 <template>
     <span class="absolute">
         <span v-for="(tooltip, i) in tooltips" :key="i">
-            <span class="tooltip" :style="getStyles(tooltip, i)" :ref="'tooltip_'+i" v-show="tooltip.show">
+            <span class="tooltip" :style="getStyles(tooltip, i)" :ref="'tooltip_'+i" v-show="tooltip.show && tooltip.value !== null">
                 <div class="arrow" :class="tooltip.pos"></div>
                 <div class="inner" v-html="tooltip.value"></div>
             </span>

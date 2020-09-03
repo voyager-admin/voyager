@@ -19,7 +19,11 @@
         }
 
         &.active {
-            @include bg-color(accent-active-color-dark, 'colors.blue.800');
+            @include bg-color(accent-active-color-dark, 'colors.blue.600');
+
+            &:hover {
+                @include bg-color(accent-active-hover-color-dark, 'colors.blue.700');
+            }
         }
     }
 
@@ -32,7 +36,11 @@
     }
 
     &.active {
-        @include bg-color(button-active-bg-color-dark, 'colors.gray.950');
+        @include bg-color(button-active-bg-color-dark, 'colors.gray.850');
+
+        &:hover {
+            @include bg-color(button-active-hover-bg-color-dark, 'colors.gray.900');
+        }
     }
 }
 
@@ -41,12 +49,7 @@
 
     @include bg-color(button-bg-color, 'colors.gray.50');
     @include border-color(button-border-color, 'colors.gray.300');
-    @include text-color(button-text-color, 'colors.gray.600');
-
-    &:focus {
-        @apply outline-none;
-        @apply transition-colors duration-200 ease-in-out;
-    }
+    @include text-color(button-text-color, 'colors.gray.600'); 
 
     &:hover {
         @apply transition-colors duration-200 ease-in-out;
@@ -54,11 +57,17 @@
     }
 
     &:focus {
+        @apply outline-none;
+        @apply transition-colors duration-200 ease-in-out;
         @include bg-color(button-focus-bg-color, 'colors.gray.150');
     }
 
     &.active {
-        @include bg-color(button-active-bg-color, 'colors.gray.200');
+        @include bg-color(button-active-bg-color, 'colors.gray.100');
+
+        &:hover {
+            @include bg-color(button-active-hover-bg-color-dark, 'colors.gray.150');
+        }
     }
 
     > :not(template) + :not(template) {
@@ -83,7 +92,11 @@
             }
 
             &.active {
-                @apply bg-#{$color}-800;
+                @apply bg-#{$color}-600;
+
+                &:hover {
+                    @apply bg-#{$color}-700;
+                }
             }
         }
     }
@@ -101,7 +114,11 @@
         }
 
         &.active {
-            @include bg-color(accent-active-color, 'colors.blue.800');
+            @include bg-color(accent-active-color, 'colors.blue.600');
+
+            &:hover {
+                @include bg-color(accent-active-hover-color, 'colors.blue.700');
+            }
         }
     }
 

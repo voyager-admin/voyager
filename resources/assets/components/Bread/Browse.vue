@@ -43,13 +43,15 @@
                                 <th class="w-2">
                                     <input type="checkbox" class="input" @change="selectAll($event.target.checked)" :checked="allSelected" />
                                 </th>
+                                <th v-if="uses_ordering"></th>
                                 <th
                                     v-for="(formfield, key) in layout.formfields" :key="'thead-' + key"
                                     :class="formfield.orderable ? 'cursor-pointer' : ''"
-                                    @click="formfield.orderable ? orderBy(formfield.column.column) : ''"
-                                    v-tooltip="formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : false">
+                                    @click="formfield.orderable ? orderBy(formfield.column.column) : ''">
                                     <div class="flex h-full items-center">
-                                        {{ translate(formfield.title, true) }}
+                                        <span v-tooltip="(formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : null)">
+                                            {{ translate(formfield.title, true) }}
+                                        </span>
                                         <icon
                                             v-if="formfield.orderable && parameters.order == formfield.column.column"
                                             :icon="parameters.direction == 'asc' ? 'sort-ascending' : 'sort-descending'"
@@ -63,6 +65,7 @@
                             </tr>
                             <tr>
                                 <th></th>
+                                <th v-if="uses_ordering"></th>
                                 <th v-for="(formfield, key) in layout.formfields" :key="'thead-search-' + key">
                                     <component
                                         v-if="formfield.searchable"
@@ -89,6 +92,10 @@
                                         v-model="selected"
                                         :value="result.primary_key"
                                     />
+                                </td>
+                                <td v-if="uses_ordering">
+                                    <icon icon="chevron-up" class="cursor-pointer" :size="3" @click.prevent.stop="orderUp(result.primary_key)" />
+                                    <icon icon="chevron-down" class="cursor-pointer" :size="3" @click.prevent.stop="orderDown(result.primary_key)" />
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
@@ -178,6 +185,7 @@ export default {
             filtered: 0, // Amount of filtered entries
             selected: [], // Array of selected primary-keys
             uses_soft_deletes: false, // If the model uses soft-deleting
+            uses_ordering: false, // If the items can be re-ordered
             actions: [], // The actions which should be displayed
             parameters: {
                 page: 1,
@@ -284,6 +292,15 @@ export default {
         },
         displayFilter: function (filter) {
             return !(filter.column == '' || filter.operator == '' || this.translate(filter.name, true) == '');
+        },
+        orderUp: function (key) {
+            this.order(key, true);
+        },
+        orderDown: function (key) {
+            this.order(key, false);
+        },
+        order: function (key, up) {
+            //
         },
         clamp: function (num, min, max) {
             if (num < min) {

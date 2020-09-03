@@ -20,6 +20,7 @@ class Bread implements \JsonSerializable
     public $controller;
     public $policy;
     public $global_search_field;
+    public $order_field;
     public $layouts = [];
     public $layout_map = [
         'browse' => [],
@@ -77,6 +78,7 @@ class Bread implements \JsonSerializable
             'controller'          => $this->controller,
             'policy'              => $this->policy,
             'global_search_field' => $this->global_search_field,
+            'order_field'         => $this->order_field,
             'layouts'             => $this->layouts,
             'layout_map'          => $this->layout_map,
         ];

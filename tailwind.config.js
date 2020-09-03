@@ -10,7 +10,10 @@ module.exports = {
                 /w-[0-9]+/,             // Different sizes used for icons
                 /h-[0-9]+/,             // ^
                 /border-[a-z]+-500/,
+                /bg-[a-z]+-400/,
                 /bg-[a-z]+-500/,
+                /bg-[a-z]+-600/,
+                /bg-[a-z]+-700/,
                 /text-[a-z]+-500/,
                 /text-[a-z]+-600/,
                 /grid-cols-[0-9]+/,     // Used for dashboard-widgets
@@ -54,7 +57,7 @@ module.exports = {
                     850: '#212837',
                     900: '#1A202E',
                     950: '#0D1017',
-                }
+                },
             },
             spacing: {
                 '0.5': '0.125rem',
@@ -106,6 +109,8 @@ module.exports = {
     },
     future: {
         removeDeprecatedGapUtilities: true,
+    },
+    experimental: {
     },
     plugins: [
         require('tailwindcss-dir')(),
