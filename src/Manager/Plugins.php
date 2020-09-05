@@ -25,6 +25,7 @@ class Plugins
     protected $plugins;
     protected $enabled_plugins;
     protected $path;
+    protected $preferences_changed = false;
 
     public function __construct(Menu $menumanager, Settings $settingsmanager)
     {
