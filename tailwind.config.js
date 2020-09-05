@@ -1,5 +1,6 @@
 module.exports = {
     purge: {
+        preserveHtmlElements: true,
         content: [
             './resources/**/*.vue',
             './resources/**/*.blade.php'
@@ -109,6 +110,7 @@ module.exports = {
     },
     future: {
         removeDeprecatedGapUtilities: true,
+        purgeLayersByDefault: true,
     },
     experimental: {
     },
