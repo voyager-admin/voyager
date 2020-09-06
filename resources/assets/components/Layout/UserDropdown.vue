@@ -23,7 +23,7 @@
                     {{ __('voyager::auth.logout') }}
                 </a>
             </div>
-            <div slot="opener">
+            <template v-slot:opener>
                 <button class="flex items-center pl-6 py-2 font-semibold rounded-lg focus:outline-none">
                     <div class="w-48 text-right text-sm flex justify-end">
                         <div class="w-6 h-6 rounded-full overflow-hidden bg-black flex justify-center items-center relative">
@@ -39,7 +39,7 @@
                         <path d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z"/>
                     </svg>
                 </button>
-            </div>
+            </template>
         </dropdown>
     </div>
 </template>

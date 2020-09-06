@@ -8,57 +8,57 @@
             :showHeader="!fromRelationship"
             :no-padding="fromRelationship"
         >
-            <div slot="actions">
-                    <div class="flex items-center">
-                        <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
-                            <icon icon="chevron-left"></icon>
-                            <span>{{ __('voyager::generic.back') }}</span>
-                        </a>
-                        <locale-picker v-if="$language.localePicker" class="ltr:mr-2 rtl:ml-2"></locale-picker>
+            <template v-slot:actions>
+                <div class="flex items-center">
+                    <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
+                        <icon icon="chevron-left"></icon>
+                        <span>{{ __('voyager::generic.back') }}</span>
+                    </a>
+                    <locale-picker class="ltr:mr-2 rtl:ml-2"></locale-picker>
+                </div>
+            </template>
+            <div>
+                <div class="flex flex-wrap w-full">
+                    <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0 w-full" :class="'md:' + formfield.options.width">
+                        <card
+                            :title="translate(formfield.options.title, true)"
+                            :title-size="5"
+                            :show-title="translate(formfield.options.label, true) !== ''">
+                            <div>
+                                <alert v-if="getErrors(formfield.column).length > 0" color="red" :closebutton="false" class="mb-1">
+                                    <span v-if="getErrors(formfield.column).length == 1">
+                                        {{ getErrors(formfield.column)[0] }}
+                                    </span>
+                                    <ul class="list-disc" v-else>
+                                        <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
+                                            {{ error }}
+                                        </li>
+                                    </ul>
+                                </alert>
+                                <component
+                                    :is="'formfield-'+kebab_case(formfield.type)+'-edit-add'"
+                                    v-bind:value="getData(formfield)"
+                                    v-on:input="setData(formfield, $event)"
+                                    :bread="bread"
+                                    :options="formfield.options"
+                                    :column="formfield.column"
+                                    :relationships="relationships"
+                                    :translatable="formfield.translatable"
+                                    :from-relationship="fromRelationship"
+                                    :show="currentAction"
+                                    :primary-key="primaryKey" />
+                                <p class="description" v-if="translate(formfield.options.description, true) !== ''">
+                                    {{ translate(formfield.options.description, true) }}
+                                </p>
+                            </div>
+                        </card>
                     </div>
                 </div>
-                <div>
-                    <div class="flex flex-wrap w-full">
-                        <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0 w-full" :class="'md:' + formfield.options.width">
-                            <card
-                                :title="translate(formfield.options.title, true)"
-                                :title-size="5"
-                                :show-title="translate(formfield.options.label, true) !== ''">
-                                <div>
-                                    <alert v-if="getErrors(formfield.column).length > 0" color="red" :closebutton="false" class="mb-1">
-                                        <span v-if="getErrors(formfield.column).length == 1">
-                                            {{ getErrors(formfield.column)[0] }}
-                                        </span>
-                                        <ul class="list-disc" v-else>
-                                            <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
-                                                {{ error }}
-                                            </li>
-                                        </ul>
-                                    </alert>
-                                    <component
-                                        :is="'formfield-'+kebab_case(formfield.type)+'-edit-add'"
-                                        v-bind:value="getData(formfield)"
-                                        v-on:input="setData(formfield, $event)"
-                                        :bread="bread"
-                                        :options="formfield.options"
-                                        :column="formfield.column"
-                                        :relationships="relationships"
-                                        :translatable="formfield.translatable"
-                                        :from-relationship="fromRelationship"
-                                        :show="currentAction"
-                                        :primary-key="primaryKey" />
-                                    <p class="description" v-if="translate(formfield.options.description, true) !== ''">
-                                        {{ translate(formfield.options.description, true) }}
-                                    </p>
-                                </div>
-                            </card>
-                        </div>
-                    </div>
-                    <button class="button green" @click="save">
-                        <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="isSaving" />
-                        <span>{{ __('voyager::generic.save') }}</span>
-                    </button>
-                </div>
+                <button class="button green" @click="save">
+                    <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="isSaving" />
+                    <span>{{ __('voyager::generic.save') }}</span>
+                </button>
+            </div>
         </card>
         <collapsible v-if="!fromRelationship && $store.json_output" :title="__('voyager::builder.json_output')" closed>
             <textarea class="input w-full" rows="10" v-model="jsonOutput"></textarea>
@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import EventBus from '../../js/eventbus';
 import fetch from '../../js/fetch';
 
 export default {
@@ -85,7 +84,8 @@ export default {
     methods: {
         getData: function (formfield) {
             if (formfield.translatable || false && this.output[formfield.column.column] && this.isString(this.output[formfield.column.column])) {
-                Vue.set(this.output, formfield.column.column, this.get_translatable_object(this.output[formfield.column.column]));
+                // TODO: Vue.set(this.output, formfield.column.column, this.get_translatable_object(this.output[formfield.column.column]));
+                this.output[formfield.column.column] = this.get_translatable_object(this.output[formfield.column.column]);
             }
             
             if (formfield.translatable || false) {
@@ -99,21 +99,25 @@ export default {
 
             if (!this.output.hasOwnProperty(formfield.column.column)) {
                 if (formfield.translatable || false) {
-                    Vue.set(this.output, formfield.column.column, {});
+                    // TODO: Vue.set(this.output, formfield.column.column, {});
+                    this.output[formfield.column.column] = {};
                 } else {
-                    Vue.set(this.output, formfield.column.column, '');
+                    // TODO: Vue.set(this.output, formfield.column.column, '');
+                    this.output[formfield.column.column] = '';
                 }
             }
             if (formfield.translatable || false) {
-                Vue.set(this.output[formfield.column.column], this.$language.locale, value);
+                // TODO: Vue.set(this.output[formfield.column.column], this.$store.locale, value);
+                this.output[formfield.column.column][this.$store.locale] = value;
             } else {
-                Vue.set(this.output, formfield.column.column, value);
+                // TODO: Vue.set(this.output, formfield.column.column, value);
+                this.output[formfield.column.column] = value;
             }
-
-            EventBus.$emit('input', {
+            // TODO
+            /*EventBus.$emit('input', {
                 column: formfield.column,
                 value: value,
-            });
+            });*/
         },
         getErrors: function (column) {
             return this.errors[column.column] || [];
@@ -177,7 +181,6 @@ export default {
     },
     mounted: function () {
         var vm = this;
-        Vue.prototype.$language.localePicker = true;
 
         document.addEventListener('keydown', function (e) {
             if (event.ctrlKey && event.key === 's') {

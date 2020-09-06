@@ -17,16 +17,17 @@
             </div>
         </div>
         <div class="content">
-            <slide-x-right-transition :duration="150" group>
-                <div v-for="(tab, i) in tabs" :key="'slot-'+i" v-if="currentTab == i">
-                    <slot :name="tab.name" />
+            <div was="slide-x-right-transition" :duration="150" group>
+                <div v-for="(tab, i) in tabs" :key="'slot-'+i">
+                    <slot :name="tab.name" v-if="currentTab == i" />
                 </div>
-            </slide-x-right-transition>
+            </div>
         </div>
     </card>
 </template>
 <script>
 export default {
+    emits: ['select'],
     props: {
         openTab: {
             type: String,

@@ -1,15 +1,15 @@
 <template>
     <div>
         <card :title="__('voyager::bread.read_type', { type: translate(bread.name_singular, true) })" :icon="bread.icon">
-            <div slot="actions">
+            <template v-slot:actions>
                 <div class="flex items-center">
                     <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
                         <icon icon="chevron-left"></icon>
                         <span>{{ __('voyager::generic.back') }}</span>
                     </a>
-                    <locale-picker v-if="$language.localePicker" :small="false"></locale-picker>
+                    <locale-picker :small="false"></locale-picker>
                 </div>
-            </div>
+            </template>
             <div class="flex flex-wrap w-full">
                 <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
                     <card :title="translate(formfield.options.title, true)" :title-size="5" :show-title="translate(formfield.options.label, true) !== ''">
@@ -38,8 +38,5 @@ export default {
             return this.data[column.column];
         }
     },
-    mounted: function () {
-        Vue.prototype.$language.localePicker = true;
-    }
 };
 </script>

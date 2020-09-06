@@ -5,7 +5,7 @@
     <search
         class="h-full flex-grow flex"
         placeholder="{{ resolve(\Voyager\Admin\Manager\Breads::class)->getBreadSearchPlaceholder() }}"
-        :mobile-placeholder="__('voyager::generic.search')"
+        mobile-placeholder="{{ __('voyager::generic.search') }}"
     >
     </search>
     <user-dropdown

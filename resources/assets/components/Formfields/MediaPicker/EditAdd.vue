@@ -90,9 +90,11 @@ export default {
         },
         getFileObject: function (file) {
             var meta = {};
+            var vm = this;
 
-            this.options.meta.forEach(function (m) {
-                Vue.set(meta, m.key, '');
+            vm.options.meta.forEach(function (m) {
+                // TODO: Vue.set(meta, m.key, '');
+                meta[m.key] = '';
             });
 
             return {
@@ -101,7 +103,7 @@ export default {
                 name: file.name,
                 type: file.type,
                 url: file.url,
-                thumbnails: this.getThumbnails(file),
+                thumbnails: vm.getThumbnails(file),
                 meta: meta
             };
         },

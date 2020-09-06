@@ -1,5 +1,5 @@
 <template>
-    <collapse-transition>
+    <div was="collapse-transition">
         <div class="rounded-md p-4 border" :class="`border-${color}-500`" v-if="show">
             <div class="flex items-center">
                 <div class="flex-shrink-0" v-if="icon">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-    </collapse-transition>
+    </div>
 </template>
 <script>
 export default {

@@ -40,9 +40,9 @@ function staticStrategy(el, callback) {
     }
 }
 
-function bind(el, binding) {
+function mounted(el, binding) {
     const { value: callback, modifiers } = binding;
-    unbind(el);
+    unmounted(el);
 
     if (!domListener) {
         domListener = on(document.documentElement, 'click', event => {
@@ -57,13 +57,13 @@ function bind(el, binding) {
     }, 0);
 }
 
-function update(el, binding) {
+function updated(el, binding) {
     if (binding.value !== binding.oldValue) {
         bind(el, binding);
     }
 }
 
-function unbind(el) {
+function unmounted(el) {
     let index = registeredHandlers.length - 1;
     while (index >= 0) {
         if (registeredHandlers[index].el === el) {
@@ -80,5 +80,5 @@ function unbind(el) {
 }
 
 export default {
-    bind, unbind, update
+    mounted, unmounted, updated
 };

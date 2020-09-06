@@ -18,6 +18,7 @@
 import icons from '../../js/icons';
 
 export default {
+    emits: ['select'],
     data: function () {
         return {
             query: '',

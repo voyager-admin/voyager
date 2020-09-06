@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import EventBus from '../../../js/eventbus';
-
 export default {
     props: ['options', 'value'],
     data: function () {
@@ -31,11 +29,12 @@ export default {
     mounted: function () {
         var vm = this;
 
-        EventBus.$on('input', function (parameters) {
+        // TODO
+        /*EventBus.$on('input', function (parameters) {
             if (parameters.column.type == 'column' && parameters.column.column == vm.options.field) {
                 vm.reactiveValue = vm.slugifyValue(parameters.value);
             }
-        });
+        });*/
     },
     watch: {
         value: function (value) {

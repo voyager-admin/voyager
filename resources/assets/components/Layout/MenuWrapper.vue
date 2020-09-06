@@ -8,6 +8,7 @@
                 :icon="item.icon"
                 :href="item.href"
                 :active="isItemActive(item)"
+                :hasChildren="item.children.length > 0"
             >
                 <div v-if="item.children.length > 0">
                     <menu-wrapper
@@ -21,7 +22,12 @@
 </template>
 
 <script>
+import MenuItem from './MenuItem.vue';
+
 export default {
+    components: {
+        'menu-item': MenuItem,
+    },
     props: {
         items: {
             type: Array,

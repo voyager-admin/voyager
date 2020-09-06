@@ -1,6 +1,6 @@
 <template>
     <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
-        <div slot="actions">
+        <template v-slot:actions>
             <div class="flex flex-wrap items-center">
                 <input
                     type="text"
@@ -19,9 +19,9 @@
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <bread-actions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
-                <locale-picker :small="false" v-if="$language.localePicker" />
+                <locale-picker :small="false" />
             </div>
-        </div>
+        </template>
         <div>
             <div v-if="layout !== null">
                 <div class="inline-flex w-full" v-if="layout.options.filters.length > 0">
@@ -195,7 +195,7 @@ export default {
                 order: null,
                 direction: 'asc',
                 softdeleted: 'show', // show, hide, only
-                locale: this.$language.locale,
+                locale: this.$store.locale,
                 filter: null, // The current selected filter
             },
         };
@@ -208,7 +208,7 @@ export default {
             fetch.post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.data'), vm.parameters)
             .then(function (response) {
                 for (var key in response.data) {
-                    if (response.data.hasOwnProperty(key) && vm.hasOwnProperty(key)) {
+                    if (response.data.hasOwnProperty(key) && vm.$data.hasOwnProperty(key)) {
                         vm[key] = response.data[key];
                     }
                 }
@@ -386,16 +386,17 @@ export default {
         },
     },
     mounted: function () {
-        Vue.prototype.$language.localePicker = true;
         var vm = this;
 
         var parameter_found = false;
         for (var param of vm.getParametersFromUrl()) {
             try {
                 var val = JSON.parse(param[1]);
-                Vue.set(this.parameters, param[0], val);
+                // TODO: Vue.set(this.parameters, param[0], val);
+                this.parameters[param[0]] = val;
             } catch {
-                Vue.set(this.parameters, param[0], param[1]);
+                // TODO: Vue.set(this.parameters, param[0], param[1]);
+                this.parameters[param[0]] = param[1];
             }
 
             parameter_found = true;
@@ -423,7 +424,7 @@ export default {
         'parameters.softdeleted': function () {
             this.parameters.page = 1;
         },
-        '$language.locale': function (locale) {
+        '$store.locale': function (locale) {
             this.parameters.locale = locale;
         },
     }

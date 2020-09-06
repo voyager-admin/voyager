@@ -1,13 +1,15 @@
 <template>
     <div class="dropdown" v-click-outside="close">
-        <slot name="opener" />
-        <slide-y-up-transition>
+        <div ref="opener">
+            <slot name="opener" />
+        </div>
+        <div was="slide-y-up-transition">
             <div class="wrapper" :class="[`w-${width}`, pos]" v-if="isOpen">
                 <div class="body">
                     <slot />
                 </div>
             </div>
-        </slide-y-up-transition>
+        </div>
     </div>
 </template>
 <script>
@@ -43,17 +45,13 @@ export default {
                 vm.close();
             }
         });
-        if (vm.$slots.opener) {
+        if (vm.$refs.opener.children.length > 0) {
             if (vm.dontOpenOnClick) {
                 return;
             }
-            Array.from(vm.$slots.opener[0].elm.getElementsByTagName('*')).forEach(function (el) {
+            Array.from(vm.$refs.opener.getElementsByTagName('*')).forEach(function (el) {
                 el.addEventListener('click', event => {
-                    if (!vm.openOnClick) {
-                        vm.toggle();
-                    } else {
-                        vm.open();
-                    }
+                    vm.open();
                 });
             });
         }

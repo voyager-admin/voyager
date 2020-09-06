@@ -6,6 +6,7 @@
 import icons from '../../js/icons';
 
 export default {
+    emits: ['click'],
     props: {
         icon: {
             type: String,

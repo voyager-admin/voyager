@@ -1,7 +1,7 @@
 <template>
     <div>
         <collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
-            <div slot="actions">
+            <template v-slot:actions>
                 <div class="flex items-center">
                     <button class="button" @click.stop="toggleFocusMode">
                         <icon icon="arrows-expand" :size="4" />
@@ -13,12 +13,12 @@
                     </button>
                     <locale-picker :small="false" class="ltr:ml-2 rtl:mr-2" />
                 </div>
-            </div>
+            </template>
             <div>
                 <alert color="yellow" v-if="!propsLoaded" class="mx-4">
-                    <span slot="title">
-                        {{ __('voyager::generic.heads_up') }}
-                    </span>
+                    <template v-slot:title>
+                        <span>{{ __('voyager::generic.heads_up') }}</span>
+                    </template>
                     {{ __('voyager::builder.new_breads_prop_warning') }}
                 </alert>
                 <div class="flex mb-4">
@@ -47,18 +47,20 @@
                             class="input w-full"
                             id="name-plural"
                             type="text" :placeholder="__('voyager::builder.name_plural')"
-                            v-bind:value="bread.name_plural"
-                            v-on:input="bread.name_plural = $event; setSlug($event)" />
+                            :model-value="bread.name_plural"
+                            @update:model-value="bread.name_plural = $event; setSlug($event)" />
                     </div>
                     <div class="w-full md:w-2/12 m-1">
                         <label class="label" for="icon">{{ __('voyager::generic.icon') }}</label>
                         <modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
                             <icon-picker v-on:select="$refs.icon_modal.close(); bread.icon = $event" />
-                            <div slot="opener" class="w-full">
-                                <button class="button">
-                                    <icon class="cursor-pointer my-1 content-center" :size="6" :icon="bread.icon" />
-                                </button>
-                            </div>
+                            <template v-slot:opener>
+                                <div class="w-full">
+                                    <button class="button">
+                                        <icon class="cursor-pointer my-1 content-center" :size="6" :icon="bread.icon" />
+                                    </button>
+                                </div>
+                            </template>
                         </modal>
                     </div>
                 </div>
@@ -110,16 +112,18 @@
                 </div>
             </div>
 
-            <div slot="footer" class="inline-flex">
-                <button class="button blue" @click="saveBread">
-                    <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="savingBread" />
-                    {{ __('voyager::generic.save') }}
-                </button>
-                <button class="button" @click="backupBread">
-                    <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="backingUp" />
-                    {{ __('voyager::generic.backup') }}
-                </button>
-            </div>
+            <template v-slot:footer>
+                <div class="inline-flex">
+                    <button class="button blue" @click="saveBread">
+                        <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="savingBread" />
+                        {{ __('voyager::generic.save') }}
+                    </button>
+                    <button class="button" @click="backupBread">
+                        <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="backingUp" />
+                        {{ __('voyager::generic.backup') }}
+                    </button>
+                </div>
+            </template>
         </collapsible>
 
         <card :show-header="false">
@@ -155,7 +159,7 @@
                             {{ __('voyager::builder.formfields_more') }}
                         </a>
                     </div>
-                    <div slot="opener">
+                    <template v-slot:opener>
                         <button class="button small ml-2"
                                 :disabled="bread.layouts.length == 0">
                             <icon icon="plus" />
@@ -163,7 +167,7 @@
                                 {{ __('voyager::builder.add_formfield') }}
                             </span>
                         </button>
-                    </div>
+                    </template>
                 </dropdown>
                 <dropdown ref="layout_dd" pos="right" class="self-center">
                     <div>
@@ -174,14 +178,14 @@
                             {{ __('voyager::builder.view') }}
                         </a>
                     </div>
-                    <div slot="opener">
+                    <template v-slot:opener>
                         <button class="button small">
                             <icon icon="plus" />
                             <span>
                                 {{ __('voyager::builder.add_layout') }}
                             </span>
                         </button>
-                    </div>
+                    </template>
                 </dropdown>
                 <dropdown ref="actions_dd" pos="right" class="self-center">
                     <div>
@@ -195,14 +199,14 @@
                             {{ __('voyager::builder.clone_layout') }}
                         </a>
                     </div>
-                    <div slot="opener">
+                    <template v-slot:opener>
                         <button class="button small">
                             <icon icon="fire" />
                             <span>
                                 {{ __('voyager::generic.actions') }}
                             </span>
                         </button>
-                    </div>
+                    </template>
                 </dropdown>
                 <button class="button small" @click="layoutOptionsOpen = true" :disabled="!currentLayout">
                     <icon icon="cog" />
@@ -211,7 +215,9 @@
                     </span>
                 </button>
                 <slide-in v-if="currentLayout" :opened="layoutOptionsOpen" width="w-1/3" class="text-left" v-on:closed="layoutOptionsOpen = false" :title="__('voyager::generic.options')">
-                    <locale-picker v-if="$language.localePicker" slot="actions" />
+                    <template v-slot:actions>
+                        <locale-picker />
+                    </template>
                     <div>
                         <div v-if="currentLayout.type == 'list'">
                             <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
@@ -400,7 +406,8 @@ export default {
             })
             .then(function (response) {
                 Object.keys(response.data).map(function(key) {
-                    Vue.set(vm, key, response.data[key]);
+                    vm[key] = response.data[key];
+                    // TODO: Vue.set(vm, key, response.data[key]);
                 });
                 vm.propsLoaded = true;
             })
@@ -547,7 +554,7 @@ export default {
             });
         },
         setSlug: function (value) {
-            var l = this.$language.locale;
+            var l = this.$store.locale;
             this.bread.slug = this.get_translatable_object(this.bread.slug);
             this.bread.slug[l] = this.slugify(value[l], { strict: true, lower: true });
         },
@@ -631,8 +638,6 @@ export default {
     },
     mounted: function () {
         var vm = this;
-        Vue.prototype.$language.localePicker = true;
-
         // Load model-properties (only when we already know the model-name)
         if (vm.bread.model) {
             vm.loadProperties();

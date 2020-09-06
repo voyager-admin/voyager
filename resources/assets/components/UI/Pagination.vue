@@ -61,6 +61,7 @@
 
 <script>
 export default {
+    emits: ['update:modelValue'],
     props: {
         value: {
             type: Number
@@ -179,7 +180,7 @@ export default {
         selectPage: function (selected) {
             if (this.selected !== selected && this.isNumber(selected) && selected >= 1) {
                 this.pageValue = selected;
-                this.$emit('input', selected);
+                this.$emit('update:modelValue', selected);
             }
         },
         prevPage: function () {

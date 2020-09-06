@@ -1,4 +1,4 @@
-Vue.mixin({
+export default {
     methods: {
         copyToClipboard: function (message) {
             var dummy = document.createElement('textarea');
@@ -11,4 +11,4 @@ Vue.mixin({
             return false;
         }
     }
-});
+};

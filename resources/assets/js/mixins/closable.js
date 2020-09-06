@@ -1,4 +1,5 @@
 export default {
+    emits: ['opened', 'closed', 'toggled'],
     data: function () {
         return {
             isOpen: false,

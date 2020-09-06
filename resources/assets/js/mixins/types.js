@@ -1,4 +1,4 @@
-Vue.mixin({
+export default {
     methods: {
         isArray: function (input) {
             return (input && typeof input === 'object' && input instanceof Array);
@@ -20,4 +20,4 @@ Vue.mixin({
             return matcher.match(mime);
         },
     }
-});
+};

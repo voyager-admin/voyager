@@ -1,33 +1,29 @@
-Vue.prototype.$notify = new Vue({
-    data: function () {
-        return {
-            notifications: [],
-        };
+import { reactive } from 'vue';
+
+const Notify = {
+    notifications: reactive([]),
+    addNotification: function(obj) {
+        var vm = this;
+
+        return new Promise(function (resolve, reject) {
+            obj.resolve = resolve;
+            obj.reject = reject;
+            obj._timeout_running = true;
+
+           vm.notifications.push(obj);
+        });
     },
-    methods: {
-        addNotification: function(obj) {
-            var vm = this;
-
-            return new Promise(function (resolve, reject) {
-                obj.resolve = resolve;
-                obj.reject = reject;
-                obj._timeout_running = true;
-
-               vm.notifications.push(obj);
-            });
-        },
-        removeNotification: function(obj, result, message = null) {
-            if (obj._prompt == true) {
-                obj.resolve((result == true ? message : false));
-            } else if (result !== null) {
-                obj.resolve(result);
-            }
-            this.notifications.splice(this.notifications.indexOf(obj), 1);
+    removeNotification: function(obj, result, message = null) {
+        if (obj._prompt == true) {
+            obj.resolve((result == true ? message : false));
+        } else if (result !== null) {
+            obj.resolve(result);
         }
+        this.notifications.splice(this.notifications.indexOf(obj), 1);
     }
-});
+};
 
-Vue.prototype.$notification = class Notification {
+const Notification = class Notification {
     constructor(message) {
         this._message = message;
         this._icon = 'information-circle';
@@ -88,8 +84,6 @@ Vue.prototype.$notification = class Notification {
     }
 
     show() {
-        var vm = this;
-
         if (this._confirm && this._buttons.length == 0) {
             this.addButton({
                 key: true,
@@ -112,13 +106,14 @@ Vue.prototype.$notification = class Notification {
             });
         }
         if (!this._prompt && !this._confirm) {
-            Vue.prototype.$notify.addNotification(vm);
+            Notify.addNotification(this);
 
             return this;
         }
+        var vm = this;
 
         return new Promise(function(resolve, reject) {
-            Vue.prototype.$notify.addNotification(vm)
+            Notify.addNotification(vm)
             .then(function (result, message = null) {
                 resolve(result, message);
             });
@@ -143,4 +138,9 @@ Vue.prototype.$notification = class Notification {
     remove() {
 
     }
-}
+};
+
+export {
+    Notify,
+    Notification
+};

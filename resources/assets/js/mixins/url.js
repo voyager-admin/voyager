@@ -1,4 +1,4 @@
-Vue.mixin({
+export default {
     methods: {
         addParameterToUrl: function (parameter, value, url = null) {
             var newurl = new URL(document.location.href);
@@ -46,4 +46,4 @@ Vue.mixin({
             return document.head.querySelector('meta[name="asset-url"]').content + path;
         }
     }
-});
+};

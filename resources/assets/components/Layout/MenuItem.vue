@@ -8,13 +8,13 @@
             </a>
         </div>
         <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open">
-            <icon :icon="open ? 'chevron-up' : 'chevron-down'" v-if="$slots.default" :size="4" class="icon"></icon>
+            <icon :icon="open ? 'chevron-up' : 'chevron-down'" v-if="hasChildren" :size="4" class="icon"></icon>
         </div>
     </div>
     
-    <collapse-transition v-if="$slots.default" :class="[open ? 'submenu' : '']" :duration="200">
+    <div was="collapse-transition" v-if="hasChildren" :class="[open ? 'submenu' : '']" :duration="200">
         <slot v-if="open" />
-    </collapse-transition>
+    </div>
 </div>
 </template>
 
@@ -42,6 +42,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        hasChildren: {
+            type: Boolean,
+            default: false,
+        }
     },
     data: function () {
         return {

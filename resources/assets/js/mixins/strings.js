@@ -1,4 +1,4 @@
-Vue.mixin({
+export default {
     methods: {
         kebab_case: function (input, char = '-') {
             return input
@@ -63,4 +63,4 @@ Vue.mixin({
             return uuid;
         }
     }
-});
+};

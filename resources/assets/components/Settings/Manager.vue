@@ -1,7 +1,7 @@
 <template>
     <div>
         <card :title="__('voyager::settings.settings')" icon="cog">
-            <div slot="actions">
+            <template v-slot:actions>
                 <div class="flex items-center">
                     <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
                     <button class="button accent" @click="saveSettings">
@@ -14,7 +14,7 @@
                                 <a v-for="formfield in filterFormfields"
                                     :key="'formfield-'+formfield.type"
                                     href="#"
-                                    @click.prevent="addFormfield(formfield); $refs.formfield_dd.close()"
+                                    @click.prevent="addFormfield(formfield)"
                                     class="link rounded">
                                     {{ formfield.name }}
                                 </a>
@@ -27,24 +27,24 @@
                                 {{ __('voyager::builder.formfields_more') }}
                             </a>
                         </div>
-                        <div slot="opener">
+                        <template v-slot:opener>
                             <button class="button green">
                                 <icon icon="plus" />
                                 <span>
                                     {{ __('voyager::builder.add_formfield') }}
                                 </span>
                             </button>
-                        </div>
+                        </template>
                     </dropdown>
                     <locale-picker :small="false" />
                 </div>
-            </div>
+            </template>
             <tabs v-on:select="currentGroupId = $event" :tabs="groups" ref="tabs">
-                <div v-for="(group, i) in groups" :key="'group-'+i" :slot="group.name">
+                <template v-for="(group, i) in groups" :key="'group-'+i" v-slot:[group.name]>
                     <div>
                         <div v-for="(setting, i) in settingsByGroup(group.name)" :key="'settings-'+i">
                             <card :title="setting.name">
-                                <div slot="title" v-if="editMode" class="flex space-x-1">
+                                <div class="flex space-x-1" v-if="editMode">
                                     <input
                                         type="text"
                                         class="input small w-full md:w-1/3"
@@ -56,11 +56,11 @@
                                     <input type="text" class="input small w-full md:w-1/4" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
                                     <input type="text" class="input small w-full md:w-1/4" v-model="setting.info" v-tooltip="setting.info" :placeholder="__('voyager::generic.info')">
                                 </div>
-                                <div slot="title" v-else class="flex items-end">
+                                <div v-else>
                                     <h4>{{ setting.name }}</h4>
                                     <p class="mx-4">{{ setting.key }}</p>
                                 </div>
-                                <div slot="actions" v-if="editMode">
+                                <template v-slot:actions v-if="editMode">
                                     <div class="flex items-center mt-1 md:mt-0">
                                         <button class="button">
                                             <icon icon="selector" :size="4"></icon>
@@ -74,7 +74,9 @@
                                             <span>{{ __('voyager::generic.delete') }}</span>
                                         </button>
                                         <slide-in :opened="optionsId == i" v-on:closed="optionsId = null" width="w-1/3" class="text-left" :title="__('voyager::generic.options')">
-                                            <locale-picker v-if="$language.localePicker" slot="actions" />
+                                            <template v-slot:actions>
+                                                <locale-picker />
+                                            </template>
                                             <div v-if="setting.canBeTranslated">
                                                 <label class="label mt-4">Translatable</label>
                                                 <input type="checkbox" class="input" v-model="setting.translatable">
@@ -88,7 +90,7 @@
                                             <bread-builder-validation v-model="setting.validation" />
                                         </slide-in>
                                     </div>
-                                </div>
+                                </template>
                                 <div>
                                     <alert v-if="getErrors(setting).length > 0" color="red" class="my-2" :closebutton="false">
                                         <ul class="list-disc ml-4">
@@ -111,7 +113,7 @@
                         <h4>{{ __('voyager::settings.no_settings_in_group') }}</h4>
                         <h6 v-if="query !== ''">{{ __('voyager::settings.search_warning') }}</h6>
                     </div>
-                </div>
+                </template>
             </tabs>
         </card>
         <collapsible v-if="$store.json_output" :title="__('voyager::builder.json_output')" closed>
@@ -221,13 +223,16 @@ export default {
         },
         data: function (setting, value = null) {
             if (setting.translatable || false && setting.value && this.isString(setting.value)) {
-                Vue.set(setting, 'value', this.get_translatable_object(setting.value));
+                // TODO: Vue.set(setting, 'value', this.get_translatable_object(setting.value));
+                setting.value = this.get_translatable_object(setting.value);
             }
             if (value !== null) {
                 if (setting.translatable || false) {
-                    Vue.set(setting.value, this.$language.locale, value);
+                    // TODO: Vue.set(setting.value, this.$language.locale, value);
+                    settings.value[this.$store.locale] = value;
                 } else {
-                    Vue.set(setting, 'value', value);
+                    // TODO: Vue.set(setting, 'value', value);
+                    setting.value = value;
                 }
             }
             if (setting.translatable || false) {

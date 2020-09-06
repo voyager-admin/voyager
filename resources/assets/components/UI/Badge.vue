@@ -1,11 +1,10 @@
 <template>
     <span
         class="badge"
-        :class="[`button ${color}`, large ? 'large' : null]"
-        v-on="$listeners">
+        :class="[`button ${color}`, large ? 'large' : null]">
         <slot></slot>
         <icon
-            v-on:click.native="$emit('click-icon', $event)"
+            v-on:click="$emit('click-icon', $event)"
             class="ltr:ml-1 ltr:mr-0 rtl:mr-1 rtl:ml-0 cursor-pointer"
             :size="large ? 5 : 4"
             v-if="icon !== ''"
@@ -15,6 +14,7 @@
 </template>
 <script>
 export default {
+    emits: ['clickIcon'],
     props: {
         color: {
             type: String,

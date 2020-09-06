@@ -1,6 +1,6 @@
 <template>
     <card :title="__('voyager::plugins.plugins')" icon="puzzle">
-        <div slot="actions">
+        <template v-slot:actions>
             <div class="flex items-center">
                 <input
                     type="text"
@@ -23,7 +23,7 @@
                             v-for="(type, i) in availableTypes"
                             :key="i" :color="getPluginTypeColor(type)"
                             :icon="available.currentType == type ? 'x' : ''"
-                            @click="available.currentType = (available.currentType == null ? type : null); available.page = 0"
+                            @click="setAvailableTypeFilter(type)"
                         >
                             {{ __('voyager::plugins.types.'+type) }}
                         </badge>
@@ -61,15 +61,15 @@
                             :first-last-buttons="false"
                         />
                     </div>
-                    <div slot="opener" class="">
+                    <template v-slot:opener>
                         <button class="button">
                             <icon icon="search"></icon>
                             <span>{{ __('voyager::plugins.search_plugins') }}</span>
                         </button>
-                    </div>
+                    </template>
                 </modal>
             </div>
-        </div>
+        </template>
         <div class="w-full">
             <badge
                 v-for="(type, i) in installedTypes"
@@ -275,6 +275,14 @@ export default {
                 this.installed.currentType = type;
             }
             this.installed.page = 0;
+        },
+        setAvailableTypeFilter: function (type) {
+            if (this.available.currentType == type) {
+                this.available.currentType = null;
+            } else {
+                this.available.currentType = type;
+            }
+            this.available.page = 0;
         }
     },
     computed: {

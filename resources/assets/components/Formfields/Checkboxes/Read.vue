@@ -9,14 +9,14 @@ export default {
     props: ['options', 'data', 'translatable'],
     methods: {
         getOptionByKey: function (key) {
-            return this.options.options.where('key', key).first() ?? null;
+            return this.options.options.where('key', key).first() || null;
         }
     },
     computed: {
         selected: function () {
             var vm = this;
 
-            var data = vm.data ?? [];
+            var data = vm.data || [];
             if (!vm.isArray(data)) {
                 data = [data];
             }

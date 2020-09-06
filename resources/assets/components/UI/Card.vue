@@ -27,6 +27,7 @@
 </template>
 <script>
 export default {
+    emits: ['click-title'],
     props: {
         showHeader: {
             type: Boolean,

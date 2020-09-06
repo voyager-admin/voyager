@@ -4,7 +4,7 @@
             <button
                 v-for="(color, key) in $store.ui.colors" :key="'color-'+key"
                 v-tooltip="__('voyager::generic.color_names.'+color)"
-                @click="$emit('input', color); current = color"
+                @click="$emit('update:modelValue', color); current = color"
                 class="button mb-2" :class="[color]"
             >
                 <input type="radio" class="input opacity-75" :checked="current == color">
@@ -14,6 +14,7 @@
 </template>
 <script>
 export default {
+    emits: ['update:modelValue'],
     props: {
         palette: {
             type: String,
@@ -22,14 +23,14 @@ export default {
                 return ['tailwind-colors'].indexOf(value) !== -1;
             }
         },
-        value: {
+        modelValue: {
             type: String,
             default: 'blue',
         }
     },
     data: function () {
         return {
-            current: this.value
+            current: this.modelValue
         };
     }
 };

@@ -2,7 +2,7 @@
     <div class="flex flex-wrap w-full">
         <div v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
             <card :title="translate(formfield.options.title) || ''" :title-size="5">
-                <div slot="actions">
+                <template v-slot:actions>
                     <button class="button small">
                         <icon icon="chevron-left" @click.prevent.stop="prev(formfield)" />
                     </button>
@@ -19,7 +19,9 @@
                         <icon icon="trash" />
                     </button>
                     <slide-in :opened="optionsId == key" v-on:closed="$emit('open-options', null)" width="w-1/3" class="text-left" :title="__('voyager::generic.options')">
-                        <locale-picker v-if="$language.localePicker" slot="actions" />
+                        <template v-slot:actions>
+                            <locale-picker />
+                        </template>
                         <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
                         <!-- TODO: Hide this if formfield doesn't allow any kind of column -->
                         <select class="input w-full" v-model="formfield.column">
@@ -72,7 +74,7 @@
                             show="view-options" />
                         <bread-builder-validation v-model="formfield.validation" />
                     </slide-in>
-                </div>
+                </template>
 
                 <component
                     :is="'formfield-'+kebab_case(formfield.type)+'-builder'"
@@ -151,7 +153,8 @@ export default {
                 var x = e.clientX - rect.left - 50;
                 var threshold = rect.width / (vm.sizes.length - 1);
                 var size = Math.min(Math.max(Math.ceil(x / threshold), 0), vm.sizes.length);
-                Vue.set(vm.formfields[vm.resizingFormfield].options, 'width', vm.sizes[size]);
+                // TODO: Vue.set(vm.formfields[vm.resizingFormfield].options, 'width', vm.sizes[size]);
+                vm.formfields[vm.resizingFormfield].options.width = vm.sizes[size];
             }
         });
     }

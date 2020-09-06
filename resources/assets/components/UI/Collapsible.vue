@@ -1,17 +1,19 @@
 <template>
     <card :title="title" :title-size="titleSize">
-        <div slot="actions" class="inline-flex items-center">
-            <slot name="actions"></slot>
-            <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="6" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click.native="toggle"></icon>
-        </div>
-        <collapse-transition>
+        <template v-slot:actions>
+            <div class="inline-flex items-center">
+                <slot name="actions"></slot>
+                <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="6" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click="toggle"></icon>
+            </div>
+        </template>
+        <div was="collapse-transition">
             <div v-show="isOpen">
                 <slot></slot>
             </div>
-        </collapse-transition>
-        <div slot="footer" class="footer" v-if="$slots.footer">
-            <slot name="footer"></slot>
         </div>
+        <template v-slot:footer>
+            <slot name="footer" class="footer"></slot>
+        </template>
     </card>
 </template>
 <script>

@@ -178,17 +178,9 @@
 import closable from '../../js/mixins/closable';
 import fetch from '../../js/fetch';
 
-var Status = {
-    Pending  : 1,
-    Uploading: 2,
-    Finished : 3,
-    Failed   : 4,
-};
-
-Vue.prototype.Status = Status;
-
 export default {
     mixins: [closable],
+    emits: ['select'],
     props: {
         'uploadUrl': {
             type: String,

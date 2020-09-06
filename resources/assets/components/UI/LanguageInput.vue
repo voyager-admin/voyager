@@ -4,29 +4,31 @@
 
 <script>
 export default {
-    props: ['value'],
+    emits: ['update:modelValue'],
+    props: ['modelValue'],
     data: function () {
         return {
             translations: {}
         };
     },
-    mounted: function () {
-        this.translations = this.get_translatable_object(this.value);
-    },
     computed: {
         currentText: {
             get: function () {
-                return this.translations[this.$language.locale];
+                return this.translations[this.$store.locale];
             },
             set: function (value) {
-                Vue.set(this.translations, this.$language.locale, value);
-                this.$emit('input', this.translations);
+                this.translations[this.$store.locale] = value;
+                // TODO: Vue.set(this.translations, this.$store.locale, value);
+                this.$emit('update:modelValue', this.translations);
             }
         }
     },
     watch: {
-        value: function (val) {
-            this.translations = this.get_translatable_object(this.value);
+        modelValue: {
+            immediate: true,
+            handler: function (val) {
+                this.translations = this.get_translatable_object(this.modelValue);
+            }
         }
     }
 };

@@ -17,25 +17,25 @@
                     :fromRelationship="true"
                     @saved="added($event)"
                 />
-                <div slot="actions">
+                <template v-slot:actions>
                     <locale-picker :small="false" class="ltr:mr-2 rtl:ml-2"></locale-picker>
-                </div>
+                </template>
             </modal>
         </div>
         <!-- Selected -->
         <div class="w-full flex" v-if="options.editable">
             <div class="flex-grow">
-                <fade-transition :group="relationship.multiple" :duration="500">
-                    <badge
-                        v-for="(option, i) in value"
-                        :key="i"
-                        :icon="options.editable && relationship.multiple ? 'x' : ''"
-                        @click-icon.stop.prevent="remove(option)"
-                        v-if="option.key !== null"
-                    >
-                        {{ translate(option.value, false, '&nbsp;') }}
-                    </badge>
-                </fade-transition>
+                <div was="fade-transition" :group="relationship.multiple" :duration="500">
+                    <template v-for="(option, i) in value" :key="i">
+                        <badge
+                            :icon="options.editable && relationship.multiple ? 'x' : ''"
+                            @click-icon.stop.prevent="remove(option)"
+                            v-if="option.key !== null"
+                        >
+                            {{ translate(option.value, false, '&nbsp;') }}
+                        </badge>
+                    </template>
+                </div>
             </div>
             <div class="flex-none" v-if="addView && options.editable && fromRelationship !== true">
                 <button class="button green" @click="fetchRelationshipData">

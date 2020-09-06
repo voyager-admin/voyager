@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import EventBus from '../../js/eventbus';
-
 export default {
     data: function () {
         return {
@@ -21,7 +19,7 @@ export default {
     created: function () {
         var vm = this;
 
-        EventBus.$on('addTooltip', function (el, binding) {
+        /*EventBus.$on('addTooltip', function (el, binding) {
             var pos = 'bottom';
             if (['left', 'top', 'right', 'bottom'].indexOf(binding.arg) >= 0) {
                 pos = binding.arg;
@@ -47,7 +45,7 @@ export default {
             el.addEventListener('mouseleave', function (e) {
                 vm.tooltips.where('el', el).first().show = false;
             });
-        });
+        });*/
     },
     methods: {
         getStyles: function (tooltip, i, pos = null) {

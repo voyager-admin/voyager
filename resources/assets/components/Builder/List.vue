@@ -95,7 +95,9 @@
                                 <span>{{ __('voyager::generic.delete') }}</span>
                             </button>
                             <slide-in :opened="optionsId == key" width="w-1/3" v-on:closed="$emit('open-options', null)" class="text-left" :title="__('voyager::generic.options')">
-                                <locale-picker v-if="$language.localePicker" slot="actions" />
+                                <template v-slot:actions>
+                                    <locale-picker />
+                                </template>
                                 <component
                                     :is="'formfield-'+kebab_case(formfield.type)+'-builder'"
                                     v-bind:options="formfield.options"
@@ -109,11 +111,11 @@
         </div>
 
         <collapsible :title="__('voyager::generic.filters')" closed ref="filters_collapsible">
-            <div slot="actions">
+            <template v-slot:actions>
                 <button class="button green small" @click.stop="addFilter">
                     <icon icon="plus" />
                 </button>
-            </div>
+            </template>
             <div class="voyager-table">
                 <table>
                     <thead>
@@ -201,7 +203,8 @@ export default {
         },
         addFilter: function () {
             if (!this.isArray(this.reactiveOptions.filters)) {
-                Vue.set(this.reactiveOptions, 'filters', []);
+                // TODO: Vue.set(this.reactiveOptions, 'filters', []);
+                this.reactiveOptions.filters = [];
             }
             this.reactiveOptions.filters.push({
                 name: '',

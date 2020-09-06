@@ -1,4 +1,3 @@
-
 <!-- Mobile sidebar -->
 <div v-if="$store.sidebarOpen" class="md:hidden" :key="'mobile_sidebar'">
     <div class="fixed inset-0 z-30">

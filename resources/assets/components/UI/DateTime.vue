@@ -22,7 +22,7 @@
                         <icon icon="chevron-right" class="cursor-pointer" @click="nextMonth" />
                     </div>
                 </div>
-                <slide-y-up-transition class="mt-2 grid grid-cols-7 gap-2" group>
+                <div was="slide-y-up-transition" class="mt-2 grid grid-cols-7 gap-2" group>
                     <div v-for="weekday in weekdays" :key="weekday" class="text-center">
                         {{ weekday }}
                     </div>
@@ -36,7 +36,7 @@
                     >
                         {{ day.date }}
                     </div>
-                </slide-y-up-transition>
+                </div>
                 <div v-if="selectTime">
                     <div class="w-full mt-2 inline-flex space-x-1 items-center">
                         <span class="w-12">{{ range ? 'From:' : 'Time:' }}</span>
@@ -64,14 +64,14 @@
                     </div>
                 </div>
             </div>
-            <div slot="opener">
+            <template v-slot:opener>
                 <input
                     type="text"
                     class="input w-full"
                     v-bind:value="inputDate"
                     v-on:input="setInputDate"
                 >
-            </div>
+            </template>
         </dropdown>
     </div>
 </template>

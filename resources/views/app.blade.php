@@ -18,13 +18,13 @@
 </head>
 
 <body>
-    <slide-x-left-transition class="h-screen flex overflow-hidden" id="voyager" tag="div" group>
+    <div was="slide-x-left-transition" class="h-screen flex overflow-hidden" id="voyager" tag="div" group>
         <div key="loader">
-            <fade-transition :duration="500">
+            <div was="fade-transition" :duration="500">
                 <div class="loader" v-if="$store.pageLoading">
                     <icon icon="helm" size="auto" class="block icon animate-spin-slow"></icon>
                 </div>
-            </fade-transition>
+            </div>
         </div>
         @include('voyager::sidebar')
         <div class="flex flex-col w-0 flex-1 overflow-hidden" key="content">
@@ -38,34 +38,27 @@
         </div>
         <notifications key="notifications"></notifications>
         <tooltips key="tooltips"></tooltips>
-    </slide-x-left-transition>
+    </div>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
     @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\JS)
-        <script src="{{ $plugin->provideJS() }}" type="text/javascript"></script>
+        <!--<script src="{{ $plugin->provideJS() }}" type="text/javascript"></script>-->
     @endif
 @endforeach
+
 <script>
-var voyager = new Vue({
-    el: '#voyager',
-    mounted: function () {
-        var vm = this;
-
-        var messages = {!! Voyager::getMessages()->toJson() !!};
-
-        messages.forEach(function (m) {
-            new vm.$notification(m.message).color(m.color).timeout(m.timeout).show();
-        });
-    },
-    created: function () {
-        this.$language.localization = {!! Voyager::getLocalization() !!};
-        this.$store.routes = {!! Voyager::getRoutes() !!};
-        this.$store.breads = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) !!};
-        this.$store.formfields = {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!};
-        this.$store.debug = {{ var_export(config('app.debug') ?? false, true) }};
-        this.$store.json_output = {{ var_export(Voyager::setting('admin.json-output', true)) }};
-    }
+createAndMountVoyager({
+    routes: {!! Voyager::getRoutes() !!},
+    localization: {!! Voyager::getLocalization() !!},
+    locales: ["{!! implode('","', Voyager::getLocales()) !!}"],
+    locale: '{{ Voyager::getLocale() }}',
+    initial_locale: '{{ Voyager::getLocale() }}',
+    breads: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) !!},
+    formfields: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!},
+    debug: {{ var_export(config('app.debug') ?? false, true) }},
+    jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
+    menuItems: {!! resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) !!},
 });
 </script>
 @yield('js')
