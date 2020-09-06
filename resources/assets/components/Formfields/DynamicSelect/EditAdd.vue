@@ -10,9 +10,11 @@
                     <input type="checkbox" class="input" v-if="select.type == 'checkbox'" v-model="selected[i]" />
                 </div>
                 <select class="input w-full small" v-model="selected[i]" v-else-if="isArray(select) || isObject(select)">
-                    <option v-for="(option, b) in select" :key="'option-'+b" :value="b" v-if="b !== 'label'">
-                        {{ option }}
-                    </option>
+                    <template v-for="(option, b) in select" :key="'option-'+b">
+                        <option :value="b" v-if="b !== 'label'">
+                            {{ option }}
+                        </option>
+                    </template>
                 </select>
                 <span v-else>
                     {{ select }}
@@ -26,7 +28,8 @@
 import fetch from '../../../js/fetch';
 
 export default {
-    props: ['options', 'value'],
+    emits: ['update:modelValue'],
+    props: ['options', 'modelValue'],
     data: function () {
         return {
             selects: [],
@@ -64,23 +67,23 @@ export default {
         },
         triggerChange: function () {
             if (this.selects.length > 1) {
-                this.$emit('input', this.selected);
+                this.$emit('update:modelValue', this.selected);
             } else {
-                this.$emit('input', this.selected[0]);
+                this.$emit('update:modelValue', this.selected[0]);
             }
         }
     },
     mounted: function () {
-        if (this.isArray(this.value)) {
-            this.selected = this.value;
-        } else if (this.value !== null && this.value !== '') {
+        if (this.isArray(this.modelValue)) {
+            this.selected = this.modelValue;
+        } else if (this.modelValue !== null && this.modelValue !== '') {
             try {
-                var json = JSON.parse(this.value);
+                var json = JSON.parse(this.modelValue);
                 if (this.isArray(json)) {
                     this.selected = json;
                 }
             } catch {
-                this.selected.push(this.value);
+                this.selected.push(this.modelValue);
             }
         }
         this.loadOptions();

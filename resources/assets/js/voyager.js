@@ -100,6 +100,13 @@ window.createAndMountVoyager = function (data = {}, el = '#voyager') {
 
     voyager.config.globalProperties.$store = Store;
 
+    voyager.config.errorHandler = (error, vm, info) => {
+        Store.handleError(error, vm, info);
+    };
+    voyager.config.warnHandler = (warning, vm, trace) => {
+        Store.handleWarning(warning, vm, trace);
+    };
+
     Layout(voyager);
     UI(voyager);
     Bread(voyager);

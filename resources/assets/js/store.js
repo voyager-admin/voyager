@@ -54,4 +54,10 @@ export default reactive({
 
         return notification.show();
     },
+    handleError: function (error, vm, info) {
+        return new Notification(error.message).color('red').timeout().show();
+    },
+    handleWarning: function (warning, vm, trace) {
+        return new Notification(warning).color('yellow').timeout().show();
+    }
 });

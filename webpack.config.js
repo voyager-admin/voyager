@@ -16,7 +16,7 @@ module.exports = (env = {}) => ({
   },
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.esm-browser.prod.js'
+      vue: env.prod ? 'vue/dist/vue.esm-browser.prod.js' : 'vue/dist/vue.esm-browser.js'
     },
     extensions: ['.vue', '.js', '.json', '.scss'],
   },

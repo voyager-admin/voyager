@@ -13,30 +13,34 @@
 
 <script>
 export default {
-    props: ['options', 'value'],
+    props: ['options', 'modelValue'],
+    emits: ['update:modelValue'],
     data: function () {
         return {
             selected: (this.options.multiple || false ? [] : ''),
         };
     },
     watch: {
-        value: function (value) {
-            this.parseInput();
+        modelValue: {
+            immediate: true,
+            handler: function (value) {
+                this.parseInput();
+            }
         },
         selected: function (value) {
-            this.$emit('input', this.parsedKey(value));
+            this.$emit('update:modelValue', this.parsedKey(value));
         }
     },
     methods: {
         parseInput: function () {
-            if ((this.options.multiple || false) && this.isString(this.value)) {
+            if ((this.options.multiple || false) && this.isString(this.modelValue)) {
                 try {
-                    this.selected = JSON.parse(this.value);
+                    this.selected = JSON.parse(this.modelValue);
                 } catch (e) {
                     this.selected = [];
                 }
             } else {
-                this.selected = this.value;
+                this.selected = this.modelValue;
             }
         },
         parsedKey: function (key) {
@@ -49,8 +53,5 @@ export default {
             return key;
         }
     },
-    mounted: function () {
-        this.parseInput();
-    }
 };
 </script>
