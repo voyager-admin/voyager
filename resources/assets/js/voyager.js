@@ -40,8 +40,10 @@ import SettingsManager from '../components/Settings/Manager';
 import PluginsManager from '../components/Plugins/Manager';
 import Login from '../components/Auth/Login';
 
-window.createAndMountVoyager = function (data = {}, el = '#voyager') {
-    const voyager = createApp({
+let voyager;
+
+window.createVoyager = function (data = {}) {
+    voyager = createApp({
         name: 'Voyager',
         props: ['routes', 'localization', 'locales', 'locale', 'initial_locale', 'breads', 'formfields', 'debug', 'jsonOutput', 'menuItems'],
         created: function () {
@@ -120,5 +122,9 @@ window.createAndMountVoyager = function (data = {}, el = '#voyager') {
     voyager.component('plugins-manager', PluginsManager);
     voyager.component('login', Login);
 
-    voyager.mount(el);
+    window.voyager = voyager;
 };
+
+window.mountVoyager = function (el = '#voyager') {
+    voyager.mount(el);
+}

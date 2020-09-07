@@ -40,14 +40,8 @@
     </div>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
-@foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
-    @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\JS)
-        <!--<script src="{{ $plugin->provideJS() }}" type="text/javascript"></script>-->
-    @endif
-@endforeach
-
 <script>
-createAndMountVoyager({
+createVoyager({
     routes: {!! Voyager::getRoutes() !!},
     localization: {!! Voyager::getLocalization() !!},
     locales: ["{!! implode('","', Voyager::getLocales()) !!}"],
@@ -59,6 +53,14 @@ createAndMountVoyager({
     jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
     menuItems: {!! resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) !!},
 });
+</script>
+@foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
+    @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\JS)
+        <script src="{{ $plugin->provideJS() }}" type="text/javascript"></script>
+    @endif
+@endforeach
+<script>
+mountVoyager();
 </script>
 @yield('js')
 </html>

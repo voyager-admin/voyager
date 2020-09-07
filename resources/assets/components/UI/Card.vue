@@ -14,7 +14,9 @@
                     </p>
                 </div>
             </slot>
-            <slot name="actions" class="flex-shrink-0 sm:mt-2"></slot>
+            <div class="flex-shrink-0 sm:mt-2">
+                <slot name="actions"></slot>
+            </div>
         </div>
     </div>
     <div class="content" :class="[!noPadding ? 'px-2' : null]">
