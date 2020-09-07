@@ -31,7 +31,7 @@
         "mime-matcher": "^1.0.5",
         "node-sass": "^4.14.1",
         "slugify": "^1.4.5",
-        "tailwindcss": "^1.8.3",
+        "tailwindcss": "^1.8.4",
         "vue": "^3.0.0-rc.10"
     }
 }
