@@ -5,6 +5,7 @@ let components = [
     'MenuItem',
     'Search',
     'Tooltips',
+    'UI',
     'UserDropdown',
 ];
 

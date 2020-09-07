@@ -2,7 +2,7 @@ export default {
     install: function (app, config) {
         app.config.globalProperties.__ = function (key, replace = {}) {
             return this.trans(key, replace);
-        },
+        };
         app.config.globalProperties.trans = function (key, replace = {}) {
             let translation = key.split('.').reduce((t, i) => t[i] || null, config.localization);
 
@@ -15,7 +15,7 @@ export default {
             }
 
             return translation;
-        },
+        };
         app.config.globalProperties.trans_choice = function (key, count = 1, replace = {}) {
             if (key === null) {
                 return key;
@@ -31,7 +31,7 @@ export default {
             }
 
             return translation;
-        },
+        };
         app.config.globalProperties.get_translatable_object = function (input) {
             if (this.isString(input) || this.isNumber(input) || this.isBoolean(input)) {
                 try {
@@ -55,8 +55,7 @@ export default {
             }
 
             return input;
-        },
-
+        };
         app.config.globalProperties.translate = function (input, once = false, default_value = '') {
             if (!this.isObject(input)) {
                 input = this.get_translatable_object(input);
@@ -66,7 +65,20 @@ export default {
             }
 
             return input;
-        }
+        };
+
+        var vm = this;
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey) {
+                if (e.code == 'ArrowRight' || e.code == 'ArrowDown') {
+                    //vm.nextLocale();
+                    console.log('Next');
+                } else if (e.code == 'ArrowLeft' || e.code == 'ArrowUp') {
+                    //vm.previousLocale();
+                    console.log('Next');
+                }
+            }
+        });
     }
     /*
         nextLocale: function () {

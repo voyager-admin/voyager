@@ -90,7 +90,22 @@ window.createAndMountVoyager = function (data = {}, el = '#voyager') {
     //voyager.config.warnHandler = Store.handleWarning;
 
     voyager.config.globalProperties.$ui = {
-        colors: [],
+        name: 'Voyager',
+        colors: [
+            'accent',
+            'red',
+            'orange',
+            'yellow',
+            'green',
+            'teal',
+            'blue',
+            'indigo',
+            'purple',
+            'pink',
+            'gray',
+        ],
+        lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
+        tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
     };
 
     Layout(voyager);

@@ -86,7 +86,7 @@ export default {
     },
     watch: {
         tags: function (tags) {
-            this.$emit('input', tags);
+            this.$emit('update:modelValue', tags);
         },
         modelValue: function (tags) {
             this.tags = tags;
