@@ -144,13 +144,13 @@
                         <option v-for="list in lists" :key="'list-' + list.name">{{ list.name }}</option>
                     </optgroup>
                 </select>
-                <dropdown ref="formfield_dd" pos="right" class="self-center" :width="88">
+                <dropdown pos="right" class="self-center" :width="88">
                     <div>
                         <div class="grid grid-cols-2">
                             <a v-for="formfield in filteredFormfields"
                                 :key="'formfield-'+formfield.type"
                                 href="#"
-                                @click.prevent="addFormfield(formfield); $refs.formfield_dd.close()"
+                                @click.prevent="addFormfield(formfield)"
                                 class="link rounded">
                                 {{ formfield.name }}
                             </a>
@@ -173,7 +173,7 @@
                         </button>
                     </template>
                 </dropdown>
-                <dropdown ref="layout_dd" pos="right" class="self-center">
+                <dropdown pos="right" class="self-center">
                     <div>
                         <a href="#" @click.prevent="addLayout(false)" class="link">
                             {{ __('voyager::builder.list') }}
@@ -191,7 +191,7 @@
                         </button>
                     </template>
                 </dropdown>
-                <dropdown ref="actions_dd" pos="right" class="self-center">
+                <dropdown pos="right" class="self-center">
                     <div>
                         <a href="#" @click.prevent="renameLayout" class="link">
                             {{ __('voyager::builder.rename_layout') }}
@@ -424,7 +424,6 @@ export default {
         },
         addLayout: function (view) {
             var vm = this;
-            vm.$refs.layout_dd.close();
             new vm
             .$notification(vm.__('voyager::builder.enter_name'))
             .prompt()
@@ -515,8 +514,6 @@ export default {
             layout.name = layout.name + ' 2';
             this.bread.layouts.push(layout);
             this.currentLayoutName = layout.name;
-
-            this.$refs.actions_dd.close();
         },
         addFormfield: function (formfield) {
             // Merge any global options into the below options

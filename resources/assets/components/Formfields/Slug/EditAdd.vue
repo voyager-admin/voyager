@@ -13,7 +13,7 @@ export default {
     props: ['options', 'modelValue', 'show'],
     data: function () {
         return {
-            value: this.slugifyValue(this.modelValue)
+            value: this.slugifyValue(this.modelValue || '')
         };
     },
     methods: {
@@ -36,10 +36,10 @@ export default {
     },
     watch: {
         modelValue: function (value) {
-            this.reactiveValue = value;
+            this.value = value;
         },
         value: function (value) {
-            this.$emit('update:modelValue', this.slugifyValue(value));
+            this.$emit('update:modelValue', this.slugifyValue(value || ''));
         }
     }
 };

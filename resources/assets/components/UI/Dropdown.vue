@@ -4,7 +4,7 @@
             <slot name="opener" />
         </div>
         <slide-up-transition>
-            <div class="wrapper" :class="[`w-${width}`, pos]" v-if="isOpen">
+            <div class="wrapper" :class="[`w-${width}`, pos]" v-if="isOpen" @click="dontCloseOnInsideClick ? null : close()">
                 <div class="body">
                     <slot />
                 </div>
@@ -29,11 +29,7 @@ export default {
             type: [Number, String, null],
             default: 72,
         },
-        openOnClick: {
-            type: Boolean,
-            default: true,
-        },
-        dontOpenOnClick: {
+        dontCloseOnInsideClick: {
             type: Boolean,
             default: false,
         }
@@ -46,9 +42,6 @@ export default {
             }
         });
         if (vm.$refs.opener.children.length > 0) {
-            if (vm.dontOpenOnClick) {
-                return;
-            }
             Array.from(vm.$refs.opener.getElementsByTagName('*')).forEach(function (el) {
                 el.addEventListener('click', event => {
                     vm.open();

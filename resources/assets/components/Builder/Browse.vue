@@ -174,7 +174,6 @@ export default {
         },
         rollbackBread: function (table, backup) {
             var vm = this;
-            vm.$refs.rollbackdd[0].close();
 
             fetch.post(vm.route('voyager.bread.rollback-bread'), {
                 table: table,

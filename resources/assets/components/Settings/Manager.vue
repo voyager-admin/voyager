@@ -8,7 +8,7 @@
                         <icon icon="refresh" class="mr-0 md:mr-1 animate-spin-reverse" :size="4" v-if="savingSettings" />
                         <span>{{ __('voyager::generic.save') }}</span>
                     </button>
-                    <dropdown ref="formfield_dd" :width="88">
+                    <dropdown :width="88">
                         <div>
                             <div class="grid grid-cols-2">
                                 <a v-for="formfield in filterFormfields"

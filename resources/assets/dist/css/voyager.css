@@ -1,4 +1,4 @@
-.menuitem .item[data-v-26828fbd]{
+.menuitem .item[data-v-df766150]{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,11 +11,11 @@
   padding-top: 0.5rem;
   padding-bottom: 0.5rem
 }
-.menuitem .item .link[data-v-26828fbd]{
+.menuitem .item .link[data-v-df766150]{
   display: inline-flex;
   align-items: center
 }
-.menuitem .submenu[data-v-26828fbd]{
+.menuitem .submenu[data-v-df766150]{
   margin-left: 1.25rem
 }
 .tooltip[data-v-565ba25e]{
@@ -159,25 +159,25 @@
   border-color:#364152;
   border-color:var(--card-border-color-dark, #364152)
 }
-.dark .day[data-v-0b32a092]:hover{
+.dark .day[data-v-56fd6656]:hover{
   background-color: #2b6cb0
 }
-.dark .day.today[data-v-0b32a092]{
+.dark .day.today[data-v-56fd6656]{
   background-color: #3182ce
 }
-.dark .day.past[data-v-0b32a092],.dark .day.future[data-v-0b32a092]{
+.dark .day.past[data-v-56fd6656],.dark .day.future[data-v-56fd6656]{
   color: #64748B
 }
-.dark .day.disabled[data-v-0b32a092]{
+.dark .day.disabled[data-v-56fd6656]{
   color: #97A6BA
 }
-.dark .day.selected[data-v-0b32a092]{
+.dark .day.selected[data-v-56fd6656]{
   background-color: #2c5282
 }
-.dark .day.rangeStart[data-v-0b32a092],.dark .day.rangeEnd[data-v-0b32a092],.dark .day.rangeBetween[data-v-0b32a092]{
+.dark .day.rangeStart[data-v-56fd6656],.dark .day.rangeEnd[data-v-56fd6656],.dark .day.rangeBetween[data-v-56fd6656]{
   background-color: #2a4365
 }
-.day[data-v-0b32a092]{
+.day[data-v-56fd6656]{
   text-align: center;
   border-radius: 0.375rem;
   padding-left: 0.5rem;
@@ -186,24 +186,24 @@
   padding-bottom: 0.25rem;
   cursor: pointer
 }
-.day[data-v-0b32a092]:hover{
+.day[data-v-56fd6656]:hover{
   background-color: #90cdf4
 }
-.day.today[data-v-0b32a092]{
+.day.today[data-v-56fd6656]{
   background-color: #bee3f8
 }
-.day.past[data-v-0b32a092],.day.future[data-v-0b32a092]{
+.day.past[data-v-56fd6656],.day.future[data-v-56fd6656]{
   color: #97A6BA
 }
-.day.disabled[data-v-0b32a092]{
+.day.disabled[data-v-56fd6656]{
   color: #CFD8E3;
   cursor: not-allowed
 }
-.day.selected[data-v-0b32a092]{
+.day.selected[data-v-56fd6656]{
   background-color: #4299e1;
   color: #fff
 }
-.day.rangeStart[data-v-0b32a092],.day.rangeEnd[data-v-0b32a092],.day.rangeBetween[data-v-0b32a092]{
+.day.rangeStart[data-v-56fd6656],.day.rangeEnd[data-v-56fd6656],.day.rangeBetween[data-v-56fd6656]{
   background-color: #90cdf4
 }
 .dark .dropdown .wrapper{

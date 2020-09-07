@@ -1,6 +1,6 @@
 <template>
     <div>
-        <dropdown pos="right" width="auto" class="w-full" ref="dropdown" open-on-click>
+        <dropdown pos="right" width="auto" class="w-full" ref="dropdown" dont-close-on-inside-click>
             <div class="m-4 select-none">
                 <div class="flex">
                     <div class="flex-none self-center">
@@ -22,21 +22,23 @@
                         <icon icon="chevron-right" class="cursor-pointer" @click="nextMonth" />
                     </div>
                 </div>
-                <slide-up-transition class="mt-2 grid grid-cols-7 gap-2" group>
-                    <div v-for="weekday in weekdays" :key="weekday" class="text-center">
-                        {{ weekday }}
-                    </div>
-                    <div
-                        v-for="(day, i) in displayDays"
-                        :key="i"
-                        class="day"
-                        v-bind:class="getDayClasses(day)"
-                        @click="selectDate(day.date, day.month, day.year)"
-                        @contextmenu.prevent.stop="selectDate(day.date, day.month, day.year, true)"
-                    >
-                        {{ day.date }}
-                    </div>
-                </slide-up-transition>
+                <div class="mt-2 grid grid-cols-7 gap-2">
+                    <slide-up-transition group>
+                        <div v-for="weekday in weekdays" :key="weekday" class="text-center">
+                            {{ weekday }}
+                        </div>
+                        <div
+                            v-for="(day, i) in displayDays"
+                            :key="i"
+                            class="day"
+                            v-bind:class="getDayClasses(day)"
+                            @click="selectDate(day.date, day.month, day.year)"
+                            @contextmenu.prevent.stop="selectDate(day.date, day.month, day.year, true)"
+                        >
+                            {{ day.date }}
+                        </div>
+                    </slide-up-transition>
+                </div>
                 <div v-if="selectTime">
                     <div class="w-full mt-2 inline-flex space-x-1 items-center">
                         <span class="w-12">{{ range ? 'From:' : 'Time:' }}</span>
