@@ -38,7 +38,7 @@ export default {
     },
     data: function () {
         return {
-            value: this.value
+            value: this.modelValue
         };
     },
     computed: {

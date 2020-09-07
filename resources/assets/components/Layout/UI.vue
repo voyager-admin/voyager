@@ -143,7 +143,7 @@
             <input type="text" class="input w-full" id="labeled-input" placeholder="Placeholder" />
         </collapsible>
         <collapsible title="Plus/Minus" closed :title-size="5">
-            <plus-minus-input :value="1" :step="1.5" :max="10" v-model="$ui.number" />
+            <plus-minus-input :modelValue="1" :step="1.5" :max="10" v-model="$ui.number" />
         </collapsible>
     </collapsible>
 
