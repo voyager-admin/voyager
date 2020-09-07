@@ -51,7 +51,7 @@ createVoyager({
     formfields: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!},
     debug: {{ var_export(config('app.debug') ?? false, true) }},
     jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
-    menuItems: {!! resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) !!},
+    csrf_token: '{{ csrf_token() }}',
 });
 </script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)

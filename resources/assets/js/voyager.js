@@ -46,7 +46,6 @@ let voyager;
 window.createVoyager = function (data = {}) {
     voyager = createApp({
         name: 'Voyager',
-        props: ['routes', 'localization', 'locales', 'locale', 'initial_locale', 'breads', 'formfields', 'debug', 'jsonOutput', 'menuItems'],
         created: function () {
             var vm = this;
 
@@ -60,7 +59,7 @@ window.createVoyager = function (data = {}) {
                 vm.$store.pageLoading = false;
             });
         },
-    }, data);
+    });
 
     voyager.config.globalProperties.debounce = debounce;
     voyager.config.globalProperties.slugify = window.slugify;

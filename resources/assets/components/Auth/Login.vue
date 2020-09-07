@@ -3,7 +3,6 @@
     <fade-transition :duration="150" tag="div" group>
         <form method="post" :action="route('voyager.login')" v-if="!passwordForgotOpen" key="login-form">
             <input type="hidden" name="_token" :value="$store.csrf_token">
-
             <alert v-if="error" color="red" role="alert" :closebutton="false">
                 {{ error }}
             </alert>
@@ -26,9 +25,9 @@
                     </div>
                 </div>
                 <div class="w-full flex justify-between mt-4">
-                    <div>
+                    <div class="select-none">
                         <input type="checkbox" class="input" name="remember" id="remember">
-                        <label for="remember" class="text-sm leading-8">{{ __('voyager::auth.remember_me') }}</label>
+                        <label for="remember" class="text-sm leading-8 mx-1">{{ __('voyager::auth.remember_me') }}</label>
                     </div>
                     
                     <a href="#" v-if="hasPasswordForgot" class="font-medium text-sm leading-8" @click.prevent="passwordForgotOpen = true">
@@ -41,7 +40,6 @@
                 <button class="button large accent w-full justify-center" type="submit">
                     {{ __('voyager::auth.login') }}
                 </button>
-                
             </div>
         </form>
         <form method="post" :action="route('voyager.forgot_password')" v-if="hasPasswordForgot && passwordForgotOpen" key="password-form">
@@ -64,16 +62,11 @@
 </template>
 <script>
 export default {
-    props: ['error', 'success', 'old'],
+    props: ['error', 'success', 'old', 'hasPasswordForgot'],
     data: function () {
         return {
             passwordForgotOpen: false,
         };
-    },
-    computed: {
-        hasPasswordForgot: function () {
-            return this.$slots['forgot_password'] !== undefined;
-        }
     },
 };
 </script>

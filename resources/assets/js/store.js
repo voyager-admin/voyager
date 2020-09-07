@@ -14,6 +14,7 @@ export default reactive({
     initial_locale: null,
     routes: [],
     json_output: true,
+    csrf_token: null,
 
     toggleDirection: function () {
         this.rtl = !this.rtl;
