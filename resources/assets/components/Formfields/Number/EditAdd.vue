@@ -12,6 +12,6 @@
 <script>
 export default {
     emits: ['update:modelValue'],
-    props: ['options', 'value'],
+    props: ['options', 'value', 'show'],
 };
 </script>

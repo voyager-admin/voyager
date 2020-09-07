@@ -86,12 +86,8 @@ window.createAndMountVoyager = function (data = {}, el = '#voyager') {
 
     voyager.config.globalProperties.$store = Store;
 
-    voyager.config.errorHandler = (error, vm, info) => {
-        Store.handleError(error, vm, info);
-    };
-    voyager.config.warnHandler = (warning, vm, trace) => {
-        Store.handleWarning(warning, vm, trace);
-    };
+    //voyager.config.errorHandler = Store.handleError;
+    //voyager.config.warnHandler = Store.handleWarning;
 
     voyager.config.globalProperties.$ui = {
         colors: [],

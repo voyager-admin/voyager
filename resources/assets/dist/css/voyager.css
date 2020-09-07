@@ -507,45 +507,45 @@ to{
   background-color:#364152;
   background-color:var(--media-item-hover-bg-color-dark, #364152)
 }
-.dark .item[data-v-b6a002a0]{
+.dark .item[data-v-8cbf93ce]{
   background-color:#27303F;
   background-color:var(--media-item-bg-color-dark, #27303F);
   border-color:#364152;
   border-color:var(--media-item-border-color-dark, #364152)
 }
-.dark .item[data-v-b6a002a0]:hover{
+.dark .item[data-v-8cbf93ce]:hover{
   background-color:#364152;
   background-color:var(--media-item-hover-bg-color-dark, #364152)
 }
-.dark .item.selected[data-v-b6a002a0]{
+.dark .item.selected[data-v-8cbf93ce]{
   background-color:#2F3949;
   background-color:var(--media-item-selected-bg-color-dark, #2F3949);
   border-color:#2b6cb0;
   border-color:var(--media-item-selected-border-color-dark, #2b6cb0)
 }
-.dark .item.picked[data-v-b6a002a0]{
+.dark .item.picked[data-v-8cbf93ce]{
   background-color:#2F3949;
   background-color:var(--media-item-picked-bg-color-dark, #2F3949);
   border-color:#2f855a;
   border-color:var(--media-item-picked-border-color-dark, #2f855a)
 }
-.item[data-v-b6a002a0]{
+.item[data-v-8cbf93ce]{
   background-color:#F1F5F9;
   background-color:var(--media-item-bg-color, #F1F5F9);
   border-color:#CFD8E3;
   border-color:var(--media-item-border-color, #CFD8E3)
 }
-.item[data-v-b6a002a0]:hover{
+.item[data-v-8cbf93ce]:hover{
   background-color:#E2E8F0;
   background-color:var(--media-item-hover-bg-color, #E2E8F0)
 }
-.item.selected[data-v-b6a002a0]{
+.item.selected[data-v-8cbf93ce]{
   background-color:#D9E0EA;
   background-color:var(--media-item-selected-bg-color, #D9E0EA);
   border-color:#90cdf4;
   border-color:var(--media-item-selected-border-color, #90cdf4)
 }
-.item.picked[data-v-b6a002a0]{
+.item.picked[data-v-8cbf93ce]{
   background-color:#D9E0EA;
   background-color:var(--media-item-picked-bg-color, #D9E0EA);
   border-color:#9ae6b4;

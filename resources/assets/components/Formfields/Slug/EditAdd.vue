@@ -2,15 +2,15 @@
     <input
         type="text"
         class="input w-full"
-        v-bind:value="value || translate(options.default_value, true)"
-        @input="value = slugifyValue($event.target.value)"
+        v-bind:value="modelValue || translate(options.default_value, true)"
+        @input="modelValue = slugifyValue($event.target.value)"
         :placeholder="translate(options.placeholder, true)">
 </template>
 
 <script>
 export default {
     emits: ['update:modelValue'],
-    props: ['options', 'modelValue'],
+    props: ['options', 'modelValue', 'show'],
     data: function () {
         return {
             value: this.slugifyValue(this.modelValue)

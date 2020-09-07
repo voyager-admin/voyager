@@ -27,7 +27,7 @@ import fetch from '../../../js/fetch';
 
 export default {
     emits: ['update:modelValue'],
-    props: ['options', 'modelValue'],
+    props: ['options', 'modelValue', 'show'],
     data: function () {
         return {
             selects: [],
@@ -37,7 +37,6 @@ export default {
     watch: {
         selected: function (selected) {
             this.loadOptions();
-
             this.triggerChange();
         }
     },

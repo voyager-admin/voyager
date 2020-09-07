@@ -91,7 +91,7 @@
                                         </slide-in>
                                     </div>
                                 </template>
-                                <div>
+                                <div class="mt-2">
                                     <alert v-if="getErrors(setting).length > 0" color="red" class="my-2" :closebutton="false">
                                         <ul class="list-disc ml-4">
                                             <li v-for="(error, i) in getErrors(setting)" :key="'error-'+i">
@@ -101,8 +101,8 @@
                                     </alert>
                                     <component
                                         :is="'formfield-'+kebab_case(setting.type)+'-edit-add'"
-                                        v-bind:value="data(setting, null)"
-                                        v-on:input="data(setting, $event)"
+                                        :model-value="data(setting, null)"
+                                        @update:model-value="data(setting, $event)"
                                         :options="setting.options"
                                         :show="'edit'" />
                                 </div>

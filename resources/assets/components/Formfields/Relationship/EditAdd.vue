@@ -101,7 +101,7 @@ import fetch from '../../../js/fetch';
 
 export default {
     emits: ['update:modelValue'],
-    props: ['options', 'modelValue', 'column', 'relationships', 'bread', 'translatable', 'fromRelationship', 'primaryKey'],
+    props: ['options', 'modelValue', 'column', 'relationships', 'bread', 'translatable', 'fromRelationship', 'primaryKey', 'show'],
     data: function () {
         return {
             loading: false,

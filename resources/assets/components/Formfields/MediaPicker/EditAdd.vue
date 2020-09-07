@@ -63,7 +63,7 @@
 
 <script>
 export default {
-    props: ['options', 'modelValue'],
+    props: ['options', 'modelValue', 'show'],
     methods: {
         selectFile: function (file) {
             var obj = this.getFileObject(file);

@@ -9,6 +9,6 @@
 <script>
 export default {
     emits: ['update:modelValue'],
-    props: ['options', 'modelValue'],
+    props: ['options', 'modelValue', 'show'],
 };
 </script>

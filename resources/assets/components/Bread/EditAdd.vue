@@ -37,8 +37,8 @@
                                 </alert>
                                 <component
                                     :is="'formfield-'+kebab_case(formfield.type)+'-edit-add'"
-                                    v-bind:value="getData(formfield)"
-                                    v-on:input="setData(formfield, $event)"
+                                    :model-value="getData(formfield)"
+                                    @update:model-value="setData(formfield, $event)"
                                     :bread="bread"
                                     :options="formfield.options"
                                     :column="formfield.column"

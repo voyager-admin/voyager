@@ -11,6 +11,6 @@
 
 <script>
 export default {
-    props: ['options', 'modelValue'],
+    props: ['options', 'modelValue', 'show'],
 };
 </script>
