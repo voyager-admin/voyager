@@ -1,15 +1,13 @@
 <template>
-    <div>
-        <slot v-if="show == 'query'"></slot>
-        <div v-else>
-            <div class="inline-flex items-center">
-                <badge :color="options.color || 'blue'" v-for="(tag, i) in tags.slice(0, (options.display || 3))" :key="'tag-'+i">
-                    {{ tag }}
-                </badge>
-                <span class="text-xs ml-1 italic" v-if="tags.length > (options.display || 3)">
-                    {{ __('voyager::generic.more_results', { num: (tags.length - (options.display || 3)) }) }}
-                </span>
-            </div>
+    <slot v-if="show == 'query'"></slot>
+    <div v-else>
+        <div class="inline-flex items-center">
+            <badge :color="options.color || 'blue'" v-for="(tag, i) in tags.slice(0, (options.display || 3))" :key="'tag-'+i">
+                {{ tag }}
+            </badge>
+            <span class="text-xs ml-1 italic" v-if="tags.length > (options.display || 3)">
+                {{ __('voyager::generic.more_results', { num: (tags.length - (options.display || 3)) }) }}
+            </span>
         </div>
     </div>
 </template>

@@ -12,8 +12,9 @@
 </template>
 <script>
 export default {
+    emits: ['update:modelValue'],
     props: {
-        value: {
+        modelValue: {
             type: Array,
             default: function () {
                 return [];
@@ -46,7 +47,7 @@ export default {
     },
     data: function () {
         return {
-            tags: this.value,
+            tags: this.modelValue,
             deleteCounter: 0,
         };
     },
@@ -87,7 +88,7 @@ export default {
         tags: function (tags) {
             this.$emit('input', tags);
         },
-        value: function (tags) {
+        modelValue: function (tags) {
             this.tags = tags;
         }
     }

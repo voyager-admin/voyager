@@ -85,8 +85,9 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export default {
+    emits: ['update:modelValue'],
     props: {
-        value: {
+        modelValue: {
             type: [String, Array, null],
             default: null,
         },
@@ -295,23 +296,23 @@ export default {
             }
         },
         parseValue: function () {
-            if (this.value === null) {
+            if (this.modelValue === null) {
                 this.selected = this.getStringAsObject();
                 this.selectedEnd = this.getStringAsObject();
-            } else if (this.isArray(this.value)) {
-                if (this.value.length == 0) {
+            } else if (this.isArray(this.modelValue)) {
+                if (this.modelValue.length == 0) {
                     this.selected = this.getStringAsObject();
                     this.selectedEnd = this.getStringAsObject();
-                } else if (this.value.length == 1) {
-                    this.selected = this.getStringAsObject(this.value[0]);
-                    this.selectedEnd = this.getStringAsObject(this.value[0]);
+                } else if (this.modelValue.length == 1) {
+                    this.selected = this.getStringAsObject(this.modelValue[0]);
+                    this.selectedEnd = this.getStringAsObject(this.modelValue[0]);
                 } else {
-                    this.selected = this.getStringAsObject(this.value[0]);
-                    this.selectedEnd = this.getStringAsObject(this.value[1]);
+                    this.selected = this.getStringAsObject(this.modelValue[0]);
+                    this.selectedEnd = this.getStringAsObject(this.modelValue[1]);
                 }
             } else {
-                this.selected = this.getStringAsObject(this.value);
-                this.selectedEnd = this.getStringAsObject(this.value);
+                this.selected = this.getStringAsObject(this.modelValue);
+                this.selectedEnd = this.getStringAsObject(this.modelValue);
             }
 
             this.current.year = this.selected.year;
@@ -431,21 +432,21 @@ export default {
 
                 if (this.range) {
                     if (this.timezoneAware) {
-                        this.$emit('input', [
+                        this.$emit('update:modelValue', [
                             dayjs.utc(start).format(this.format),
                             dayjs.utc(end).format(this.format)
                         ]);
                     } else {
-                        this.$emit('input', [
+                        this.$emit('update:modelValue', [
                             dayjs(start).format(this.format),
                             dayjs(end).format(this.format)
                         ]);
                     }
                 } else {
                     if (this.timezoneAware) {
-                        this.$emit('input', dayjs.utc(start).format(this.format));
+                        this.$emit('update:modelValue', dayjs.utc(start).format(this.format));
                     } else {
-                        this.$emit('input', dayjs(start).format(this.format));
+                        this.$emit('update:modelValue', dayjs(start).format(this.format));
                     }
                 }
             }
@@ -458,12 +459,12 @@ export default {
                     var end = this.getObjectAsDate(this.selectedEnd, true);
 
                     if (this.timezoneAware) {
-                        this.$emit('input', [
+                        this.$emit('update:modelValue', [
                             dayjs.utc(start).format(this.format),
                             dayjs.utc(end).format(this.format)
                         ]);
                     } else {
-                        this.$emit('input', [
+                        this.$emit('update:modelValue', [
                             dayjs(start).format(this.format),
                             dayjs(end).format(this.format)
                         ]);
@@ -471,7 +472,7 @@ export default {
                 }
             }
         },
-        value: function () {
+        modelValue: function () {
             this.parseValue();
         }
     },

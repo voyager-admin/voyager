@@ -1,20 +1,19 @@
 <template>
-    <div>
-        <input
-            type="text"
-            class="input w-full"
-            v-bind:value="reactiveValue || translate(options.default_value, true)"
-            @input="reactiveValue = slugifyValue($event.target.value)"
-            :placeholder="translate(options.placeholder, true)">
-    </div>
+    <input
+        type="text"
+        class="input w-full"
+        v-bind:value="value || translate(options.default_value, true)"
+        @input="value = slugifyValue($event.target.value)"
+        :placeholder="translate(options.placeholder, true)">
 </template>
 
 <script>
 export default {
-    props: ['options', 'value'],
+    emits: ['update:modelValue'],
+    props: ['options', 'modelValue'],
     data: function () {
         return {
-            reactiveValue: this.slugifyValue(this.value)
+            value: this.slugifyValue(this.modelValue)
         };
     },
     methods: {
@@ -32,16 +31,16 @@ export default {
         // TODO
         /*EventBus.$on('input', function (parameters) {
             if (parameters.column.type == 'column' && parameters.column.column == vm.options.field) {
-                vm.reactiveValue = vm.slugifyValue(parameters.value);
+                vm.value = vm.slugifyValue(parameters.value);
             }
         });*/
     },
     watch: {
-        value: function (value) {
+        modelValue: function (value) {
             this.reactiveValue = value;
         },
-        reactiveValue: function (value) {
-            this.$emit('input', this.slugifyValue(value));
+        value: function (value) {
+            this.$emit('update:modelValue', this.slugifyValue(value));
         }
     }
 };

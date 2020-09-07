@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <select
-            class="input w-full"
-            :multiple="options.multiple || false"
-            v-model="selected">
-            <option v-for="option in options.options" :value="parsedKey(option.key)" :key="option.key">
-                {{ translate(option.value, true) }}
-            </option>
-        </select>
-    </div>
+    <select
+        class="input w-full"
+        :multiple="options.multiple || false"
+        v-model="selected">
+        <option v-for="option in options.options" :value="parsedKey(option.key)" :key="option.key">
+            {{ translate(option.value, true) }}
+        </option>
+    </select>
 </template>
 
 <script>

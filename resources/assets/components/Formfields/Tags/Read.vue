@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <badge :color="options.color || 'blue'" v-for="(tag, i) in tags" :key="'tag-'+i">
-            {{ tag }}
-        </badge>
-    </div>
+    <badge :color="options.color || 'blue'" v-for="(tag, i) in tags" :key="'tag-'+i">
+        {{ tag }}
+    </badge>
 </template>
 
 <script>

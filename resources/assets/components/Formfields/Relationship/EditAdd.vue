@@ -1,100 +1,98 @@
 <template>
-    <div>
-        <div v-if="addView && options.editable && fromRelationship !== true">
-            <modal
-                :title="__('voyager::generic.add_type', { type: translate(relatedBread.name_singular, true) })"
-                :icon="relatedBread.icon"
-                ref="add_modal"
-            >
-                <bread-edit-add
-                    :bread="add_data.bread"
-                    action="add"
-                    :input="add_data.data"
-                    :layout="addView"
-                    :relationships="add_data.relationships"
-                    :new="true"
-                    :prevUrl="''"
-                    :fromRelationship="true"
-                    @saved="added($event)"
-                />
-                <template v-slot:actions>
-                    <locale-picker :small="false" class="ltr:mr-2 rtl:ml-2"></locale-picker>
+    <div v-if="addView && options.editable && fromRelationship !== true">
+        <modal
+            :title="__('voyager::generic.add_type', { type: translate(relatedBread.name_singular, true) })"
+            :icon="relatedBread.icon"
+            ref="add_modal"
+        >
+            <bread-edit-add
+                :bread="add_data.bread"
+                action="add"
+                :input="add_data.data"
+                :layout="addView"
+                :relationships="add_data.relationships"
+                :new="true"
+                :prevUrl="''"
+                :fromRelationship="true"
+                @saved="added($event)"
+            />
+            <template v-slot:actions>
+                <locale-picker :small="false" class="ltr:mr-2 rtl:ml-2"></locale-picker>
+            </template>
+        </modal>
+    </div>
+    <!-- Selected -->
+    <div class="w-full flex" v-if="options.editable">
+        <div class="flex-grow">
+            <div was="fade-transition" :group="relationship.multiple" :duration="500">
+                <template v-for="(option, i) in modelValue" :key="i">
+                    <badge
+                        :icon="options.editable && relationship.multiple ? 'x' : ''"
+                        @click-icon.stop.prevent="remove(option)"
+                        v-if="option.key !== null"
+                    >
+                        {{ translate(option.value, false, '&nbsp;') }}
+                    </badge>
                 </template>
-            </modal>
-        </div>
-        <!-- Selected -->
-        <div class="w-full flex" v-if="options.editable">
-            <div class="flex-grow">
-                <div was="fade-transition" :group="relationship.multiple" :duration="500">
-                    <template v-for="(option, i) in value" :key="i">
-                        <badge
-                            :icon="options.editable && relationship.multiple ? 'x' : ''"
-                            @click-icon.stop.prevent="remove(option)"
-                            v-if="option.key !== null"
-                        >
-                            {{ translate(option.value, false, '&nbsp;') }}
-                        </badge>
-                    </template>
-                </div>
             </div>
-            <div class="flex-none" v-if="addView && options.editable && fromRelationship !== true">
-                <button class="button green" @click="fetchRelationshipData">
-                    <icon icon="refresh" class="animate-spin-reverse" v-if="fetching_add_data" />
-                    <icon icon="plus" v-else />
-                    {{ __('voyager::generic.add_type', { type: translate(relatedBread.name_singular, true) }) }}
-                </button>
-            </div>
-            
         </div>
-        <!-- Selectable -->
-        <div>
-            <div class="voyager-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="w-2" v-if="options.editable">
-                                <input
-                                    type="checkbox"
-                                    class="input"
-                                    @change="selectAll($event.target.checked)"
-                                    :checked="allSelected"
-                                    :disabled="!relationship.multiple || !options.editable"
-                                />
-                            </th>
-                            <th>
-                                <input class="input small w-full my-2" v-model="query" :placeholder="translate(options.search_text, true)" />
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-if="loading">
-                            <td :colspan="relationship.multiple ? 2 : 1">
-                                {{ __('voyager::generic.loading_please_wait') }}
-                            </td>
-                        </tr>
-                        <tr v-for="(option, i) in selectable" :key="i" @click="select(option)" class="cursor-pointer">
-                            <td v-if="options.editable">
-                                <input
-                                    :type="relationship.multiple ? 'checkbox' : 'radio'"
-                                    class="input"
-                                    :checked="selected(option)"
-                                    :disabled="!options.editable"
-                                />
-                            </td>
-                            <td>
-                                {{ option.key === null ? __('voyager::generic.none') : translate(option.value) }}
-                            </td>
-                        </tr>
-                        <tr v-if="!loading && (options.allow_null ? selectable.length == 1 : selectable.length == 0)">
-                            <td :colspan="relationship.multiple ? 2 : 1">
-                                {{ __('voyager::generic.no_results') }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <pagination :page-count="pages" v-model.number="page" small :first-last-buttons="false" />
+        <div class="flex-none" v-if="addView && options.editable && fromRelationship !== true">
+            <button class="button green" @click="fetchRelationshipData">
+                <icon icon="refresh" class="animate-spin-reverse" v-if="fetching_add_data" />
+                <icon icon="plus" v-else />
+                {{ __('voyager::generic.add_type', { type: translate(relatedBread.name_singular, true) }) }}
+            </button>
         </div>
+        
+    </div>
+    <!-- Selectable -->
+    <div>
+        <div class="voyager-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="w-2" v-if="options.editable">
+                            <input
+                                type="checkbox"
+                                class="input"
+                                @change="selectAll($event.target.checked)"
+                                :checked="allSelected"
+                                :disabled="!relationship.multiple || !options.editable"
+                            />
+                        </th>
+                        <th>
+                            <input class="input small w-full my-2" v-model="query" :placeholder="translate(options.search_text, true)" />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-if="loading">
+                        <td :colspan="relationship.multiple ? 2 : 1">
+                            {{ __('voyager::generic.loading_please_wait') }}
+                        </td>
+                    </tr>
+                    <tr v-for="(option, i) in selectable" :key="i" @click="select(option)" class="cursor-pointer">
+                        <td v-if="options.editable">
+                            <input
+                                :type="relationship.multiple ? 'checkbox' : 'radio'"
+                                class="input"
+                                :checked="selected(option)"
+                                :disabled="!options.editable"
+                            />
+                        </td>
+                        <td>
+                            {{ option.key === null ? __('voyager::generic.none') : translate(option.value) }}
+                        </td>
+                    </tr>
+                    <tr v-if="!loading && (options.allow_null ? selectable.length == 1 : selectable.length == 0)">
+                        <td :colspan="relationship.multiple ? 2 : 1">
+                            {{ __('voyager::generic.no_results') }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination :page-count="pages" v-model.number="page" small :first-last-buttons="false" />
     </div>
 </template>
 
@@ -102,7 +100,8 @@
 import fetch from '../../../js/fetch';
 
 export default {
-    props: ['options', 'value', 'column', 'relationships', 'bread', 'translatable', 'fromRelationship', 'primaryKey'],
+    emits: ['update:modelValue'],
+    props: ['options', 'modelValue', 'column', 'relationships', 'bread', 'translatable', 'fromRelationship', 'primaryKey'],
     data: function () {
         return {
             loading: false,
@@ -138,7 +137,7 @@ export default {
             var vm = this;
 
             vm.selectable.forEach(function (option) {
-                if (option.key !== null && vm.value.where('key', option.key).length == 0) {
+                if (option.key !== null && vm.modelValue.where('key', option.key).length == 0) {
                     all = false;
                 }
             });
@@ -211,7 +210,7 @@ export default {
                 return;
             }
             // TODO: Check if null is allowed
-            this.$emit('input', this.value.whereNot('key', option.key));
+            this.$emit('update:modelValue', this.modelValue.whereNot('key', option.key));
         },
         select: function (option) {
             if (!this.options.editable) {
@@ -219,7 +218,7 @@ export default {
             }
 
             if (option.key === null && this.options.allow_null) {
-                this.$emit('input', []);
+                this.$emit('update:modelValue', []);
                 return;
             }
 
@@ -227,18 +226,18 @@ export default {
                 if (this.selected(option)) {
                     this.remove(option);
                 } else {
-                    this.$emit('input', [...this.value, option]);
+                    this.$emit('update:modelValue', [...this.modelValue, option]);
                 }
             } else {
-                this.$emit('input', [option]);
+                this.$emit('update:modelValue', [option]);
             }
         },
         selected: function (option) {
             if (option.key === null) {
-                return this.value.length == 0;
+                return this.modelValue.length == 0;
             }
 
-            return this.value.where('key', option.key).length !== 0;
+            return this.modelValue.where('key', option.key).length !== 0;
         },
         selectAll: function (select) {
             if (!this.options.editable) {
@@ -247,7 +246,7 @@ export default {
 
             var vm = this;
             if (vm.relationship.multiple) {
-                var value = vm.value;
+                var value = vm.modelValue;
                 if (!select) {
                     // TODO: Check if null is allowed
                     vm.selectable.forEach(function (option) {
@@ -261,7 +260,7 @@ export default {
                     });
                 }
 
-                vm.$emit('input', value);
+                vm.$emit('update:modelValue', value);
             }
         }
     },

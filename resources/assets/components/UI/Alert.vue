@@ -28,6 +28,7 @@
 </template>
 <script>
 export default {
+    emits: ['close'],
     props: {
         color: {
             type: String,

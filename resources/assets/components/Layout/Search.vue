@@ -52,6 +52,7 @@
     </div>
 </template>
 <script>
+import { nextTick } from 'vue';
 import fetch from '../../js/fetch';
 
 export default {
@@ -70,7 +71,7 @@ export default {
                 var vm = this;
                 vm.loading = true;
                 vm.$refs.results_modal.open();
-                Vue.nextTick(function () {
+                nextTick(function () {
                     vm.$refs.search_input.focus();
                 });
                 vm.search(query);

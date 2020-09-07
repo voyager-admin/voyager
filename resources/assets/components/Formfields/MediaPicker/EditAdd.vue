@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <div class="flex-grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-            <div v-for="(file, i) in value" :key="i" class="item w-full rounded-md border cursor-pointer select-none h-auto">
+            <div v-for="(file, i) in modelValue" :key="i" class="item w-full rounded-md border cursor-pointer select-none h-auto">
                 <div class="flex p-3">
                     <div class="flex-none">
                         <div class="w-full flex justify-center">
@@ -55,7 +55,7 @@
                 :drop-text="__('voyager::media.drop_files')"
                 :allowed-mime-types="options.mimes || []"
                 @select="selectFile"
-                :pickedFiles="value"
+                :pickedFiles="modelValue"
             />
         </modal>
     </div>
@@ -63,28 +63,28 @@
 
 <script>
 export default {
-    props: ['options', 'value'],
+    props: ['options', 'modelValue'],
     methods: {
         selectFile: function (file) {
             var obj = this.getFileObject(file);
             if (this.options.max === 1) {
-                this.$emit('input', [obj]);
+                this.$emit('update:modelValue', [obj]);
             } else {
-                if (this.options.max > 1 && this.value.length >= this.options.max) {
+                if (this.options.max > 1 && this.modelValue.length >= this.options.max) {
                     new this.$notification(this.trans_choice('voyager::formfields.media_picker.max_warning', this.options.max))
                     .color('orange').timeout().show();
                     return;
                 } else {
-                    if (this.value.where('disk', file.disk).where('path', file.relative_path).where('name', file.name).where('type', file.type).first() !== undefined) {
+                    if (this.modelValue.where('disk', file.disk).where('path', file.relative_path).where('name', file.name).where('type', file.type).first() !== undefined) {
                         this.removeFile(file);
                     } else {
-                        this.$emit('input', [...this.value, obj]);
+                        this.$emit('update:modelValue', [...this.modelValue, obj]);
                     }
                 }
             }
         },
         removeFile: function (file) {
-            this.$emit('input', this.value.filter(function (f) {
+            this.$emit('update:modelValue', this.modelValue.filter(function (f) {
                 return !(f.disk == file.disk && (f.path == file.relative_path || f.path == file.path) && f.name == file.name && f.type == file.type); 
             }));
         },

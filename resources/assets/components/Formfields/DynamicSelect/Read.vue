@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <div class="inline-flex" v-for="(option, i) in displayValues" :key="i">
-            {{ option }}
-            <span v-if="displayValues.length !== i+1">,&nbsp;</span>
-        </div>
+    <div class="inline-flex" v-for="(option, i) in displayValues" :key="i">
+        {{ option }}
+        <span v-if="displayValues.length !== i+1">,&nbsp;</span>
     </div>
 </template>
 

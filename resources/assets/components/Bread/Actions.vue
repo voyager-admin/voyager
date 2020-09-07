@@ -20,6 +20,7 @@
 import fetch from '../../js/fetch';
 
 export default {
+    emits: ['reload'],
     props: {
         bulk: {
             type: Boolean,

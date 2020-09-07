@@ -1,15 +1,13 @@
 <template>
-    <div>
-        <div v-if="show == 'view-options' || show == 'list-options'">
-            <label class="label mt-4">{{ __('voyager::formfields.dynamic_select.route_name') }}</label>
-            <input
-                class="input w-full"
-                type="text" :placeholder="__('voyager::formfields.dynamic_select.route_name')"
-                v-model="options.route_name" />
-        </div>
-        <div v-else-if="show == 'view'">
-            <select class="input w-full" disabled></select>
-        </div>
+    <div v-if="show == 'view-options' || show == 'list-options'">
+        <label class="label mt-4">{{ __('voyager::formfields.dynamic_select.route_name') }}</label>
+        <input
+            class="input w-full"
+            type="text" :placeholder="__('voyager::formfields.dynamic_select.route_name')"
+            v-model="options.route_name" />
+    </div>
+    <div v-else-if="show == 'view'">
+        <select class="input w-full" disabled></select>
     </div>
 </template>
 

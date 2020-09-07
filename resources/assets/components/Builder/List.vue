@@ -158,7 +158,7 @@
                             <td>
                                 <select class="input small w-full" v-model="f.color">
                                     <option
-                                        v-for="(color, i) in $store.ui.colors"
+                                        v-for="(color, i) in $ui.colors"
                                         :value="color"
                                         :key="i"
                                     >

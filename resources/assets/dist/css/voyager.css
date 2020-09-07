@@ -159,25 +159,25 @@
   border-color:#364152;
   border-color:var(--card-border-color-dark, #364152)
 }
-.dark .day[data-v-a6f66940]:hover{
+.dark .day[data-v-517a5292]:hover{
   background-color: #2b6cb0
 }
-.dark .day.today[data-v-a6f66940]{
+.dark .day.today[data-v-517a5292]{
   background-color: #3182ce
 }
-.dark .day.past[data-v-a6f66940],.dark .day.future[data-v-a6f66940]{
+.dark .day.past[data-v-517a5292],.dark .day.future[data-v-517a5292]{
   color: #64748B
 }
-.dark .day.disabled[data-v-a6f66940]{
+.dark .day.disabled[data-v-517a5292]{
   color: #97A6BA
 }
-.dark .day.selected[data-v-a6f66940]{
+.dark .day.selected[data-v-517a5292]{
   background-color: #2c5282
 }
-.dark .day.rangeStart[data-v-a6f66940],.dark .day.rangeEnd[data-v-a6f66940],.dark .day.rangeBetween[data-v-a6f66940]{
+.dark .day.rangeStart[data-v-517a5292],.dark .day.rangeEnd[data-v-517a5292],.dark .day.rangeBetween[data-v-517a5292]{
   background-color: #2a4365
 }
-.day[data-v-a6f66940]{
+.day[data-v-517a5292]{
   text-align: center;
   border-radius: 0.375rem;
   padding-left: 0.5rem;
@@ -186,24 +186,24 @@
   padding-bottom: 0.25rem;
   cursor: pointer
 }
-.day[data-v-a6f66940]:hover{
+.day[data-v-517a5292]:hover{
   background-color: #90cdf4
 }
-.day.today[data-v-a6f66940]{
+.day.today[data-v-517a5292]{
   background-color: #bee3f8
 }
-.day.past[data-v-a6f66940],.day.future[data-v-a6f66940]{
+.day.past[data-v-517a5292],.day.future[data-v-517a5292]{
   color: #97A6BA
 }
-.day.disabled[data-v-a6f66940]{
+.day.disabled[data-v-517a5292]{
   color: #CFD8E3;
   cursor: not-allowed
 }
-.day.selected[data-v-a6f66940]{
+.day.selected[data-v-517a5292]{
   background-color: #4299e1;
   color: #fff
 }
-.day.rangeStart[data-v-a6f66940],.day.rangeEnd[data-v-a6f66940],.day.rangeBetween[data-v-a6f66940]{
+.day.rangeStart[data-v-517a5292],.day.rangeEnd[data-v-517a5292],.day.rangeBetween[data-v-517a5292]{
   background-color: #90cdf4
 }
 .dark .dropdown .wrapper{
@@ -497,55 +497,55 @@ to{
 .login-form h2[data-v-3ee54bee]{
   color: #27303F
 }
-.item[data-v-7a9494e2]{
+.item[data-v-7e1d2f88]{
   background-color:#27303F;
   background-color:var(--media-item-bg-color-dark, #27303F);
   border-color:#364152;
   border-color:var(--media-item-border-color-dark, #364152)
 }
-.item[data-v-7a9494e2]:hover{
+.item[data-v-7e1d2f88]:hover{
   background-color:#364152;
   background-color:var(--media-item-hover-bg-color-dark, #364152)
 }
-.dark .item[data-v-cfcdeff8]{
+.dark .item[data-v-b6a002a0]{
   background-color:#27303F;
   background-color:var(--media-item-bg-color-dark, #27303F);
   border-color:#364152;
   border-color:var(--media-item-border-color-dark, #364152)
 }
-.dark .item[data-v-cfcdeff8]:hover{
+.dark .item[data-v-b6a002a0]:hover{
   background-color:#364152;
   background-color:var(--media-item-hover-bg-color-dark, #364152)
 }
-.dark .item.selected[data-v-cfcdeff8]{
+.dark .item.selected[data-v-b6a002a0]{
   background-color:#2F3949;
   background-color:var(--media-item-selected-bg-color-dark, #2F3949);
   border-color:#2b6cb0;
   border-color:var(--media-item-selected-border-color-dark, #2b6cb0)
 }
-.dark .item.picked[data-v-cfcdeff8]{
+.dark .item.picked[data-v-b6a002a0]{
   background-color:#2F3949;
   background-color:var(--media-item-picked-bg-color-dark, #2F3949);
   border-color:#2f855a;
   border-color:var(--media-item-picked-border-color-dark, #2f855a)
 }
-.item[data-v-cfcdeff8]{
+.item[data-v-b6a002a0]{
   background-color:#F1F5F9;
   background-color:var(--media-item-bg-color, #F1F5F9);
   border-color:#CFD8E3;
   border-color:var(--media-item-border-color, #CFD8E3)
 }
-.item[data-v-cfcdeff8]:hover{
+.item[data-v-b6a002a0]:hover{
   background-color:#E2E8F0;
   background-color:var(--media-item-hover-bg-color, #E2E8F0)
 }
-.item.selected[data-v-cfcdeff8]{
+.item.selected[data-v-b6a002a0]{
   background-color:#D9E0EA;
   background-color:var(--media-item-selected-bg-color, #D9E0EA);
   border-color:#90cdf4;
   border-color:var(--media-item-selected-border-color, #90cdf4)
 }
-.item.picked[data-v-cfcdeff8]{
+.item.picked[data-v-b6a002a0]{
   background-color:#D9E0EA;
   background-color:var(--media-item-picked-bg-color, #D9E0EA);
   border-color:#9ae6b4;

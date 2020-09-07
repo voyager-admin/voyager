@@ -25,16 +25,16 @@
         <div>
             <div v-if="layout !== null">
                 <div class="inline-flex w-full" v-if="layout.options.filters.length > 0">
-                    <badge
-                        v-for="(filter, i) in layout.options.filters"
-                        v-if="displayFilter(filter)"
-                        :key="i"
-                        :color="filter.color"
-                        @click="setFilter(filter)"
-                        :icon="isFilterSelected(filter)"
-                    >
-                        {{ translate(filter.name, true) }}
-                    </badge>
+                    <template v-for="(filter, i) in layout.options.filters" :key="i">
+                        <badge
+                            v-if="displayFilter(filter)"
+                            :color="filter.color"
+                            @click="setFilter(filter)"
+                            :icon="isFilterSelected(filter)"
+                        >
+                            {{ translate(filter.name, true) }}
+                        </badge>
+                    </template>
                 </div>
                 <div class="voyager-table" :class="[loading ? 'loading' : '']">
                     <table>
@@ -166,6 +166,7 @@
 import fetch from '../../js/fetch';
 
 export default {
+    emits: ['select'],
     props: {
         bread: {
             type: Object,

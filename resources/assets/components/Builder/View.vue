@@ -92,6 +92,7 @@
 
 <script>
 export default {
+    emits: ['delete', 'open-options', 'formfields', 'options'],
     props: ['computed', 'columns', 'relationships', 'formfields', 'optionsId', 'options'],
     data: function () {
         return {

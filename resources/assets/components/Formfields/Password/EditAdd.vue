@@ -1,15 +1,14 @@
 <template>
-    <div>
-        <input
-            type="password"
-            class="input w-full"
-            @input="$emit('input', $event.target.value)"
-            :placeholder="translate(options.placeholder, true)">
-    </div>
+    <input
+        type="password"
+        class="input w-full"
+        @input="$emit('update:modelValue', $event.target.value)"
+        :placeholder="translate(options.placeholder, true)">
 </template>
 
 <script>
 export default {
-    props: ['options', 'value'],
+    emits: ['update:modelValue'],
+    props: ['options', 'modelValue'],
 };
 </script>

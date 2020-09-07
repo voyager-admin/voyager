@@ -8,7 +8,7 @@
             :step="step"
             :placeholder="placeholder"
             :inputmode="inputmode"
-            v-model.number="reactiveValue"
+            v-model.number="value"
         >
         <icon icon="plus-circle" :size="6" class="cursor-pointer" @click.prevent.stop="plus" />
         <icon icon="minus-circle" :size="6" class="cursor-pointer" @click.prevent.stop="minus" />
@@ -17,8 +17,9 @@
 
 <script>
 export default {
+    emits: ['update:modelValue'],
     props: {
-        value: {
+        modelValue: {
             required: true,
         },
         min: {
@@ -37,7 +38,7 @@ export default {
     },
     data: function () {
         return {
-            reactiveValue: this.value
+            value: this.value
         };
     },
     computed: {
@@ -51,30 +52,30 @@ export default {
     },
     methods: {
         plus: function () {
-            if (this.max !== undefined && (this.reactiveValue + this.step) > this.max) {
+            if (this.max !== undefined && (this.value + this.step) > this.max) {
                 return;
             }
 
-            this.reactiveValue += this.step;
+            this.value += this.step;
 
-            if (this.reactiveValue < this.min) {
-                this.reactiveValue = this.min;
+            if (this.value < this.min) {
+                this.value = this.min;
             }
         },
         minus: function () {
-            if (this.min !== undefined && (this.reactiveValue - this.step) < this.min) {
+            if (this.min !== undefined && (this.value - this.step) < this.min) {
                 return;
             }
 
-            this.reactiveValue -= this.step;
+            this.value -= this.step;
         }
     },
     watch: {
-        reactiveValue: function (value) {
-            this.$emit('input', value);
-        },
         value: function (value) {
-            this.reactiveValue = value;
+            this.$emit('update:modelValue', value);
+        },
+        modelValue: function (value) {
+            this.value = value;
         }
     }
 }

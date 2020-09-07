@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <badge v-for="(val, i) in selected" :key="i">{{ val }}</badge>
-    </div>
+    <badge v-for="(val, i) in selected" :key="i">{{ val }}</badge>
 </template>
 
 <script>

@@ -1,11 +1,16 @@
 <template>
     <div>
-        <array-form v-bind:value="value || []" @input="$emit('input', $event)" title-text="" :item-text="translate(options.item_text, false)" />
+        <array-form
+            :model-value="modelValue || []"
+            @update:model-value="$emit('update:modelValue', $event)"
+            title-text=""
+            :item-text="translate(options.item_text, false)"
+        />
     </div>
 </template>
 
 <script>
 export default {
-    props: ['options', 'value'],
+    props: ['options', 'modelValue'],
 };
 </script>

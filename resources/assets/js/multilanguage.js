@@ -39,14 +39,14 @@ export default {
                 } catch {
                     var value = input;
                     input = {};
-                    input[config.initial_locale] = value;
+                    input[this.$store.initial_locale] = value;
                 }
             } else if (!this.isObject(input)) {
                 input = {};
             }
 
             if (input && this.isObject(input)) {
-                config.locales.forEach(function (locale) {
+                this.$store.locales.forEach(function (locale) {
                     if (!input.hasOwnProperty(locale)) {
                         //Vue.set(input, locale, '');
                         input[locale] = '';
@@ -62,7 +62,7 @@ export default {
                 input = this.get_translatable_object(input);
             }
             if (this.isObject(input)) {
-                return input[once ? config.initial_locale : config.locale] || default_value;
+                return input[once ? this.$store.initial_locale : this.$store.locale] || default_value;
             }
 
             return input;

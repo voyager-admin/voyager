@@ -2,7 +2,7 @@
     <div>
         <div v-if="palette == 'tailwind-colors'" class="w-full text-center">
             <button
-                v-for="(color, key) in $store.ui.colors" :key="'color-'+key"
+                v-for="(color, key) in $ui.colors" :key="'color-'+key"
                 v-tooltip="__('voyager::generic.color_names.'+color)"
                 @click="$emit('update:modelValue', color); current = color"
                 class="button mb-2" :class="[color]"

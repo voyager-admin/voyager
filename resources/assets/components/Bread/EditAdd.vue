@@ -70,6 +70,7 @@
 import fetch from '../../js/fetch';
 
 export default {
+    emits: ['saved'],
     props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'relationships', 'fromRelationship', 'primaryKey'],
     data: function () {
         return {

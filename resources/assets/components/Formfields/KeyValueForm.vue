@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(option, i) in dynamicOptions" :key="'option-'+i">
+                    <tr v-for="(option, i) in value" :key="'option-'+i">
                         <td>
                             <input type="text" class="input w-full" v-model="option.key" :placeholder="__(keyText)">
                         </td>
@@ -44,8 +44,9 @@
 </template>
 <script>
 export default {
+    emits: ['update:modelValue'],
     props: {
-        value: {
+        modelValue: {
             type: Array,
             required: true,
         },
@@ -70,26 +71,26 @@ export default {
     },
     data: function () {
         return {
-            dynamicOptions: this.value,
+            value: this.modelValue,
         };
     },
     methods: {
         addOption: function () {
-            if (!this.isArray(this.dynamicOptions)) {
-                this.dynamicOptions = [];
+            if (!this.isArray(this.value)) {
+                this.value = [];
             }
-            this.dynamicOptions.push({
+            this.value.push({
                 key: '',
                 value: '',
             });
         },
         removeOption: function (key) {
-            this.dynamicOptions.splice(key, 1);
+            this.value.splice(key, 1);
         }
     },
     watch: {
-        dynamicOptions: function (options) {
-            this.$emit('input', options);
+        value: function (value) {
+            this.$emit('update:modelValue', value);
         }
     }
 }

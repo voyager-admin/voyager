@@ -1,14 +1,3 @@
-/*require('./notify');
-require('./bread');
-require('./formfields');
-require('./layout');
-require('./ui');
-
-Vue.component('settings-manager', require('../components/Settings/Manager').default);
-Vue.component('plugins-manager', require('../components/Plugins/Manager').default);
-Vue.component('login', require('../components/Auth/Login').default);
-*/
-
 require('./helper/array');
 
 import { createApp } from 'vue';
@@ -83,9 +72,6 @@ window.createAndMountVoyager = function (data = {}, el = '#voyager') {
 
     voyager.use(Multilanguage, {
         localization: data.localization,
-        initial_locale: data.initial_locale,
-        locale: data.locale,
-        locales: data.locales,
     });
 
     voyager.directive('click-outside', ClickOutside);
@@ -105,6 +91,10 @@ window.createAndMountVoyager = function (data = {}, el = '#voyager') {
     };
     voyager.config.warnHandler = (warning, vm, trace) => {
         Store.handleWarning(warning, vm, trace);
+    };
+
+    voyager.config.globalProperties.$ui = {
+        colors: [],
     };
 
     Layout(voyager);
