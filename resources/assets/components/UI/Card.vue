@@ -2,27 +2,25 @@
 <div class="card" :class="[`border-${border}`, !noPadding ? 'p-4 mx-1' : null]">
     <div class="header" v-if="showHeader">
         <div class="flex items-center justify-between">
-            <div class="flex items-center" v-if="!$slots.title">
-                <icon v-if="icon" :icon="icon" :size="iconSize" class="ltr:mr-2 rtl:ml-2"></icon>
-                <component :is="`h${titleSize}`" class="leading-6 font-medium" :class="titlePointer ? 'cursor-pointer' : ''" @click="$emit('click-title', $event)">
-                    {{ title }}
-                </component>
-                <p class="mt-1 text-sm leading-5 text-gray-500">
-                    {{ description }}
-                </p>
-            </div>
-            <slot v-else name="title" />
-            <div class="flex-shrink-0 sm:mt-2" v-if="$slots.actions">
-                <slot name="actions"></slot>
-            </div>
+            
+            <slot name="title">
+                <div class="flex items-center">
+                    <icon v-if="icon" :icon="icon" :size="iconSize" class="ltr:mr-2 rtl:ml-2"></icon>
+                    <component :is="`h${titleSize}`" class="leading-6 font-medium" :class="titlePointer ? 'cursor-pointer' : ''" @click="$emit('click-title', $event)">
+                        {{ title }}
+                    </component>
+                    <p class="mt-1 text-sm leading-5 text-gray-500">
+                        {{ description }}
+                    </p>
+                </div>
+            </slot>
+            <slot name="actions" class="flex-shrink-0 sm:mt-2"></slot>
         </div>
     </div>
     <div class="content" :class="[!noPadding ? 'px-2' : null]">
         <slot></slot>
     </div>
-    <div class="footer" v-if="$slots.footer">
-        <slot name="footer"></slot>
-    </div>
+    <slot class="footer" name="footer"></slot>
 </div>
 </template>
 <script>
@@ -65,7 +63,7 @@ export default {
             type: Boolean,
             default: false,
         }
-    }
+    },
 };
 </script>
 

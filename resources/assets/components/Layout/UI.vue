@@ -192,18 +192,18 @@
 
     <collapsible title="Tabs" id="ui-tabs">
         <tabs :tabs="[{name: 'tab1', title: 'Tab 1'}, {name: 'tab2', title: 'Tab 2'}, {name: 'tab3', title: 'Tab 3'}]">
-            <div slot="tab1">
+            <template v-slot:tab1>
                 <h3>Tab 1</h3>
                 <p>{{ $ui.lorem }}</p>
-            </div>
-            <div slot="tab2">
+            </template>
+            <template v-slot:tab2>
                 <h3>Tab 2</h3>
                 <p>{{ $ui.lorem }}</p>
-            </div>
-            <div slot="tab3">
+            </template>
+            <template v-slot:tab3>
                 <h3>Tab 3</h3>
                 <p>{{ $ui.lorem }}</p>
-            </div>
+            </template>
         </tabs>
     </collapsible>
 
