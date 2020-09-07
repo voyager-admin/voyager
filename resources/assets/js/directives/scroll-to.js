@@ -1,5 +1,5 @@
 export default {
-    inserted: function (el, binding) {
+    mounted: function (el, binding) {
         el.addEventListener('click', function (e) {
             var element = document.getElementById('top');
             if (binding.value !== '') {

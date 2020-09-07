@@ -49,9 +49,11 @@
                                     :class="formfield.orderable ? 'cursor-pointer' : ''"
                                     @click="formfield.orderable ? orderBy(formfield.column.column) : ''">
                                     <div class="flex h-full items-center">
-                                        <span v-tooltip="(formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : null)">
-                                            {{ translate(formfield.title, true) }}
-                                        </span>
+                                        <tooltip :value="(formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : null)">
+                                            <span>
+                                                {{ translate(formfield.title, true) }}
+                                            </span>
+                                        </tooltip>
                                         <icon
                                             v-if="formfield.orderable && parameters.order == formfield.column.column"
                                             :icon="parameters.direction == 'asc' ? 'sort-ascending' : 'sort-descending'"

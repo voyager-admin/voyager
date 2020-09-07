@@ -4,7 +4,7 @@ let components = [
     'MenuWrapper',
     'MenuItem',
     'Search',
-    'Tooltips',
+    'Tooltip',
     'UI',
     'UserDropdown',
 ];

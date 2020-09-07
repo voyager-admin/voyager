@@ -28,12 +28,11 @@ export default {
     mounted: function () {
         var vm = this;
 
-        // TODO
-        /*EventBus.$on('input', function (parameters) {
+        this.$eventbus.on('input', function (parameters) {
             if (parameters.column.type == 'column' && parameters.column.column == vm.options.field) {
                 vm.value = vm.slugifyValue(parameters.value);
             }
-        });*/
+        });
     },
     watch: {
         modelValue: function (value) {

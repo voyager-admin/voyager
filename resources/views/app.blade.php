@@ -37,7 +37,6 @@
             </main>
         </div>
         <notifications key="notifications"></notifications>
-        <tooltips key="tooltips"></tooltips>
     </div>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>

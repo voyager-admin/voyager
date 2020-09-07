@@ -115,10 +115,10 @@ export default {
                 this.output[formfield.column.column] = value;
             }
             // TODO
-            /*EventBus.$emit('input', {
+            this.$eventbus.emit('input', {
                 column: formfield.column,
                 value: value,
-            });*/
+            });
         },
         getErrors: function (column) {
             return this.errors[column.column] || [];

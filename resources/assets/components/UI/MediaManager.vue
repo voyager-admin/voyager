@@ -72,7 +72,9 @@
                             <div class="flex-grow ml-3 overflow-hidden">
                                 <div class="flex flex-col h-full">
                                     <div class="flex-none">
-                                        <p class="whitespace-no-wrap" v-tooltip="file.file.name">{{ file.file.name }}</p>
+                                        <tooltip :value="file.file.name">
+                                            <p class="whitespace-no-wrap">{{ file.file.name }}</p>
+                                        </tooltip>
                                         <p class="text-sm" v-if="file.file.thumbnails.length > 0">
                                             {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
                                         </p>
@@ -160,15 +162,16 @@
                     <img :src="openedFile.url" class="rounded object-contain max-w-full" />
                 </div>
                 <div class="w-full mt-2 justify-center items-center flex space-x-1 space-y-1">
-                    <img
-                        v-for="(image, i) in images"
-                        :key="i"
-                        class="rounded object-contain h-24 cursor-pointer"
-                        :class="openedFile.url == image.file.url ? 'border border-blue-500' : null"
-                        :src="image.file.url"
-                        v-tooltip="image.file.relative_path+image.file.name"
-                        @click="openedFile = image.file"
-                    />
+                    <tooltip :value="image.file.relative_path+image.file.name">
+                        <img
+                            v-for="(image, i) in images"
+                            :key="i"
+                            class="rounded object-contain h-24 cursor-pointer"
+                            :class="openedFile.url == image.file.url ? 'border border-blue-500' : null"
+                            :src="image.file.url"
+                            @click="openedFile = image.file"
+                        />
+                    </tooltip>
                 </div>
             </div>
         </modal>

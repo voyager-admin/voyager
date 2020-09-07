@@ -1,14 +1,14 @@
 <template>
     <div>
         <div v-if="palette == 'tailwind-colors'" class="w-full text-center">
-            <button
-                v-for="(color, key) in $ui.colors" :key="'color-'+key"
-                v-tooltip="__('voyager::generic.color_names.'+color)"
-                @click="$emit('update:modelValue', color); current = color"
-                class="button mb-2" :class="[color]"
-            >
-                <input type="radio" class="input opacity-75" :checked="current == color">
-            </button>
+            <tooltip v-for="(color, key) in $ui.colors" :key="'color-'+key" :value="__('voyager::generic.color_names.'+color)">
+                <button
+                    @click="$emit('update:modelValue', color); current = color"
+                    class="button mb-2" :class="[color]"
+                >
+                    <input type="radio" class="input opacity-75" :checked="current == color">
+                </button>
+            </tooltip>
         </div>
     </div>
 </template>

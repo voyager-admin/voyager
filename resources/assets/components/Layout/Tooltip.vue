@@ -1,64 +1,37 @@
 <template>
-    <span class="absolute">
-        <span v-for="(tooltip, i) in tooltips" :key="i">
-            <span class="tooltip" :style="getStyles(tooltip, i)" :ref="'tooltip_'+i" v-show="tooltip.show && tooltip.value !== null">
-                <div class="arrow" :class="tooltip.pos"></div>
-                <div class="inner" v-html="tooltip.value"></div>
-            </span>
+    <span class="absolute" :class="show ? 'block' : 'hidden'" ref="tooltip">
+        <span class="tooltip" :style="styles" >
+            <div class="arrow" :class="pos"></div>
+            <div class="inner" v-html="value"></div>
         </span>
     </span>
+    <slot />
 </template>
 
 <script>
 export default {
+    props: {
+        value: {
+            required: true,
+        },
+        pos: {
+            type: String,
+            default: 'bottom'
+        }
+    },
     data: function () {
         return {
-            tooltips: []
+            show: false,
         };
     },
-    created: function () {
-        var vm = this;
-
-        /*EventBus.$on('addTooltip', function (el, binding) {
-            var pos = 'bottom';
-            if (['left', 'top', 'right', 'bottom'].indexOf(binding.arg) >= 0) {
-                pos = binding.arg;
-            }
-
-            vm.tooltips.push({
-                el: el,
-                value: binding.value,
-                show: false,
-                pos: pos,
-                rect: {},
-            });
-
-            el.addEventListener('mouseenter', function (e) {
-                var tooltip = vm.tooltips.where('el', el).first();
-                tooltip.show = true;
-                Vue.nextTick(function () {
-                    // Calculate tooltip size
-                    tooltip.rect = vm.$refs['tooltip_'+vm.tooltips.indexOf(tooltip)][0].getBoundingClientRect();
-                });
-            });
-
-            el.addEventListener('mouseleave', function (e) {
-                vm.tooltips.where('el', el).first().show = false;
-            });
-        });*/
-    },
-    methods: {
-        getStyles: function (tooltip, i, pos = null) {
+    computed: {
+        styles: function () {
             var top = 0;
             var left = 0;
+            var pos = this.pos;
 
-            if (pos == null) {
-                pos = tooltip.pos;
-            }
-
-            var rect = tooltip.el.getBoundingClientRect();
-
-            if (pos == 'top') {
+            //var rect = this.$el.nextElementSibling.getBoundingClientRect();
+            /*if (pos == 'top') {
                 var center = rect.left + (rect.width / 2);
                 top = rect.top - (tooltip.rect.height || 0) - 5;
                 left = center - ((tooltip.rect.width || 0) / 2);
@@ -74,14 +47,22 @@ export default {
                 var center = rect.left + (rect.width / 2);
                 top = rect.bottom + 5;
                 left = center - ((tooltip.rect.width || 0) / 2);
-            }
-            // TODO: Check if tooltip is in viewport
+            }*/
             
             return {
                 top: top + 'px',
                 left: left + 'px',
             };
         }
+    },
+    mounted: function () {
+        var vm = this;
+        vm.$el.addEventListener('mouseenter', function () {
+            vm.show = true;
+        });
+        vm.$el.addEventListener('mouseleave', function () {
+            vm.show = false;
+        });
     }
 }
 </script>

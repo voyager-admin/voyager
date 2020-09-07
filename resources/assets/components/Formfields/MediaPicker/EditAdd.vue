@@ -14,7 +14,9 @@
                     <div class="flex-grow ml-3 overflow-hidden">
                         <div class="flex flex-col h-full">
                             <div class="flex-none">
-                                <p class="whitespace-no-wrap" v-tooltip="file.name">{{ file.name }}</p>
+                                <tooltip :value="file.name">
+                                    <p class="whitespace-no-wrap">{{ file.name }}</p>
+                                </tooltip>
                                 <div v-for="(field, m) in options.meta" :key="m" class="mt-1">
                                     <language-input
                                         class="input w-full small"

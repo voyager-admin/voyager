@@ -19,7 +19,6 @@ import Multilanguage from './multilanguage';
 import ClickOutside from './directives/click-outside';
 import Focus from './directives/focus';
 import ScrollTo from './directives/scroll-to';
-import Tooltip from './directives/tooltip';
 
 // Helper mixins
 import MiscMixin from './mixins/misc';
@@ -33,6 +32,7 @@ import Bread from './bread';
 import Formfields from './formfields';
 
 import { Notification, Notify } from './notify';
+import Eventbus from './eventbus';
 import Store from './store';
 
 // Components
@@ -77,7 +77,6 @@ window.createAndMountVoyager = function (data = {}, el = '#voyager') {
     voyager.directive('click-outside', ClickOutside);
     voyager.directive('focus', Focus);
     voyager.directive('scroll-to', ScrollTo);
-    voyager.directive('tooltip', Tooltip);
 
     voyager.mixin(MiscMixin);
     voyager.mixin(StringMixin);
@@ -85,6 +84,8 @@ window.createAndMountVoyager = function (data = {}, el = '#voyager') {
     voyager.mixin(UrlMixin);
 
     voyager.config.globalProperties.$store = Store;
+    voyager.config.globalProperties.$eventbus = Eventbus;
+    window.$eventbus = Eventbus;
 
     //voyager.config.errorHandler = Store.handleError;
     //voyager.config.warnHandler = Store.handleWarning;
