@@ -56,8 +56,8 @@
                     <div class="w-full">
                         <pagination
                             :page-count="availablePages"
-                            v-on:input="available.page = $event - 1"
-                            v-bind:value="available.page + 1"
+                            @update:model-value="available.page = $event - 1"
+                            :model-value="available.page + 1"
                             :first-last-buttons="false"
                         />
                     </div>
@@ -154,8 +154,8 @@
             <div class="w-full mt-2">
                 <pagination
                     :page-count="installedPages"
-                    v-on:input="installed.page = $event - 1"
-                    v-bind:value="installed.page + 1"
+                    @update:modelValue="installed.page = $event - 1"
+                    :modelValue="installed.page + 1"
                     :first-last-buttons="false"
                 ></pagination>
             </div>

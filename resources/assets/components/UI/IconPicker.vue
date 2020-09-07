@@ -11,7 +11,7 @@
                 </button>
             </tooltip>
         </div>
-        <pagination class="mt-2" :page-count="pages" v-on:input="page = $event - 1" v-bind:value="page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
+        <pagination class="mt-2" :page-count="pages" @update:model-value="page = $event - 1" :model-value="page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
     </div>
 </template>
 <script>
