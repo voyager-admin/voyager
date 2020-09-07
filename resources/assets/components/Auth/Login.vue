@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div was="fade-transition" :duration="150" tag="div" group>
+    <fade-transition :duration="150" tag="div" group>
         <form method="post" :action="route('voyager.login')" v-if="!passwordForgotOpen" key="login-form">
             <input type="hidden" name="_token" :value="$store.csrf_token">
 
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </form>
-    </div>
+    </fade-transition>
 </div>
 </template>
 <script>

@@ -24,7 +24,7 @@
     <!-- Selected -->
     <div class="w-full flex" v-if="options.editable">
         <div class="flex-grow">
-            <div was="fade-transition" :group="relationship.multiple" :duration="500">
+            <fade-transition :group="relationship.multiple" :duration="500">
                 <template v-for="(option, i) in modelValue" :key="i">
                     <badge
                         :icon="options.editable && relationship.multiple ? 'x' : ''"
@@ -34,7 +34,7 @@
                         {{ translate(option.value, false, '&nbsp;') }}
                     </badge>
                 </template>
-            </div>
+            </fade-transition>
         </div>
         <div class="flex-none" v-if="addView && options.editable && fromRelationship !== true">
             <button class="button green" @click="fetchRelationshipData">

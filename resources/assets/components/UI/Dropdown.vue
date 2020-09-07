@@ -3,13 +3,13 @@
         <div ref="opener">
             <slot name="opener" />
         </div>
-        <div was="slide-y-up-transition">
+        <slide-up-transition>
             <div class="wrapper" :class="[`w-${width}`, pos]" v-if="isOpen">
                 <div class="body">
                     <slot />
                 </div>
             </div>
-        </div>
+        </slide-up-transition>
     </div>
 </template>
 <script>

@@ -12,9 +12,9 @@
         </div>
     </div>
     
-    <div was="collapse-transition" v-if="hasChildren" :class="[open ? 'submenu' : '']" :duration="200">
+    <collapse-transition v-if="hasChildren" :class="[open ? 'submenu' : '']" :duration="200">
         <slot v-if="open" />
-    </div>
+    </collapse-transition>
 </div>
 </template>
 

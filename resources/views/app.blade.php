@@ -18,13 +18,13 @@
 </head>
 
 <body>
-    <div was="slide-x-left-transition" class="h-screen flex overflow-hidden" id="voyager" tag="div" group>
+    <slide-left-transition class="h-screen flex overflow-hidden" id="voyager" tag="div" group>
         <div key="loader">
-            <div was="fade-transition" :duration="500">
+            <fade-transition :duration="500">
                 <div class="loader" v-if="$store.pageLoading">
                     <icon icon="helm" size="auto" class="block icon animate-spin-slow"></icon>
                 </div>
-            </div>
+            </fade-transition>
         </div>
         @include('voyager::sidebar')
         <div class="flex flex-col w-0 flex-1 overflow-hidden" key="content">
@@ -37,7 +37,7 @@
             </main>
         </div>
         <notifications key="notifications"></notifications>
-    </div>
+    </slide-left-transition>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 <script>

@@ -30,6 +30,7 @@ import Layout from './layout';
 import UI from './ui';
 import Bread from './bread';
 import Formfields from './formfields';
+import Transitions from './transitions';
 
 import { Notification, Notify } from './notify';
 import Eventbus from './eventbus';
@@ -115,6 +116,7 @@ window.createVoyager = function (data = {}) {
     UI(voyager);
     Bread(voyager);
     Formfields(voyager);
+    Transitions(voyager);
     voyager.config.globalProperties.$notify = Notify;
     voyager.config.globalProperties.$notification = Notification;
 

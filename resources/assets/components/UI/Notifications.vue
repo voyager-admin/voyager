@@ -1,7 +1,7 @@
 <template>
 <div class="notifications sm:p-6 sm:items-start sm:justify-end" v-on:animationend="timeout($event)" v-on:animationcancel="timeout($event)">
     <div>
-        <div was="slide-x-right-transition" group :duration="{enter: 500, leave: 0}">
+        <slide-right-transition group :duration="{enter: 500, leave: 0}">
             <div
                 v-for="notification in $notify.notifications"
                 :key="notification._uuid"
@@ -64,7 +64,7 @@
                     ></div>
                 </div>
             </div>
-        </div>
+        </slide-right-transition>
     </div>
 </div>
 </template>

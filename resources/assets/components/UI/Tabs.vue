@@ -17,11 +17,11 @@
             </div>
         </div>
         <div class="content">
-            <div was="slide-x-right-transition" :duration="150" group>
+            <slide-right-transition :duration="150" group>
                 <div v-for="(tab, i) in tabs" :key="'slot-'+i">
                     <slot :name="tab.name" v-if="currentTab == i" />
                 </div>
-            </div>
+            </slide-right-transition>
         </div>
     </card>
 </template>

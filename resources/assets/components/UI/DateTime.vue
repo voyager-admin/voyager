@@ -22,7 +22,7 @@
                         <icon icon="chevron-right" class="cursor-pointer" @click="nextMonth" />
                     </div>
                 </div>
-                <div was="slide-y-up-transition" class="mt-2 grid grid-cols-7 gap-2" group>
+                <slide-up-transition class="mt-2 grid grid-cols-7 gap-2" group>
                     <div v-for="weekday in weekdays" :key="weekday" class="text-center">
                         {{ weekday }}
                     </div>
@@ -36,7 +36,7 @@
                     >
                         {{ day.date }}
                     </div>
-                </div>
+                </slide-up-transition>
                 <div v-if="selectTime">
                     <div class="w-full mt-2 inline-flex space-x-1 items-center">
                         <span class="w-12">{{ range ? 'From:' : 'Time:' }}</span>
