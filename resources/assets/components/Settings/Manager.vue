@@ -231,7 +231,7 @@ export default {
             if (value !== null) {
                 if (setting.translatable || false) {
                     // TODO: Vue.set(setting.value, this.$language.locale, value);
-                    settings.value[this.$store.locale] = value;
+                    setting.value[this.$store.locale] = value;
                 } else {
                     // TODO: Vue.set(setting, 'value', value);
                     setting.value = value;

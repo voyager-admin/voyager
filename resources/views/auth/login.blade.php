@@ -23,10 +23,10 @@
                 <icon icon="helm" size="16" class="icon"></icon>
             </div>
             <p class="mt-6 text-center text-sm leading-5 max-w">
-                Welcome to Voyager
+                {{ Voyager::setting('admin.welcome', __('voyager::generic.welcome_to_voyager')) }}
             </p>
             <h2 class="mt-2 text-center text-3xl leading-9 font-extrabold">
-                Sign in to your account
+                {{ __('voyager::auth.sign_in_to_account') }}
             </h2>
         </div>
 
@@ -36,7 +36,7 @@
                     error="{{ Session::get('error', null) }}"
                     success="{{ Session::get('success', null) }}"
                     :old="{{ json_encode(old()) }}"
-                    :has-password-forgot="{{ Voyager::auth()->forgotPasswordView() ? 'true' : 'false' }}"
+                    :has-password-forgot="{{ Voyager::auth()->forgotPasswordView() === null ? 'false' : 'true' }}"
                 >
                     @if (Voyager::auth()->loginView())
                     <template v-slot:login>

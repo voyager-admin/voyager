@@ -386,5 +386,24 @@
             "description": null
         },
         "validation": []
+    },
+    {
+        "type": "text",
+        "group": "admin",
+        "key": "welcome",
+        "name": "Welcome",
+        "value": "Welcome to Voyager II",
+        "info": "The welcome text shown when logging in",
+        "translatable": true,
+        "canBeTranslated": true,
+        "options": {
+            "placeholder": null,
+            "default_value": null,
+            "rows": 1,
+            "inputmode": "text",
+            "title": null,
+            "description": null
+        },
+        "validation": []
     }
 ]

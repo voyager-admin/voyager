@@ -1,5 +1,5 @@
 <template>
-    <slide-x-transition>
+    <slide-right-transition>
         <div v-if="isOpen" class="dark slidein text-white w-full" :class="'lg:'+width" v-click-outside="close">
             <div class="flex w-full mb-3">
                 <div class="flex-grow">
@@ -15,7 +15,7 @@
             </div>
             <slot />
         </div>
-    </slide-x-transition>
+    </slide-right-transition>
 </template>
 <script>
 import closable from '../../js/mixins/closable';

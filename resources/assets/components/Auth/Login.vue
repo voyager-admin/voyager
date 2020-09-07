@@ -43,7 +43,7 @@
             </div>
         </form>
         <form method="post" :action="route('voyager.forgot_password')" v-if="hasPasswordForgot && passwordForgotOpen" key="password-form">
-            <h2 class="mb-6 font-bold">{{ __('voyager::auth.forgot_password') }}</h2>
+            <p>{{ __('voyager::auth.forgot_password_info') }}</p>
             <input type="hidden" name="_token" :value="$store.csrf_token">
             <div class="mt-4">
                 <slot name="forgot_password" />
@@ -52,7 +52,7 @@
                         {{ __('voyager::auth.request_password') }}
                     </button>
                     <a href="#" @click.prevent="passwordForgotOpen = false">
-                        Cancel
+                        {{ __('voyager::generic.cancel') }}
                     </a>
                 </div>
             </div>

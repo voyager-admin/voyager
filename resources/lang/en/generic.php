@@ -143,5 +143,6 @@ return [
     'version'                   => 'Version',
     'view_profile'              => 'View Profile',
     'website'                   => 'Website',
+    'welcome_to_voyager'        => 'Welcome to Voyager II',
     'yes'                       => 'Yes',
 ];
