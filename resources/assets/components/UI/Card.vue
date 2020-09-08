@@ -1,6 +1,6 @@
 <template>
 <div class="card" :class="[`border-${border}`, !noPadding ? 'p-4 mx-1' : null]">
-    <div class="header" v-if="showHeader">
+    <div class="header" v-if="!dontShowHeader">
         <div class="flex items-center justify-between">
             <slot name="title">
                 <div class="flex items-center">
@@ -27,9 +27,9 @@
 export default {
     emits: ['click-title'],
     props: {
-        showHeader: {
+        dontShowHeader: {
             type: Boolean,
-            default: true,
+            default: false,
         },
         title: {
             type: String,

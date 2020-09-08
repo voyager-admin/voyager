@@ -22,7 +22,7 @@
                         <badge
                             v-for="(type, i) in availableTypes"
                             :key="i" :color="getPluginTypeColor(type)"
-                            :icon="available.currentType == type ? 'x' : ''"
+                            :icon="available.currentType == type ? 'x' : null"
                             @click="setAvailableTypeFilter(type)"
                         >
                             {{ __('voyager::plugins.types.'+type) }}
@@ -74,7 +74,7 @@
             <badge
                 v-for="(type, i) in installedTypes"
                 :key="i" :color="getPluginTypeColor(type)"
-                :icon="installed.currentType == type ? 'x' : ''"
+                :icon="installed.currentType == type ? 'x' : null"
                 @click="setTypeFilter(type)"
             >
                 {{ __('voyager::plugins.types.'+type) }}

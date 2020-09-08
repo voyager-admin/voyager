@@ -1,15 +1,13 @@
 <template>
-    <span
-        class="badge"
-        :class="[`button ${color}`, large ? 'large' : null]">
+    <span class="badge" :class="[`button ${color}`, large ? 'large' : null]">
         <slot></slot>
         <icon
             v-on:click="$emit('click-icon', $event)"
-            class="ltr:ml-1 ltr:mr-0 rtl:mr-1 rtl:ml-0 cursor-pointer"
+            class="icon ltr:ml-1 ltr:mr-0 rtl:mr-1 rtl:ml-0"
             :size="large ? 5 : 4"
-            v-if="icon !== ''"
-            :icon="icon">
-        </icon>
+            v-if="icon !== null"
+            :icon="icon"
+        />
     </span>
 </template>
 <script>
@@ -21,8 +19,8 @@ export default {
             default: 'accent',
         },
         icon: {
-            type: String,
-            default: '',
+            type: [String, null],
+            default: null,
         },
         large: {
             type: Boolean,
@@ -38,6 +36,10 @@ export default {
 
     &.large {
         @apply px-3 text-sm leading-5;
+    }
+
+    .icon {
+        @apply cursor-pointer;
     }
 }
 </style>

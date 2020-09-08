@@ -1,12 +1,12 @@
 <template>
-    <div class="dropdown" v-click-outside="close">
-        <div ref="opener">
-            <slot name="opener" />
+    <div class="dropdown" v-click-outside="close" @keydown.esc="close">
+        <div @click="open">
+            <slot name="opener"></slot>
         </div>
         <slide-up-transition>
             <div class="wrapper" :class="[`w-${width}`, pos]" v-if="isOpen" @click="dontCloseOnInsideClick ? null : close()">
                 <div class="body">
-                    <slot />
+                    <slot></slot>
                 </div>
             </div>
         </slide-up-transition>
@@ -33,22 +33,7 @@ export default {
             type: Boolean,
             default: false,
         }
-    },
-    mounted: function () {
-        var vm = this;
-        document.body.addEventListener('keydown', function (e) {
-            if (e.code === 'Escape') {
-                vm.close();
-            }
-        });
-        if (vm.$refs.opener.children.length > 0) {
-            Array.from(vm.$refs.opener.getElementsByTagName('*')).forEach(function (el) {
-                el.addEventListener('click', event => {
-                    vm.open();
-                });
-            });
-        }
-    },
+    }
 };
 </script>
 

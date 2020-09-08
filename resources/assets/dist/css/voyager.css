@@ -89,7 +89,7 @@
   margin-left:0;
   margin-right:0
 }
-.badge[data-v-78478107]{
+.badge[data-v-13bea2b6]{
   display: inline-flex;
   align-items: center;
   padding-left: 0.5rem;
@@ -109,11 +109,14 @@
       -ms-user-select: none;
           user-select: none
 }
-.badge.large[data-v-78478107]{
+.badge.large[data-v-13bea2b6]{
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   font-size: 0.875rem;
   line-height: 1.25rem
+}
+.badge .icon[data-v-13bea2b6]{
+  cursor: pointer
 }
 .dark .card{
   background-color:#27303F;
@@ -404,7 +407,7 @@ to{
   -webkit-animation:indeterminate 2s ease infinite;
           animation:indeterminate 2s ease infinite
 }
-.modal[data-v-17f032b2]{
+.modal[data-v-0d3b1591]{
   position: fixed;
   width: 100%;
   top: 0;
@@ -415,13 +418,13 @@ to{
   text-align: left;
   overflow-y: hidden
 }
-.modal .body[data-v-17f032b2]{
+.modal .body[data-v-0d3b1591]{
   z-index: 50;
   border-radius: 0.5rem;
   overflow-y: auto
 }
 
-.slidein[data-v-001c32a2]{
+.slidein[data-v-7921070c]{
   position:fixed;
   top:0;
   left:auto;

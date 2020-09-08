@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full">
+    <div class="w-full" @keydown.esc="search('')">
         <modal ref="results_modal" :title="placeholder" icon="search" @closed="query = ''">
             <div>
                 <input
@@ -129,14 +129,6 @@ export default {
 
             return this.route('voyager.'+this.translate(bread.slug, true)+'.read', key);
         }
-    },
-    mounted: function () {
-        var vm = this;
-        document.body.addEventListener('keydown', function (e) {
-            if (e.code === 'Escape') {
-                vm.search('');
-            }
-        });
     },
 };
 </script>

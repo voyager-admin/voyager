@@ -5,7 +5,7 @@
             :class="fromRelationship ? 'border-none' : null"
             :style="fromRelationship ? 'box-shadow: none !important' : null"
             :icon="bread.icon"
-            :showHeader="!fromRelationship"
+            :dontShowHeader="fromRelationship"
             :no-padding="fromRelationship"
         >
             <template v-slot:actions>

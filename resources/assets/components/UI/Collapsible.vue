@@ -3,7 +3,7 @@
         <template v-slot:actions>
             <div class="inline-flex items-center">
                 <slot name="actions"></slot>
-                <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="6" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click="toggle"></icon>
+                <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="6" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click="toggle" />
             </div>
         </template>
         <collapse-transition>

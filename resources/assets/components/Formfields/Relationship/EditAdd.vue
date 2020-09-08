@@ -27,7 +27,7 @@
             <fade-transition :group="relationship.multiple" :duration="500">
                 <template v-for="(option, i) in modelValue" :key="i">
                     <badge
-                        :icon="options.editable && relationship.multiple ? 'x' : ''"
+                        :icon="options.editable && relationship.multiple ? 'x' : null"
                         @click-icon.stop.prevent="remove(option)"
                         v-if="option.key !== null"
                     >

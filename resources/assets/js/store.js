@@ -16,6 +16,7 @@ export default reactive({
     json_output: true,
     csrf_token: null,
     current_url: '',
+    searchPlaceholder: '',
     user: {
         name: '',
         avatar: '',

@@ -291,7 +291,7 @@ export default {
                 return 'x';
             }
 
-            return '';
+            return null;
         },
         displayFilter: function (filter) {
             return !(filter.column == '' || filter.operator == '' || this.translate(filter.name, true) == '');
