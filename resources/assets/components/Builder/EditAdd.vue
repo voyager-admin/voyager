@@ -128,7 +128,7 @@
             </div>
         </collapsible>
 
-        <card :show-header="false">
+        <card dont-show-header>
             <!-- Toolbar -->
             <div class="w-full mb-5 flex">
                 <select class="input small self-center" v-model="currentLayoutName" :disabled="bread.layouts.length == 0">
@@ -642,11 +642,8 @@ export default {
             vm.loadProperties();
         }
 
-        document.addEventListener('keydown', function (e) {
-            if (event.ctrlKey && event.key === 's') {
-                e.preventDefault();
-                vm.saveBread();
-            }
+        $eventbus.on('ctrl-s-combo', function () {
+            vm.saveBread();
         });
     },
     created: function () {

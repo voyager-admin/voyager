@@ -183,12 +183,8 @@ export default {
     mounted: function () {
         var vm = this;
 
-        document.addEventListener('keydown', function (e) {
-            if (event.ctrlKey && event.key === 's') {
-                e.preventDefault();
-                e.stopPropagation();
-                vm.save();
-            }
+        $eventbus.on('ctrl-s-combo', function () {
+            vm.save();
         });
     }
 };

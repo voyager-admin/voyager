@@ -3,7 +3,7 @@
         <card
             v-for="(widget, i) in widgets"
             :key="'widget-'+i"
-            :show-header="((widget.title || widget.icon) ? true : false)"
+            :dont-show-header="((widget.title || widget.icon) ? false : true)"
             :title="widget.title"
             :icon="widget.icon"
             :class="widget.width"

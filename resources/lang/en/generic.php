@@ -63,6 +63,7 @@ return [
     'format'                    => 'Format',
     'group'                     => 'Group',
     'heads_up'                  => 'Heads Up!',
+    'hello_user'                => 'Hello :user',
     'hide'                      => 'Hide',
     'icon'                      => 'Icon',
     'info'                      => 'Info',

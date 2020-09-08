@@ -8,7 +8,6 @@ let components = [
     'Search',
     'Tooltip',
     'UI',
-    'UserDropdown',
 ];
 
 export default (voyager) => {

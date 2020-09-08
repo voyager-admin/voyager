@@ -437,31 +437,31 @@ to{
   background-color:rgba(0,0,0,.85);
   z-index:100
 }
-.dark .tabs .wrapper[data-v-64635c96]{
+.dark .tabs .wrapper[data-v-250a995b]{
   border-color:#364152;
   border-color:var(--tabs-border-color-dark, #364152)
 }
-.dark .tabs .wrapper .tab[data-v-64635c96]{
+.dark .tabs .wrapper .tab[data-v-250a995b]{
   color:#97A6BA;
   color:var(--tabs-text-color-dark, #97A6BA)
 }
-.dark .tabs .wrapper .tab[data-v-64635c96]:hover{
+.dark .tabs .wrapper .tab[data-v-250a995b]:hover{
   color:#64748B;
   color:var(--tabs-text-color-hover-dark, #64748B);
   border-color:#64748B;
   border-color:var(--tabs-border-color-hover-dark, #64748B)
 }
-.dark .tabs .wrapper .tab.active[data-v-64635c96]{
+.dark .tabs .wrapper .tab.active[data-v-250a995b]{
   color:#3182ce;
   color:var(--tabs-text-color-active-dark, #3182ce);
   border-color:#4299e1;
   border-color:var(--tabs-border-color-active-dark, #4299e1)
 }
-.tabs .wrapper[data-v-64635c96]{
+.tabs .wrapper[data-v-250a995b]{
   border-color:#E2E8F0;
   border-color:var(--tabs-border-color, #E2E8F0)
 }
-.tabs .wrapper .tab[data-v-64635c96]{
+.tabs .wrapper .tab[data-v-250a995b]{
   white-space:nowrap;
   padding-top:1rem;
   padding-bottom:1rem;
@@ -476,19 +476,19 @@ to{
   color:#97A6BA;
   color:var(--tabs-text-color, #97A6BA)
 }
-.tabs .wrapper .tab[data-v-64635c96]:hover{
+.tabs .wrapper .tab[data-v-250a995b]:hover{
   color:#364152;
   color:var(--tabs-text-color-hover, #364152);
   border-color:#CFD8E3;
   border-color:var(--tabs-border-color-hover, #CFD8E3)
 }
-.tabs .wrapper .tab.active[data-v-64635c96]{
+.tabs .wrapper .tab.active[data-v-250a995b]{
   color:#3182ce;
   color:var(--tabs-text-color-active, #3182ce);
   border-color:#4299e1;
   border-color:var(--tabs-border-color-active, #4299e1)
 }
-.tabs .content[data-v-64635c96]{
+.tabs .content[data-v-250a995b]{
   margin-top:1rem
 }
 .item[data-v-7e1d2f88]{
@@ -2210,10 +2210,6 @@ p.description{
   background-color: #000;
 }
 
-.bg-white {
-  background-color: #fff;
-}
-
 .bg-gray-300 {
   background-color: #CFD8E3;
 }
@@ -2760,10 +2756,6 @@ p.description{
 
 .border-transparent {
   border-color: transparent;
-}
-
-.border-black {
-  border-color: #000;
 }
 
 .border-gray-500 {
@@ -3459,10 +3451,6 @@ p.description{
   margin-left: 2rem;
 }
 
-.-mb-3 {
-  margin-bottom: -0.75rem;
-}
-
 .-mb-px {
   margin-bottom: -1px;
 }
@@ -4067,10 +4055,6 @@ p.description{
 
 .right-0 {
   right: 0;
-}
-
-.bottom-0 {
-  bottom: 0;
 }
 
 .left-0 {
@@ -4706,10 +4690,6 @@ p.description{
 
 .z-0 {
   z-index: 0;
-}
-
-.z-10 {
-  z-index: 10;
 }
 
 .z-30 {

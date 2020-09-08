@@ -65,6 +65,22 @@ export default reactive({
     getBreadByTable: function (table) {
         return this.breads.where('table', table).first();
     },
+    nextLocale: function () {
+        var index = this.locales.indexOf(this.locale);
+        if (index >= this.locales.length - 1) {
+            this.locale = this.locales[0];
+        } else {
+            this.locale = this.locales[index + 1];
+        }
+    },
+    previousLocale: function () {
+        var index = this.locales.indexOf(this.locale);
+        if (index <= 0) {
+            this.locale = this.locales[this.locales.length - 1];
+        } else {
+            this.locale = this.locales[index - 1];
+        }
+    },
     handleAjaxError: function (response) {
         var notification = new Notification(response.data.message).color('red').timeout();
         if (response.data.hasOwnProperty('exception')) {

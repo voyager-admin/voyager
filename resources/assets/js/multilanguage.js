@@ -48,7 +48,7 @@ export default {
             if (input && this.isObject(input)) {
                 this.$store.locales.forEach(function (locale) {
                     if (!input.hasOwnProperty(locale)) {
-                        //Vue.set(input, locale, '');
+                        // TODO: Vue.set(input, locale, '');
                         input[locale] = '';
                     }
                 });
@@ -66,50 +66,5 @@ export default {
 
             return input;
         };
-
-        var vm = this;
-        document.addEventListener('keydown', function (e) {
-            if (e.ctrlKey) {
-                if (e.code == 'ArrowRight' || e.code == 'ArrowDown') {
-                    //vm.nextLocale();
-                    console.log('Next');
-                } else if (e.code == 'ArrowLeft' || e.code == 'ArrowUp') {
-                    //vm.previousLocale();
-                    console.log('Next');
-                }
-            }
-        });
     }
-    /*
-        nextLocale: function () {
-            if (this.index == this.locales.length - 1) {
-                this.index = 0;
-            } else {
-                this.index = this.index + 1;
-            }
-
-            this.locale = this.locales[this.index];
-        },
-        previousLocale: function () {
-            if (this.index == 0) {
-                this.index = this.locales.length - 1;
-            } else {
-                this.index = this.index - 1;
-            }
-
-            this.locale = this.locales[this.index];
-        },
-    },
-    created: function () {
-        var vm = this;
-        document.addEventListener('keydown', function (e) {
-            if (e.ctrlKey) {
-                if (e.code == 'ArrowRight' || e.code == 'ArrowDown') {
-                    vm.nextLocale();
-                } else if (e.code == 'ArrowLeft' || e.code == 'ArrowUp') {
-                    vm.previousLocale();
-                }
-            }
-        });
-    }*/
 };

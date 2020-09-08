@@ -1,5 +1,5 @@
 <template>
-    <card class="tabs" :show-header="false">
+    <card class="tabs" dont-show-header>
         <div class="sm:hidden">
             <select class="input" @change="openByIndex($event.target.value)">
                 <option v-for="(tab, i) in tabs" :key="'option-'+i" :value="i" class="capitalize">

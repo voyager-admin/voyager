@@ -336,11 +336,8 @@ export default {
             vm.currentEnteredGroup = group;
         }
 
-        document.addEventListener('keydown', function (e) {
-            if (event.ctrlKey && event.key === 's') {
-                e.preventDefault();
-                vm.saveSettings();
-            }
+        $eventbus.on('ctrl-s-combo', function () {
+            vm.saveSettings();
         });
     }
 };

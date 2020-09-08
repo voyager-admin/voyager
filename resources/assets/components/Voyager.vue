@@ -46,6 +46,22 @@ export default {
             vm.$store.pageLoading = false;
         });
 
+        document.addEventListener('keyup', function (e) {
+            if (e.ctrlKey) {
+                if (e.key === 's') {
+                    if ($eventbus.hasListener('ctrl-s-combo')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        $eventbus.emit('ctrl-s-combo');
+                    }
+                } else if (e.code == 'ArrowRight' || e.code == 'ArrowUp') {
+                    vm.$store.nextLocale();
+                } else if (e.code == 'ArrowLeft' || e.code == 'ArrowDown') {
+                    vm.$store.previousLocale();
+                }
+            }
+        });
+
         // Toggle darkmode when cookie is set or dark-mode is the prefered color scheme
         var dark_mode = vm.getCookie('dark-mode');
         if (window.matchMedia && dark_mode == '') {
