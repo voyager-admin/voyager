@@ -1,3 +1,9 @@
+.dark .login-form h2[data-v-51e4e9e5]{
+  color: #E2E8F0
+}
+.login-form h2[data-v-51e4e9e5]{
+  color: #27303F
+}
 .menuitem .item[data-v-df766150]{
   display: flex;
   align-items: center;
@@ -490,12 +496,6 @@ to{
 }
 .tabs .content[data-v-64635c96]{
   margin-top:1rem
-}
-.dark .login-form h2[data-v-7fef68d1]{
-  color: #E2E8F0
-}
-.login-form h2[data-v-7fef68d1]{
-  color: #27303F
 }
 .item[data-v-7e1d2f88]{
   background-color:#27303F;

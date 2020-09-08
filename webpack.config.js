@@ -16,7 +16,6 @@ module.exports = (env, argv) => ({
   },
   resolve: {
     alias: {
-      vue: argv.mode === 'production' ? 'vue/dist/vue.esm-browser.prod.js' : 'vue/dist/vue.esm-browser.js'
     },
     extensions: ['.vue', '.js', '.json', '.scss'],
   },

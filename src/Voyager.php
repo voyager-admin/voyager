@@ -261,7 +261,7 @@ class Voyager
                 'width' => $width,
                 'title' => $plugin->getTitle(),
                 'icon'  => $plugin->getIcon(),
-                'view'  => $plugin->getWidgetView(),
+                'view'  => $plugin->getWidgetView()->render(),
             ];
         }));
 

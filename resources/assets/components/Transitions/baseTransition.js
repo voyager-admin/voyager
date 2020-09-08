@@ -10,8 +10,12 @@ export default {
         },
         tag: {
             type: String,
-            default: 'span'
+            default: 'div'
         },
+        class: {
+            type: String,
+            default: ''
+        }
     },
     computed: {
         componentType: function () {

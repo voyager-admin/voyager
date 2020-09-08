@@ -1,1 +1,0 @@
-<input type="email" name="email" id="forgot-password-email" class="input w-full mb-4" placeholder="{{ __('voyager::auth.email') }}" autofocus>

@@ -26,6 +26,19 @@ class BreadController extends Controller
         parent::__construct($pluginsmanager);
     }
 
+    public function browse(Request $request)
+    {
+        $bread = $this->getBread($request);
+
+        return view('voyager::app', [
+            'component'     => 'bread-browse',
+            'title'         => __('voyager::bread.browse_type', ['type' => $bread->name_plural]),
+            'parameters'    => [
+                'bread' => $bread,
+            ],
+        ]);
+    }
+
     public function data(Request $request)
     {
         $start = microtime(true);
@@ -100,9 +113,20 @@ class BreadController extends Controller
         if ($request->has('from_relationship')) {
             return compact('bread', 'layout', 'new', 'data', 'relationships');
         }
-        $pk = 0;
 
-        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships', 'pk'));
+        return view('voyager::app', [
+            'component'     => 'bread-edit-add',
+            'title'         => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
+            'parameters'    => [
+                'bread'         => $bread,
+                'action'        => 'add',
+                'layout'        => $layout,
+                'relationships' => $relationships,
+                'input'         => $data,
+                'prev-url'      => url()->previous(),
+                'primary-key'   => 0,
+            ]
+        ]);
     }
 
     public function store(Request $request)
@@ -155,7 +179,18 @@ class BreadController extends Controller
             $data->{$formfield->column->column} = $formfield->read($value);
         });
 
-        return view('voyager::bread.read', compact('bread', 'data', 'layout'));
+        return view('voyager::app', [
+            'component'     => 'bread-read',
+            'title'         => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
+            'parameters'    => [
+                'bread'     => $bread,
+                'layout'    => $layout,
+                'data'      => $data,
+                'primary'   => $data->getKey(),
+                'input'     => $data,
+                'prev-url'  => url()->previous(),
+            ]
+        ]);
     }
 
     public function edit(Request $request, $id)
@@ -197,7 +232,19 @@ class BreadController extends Controller
 
         $data = $breadData;
 
-        return view('voyager::bread.edit-add', compact('bread', 'layout', 'new', 'data', 'relationships', 'pk'));
+        return view('voyager::app', [
+            'component'     => 'bread-edit-add',
+            'title'         => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
+            'parameters'    => [
+                'bread'         => $bread,
+                'action'        => 'edit',
+                'layout'        => $layout,
+                'relationships' => $relationships,
+                'input'         => $data,
+                'prev-url'      => url()->previous(),
+                'primary-key'   => $pk,
+            ]
+        ]);
     }
 
     public function update(Request $request, $id)

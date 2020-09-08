@@ -8,7 +8,7 @@
     <meta name="base-url" content="{{ Str::finish(route('voyager.dashboard'), '/') }}">
     <meta name="asset-url" content="{{ Str::finish(asset(''), '/') }}">
 
-    <title>@yield('page-title') - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
+    <title>{{ $title ?? '' }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
         @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\CSS)
@@ -18,26 +18,7 @@
 </head>
 
 <body>
-    <slide-left-transition class="h-screen flex overflow-hidden" id="voyager" tag="div" group>
-        <div key="loader">
-            <fade-transition :duration="500">
-                <div class="loader" v-if="$store.pageLoading">
-                    <icon icon="helm" size="auto" class="block icon animate-spin-slow"></icon>
-                </div>
-            </fade-transition>
-        </div>
-        @include('voyager::sidebar')
-        <div class="flex flex-col w-0 flex-1 overflow-hidden" key="content">
-            <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 outline-none">
-                <span id="top"></span>
-                @include('voyager::navbar')
-                <div class="mx-auto sm:px-3 md:px-4" id="top">
-                    @yield('content')
-                </div>
-            </main>
-        </div>
-        <notifications key="notifications"></notifications>
-    </slide-left-transition>
+    <div id="voyager"></div>
 </body>
 <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 <script>
@@ -52,6 +33,21 @@ createVoyager({
     debug: {{ var_export(config('app.debug') ?? false, true) }},
     jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
     csrf_token: '{{ csrf_token() }}',
+    searchPlaceholder: '{{ resolve(\Voyager\Admin\Manager\Breads::class)->getBreadSearchPlaceholder() }}',
+    current_url: '{{ Str::finish(url()->current(), '/') }}',
+    user: {
+        name: '{{ Voyager::auth()->name() }}',
+        avatar: '{{ Voyager::assetUrl('images/default-avatar.png') }}',
+    },
+    sidebar: {
+        title: '{{ Voyager::setting('admin.sidebar-title', 'Voyager II') }}',
+        items: {!! resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) !!},
+    },
+    page: {
+        component: '{{ $component }}',
+        title: '{{ $title ?? '' }}',
+        parameters: {!! json_encode($parameters) !!},
+    },
 });
 </script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)

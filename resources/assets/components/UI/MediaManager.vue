@@ -162,10 +162,8 @@
                     <img :src="openedFile.url" class="rounded object-contain max-w-full" />
                 </div>
                 <div class="w-full mt-2 justify-center items-center flex space-x-1 space-y-1">
-                    <tooltip :value="image.file.relative_path+image.file.name">
+                    <tooltip v-for="(image, i) in images" :key="i" :value="image.file.relative_path+image.file.name">
                         <img
-                            v-for="(image, i) in images"
-                            :key="i"
                             class="rounded object-contain h-24 cursor-pointer"
                             :class="openedFile.url == image.file.url ? 'border border-blue-500' : null"
                             :src="image.file.url"

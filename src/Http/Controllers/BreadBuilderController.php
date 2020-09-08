@@ -33,9 +33,14 @@ class BreadBuilderController extends Controller
     public function index()
     {
         $this->authorize('browse breads');
-        $tables = VoyagerFacade::getTables();
 
-        return view('voyager::builder.index', compact('tables'));
+        return view('voyager::app', [
+            'component'     => 'bread-builder-browse',
+            'title'         => __('voyager::generic.breads'),
+            'parameters'    => [
+                'tables'    => VoyagerFacade::getTables(),
+            ],
+        ]);
     }
 
     /**
@@ -64,10 +69,14 @@ class BreadBuilderController extends Controller
             return redirect()->route('voyager.bread.edit', $table);
         }
 
-        $bread = $this->breadmanager->createBread($table);
-        $new = true;
-
-        return view('voyager::builder.edit-add', compact('bread', 'new'));
+        return view('voyager::app', [
+            'component'     => 'bread-builder-edit-add',
+            'title'         => __('voyager::generic.add_type', ['type' => __('voyager::generic.bread')]),
+            'parameters'    => [
+                'data'      => $this->breadmanager->createBread($table),
+                'is-new'    => true,
+            ],
+        ]);
     }
 
     /**
@@ -90,9 +99,14 @@ class BreadBuilderController extends Controller
 
         $this->authorize('edit bread', $table);
 
-        $new = false;
-
-        return view('voyager::builder.edit-add', compact('bread', 'new'));
+        return view('voyager::app', [
+            'component'     => 'bread-builder-edit-add',
+            'title'         => __('voyager::generic.edit_type', ['type' => __('voyager::generic.bread')]),
+            'parameters'    => [
+                'data'      => $bread,
+                'is-new'    => false,
+            ],
+        ]);
     }
 
     /**

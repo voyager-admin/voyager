@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['middleware' => 'voyager.admin'], static function () {
-    Route::view('/', 'voyager::dashboard')->name('dashboard');
+    Route::get('/', ['uses' => 'VoyagerController@dashboard', 'as' => 'dashboard']);
     Route::post('globalsearch', ['uses' => 'VoyagerController@globalSearch', 'as' => 'globalsearch']);
 
     // BREAD builder
@@ -21,7 +21,7 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
     });
 
     // UI Routes
-    Route::view('ui', 'voyager::ui.index')->name('ui');
+    Route::view('ui', 'voyager::app', ['component' => 'ui', 'parameters' => [], 'title' => 'UI'])->name('ui');
 
     // Settings
     Route::get('settings', ['uses' => 'SettingsController@index', 'as' => 'settings.index']);

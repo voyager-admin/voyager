@@ -3,6 +3,7 @@
 namespace Voyager\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class AuthController extends Controller
 {
@@ -12,7 +13,7 @@ class AuthController extends Controller
             return redirect($this->getAuthenticationPlugin()->redirectTo());
         }
 
-        return view('voyager::auth.login');
+        return view('voyager::login');
     }
 
     public function processLogin(Request $request)

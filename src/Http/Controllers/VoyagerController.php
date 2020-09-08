@@ -54,6 +54,17 @@ class VoyagerController extends Controller
         abort(404);
     }
 
+    public function dashboard()
+    {
+        return view('voyager::app', [
+            'component'     => 'dashboard',
+            'title'         => __('voyager::generic.dashboard'),
+            'parameters'    => [
+                'widgets'   => VoyagerFacade::getWidgets(),
+            ]
+        ]);
+    }
+
     // Search all BREADS
     public function globalSearch(Request $request)
     {

@@ -136,7 +136,7 @@ class VoyagerServiceProvider extends ServiceProvider
                 'prefix'     => $bread->slug,
             ], static function () use ($bread, $controller) {
                 // Browse
-                Route::view('/', 'voyager::bread.browse', compact('bread'))->name('browse');
+                Route::get('/', ['uses'=> $controller.'@browse', 'as' => 'browse', 'bread' => $bread]);
                 Route::post('/data', ['uses'=> $controller.'@data', 'as' => 'data', 'bread' => $bread]);
 
                 // Edit

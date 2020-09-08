@@ -15,7 +15,20 @@ export default reactive({
     routes: [],
     json_output: true,
     csrf_token: null,
-
+    current_url: '',
+    user: {
+        name: '',
+        avatar: '',
+    },
+    sidebar: {
+        title: '',
+        items: [],
+    },
+    page: {
+        component: null,
+        title: '',
+        parameters: [],
+    },
     toggleDirection: function () {
         this.rtl = !this.rtl;
         if (this.rtl) {

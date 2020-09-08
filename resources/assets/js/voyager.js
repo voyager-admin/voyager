@@ -2,6 +2,8 @@ require('./helper/array');
 
 import { createApp } from 'vue';
 
+import Voyager from '../components/Voyager';
+
 // Vendor
 // https://github.com/component/debounce
 window.debounce = require('debounce');
@@ -39,27 +41,12 @@ import Store from './store';
 // Components
 import SettingsManager from '../components/Settings/Manager';
 import PluginsManager from '../components/Plugins/Manager';
-import Login from '../components/Auth/Login';
+import Login from '../components/Layout/Login';
 
 let voyager;
 
-window.createVoyager = function (data = {}) {
-    voyager = createApp({
-        name: 'Voyager',
-        created: function () {
-            var vm = this;
-
-            for (const key in data) {
-                if (this.$store.hasOwnProperty(key)) {
-                    this.$store[key] = data[key];
-                }
-            }
-
-            document.addEventListener('DOMContentLoaded', function () {
-                vm.$store.pageLoading = false;
-            });
-        },
-    });
+window.createVoyager = function (data = {}, main = true) {
+    voyager = createApp((main ? Voyager : Login), data);
 
     voyager.config.globalProperties.debounce = debounce;
     voyager.config.globalProperties.slugify = window.slugify;
@@ -121,9 +108,10 @@ window.createVoyager = function (data = {}) {
 
     voyager.component('settings-manager', SettingsManager);
     voyager.component('plugins-manager', PluginsManager);
-    voyager.component('login', Login);
 
     window.voyager = voyager;
+
+    
 };
 
 window.mountVoyager = function (el = '#voyager') {

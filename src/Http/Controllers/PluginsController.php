@@ -22,7 +22,13 @@ class PluginsController extends Controller
 
     public function index()
     {
-        return view('voyager::plugins.browse');
+        return view('voyager::app', [
+            'component'     => 'plugins-manager',
+            'title'         => __('voyager::plugins.plugins'),
+            'parameters'    => [
+                'available-plugins' => $this->pluginmanager->getAvailablePlugins()
+            ]
+        ]);
     }
 
     public function enable(Request $request)
