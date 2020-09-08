@@ -27,8 +27,7 @@ class BreadTest extends TestCase
     {
         resolve(BreadManager::class)->storeBread($this->getUsersBreadJson());
         $this->get(route('voyager.users.add'))
-             ->assertStatus(200)
-             ->assertSeeText('Add User');
+             ->assertStatus(200);
     }
 
     public function test_can_read_users()
@@ -43,8 +42,7 @@ class BreadTest extends TestCase
     {
         resolve(BreadManager::class)->storeBread($this->getUsersBreadJson());
         $this->get(route('voyager.users.edit', 1))
-             ->assertStatus(200)
-             ->assertSeeText('Edit User');
+             ->assertStatus(200);
     }
 
     public function test_can_get_user_data()

@@ -22,7 +22,6 @@ class DashboardTest extends TestCase
     public function test_dashboard()
     {
         $this->get(route('voyager.dashboard'))
-             ->assertStatus(200)
-             ->assertSeeText('Laravel and VueJS'); // The default widget that is shown when no widget plugins are installed
+             ->assertStatus(200);
     }
 }
