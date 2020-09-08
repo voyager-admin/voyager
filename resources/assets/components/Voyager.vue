@@ -45,6 +45,35 @@ export default {
         document.addEventListener('DOMContentLoaded', function () {
             vm.$store.pageLoading = false;
         });
+
+        // Toggle darkmode when cookie is set or dark-mode is the prefered color scheme
+        var dark_mode = vm.getCookie('dark-mode');
+        if (window.matchMedia && dark_mode == '') {
+            var dark = window.matchMedia('(prefers-color-scheme: dark)');
+            if (dark.matches) {
+                vm.$store.toggleDarkMode(true);
+            }
+            // TODO: Once Safari follow the specs, this should be .dark.addEventListener('change', () => {})
+            dark.addListener(function (e) {
+                vm.$store.toggleDarkMode(e.matches);
+            });
+        }
+        if (dark_mode == 'true') {
+            vm.$store.toggleDarkMode(true);
+        }
+
+        // Toggle sidebar when cookie is set
+        var sidebar_open = vm.getCookie('sidebar-open');
+        if (sidebar_open == 'false') {
+            vm.$store.closeSidebar();
+        }
+
+        $eventbus.on('darkmode', function (darkmode) {
+            vm.setCookie('dark-mode', darkmode);
+        });
+        $eventbus.on('sidebar-open', function (open) {
+            vm.setCookie('sidebar-open', open);
+        });
     },
 }
 </script>

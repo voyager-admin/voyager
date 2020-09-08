@@ -44,15 +44,19 @@ export default reactive({
         } else {
             document.querySelector('html').classList.remove('dark');
         }
+        $eventbus.emit('darkmode', this.darkmode);
     },
     toggleSidebar: function () {
         this.sidebarOpen = !this.sidebarOpen;
+        $eventbus.emit('sidebar-open', this.sidebarOpen);
     },
     openSidebar: function () {
         this.sidebarOpen = true;
+        $eventbus.emit('sidebar-open', true);
     },
     closeSidebar: function () {
         this.sidebarOpen = false;
+        $eventbus.emit('sidebar-open', false);
     },
     getFormfieldByType: function (type) {
         return this.formfields.where('type', type).first();

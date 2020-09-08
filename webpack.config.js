@@ -3,9 +3,9 @@ const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-module.exports = (env, argv) => ({
-  mode: argv.mode,
-  devtool: argv.mode === 'production' ? false : 'cheap-module-eval-source-map',
+module.exports = {
+  mode: process.env.NODE_ENV,
+  devtool: process.env.NODE_ENV === 'production' ? false : 'cheap-module-eval-source-map',
   entry: [
     path.resolve(__dirname, './resources/assets/js/voyager.js'),
     path.resolve(__dirname, './resources/assets/sass/voyager.scss')
@@ -16,6 +16,9 @@ module.exports = (env, argv) => ({
   },
   resolve: {
     alias: {
+      'components': path.resolve(__dirname, './resources/assets/components'),
+      'directives': path.resolve(__dirname, './resources/assets/js/directives'),
+      'mixins': path.resolve(__dirname, './resources/assets/js/mixins'),
     },
     extensions: ['.vue', '.js', '.json', '.scss'],
   },
@@ -29,7 +32,7 @@ module.exports = (env, argv) => ({
     children: false,
     errorDetails: false,
     entrypoints: false,
-    performance: argv.mode === 'production',
+    performance: process.env.NODE_ENV === 'production',
     chunks: false,
     modules: false,
     reasons: false,
@@ -48,7 +51,7 @@ module.exports = (env, argv) => ({
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: { hmr: argv.mode !== 'production' }
+            options: { hmr: process.env.NODE_ENV === 'development' }
           },
           'css-loader'
         ]
@@ -86,9 +89,5 @@ module.exports = (env, argv) => ({
     new MiniCssExtractPlugin({
       filename: 'css/voyager.css'
     }),
-    new webpack.DefinePlugin({
-      __VUE_OPTIONS_API__: 'true',
-      __VUE_PROD_DEVTOOLS__: 'false'
-    })
   ],
-});
+};

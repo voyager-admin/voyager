@@ -2,7 +2,7 @@ require('./helper/array');
 
 import { createApp } from 'vue';
 
-import Voyager from '../components/Voyager';
+import Voyager from 'components/Voyager';
 
 // Vendor
 // https://github.com/component/debounce
@@ -18,15 +18,15 @@ import MimeMatcher from 'mime-matcher';
 import Multilanguage from './multilanguage';
 
 // Directives
-import ClickOutside from './directives/click-outside';
-import Focus from './directives/focus';
-import ScrollTo from './directives/scroll-to';
+import ClickOutside from 'directives/click-outside';
+import Focus from 'directives/focus';
+import ScrollTo from 'directives/scroll-to';
 
 // Helper mixins
-import MiscMixin from './mixins/misc';
-import StringMixin from './mixins/strings';
-import TypeMixin from './mixins/types';
-import UrlMixin from './mixins/url';
+import MiscMixin from 'mixins/misc';
+import StringMixin from 'mixins/strings';
+import TypeMixin from 'mixins/types';
+import UrlMixin from 'mixins/url';
 
 import Layout from './layout';
 import UI from './ui';
@@ -39,9 +39,9 @@ import Eventbus from './eventbus';
 import Store from './store';
 
 // Components
-import SettingsManager from '../components/Settings/Manager';
-import PluginsManager from '../components/Plugins/Manager';
-import Login from '../components/Layout/Login';
+import SettingsManager from 'components/Settings/Manager';
+import PluginsManager from 'components/Plugins/Manager';
+import Login from 'components/Layout/Login';
 
 let voyager;
 
@@ -110,8 +110,6 @@ window.createVoyager = function (data = {}, main = true) {
     voyager.component('plugins-manager', PluginsManager);
 
     window.voyager = voyager;
-
-    
 };
 
 window.mountVoyager = function (el = '#voyager') {
