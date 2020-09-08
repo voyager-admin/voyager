@@ -116,18 +116,16 @@
                 </div>
             </div>
 
-            <template v-slot:footer>
-                <div class="inline-flex">
-                    <button class="button blue" @click="saveBread">
-                        <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="savingBread" />
-                        {{ __('voyager::generic.save') }}
-                    </button>
-                    <button class="button" @click="backupBread">
-                        <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="backingUp" />
-                        {{ __('voyager::generic.backup') }}
-                    </button>
-                </div>
-            </template>
+            <div class="inline-flex">
+                <button class="button blue" @click="saveBread">
+                    <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="savingBread" />
+                    {{ __('voyager::generic.save') }}
+                </button>
+                <button class="button" @click="backupBread">
+                    <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="backingUp" />
+                    {{ __('voyager::generic.backup') }}
+                </button>
+            </div>
         </collapsible>
 
         <card :show-header="false">

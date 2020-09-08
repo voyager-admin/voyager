@@ -89,5 +89,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/voyager.css'
     }),
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false
+    })
   ],
 };

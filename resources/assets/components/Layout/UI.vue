@@ -232,7 +232,7 @@
 
     <collapsible title="Alerts" id="ui-alerts">
         <alert v-for="color in $ui.colors" :color="color" :key="'alert-'+color" class="mb-3">
-            <span slot="title">{{ __('voyager::generic.color_names.'+color) }}</span>
+            <template v-slot:title>{{ __('voyager::generic.color_names.'+color) }}</template>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.</p>
         </alert>
     </collapsible>

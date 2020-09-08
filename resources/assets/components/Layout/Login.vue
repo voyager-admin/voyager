@@ -17,10 +17,10 @@
                 <fade-transition :duration="150" tag="div" group v-if="!has_login_view">
                     <form method="post" :action="route('voyager.login')" v-if="!passwordForgotOpen" key="login-form">
                         <input type="hidden" name="_token" :value="$store.csrf_token">
-                        <alert v-if="error" color="red" role="alert" :closebutton="false">
+                        <alert v-if="error" color="red" role="alert">
                             {{ error }}
                         </alert>
-                        <alert v-if="success" color="green" role="alert" :closebutton="false">
+                        <alert v-if="success" color="green" role="alert">
                             {{ success }}
                         </alert>
                         <div class="mb-4" v-if="success || error"></div>

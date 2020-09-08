@@ -94,7 +94,7 @@
                                     </div>
                                 </template>
                                 <div class="mt-2">
-                                    <alert v-if="getErrors(setting).length > 0" color="red" class="my-2" :closebutton="false">
+                                    <alert v-if="getErrors(setting).length > 0" color="red" class="my-2">
                                         <ul class="list-disc ml-4">
                                             <li v-for="(error, i) in getErrors(setting)" :key="'error-'+i">
                                                 {{ error }}

@@ -22,23 +22,21 @@
                         <icon icon="chevron-right" class="cursor-pointer" @click="nextMonth" />
                     </div>
                 </div>
-                <div class="mt-2 grid grid-cols-7 gap-2">
-                    <slide-up-transition group>
-                        <div v-for="weekday in weekdays" :key="weekday" class="text-center">
-                            {{ weekday }}
-                        </div>
-                        <div
-                            v-for="(day, i) in displayDays"
-                            :key="i"
-                            class="day"
-                            v-bind:class="getDayClasses(day)"
-                            @click="selectDate(day.date, day.month, day.year)"
-                            @contextmenu.prevent.stop="selectDate(day.date, day.month, day.year, true)"
-                        >
-                            {{ day.date }}
-                        </div>
-                    </slide-up-transition>
-                </div>
+                <slide-up-transition class="mt-2 grid grid-cols-7 gap-2" group>
+                    <div v-for="weekday in weekdays" :key="weekday" class="text-center">
+                        {{ weekday }}
+                    </div>
+                    <div
+                        v-for="(day, i) in displayDays"
+                        :key="i"
+                        class="day"
+                        v-bind:class="getDayClasses(day)"
+                        @click="selectDate(day.date, day.month, day.year)"
+                        @contextmenu.prevent.stop="selectDate(day.date, day.month, day.year, true)"
+                    >
+                        {{ day.date }}
+                    </div>
+                </slide-up-transition>
                 <div v-if="selectTime">
                     <div class="w-full mt-2 inline-flex space-x-1 items-center">
                         <span class="w-12">{{ range ? 'From:' : 'Time:' }}</span>

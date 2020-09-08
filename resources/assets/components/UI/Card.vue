@@ -2,7 +2,6 @@
 <div class="card" :class="[`border-${border}`, !noPadding ? 'p-4 mx-1' : null]">
     <div class="header" v-if="showHeader">
         <div class="flex items-center justify-between">
-            
             <slot name="title">
                 <div class="flex items-center">
                     <icon v-if="icon" :icon="icon" :size="iconSize" class="ltr:mr-2 rtl:ml-2"></icon>
@@ -19,10 +18,9 @@
             </div>
         </div>
     </div>
-    <div class="content" :class="[!noPadding ? 'px-2' : null]">
+    <div :class="[!noPadding ? 'px-2' : null]">
         <slot></slot>
     </div>
-    <slot class="footer" name="footer"></slot>
 </div>
 </template>
 <script>
@@ -89,10 +87,6 @@ export default {
             @include text-color(card-title-color-dark, 'colors.gray.300');
         }
     }
-
-    .footer {
-        @include border-color(card-border-color-dark, 'colors.gray.700');
-    }
 }
 
 .card {
@@ -110,14 +104,6 @@ export default {
         h3 {
             @include text-color(card-title-color, 'colors.gray.700');
         }
-    }
-
-    .content {
-    }
-
-    .footer {
-        @apply p-2;
-        @include border-color(card-border-color-dark, 'colors.gray.700');
     }
 }
 </style>

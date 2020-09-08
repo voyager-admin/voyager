@@ -25,7 +25,7 @@
                             :title-size="5"
                             :show-title="translate(formfield.options.label, true) !== ''">
                             <div>
-                                <alert v-if="getErrors(formfield.column).length > 0" color="red" :closebutton="false" class="mb-1">
+                                <alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-1">
                                     <span v-if="getErrors(formfield.column).length == 1">
                                         {{ getErrors(formfield.column)[0] }}
                                     </span>

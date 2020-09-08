@@ -11,9 +11,6 @@
                 <slot></slot>
             </div>
         </collapse-transition>
-        <template v-slot:footer>
-            <slot name="footer" class="footer"></slot>
-        </template>
     </card>
 </template>
 <script>
