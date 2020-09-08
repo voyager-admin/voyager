@@ -244,10 +244,10 @@
                 </slide-in>
             </div>
 
-            <div class="card text-center text-xl" v-if="!currentLayout">
+            <div class="card text-center text-xl py-4" v-if="!currentLayout">
                 {{ __('voyager::builder.create_select_layout') }}
             </div>
-            <div class="card text-center text-xl" v-else-if="currentLayout && currentLayout.formfields.length == 0">
+            <div class="card text-center text-xl py-4" v-else-if="currentLayout && currentLayout.formfields.length == 0">
                 {{ __('voyager::builder.add_formfield_to_layout') }}
             </div>
             <component
