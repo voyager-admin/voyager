@@ -232,7 +232,7 @@ class Breads
     /**
      * Get the search placeholder (Search for Users, Posts, etc...).
      *
-     * @param string $placeholder The placeholder
+     * @returns string $placeholder The placeholder
      */
     public function getBreadSearchPlaceholder()
     {

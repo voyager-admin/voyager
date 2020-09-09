@@ -211,8 +211,8 @@ class Plugins
 
     public function getAssets()
     {
-        return $this->getAllPlugins()->filter(function ($plugin) {
-            return $plugin instanceof CSSProvider || $plugin instanceof JSProvider;
+        return $this->getAllPlugins(false)->filter(function ($plugin) {
+            return $plugin instanceof CSSProvider || ($plugin instanceof JSProvider && $plugin->enabled);
         })->transform(function ($plugin) {
             return [
                 'name'      => Str::slug($plugin->name).($plugin instanceof CSSProvider ? '.css' : '.js'),

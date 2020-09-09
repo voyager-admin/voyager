@@ -134,7 +134,7 @@
                                 <modal v-if="plugin.instructions" :ref="'instructions-modal-'+i" :title="__('voyager::generic.instructions')">
                                     <div v-html="plugin.instructions"></div>
                                 </modal>
-                                <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button small" @click="previewTheme(plugin.src, plugin.name)">
+                                <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button small" @click="previewTheme(plugin.name)">
                                     <icon icon="eye"></icon>
                                     <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>
@@ -239,11 +239,11 @@ export default {
                 }
             });
         },
-        previewTheme: function (src, name) {
+        previewTheme: function (name) {
             var file = document.createElement('link');
             file.setAttribute('rel', 'stylesheet');
             file.setAttribute('type', 'text/css');
-            file.setAttribute('href', src);
+            file.setAttribute('href', this.asset('plugin/'+slugify(name, { lower: true })+'.css'));
             document.getElementsByTagName('head')[0].appendChild(file);
 
             new this.$notification(this.__('voyager::plugins.preview_theme', {name: name})).timeout().show();

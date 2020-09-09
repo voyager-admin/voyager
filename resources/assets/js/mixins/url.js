@@ -43,7 +43,7 @@ export default {
             }
         },
         asset: function (path) {
-            return document.head.querySelector('meta[name="asset-url"]').content + path;
+            return this.route('voyager.voyager_assets')+'?path='+encodeURI(path);
         }
     }
 };
