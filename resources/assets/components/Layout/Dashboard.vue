@@ -8,7 +8,7 @@
             :icon="widget.icon"
             :class="widget.width"
         >
-            <div v-html="widget.view"></div>
+            <component :is="widget.component" v-bind="widget.parameters"></component>
         </card>
 
         <card title="Welcome to Voyager II" icon="helm" :icon-size="8" class="w-full" v-if="widgets.length == 0">

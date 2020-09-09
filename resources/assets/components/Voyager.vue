@@ -1,7 +1,7 @@
 <template>
     <slide-left-transition class="h-screen flex overflow-hidden" tag="div" group>
         <div key="loader">
-            <fade-transition :duration="500">
+            <fade-transition tag="div" :duration="500">
                 <div class="loader" v-if="$store.pageLoading">
                     <icon icon="helm" size="auto" class="block icon animate-spin-slow"></icon>
                 </div>
