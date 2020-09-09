@@ -52,7 +52,7 @@ createVoyager({
 </script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
     @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\JS)
-        <script src="{{ $plugin->provideJS() }}" type="text/javascript"></script>
+        <script src="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.js') }}" type="text/javascript"></script>
     @endif
 @endforeach
 <script>

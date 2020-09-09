@@ -15,10 +15,12 @@ class VoyagerController extends Controller
     use Browsable;
 
     protected $breadmanager;
+    protected $pluginmanager;
 
     public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager)
     {
         $this->breadmanager = $breadmanager;
+        $this->pluginmanager = $pluginmanager;
         parent::__construct($pluginmanager);
     }
 
@@ -32,26 +34,41 @@ class VoyagerController extends Controller
 
     public function assets(Request $request)
     {
+        if (Str::startsWith($request->path, 'plugin/')) {
+            $name = Str::after($request->path, 'plugin/');
+            $asset = $this->pluginmanager->getAssets()->where('name', $name)->first();
+
+            if ($asset) {
+                $extension = Str::afterLast($name, '.');
+                $mime = $this->mime_extensions[$extension];
+
+                return $this->returnAsset($asset['content'], $mime);
+            }
+
+            return abort(404);
+        }
+
         $path = str_replace('/', DIRECTORY_SEPARATOR, Str::start(urldecode($request->path), '/'));
         $path = realpath(dirname(__DIR__, 3).'/resources/assets/dist').$path;
 
-        if (realpath($path) != $path) {
-            abort(404);
-        }
-
-        if (File::exists($path)) {
+        if (realpath($path) === $path && File::exists($path)) {
             $extension = Str::afterLast($path, '.');
             $mime = $this->mime_extensions[$extension] ?? File::mimeType($path);
 
-            $response = response(File::get($path), 200, ['Content-Type' => $mime]);
-            $response->setSharedMaxAge(31536000);
-            $response->setMaxAge(31536000);
-            $response->setExpires(new \DateTime('+1 year'));
-
-            return $response;
+            return $this->returnAsset(File::get($path), $mime);
         }
 
         abort(404);
+    }
+
+    private function returnAsset($content, $mime)
+    {
+        $response = response($content, 200, ['Content-Type' => $mime]);
+        $response->setSharedMaxAge(31536000);
+        $response->setMaxAge(31536000);
+        $response->setExpires(new \DateTime('+1 year'));
+
+        return $response;
     }
 
     public function dashboard()

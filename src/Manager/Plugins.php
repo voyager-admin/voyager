@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\CSS as CSSProvider;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\FrontendRoutes;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\InstructionsView;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\JS as JSProvider;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\MenuItems;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\ProtectedRoutes;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\PublicRoutes;
@@ -205,6 +207,18 @@ class Plugins
         })->transform(static function ($interface) {
             return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
         })->first();
+    }
+
+    public function getAssets()
+    {
+        return $this->getAllPlugins()->filter(function ($plugin) {
+            return $plugin instanceof CSSProvider || $plugin instanceof JSProvider;
+        })->transform(function ($plugin) {
+            return [
+                'name'      => Str::slug($plugin->name).($plugin instanceof CSSProvider ? '.css' : '.js'),
+                'content'   => ($plugin instanceof CSSProvider ? $plugin->provideCSS() : $plugin->provideJS())
+            ];
+        });
     }
 
     public function setPreference($identifier, $key, $value, $locale = null)
