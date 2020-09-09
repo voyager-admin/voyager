@@ -21,7 +21,8 @@
                     <div class="w-full my-3">
                         <badge
                             v-for="(type, i) in availableTypes"
-                            :key="i" :color="getPluginTypeColor(type)"
+                            :key="i"
+                            :color="getPluginTypeColor(type)"
                             :icon="available.currentType == type ? 'x' : null"
                             @click="setAvailableTypeFilter(type)"
                         >
@@ -70,15 +71,33 @@
                 </modal>
             </div>
         </template>
-        <div class="w-full">
-            <badge
-                v-for="(type, i) in installedTypes"
-                :key="i" :color="getPluginTypeColor(type)"
-                :icon="installed.currentType == type ? 'x' : null"
-                @click="setTypeFilter(type)"
-            >
-                {{ __('voyager::plugins.types.'+type) }}
-            </badge>
+        <div class="w-full flex">
+            <div class="flex-grow">
+                <badge
+                    v-for="(type, i) in installedTypes"
+                    :key="i" :color="getPluginTypeColor(type)"
+                    :icon="installed.currentType == type ? 'x' : null"
+                    @click="setTypeFilter(type)"
+                >
+                    {{ __('voyager::plugins.types.'+type) }}
+                </badge>
+            </div>
+            <div class="flex-grow-0">
+                <badge
+                    color="green"
+                    @click="available.onlyEnabled === true ? available.onlyEnabled = null : available.onlyEnabled = true"
+                    :icon="available.onlyEnabled === true ? 'x' : null"
+                >
+                    {{ __('voyager::plugins.only_enabled') }}
+                </badge>
+                <badge
+                    color="red"
+                    @click="available.onlyEnabled === false ? available.onlyEnabled = null : available.onlyEnabled = false"
+                    :icon="available.onlyEnabled === false ? 'x' : null"
+                >
+                    {{ __('voyager::plugins.only_disabled') }}
+                </badge>
+            </div>
         </div>
         <div v-if="installed.plugins.length > 0">
             <div v-if="filteredInstalledPlugins.length == 0" class="w-full text-center">
@@ -187,6 +206,7 @@ export default {
                 currentType: null,
                 page: 0,
                 resultsPerPage: 3,
+                onlyEnabled: null,
             },
             addPluginModalOpen: false,
             loading: true,
@@ -305,6 +325,14 @@ export default {
             var vm = this;
             var query = vm.installed.query.toLowerCase();
             return vm.installed.plugins.filter(function (plugin) {
+                if (vm.available.onlyEnabled === true) {
+                    return plugin.enabled;
+                } else if (vm.available.onlyEnabled === false) {
+                    return !plugin.enabled;
+                }
+
+                return true;
+            }).filter(function (plugin) {
                 if (vm.installed.currentType !== null) {
                     return plugin.type == vm.installed.currentType;
                 }

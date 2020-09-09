@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-    emits: ['clickIcon'],
+    emits: ['click-icon'],
     props: {
         color: {
             type: String,
