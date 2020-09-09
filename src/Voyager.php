@@ -258,10 +258,11 @@ class Voyager
             }
 
             return (object) [
-                'width' => $width,
-                'title' => $plugin->getTitle(),
-                'icon'  => $plugin->getIcon(),
-                'view'  => $plugin->getWidgetView()->render(),
+                'width'         => $width,
+                'title'         => $plugin->getTitle(),
+                'icon'          => $plugin->getIcon(),
+                'component'     => $plugin->getWidgetComponent(),
+                'parameters'    => $plugin->getWidgetParameters()
             ];
         }));
 
