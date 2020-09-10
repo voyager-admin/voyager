@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import fetch from '../../js/fetch';
+import fetch from '../js/fetch';
 
 export default {
     props: {

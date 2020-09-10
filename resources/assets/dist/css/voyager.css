@@ -1,9 +1,3 @@
-.dark .login-form h2[data-v-7c71d709]{
-  color: #E2E8F0
-}
-.login-form h2[data-v-7c71d709]{
-  color: #27303F
-}
 .menuitem .item[data-v-df766150]{
   display: flex;
   align-items: center;
@@ -554,6 +548,12 @@ to{
 .item[data-v-46581c30]:hover{
   background-color:#364152;
   background-color:var(--media-item-hover-bg-color-dark, #364152)
+}
+.dark .login-form h2[data-v-e2f5bdc4]{
+  color: #E2E8F0
+}
+.login-form h2[data-v-e2f5bdc4]{
+  color: #27303F
 }
 
 

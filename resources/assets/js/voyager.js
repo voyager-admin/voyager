@@ -1,18 +1,10 @@
 require('./helper/array');
+require('./vendor');
 
 import { createApp } from 'vue';
+import MimeMatcher from 'mime-matcher';
 
 import Voyager from 'components/Voyager';
-
-// Vendor
-// https://github.com/component/debounce
-window.debounce = require('debounce');
-
-// https://github.com/simov/slugify ~7kb
-window.slugify = require('slugify');
-
-// https://github.com/katlasik/mime-matcher
-import MimeMatcher from 'mime-matcher';
 
 // Multi language
 import Multilanguage from './multilanguage';
@@ -39,9 +31,11 @@ import Eventbus from './eventbus';
 import Store from './store';
 
 // Components
-import SettingsManager from 'components/Settings/Manager';
-import PluginsManager from 'components/Plugins/Manager';
-import Login from 'components/Layout/Login';
+import SettingsManager from 'components/Settings';
+import PluginsManager from 'components/Plugins';
+import Dashboard from 'components/Dashboard';
+import UIPage from 'components/UI';
+import Login from 'components/Login';
 
 let voyager;
 
@@ -108,6 +102,8 @@ window.createVoyager = function (data = {}, main = true) {
 
     voyager.component('settings-manager', SettingsManager);
     voyager.component('plugins-manager', PluginsManager);
+    voyager.component('dashboard', Dashboard);
+    voyager.component('ui', UIPage);
 
     window.voyager = voyager;
 };
