@@ -1911,8 +1911,8 @@ p.description{
 }
 
 .dark .sidebar .menuitem .item.active{
-  background-color:#1A202E;
-  background-color:var(--sidebar-item-active-color-dark, #1A202E)
+  background-color:#212837;
+  background-color:var(--sidebar-item-active-color-dark, #212837)
 }
 
 .dark .sidebar .menuitem .item.active .link{

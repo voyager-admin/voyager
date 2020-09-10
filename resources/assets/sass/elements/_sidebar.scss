@@ -23,7 +23,7 @@
             }
 
             &.active {
-                @include bg-color(sidebar-item-active-color-dark, 'colors.gray.900');
+                @include bg-color(sidebar-item-active-color-dark, 'colors.gray.850');
 
                 .link {
                     @include text-color(sidebar-item-text-active-color-dark, 'colors.gray.200');
