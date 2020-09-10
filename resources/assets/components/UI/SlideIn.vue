@@ -18,6 +18,9 @@
             </div>
         </slide-right-transition>
     </div>
+    <div ref="opener" @click="open">
+        <slot name="opener"></slot>
+    </div>
 </template>
 <script>
 import closable from '../../js/mixins/closable';
@@ -31,11 +34,24 @@ export default {
         },
         width: {
             type: String,
-            default: 'w-1/4',
+            default: 'w-1/3',
         },
         title: {
             type: String,
         }
+    },
+    data: function () {
+        return {
+            uuid: this.uuid()
+        };
+    },
+    created: function () {
+        var vm = this;
+        vm.$eventbus.on('close-slide-ins', function (uuid) {
+            if (uuid !== vm.uuid) {
+                vm.close();
+            }
+        });
     },
     watch: {
         opened: {
@@ -43,6 +59,11 @@ export default {
             handler: function (opened) {
                 this.isOpen = opened;
             },
+        },
+        isOpen: function (open) {
+            if (open) {
+                this.$eventbus.emit('close-slide-ins', this.uuid);
+            }
         }
     },
 };

@@ -192,15 +192,15 @@
 
     <collapsible title="Tabs" id="ui-tabs">
         <tabs :tabs="[{name: 'tab1', title: 'Tab 1'}, {name: 'tab2', title: 'Tab 2'}, {name: 'tab3', title: 'Tab 3'}]">
-            <template v-slot:tab1>
+            <template #tab1>
                 <h3>Tab 1</h3>
                 <p>{{ $ui.lorem }}</p>
             </template>
-            <template v-slot:tab2>
+            <template #tab2>
                 <h3>Tab 2</h3>
                 <p>{{ $ui.lorem }}</p>
             </template>
-            <template v-slot:tab3>
+            <template #tab3>
                 <h3>Tab 3</h3>
                 <p>{{ $ui.lorem }}</p>
             </template>
@@ -232,7 +232,7 @@
 
     <collapsible title="Alerts" id="ui-alerts">
         <alert v-for="color in $ui.colors" :color="color" :key="'alert-'+color" class="mb-3">
-            <template v-slot:title>{{ __('voyager::generic.color_names.'+color) }}</template>
+            <template #title>{{ __('voyager::generic.color_names.'+color) }}</template>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.</p>
         </alert>
     </collapsible>

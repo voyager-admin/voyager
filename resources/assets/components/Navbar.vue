@@ -33,7 +33,7 @@
                         {{ __('voyager::auth.logout') }}
                     </a>
                 </div>
-                <template v-slot:opener>
+                <template #opener>
                     <button class="flex items-center pl-6 py-2 font-semibold rounded-lg focus:outline-none">
                         <div class="w-48 text-right text-sm flex justify-end">
                             <img class="h-6 w-6 rounded-full flex-no-shrink" :src="$store.user.avatar" alt="">

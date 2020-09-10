@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-wrap w-full">
-        <div v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
+        <div v-for="(formfield, key) in formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
             <card :title="translate(formfield.options.title) || ''" :title-size="5">
-                <template v-slot:actions>
+                <template #actions>
                     <button class="button small">
                         <icon icon="chevron-left" @click.prevent.stop="prev(formfield)" />
                     </button>
@@ -12,14 +12,8 @@
                     <button class="button small" @mousedown="startResize(key)">
                         <icon icon="switch-horizontal" class="cursor-move" />
                     </button>
-                    <button class="button small" @click="$emit('open-options', key)">
-                        <icon icon="cog" />
-                    </button>
-                    <button class="button small red" @click="$emit('delete', key)">
-                        <icon icon="trash" />
-                    </button>
-                    <slide-in :opened="optionsId == key" v-on:closed="$emit('open-options', null)" width="w-1/3" class="text-left" :title="__('voyager::generic.options')">
-                        <template v-slot:actions>
+                    <slide-in :title="__('voyager::generic.options')">
+                        <template #actions>
                             <locale-picker />
                         </template>
                         <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
@@ -35,14 +29,18 @@
                                     {{ prop }}
                                 </option>
                             </optgroup>
-                            <optgroup v-for="(relationship, i) in relationships" :key="'relationship_'+i" :label="relationship.method" v-if="$store.getFormfieldByType(formfield.type).allowRelationshipColumns">
+                            <template v-for="(relationship, i) in relationships" :key="'relationship_'+i">
+                            <optgroup :label="relationship.method" v-if="$store.getFormfieldByType(formfield.type).allowRelationshipColumns">
                                 <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
                                     {{ column }}
                                 </option>
-                                <option v-for="(column, i) in relationship.pivot" :key="'pivot_'+i" :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="$store.getFormfieldByType(formfield.type).allowPivot">
-                                    pivot.{{ column }}
-                                </option>
+                                <template v-for="(column, i) in relationship.pivot" :key="'pivot_'+i">
+                                    <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="$store.getFormfieldByType(formfield.type).allowPivot">
+                                        pivot.{{ column }}
+                                    </option>
+                                </template>
                             </optgroup>
+                            </template>
                             <optgroup v-if="$store.getFormfieldByType(formfield.type).allowRelationships" :label="__('voyager::generic.relationships')">
                                 <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
                                     {{ relationship.method }}
@@ -73,7 +71,16 @@
                             v-bind:relationships="relationships"
                             show="view-options" />
                         <bread-builder-validation v-model="formfield.validation" />
+
+                        <template #opener>
+                            <button class="button small">
+                                <icon icon="cog" />
+                            </button>
+                        </template>
                     </slide-in>
+                    <button class="button small red" @click="$emit('delete', key)">
+                        <icon icon="trash" />
+                    </button>
                 </template>
 
                 <component
@@ -86,18 +93,16 @@
                 </p>
             </card>
         </div>
-        <slot v-if="reactiveFormfields.length == 0" />
+        <slot v-if="formfields.length == 0" />
     </div>
 </template>
 
 <script>
 export default {
-    emits: ['delete', 'open-options', 'formfields', 'options'],
-    props: ['computed', 'columns', 'relationships', 'formfields', 'optionsId', 'options'],
+    emits: ['delete', 'update:formfields', 'update:options'],
+    props: ['computed', 'columns', 'relationships', 'formfields', 'options'],
     data: function () {
         return {
-            reactiveFormfields: this.formfields,
-            reactiveOptions: this.options,
             resizingFormfield: null,
             sizes: [
                 'w-1/6',
@@ -114,30 +119,10 @@ export default {
             this.resizingFormfield = key;
         },
         prev: function (formfield) {
-            var current_index = this.reactiveFormfields.indexOf(formfield);
-            if (current_index > 0) {
-                this.reactiveFormfields.splice((current_index - 1), 2, formfield, this.reactiveFormfields[current_index - 1]);
-            }
+            this.$emit('update:formfields', this.formfields.moveElementUp(formfield));
         },
         next: function (formfield) {
-            var current_index = this.reactiveFormfields.indexOf(formfield);
-            if (current_index < (this.reactiveFormfields.length - 1)) {
-                this.reactiveFormfields.splice((current_index), 2, this.reactiveFormfields[current_index + 1], formfield);
-            }
-        },
-    },
-    watch: {
-        reactiveFormfields: function (formfields) {
-            this.$emit('formfields', formfields);
-        },
-        reactiveOptions: function (options) {
-            this.$emit('options', options);
-        },
-        formfields: function (formfields) {
-            this.reactiveFormfields = formfields;
-        },
-        options: function (options) {
-            this.reactiveOptions = options;
+            this.$emit('update:formfields', this.formfields.moveElementDown(formfield));
         },
     },
     mounted: function () {
@@ -154,7 +139,6 @@ export default {
                 var x = e.clientX - rect.left - 50;
                 var threshold = rect.width / (vm.sizes.length - 1);
                 var size = Math.min(Math.max(Math.ceil(x / threshold), 0), vm.sizes.length);
-                // TODO: Vue.set(vm.formfields[vm.resizingFormfield].options, 'width', vm.sizes[size]);
                 vm.formfields[vm.resizingFormfield].options.width = vm.sizes[size];
             }
         });

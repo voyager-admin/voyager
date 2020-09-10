@@ -8,7 +8,7 @@
             :dontShowHeader="fromRelationship"
             :no-padding="fromRelationship"
         >
-            <template v-slot:actions>
+            <template #actions>
                 <div class="flex items-center">
                     <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
                         <icon icon="chevron-left"></icon>

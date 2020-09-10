@@ -1,7 +1,7 @@
 <template>
     <div>
         <card :title="__('voyager::settings.settings')" icon="cog">
-            <template v-slot:actions>
+            <template #actions>
                 <div class="flex items-center">
                     <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
                     <button class="button accent" @click="saveSettings">
@@ -27,7 +27,7 @@
                                 {{ __('voyager::builder.formfields_more') }}
                             </a>
                         </div>
-                        <template v-slot:opener>
+                        <template #opener>
                             <button class="button green">
                                 <icon icon="plus" />
                                 <span>
@@ -40,7 +40,7 @@
                 </div>
             </template>
             <tabs v-on:select="currentGroupId = $event" :tabs="groups" ref="tabs">
-                <template v-for="(group, i) in groups" :key="'group-'+i" v-slot:[group.name]>
+                <template v-for="(group, i) in groups" :key="'group-'+i" #[group.name]>
                     <div>
                         <div v-for="(setting, i) in settingsByGroup(group.name)" :key="'settings-'+i">
                             <card :title="setting.name">
@@ -62,21 +62,10 @@
                                     <h4>{{ setting.name }}</h4>
                                     <p class="mx-4">{{ setting.key }}</p>
                                 </div>
-                                <template v-slot:actions v-if="editMode">
+                                <template #actions v-if="editMode">
                                     <div class="flex items-center mt-1 md:mt-0">
-                                        <button class="button">
-                                            <icon icon="selector" :size="4"></icon>
-                                        </button>
-                                        <button class="button" @click="optionsId = i">
-                                            <icon icon="cog" :size="4"></icon>
-                                            <span>{{ __('voyager::generic.options') }}</span>
-                                        </button>
-                                        <button class="button red" @click="deleteSetting(setting)">
-                                            <icon icon="trash" :size="4"></icon>
-                                            <span>{{ __('voyager::generic.delete') }}</span>
-                                        </button>
-                                        <slide-in :opened="optionsId == i" v-on:closed="optionsId = null" width="w-1/3" class="text-left" :title="__('voyager::generic.options')">
-                                            <template v-slot:actions>
+                                        <slide-in :title="__('voyager::generic.options')">
+                                            <template #actions>
                                                 <locale-picker />
                                             </template>
                                             <div v-if="setting.canBeTranslated">
@@ -90,7 +79,18 @@
                                                 :column="''"
                                                 show="view-options" />
                                             <bread-builder-validation v-model="setting.validation" />
+
+                                            <template #opener>
+                                                <button class="button">
+                                                    <icon icon="cog" :size="4"></icon>
+                                                    <span>{{ __('voyager::generic.options') }}</span>
+                                                </button>
+                                            </template>
                                         </slide-in>
+                                        <button class="button red" @click="deleteSetting(setting)">
+                                            <icon icon="trash" :size="4"></icon>
+                                            <span>{{ __('voyager::generic.delete') }}</span>
+                                        </button>
                                     </div>
                                 </template>
                                 <div class="mt-2">
@@ -143,7 +143,6 @@ export default {
             settings: this.input,
             savingSettings: false,
             currentGroupId: 0,
-            optionsId: null,
             currentEnteredGroup: null,
             errors: [],
             query: '',

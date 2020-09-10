@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(rule, key) in value" :key="'rule-'+key">
+                    <tr v-for="(rule, key) in modelValue" :key="'rule-'+key">
                         <td>
                             <input type="text" class="input w-full" v-model="rule.rule" :placeholder="__('voyager::generic.rule')">
                         </td>
@@ -46,28 +46,22 @@
 export default {
     emits: ['update:modelValue'],
     props: ['modelValue'],
-    data: function () {
-        return {
-            value: this.modelValue,
-        };
-    },
     methods: {
         addRule: function () {
-            if (!this.isArray(this.value)) {
-                this.value = [];
+            var rules = this.modelValue;
+            if (!this.isArray(rules)) {
+                rules = [];
             }
-            this.value.push({
+            rules.push({
                 rule: '',
                 message: '',
             });
+
+            this.$emit('update:modelValue', rules);
         },
         removeRule: function (key) {
-            this.value.splice(key, 1);
-        }
-    },
-    watch: {
-        value: function (rules) {
-            this.$emit('update:modelValue', rules);
+            var rules = this.modelValue;
+            this.$emit('update:modelValue', rules.splice(key, 1));
         }
     },
 };

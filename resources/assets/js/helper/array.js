@@ -50,3 +50,21 @@ Array.prototype.pluck = function (prop) {
 Array.prototype.diff = function (arr) {
     return this.filter(x => !arr.includes(x))
 }
+
+Array.prototype.moveElementUp = function (el) {
+    var i = this.indexOf(el);
+    if (i > 0) {
+        [this[i], this[i-1]] = [this[i-1], this[i]];
+    }
+
+    return this;
+}
+
+Array.prototype.moveElementDown = function (el) {
+    var i = this.indexOf(el);
+    if (i < this.length - 1) {
+        [this[i], this[i+1]] = [this[i+1], this[i]];
+    }
+    
+    return this;
+}

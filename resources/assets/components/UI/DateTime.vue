@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <template v-slot:opener>
+            <template #opener>
                 <input
                     type="text"
                     class="input w-full"

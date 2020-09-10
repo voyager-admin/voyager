@@ -63,7 +63,7 @@
 export default {
     emits: ['update:modelValue'],
     props: {
-        value: {
+        modelValue: {
             type: Number
         },
         pageCount: {
@@ -100,14 +100,6 @@ export default {
         }
     },
     computed: {
-        selected: {
-            get: function () {
-                return this.value || this.pageValue;
-            },
-            set: function (newValue) {
-                this.pageValue = newValue;
-            }
-        },
         pages: function () {
             let pages = {};
             if (this.pageCount <= this.pageRange) {
@@ -115,7 +107,7 @@ export default {
                     let page = {
                         index: index,
                         content: index + 1,
-                        selected: index === (this.selected - 1)
+                        selected: index === (this.modelValue - 1)
                     };
                     pages[index] = page;
                 }
@@ -125,7 +117,7 @@ export default {
                     let page = {
                         index: index,
                         content: index + 1,
-                        selected: index === (this.selected - 1)
+                        selected: index === (this.modelValue - 1)
                     }
                     pages[index] = page;
                 };
@@ -140,8 +132,8 @@ export default {
                     setPageItem(i);
                 }
                 let selectedRangeLow = 0;
-                if (this.selected - halfPageRange > 0) {
-                    selectedRangeLow = this.selected - 1 - halfPageRange;
+                if (this.modelValue - halfPageRange > 0) {
+                    selectedRangeLow = this.modelValue - 1 - halfPageRange;
                 }
                 let selectedRangeHigh = selectedRangeLow + this.pageRange - 1;
                 if (selectedRangeHigh >= this.pageCount) {
@@ -165,42 +157,36 @@ export default {
             return pages;
         },
         isFirstPage: function () {
-            return this.selected === 1;
+            return this.modelValue === 1;
         },
         isLastPage: function () {
-            return (this.selected === this.pageCount) || (this.pageCount === 0);
+            return (this.modelValue === this.pageCount) || (this.pageCount === 0);
         },
-    },
-    data: function () {
-        return {
-            pageValue: 1,
-        }
     },
     methods: {
         selectPage: function (selected) {
-            if (this.selected !== selected && this.isNumber(selected) && selected >= 1) {
-                this.pageValue = selected;
+            if (this.modelValue !== selected && this.isNumber(selected) && selected >= 1) {
                 this.$emit('update:modelValue', selected);
             }
         },
         prevPage: function () {
-            if (this.selected > 1) {
+            if (this.modelValue > 1) {
                 this.selectPage(this.selected - 1);
             }
         },
         nextPage: function () {
-            if (this.selected < this.pageCount) {
-                this.selectPage(this.selected + 1);
+            if (this.modelValue < this.pageCount) {
+                this.selectPage(this.modelValue + 1);
             }
         },
         
         selectFirstPage: function () {
-            if (this.selected !== 1) {
+            if (this.modelValue !== 1) {
                 this.selectPage(1);
             }
         },
         selectLastPage: function () {
-            if (this.selected !== this.pageCount) {
+            if (this.modelValue !== this.pageCount) {
                 this.selectPage(this.pageCount);
             }
         }

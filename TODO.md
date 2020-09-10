@@ -11,6 +11,7 @@ Instead, they are listed here:
 - Media manager: While uploading files, they are shown in every folder
 - Tooltips don't update value when changed
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
+- Replace all watchers with `$watch` in created-hook as Vue3 doesn't support nested watchers in options API
 
 ## Formfields
 - **Relationship** support polymorphic relationships

@@ -1,6 +1,6 @@
 <template>
     <card :title="__('voyager::plugins.plugins')" icon="puzzle">
-        <template v-slot:actions>
+        <template #actions>
             <div class="flex items-center">
                 <input
                     type="text"
@@ -62,7 +62,7 @@
                             :first-last-buttons="false"
                         />
                     </div>
-                    <template v-slot:opener>
+                    <template #opener>
                         <button class="button">
                             <icon icon="search"></icon>
                             <span>{{ __('voyager::plugins.search_plugins') }}</span>
@@ -85,15 +85,15 @@
             <div class="flex-grow-0">
                 <badge
                     color="green"
-                    @click="available.onlyEnabled === true ? available.onlyEnabled = null : available.onlyEnabled = true"
-                    :icon="available.onlyEnabled === true ? 'x' : null"
+                    @click="installed.onlyEnabled === true ? installed.onlyEnabled = null : installed.onlyEnabled = true"
+                    :icon="installed.onlyEnabled === true ? 'x' : null"
                 >
                     {{ __('voyager::plugins.only_enabled') }}
                 </badge>
                 <badge
                     color="red"
-                    @click="available.onlyEnabled === false ? available.onlyEnabled = null : available.onlyEnabled = false"
-                    :icon="available.onlyEnabled === false ? 'x' : null"
+                    @click="installed.onlyEnabled === false ? installed.onlyEnabled = null : installed.onlyEnabled = false"
+                    :icon="installed.onlyEnabled === false ? 'x' : null"
                 >
                     {{ __('voyager::plugins.only_disabled') }}
                 </badge>
@@ -199,6 +199,7 @@ export default {
                 currentType: null,
                 page: 0,
                 resultsPerPage: 7,
+                onlyEnabled: null,
             },
             available: {
                 plugins: this.availablePlugins,
@@ -206,7 +207,6 @@ export default {
                 currentType: null,
                 page: 0,
                 resultsPerPage: 3,
-                onlyEnabled: null,
             },
             addPluginModalOpen: false,
             loading: true,
@@ -325,9 +325,9 @@ export default {
             var vm = this;
             var query = vm.installed.query.toLowerCase();
             return vm.installed.plugins.filter(function (plugin) {
-                if (vm.available.onlyEnabled === true) {
+                if (vm.installed.onlyEnabled === true) {
                     return plugin.enabled;
-                } else if (vm.available.onlyEnabled === false) {
+                } else if (vm.installed.onlyEnabled === false) {
                     return !plugin.enabled;
                 }
 
@@ -386,13 +386,27 @@ export default {
             vm.$refs.search_plugin_modal.open();
         }
     },
-    watch: {
-        'available.query': function () {
-            this.available.page = 0;
-        },
-        'installed.query': function () {
-            this.installed.page = 0;
-        }
+    created: function () {
+        var vm = this;
+
+        vm.$watch(
+            () => vm.available.query,
+            function () {
+                vm.available.page = 0;
+            }
+        );
+        vm.$watch(
+            () => vm.installed.query,
+            function () {
+                vm.installed.page = 0;
+            }
+        );
+        vm.$watch(
+            () => vm.installed.onlyEnabled,
+            function () {
+                vm.installed.page = 0;
+            }
+        );
     },
 };
 </script>

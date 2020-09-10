@@ -1,7 +1,7 @@
 <template>
     <div>
         <collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
-            <template v-slot:actions>
+            <template #actions>
                 <div class="flex items-center">
                     <button class="button" @click.stop="toggleFocusMode">
                         <icon icon="arrows-expand" :size="4" />
@@ -16,7 +16,7 @@
             </template>
             <div>
                 <alert color="yellow" v-if="!propsLoaded" class="mx-4">
-                    <template v-slot:title>
+                    <template #title>
                         <span>{{ __('voyager::generic.heads_up') }}</span>
                     </template>
                     {{ __('voyager::builder.new_breads_prop_warning') }}
@@ -54,7 +54,7 @@
                         <label class="label" for="icon">{{ __('voyager::generic.icon') }}</label>
                         <modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
                             <icon-picker v-on:select="$refs.icon_modal.close(); bread.icon = $event" />
-                            <template v-slot:opener>
+                            <template #opener>
                                 <div class="w-full">
                                     <button class="button">
                                         <icon class="cursor-pointer my-1 content-center" :size="6" :icon="bread.icon" />
@@ -161,7 +161,7 @@
                             {{ __('voyager::builder.formfields_more') }}
                         </a>
                     </div>
-                    <template v-slot:opener>
+                    <template #opener>
                         <button class="button small ml-2"
                                 :disabled="bread.layouts.length == 0">
                             <icon icon="plus" />
@@ -180,7 +180,7 @@
                             {{ __('voyager::builder.view') }}
                         </a>
                     </div>
-                    <template v-slot:opener>
+                    <template #opener>
                         <button class="button small">
                             <icon icon="plus" />
                             <span>
@@ -201,7 +201,7 @@
                             {{ __('voyager::builder.clone_layout') }}
                         </a>
                     </div>
-                    <template v-slot:opener>
+                    <template #opener>
                         <button class="button small">
                             <icon icon="fire" />
                             <span>
@@ -210,14 +210,8 @@
                         </button>
                     </template>
                 </dropdown>
-                <button class="button small" @click="layoutOptionsOpen = true" :disabled="!currentLayout">
-                    <icon icon="cog" />
-                    <span>
-                        {{ __('voyager::generic.options') }}
-                    </span>
-                </button>
-                <slide-in v-if="currentLayout" :opened="layoutOptionsOpen" width="w-1/3" class="text-left" v-on:closed="layoutOptionsOpen = false" :title="__('voyager::generic.options')">
-                    <template v-slot:actions>
+                <slide-in v-if="currentLayout" :title="__('voyager::generic.options')">
+                    <template #actions>
                         <locale-picker />
                     </template>
                     <div>
@@ -239,6 +233,14 @@
                             </select>
                         </div>
                     </div>
+                    <template #opener>
+                        <button class="button small">
+                            <icon icon="cog" />
+                            <span>
+                                {{ __('voyager::generic.options') }}
+                            </span>
+                        </button>
+                    </template>
                 </slide-in>
             </div>
 
@@ -254,13 +256,9 @@
                 :computed="computed"
                 :columns="columns"
                 :relationships="relationships"
-                :formfields="currentLayout.formfields"
-                :options="currentLayout.options"
-                :options-id="openOptionsId"
-                v-on:delete="deleteFormfield($event)"
-                v-on:formfields="currentLayout.formfields = $event"
-                v-on:options="currentLayout.options = $event"
-                v-on:open-options="openOptionsId = $event" />
+                v-model:formfields="currentLayout.formfields"
+                v-model:options="currentLayout.options"
+                v-on:delete="deleteFormfield($event)" />
         </card>
 
         <collapsible :title="__('voyager::builder.layout_mapping')" ref="layout_mapping">
@@ -323,8 +321,6 @@ export default {
             savingBread: false,
             backingUp: false,
             currentLayoutName: null,
-            openOptionsId: null,
-            layoutOptionsOpen: false,
             focusMode: false,
             propsLoaded: false,
         };

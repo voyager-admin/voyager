@@ -1,6 +1,6 @@
 <template>
     <card :title="__('voyager::generic.breads')" icon="bread">
-        <template v-slot:actions>
+        <template #actions>
             <button class="button" @click.stop="loadBreads">
                 <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="loading" />
                 <span>{{ __('voyager::builder.reload_breads') }}</span>
@@ -61,7 +61,7 @@
                                             {{ bu.date }}
                                         </a>
                                     </div>
-                                    <template v-slot:opener>
+                                    <template #opener>
                                         <button class="button green">
                                             <icon icon="clock" :size="4" />
                                             <span v-if="getBackupsForTable(table).length > 0">

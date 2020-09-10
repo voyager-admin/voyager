@@ -13,7 +13,7 @@
                     </p>
                 </div>
             </slot>
-            <div class="flex-shrink-0 sm:mt-2">
+            <div class="flex flex-shrink-0 sm:mt-2">
                 <slot name="actions"></slot>
             </div>
         </div>

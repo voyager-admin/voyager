@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(formfield, key) in reactiveFormfields" :key="'formfield-'+key">
+                    <tr v-for="(formfield, key) in formfields" :key="'formfield-'+key">
                         <td class="hidden md:table-cell">
                             <icon icon="chevron-up" class="cursor-pointer" :size="4" @click.prevent.stop="up(formfield)" />
                             <icon icon="chevron-down" class="cursor-pointer" :size="4" @click.prevent.stop="down(formfield)" />
@@ -34,15 +34,18 @@
                                         {{ prop }}
                                     </option>
                                 </optgroup>
-                                <optgroup v-for="(relationship, i) in relationships" :key="'relationship_'+i" :label="relationship.method" v-if="$store.getFormfieldByType(formfield.type).allowRelationshipColumns">
-                                    <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
-                                        {{ column }}
-                                    </option>
-                                    <option v-for="(column, i) in relationship.pivot" :key="'pivot_'+i" :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="$store.getFormfieldByType(formfield.type).allowPivot">
-                                        pivot.{{ column }}
-                                    </option>
-                                    <option :value="{column: relationship.method+'.relationship_amount', type: 'relationship'}">{{ __('voyager::generic.relationship_amount') }}</option>
-                                </optgroup>
+                                <template v-for="(relationship, i) in relationships" :key="'relationship_'+i">
+                                    <optgroup :label="relationship.method" v-if="$store.getFormfieldByType(formfield.type).allowRelationshipColumns">
+                                        <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
+                                            {{ column }}
+                                        </option>
+                                        <template v-for="(column, i) in relationship.pivot" :key="'pivot_'+i">
+                                            <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="$store.getFormfieldByType(formfield.type).allowPivot">
+                                                pivot.{{ column }}
+                                            </option>
+                                        </template>
+                                    </optgroup>
+                                </template>
                                 <optgroup v-if="$store.getFormfieldByType(formfield.type).allowRelationships" :label="__('voyager::generic.relationships')">
                                     <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
                                         {{ relationship.method }}
@@ -75,7 +78,7 @@
                                 class="input"
                                 type="radio"
                                 :disabled="formfield.column.type !== 'column'"
-                                v-model="reactiveOptions.default_order_column"
+                                v-model="options.default_order_column"
                                 v-bind:value="formfield.column" />
                         </td>
                         <td class="hidden md:table-cell">
@@ -86,16 +89,8 @@
                                 :disabled="!$store.getFormfieldByType(formfield.type).canBeTranslated">
                         </td>
                         <td class="inline-flex">
-                            <button class="button" @click="$emit('open-options', key)">
-                                <icon icon="cog" />
-                                <span>{{ __('voyager::generic.options') }}</span>
-                            </button>
-                            <button class="button red" @click="$emit('delete', key)">
-                                <icon icon="trash" />
-                                <span>{{ __('voyager::generic.delete') }}</span>
-                            </button>
-                            <slide-in :opened="optionsId == key" width="w-1/3" v-on:closed="$emit('open-options', null)" class="text-left" :title="__('voyager::generic.options')">
-                                <template v-slot:actions>
+                            <slide-in :title="__('voyager::generic.options')">
+                                <template #actions>
                                     <locale-picker />
                                 </template>
                                 <component
@@ -103,7 +98,18 @@
                                     v-bind:options="formfield.options"
                                     :column="formfield.column"
                                     show="list-options" />
+
+                                <template #opener>
+                                    <button class="button">
+                                        <icon icon="cog" />
+                                        <span>{{ __('voyager::generic.options') }}</span>
+                                    </button>
+                                </template>
                             </slide-in>
+                            <button class="button red" @click="$emit('delete', key)">
+                                <icon icon="trash" />
+                                <span>{{ __('voyager::generic.delete') }}</span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -111,7 +117,7 @@
         </div>
 
         <collapsible :title="__('voyager::generic.filters')" closed ref="filters_collapsible">
-            <template v-slot:actions>
+            <template #actions>
                 <button class="button green small" @click.stop="addFilter">
                     <icon icon="plus" />
                 </button>
@@ -129,7 +135,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(f, key) in reactiveOptions.filters" :key="'filter-'+key">
+                        <tr v-for="(f, key) in options.filters" :key="'filter-'+key">
                             <td>
                                 <language-input
                                     class="input w-full"
@@ -181,58 +187,33 @@
 
 <script>
 export default {
-    props: ['computed', 'columns', 'relationships', 'formfields', 'optionsId', 'options'],
-    data: function () {
-        return {
-            reactiveFormfields: this.formfields,
-            reactiveOptions: this.options,
-        };
-    },
+    emits: ['update:formfields', 'update:options', 'delete'],
+    props: ['computed', 'columns', 'relationships', 'formfields', 'options'],
     methods: {
         up: function (formfield) {
-            var current_index = this.reactiveFormfields.indexOf(formfield);
-            if (current_index > 0) {
-                this.reactiveFormfields.splice((current_index - 1), 2, formfield, this.reactiveFormfields[current_index - 1]);
-            }
+            this.$emit('update:formfields', this.formfields.moveElementUp(formfield));
         },
         down: function (formfield) {
-            var current_index = this.reactiveFormfields.indexOf(formfield);
-            if (current_index < (this.reactiveFormfields.length - 1)) {
-                this.reactiveFormfields.splice((current_index), 2, this.reactiveFormfields[current_index + 1], formfield);
-            }
+            this.$emit('update:formfields', this.formfields.moveElementDown(formfield));
         },
         addFilter: function () {
-            if (!this.isArray(this.reactiveOptions.filters)) {
-                // TODO: Vue.set(this.reactiveOptions, 'filters', []);
-                this.reactiveOptions.filters = [];
+            var options = this.options;
+            if (!this.isArray(options.filters)) {
+                options.filters = [];
             }
-            this.reactiveOptions.filters.push({
+            options.filters.push({
                 name: '',
                 column: '',
                 operator: '=',
                 value: '',
                 color: 'accent',
             });
+            this.$emit('update:options', options);
         },
         removeFilter: function (key) {
-            this.reactiveOptions.filters.splice(key, 1);
-        }
-    },
-    watch: {
-        reactiveFormfields: function (formfields) {
-            this.$emit('formfields', formfields);
-        },
-        reactiveOptions: function (options) {
-            this.$emit('options', options);
-        },
-        formfields: function (formfields) {
-            this.reactiveFormfields = formfields;
-        },
-        options: function (options) {
-            this.reactiveOptions = options;
-        },
-        'reactiveOptions.filters': function () {
-            this.$refs.filters_collapsible.open();
+            var options = this.options;
+            options.filters.splice(key, 1);
+            this.$emit('update:options', options);
         }
     },
 };

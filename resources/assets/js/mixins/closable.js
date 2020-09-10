@@ -16,15 +16,19 @@ export default {
             this.isOpen = !this.isOpen;
         }
     },
-    watch: {
-        isOpen: function (open) {
-            if (open) {
-                this.$emit('opened');
-            } else {
-                this.$emit('closed');
+    created: function () {
+        var vm = this;
+        vm.$watch(
+            () => this.isOpen,
+            function (open) {
+                if (open) {
+                    vm.$emit('opened');
+                } else {
+                    vm.$emit('closed');
+                }
+    
+                vm.$emit('toggled');
             }
-
-            this.$emit('toggled');
-        }
-    }
+        );
+    },
 };

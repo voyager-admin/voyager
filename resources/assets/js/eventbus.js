@@ -8,10 +8,12 @@ export default {
         });
     },
 
-    emit: function (event) {
+    emit: function () {
         var args = Array.from(arguments);
+        var event = args[0];
+        var payload = args.splice(1);
         handler.where('event', event).forEach(function (h) {
-            h.callback(...args.splice(1));
+            h.callback(...payload);
         });
     },
 

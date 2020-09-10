@@ -19,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(option, i) in value" :key="'option-'+i">
+                    <tr v-for="(option, i) in modelValue" :key="'option-'+i">
                         <td>
                             <input type="text" class="input w-full" v-model="value[i]" :placeholder="__(itemText)">
                         </td>
@@ -55,26 +55,15 @@ export default {
             }
         },
     },
-    data: function () {
-        return {
-            value: this.modelValue,
-        };
-    },
     methods: {
         addOption: function () {
-            if (!this.isArray(this.modelValue)) {
-                this.value = [];
-            }
-            this.value.push('');
+            var options = this.modelValue;
+            this.$emit('update:modelValue', options.push(''));
         },
         removeOption: function (key) {
-            this.value.splice(key, 1);
+            var options = this.modelValue;
+            this.$emit('update:modelValue', options.splice(key, 1));
         }
     },
-    watch: {
-        value: function (options) {
-            this.$emit('update:modelValue', options);
-        }
-    }
 }
 </script>

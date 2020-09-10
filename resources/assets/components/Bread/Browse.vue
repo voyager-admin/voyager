@@ -1,6 +1,6 @@
 <template>
     <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
-        <template v-slot:actions>
+        <template #actions>
             <div class="flex flex-wrap items-center">
                 <input
                     type="text"

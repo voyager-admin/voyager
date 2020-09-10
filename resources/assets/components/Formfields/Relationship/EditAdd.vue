@@ -16,7 +16,7 @@
                 :fromRelationship="true"
                 @saved="added($event)"
             />
-            <template v-slot:actions>
+            <template #actions>
                 <locale-picker :small="false" class="ltr:mr-2 rtl:ml-2"></locale-picker>
             </template>
         </modal>
