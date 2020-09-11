@@ -41,7 +41,6 @@ class Settings
 
     public function mergeSettings($settings)
     {
-        // TODO: Validate settings
         $this->settings = $this->settings->merge($settings);
     }
 
@@ -87,9 +86,17 @@ class Settings
         return $settings;
     }
 
-    public function saveSettings($content)
+    public function exists($group, $key)
     {
-        $this->loadSettings(); // Load settings so the file is available
+        return $this->settings->where('group', $group)->where('key', $key)->count() > 0;
+    }
+
+    public function saveSettings($content = null)
+    {
+        if (is_null($content)) {
+            $content = $this->settings;
+        }
+        $this->loadSettings();
         if (!is_string($content)) {
             $content = json_encode($content, JSON_PRETTY_PRINT);
         }

@@ -145,5 +145,6 @@ return [
     'view_profile'              => 'View Profile',
     'website'                   => 'Website',
     'welcome_to_voyager'        => 'Welcome to Voyager II',
+    'welcome_text'              => 'Voyager 2 has been re-built using Laravel and VueJS. There are a lot of other cool things about version 2',
     'yes'                       => 'Yes',
 ];

@@ -34,6 +34,7 @@ import Store from './store';
 import SettingsManager from 'components/Settings';
 import PluginsManager from 'components/Plugins';
 import Dashboard from 'components/Dashboard';
+import Media from 'components/Media';
 import UIPage from 'components/UI';
 import Login from 'components/Login';
 
@@ -104,6 +105,7 @@ window.createVoyager = function (data = {}, main = true) {
     voyager.component('plugins-manager', PluginsManager);
     voyager.component('dashboard', Dashboard);
     voyager.component('ui', UIPage);
+    voyager.component('media', Media);
 
     window.voyager = voyager;
 };

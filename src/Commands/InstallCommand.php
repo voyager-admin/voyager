@@ -37,12 +37,32 @@ class InstallCommand extends Command
 
     private function setSettings(SettingManager $settingsmanager)
     {
+        $content = file_get_contents(realpath(__DIR__.'/../../resources/presets/settings.json'));
         if (is_null($settingsmanager->setting())) {
-            $content = file_get_contents(realpath(__DIR__.'/../../resources/presets/settings.json'));
             $settingsmanager->saveSettings($content);
             $this->info('Default settings written');
         } else {
-            $this->warn('Settings JSON file already exists. Skipped');
+            if ($this->confirm('Settings JSON file already exists. Do you want to migrate new settings?')) {
+                $preset = json_decode($content);
+                $new = 0;
+                foreach ($preset as $setting) {
+                    if (!$settingsmanager->exists($setting->group, $setting->key)) {
+                        if (empty($setting->group)) {
+                            $this->line('New setting: "'.$setting->key.'": '.$setting->info);
+                        } else {
+                            $this->line('New setting: "'.$setting->group.'.'.$setting->key.'": '.$setting->info);
+                        }
+                        $settingsmanager->mergeSettings([$setting]);
+                        $new++;
+                    }
+                }
+                if ($new > 0) {
+                    $settingsmanager->saveSettings();
+                    $this->info('Wrote '.$new.' new setting(s)!');
+                } else {
+                    $this->info('No new settings found!');
+                }
+            }
         }
     }
 }

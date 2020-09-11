@@ -11,8 +11,8 @@
             <component :is="widget.component" v-bind="widget.parameters"></component>
         </card>
 
-        <card title="Welcome to Voyager II" icon="helm" :icon-size="8" class="w-full" v-if="widgets.length == 0">
-            <div>Voyager 2 has been re-built using Laravel and VueJS. There are a lot of other cool things about version 2</div>
+        <card :title="__('voyager::generic.welcome_to_voyager')" icon="helm" :icon-size="8" class="w-full" v-if="widgets.length == 0">
+            <div>{{ __('voyager::generic.welcome_text') }}</div>
         </card>
     </div>
 </template>
