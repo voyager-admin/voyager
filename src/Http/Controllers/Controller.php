@@ -23,11 +23,6 @@ abstract class Controller extends BaseController
         $this->pluginmanager = $pluginmanager;
     }
 
-    protected function getAuthenticationPlugin()
-    {
-        return $this->pluginmanager->getPluginByType('authentication', AuthenticationPlugin::class);
-    }
-
     protected function validateData($formfields, $data, $all_locales = false): array
     {
         $errors = [];

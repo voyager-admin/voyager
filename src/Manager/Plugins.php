@@ -58,8 +58,6 @@ class Plugins
             throw new \Exception('Plugin added to Voyager has to extend GenericPlugin');
         }
 
-        $plugin->type = $this->getPluginType($plugin);
-
         $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
         $plugin->enabled = array_key_exists($plugin->identifier, $this->enabled_plugins);
 
@@ -87,7 +85,7 @@ class Plugins
     public function launchPlugins($protected = false, $public = false)
     {
         $this->getAllPlugins(false)->each(function ($plugin) use ($protected, $public) {
-            if ($plugin->enabled || $plugin->type == 'theme') {
+            if ($plugin->enabled) {
                 if ($protected) {
                     if ($plugin instanceof ProtectedRoutes) {
                         $plugin->provideProtectedRoutes();
@@ -106,10 +104,6 @@ class Plugins
                         if ($plugin instanceof SettingsProvider) {
                             $this->settingsmanager->merge($plugin->registerSettings());
                         }
-                    }
-                    // Theme plugins need to register their routes so it can be previewed
-                    if ($plugin instanceof PublicRoutes) {
-                        $plugin->providePublicRoutes();
                     }
                 }
             }
@@ -137,25 +131,6 @@ class Plugins
         }
 
         return $plugins;
-    }
-
-    public function getPluginByType($type, $fallback = null, $enabled = true)
-    {
-        $plugin = $this->getPluginsByType($type, $enabled)->first();
-
-        if (!$plugin && $fallback !== null) {
-            $plugin = $fallback;
-            if (!($fallback instanceof GenericPlugin)) {
-                $plugin = new $fallback();
-            }
-        }
-
-        return $plugin;
-    }
-
-    public function getPluginsByType($type, $enabled = true)
-    {
-        return $this->getAllPlugins($enabled)->where('type', $type);
     }
 
     public function getAvailablePlugins()
@@ -192,15 +167,6 @@ class Plugins
     public function disablePlugin($identifier)
     {
         return $this->enablePlugin($identifier, false);
-    }
-
-    protected function getPluginType($class)
-    {
-        return collect(class_implements($class))->filter(static function ($interface) {
-            return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\') && Str::endsWith($interface, 'Plugin');
-        })->transform(static function ($interface) {
-            return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
-        })->first();
     }
 
     public function getAssets()

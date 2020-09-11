@@ -46,10 +46,12 @@ class PluginsController extends Controller
     public function get()
     {
         return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {
-            // This is only used to preview a theme
-            if ($plugin->type == 'theme' && $plugin instanceof ThemePlugin) {
-                $plugin->src = $plugin->provideCSS();
-            }
+            $plugin->type = collect(class_implements($plugin))->filter(static function ($interface) {
+                return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\') && Str::endsWith($interface, 'Plugin');
+            })->transform(static function ($interface) {
+                return strtolower(str_replace(['Voyager\\Admin\\Contracts\\Plugins\\', 'Plugin'], '', $interface));
+            })->first();
+
             if ($plugin instanceof SettingsComponent) {
                 $plugin->settings_component = $plugin->getSettingsComponent();
             }

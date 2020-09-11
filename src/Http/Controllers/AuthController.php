@@ -9,8 +9,8 @@ class AuthController extends Controller
 {
     public function login()
     {
-        if ($this->getAuthenticationPlugin()->user()) {
-            return redirect($this->getAuthenticationPlugin()->redirectTo());
+        if (VoyagerFacade::auth()->user()) {
+            return redirect(VoyagerFacade::auth()->redirectTo());
         }
 
         return view('voyager::login');
@@ -18,16 +18,16 @@ class AuthController extends Controller
 
     public function processLogin(Request $request)
     {
-        return $this->getAuthenticationPlugin()->authenticate($request);
+        return VoyagerFacade::auth()->authenticate($request);
     }
 
     public function logout()
     {
-        return $this->getAuthenticationPlugin()->logout();
+        return VoyagerFacade::auth()->logout();
     }
 
     public function forgotPassword(Request $request)
     {
-        return $this->getAuthenticationPlugin()->forgotPassword($request);
+        return VoyagerFacade::auth()->forgotPassword($request);
     }
 }

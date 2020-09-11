@@ -5,7 +5,8 @@ namespace Voyager\Admin\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Voyager\Admin\Manager\Plugins as PluginManager;
-use Voyager\Admin\Plugins\AuthenticationPlugin;
+use Voyager\Admin\Contracts\Plugins\AuthenticationPlugin;
+use Voyager\Admin\Plugins\AuthenticationPlugin as DefaultAuthPlugin;
 
 
 class VoyagerAdminMiddleware
@@ -26,7 +27,9 @@ class VoyagerAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $plugin = $this->pluginmanager->getPluginByType('authentication', AuthenticationPlugin::class);
+        $plugin = $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
+            return $plugin instanceof AuthenticationPlugin;
+        })->first() ?? new DefaultAuthPlugin();
 
         return $plugin->handleRequest($request, $next);
     }

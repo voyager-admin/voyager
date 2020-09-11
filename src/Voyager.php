@@ -6,11 +6,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Voyager\Admin\Contracts\Plugins\AuthenticationPlugin;
+use Voyager\Admin\Contracts\Plugins\AuthorizationPlugin;
+use Voyager\Admin\Contracts\Plugins\WidgetPlugin;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Widgets as WidgetFilter;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
-use Voyager\Admin\Plugins\AuthenticationPlugin;
+use Voyager\Admin\Plugins\AuthenticationPlugin as DefaultAuthPlugin;
 
 class Voyager
 {
@@ -249,7 +252,9 @@ class Voyager
      */
     public function getWidgets()
     {
-        $widgets = collect($this->pluginmanager->getPluginsByType('widget')->transform(function ($plugin) {
+        $widgets = collect($this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
+            return $plugin instanceof WidgetPlugin;
+        })->transform(function ($plugin) {
             $width = $plugin->getWidth();
             if ($width >= 1 && $width <= 11) {
                 $width = 'w-'.$width.'/12';
@@ -401,7 +406,9 @@ class Voyager
      */
     public function auth()
     {
-        return $this->pluginmanager->getPluginByType('authentication', AuthenticationPlugin::class);
+        return $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
+            return $plugin instanceof AuthenticationPlugin;
+        })->first() ?? new DefaultAuthPlugin();
     }
 
     /**
@@ -440,13 +447,15 @@ class Voyager
      */
     public function authorize($user, $ability, $arguments = [])
     {
-        $auth_plugins = $this->pluginmanager->getPluginsByType('authorization');
         $authorized = true;
-        $auth_plugins->each(function ($plugin) use ($user, $ability, $arguments, &$authorized) {
-            if (!$plugin->authorize($user, $ability, $arguments)) {
+        $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
+            return $plugin instanceof AuthorizationPlugin;
+        })->each(function ($plugin) use ($user, $ability, $arguments, &$authorized) {
+            if ($plugin->authorize($user, $ability, $arguments) === false) {
                 $authorized = false;
             }
         });
+
         return $authorized;
     }
 

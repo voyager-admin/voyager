@@ -20,6 +20,7 @@ use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Menu as MenuManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
+use Voyager\Admin\Contracts\Plugins\FormfieldPlugin;
 use Voyager\Admin\Policies\BasePolicy;
 
 class VoyagerServiceProvider extends ServiceProvider
@@ -255,7 +256,9 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function loadPluginFormfields(): void
     {
-        $this->pluginmanager->getPluginsByType('formfield')->each(function ($formfield) {
+        $this->pluginmanager->getAllPlugins()->filter(function ($plugin) {
+            return $plugin instanceof FormfieldPlugin;
+        })->each(function ($formfield) {
             $this->breadmanager->addFormfield($formfield->getFormfield());
         });
     }
