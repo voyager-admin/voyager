@@ -2,6 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -25,6 +27,10 @@ module.exports = {
   },
   performance: {
     hints: false,
+  },
+  optimization: {
+    minimize: process.env.NODE_ENV === 'production',
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
   },
   stats: {
     hash: false,
