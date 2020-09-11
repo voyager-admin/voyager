@@ -42,10 +42,13 @@ export default {
             return value || key;
         },
     },
-    watch: {
-        value: function (value) {
-            this.selected = value || [];
-        }
-    }
+    created: function () {
+        this.$watch(
+            () => this.value,
+            function (value) {
+                this.selected = value || [];
+            }
+        );
+    },
 };
 </script>

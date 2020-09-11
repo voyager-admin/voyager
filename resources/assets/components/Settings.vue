@@ -296,36 +296,42 @@ export default {
             }
         },
     },
-    watch: {
-        currentEnteredGroup: function (value) {
-            if (value == '') {
-                this.settings = this.settings.map(function (setting) {
-                    if (setting.group == '') {
-                        setting.group = null;
-                    }
+    created: function () {
+        this.$watch(
+            () => this.currentEnteredGroup,
+            function (value) {
+                if (value == '') {
+                    this.settings = this.settings.map(function (setting) {
+                        if (setting.group == '') {
+                            setting.group = null;
+                        }
 
-                    return setting;
-                });
+                        return setting;
+                    });
 
-                value = 'no-group';
-            }
-            for (var group in this.groups) {
-                if (this.groups.hasOwnProperty(group)) {
-                    if (this.groups[group].name == value) {
-                        this.$refs.tabs.openByIndex(group);
+                    value = 'no-group';
+                }
+                for (var group in this.groups) {
+                    if (this.groups.hasOwnProperty(group)) {
+                        if (this.groups[group].name == value) {
+                            this.$refs.tabs.openByIndex(group);
+                        }
                     }
                 }
             }
-        },
-        currentGroupId: function (value) {
-            var url = window.location.href.split('?')[0];
-            if (value > 0) {
-                url = this.addParameterToUrl('group', this.groups[value].name, url);
-            } else {
-                url = this.addParameterToUrl('group', '', url);
+        );
+        this.$watch(
+            () => this.currentGroupId,
+            function (value) {
+                var url = window.location.href.split('?')[0];
+                if (value > 0) {
+                    url = this.addParameterToUrl('group', this.groups[value].name, url);
+                } else {
+                    url = this.addParameterToUrl('group', '', url);
+                }
+                this.pushToUrlHistory(url);
             }
-            this.pushToUrlHistory(url);
-        }
+        );
     },
     mounted: function () {
         var vm = this;

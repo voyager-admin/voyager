@@ -233,25 +233,25 @@
   color:#364152;
   color:var(--card-title-color, #364152)
 }
-.dark .day[data-v-13763b38]:hover{
+.dark .day[data-v-1bc33fe0]:hover{
   background-color: #2b6cb0
 }
-.dark .day.today[data-v-13763b38]{
+.dark .day.today[data-v-1bc33fe0]{
   background-color: #3182ce
 }
-.dark .day.past[data-v-13763b38],.dark .day.future[data-v-13763b38]{
+.dark .day.past[data-v-1bc33fe0],.dark .day.future[data-v-1bc33fe0]{
   color: #64748B
 }
-.dark .day.disabled[data-v-13763b38]{
+.dark .day.disabled[data-v-1bc33fe0]{
   color: #97A6BA
 }
-.dark .day.selected[data-v-13763b38]{
+.dark .day.selected[data-v-1bc33fe0]{
   background-color: #2c5282
 }
-.dark .day.rangeStart[data-v-13763b38],.dark .day.rangeEnd[data-v-13763b38],.dark .day.rangeBetween[data-v-13763b38]{
+.dark .day.rangeStart[data-v-1bc33fe0],.dark .day.rangeEnd[data-v-1bc33fe0],.dark .day.rangeBetween[data-v-1bc33fe0]{
   background-color: #2a4365
 }
-.day[data-v-13763b38]{
+.day[data-v-1bc33fe0]{
   text-align: center;
   border-radius: 0.375rem;
   padding-left: 0.5rem;
@@ -260,24 +260,24 @@
   padding-bottom: 0.25rem;
   cursor: pointer
 }
-.day[data-v-13763b38]:hover{
+.day[data-v-1bc33fe0]:hover{
   background-color: #90cdf4
 }
-.day.today[data-v-13763b38]{
+.day.today[data-v-1bc33fe0]{
   background-color: #bee3f8
 }
-.day.past[data-v-13763b38],.day.future[data-v-13763b38]{
+.day.past[data-v-1bc33fe0],.day.future[data-v-1bc33fe0]{
   color: #97A6BA
 }
-.day.disabled[data-v-13763b38]{
+.day.disabled[data-v-1bc33fe0]{
   color: #CFD8E3;
   cursor: not-allowed
 }
-.day.selected[data-v-13763b38]{
+.day.selected[data-v-1bc33fe0]{
   background-color: #4299e1;
   color: #fff
 }
-.day.rangeStart[data-v-13763b38],.day.rangeEnd[data-v-13763b38],.day.rangeBetween[data-v-13763b38]{
+.day.rangeStart[data-v-1bc33fe0],.day.rangeEnd[data-v-1bc33fe0],.day.rangeBetween[data-v-1bc33fe0]{
   background-color: #90cdf4
 }
 .dark .dropdown .wrapper{
@@ -559,7 +559,7 @@ to{
   line-height:1.25rem;
   overflow-wrap:break-word
 }
-.slidein[data-v-3225868d]{
+.slidein[data-v-1f587955]{
   position:fixed;
   top:0;
   left:auto;

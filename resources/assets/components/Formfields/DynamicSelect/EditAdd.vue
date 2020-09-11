@@ -34,12 +34,6 @@ export default {
             selected: [],
         };
     },
-    watch: {
-        selected: function (selected) {
-            this.loadOptions();
-            this.triggerChange();
-        }
-    },
     methods: {
         loadOptions: function () {
             var vm = this;
@@ -69,6 +63,15 @@ export default {
                 this.$emit('update:modelValue', this.selected[0]);
             }
         }
+    },
+    created: function () {
+        this.$watch(
+            () => this.selected,
+            function (selected) {
+                this.loadOptions();
+                this.triggerChange();
+            }
+        );
     },
     mounted: function () {
         if (this.isArray(this.modelValue)) {

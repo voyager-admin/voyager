@@ -20,9 +20,6 @@ export default {
             tags: [],
         };
     },
-    mounted: function () {
-        this.parseValue();
-    },
     methods: {
         parseValue: function () {
             if (this.isArray(this.value)) {
@@ -36,10 +33,14 @@ export default {
             }
         }
     },
-    watch: {
-        value: function (value) {
-            this.parseValue();
-        }
+    created: function () {
+        this.$watch(
+            () => this.value,
+            function () {
+                this.parseValue();
+            },
+            { immediate: true }
+        );
     }
 };
 </script>

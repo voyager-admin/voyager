@@ -52,10 +52,13 @@ export default {
             });
         },
     },
-    watch: {
-        query: function (q) {
-            this.page = 0;
-        }
-    }
+    created: function () {
+        this.$watch(
+            () => this.query,
+            function () {
+                this.page = 0;
+            }
+        );
+    },
 };
 </script>

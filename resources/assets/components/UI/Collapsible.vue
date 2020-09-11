@@ -32,13 +32,14 @@ export default {
             default: false,
         }
     },
-    mounted: function () {
-        this.isOpen = !this.closed;
-    },
-    watch: {
-        closed: function (closed) {
-            this.isOpen = !closed;
-        }
+    created: function () {
+        this.$watch(
+            () => this.closed,
+            function (closed) {
+                this.isOpen = !closed;
+            },
+            { immediate: true }
+        );
     }
 };
 </script>

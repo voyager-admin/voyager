@@ -52,19 +52,22 @@ export default {
                 vm.close();
             }
         });
-    },
-    watch: {
-        opened: {
-            immediate: true,
-            handler: function (opened) {
+        vm.$watch(
+            () => this.opened,
+            function (opened) {
                 this.isOpen = opened;
             },
-        },
-        isOpen: function (open) {
-            if (open) {
-                this.$eventbus.emit('close-slide-ins', this.uuid);
-            }
-        }
+            { immediate: true }
+        );
+        vm.$watch(
+            () => this.opened,
+            function (open) {
+                if (open) {
+                    this.$eventbus.emit('close-slide-ins', this.uuid);
+                }
+            },
+            { immediate: true }
+        );
     },
 };
 </script>

@@ -395,10 +395,8 @@ export default {
         for (var param of vm.getParametersFromUrl()) {
             try {
                 var val = JSON.parse(param[1]);
-                // TODO: Vue.set(this.parameters, param[0], val);
                 this.parameters[param[0]] = val;
             } catch {
-                // TODO: Vue.set(this.parameters, param[0], param[1]);
                 this.parameters[param[0]] = param[1];
             }
 
@@ -410,26 +408,39 @@ export default {
             this.load();
         }
     },
-    watch: {
-        selected: function (selected) {
-            this.$emit('select', selected);
-        },
-        'parameters.page': function () {
-            this.selected = [];
-        },
-        parameters: {
-            handler: debounce(function (val) {
-                this.pushParameterToUrl(val);
+    created: function () {
+        this.$watch(
+            () => this.selected,
+            function (selected) {
+                this.$emit('select', selected);
+            }
+        );
+        this.$watch(
+            () => this.parameters.page,
+            function (selected) {
+                this.selected = [];
+            }
+        );
+        this.$watch(
+            () => this.parameters.softdeleted,
+            function () {
+                this.parameters.page = 1;
+            }
+        );
+        this.$watch(
+            () => this.$store.locale,
+            function (locale) {
+                this.parameters.locale = locale;
+            }
+        );
+        this.$watch(
+            () => this.parameters,
+            debounce(function (parameters) {
+                this.pushParameterToUrl(parameters);
                 this.load();
             }, 250),
-            deep: true,
-        },
-        'parameters.softdeleted': function () {
-            this.parameters.page = 1;
-        },
-        '$store.locale': function (locale) {
-            this.parameters.locale = locale;
-        },
-    }
+            { deep: true }
+        );
+    },
 };
 </script>

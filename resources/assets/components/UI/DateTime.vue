@@ -423,10 +423,17 @@ export default {
             return  date.valueOf() > start.valueOf() && date.valueOf() < end.valueOf();
         },
     },
-    watch: {
-        selected: {
-            deep: true,
-            handler: function (value) {
+    created: function () {
+        this.$watch(
+            () => this.modelValue,
+            function () {
+                this.parseValue();
+            },
+            { immediate: true }
+        );
+        this.$watch(
+            () => this.selected,
+            function (value) {
                 var start = this.getObjectAsDate(this.selected, true);
                 var end = this.getObjectAsDate(this.selectedEnd, true);
 
@@ -449,11 +456,12 @@ export default {
                         this.$emit('update:modelValue', dayjs(start).format(this.format));
                     }
                 }
-            }
-        },
-        selectedEnd: {
-            deep: true,
-            handler: function (value) {
+            },
+            { deep: true }
+        );
+        this.$watch(
+            () => this.selectedEnd,
+            function (value) {
                 if (this.range) {
                     var start = this.getObjectAsDate(this.selected, true);
                     var end = this.getObjectAsDate(this.selectedEnd, true);
@@ -470,14 +478,9 @@ export default {
                         ]);
                     }
                 }
-            }
-        },
-        modelValue: function () {
-            this.parseValue();
-        }
-    },
-    mounted: function () {
-        this.parseValue();
+            },
+            { deep: true }
+        );
     }
 }
 </script>

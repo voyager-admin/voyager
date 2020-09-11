@@ -70,13 +70,19 @@ export default {
             this.value -= this.step;
         }
     },
-    watch: {
-        value: function (value) {
-            this.$emit('update:modelValue', value);
-        },
-        modelValue: function (value) {
-            this.value = value;
-        }
-    }
+    created: function () {
+        this.$watch(
+            () => this.value,
+            function (value) {
+                this.$emit('update:modelValue', value);
+            }
+        );
+        this.$watch(
+            () => this.modelValue,
+            function (value) {
+                this.value = value;
+            }
+        );
+    },
 }
 </script>

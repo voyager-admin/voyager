@@ -14,10 +14,13 @@ export default {
             selected: this.modelValue,
         };
     },
-    watch: {
-        selected: function (value) {
-            this.$emit('update:modelValue', value);
-        }
+    created: function () {
+        this.$watch(
+            () => this.selected,
+            function (value) {
+                this.$emit('update:modelValue', value);
+            }
+        );
     },
 };
 </script>

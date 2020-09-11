@@ -84,13 +84,19 @@ export default {
             }
         }
     },
-    watch: {
-        tags: function (tags) {
-            this.$emit('update:modelValue', tags);
-        },
-        modelValue: function (tags) {
-            this.tags = tags;
-        }
-    }
+    created: function () {
+        this.$watch(
+            () => this.tags,
+            function (tags) {
+                this.$emit('update:modelValue', tags);
+            }
+        );
+        this.$watch(
+            () => this.modelValue,
+            function (tags) {
+                this.tags = tags;
+            }
+        );
+    },
 };
 </script>

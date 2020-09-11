@@ -14,18 +14,22 @@ export default {
             selected: [],
         };
     },
-    watch: {
-        selected: function (value) {
-            this.$emit('update:modelValue', value);
-        },
-        modelValue: {
-            immediate: true,
-            handler: function (value) {
+    created: function () {
+        this.$watch(
+            () => this.selected,
+            function (value) {
+                this.$emit('update:modelValue', value);
+            }
+        );
+        this.$watch(
+            () => this.modelValue,
+            function (value) {
                 if (this.isArray(value)) {
                     this.selected = value;
                 }
-            }
-        }
+            },
+            { immediate: true }
+        );
     },
 };
 </script>

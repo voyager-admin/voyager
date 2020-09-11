@@ -34,13 +34,19 @@ export default {
             }
         });
     },
-    watch: {
-        modelValue: function (value) {
-            this.value = value;
-        },
-        value: function (value) {
-            this.$emit('update:modelValue', this.slugifyValue(value || ''));
-        }
-    }
+    created: function () {
+        this.$watch(
+            () => this.modelValue,
+            function (value) {
+                this.value = value;
+            }
+        );
+        this.$watch(
+            () => this.value,
+            function (value) {
+                this.$emit('update:modelValue', this.slugifyValue(value || ''));
+            }
+        );
+    },
 };
 </script>

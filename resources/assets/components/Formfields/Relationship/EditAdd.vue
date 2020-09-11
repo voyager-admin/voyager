@@ -264,13 +264,19 @@ export default {
             }
         }
     },
-    watch: {
-        page: function () {
-            this.loadResults();
-        },
-        query: debounce(function (query) {
-            this.loadResults();
-        }, 250)
+    created: function () {
+        this.$watch(
+            () => this.page,
+            function () {
+                this.loadResults();
+            }
+        );
+        this.$watch(
+            () => this.query,
+            debounce(function () {
+                this.loadResults();
+            }, 250)
+        );
     },
     mounted: function () {
         this.query = '';

@@ -23,13 +23,14 @@ export default {
             }
         }
     },
-    watch: {
-        modelValue: {
-            immediate: true,
-            handler: function (val) {
-                this.translations = this.get_translatable_object(this.modelValue);
-            }
-        }
-    }
+    created: function () {
+        this.$watch(
+            () => this.modelValue,
+            function (value) {
+                this.translations = this.get_translatable_object(value);
+            },
+            { immediate: true }
+        );
+    },
 };
 </script>

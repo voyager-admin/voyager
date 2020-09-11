@@ -57,13 +57,14 @@ export default {
             return value || key;
         },
     },
-    watch: {
-        value: function (value) {
-            this.parseInput();
-        }
-    },
-    mounted: function () {
-        this.parseInput();
+    created: function () {
+        this.$watch(
+            () => this.value,
+            function (value) {
+                this.parseInput();
+            },
+            { immediate: true }
+        );
     }
 };
 </script>

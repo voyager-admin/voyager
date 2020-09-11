@@ -65,19 +65,6 @@ export default {
             no_result_notification: null,
         };
     },
-    watch: {
-        query: function (query) {
-            if (query !== '') {
-                var vm = this;
-                vm.loading = true;
-                vm.$refs.results_modal.open();
-                nextTick(function () {
-                    vm.$refs.search_input.focus();
-                });
-                vm.search(query);
-            }
-        }
-    },
     computed: {
         gridClasses: function () {
             return [
@@ -130,5 +117,21 @@ export default {
             return this.route('voyager.'+this.translate(bread.slug, true)+'.read', key);
         }
     },
+    created: function () {
+        this.$watch(
+            () => this.query,
+            function (query) {
+                if (query !== '') {
+                    var vm = this;
+                    vm.loading = true;
+                    vm.$refs.results_modal.open();
+                    nextTick(function () {
+                        vm.$refs.search_input.focus();
+                    });
+                    vm.search(query);
+                }
+            }
+        );
+    }
 };
 </script>

@@ -18,16 +18,20 @@ export default {
             selected: (this.options.multiple || false ? [] : ''),
         };
     },
-    watch: {
-        modelValue: {
-            immediate: true,
-            handler: function (value) {
+    created: function () {
+        this.$watch(
+            () => this.modelValue,
+            function () {
                 this.parseInput();
+            },
+            { immediate: true }
+        );
+        this.$watch(
+            () => this.selected,
+            function (value) {
+                this.$emit('update:modelValue', this.parsedKey(value));
             }
-        },
-        selected: function (value) {
-            this.$emit('update:modelValue', this.parsedKey(value));
-        }
+        );
     },
     methods: {
         parseInput: function () {
