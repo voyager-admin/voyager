@@ -111,6 +111,49 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import "../../sass/mixins/bg-color";
+@import "../../sass/mixins/border-color";
+@import "../../sass/mixins/text-color";
 
+.dark .notifications {
+    .notification {
+        @include bg-color(notification-bg-color-dark, 'colors.gray.800');
+
+        p.title {
+            @include text-color(notification-title-color-dark, 'colors.gray.100');
+        }
+
+        p.message {
+            @include text-color(notification-message-color-dark, 'colors.gray.500');
+        }
+    }
+}
+
+.notifications {
+    @apply fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none;
+
+    > div {
+        @apply max-w-sm w-full rounded-lg pointer-events-auto;
+
+        @media(min-width: theme('screens.md')) {
+            @apply max-w-sm;
+        }
+    }
+
+    .notification {
+        @include bg-color(notification-bg-color, 'colors.white');
+        @apply rounded-lg mb-2 border overflow-hidden shadow-lg;
+
+        p.title {
+            @include text-color(notification-title-color, 'colors.gray.900');
+            @apply text-sm leading-5 font-medium break-words;
+        }
+
+        p.message {
+            @include text-color(notification-message-color, 'colors.gray.500');
+            @apply text-sm leading-5 break-words;
+        }
+    }
+}
 </style>
