@@ -8,6 +8,8 @@ use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\ThemePlugin;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\InstructionsComponent;
+use Voyager\Admin\Contracts\Plugins\Features\Provider\SettingsComponent;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 
@@ -48,20 +50,14 @@ class PluginsController extends Controller
             if ($plugin->type == 'theme' && $plugin instanceof ThemePlugin) {
                 $plugin->src = $plugin->provideCSS();
             }
+            if ($plugin instanceof SettingsComponent) {
+                $plugin->settings_component = $plugin->getSettingsComponent();
+            }
+            if ($plugin instanceof InstructionsComponent) {
+                $plugin->instructions_component = $plugin->getInstructionsComponent();
+            }
 
             return $plugin;
         })->values();
-    }
-
-    public function settings($key)
-    {
-        $plugin = $this->pluginmanager->getAllPlugins()->get($key);
-        if (!$plugin) {
-            throw new \Voyager\Admin\Exceptions\PluginNotFoundException('This Plugin does not exist');
-        } elseif ($plugin->has_settings && $plugin->enabled) {
-            return $plugin->getSettingsView();
-        }
-
-        return redirect()->back();
     }
 }

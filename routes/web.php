@@ -31,7 +31,6 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
     Route::get('plugins', ['uses' => 'PluginsController@index', 'as' => 'plugins.index']);
     Route::post('plugins/enable', ['uses' => 'PluginsController@enable', 'as' => 'plugins.enable']);
     Route::post('plugins', ['uses' => 'PluginsController@get', 'as' => 'plugins.get']);
-    Route::get('plugins/settings/{key}', ['uses' => 'PluginsController@settings', 'as' => 'plugins.settings']);
 
     // Logout
     Route::get('logout', ['uses' => 'AuthController@logout', 'as' => 'logout']);

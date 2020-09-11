@@ -10,13 +10,11 @@ use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Plugins\GenericPlugin;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\CSS as CSSProvider;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\FrontendRoutes;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\InstructionsView;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\JS as JSProvider;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\MenuItems;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\ProtectedRoutes;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\PublicRoutes;
 use Voyager\Admin\Contracts\Plugins\Features\Provider\Settings as SettingsProvider;
-use Voyager\Admin\Contracts\Plugins\Features\Provider\SettingsView;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Voyager;
 
@@ -64,11 +62,7 @@ class Plugins
 
         $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
         $plugin->enabled = array_key_exists($plugin->identifier, $this->enabled_plugins);
-        if ($plugin instanceof InstructionsView) {
-            $plugin->instructions = $plugin->getInstructionsView()->render();
-        }
 
-        $plugin->has_settings = ($plugin instanceof SettingsView);
         $plugin->preferences = new class ($plugin, $this) {
             private $plugin, $pluginmanager;
 

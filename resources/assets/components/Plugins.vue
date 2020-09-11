@@ -136,23 +136,32 @@
                             <td>
                                 {{ plugin.version || '-' }}
                             </td>
-                            <td class="ltr:text-right rtl:text-left">
+                            <td class="w-full inline-flex justify-end">
                                 <a class="button small" v-if="plugin.website" :href="plugin.website" target="_blank">
                                     <icon icon="globe"></icon>
                                     {{ __('voyager::generic.website') }}
                                 </a>
-                                <a v-if="plugin.has_settings && plugin.enabled" :href="route('voyager.plugins.settings', plugin.num)" class="button blue small">
-                                    <icon icon="cog"></icon>
-                                    <span>{{ __('voyager::generic.settings') }}</span>
-                                </a>
-
-                                <button v-if="plugin.instructions" class="button blue small" @click="$refs['instructions-modal-'+i][0].open()">
-                                    <icon icon="information-circle"></icon>
-                                    <span>{{ __('voyager::generic.instructions') }}</span>
-                                </button>
-                                <modal v-if="plugin.instructions" :ref="'instructions-modal-'+i" :title="__('voyager::generic.instructions')">
-                                    <div v-html="plugin.instructions"></div>
+                                
+                                <modal v-if="plugin.settings_component && plugin.enabled" :title="__('voyager::generic.settings')">
+                                    <component :is="plugin.settings_component"></component>
+                                    <template #opener>
+                                        <button class="button small">
+                                        <icon icon="cog"></icon>
+                                        <span>{{ __('voyager::generic.settings') }}</span>
+                                    </button>
+                                    </template>
                                 </modal>
+
+                                <modal v-if="plugin.instructions_component" :title="__('voyager::generic.instructions')">
+                                    <component :is="plugin.instructions_component"></component>
+                                    <template #opener>
+                                        <button class="button small">
+                                        <icon icon="eye"></icon>
+                                        <span>{{ __('voyager::generic.instructions') }}</span>
+                                    </button>
+                                    </template>
+                                </modal>
+
                                 <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button small" @click="previewTheme(plugin.name)">
                                     <icon icon="eye"></icon>
                                     <span>{{ __('voyager::generic.preview') }}</span>

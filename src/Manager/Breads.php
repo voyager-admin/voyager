@@ -212,7 +212,8 @@ class Breads
     /**
      * Backup a BREAD (copy table.json to table.backup.json).
      *
-     * @param string $table The table of the BREAD
+     * @param  string $table The table of the BREAD
+     * @return string The name of the backup file
      */
     public function backupBread($table)
     {
@@ -232,7 +233,7 @@ class Breads
     /**
      * Get the search placeholder (Search for Users, Posts, etc...).
      *
-     * @returns string $placeholder The placeholder
+     * @return string $placeholder The placeholder
      */
     public function getBreadSearchPlaceholder()
     {
