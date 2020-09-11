@@ -46,13 +46,12 @@ export default {
             vm.$store.pageLoading = false;
         });
 
-        document.addEventListener('keyup', function (e) {
+        document.addEventListener('keydown', function (e) {
             if (e.ctrlKey) {
                 if (e.key === 's') {
                     if ($eventbus.hasListener('ctrl-s-combo')) {
+                        $eventbus.emit('ctrl-s-combo', e);
                         e.preventDefault();
-                        e.stopPropagation();
-                        $eventbus.emit('ctrl-s-combo');
                     }
                 } else if (e.code == 'ArrowRight' || e.code == 'ArrowUp') {
                     vm.$store.nextLocale();

@@ -110,7 +110,7 @@ class Plugins
                         }
                         // Merge settings
                         if ($plugin instanceof SettingsProvider) {
-                            $this->settingsmanager->mergeSettings($plugin->registerSettings());
+                            $this->settingsmanager->merge($plugin->registerSettings());
                         }
                     }
                     // Theme plugins need to register their routes so it can be previewed

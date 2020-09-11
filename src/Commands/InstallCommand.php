@@ -39,7 +39,7 @@ class InstallCommand extends Command
     {
         $content = file_get_contents(realpath(__DIR__.'/../../resources/presets/settings.json'));
         if (is_null($settingsmanager->setting())) {
-            $settingsmanager->saveSettings($content);
+            $settingsmanager->save($content);
             $this->info('Default settings written');
         } else {
             if ($this->confirm('Settings JSON file already exists. Do you want to migrate new settings?')) {
@@ -52,12 +52,12 @@ class InstallCommand extends Command
                         } else {
                             $this->line('New setting: "'.$setting->group.'.'.$setting->key.'": '.$setting->info);
                         }
-                        $settingsmanager->mergeSettings([$setting]);
+                        $settingsmanager->merge([$setting]);
                         $new++;
                     }
                 }
                 if ($new > 0) {
-                    $settingsmanager->saveSettings();
+                    $settingsmanager->save();
                     $this->info('Wrote '.$new.' new setting(s)!');
                 } else {
                     $this->info('No new settings found!');

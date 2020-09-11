@@ -28,25 +28,25 @@ class Settings
     {
         if (!is_null($path)) {
             $this->path = $path;
-            $this->loadSettings();
+            $this->load();
         }
 
         return $this->path;
     }
 
-    public function getSettings()
+    public function get()
     {
         return $this->settings;
     }
 
-    public function mergeSettings($settings)
+    public function merge(array $settings)
     {
         $this->settings = $this->settings->merge($settings);
     }
 
     public function setting($key = null, $default = null, $translate = true)
     {
-        $this->loadSettings();
+        $this->load();
         $settings = $this->settings;
 
         if (Str::contains($key, '.')) {
@@ -91,12 +91,12 @@ class Settings
         return $this->settings->where('group', $group)->where('key', $key)->count() > 0;
     }
 
-    public function saveSettings($content = null)
+    public function save($content = null)
     {
         if (is_null($content)) {
             $content = $this->settings;
         }
-        $this->loadSettings();
+        $this->load();
         if (!is_string($content)) {
             $content = json_encode($content, JSON_PRETTY_PRINT);
         }
@@ -104,7 +104,7 @@ class Settings
         File::put($this->path, $content);
     }
 
-    public function loadSettings()
+    public function load()
     {
         VoyagerFacade::ensureFileExists($this->path, '[]');
         $this->settings = collect(VoyagerFacade::getJson(File::get($this->path), []));

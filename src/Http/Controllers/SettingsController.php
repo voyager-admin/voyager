@@ -20,7 +20,7 @@ class SettingsController extends Controller
             'component'     => 'settings-manager',
             'title'         => __('voyager::generic.settings'),
             'parameters'    => [
-                'input' => $this->settingmanager->getSettings(),
+                'input' => $this->settingmanager->get(),
             ],
         ]);
     }
@@ -50,7 +50,7 @@ class SettingsController extends Controller
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);
         }
-        $this->settingmanager->saveSettings($request->get('settings', '[]'));
+        $this->settingmanager->save($request->get('settings', '[]'));
 
         return response(200);
     }

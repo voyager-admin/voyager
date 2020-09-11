@@ -376,7 +376,7 @@ class VoyagerServiceProvider extends ServiceProvider
             return new Voyager($this->breadmanager, $this->pluginmanager, $this->settingmanager);
         });
 
-        $this->settingmanager->loadSettings();
+        $this->settingmanager->load();
 
         $this->commands(InstallCommand::class);
         $this->commands(PluginsCommand::class);

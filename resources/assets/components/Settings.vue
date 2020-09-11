@@ -4,7 +4,7 @@
             <template #actions>
                 <div class="flex items-center">
                     <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
-                    <button class="button accent" @click="saveSettings">
+                    <button class="button accent" @click="save">
                         <icon icon="refresh" class="mr-0 md:mr-1 animate-spin-reverse" :size="4" v-if="savingSettings" />
                         <span>{{ __('voyager::generic.save') }}</span>
                     </button>
@@ -165,7 +165,7 @@ export default {
                 return in_group;
             });
         },
-        saveSettings: function () {
+        save: function () {
             var vm = this;
             vm.savingSettings = true;
             vm.errors = [];
@@ -335,8 +335,8 @@ export default {
             vm.currentEnteredGroup = group;
         }
 
-        $eventbus.on('ctrl-s-combo', function () {
-            vm.saveSettings();
+        $eventbus.on('ctrl-s-combo', function (e) {
+            vm.save();
         });
     }
 };
