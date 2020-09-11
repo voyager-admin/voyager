@@ -161,7 +161,7 @@
                 <div class="w-full flex justify-center">
                     <img :src="openedFile.url" class="rounded object-contain max-w-full" />
                 </div>
-                <div class="w-full mt-2 justify-center items-center flex space-x-1 space-y-1">
+                <div class="w-full mt-2 justify-center items-center flex flex-wrap space-x-1 space-y-1">
                     <tooltip v-for="(image, i) in images" :key="i" :value="image.file.relative_path+image.file.name">
                         <img
                             class="rounded object-contain h-24 cursor-pointer"
