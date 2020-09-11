@@ -68,3 +68,13 @@ Array.prototype.moveElementDown = function (el) {
     
     return this;
 }
+
+Array.prototype.insert = function (el) {
+    this.push(el);
+    return this;
+}
+
+Array.prototype.removeAtIndex = function (index) {
+    this.splice(index, 1);
+    return this;
+}

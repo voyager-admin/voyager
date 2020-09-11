@@ -57,12 +57,10 @@ export default {
     },
     methods: {
         addOption: function () {
-            var options = this.modelValue;
-            this.$emit('update:modelValue', options.push(''));
+            this.$emit('update:modelValue', this.modelValue.insert(''));
         },
         removeOption: function (key) {
-            var options = this.modelValue;
-            this.$emit('update:modelValue', options.splice(key, 1));
+            this.$emit('update:modelValue', this.modelValue.removeAtIndex(key));
         }
     },
 }

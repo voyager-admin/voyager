@@ -71,16 +71,13 @@ export default {
     },
     methods: {
         addOption: function () {
-            var options = this.modelValue;
-            options.push({
+            this.$emit('update:modelValue', this.modelValue.insert({
                 key: '',
                 value: '',
-            });
-            this.$emit('update:modelValue', options);
+            }));
         },
         removeOption: function (key) {
-            var options = this.modelValue;
-            this.$emit('update:modelValue', options.splice(key, 1));
+            this.$emit('update:modelValue', this.modelValue.removeAtIndex(key));
         }
     },
 }

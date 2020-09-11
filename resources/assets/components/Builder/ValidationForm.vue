@@ -45,23 +45,23 @@
 <script>
 export default {
     emits: ['update:modelValue'],
-    props: ['modelValue'],
+    props: {
+        modelValue: {
+            type: Array,
+            default: function () {
+                return [];
+            }
+        }
+    },
     methods: {
         addRule: function () {
-            var rules = this.modelValue;
-            if (!this.isArray(rules)) {
-                rules = [];
-            }
-            rules.push({
+            this.$emit('update:modelValue', this.modelValue.insert({
                 rule: '',
                 message: '',
-            });
-
-            this.$emit('update:modelValue', rules);
+            }));
         },
         removeRule: function (key) {
-            var rules = this.modelValue;
-            this.$emit('update:modelValue', rules.splice(key, 1));
+            this.$emit('update:modelValue', this.modelValue.removeAtIndex(key));
         }
     },
 };
