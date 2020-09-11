@@ -8,6 +8,7 @@
                     class="input w-full small ltr:mr-2 rtl:ml-2"
                     :placeholder="__('voyager::plugins.search_installed_plugins')"
                     @dblclick="installed.query = ''"
+                    @keydown.esc="installed.query = ''"
                 >
                 <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
                     <input
@@ -16,7 +17,6 @@
                         v-model="available.query"
                         :placeholder="__('voyager::generic.search')"
                         @dblclick="available.query = ''"
-                        @keydown.esc="available.query = ''"
                     >
                     <div class="w-full my-3">
                         <badge
@@ -166,11 +166,11 @@
                                     <icon icon="eye"></icon>
                                     <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>
-                                <button v-if="!plugin.enabled" class="button green small" @click="enablePlugin(plugin, true)">
+                                <button v-if="!plugin.enabled" class="button small green" @click="enablePlugin(plugin, true)">
                                     <icon icon="play"></icon>
                                     <span>{{ __('voyager::generic.enable') }}</span>
                                 </button>
-                                <button v-else class="button red small" @click="enablePlugin(plugin, false)">
+                                <button v-else class="button small red" @click="enablePlugin(plugin, false)">
                                     <icon icon="stop"></icon>
                                     <span>{{ __('voyager::generic.disable') }}</span>
                                 </button>

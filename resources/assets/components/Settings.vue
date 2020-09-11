@@ -64,6 +64,12 @@
                                 </div>
                                 <template #actions v-if="editMode">
                                     <div class="flex items-center mt-1 md:mt-0">
+                                        <button class="button small" @click="moveSettingUp(setting)">
+                                            <icon icon="chevron-up"></icon>
+                                        </button>
+                                        <button class="button small" @click="moveSettingDown(setting)">
+                                            <icon icon="chevron-down"></icon>
+                                        </button>
                                         <slide-in :title="__('voyager::generic.options')">
                                             <template #actions>
                                                 <locale-picker />
@@ -221,6 +227,17 @@ export default {
                     }
                 }
             });
+        },
+        moveSettingUp: function (setting) {
+            if (this.settingsByGroup(setting.group).indexOf(setting) > 0) {
+                this.settings = this.settings.moveElementUp(setting);
+            }
+        },
+        moveSettingDown: function (setting) {
+            var group = this.settingsByGroup(setting.group);
+            if (group.length - 1 > group.indexOf(setting)) {
+                this.settings = this.settings.moveElementDown(setting);
+            }
         },
         data: function (setting, value = null) {
             if (setting.translatable || false && setting.value && this.isString(setting.value)) {
