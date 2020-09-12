@@ -3,13 +3,13 @@
         <div @click="open">
             <slot name="opener"></slot>
         </div>
-        <slide-up-transition>
+        <slide-down-transition>
             <div class="wrapper" :class="[`w-${width}`, pos]" v-if="isOpen" @click="dontCloseOnInsideClick ? null : close()">
                 <div class="body">
                     <slot></slot>
                 </div>
             </div>
-        </slide-up-transition>
+        </slide-down-transition>
     </div>
 </template>
 <script>

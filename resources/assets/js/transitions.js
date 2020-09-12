@@ -1,10 +1,9 @@
 let transitions = [
     'Collapse',
+    'CollapseX',
     'Fade',
     'SlideDown',
     'SlideLeft',
-    'SlideRight',
-    'SlideUp',
 ];
 
 export default (voyager) => {

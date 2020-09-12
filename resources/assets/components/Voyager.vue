@@ -1,6 +1,6 @@
 <template>
-    <slide-left-transition class="h-screen flex overflow-hidden" tag="div" group>
-        <div key="loader">
+    <div class="h-screen flex overflow-hidden">
+        <div>
             <fade-transition tag="div" :duration="500">
                 <div class="loader" v-if="$store.pageLoading">
                     <icon icon="helm" size="auto" class="block icon animate-spin-slow"></icon>
@@ -8,7 +8,7 @@
             </fade-transition>
         </div>
         <sidebar></sidebar>
-        <div class="flex flex-col w-0 flex-1 overflow-hidden" key="content">
+        <div class="flex flex-col w-0 flex-1 overflow-hidden">
             <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 outline-none">
                 <span id="top"></span>
                 <navbar></navbar>
@@ -19,8 +19,8 @@
                 </div>
             </main>
         </div>
-        <notifications key="notifications"></notifications>
-    </slide-left-transition>
+        <notifications></notifications>
+    </div>
 </template>
 
 <script>

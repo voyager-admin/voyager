@@ -17,11 +17,9 @@
             </div>
         </div>
         <div class="content">
-            <slide-right-transition :duration="150" group>
-                <div v-for="(tab, i) in tabs" :key="'slot-'+i">
-                    <slot :name="tab.name" v-if="currentTab == i" />
-                </div>
-            </slide-right-transition>
+            <div v-for="(tab, i) in tabs" :key="'slot-'+i">
+                <slot :name="tab.name" v-if="currentTab == i" />
+            </div>
         </div>
     </card>
 </template>

@@ -21,40 +21,40 @@ export default {
     methods: {
         transitionStyle: function (duration = 300) {
             var duration = duration / 1000;
-            return `${duration}s height ease-in-out`;
+            return `${duration}s width ease-in-out`;
         },
         beforeEnter: function (el) {
             el.style.transition = this.transitionStyle(this.enterDuration);
-            el.style.height = '0';
+            el.style.width = '0';
             this.setStyles(el);
         },
         enter: function (el) {
-            if (el.scrollHeight !== 0) {
-                el.style.height = el.scrollHeight + 'px';
+            if (el.scrollWidth !== 0) {
+                el.style.width = el.scrollWidth + 'px';
             } else {
-                el.style.height = '';
+                el.style.width = '';
             }
             el.style.overflow = 'hidden';
         },
         afterEnter: function (el) {
             el.style.transition = '';
-            el.style.height = '';
+            el.style.width = '';
         },
         beforeLeave: function (el) {
-            el.style.height = el.scrollHeight + 'px';
+            el.style.width = el.scrollWidth + 'px';
             el.style.overflow = 'hidden';
             this.setStyles(el);
         },
         leave: function (el) {
-            if (el.scrollHeight !== 0) {
+            if (el.scrollWidth !== 0) {
                 el.style.transition = this.transitionStyle(this.leaveDuration);
-                el.style.height = 0;
+                el.style.width = 0;
             }
             this.setAbsolutePositioning(el);
         },
         afterLeave: function (el) {
-            el.style.transition = '';
-            el.style.height = '';
+            el.style.transition = ''
+            el.style.width = '';
         }
     }
 }
@@ -62,6 +62,6 @@ export default {
 
 <style lang="scss" scoped>
 .collapse-move {
-    transition: transform .3s ease-in-out;
+    transition: transform .3s ease;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div @keydown.esc="close" v-click-outside="close">
-        <slide-right-transition>
+        <slide-left-transition>
             <div v-if="isOpen" class="dark slidein text-white w-full" :class="'lg:'+width">
                 <div class="flex w-full mb-3">
                     <div class="flex-grow">
@@ -16,10 +16,10 @@
                 </div>
                 <slot />
             </div>
-        </slide-right-transition>
-    </div>
-    <div ref="opener" @click="open">
-        <slot name="opener"></slot>
+        </slide-left-transition>
+        <div ref="opener" @click="toggle">
+            <slot name="opener"></slot>
+        </div>
     </div>
 </template>
 <script>
