@@ -1,11 +1,10 @@
 <template>
     <div>
         <input type="text" class="input w-full mb-3" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
-        <div class="grid grid-cols-12 gap-1">
+        <div class="grid grid-cols-6 gap-1">
             <tooltip v-for="(icon, i) in filteredIcons.slice(start, end)" :key="'icon-' + i" :value="icon.readable">
                 <button
-                    class="button justify-center my-1"
-                    
+                    class="button justify-center my-1 w-full"
                     @dblclick="$emit('select', icon.name)">
                     <icon :icon="icon.name" :size="6" />
                 </button>

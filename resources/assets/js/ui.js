@@ -26,6 +26,7 @@ let components = [
     'SlideIn',
     'Tabs',
     'TagInput',
+    'Tooltip',
 ];
 
 export default (voyager) => {

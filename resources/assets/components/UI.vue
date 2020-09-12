@@ -239,15 +239,15 @@
 
     <collapsible title="Tooltips" id="ui-tooltips">
         <div class="w-full flex justify-center">
-            <tooltip value="Tooltip on top" pos="top">
+            <tooltip value="Tooltip on top" placement="top">
                 <button class="button">Top</button>
             </tooltip>
         </div>
         <div class="w-full inline-flex justify-center my-2">
-            <tooltip value="Tooltip on the left" pos="left">
+            <tooltip value="Tooltip on the left" placement="left">
                 <button class="button">Left</button>
             </tooltip>
-            <tooltip value="Tooltip on the right" pos="right">
+            <tooltip value="Tooltip on the right" placement="right">
                 <button class="button">Right</button>
             </tooltip>
         </div>

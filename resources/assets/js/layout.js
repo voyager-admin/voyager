@@ -4,7 +4,6 @@ let components = [
     'MenuWrapper',
     'MenuItem',
     'Search',
-    'Tooltip',
 ];
 
 export default (voyager) => {
