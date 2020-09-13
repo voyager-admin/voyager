@@ -36,7 +36,7 @@
                                     </ul>
                                 </alert>
                                 <component
-                                    :is="'formfield-'+kebab_case(formfield.type)+'-edit-add'"
+                                    :is="'formfield-'+kebabCase(formfield.type)+'-edit-add'"
                                     :model-value="getData(formfield)"
                                     @update:model-value="setData(formfield, $event)"
                                     :bread="bread"

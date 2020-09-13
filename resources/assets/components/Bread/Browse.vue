@@ -73,7 +73,7 @@
                                     <component
                                         v-if="formfield.searchable"
                                         v-model="parameters.filters[formfield.column.column]"
-                                        :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
+                                        :is="'formfield-'+kebabCase(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         show="query">
                                         <input type="text" class="input small w-full"
@@ -103,7 +103,7 @@
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
                                         v-if="$store.getFormfieldByType(formfield.type).browseArray"
-                                        :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
+                                        :is="'formfield-'+kebabCase(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         :translatable="formfield.translatable"
                                         :value="getData(result, formfield, true)"
@@ -111,7 +111,7 @@
                                     </component>
                                     <component
                                         v-if="!isArray(result[formfield.column.column])"
-                                        :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
+                                        :is="'formfield-'+kebabCase(formfield.type)+'-browse'"
                                         :options="formfield.options"
                                         :translatable="formfield.translatable"
                                         :value="getData(result, formfield, false)"
@@ -120,7 +120,7 @@
                                     <div v-else>
                                         <component
                                             v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
-                                            :is="'formfield-'+kebab_case(formfield.type)+'-browse'"
+                                            :is="'formfield-'+kebabCase(formfield.type)+'-browse'"
                                             :options="formfield.options"
                                             :translatable="formfield.translatable"
                                             :key="'relationship-'+i"
@@ -167,6 +167,7 @@
 
 <script>
 import fetch from '../../js/fetch';
+import debounce from 'debounce';
 
 export default {
     emits: ['select'],

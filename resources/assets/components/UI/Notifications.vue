@@ -2,7 +2,7 @@
 <div class="notifications sm:p-6 sm:items-start sm:justify-end" v-on:animationend="timeout($event)" v-on:animationcancel="timeout($event)">
     <transition-group :duration="{enter: 500, leave: 0}" name="notifications" tag="div">
         <div
-            v-for="notification in $notify.notifications"
+            v-for="notification in notifications"
             :key="notification._uuid"
             class="notification"
             :class="[`border-${notification._color}-500`]"
@@ -67,10 +67,19 @@
 </div>
 </template>
 <script>
+import { Notify as notify } from '../../js/notify';
+import focus from '../../js/directives/focus';
+
 export default {
+    directives: {focus: focus},
+    data: function () {
+        return {
+            notifications: notify.notifications
+        }
+    },
     methods: {
         close: function (notification, key = false, message = null) {
-            this.$notify.removeNotification(notification, key, message);
+            notify.removeNotification(notification, key, message);
         },
         clickButton: function (notification, button) {
             if (notification._prompt) {
@@ -99,7 +108,7 @@ export default {
         timeout: function (e) {
             if (e.animationName.startsWith('scale-x')) {
                 var uuid = e.target.dataset.uuid;
-                var notification = this.$notify.notifications.where('_uuid', uuid).first();
+                var notification = notify.notifications.where('_uuid', uuid).first();
                 if (notification._timeout !== null) {
                     this.close(notification);
                 }

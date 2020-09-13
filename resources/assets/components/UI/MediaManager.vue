@@ -63,7 +63,7 @@
                             <div class="flex-none">
                                 <div class="w-full flex justify-center">
                                     <img :src="file.preview" class="rounded object-contain h-24 max-w-full" v-if="file.preview" />
-                                    <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="mimeMatch(file.file.type, 'image/*')" />
+                                    <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="matchMime(file.file.type, 'image/*')" />
                                     <div v-else class="w-full flex justify-center h-24">
                                         <icon :icon="getFileIcon(file.file.type)" size="24"></icon>
                                     </div>
@@ -118,11 +118,11 @@
                                 <icon icon="document-duplicate" size="32"></icon>
                             </div>
                             <img :src="selectedFiles[0].preview" class="rounded object-contain h-32 max-w-full" v-else-if="selectedFiles[0].preview" />
-                            <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="mimeMatch(selectedFiles[0].file.type, 'image/*')" />
-                            <video v-else-if="mimeMatch(selectedFiles[0].file.type, 'video/*')" controls>
+                            <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="matchMime(selectedFiles[0].file.type, 'image/*')" />
+                            <video v-else-if="matchMime(selectedFiles[0].file.type, 'video/*')" controls>
                                 <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
                             </video>
-                            <audio v-else-if="mimeMatch(selectedFiles[0].file.type, 'audio/*')" controls>
+                            <audio v-else-if="matchMime(selectedFiles[0].file.type, 'audio/*')" controls>
                                 <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
                             </audio>
                             <div v-else class="w-full flex justify-center h-32">
@@ -178,6 +178,7 @@
 <script>
 import closable from '../../js/mixins/closable';
 import fetch from '../../js/fetch';
+import matchMime from '../../js/helper/match-mime';
 
 export default {
     mixins: [closable],
@@ -255,6 +256,7 @@ export default {
         };
     },
     methods: {
+        matchMime: matchMime,
         addUploadFiles: function (files) {
             var vm = this;
             vm.filesToUpload = vm.filesToUpload.concat(Array.from(files).map(function (file) {
@@ -272,7 +274,7 @@ export default {
                             if (mime == '' || mime === null || mime == 'directory') {
                                 return;
                             }
-                            if (vm.mimeMatch(file.type, mime.toLowerCase())) {
+                            if (matchMime(file.type, mime)) {
                                 result = true;
                             }
                         });
@@ -307,8 +309,7 @@ export default {
 
                 }
                 // Create FileReader if it is an image
-                var matcher = new vm.MimeMatcher('image/*');
-                if (matcher.match(file.type)) {
+                if (matchMime(file.type, 'image/*')) {
                     let reader  = new FileReader();
                     reader.addEventListener('load', function () {
                         f.preview = reader.result;
@@ -441,7 +442,7 @@ export default {
             } else {
                 this.$emit('select', file.file);
                 // TODO: Don't open modal when used as a media-picker
-                if (this.mimeMatch(file.file.type, 'image/*')) {
+                if (matchMime(file.file.type, 'image/*')) {
                     this.openedFile = file.file;
                     this.$refs.lightbox.open();
                 }
@@ -574,7 +575,7 @@ export default {
                         if (file.file.type === 'directory') {
                             result = true;
                         }
-                    } else if (vm.mimeMatch(file.file.type, mime.toLowerCase())) {
+                    } else if (matchMime(file.file.type, mime)) {
                         result = true;
                     }
                 });
@@ -598,7 +599,7 @@ export default {
             var vm = this;
 
             return vm.files.filter(function (file) {
-                return vm.mimeMatch(file.file.type, 'image/*');
+                return matchMime(file.file.type, 'image/*');
             });
         }
     },

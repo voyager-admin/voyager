@@ -15,9 +15,5 @@ export default {
         isBoolean: function (input) {
             return (typeof input === 'boolean');
         },
-        mimeMatch: function (mime, match) {
-            var matcher = new this.MimeMatcher(match);
-            return matcher.match(mime);
-        },
     }
 };

@@ -1,39 +1,37 @@
-/**********************************************************************
- *  
- *  Global UI Functionality for Voyager
- * 
- *  This is custom js functionality for the Voyager UI may include
- *  functionality for dropdowns, modals, textbox, etc...
- * 
- **********************************************************************/
+import Alert from 'components/UI/Alert';
+import Badge from 'components/UI/Badge';
+import Card from 'components/UI/Card';
+import Collapsible from 'components/UI/Collapsible';
+import ColorPicker from 'components/UI/ColorPicker';
+import DateTime from 'components/UI/DateTime';
+import Dropdown from 'components/UI/Dropdown';
+import IconPicker from 'components/UI/IconPicker';
+import LanguageInput from 'components/UI/LanguageInput';
+import MediaManager from 'components/UI/MediaManager';
+import Modal from 'components/UI/Modal';
+import Pagination from 'components/UI/Pagination';
+import PlusMinusInput from 'components/UI/PlusMinusInput';
+import SlideIn from 'components/UI/SlideIn';
+import Tabs from 'components/UI/Tabs';
+import TagInput from 'components/UI/TagInput';
+import Tooltip from 'components/UI/Tooltip';
 
-
-let components = [
-    'Alert',
-    'Badge',
-    'Card',
-    'Collapsible',
-    'ColorPicker',
-    'DateTime',
-    'Dropdown',
-    'IconPicker',
-    'LanguageInput',
-    'MediaManager',
-    'Modal',
-    'Notifications',
-    'Pagination',
-    'PlusMinusInput',
-    'SlideIn',
-    'Tabs',
-    'TagInput',
-    'Tooltip',
-];
-
-export default (voyager) => {
-    components.forEach(function (component) {
-        var name = component.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-                            .map(x => x.toLowerCase())
-                            .join('-');
-        voyager.component(name, require('../components/UI/'+component+'.vue').default);
-    });
+export {
+    Alert,
+    Badge,
+    Card,
+    Collapsible,
+    ColorPicker,
+    DateTime,
+    Dropdown,
+    IconPicker,
+    LanguageInput,
+    MediaManager,
+    Modal,
+    Pagination,
+    PlusMinusInput,
+    SlideIn,
+    Tabs,
+    TagInput,
+    Tooltip,
 };

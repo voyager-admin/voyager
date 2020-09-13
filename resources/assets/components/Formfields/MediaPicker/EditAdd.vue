@@ -5,7 +5,7 @@
                 <div class="flex p-3">
                     <div class="flex-none">
                         <div class="w-full flex justify-center">
-                            <img :src="file.url" class="rounded object-contain h-24 max-w-full" v-if="mimeMatch(file.type, 'image/*')" />
+                            <img :src="file.url" class="rounded object-contain h-24 max-w-full" v-if="matchMime(file.type, 'image/*')" />
                             <div v-else class="w-full flex justify-center h-24">
                                 <icon icon="document" size="24"></icon>
                             </div>
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import matchMime from '../../../js/helper/match-mime';
+
 export default {
     props: ['options', 'modelValue', 'show'],
     methods: {
@@ -124,6 +126,7 @@ export default {
 
             return thumbnails;
         },
+        matchMime: matchMime,
     },
 };
 </script>

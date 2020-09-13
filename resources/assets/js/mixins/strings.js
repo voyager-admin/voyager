@@ -1,30 +1,30 @@
 export default {
     methods: {
-        kebab_case: function (input, char = '-') {
+        kebabCase: function (input, char = '-') {
             return input
                 .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
                 .map(x => x.toLowerCase())
                 .join(char);
         },
-        snake_case: function (input) {
-            return this.kebab_case(input, '_');
+        snakeCase: function (input) {
+            return this.kebabCase(input, '_');
         },
-        title_case: function (input, join = ' ') {
-            return this.kebab_case(input, '_')
+        titleCase: function (input, join = ' ') {
+            return this.kebabCase(input, '_')
                 .split('_')
                 .map(x => x.charAt(0).toUpperCase() + x.slice(1))
                 .join(join);
         },
         studly: function (input) {
-            return this.title_case(input, '');
+            return this.titleCase(input, '');
         },
         nl2br: function (input) {
             return input.replace(/\\n/g, '<br>');
         },
-        ucfirst: function (input) {
+        ucFirst: function (input) {
             return input[0].toUpperCase() + input.slice(1);
         },
-        number_format: function (amount, decimalCount = 2, decimal = ".", thousands = ",") {
+        numberFormat: function (amount, decimalCount = 2, decimal = ".", thousands = ",") {
             decimalCount = Math.abs(decimalCount);
             decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
         

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="palette == 'tailwind-colors'" class="w-full text-center">
-            <tooltip v-for="(color, key) in $ui.colors" :key="'color-'+key" :value="__('voyager::generic.color_names.'+color)">
+            <tooltip v-for="(color, key) in colors" :key="'color-'+key" :value="__('voyager::generic.color_names.'+color)">
                 <button
                     @click="$emit('update:modelValue', color); current = color"
                     class="button mb-2" :class="[color]"

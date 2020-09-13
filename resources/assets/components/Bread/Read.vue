@@ -15,7 +15,7 @@
                     <card :title="translate(formfield.options.title, true)" :title-size="5" :show-title="translate(formfield.options.label, true) !== ''">
                         <div>
                             <component
-                                :is="'formfield-'+kebab_case(formfield.type)+'-read'"
+                                :is="'formfield-'+kebabCase(formfield.type)+'-read'"
                                 :data="getData(formfield.column)"
                                 :translatable="formfield.translatable"
                                 :options="formfield.options" />

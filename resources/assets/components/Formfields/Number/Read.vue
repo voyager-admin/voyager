@@ -10,7 +10,7 @@ export default {
     computed: {
         formattedNumber: function () {
             var value = this.translate(this.value, !this.translatable);
-            value = this.number_format(value, this.options.decimals, this.options.dec_point, this.options.thousands_sep);
+            value = this.numberFormat(value, this.options.decimals, this.options.dec_point, this.options.thousands_sep);
             return value;
         }
     }

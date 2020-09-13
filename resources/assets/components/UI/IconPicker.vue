@@ -45,7 +45,7 @@ export default {
             var q = vm.query.toLowerCase();
             return icons.whereLike(q).map(function (icon) {
                 return {
-                    name: vm.kebab_case(icon),
+                    name: vm.kebabCase(icon),
                     readable: icon,
                 }
             });

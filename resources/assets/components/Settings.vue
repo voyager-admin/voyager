@@ -80,7 +80,7 @@
                                             </div>
 
                                             <component
-                                                :is="'formfield-'+kebab_case(setting.type)+'-builder'"
+                                                :is="'formfield-'+kebabCase(setting.type)+'-builder'"
                                                 v-bind:options="setting.options"
                                                 :column="''"
                                                 show="view-options" />
@@ -108,7 +108,7 @@
                                         </ul>
                                     </alert>
                                     <component
-                                        :is="'formfield-'+kebab_case(setting.type)+'-edit-add'"
+                                        :is="'formfield-'+kebabCase(setting.type)+'-edit-add'"
                                         :model-value="data(setting, null)"
                                         @update:model-value="data(setting, $event)"
                                         :options="setting.options"

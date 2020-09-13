@@ -1,16 +1,7 @@
-let transitions = [
-    'Collapse',
-    'CollapseX',
-    'Fade',
-    'SlideDown',
-    'SlideLeft',
-];
+import CollapseTransition from 'components/Transitions/Collapse';
+import CollapseXTransition from 'components/Transitions/CollapseX';
+import FadeTransition from 'components/Transitions/Fade';
+import SlideDownTransition from 'components/Transitions/SlideDown';
+import SlideLeftTransition from 'components/Transitions/SlideLeft';
 
-export default (voyager) => {
-    transitions.forEach(function (transition) {
-        var name = transition.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-                            .map(x => x.toLowerCase())
-                            .join('-');
-        voyager.component(name+'-transition', require('components/Transitions/'+transition).default);
-    });
-};
+export { CollapseTransition, CollapseXTransition, FadeTransition, SlideDownTransition, SlideLeftTransition };

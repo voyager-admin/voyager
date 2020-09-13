@@ -120,10 +120,6 @@ const Notification = class Notification {
         });
     }
 
-    close() {
-        Vue.prototype.$notify.removeNotification(vm, null);
-    }
-
     uuid() {
         var dt = new Date().getTime();
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

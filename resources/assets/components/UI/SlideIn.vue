@@ -24,9 +24,11 @@
 </template>
 <script>
 import closable from '../../js/mixins/closable';
+import clickOutside from '../../js/directives/click-outside';
 
 export default {
     mixins: [closable],
+    directives: {clickOutside: clickOutside},
     props: {
         opened: {
             type: Boolean,

@@ -98,6 +98,7 @@
 
 <script>
 import fetch from '../../../js/fetch';
+import debounce from 'debounce';
 
 export default {
     emits: ['update:modelValue'],

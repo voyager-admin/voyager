@@ -5,7 +5,7 @@
             <div v-for="(file, i) in slicedItems" :key="i">
                 <tooltip :value="file.path + file.name">
                     <div>
-                        <img :src="file.url" class="rounded-lg object-contain h-16 max-w-full" v-if="mimeMatch(file.type, 'image/*')" />
+                        <img :src="file.url" class="rounded-lg object-contain h-16 max-w-full" v-if="matchMime(file.type, 'image/*')" />
                         <icon v-else icon="document" size="16"></icon>
                     </div>
                 </tooltip>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import matchMime from '../../../js/helper/match-mime';
+
 export default {
     props: ['show', 'options', 'value', 'translatable'],
     computed: {
@@ -48,7 +50,8 @@ export default {
             }
 
             return items;
-        }
+        },
+        matchMime: matchMime,
     },
 };
 </script>

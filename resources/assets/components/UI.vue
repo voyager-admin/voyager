@@ -63,7 +63,7 @@
             <button class="button mb-1">
                 Default
             </button>
-            <button v-for="color in $ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
+            <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
                 {{ __('voyager::generic.color_names.'+color) }}
             </button>
         </collapsible>
@@ -71,7 +71,7 @@
             <button class="button active mb-1">
                 Default
             </button>
-            <button v-for="color in $ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1', 'active']">
+            <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1', 'active']">
                 {{ __('voyager::generic.color_names.'+color) }}
             </button>
         </collapsible>
@@ -79,7 +79,7 @@
             <button class="button mb-1" disabled>
                 Default
             </button>
-            <button v-for="color in $ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']" disabled>
+            <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']" disabled>
                 {{ __('voyager::generic.color_names.'+color) }}
             </button>
         </collapsible>
@@ -87,7 +87,7 @@
             <button class="button small mb-1">
                 Default
             </button>
-            <button v-for="color in $ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
+            <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
                 {{ __('voyager::generic.color_names.'+color) }}
             </button>
         </collapsible>
@@ -95,7 +95,7 @@
             <button class="button large mb-1">
                 Default
             </button>
-            <button v-for="color in $ui.colors" :key="'button-'+color" :class="['button', 'large', color, 'mb-1']">
+            <button v-for="color in colors" :key="'button-'+color" :class="['button', 'large', color, 'mb-1']">
                 {{ __('voyager::generic.color_names.'+color) }}
             </button>
         </collapsible>
@@ -104,7 +104,7 @@
                 <icon icon="information-circle" class="mr-1"></icon>
                 Default
             </button>
-            <button v-for="color in $ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
+            <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
                 <icon icon="information-circle" class="mr-1"></icon>
                 {{ __('voyager::generic.color_names.'+color) }}
             </button>
@@ -114,14 +114,14 @@
                 <icon icon="information-circle"></icon>
                 <span>Default</span>
             </button>
-            <button v-for="color in $ui.colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
+            <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
                 <icon icon="information-circle"></icon>
                 <span>{{ __('voyager::generic.color_names.'+color) }}</span>
             </button>
         </collapsible>
         <collapsible title="Button group" :title-size="5">
             <div class="button-group">
-                <button v-for="color in $ui.colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
+                <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
                     {{ __('voyager::generic.color_names.'+color) }}
                 </button>
             </div>
@@ -187,53 +187,53 @@
     </collapsible>
 
     <collapsible title="Tag input" id="ui-tags">
-        <tag-input v-model="$ui.tags"></tag-input>
+        <tag-input v-model="tags"></tag-input>
     </collapsible>
 
     <collapsible title="Tabs" id="ui-tabs">
         <tabs :tabs="[{name: 'tab1', title: 'Tab 1'}, {name: 'tab2', title: 'Tab 2'}, {name: 'tab3', title: 'Tab 3'}]">
             <template #tab1>
                 <h3>Tab 1</h3>
-                <p>{{ $ui.lorem }}</p>
+                <p>{{ lorem }}</p>
             </template>
             <template #tab2>
                 <h3>Tab 2</h3>
-                <p>{{ $ui.lorem }}</p>
+                <p>{{ lorem }}</p>
             </template>
             <template #tab3>
                 <h3>Tab 3</h3>
-                <p>{{ $ui.lorem }}</p>
+                <p>{{ lorem }}</p>
             </template>
         </tabs>
     </collapsible>
 
     <collapsible title="Badges" id="ui-badges">
         <collapsible title="Default" :title-size="5">
-            <badge v-for="color in $ui.colors" :color="color" :key="'badge-'+color">
+            <badge v-for="color in colors" :color="color" :key="'badge-'+color">
                 {{ __('voyager::generic.color_names.'+color) }}
             </badge>
         </collapsible>
         <collapsible title="Large" :title-size="5">
-            <badge v-for="color in $ui.colors" :color="color" :key="'badge-'+color" large>
+            <badge v-for="color in colors" :color="color" :key="'badge-'+color" large>
                 {{ __('voyager::generic.color_names.'+color) }}
             </badge>
         </collapsible>
         <collapsible title="With icon" :title-size="5">
-            <badge v-for="color in $ui.colors" :color="color" :key="'badge-'+color" icon="x">
+            <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="x">
                 {{ __('voyager::generic.color_names.'+color) }}
             </badge>
         </collapsible>
         <collapsible title="Large with icon" :title-size="5">
-            <badge v-for="color in $ui.colors" :color="color" :key="'badge-'+color" icon="information-circle" large>
+            <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="information-circle" large>
                 {{ __('voyager::generic.color_names.'+color) }}
             </badge>
         </collapsible>
     </collapsible>
 
     <collapsible title="Alerts" id="ui-alerts">
-        <alert v-for="color in $ui.colors" :color="color" :key="'alert-'+color" class="mb-3">
+        <alert v-for="color in colors" :color="color" :key="'alert-'+color" class="mb-3">
             <template #title>{{ __('voyager::generic.color_names.'+color) }}</template>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.</p>
+            <p>{{ lorem }}</p>
         </alert>
     </collapsible>
 
@@ -259,12 +259,12 @@
     </collapsible>
 
     <collapsible title="Notifications" id="ui-notifications">
-        <collapsible v-for="color in $ui.colors" :key="'notification_'+color" :title="__('voyager::generic.color_names.'+color)" :title-size="5">
+        <collapsible v-for="color in colors" :key="'notification_'+color" :title="__('voyager::generic.color_names.'+color)" :title-size="5">
             <div class="inline-flex flex-wrap">
-                <button @click="new $notification($ui.lorem).title(ucfirst(color)).color(color).show()" class="button mb-1" :class="color">Message and title</button>
-                <button @click="new $notification($ui.lorem).color(color).show()" class="button mb-1" :class="color">Message only</button>
-                <button @click="new $notification($ui.lorem).title(ucfirst(color)).color(color).indeterminate().show()" class="button mb-1" :class="color">Indeterminate</button>
-                <button @click="new $notification($ui.lorem).title(ucfirst(color)).color(color).timeout().show()" class="button mb-1" :class="color">With timeout</button>
+                <button @click="new $notification(lorem).title(ucFirst(color)).color(color).show()" class="button mb-1" :class="color">Message and title</button>
+                <button @click="new $notification(lorem).color(color).show()" class="button mb-1" :class="color">Message only</button>
+                <button @click="new $notification(lorem).title(ucFirst(color)).color(color).indeterminate().show()" class="button mb-1" :class="color">Indeterminate</button>
+                <button @click="new $notification(lorem).title(ucFirst(color)).color(color).timeout().show()" class="button mb-1" :class="color">With timeout</button>
             </div>
         </collapsible>
         <collapsible title="Confirm" :title-size="5">
@@ -280,7 +280,7 @@
                 <button @click="new $notification('Enter your name').prompt('').show()" class="button blue mb-1">Simple</button>
                 <button @click="new $notification('Enter your name').prompt('').timeout().show()" class="button blue mb-1">With timeout</button>
                 <button @click="new $notification('Enter your name').prompt('').addButton({key: true, value: 'Safe', color: 'green'}).addButton({key: false, value: 'Abort', color: 'red'}).show()" class="button blue mb-1">Custom buttons</button>
-                <button @click="new $notification('Enter your name').prompt($ui.name).show().then((r) => { if (r !== false) { $ui.name = r; } })" class="button blue mb-1">Value: {{ $ui.name }}</button>
+                <button @click="new $notification('Enter your name').prompt(name).show().then((r) => { if (r !== false) { name = r; } })" class="button blue mb-1">Value: {{ name }}</button>
             </div>
         </collapsible>
     </collapsible>
@@ -307,3 +307,17 @@
         </collapsible>
     </collapsible>
 </template>
+<script>
+import scrollTo from '../js/directives/scroll-to';
+
+export default {
+    directives: {scrollTo: scrollTo},
+    data: function () {
+        return {
+            name: 'Voyager',
+            lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
+            tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
+        };
+    }
+}
+</script>

@@ -71,6 +71,14 @@
     </collapse-x-transition>
 </template>
 
+<script>
+import scrollTo from '../js/directives/scroll-to';
+
+export default {
+    directives: {scrollTo: scrollTo}
+}
+</script>
+
 <style lang="scss">
 @import "../sass/mixins/bg-color";
 @import "../sass/mixins/border-color";

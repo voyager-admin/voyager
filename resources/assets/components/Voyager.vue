@@ -19,18 +19,20 @@
                 </div>
             </main>
         </div>
-        <notifications></notifications>
+        <notifications />
     </div>
 </template>
 
 <script>
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import Notifications from './UI/Notifications';
 
 export default {
     components: {
         'sidebar': Sidebar,
         'navbar': Navbar,
+        'notifications': Notifications
     },
     props: ['routes', 'localization', 'locales', 'locale', 'initial_locale', 'breads', 'formfields', 'debug', 'jsonOutput', 'csrf_token', 'searchPlaceholder', 'current_url', 'user', 'sidebar', 'page'],
     created: function () {

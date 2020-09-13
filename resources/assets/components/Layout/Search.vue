@@ -54,6 +54,7 @@
 <script>
 import { nextTick } from 'vue';
 import fetch from '../../js/fetch';
+import debounce from 'debounce';
 
 export default {
     props: ['placeholder', 'mobilePlaceholder'],
