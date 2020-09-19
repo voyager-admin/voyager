@@ -72,7 +72,8 @@
                                 <th v-for="(formfield, key) in layout.formfields" :key="'thead-search-' + key">
                                     <component
                                         v-if="formfield.searchable"
-                                        v-model="parameters.filters[formfield.column.column]"
+                                        :modelValue="parameters.filters[formfield.column.column]"
+                                        @update:modelValue="!$event ? delete parameters.filters[formfield.column.column] : parameters.filters[formfield.column.column] = $event"
                                         :is="$store.getFormfieldByType(formfield.type).component"
                                         :options="formfield.options"
                                         :column="formfield.column"
@@ -81,8 +82,8 @@
                                     >
                                         <input type="text" class="input small w-full"
                                             :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
-                                            @dblclick="parameters.filters[formfield.column.column] = ''"
-                                            @keydown.esc="parameters.filters[formfield.column.column] = ''"
+                                            @dblclick="delete parameters.filters[formfield.column.column]"
+                                            @keydown.esc="delete parameters.filters[formfield.column.column]"
                                             v-model="parameters.filters[formfield.column.column]"
                                         >
                                     </component>
