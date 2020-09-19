@@ -2,9 +2,10 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Contracts\Formfields\Features;
+use Voyager\Admin\Contracts\Formfields\Formfield;
 
-class Password extends Formfield
+class Password implements Formfield, Features\NotTranslatable, Features\ManipulateData\Store, Features\ManipulateData\Edit, Features\ManipulateData\Update
 {
     public function type(): string
     {
@@ -16,27 +17,32 @@ class Password extends Formfield
         return __('voyager::formfields.password.name');
     }
 
-    public function listOptions(): array
+    public function getComponentName(): string
     {
-        return [];
+        return 'formfield-password';
     }
 
-    public function viewOptions(): array
+    public function getBuilderComponentName(): string
     {
-        return [];
+        return 'formfield-password-builder';
     }
 
-    public function update($model, $input, $old)
+    public function edit($value)
     {
-        if (!isset($input) || empty($input)) {
+        return null;
+    }
+
+    public function update($model, $value, $old)
+    {
+        if (empty($value)) {
             return $old;
         }
 
-        return $this->store($input);
+        return $this->store($value);
     }
 
-    public function store($input)
+    public function store($value)
     {
-        return bcrypt($input);
+        return bcrypt($value);
     }
 }

@@ -10,7 +10,7 @@
         >
             <component :is="widget.component" v-bind="widget.parameters"></component>
         </card>
-
+        <i class="mi-add" />
         <card :title="__('voyager::generic.welcome_to_voyager')" icon="helm" :icon-size="8" class="w-full" v-if="widgets.length == 0">
             <div>{{ __('voyager::generic.welcome_text') }}</div>
         </card>

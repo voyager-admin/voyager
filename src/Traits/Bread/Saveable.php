@@ -2,6 +2,8 @@
 
 namespace Voyager\Admin\Traits\Bread;
 
+use Voyager\Admin\Contracts\Formfields\Features;
+
 trait Saveable
 {
     public function updateStoreData($formfields, $data, $model, $update = true)
@@ -18,17 +20,17 @@ trait Saveable
                 foreach ($value as $locale => $translated) {
                     if ($update) {
                         $old = (isset($old->{$locale}) ? $old->{$locale} : '');
-                        $translations[$locale] = $formfield->update($model, $translated, $old);
+                        $translations[$locale] = $formfield instanceof Features\ManipulateData\Update ? $formfield->update($model, $translated, $old) : $translated;
                     } else {
-                        $translations[$locale] = $formfield->store($translated);
+                        $translations[$locale] = $formfield instanceof Features\ManipulateData\Store ? $formfield->store($translated) : $translated;
                     }
                 }
                 $value = json_encode($translations);
             } else {
                 if ($update) {
-                    $value = $formfield->update($model, $value, $model->{$formfield->column->column});
+                    $value = $formfield instanceof Features\ManipulateData\Update ? $formfield->update($model, $value, $model->{$formfield->column->column}) : $value;
                 } else {
-                    $value = $formfield->store($value);
+                    $value = $formfield instanceof Features\ManipulateData\Store ? $formfield->store($value) : $value;
                 }
             }
 

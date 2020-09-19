@@ -23,30 +23,34 @@
                         <card
                             :title="translate(formfield.options.title, true)"
                             :title-size="5"
-                            :show-title="translate(formfield.options.label, true) !== ''">
+                            :show-title="translate(formfield.options.label, true) !== ''"
+                        >
                             <div>
-                                <alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-1">
-                                    <span v-if="getErrors(formfield.column).length == 1">
-                                        {{ getErrors(formfield.column)[0] }}
-                                    </span>
-                                    <ul class="list-disc" v-else>
-                                        <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
-                                            {{ error }}
-                                        </li>
-                                    </ul>
-                                </alert>
+                                <collapse-transition>
+                                    <alert v-if="getErrors(formfield.column).length > 0" color="red" class="mb-2">
+                                        <span v-if="getErrors(formfield.column).length == 1">
+                                            {{ getErrors(formfield.column)[0] }}
+                                        </span>
+                                        <ul class="list-disc" v-else>
+                                            <li v-for="(error, i) in getErrors(formfield.column)" :key="'error-'+i">
+                                                {{ error }}
+                                            </li>
+                                        </ul>
+                                    </alert>
+                                </collapse-transition>
                                 <component
-                                    :is="'formfield-'+kebabCase(formfield.type)+'-edit-add'"
-                                    :model-value="getData(formfield)"
-                                    @update:model-value="setData(formfield, $event)"
+                                    :is="$store.getFormfieldByType(formfield.type).component"
+                                    :modelValue="getData(formfield)"
+                                    @update:modelValue="setData(formfield, $event)"
                                     :bread="bread"
                                     :options="formfield.options"
                                     :column="formfield.column"
                                     :relationships="relationships"
                                     :translatable="formfield.translatable"
                                     :from-relationship="fromRelationship"
-                                    :show="currentAction"
-                                    :primary-key="primaryKey" />
+                                    :action="currentAction"
+                                    :primary-key="primaryKey"
+                                />
                                 <p class="description" v-if="translate(formfield.options.description, true) !== ''">
                                     {{ translate(formfield.options.description, true) }}
                                 </p>
@@ -55,7 +59,7 @@
                     </div>
                 </div>
                 <button class="button green" @click="save">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="isSaving" />
+                    <icon icon="refresh" class="animate-spin-reverse" v-if="isSaving" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
             </div>
@@ -79,18 +83,19 @@ export default {
             isSaved: false,
             errors: [],
             currentAction: this.action,
-            id: this.input.id
+            id: this.primaryKey
         };
     },
     methods: {
         getData: function (formfield) {
-            if (formfield.translatable || false && this.output[formfield.column.column] && this.isString(this.output[formfield.column.column])) {
-                // TODO: Vue.set(this.output, formfield.column.column, this.get_translatable_object(this.output[formfield.column.column]));
-                this.output[formfield.column.column] = this.get_translatable_object(this.output[formfield.column.column]);
+            if ((formfield.translatable || false) && !this.isObject(this.output[formfield.column.column])) {
+                var value = this.output[formfield.column.column];
+                this.output[formfield.column.column] = {};
+                this.output[formfield.column.column][this.$store.locale] = value;
             }
             
             if (formfield.translatable || false) {
-                return this.translate(this.get_translatable_object(this.output[formfield.column.column]));
+                return this.output[formfield.column.column][this.$store.locale];
             }
 
             return this.output[formfield.column.column];
@@ -100,21 +105,16 @@ export default {
 
             if (!this.output.hasOwnProperty(formfield.column.column)) {
                 if (formfield.translatable || false) {
-                    // TODO: Vue.set(this.output, formfield.column.column, {});
                     this.output[formfield.column.column] = {};
                 } else {
-                    // TODO: Vue.set(this.output, formfield.column.column, '');
                     this.output[formfield.column.column] = '';
                 }
             }
             if (formfield.translatable || false) {
-                // TODO: Vue.set(this.output[formfield.column.column], this.$store.locale, value);
                 this.output[formfield.column.column][this.$store.locale] = value;
             } else {
-                // TODO: Vue.set(this.output, formfield.column.column, value);
                 this.output[formfield.column.column] = value;
             }
-            // TODO
             this.$eventbus.emit('input', {
                 column: formfield.column,
                 value: value,
@@ -130,13 +130,13 @@ export default {
             }
             vm.isSaving = true;
             vm.isSaved = false;
-            vm.errors = [];
             fetch.createRequest(
                 (vm.currentAction == 'add' ? vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.store') : vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.update', vm.id)),
                 (vm.currentAction == 'add' ? 'post' : 'put'),
                 { data: vm.output }
             )
             .then(function (response) {
+                vm.errors = [];
                 if (vm.fromRelationship === true) {
                     vm.$emit('saved', {
                         key: response.data,
@@ -186,6 +186,18 @@ export default {
         $eventbus.on('ctrl-s-combo', function () {
             vm.save();
         });
+
+        vm.layout.formfields.forEach(function (formfield) {
+            var value = vm.output[formfield.column.column];
+            if (formfield.translatable || false) {
+                value = vm.output[formfield.column.column][vm.$store.locale];
+            }
+
+            vm.$eventbus.emit('input', {
+                column: formfield.column,
+                value: value,
+            });
+        })
     }
 };
 </script>

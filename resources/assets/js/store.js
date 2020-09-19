@@ -60,7 +60,12 @@ export default reactive({
         $eventbus.emit('sidebar-open', false);
     },
     getFormfieldByType: function (type) {
-        return this.formfields.where('type', type).first();
+        var formfield = this.formfields.where('type', type).first();
+        if (!formfield) {
+            console.error('Formfield with type "'+type+'" does not exist!');
+        }
+
+        return formfield || {};
     },
     getBreadByTable: function (table) {
         return this.breads.where('table', table).first();

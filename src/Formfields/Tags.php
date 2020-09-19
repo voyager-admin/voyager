@@ -2,9 +2,16 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Contracts\Formfields\Features\BrowseArray;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Browse;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Edit;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Store;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Update;
+use Voyager\Admin\Contracts\Formfields\Formfield;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
-class Tags extends Formfield
+class Tags implements Formfield, BrowseArray, Add, Browse, Edit, Store, Update
 {
     public function type(): string
     {
@@ -16,52 +23,42 @@ class Tags extends Formfield
         return __('voyager::formfields.tags.name');
     }
 
-    public function listOptions(): array
+    public function getComponentName(): string
     {
-        return [
-            'color'     => 'blue',
-            'display'   => 3,
-            'reorder'   => true,
-        ];
+        return 'formfield-tags';
     }
 
-    public function viewOptions(): array
+    public function getBuilderComponentName(): string
     {
-        return [
-            'min'         => 0,
-            'max'         => 0,
-            'color'       => 'blue',
-            'reorder'     => true,
-        ];
+        return 'formfield-tags-builder';
     }
 
-    public function browse($input)
+    public function add()
     {
-        return json_decode($input);
+        return [];
     }
 
-    public function read($input)
+    public function browse($value)
     {
-        return json_decode($input);
+        if (!is_array($value)) {
+            return VoyagerFacade::getJson($value, []);
+        }
+
+        return $value;
     }
 
-    public function edit($input)
+    public function edit($value)
     {
-        return json_decode($input);
+        return $this->browse($value);
     }
 
-    public function update($model, $input, $old)
+    public function store($value)
     {
-        return json_encode($input);
+        return json_encode($value);
     }
 
-    public function store($input)
+    public function update($model, $value, $old)
     {
-        return json_encode($input);
-    }
-
-    public function browseDataAsArray()
-    {
-        return true;
+        return $this->store($value);
     }
 }

@@ -33,7 +33,7 @@
             <div class="flex">
                 <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="h-full flex items-center my-2 pl-2 space-x-2">
                     <button @click.prevent.stop="openPath(path, i)" class="focus:outline-none">
-                        <icon v-if="path == ''" icon="home"></icon>
+                        <icon v-if="path == ''" icon="home" />
                         <span v-else>{{ path }}</span>
                     </button>
                     <button class="cursor-default focus:outline-none" v-if="pathSegments.length !== (i+1)">
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="flex w-full min-h-64">
-            <div class="w-full max-h-256 overflow-y-auto" @click="selectedFiles = []">
+            <div class="w-full max-h-256 overflow-y-auto px-2" @click="selectedFiles = []">
                 <div class="relative flex-grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                     <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
                         <h4>{{ dragging ? dropText : dragText }}</h4>
@@ -59,54 +59,54 @@
                         :class="[fileSelected(file) ? 'selected' : '', filePicked(file) ? 'picked' : '', file.is_upload ? 'opacity-50' : '']"
                         v-on:click.prevent.stop="selectFile(file, $event)"
                         v-on:dblclick.prevent.stop="openFile(file)">
-                        <div class="flex p-3">
-                            <div class="flex-none">
-                                <div class="w-full flex justify-center">
-                                    <img :src="file.preview" class="rounded object-contain h-24 max-w-full" v-if="file.preview" />
-                                    <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="matchMime(file.file.type, 'image/*')" />
-                                    <div v-else class="w-full flex justify-center h-24">
-                                        <icon :icon="getFileIcon(file.file.type)" size="24"></icon>
+                        <tooltip :value="file.file.name">
+                            <div class="flex p-3">
+                                <div class="flex-none">
+                                    <div class="w-full flex justify-center">
+                                        <img :src="file.preview" class="rounded object-contain h-24 max-w-full" v-if="file.preview" />
+                                        <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="matchMime(file.file.type, 'image/*')" />
+                                        <div v-else class="w-full flex justify-center h-24">
+                                            <icon :icon="getFileIcon(file.file.type)" size="24"></icon>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-grow ml-3 overflow-hidden">
+                                    <div class="flex flex-col h-full">
+                                        <div class="flex-none">
+                                            <span class="whitespace-no-wrap">{{ file.file.name }}</span>
+                                            <p class="text-sm" v-if="file.file.thumbnails.length > 0">
+                                                {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
+                                            </p>
+                                            <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
+                                        </div>
+                                        <div class="flex items-end justify-end flex-grow">
+                                            <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
+                                                <icon icon="x" :size="4"></icon>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex-grow ml-3 overflow-hidden">
-                                <div class="flex flex-col h-full">
-                                    <div class="flex-none">
-                                        <tooltip :value="file.file.name">
-                                            <p class="whitespace-no-wrap">{{ file.file.name }}</p>
-                                        </tooltip>
-                                        <p class="text-sm" v-if="file.file.thumbnails.length > 0">
-                                            {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
-                                        </p>
-                                        <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
-                                    </div>
-                                    <div class="flex items-end justify-end flex-grow">
-                                        <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
-                                            <icon icon="x" :size="4"></icon>
-                                        </button>
-                                    </div>
+                            <div
+                                class="flex-none h-1 bg-blue-500 rounded-b-md"
+                                v-if="file.status == Status.Uploading && file.progress < 100"
+                                :style="{ width: file.progress+'%' }">
+                            </div>
+                            <div class="max-w-full h-1 overflow-hidden" v-if="file.status == Status.Uploading && file.progress >= 100">
+                                <div class="indeterminate">
+                                    <div class="before bg-blue-500 rounded"></div>
+                                    <div class="after bg-blue-500 rounded"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div
-                            class="flex-none h-1 bg-blue-500 rounded-b-md"
-                            v-if="file.status == Status.Uploading && file.progress < 100"
-                            :style="{ width: file.progress+'%' }">
-                        </div>
-                        <div class="max-w-full h-1 overflow-hidden" v-if="file.status == Status.Uploading && file.progress >= 100">
-                            <div class="indeterminate">
-                                <div class="before bg-blue-500 rounded"></div>
-                                <div class="after bg-blue-500 rounded"></div>
+                            <div
+                                class="flex-none h-1 w-full bg-green-500 rounded-b-md"
+                                v-if="file.status == Status.Finished">
                             </div>
-                        </div>
-                        <div
-                            class="flex-none h-1 w-full bg-green-500 rounded-b-md"
-                            v-if="file.status == Status.Finished">
-                        </div>
-                        <div
-                            class="flex-none h-1 w-full bg-red-500 rounded-b-md"
-                            v-if="file.status == Status.Failed">
-                        </div>
+                            <div
+                                class="flex-none h-1 w-full bg-red-500 rounded-b-md"
+                                v-if="file.status == Status.Failed">
+                            </div>
+                        </tooltip>
                     </div>
                 </div>
             </div>
@@ -182,7 +182,7 @@ import matchMime from '../../js/helper/match-mime';
 
 export default {
     mixins: [closable],
-    emits: ['select'],
+    emits: ['update:modelValue'],
     props: {
         'uploadUrl': {
             type: String,
@@ -234,11 +234,9 @@ export default {
             type: Boolean,
             default: false,
         },
-        'pickedFiles': {
-            type: Array,
-            default: function () {
-                return [];
-            }
+        'modelValue': {
+            type: [Array, undefined],
+            default: undefined,
         }
     },
     data: function () {
@@ -430,9 +428,19 @@ export default {
             return this.selectedFiles.indexOf(file) >= 0;
         },
         filePicked: function (file) {
-            return this.pickedFiles.filter(function (f) {
-                return f.disk == file.file.disk && file.file.relative_path == f.path && f.name == file.file.name;
-            }).length > 0;
+            return this.pickedFilePosition(file) >= 0;
+        },
+        pickedFilePosition: function (file) {
+            var index = -1;
+            if (this.isArray(this.modelValue)) {
+                this.modelValue.filter(function (f, i) {
+                    if (f.disk == file.file.disk && file.file.relative_path == f.relative_path && f.name == file.file.name) {
+                        index = i;
+                    }
+                });
+            }
+
+            return index;
         },
         openFile: function (file) {
             if (file.file.type == 'directory') {
@@ -440,9 +448,13 @@ export default {
                 this.pushCurrentPathToUrl();
                 this.loadFiles();
             } else {
-                this.$emit('select', file.file);
-                // TODO: Don't open modal when used as a media-picker
-                if (matchMime(file.file.type, 'image/*')) {
+                if (this.filePicked(file)) {
+                    this.$emit('update:modelValue', this.modelValue.removeAtIndex(this.pickedFilePosition(file)));
+                } else {
+                    this.$emit('update:modelValue', [...this.modelValue, file.file]);
+                }
+
+                if (matchMime(file.file.type, 'image/*') && this.modelValue === undefined) {
                     this.openedFile = file.file;
                     this.$refs.lightbox.open();
                 }

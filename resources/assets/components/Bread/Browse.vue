@@ -73,14 +73,18 @@
                                     <component
                                         v-if="formfield.searchable"
                                         v-model="parameters.filters[formfield.column.column]"
-                                        :is="'formfield-'+kebabCase(formfield.type)+'-browse'"
+                                        :is="$store.getFormfieldByType(formfield.type).component"
                                         :options="formfield.options"
-                                        show="query">
+                                        :column="formfield.column"
+                                        :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
+                                        action="query"
+                                    >
                                         <input type="text" class="input small w-full"
                                             :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
                                             @dblclick="parameters.filters[formfield.column.column] = ''"
                                             @keydown.esc="parameters.filters[formfield.column.column] = ''"
-                                            v-model="parameters.filters[formfield.column.column]">
+                                            v-model="parameters.filters[formfield.column.column]"
+                                        >
                                     </component>
                                 </th>
                                 <th></th>
@@ -102,29 +106,35 @@
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
-                                        v-if="$store.getFormfieldByType(formfield.type).browseArray"
-                                        :is="'formfield-'+kebabCase(formfield.type)+'-browse'"
+                                        v-if="$store.getFormfieldByType(formfield.type).browse_array && isArray(result[formfield.column.column])"
+                                        :is="$store.getFormfieldByType(formfield.type).component"
+                                        action="browse"
                                         :options="formfield.options"
+                                        :column="formfield.column"
                                         :translatable="formfield.translatable"
-                                        :value="getData(result, formfield, true)"
+                                        :modelValue="getData(result, formfield, true)"
                                     >
                                     </component>
                                     <component
-                                        v-if="!isArray(result[formfield.column.column])"
-                                        :is="'formfield-'+kebabCase(formfield.type)+'-browse'"
+                                        v-else-if="!isArray(result[formfield.column.column])"
+                                        :is="$store.getFormfieldByType(formfield.type).component"
+                                        action="browse"
                                         :options="formfield.options"
+                                        :column="formfield.column"
                                         :translatable="formfield.translatable"
-                                        :value="getData(result, formfield, false)"
+                                        :modelValue="getData(result, formfield, false)"
                                     >
                                     </component>
                                     <div v-else>
                                         <component
                                             v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
-                                            :is="'formfield-'+kebabCase(formfield.type)+'-browse'"
+                                            :is="$store.getFormfieldByType(formfield.type).component"
+                                            action="browse"
                                             :options="formfield.options"
+                                            :column="formfield.column"
                                             :translatable="formfield.translatable"
                                             :key="'relationship-'+i"
-                                            :value="translate(val)">
+                                            :modelValue="translate(val)">
                                         </component>
                                         <span v-if="getData(result, formfield, true).length > 3">
                                             {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
@@ -132,7 +142,9 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <bread-actions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
+                                    <div class="flex flex-no-wrap justify-end">
+                                        <bread-actions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
+                                    </div>
                                 </td>
                             </tr>
                             <tr v-if="results.length == 0 && !loading">
@@ -375,6 +387,9 @@ export default {
             var vm = this;
 
             var not_found = false;
+            if (vm.results.length == 0) {
+                return false;
+            }
             vm.results.forEach(function (result) {
                 if (!vm.selected.includes(result.primary_key)) {
                     not_found = true;

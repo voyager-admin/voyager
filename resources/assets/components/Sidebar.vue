@@ -44,7 +44,7 @@
                 <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                     <div class="flex items-center flex-shrink-0 px-4">
                         <icon icon="helm" :size="10" class="icon"></icon>
-                        <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title">
+                        <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title whitespace-no-wrap">
                             {{ $store.sidebar.title }}
                         </span>
                     </div>            

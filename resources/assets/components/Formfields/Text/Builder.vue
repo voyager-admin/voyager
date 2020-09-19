@@ -1,9 +1,14 @@
 <template>
-    <div v-if="show == 'list-options'">
+    <div v-if="action == 'list-options'">
         <label for="length" class="label">{{ __('voyager::generic.display_length') }}</label>
-        <plus-minus-input id="length" class="input w-full" v-model.number="options.display_length" /> 
+        <input
+            type="number"
+            id="length"
+            class="input w-full"
+            v-model.number="options.display_length"
+        /> 
     </div>
-    <div v-else-if="show == 'view-options'">
+    <div v-else-if="action == 'view-options'">
         <label class="label mt-4">{{ __('voyager::generic.placeholder') }}</label>
         <language-input
             class="input w-full"
@@ -17,16 +22,16 @@
             v-model="options.default_value" /> 
 
         <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
-        <plus-minus-input :min="1" :max="1000" class="input w-full" v-model.number="options.rows" />
+        <input type="number" :min="1" :max="1000" class="input w-full" v-model.number="options.rows" />
 
         <label class="label mt-4">{{ __('voyager::generic.inputmode') }}</label>
         <select class="input w-full" v-model="options.inputmode">
             <option v-for="(mode, key) in __('voyager::generic.inputmodes')" :key="key" :value="key">{{ mode }}</option>
         </select>
     </div>
-    <div v-else-if="show == 'view'">
+    <div v-else-if="action == 'view'">
         <input
-            v-if="options.rows == 1"
+            v-if="!options.rows || options.rows == 1"
             type="text"
             class="input w-full"
             :modelValue="translate(options.default_value)"
@@ -41,7 +46,24 @@
 </template>
 
 <script>
+import formfieldBuilder from '../../../js/mixins/formfield-builder';
+
 export default {
-    props: ['options', 'column', 'show']
-};
+    mixins: [formfieldBuilder],
+    computed: {
+        defaultListOptions: function () {
+            return {
+                display_length: 150,
+            };
+        },
+        defaultViewOptions: function () {
+            return {
+                placeholder: '',
+                default_value: '',
+                rows: 1,
+                inputmode: 'text'
+            };
+        },
+    }
+}
 </script>

@@ -82,7 +82,7 @@
         &.#{$color} {
             @apply bg-#{$color}-500;
             @apply text-white #{!important};
-            @apply border-none #{!important};
+            @apply border-transparent;
             &:hover {
                 @apply bg-#{$color}-600;
             }

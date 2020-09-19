@@ -2,9 +2,17 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Contracts\Formfields\Features\BrowseArray;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Browse;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Edit;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Read;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Store;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Update;
+use Voyager\Admin\Contracts\Formfields\Formfield;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
-class MediaPicker extends Formfield
+class MediaPicker implements Formfield, BrowseArray, Add, Browse, Read, Edit, Store, Update
 {
     public function type(): string
     {
@@ -16,41 +24,14 @@ class MediaPicker extends Formfield
         return __('voyager::formfields.media_picker.name');
     }
 
-    public function listOptions(): array
+    public function getComponentName(): string
     {
-        return [
-            'display'   => 3,
-            'icons'     => true,
-            'shuffle'   => true,
-        ];
+        return 'formfield-media-picker';
     }
 
-    public function viewOptions(): array
+    public function getBuilderComponentName(): string
     {
-        return [
-            'min'         => 0,
-            'max'         => 0,
-            'list_url'    => null,
-            'upload_url'  => null,
-            'meta'        => [],
-            'mimes'       => [],
-            'select_text' => null,
-        ];
-    }
-
-    public function browse($input)
-    {
-        return json_decode($input);
-    }
-
-    public function read($input)
-    {
-        return $this->browse($input);
-    }
-
-    public function edit($input)
-    {
-        return $this->browse($input);
+        return 'formfield-media-picker-builder';
     }
 
     public function add()
@@ -58,22 +39,32 @@ class MediaPicker extends Formfield
         return [];
     }
 
-    public function update($model, $input, $old)
+    public function browse($value)
     {
-        return $this->store($input);
-    }
-
-    public function store($input)
-    {
-        if (is_array($input)) {
-            return json_encode($input);
+        if (!is_array($value)) {
+            return VoyagerFacade::getJson($value, []);
         }
 
-        return '[]';
+        return $value;
     }
 
-    public function browseDataAsArray()
+    public function read($value)
     {
-        return true;
+        return $this->browse($value);
+    }
+
+    public function edit($value)
+    {
+        return $this->browse($value);
+    }
+
+    public function store($value)
+    {
+        return json_encode($value);
+    }
+
+    public function update($model, $value, $old)
+    {
+        return $this->store($value);
     }
 }

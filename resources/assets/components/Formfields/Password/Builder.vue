@@ -1,21 +1,31 @@
 <template>
-    <div v-if="show == 'view-options'">
+    <div v-if="action == 'view-options'">
         <label class="label mt-4">{{ __('voyager::generic.placeholder') }}</label>
         <language-input
             class="input w-full"
             type="text" :placeholder="__('voyager::generic.placeholder')"
-            v-model="options.placeholder" />
+            v-model="options.placeholder" /> 
     </div>
-    <div v-else-if="show == 'view'">
+    <div v-else-if="action == 'view'">
         <input
             type="password"
             class="input w-full"
-            :placeholder="translate(options.placeholder)">
+            :placeholder="translate(options.placeholder)"
+        >
     </div>
 </template>
 
 <script>
+import formfieldBuilder from '../../../js/mixins/formfield-builder';
+
 export default {
-    props: ['options', 'column', 'show'],
-};
+    mixins: [formfieldBuilder],
+    computed: {
+        defaultViewOptions: function () {
+            return {
+                placeholder: '',
+            };
+        },
+    }
+}
 </script>

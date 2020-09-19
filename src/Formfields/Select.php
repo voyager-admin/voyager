@@ -2,9 +2,16 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Contracts\Formfields\Features\BrowseArray;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Browse;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Edit;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Store;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Update;
+use Voyager\Admin\Contracts\Formfields\Formfield;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
-class Select extends Formfield
+class Select implements Formfield, BrowseArray, Add, Browse, Edit, Store, Update
 {
     public function type(): string
     {
@@ -16,69 +23,50 @@ class Select extends Formfield
         return __('voyager::formfields.select.name');
     }
 
-    public function listOptions(): array
+    public function getComponentName(): string
     {
-        return [
-            'multiple'  => false,
-            'options'   => [],
-        ];
+        return 'formfield-select';
     }
 
-    public function viewOptions(): array
+    public function getBuilderComponentName(): string
     {
-        return [
-            'multiple'    => false,
-            'options'     => [],
-        ];
+        return 'formfield-select-builder';
     }
 
-    public function browse($input)
+    public function add()
     {
-        if ($this->options->multiple === true) {
-            return json_decode($input) ?? [];
+        if ($this->options->multiple ?? false) {
+            return [];
         }
 
-        return $input;
+        return null;
     }
 
-    public function read($input)
+    public function browse($value)
     {
-        if ($this->options->multiple === true) {
-            return json_decode($input) ?? [];
+        if ($this->options->multiple ?? false && !is_array($value)) {
+            return VoyagerFacade::getJson($value, []);
         }
 
-        return $input;
+        return $value;
     }
 
-    public function edit($input)
+    public function edit($value)
     {
-        if ($this->options->multiple === true) {
-            return json_decode($input) ?? [];
+        return $this->browse($value);
+    }
+
+    public function store($value)
+    {
+        if ($this->options->multiple ?? false) {
+            return json_encode($value);
         }
 
-        return $input;
+        return $value;
     }
 
-    public function update($model, $input, $old)
+    public function update($model, $value, $old)
     {
-        if ($this->options->multiple === true) {
-            return json_encode($input) ?? '';
-        }
-
-        return $input;
-    }
-
-    public function store($input)
-    {
-        if ($this->options->multiple === true) {
-            return json_encode($input) ?? '';
-        }
-
-        return $input;
-    }
-
-    public function browseDataAsArray()
-    {
-        return true;
+        return $this->store($value);
     }
 }

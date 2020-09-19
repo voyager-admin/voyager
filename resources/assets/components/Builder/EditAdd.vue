@@ -57,7 +57,7 @@
                             <template #opener>
                                 <div class="w-full">
                                     <button class="button">
-                                        <icon class="cursor-pointer my-1 content-center" :size="6" :icon="bread.icon" />
+                                        <icon class="my-1 content-center" :icon="bread.icon" />
                                     </button>
                                 </div>
                             </template>
@@ -142,7 +142,7 @@
                         <option v-for="list in lists" :key="'list-' + list.name">{{ list.name }}</option>
                     </optgroup>
                 </select>
-                <dropdown pos="right" class="self-center" :width="88">
+                <dropdown class="self-center" placement="bottom">
                     <div>
                         <div class="grid grid-cols-2">
                             <a v-for="formfield in filteredFormfields"
@@ -171,7 +171,7 @@
                         </button>
                     </template>
                 </dropdown>
-                <dropdown pos="right" class="self-center">
+                <dropdown class="self-center" placement="bottom">
                     <div>
                         <a href="#" @click.prevent="addLayout(false)" class="link">
                             {{ __('voyager::builder.list') }}
@@ -189,7 +189,7 @@
                         </button>
                     </template>
                 </dropdown>
-                <dropdown pos="right" class="self-center">
+                <dropdown class="self-center" placement="bottom">
                     <div>
                         <a href="#" @click.prevent="renameLayout" class="link">
                             {{ __('voyager::builder.rename_layout') }}
@@ -510,11 +510,9 @@ export default {
             this.currentLayoutName = layout.name;
         },
         addFormfield: function (formfield) {
-            // Merge any global options into the below options
-            var listOptions = formfield.listOptions;
-            var viewOptions = formfield.viewOptions;
-
-            viewOptions.width = 'w-3/6';
+            var options = {
+                width: 'w-3/6',
+            };
 
             var formfield = {
                 type: formfield.type,
@@ -523,8 +521,7 @@ export default {
                     type: null,
                 },
                 translatable: false,
-                canBeTranslated: formfield.canBeTranslated,
-                options: JSON.parse(JSON.stringify(this.currentLayout.type == 'list' ? listOptions : viewOptions)),
+                options: this.currentLayout.type == 'list' ? {} : options,
                 validation: [],
             };
 
@@ -607,9 +604,9 @@ export default {
             var vm = this;
             return vm.$store.formfields.filter(function (formfield) {
                 if (vm.currentLayout && vm.currentLayout.type == 'list') {
-                    return formfield.inList;
+                    return formfield.in_lists;
                 }
-                return formfield.inView;
+                return formfield.in_views;
             });
         },
         currentLayout: function () {

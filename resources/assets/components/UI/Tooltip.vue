@@ -1,24 +1,25 @@
 <template>
-    <fade-transition :duration="150" persisted>
-        <div class="tooltip" ref="tooltip" v-show="display" :style="style" v-if="value !== null">
-            <div class="arrow" :class="placement"></div>
-            <div class="inner" v-html="value"></div>
+    <fade-transition :duration="250" @after-leave="destroyPopper" @enter="updatePopper">
+        <div class="tooltip" ref="tooltip" v-if="display && value !== null">
+            <div v-html="value"></div>
+            <div class="arrow" data-popper-arrow></div>
         </div>
     </fade-transition>
-    <span ref="slot" @mouseenter="display = true; setStyles();" @mouseleave="display = false">
+    <div ref="slot" @mouseenter="display = true" @mouseleave="display = false" v-bind="$attrs">
         <slot></slot>
-    </span>
+    </div>
 </template>
 
 <script>
 import { nextTick } from 'vue';
+
 export default {
     props: {
         placement: {
             type: String,
             default: 'bottom',
             validator: function (value) {
-                return ['top', 'right', 'bottom', 'left'].includes(value);
+                return ['auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'].includes(value);
             }
         },
         value: {
@@ -28,45 +29,36 @@ export default {
     data: function () {
         return {
             display: false,
-            style: {}
+            popper: null,
         };
     },
     methods: {
-        setStyles: function () {
-            nextTick(() => {
-                if (this.$refs.slot && this.$refs.tooltip) {
-                    var slot = this.$refs.slot.getClientRects()[0];
-                    var tooltip = this.$refs.tooltip.getClientRects()[0];
-                    var content = document.getElementById('content');
-
-                    var left = 0;
-                    var top = 0;
-
-                    if (this.placement == 'top') {
-                        var center = slot.left + (slot.width / 2);
-                        left = center - (tooltip.width / 2);
-                        top += (slot.top - tooltip.height - 5);
-                    } else if (this.placement == 'right') {
-                        var center = slot.top + (slot.height / 2);
-                        left =  slot.right;
-                        top += center - (tooltip.height / 2);
-                    } else if (this.placement == 'left') {
-                        var center = slot.top + (slot.height / 2);
-                        left = slot.left - tooltip.width;
-                        top += center - (tooltip.height / 2);
-                    } else {
-                        var center = slot.left + (slot.width / 2);
-                        left = center - ((tooltip.width - 5) / 2),
-                        top += (slot.top + slot.height + 5);
-                    }
-
-                    this.style = {
-                        top: (top + content.scrollTop) + 'px',
-                        left: (left - content.getBoundingClientRect().left) + 'px',
-                    };
-                }
-            });
+        updatePopper: function () {
+            if (this.popper) {
+                this.popper.forceUpdate();
+            }
         },
+        destroyPopper: function () {
+            if (this.popper) {
+                this.popper.destroy();
+                this.popper = null;
+            }
+        }
+    },
+    watch: {
+        display: function (value) {
+            if (value) {
+                nextTick(() => {
+                    this.popper = this.createPopper(
+                        this.$refs.slot,
+                        this.$refs.tooltip, {
+                            placement: this.placement,
+                            strategy: 'fixed',
+                        }
+                    );
+                });
+            }
+        }
     },
 }
 </script>
@@ -77,60 +69,69 @@ export default {
 @import "../../sass/mixins/text-color";
 
 .tooltip {
-    @apply absolute z-50 transition-opacity duration-500;
-
-    .inner {
-        @include bg-color(tooltip-bg-color, 'colors.gray.900');
-        @include text-color(tooltip-text-color, 'colors.white');
-        @apply py-1.5 px-2.5 rounded-md text-sm;
-    }
-
+    @include bg-color(tooltip-bg-color, 'colors.black');
+    @include text-color(tooltip-text-color, 'colors.white');
+    @apply rounded z-50 px-2 py-1.5 shadow;
+    
     .arrow {
-        @apply absolute;
-        @include border-color(tooltip-arrow-color, 'colors.gray.900');
-        &.top {
-            border-width: 5px 5px 0 5px;
-            border-left-color: transparent !important;
-            border-right-color: transparent !important;
-            border-bottom-color: transparent !important;
-            bottom: -5px;
-            left: calc(50% - 5px);
-            margin-top: 0;
-            margin-bottom: 0;
-            width: 5px;
-        }
-
-        &.bottom {
+        @apply absolute h-0 w-0 border-solid;
+        content: '';
+        margin: 5px;
+    }
+    
+    &[data-popper-placement^="bottom"] {
+        margin-top: 5px !important;
+        
+        .arrow {
+            @include border-color(tooltip-bg-color, 'colors.black');
+            @apply mt-0 mb-0;
             border-width: 0 5px 5px 5px;
+            border-top-color: transparent !important;
             border-left-color: transparent !important;
             border-right-color: transparent !important;
-            border-top-color: transparent !important;
             top: -5px;
-            left: calc(50% - 5px);
-            margin-top: 0;
-            margin-bottom: 0;
         }
-
-        &.left {
+    }
+    
+    &[data-popper-placement^="top"] {
+        margin-bottom: 5px !important;
+        
+        .arrow {
+            @include border-color(tooltip-bg-color, 'colors.black');
+            @apply mt-0 mb-0;
+            border-width: 5px 5px 0 5px;
+            border-bottom-color: transparent !important;
+            border-left-color: transparent !important;
+            border-right-color: transparent !important;
+            bottom: -5px;
+        }
+    }
+    
+    &[data-popper-placement^="right"] {
+        margin-left: 5px !important;
+        
+        .arrow {
+            @include border-color(tooltip-bg-color, 'colors.black');
+            @apply ml-0 mr-0;
+            border-width: 5px 5px 5px 0;
+            border-top-color: transparent !important;
+            border-left-color: transparent !important;
+            border-bottom-color: transparent !important;
+            left: -5px;
+        }
+    }
+    
+    &[data-popper-placement^="left"] {
+        margin-right: 5px !important;
+        
+        .arrow {
+            @include border-color(tooltip-bg-color, 'colors.black');
+            @apply ml-0 mr-0;
             border-width: 5px 0 5px 5px;
             border-top-color: transparent !important;
             border-right-color: transparent !important;
             border-bottom-color: transparent !important;
             right: -5px;
-            top: calc(50% - 5px);
-            margin-left: 0;
-            margin-right: 0;
-        }
-
-        &.right {
-            border-width: 5px 5px 5px 0;
-            border-left-color: transparent !important;
-            border-top-color: transparent !important;
-            border-bottom-color: transparent !important;
-            left: -5px;
-            top: calc(50% - 5px);
-            margin-left: 0;
-            margin-right: 0;
         }
     }
 }

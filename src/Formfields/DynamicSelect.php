@@ -2,9 +2,16 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Contracts\Formfields\Features\BrowseArray;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Browse;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Edit;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Store;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Update;
+use Voyager\Admin\Contracts\Formfields\Formfield;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
-class DynamicSelect extends Formfield
+class DynamicSelect implements Formfield, BrowseArray, Add, Browse, Edit, Store, Update
 {
     public function type(): string
     {
@@ -16,52 +23,42 @@ class DynamicSelect extends Formfield
         return __('voyager::formfields.dynamic_select.name');
     }
 
-    public function listOptions(): array
+    public function getComponentName(): string
     {
-        return [
-            'route_name'  => '',
-        ];
+        return 'formfield-dynamic-select';
     }
 
-    public function viewOptions(): array
+    public function getBuilderComponentName(): string
     {
-        return [
-            'route_name'  => '',
-        ];
+        return 'formfield-dynamic-select-builder';
     }
 
-    public function canBeTranslated()
+    public function add()
     {
-        return false;
+        return [];
     }
 
-    public function canBeUsedInList()
+    public function browse($value)
     {
-        return true;
+        if (!is_array($value)) {
+            return VoyagerFacade::getJson($value, []);
+        }
+
+        return $value;
     }
 
-    public function allowColumns()
+    public function edit($value)
     {
-        return true;
+        return $this->browse($value);
     }
 
-    public function allowComputed()
+    public function store($value)
     {
-        return false;
+        return json_encode($value);
     }
 
-    public function allowRelationships()
+    public function update($model, $value, $old)
     {
-        return false;
-    }
-
-    public function allowRelationshipColumns()
-    {
-        return false;
-    }
-
-    public function allowRelationshipPivots()
-    {
-        return false;
+        return $this->store($value);
     }
 }

@@ -37,8 +37,8 @@
                         <td class="hidden md:table-cell">
                             <span v-if="hasBread(table)">{{ getBread(table).layouts.where('type', 'view').length }}</span>
                         </td>
-                        <td class="text-right">
-                            <div v-if="hasBread(table)">
+                        <td class="flex flex-no-wrap justify-end">
+                            <template v-if="hasBread(table)">
                                 <a class="button blue" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
                                     <icon icon="globe" :size="4" />
                                     <span>
@@ -51,7 +51,7 @@
                                         {{ __('voyager::generic.backup') }}
                                     </span>
                                 </button>
-                                <dropdown ref="rollbackdd" v-if="getBackupsForTable(table).length > 0">
+                                <dropdown v-if="getBackupsForTable(table).length > 0" placement="bottom">
                                     <div>
                                         <a v-for="(bu, i) in getBackupsForTable(table)"
                                             :key="'rollback-'+i"
@@ -64,13 +64,9 @@
                                     <template #opener>
                                         <button class="button green">
                                             <icon icon="clock" :size="4" />
-                                            <span v-if="getBackupsForTable(table).length > 0">
+                                            <span>
                                                 {{ __('voyager::builder.rollback') }} ({{ getBackupsForTable(table).length }})
                                             </span>
-                                            <span v-else>
-                                                {{ __('voyager::builder.rollback') }}
-                                            </span>
-                                            
                                         </button>
                                     </template>
                                 </dropdown>
@@ -86,7 +82,7 @@
                                         {{ __('voyager::generic.delete') }}
                                     </span>
                                 </button>
-                            </div>
+                            </template>
                             <a v-else class="button green" :href="route('voyager.bread.create', table)">
                                 <icon icon="plus" :size="4" />
                                 <span class="hidden md:block">

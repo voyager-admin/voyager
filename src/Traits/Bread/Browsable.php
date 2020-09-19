@@ -5,6 +5,7 @@ namespace Voyager\Admin\Traits\Bread;
 use DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Voyager\Admin\Contracts\Formfields\Features;
 
 trait Browsable
 {
@@ -93,7 +94,8 @@ trait Browsable
     public function orderQuery($layout, $direction, $order, $query, $locale)
     {
         if (!empty($direction) && !empty($order)) {
-            if ($layout->getFormfieldByColumn($order)->column->type == 'column') {
+            $formfield = $layout->getFormfieldByColumn($order);
+            if ($formfield && $formfield->column->type == 'column') {
                 if ($layout->getFormfieldByColumn($order)->translatable ?? false) {
                     $query = $query->orderBy(DB::raw('lower('.$order.'->"$.'.$locale.'")'), $direction);
                 } else {
@@ -126,7 +128,7 @@ trait Browsable
                         $pivot = [];
                         $item->{$relationship}->each(function ($related) use (&$pivot, $formfield, $property) {
                             if (isset($related->pivot) && isset($related->pivot->{$property})) {
-                                $pivot[] = $formfield->browse($related->pivot->{$property});
+                                $pivot[] = $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($related->pivot->{$property}) : $related->pivot->{$property};
                             }
                         });
                         $item->{$column} = $pivot;
@@ -142,14 +144,26 @@ trait Browsable
                     } elseif ($item->{$relationship} instanceof Collection) {
                         // X-Many relationship
                         $item->{$column} = $item->{$relationship}->pluck($property)->transform(function ($value) use ($formfield) {
-                            return $formfield->browse($value);
+                            return $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($value) : $value;
                         });
                     } elseif (!empty($item->{$relationship})) {
                         // Normal property/X-One relationship
-                        $item->{$column} = $formfield->browse($item->{$relationship}->{$property});
+                        $item->{$column} = $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($item->{$relationship}->{$property}) : $item->{$relationship}->{$property};
                     }
+                } elseif ($formfield->translatable ?? false) {
+                    $value = $item->{$column};
+                    if (is_string($value)) {
+                        $value = json_decode($value) ?? [];
+                    } elseif (empty($value)) {
+                        $value = [];
+                    }
+                    foreach ($value as $locale => $content) {
+                        $value->{$locale} = $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($content) : $content;
+                    }
+
+                    $item->{$column} = $value;
                 } else {
-                    $item->{$column} = $formfield->browse($item->{$column});
+                    $item->{$column} = $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($item->{$column}) : $item->{$column};
                 }
             });
 

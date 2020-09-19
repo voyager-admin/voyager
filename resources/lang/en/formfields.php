@@ -1,8 +1,11 @@
 <?php
 
 return [
-    'checkboxes'        => [
-        'name'          => 'Checkboxes',
+    'simple_array'      => [
+        'name'          => 'Simple Array',
+    ],
+    'checkbox'        => [
+        'name'          => 'Checkbox',
     ],
     'dynamic_select'=> [
         'name'          => 'Dynamic Select',
@@ -27,8 +30,8 @@ return [
     'password'        => [
         'name'          => 'Password',
     ],
-    'radios'        => [
-        'name'          => 'Radios',
+    'radio'        => [
+        'name'          => 'Radio',
     ],
     'relationship'  => [
         'name'                  => 'Relationship',
@@ -41,10 +44,6 @@ return [
     ],
     'select'        => [
         'name'          => 'Select',
-    ],
-    'simple_array'      => [
-        'item_text'     => 'Item text',
-        'name'          => 'Simple Array',
     ],
     'slug'          => [
         'lower'         => 'Lower',

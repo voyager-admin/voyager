@@ -67,6 +67,7 @@ return [
     'hide'                      => 'Hide',
     'icon'                      => 'Icon',
     'info'                      => 'Info',
+    'inline'                    => 'Inline',
     'inputmode'                 => 'Input mode',
     'inputmodes'                => [
         'text'      => 'Text',

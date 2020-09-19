@@ -1,41 +1,73 @@
 <template>
-    <div v-if="show == 'list-options'">
+    <div v-if="action == 'list-options'">
         <label for="length" class="label">{{ __('voyager::generic.display_length') }}</label>
-        <plus-minus-input id="length" class="input w-full" v-model.number="options.display_length" /> 
+        <input
+            type="number"
+            id="length"
+            class="input w-full"
+            v-model.number="options.display_length" /> 
     </div>
-    <div v-else-if="show == 'view-options'">
+    <div v-else-if="action == 'view-options'">
         <label class="label mt-4">{{ __('voyager::generic.placeholder') }}</label>
         <language-input
             class="input w-full"
             type="text" :placeholder="__('voyager::generic.placeholder')"
-            v-model="options.placeholder" /> 
+            v-model="options.placeholder" />
 
-        <label class="label mt-4">{{ __('voyager::generic.default_value') }}</label>
-        <language-input
+        <label for="column" class="label">{{ __('voyager::generic.column') }}</label>
+        <select class="w-full input" id="column" :value="options.column" v-model="options.column">
+            <option v-for="(column, i) in columns" :key="i" :value="column">{{ column }}</option>
+        </select>
+        <label for="strict" class="label">Strict</label>
+        <input
+            type="checkbox"
+            id="strict"
+            class="input"
+            v-model="options.strict"
+        />
+        <label for="lower" class="label">Lower</label>
+        <input
+            type="checkbox"
+            id="lower"
+            class="input"
+            v-model="options.lower"
+        />
+        <label for="replacement" class="label">Replacement</label>
+        <input
+            type="text"
+            id="replacement"
             class="input w-full"
-            type="text" :placeholder="__('voyager::generic.default_value')"
-            v-model="options.default_value" /> 
-
-        <label class="label mt-4">{{ __('voyager::formfields.slug.replacement') }}</label>
-        <input type="text" class="input w-full" v-model="options.replacement" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.slug.lower') }}</label>
-        <input type="checkbox" class="input" v-model="options.lower" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.slug.strict') }}</label>
-        <input type="checkbox" class="input" v-model="options.strict" />
+            v-model="options.replacement"
+        />
     </div>
-    <div v-else-if="show == 'view'">
+    <div v-else-if="action == 'view'">
         <input
             type="text"
             class="input w-full"
-            v-bind:value="translate(options.default_value)"
             :placeholder="translate(options.placeholder)">
     </div>
 </template>
 
 <script>
+import formfieldBuilder from '../../../js/mixins/formfield-builder';
+
 export default {
-    props: ['options', 'column', 'show'],
-};
+    mixins: [formfieldBuilder],
+    computed: {
+        defaultListOptions: function () {
+            return {
+                display_length: 150,
+            };
+        },
+        defaultViewOptions: function () {
+            return {
+                placeholder: '',
+                column: {},
+                strict: true,
+                lower: true,
+                replacement: '-'
+            };
+        },
+    }
+}
 </script>

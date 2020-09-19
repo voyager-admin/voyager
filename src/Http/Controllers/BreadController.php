@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Voyager\Admin\Contracts\Formfields\Features;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
@@ -107,7 +108,7 @@ class BreadController extends Controller
         $relationships = $this->breadmanager->getModelRelationships($reflection, $instance, true)->values();
 
         $layout->formfields->each(function ($formfield) use (&$data) {
-            $data->put($formfield->column->column, $formfield->add());
+            $data->put($formfield->column->column, $formfield instanceof Features\ManipulateData\Add ? $formfield->add() : '');
         });
 
         if ($request->has('from_relationship')) {
@@ -151,8 +152,11 @@ class BreadController extends Controller
         $model = $this->updateStoreData($layout->formfields, $data, $model, false);
 
         if ($model->save()) {
+            // TODO: We can set a flag to true here and save only if this flag is true
             $layout->formfields->each(function ($formfield) use ($data, $model) {
-                $formfield->stored($model, $data[$formfield->column->column]);
+                if ($formfield instanceof Features\ManipulateData\AfterStore) {
+                    $formfield->stored($model, $data[$formfield->column->column]);
+                }
             });
 
             // Some formfields need to do something after the model was stored.
@@ -176,7 +180,17 @@ class BreadController extends Controller
 
         $layout->formfields->each(function ($formfield) use (&$data) {
             $value = $data->{$formfield->column->column};
-            $data->{$formfield->column->column} = $formfield->read($value);
+
+            if ($formfield->translatable ?? false) {
+                $translations = [];
+                $value = json_decode($value) ?? [];
+                foreach ($value as $locale => $translated) {
+                    $translations[$locale] = $formfield instanceof Features\ManipulateData\Read ? $formfield->read($translated) : $translated;
+                }
+                $data->{$formfield->column->column} = $translations;
+            } else {
+                $data->{$formfield->column->column} = $formfield instanceof Features\ManipulateData\Read ? $formfield->read($value) : $value;
+            }
         });
 
         return view('voyager::app', [
@@ -213,24 +227,23 @@ class BreadController extends Controller
         $reflection = $this->breadmanager->getModelReflectionClass($bread->model);
         $relationships = $this->breadmanager->getModelRelationships($reflection, $data, true)->values();
 
-        $breadData = (object) json_decode($data->toJson());
-
-        $layout->formfields->each(function ($formfield) use (&$data, &$breadData) {
+        $data = (object) json_decode($data->toJson());
+        $breadData = (object)[];
+        //$finalData
+        $layout->formfields->each(function ($formfield) use ($data, &$breadData) {
             $value = $data->{$formfield->column->column};
 
             if ($formfield->translatable ?? false) {
                 $translations = [];
                 $value = json_decode($value) ?? [];
                 foreach ($value as $locale => $translated) {
-                    $translations[$locale] = $formfield->edit($translated);
+                    $translations[$locale] = $formfield instanceof Features\ManipulateData\Edit ? $formfield->edit($translated) : $translated;
                 }
-                $breadData->{$formfield->column->column} = json_encode($translations);
+                $breadData->{$formfield->column->column} = $translations;
             } else {
-                $breadData->{$formfield->column->column} = $formfield->edit($value);
+                $breadData->{$formfield->column->column} = $formfield instanceof Features\ManipulateData\Edit ? $formfield->edit($value) : $value;
             }
         });
-
-        $data = $breadData;
 
         return view('voyager::app', [
             'component'     => 'bread-edit-add',
@@ -240,7 +253,7 @@ class BreadController extends Controller
                 'action'        => 'edit',
                 'layout'        => $layout,
                 'relationships' => $relationships,
-                'input'         => $data,
+                'input'         => $breadData,
                 'prev-url'      => url()->previous(),
                 'primary-key'   => $pk,
             ]

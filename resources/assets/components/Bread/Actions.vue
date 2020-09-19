@@ -1,18 +1,16 @@
 <template>
-    <div class="flex flex-no-wrap space-x-0.5 justify-end">
-        <div v-for="(action, i) in filteredActions" :key="i">
-            <component
-                :is="action.method == 'get' ? 'a' : 'button'"
-                class="button small"
-                :class="action.color"
-                :href="getUrl(action)"
-                @click="click(action, $event)"
-                v-show="amount(action) > 0"
-            >
-                <icon v-if="action.icon !== null" :icon="action.icon" />
-                <span>{{ trans_choice(action.title, amount(action), replace) }}</span>
-            </component>
-        </div>
+    <div v-for="(action, i) in filteredActions" :key="i">
+        <component
+            :is="action.method == 'get' ? 'a' : 'button'"
+            class="button small"
+            :class="action.color"
+            :href="getUrl(action)"
+            @click="click(action, $event)"
+            v-show="amount(action) > 0"
+        >
+            <icon v-if="action.icon !== null" :icon="action.icon" />
+            <span>{{ trans_choice(action.title, amount(action), replace) }}</span>
+        </component>
     </div>
 </template>
 

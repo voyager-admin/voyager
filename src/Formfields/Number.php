@@ -2,9 +2,10 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Contracts\Formfields\Formfield;
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
 
-class Number extends Formfield
+class Number implements Formfield, Add
 {
     public function type(): string
     {
@@ -16,27 +17,18 @@ class Number extends Formfield
         return __('voyager::formfields.number.name');
     }
 
-    public function listOptions(): array
+    public function getComponentName(): string
     {
-        return [
-            'decimals'      => 0,
-            'dec_point'     => '.',
-            'thousands_sep' => ',',
-        ];
+        return 'formfield-number';
     }
 
-    public function viewOptions(): array
+    public function getBuilderComponentName(): string
     {
-        return [
-            'placeholder'   => '',
-            'min'           => 0,
-            'max'           => 0,
-            'step'          => 1,
-        ];
+        return 'formfield-number-builder';
     }
 
     public function add()
     {
-        return 0;
+        return $this->options->default_value ?? 0;
     }
 }

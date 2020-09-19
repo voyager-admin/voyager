@@ -17,9 +17,13 @@
             </div>
         </div>
         <div class="content">
-            <div v-for="(tab, i) in tabs" :key="'slot-'+i">
-                <slot :name="tab.name" v-if="currentTab == i" />
-            </div>
+            <slide-left-transition group>
+                <template v-for="(tab, i) in tabs" :key="'slot-'+i">
+                    <div v-if="currentTab == i" :key="'slot-content-'+i">
+                        <slot :name="tab.name" />
+                    </div>
+                </template>
+            </slide-left-transition>
         </div>
     </card>
 </template>

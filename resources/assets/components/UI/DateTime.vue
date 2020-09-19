@@ -1,6 +1,6 @@
 <template>
     <div>
-        <dropdown pos="right" width="auto" class="w-full" ref="dropdown" dont-close-on-inside-click>
+        <dropdown class="w-full" ref="dropdown" dont-close-on-inside-click>
             <div class="m-4 select-none">
                 <div class="flex">
                     <div class="flex-none self-center">

@@ -95,7 +95,6 @@ class MediaController extends Controller
             }
 
             extract(pathinfo($name));
-            
             // Generate thumbnails
             VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension, $wm_add, $wm_pos, $wm_size, $wm_x, $wm_y, $wm_opac, $wm_path, &$thumbnails) {
                 $image = Intervention::make(Storage::disk($this->disk)->path($path.$name));
@@ -275,10 +274,7 @@ class MediaController extends Controller
         $dirs_deleted = 0;
 
         foreach ($request->get('files', []) as $file) {
-            if (!is_object($file)) {
-                $file = json_decode($file);
-            }
-            $path = $file->file->relative_path.$file->file->name;
+            $path = $file['file']['relative_path'].$file['file']['name'];
 
             if ($storage->getMimetype($path) == 'directory') {
                 $storage->deleteDirectory($path);
@@ -288,8 +284,8 @@ class MediaController extends Controller
                 $files_deleted++;
 
                 if (VoyagerFacade::setting('media.delete-thumbnails', true)) {
-                    foreach($file->file->thumbnails ?? [] as $thumb) {
-                        $path = $thumb->file->relative_path.$thumb->file->name;
+                    foreach($file['file']['thumbnails'] ?? [] as $thumb) {
+                        $path = $thumb['file']['relative_path'].$thumb['file']['name'];
                         $storage->delete($path);
                         $files_deleted++;
                     }

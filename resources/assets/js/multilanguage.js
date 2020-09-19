@@ -36,22 +36,14 @@ export default {
             if (this.isString(input) || this.isNumber(input) || this.isBoolean(input)) {
                 try {
                     input = JSON.parse(input);
-                } catch {
+                } catch { }
+                if (!this.isObject(input)) {
                     var value = input;
                     input = {};
                     input[this.$store.initial_locale] = value;
                 }
             } else if (!this.isObject(input)) {
                 input = {};
-            }
-
-            if (input && this.isObject(input)) {
-                this.$store.locales.forEach(function (locale) {
-                    if (!input.hasOwnProperty(locale)) {
-                        // TODO: Vue.set(input, locale, '');
-                        input[locale] = '';
-                    }
-                });
             }
 
             return input;

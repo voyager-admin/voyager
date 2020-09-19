@@ -48,6 +48,7 @@ class Settings
     {
         $this->load();
         $settings = $this->settings;
+        $asGroup = false;
 
         if (Str::contains($key, '.')) {
             // We are looking for a setting in a group
@@ -59,6 +60,7 @@ class Settings
 
             if ($group->count() == 0) {
                 $settings = $settings->where('group', $key);
+                $asGroup = true;
             } else {
                 $settings = $group;
             }
@@ -79,7 +81,7 @@ class Settings
 
         if ($settings->count() == 0) {
             return $default;
-        } elseif ($settings->count() == 1) {
+        } elseif ($settings->count() == 1 && !$asGroup) {
             $settings = $settings->first();
         }
 

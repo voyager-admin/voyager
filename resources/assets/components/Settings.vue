@@ -8,7 +8,7 @@
                         <icon icon="refresh" class="mr-0 md:mr-1 animate-spin-reverse" :size="4" v-if="savingSettings" />
                         <span>{{ __('voyager::generic.save') }}</span>
                     </button>
-                    <dropdown :width="88">
+                    <dropdown>
                         <div>
                             <div class="grid grid-cols-2">
                                 <a v-for="formfield in filterFormfields"
@@ -47,15 +47,15 @@
                                 <div class="flex space-x-1" v-if="editMode">
                                     <input
                                         type="text"
-                                        class="input small w-full md:w-1/3"
+                                        class="input small w-full md:w-1/4"
                                         v-model="setting.name"
                                         v-on:input="setting.key = slugify($event.target.value, { lower: true, strict: true })"
                                         :placeholder="__('voyager::generic.name')"
                                     >
                                     <input type="text" class="input small hidden md:block md:w-1/4" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
                                     <input type="text" class="input small w-full md:w-1/4" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
-                                    <tooltip :value="setting.info">
-                                        <input type="text" class="input small w-full md:w-1/4" v-model="setting.info" :placeholder="__('voyager::generic.info')">
+                                    <tooltip :value="setting.info" class="w-full md:w-1/4">
+                                        <input type="text" class="input small w-full" v-model="setting.info" :placeholder="__('voyager::generic.info')">
                                     </tooltip>
                                 </div>
                                 <div v-else>
@@ -74,16 +74,16 @@
                                             <template #actions>
                                                 <locale-picker />
                                             </template>
-                                            <div v-if="setting.canBeTranslated">
-                                                <label class="label mt-4">Translatable</label>
+                                            <div v-if="$store.getFormfieldByType(setting.type).can_be_translated">
+                                                <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
                                                 <input type="checkbox" class="input" v-model="setting.translatable">
                                             </div>
 
                                             <component
-                                                :is="'formfield-'+kebabCase(setting.type)+'-builder'"
-                                                v-bind:options="setting.options"
-                                                :column="''"
-                                                show="view-options" />
+                                                :is="$store.getFormfieldByType(setting.type).builder_component"
+                                                v-model:options="setting.options"
+                                                :column="{}"
+                                                action="view-options" />
                                             <bread-builder-validation v-model="setting.validation" />
 
                                             <template #opener>
@@ -108,11 +108,12 @@
                                         </ul>
                                     </alert>
                                     <component
-                                        :is="'formfield-'+kebabCase(setting.type)+'-edit-add'"
+                                        :is="$store.getFormfieldByType(setting.type).component"
                                         :model-value="data(setting, null)"
                                         @update:model-value="data(setting, $event)"
                                         :options="setting.options"
-                                        :show="'edit'" />
+                                        :column="{}"
+                                        action="edit" />
                                 </div>
                             </card>
                         </div>
@@ -204,8 +205,7 @@ export default {
                 value: null,
                 info: '',
                 translatable: false,
-                canBeTranslated: JSON.parse(JSON.stringify(formfield.canBeTranslated)),
-                options: JSON.parse(JSON.stringify(formfield.viewOptions)),
+                options: {},
                 validation: [],
             });
         },
@@ -269,7 +269,7 @@ export default {
     },
     computed: {
         filterFormfields: function () {
-            return this.$store.formfields.where('asSetting', true);
+            return this.$store.formfields.where('in_settings', true);
         },
         groups: function () {
             var groups = ['no-group'];

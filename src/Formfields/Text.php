@@ -2,9 +2,9 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Contracts\Formfields\Formfield;
 
-class Text extends Formfield
+class Text implements Formfield
 {
     public function type(): string
     {
@@ -16,20 +16,13 @@ class Text extends Formfield
         return __('voyager::formfields.text.name');
     }
 
-    public function listOptions(): array
+    public function getComponentName(): string
     {
-        return [
-            'display_length'    => 150,
-        ];
+        return 'formfield-text';
     }
 
-    public function viewOptions(): array
+    public function getBuilderComponentName(): string
     {
-        return [
-            'placeholder'   => '',
-            'default_value' => '',
-            'rows'          => 1,
-            'inputmode'     => 'text',
-        ];
+        return 'formfield-text-builder';
     }
 }

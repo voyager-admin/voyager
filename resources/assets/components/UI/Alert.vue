@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded-md p-4 border" :class="`border-${color}-500`">
+    <div class="rounded-md p-2 border" :class="`border-${color}-500`">
         <div class="flex items-center">
             <div class="flex-shrink-0" v-if="icon">
                 <icon :icon="icon" :size="5" :class="`text-${color}-500`" type="solid" />
@@ -8,7 +8,7 @@
                 <h3 class="text-sm leading-5 font-medium" :class="`text-${color}-500`" v-if="$slots.title">
                     <slot name="title"></slot>
                 </h3>
-                <div class="text-sm leading-5" :class="[`text-${color}-600`, {'mt-2': $slots.title}]">
+                <div class="text-sm leading-5" :class="[`text-${color}-500`, {'mt-1': $slots.title}]">
                     <slot></slot>
                 </div>
             </div>

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Action as ActionClass;
 use Voyager\Admin\Classes\Bread as BreadClass;
+use Voyager\Admin\Contracts\Formfields\Features;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Breads
@@ -277,7 +278,24 @@ class Breads
      */
     public function getFormfields()
     {
-        return $this->formfields;
+        return $this->formfields->transform(function ($formfield) {
+            return [
+                'name'                      => $formfield->name(),
+                'type'                      => $formfield->type(),
+                'can_be_translated'         => !$formfield instanceof Features\NotTranslatable,
+                'in_settings'               => !$formfield instanceof Features\NotAsSetting,
+                'in_lists'                  => !$formfield instanceof Features\NotInLists,
+                'in_views'                  => !$formfield instanceof Features\NotInViews,
+                'browse_array'              => $formfield instanceof Features\BrowseArray,
+                'allow_columns'             => !$formfield instanceof Features\Properties\NoColumns,
+                'allow_computed_props'      => !$formfield instanceof Features\Properties\NoComputedProps,
+                'allow_relationships'       => !$formfield instanceof Features\Properties\NoRelationships,
+                'allow_relationship_props'  => !$formfield instanceof Features\Properties\NoRelationshipProps,
+                'allow_relationship_pivots' => !$formfield instanceof Features\Properties\NoRelationshipPivots,
+                'component'                 => $formfield->getComponentName(),
+                'builder_component'         => $formfield->getBuilderComponentName(),
+            ];
+        });
     }
 
     /**

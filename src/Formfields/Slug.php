@@ -2,9 +2,9 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Classes\Formfield;
+use Voyager\Admin\Contracts\Formfields\Formfield;
 
-class Slug extends Formfield
+class Slug implements Formfield
 {
     public function type(): string
     {
@@ -16,22 +16,13 @@ class Slug extends Formfield
         return __('voyager::formfields.slug.name');
     }
 
-    public function listOptions(): array
+    public function getComponentName(): string
     {
-        return [
-            'display_length'    => 150,
-        ];
+        return 'formfield-slug';
     }
 
-    public function viewOptions(): array
+    public function getBuilderComponentName(): string
     {
-        return [
-            'field'         => '',
-            'placeholder'   => '',
-            'default_value' => '',
-            'replacement'   => '-',
-            'lower'         => false,
-            'strict'        => false,
-        ];
+        return 'formfield-slug-builder';
     }
 }

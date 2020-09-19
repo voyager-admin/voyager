@@ -21,6 +21,7 @@ class Layout implements \JsonSerializable
                 foreach ($value as $f) {
                     $formfield = $this->breadmanager->getFormfield($f->type);
                     if (!$formfield) {
+                        continue;
                         throw new \Exception('Formfield with type "'.$f->type.'" does not exist!');
                     }
                     $formfield = clone $formfield;

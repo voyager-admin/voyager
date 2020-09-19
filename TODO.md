@@ -26,7 +26,3 @@ Instead, they are listed here:
 - Accessors need to be named `getFieldAttribute` (ex. `getFullNameAttribute`)
 - Computed properties need to implement an accessor AND mutator when used for adding or editing
 - Press escape or double-click (most) search inputs to clear them
-
-## Tested
-
-- Slug formfield, both translatable and non-translatable

@@ -470,34 +470,33 @@ class Voyager
 
         return $thumbs->map(function ($thumb, $name) {
             $name = Str::after($name, 'thumbnails.');
-
-            if (is_array($thumb) && count($thumb) == 5) {
-                if ($thumb[0] == 'fit') {
+            if (is_object($thumb)) {
+                if ($thumb->method == 'fit') {
                     return [
                         'name'      => $name,
                         'method'    => 'fit',
-                        'width'     => $thumb[1],
-                        'height'    => empty($thumb[2]) ? null : $thumb[2],
-                        'position'  => empty($thumb[3]) ? 'center' : $thumb[3],
-                        'upsize'    => empty($thumb[4]) ? false : $thumb[4],
+                        'width'     => $thumb->width,
+                        'height'    => empty($thumb->height) ? null : $thumb->height,
+                        'position'  => empty($thumb->position) ? 'center' : $thumb->position,
+                        'upsize'    => empty($thumb->upsize) ? false : $thumb->upsize,
                     ];
-                } elseif ($thumb[0] == 'crop') {
+                } elseif ($thumb->method == 'crop') {
                     return [
                         'name'      => $name,
                         'method'    => 'crop',
-                        'width'     => $thumb[1],
-                        'height'    => $thumb[2],
-                        'x'         => empty($thumb[3]) ? null : $thumb[3],
-                        'y'         => empty($thumb[4]) ? null : $thumb[4],
+                        'width'     => $thumb->width,
+                        'height'    => $thumb->height,
+                        'x'         => empty($thumb->x) ? null : $thumb->x,
+                        'y'         => empty($thumb->y) ? null : $thumb->y,
                     ];
-                } elseif ($thumb[0] == 'resize') {
+                } elseif ($thumb->method == 'resize') {
                     return [
                         'name'      => $name,
                         'method'    => 'resize',
-                        'width'     => empty($thumb[1]) ? null : $thumb[1],
-                        'height'    => empty($thumb[2]) ? null : $thumb[2],
-                        'aspect'    => empty($thumb[3]) ? true : $thumb[3],
-                        'upsize'    => empty($thumb[4]) ? false : $thumb[4],
+                        'width'     => empty($thumb->width) ? null : $thumb->width,
+                        'height'    => empty($thumb->height) ? null : $thumb->height,
+                        'aspect'    => empty($thumb->keep_aspect_ratio) ? true : $thumb->keep_aspect_ratio,
+                        'upsize'    => empty($thumb->upsize) ? false : $thumb->upsize,
                     ];
                 }
             }

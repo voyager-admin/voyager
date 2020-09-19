@@ -22,7 +22,7 @@ export default {
         return {
             query: '',
             page: 0,
-            resultsPerPage: 120,
+            resultsPerPage: 60,
         };
     },
     methods: {

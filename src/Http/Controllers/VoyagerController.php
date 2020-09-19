@@ -126,10 +126,10 @@ class VoyagerController extends Controller
 
     public function getThumbnailOptions(Request $request)
     {
-        $selected = $request->get('selected', []);
+        extract($request->all());
 
         $options = [
-            [
+            'method' => [
                 'fit'    => __('voyager::media.thumbnails.fit'),
                 'crop'   => __('voyager::media.thumbnails.crop'),
                 'resize' => __('voyager::media.thumbnails.resize'),
@@ -137,17 +137,17 @@ class VoyagerController extends Controller
             ]
         ];
 
-        if (count($selected) > 0 && $selected[0] !== null) {
-            if ($selected[0] == 'fit') {
-                $options[] = [
+        if (!empty($method)) {
+            if ($method == 'fit') {
+                $options['width'] = [
                     'type'  => 'number',
                     'label' => __('voyager::media.thumbnails.width'),
                 ];
-                $options[] = [
+                $options['height'] = [
                     'type'  => 'number',
                     'label' => __('voyager::media.thumbnails.height_optional'),
                 ];
-                $options[] = [
+                $options['position'] = [
                     'top-left'      => __('voyager::media.thumbnails.pos.top_left'),
                     'top'           => __('voyager::media.thumbnails.pos.top'),
                     'top-right'     => __('voyager::media.thumbnails.pos.top_right'),
@@ -159,43 +159,43 @@ class VoyagerController extends Controller
                     'bottom-right'  => __('voyager::media.thumbnails.pos.bottom_right'),
                     'label'         => __('voyager::media.thumbnails.position'),
                 ];
-                $options[] = [
+                $options['upsize'] = [
                     'type'  => 'checkbox',
-                    'label' => __('voyager::media.thumbnails.dont_upsize'),
+                    'label' => __('voyager::media.thumbnails.upsize'),
                 ];
-            } elseif ($selected[0] == 'crop') {
-                $options[] = [
+            } elseif ($method == 'crop') {
+                $options['width'] = [
                     'type'  => 'number',
                     'label' => __('voyager::media.thumbnails.width'),
                 ];
-                $options[] = [
+                $options['height'] = [
                     'type'  => 'number',
                     'label' => __('voyager::media.thumbnails.height'),
                 ];
-                $options[] = [
+                $options['x'] = [
                     'type'  => 'number',
                     'label' => __('voyager::media.thumbnails.x_optional'),
                 ];
-                $options[] = [
+                $options['y'] = [
                     'type'  => 'number',
                     'label' => __('voyager::media.thumbnails.y_optional'),
                 ];
-            } elseif ($selected[0] == 'resize') {
-                $options[] = [
+            } elseif ($method == 'resize') {
+                $options['width'] = [
                     'type'  => 'number',
                     'label' => __('voyager::media.thumbnails.width'),
                 ];
-                $options[] = [
+                $options['height'] = [
                     'type'  => 'number',
                     'label' => __('voyager::media.thumbnails.height'),
                 ];
-                $options[] = [
+                $options['keep_aspect_ratio'] = [
                     'type'  => 'checkbox',
                     'label' => __('voyager::media.thumbnails.keep_aspect_ratio'),
                 ];
-                $options[] = [
+                $options['upsize'] = [
                     'type'  => 'checkbox',
-                    'label' => __('voyager::media.thumbnails.dont_upsize'),
+                    'label' => __('voyager::media.thumbnails.upsize'),
                 ];
             }
         }

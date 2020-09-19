@@ -45,18 +45,25 @@
         </div>
     </card>
 
-    <collapsible title="Heading" id="ui-headings">
-        <h1>H1 Heading</h1>
-        <h2>H2 Heading</h2>
-        <h3>H3 Heading</h3>
-        <h4>H4 Heading</h4>
-        <h5>H5 Heading</h5>
-        <h6>H6 Heading</h6>
-    </collapsible>
-
-    <collapsible title="Icons" id="ui-icons">
-        <icon-picker />
-    </collapsible>
+    <card dont-show-header>
+        <div class="w-full flex">
+            <div class="w-6/12">
+                <collapsible title="Headings" id="ui-headings" class="h-full">
+                    <h1>H1 Heading</h1>
+                    <h2>H2 Heading</h2>
+                    <h3>H3 Heading</h3>
+                    <h4>H4 Heading</h4>
+                    <h5>H5 Heading</h5>
+                    <h6>H6 Heading</h6>
+                </collapsible>
+            </div>
+            <div class="w-6/12">
+                <collapsible title="Icons" id="ui-icons" class="h-full">
+                    <icon-picker />
+                </collapsible>
+            </div>
+        </div>
+    </card>
 
     <collapsible title="Buttons" id="ui-buttons">
         <collapsible title="Default" :title-size="5">
@@ -141,9 +148,6 @@
         <collapsible title="With label" :title-size="5">
             <label class="label" for="labeled-input">Label</label>
             <input type="text" class="input w-full" id="labeled-input" placeholder="Placeholder" />
-        </collapsible>
-        <collapsible title="Plus/Minus" closed :title-size="5">
-            <plus-minus-input :modelValue="1" :step="1.5" :max="10" v-model="$ui.number" />
         </collapsible>
     </collapsible>
 

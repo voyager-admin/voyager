@@ -15,10 +15,12 @@
                     <card :title="translate(formfield.options.title, true)" :title-size="5" :show-title="translate(formfield.options.label, true) !== ''">
                         <div>
                             <component
-                                :is="'formfield-'+kebabCase(formfield.type)+'-read'"
-                                :data="getData(formfield.column)"
+                                :is="$store.getFormfieldByType(formfield.type).component"
+                                :column="formfield.column"
+                                :modelValue="getData(formfield)"
                                 :translatable="formfield.translatable"
-                                :options="formfield.options" />
+                                :options="formfield.options"
+                                action="read" />
                             <p class="description" v-if="translate(formfield.options.description, true) !== ''">
                                 {{ translate(formfield.options.description, true) }}
                             </p>
@@ -34,8 +36,12 @@
 export default {
     props: ['bread', 'data', 'primary', 'layout', 'prevUrl'],
     methods: {
-        getData: function (column) {
-            return this.data[column.column];
+        getData: function (formfield) {
+            if (formfield.translatable || false) {
+                return this.data[formfield.column.column][this.$store.locale] || '';
+            }
+
+            return this.data[formfield.column.column];
         }
     },
 };

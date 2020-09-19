@@ -21,7 +21,7 @@ return [
     'thumbnail_amount'          => 'One thumbnail|:num thumbnails',
     'thumbnails'                => [
         'crop'              => 'Crop',
-        'dont_upsize'       => 'Don\'t upsize',
+        'upsize'            => 'Upsize',
         'fit'               => 'Fit',
         'height'            => 'Height',
         'height_optional'   => 'Height (optional)',

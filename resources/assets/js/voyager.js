@@ -4,6 +4,15 @@ import { createApp } from 'vue';
 import slugify from 'slugify';
 window.slugify = slugify;
 
+// Popper
+import {
+    popperGenerator as PopperGenerator,
+    defaultModifiers as PopperDefaultModifiers,
+} from '@popperjs/core/lib/popper-lite';
+import PopperFlip from '@popperjs/core/lib/modifiers/flip';
+import PopperPreventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
+import PopperArrow from '@popperjs/core/lib/modifiers/arrow';
+
 import Voyager from 'components/Voyager';
 
 // Multi language
@@ -17,15 +26,15 @@ import UrlMixin from 'mixins/url';
 
 // Components
 import * as BreadComponents from './bread';
+import * as FormfieldComponents from './formfields';
 import * as LayoutComponents from './layout';
 import * as PageComponents from './pages';
 import * as TransitionComponents from './transitions';
 import * as UIComponents from './ui';
 
-import FormfieldComponents from './formfields';
-
 let components = {
     ...BreadComponents,
+    ...FormfieldComponents,
     ...LayoutComponents,
     ...PageComponents,
     ...TransitionComponents,
@@ -42,14 +51,13 @@ let voyager;
 window.createVoyager = function (data = {}, main = true) {
     voyager = createApp((main ? Voyager : Login), data);
 
-    voyager.config.globalProperties.slugify = slugify;
-
     voyager.config.globalProperties.Status = Object.freeze({
         Pending  : 1,
         Uploading: 2,
         Finished : 3,
         Failed   : 4,
     });
+    window.Status = voyager.config.globalProperties.Status;
 
     voyager.use(Multilanguage, {
         localization: data.localization,
@@ -60,14 +68,18 @@ window.createVoyager = function (data = {}, main = true) {
     voyager.mixin(TypeMixin);
     voyager.mixin(UrlMixin);
 
-    FormfieldComponents(voyager);
-
+    voyager.config.globalProperties.slugify = slugify;
     voyager.config.globalProperties.$store = Store;
     voyager.config.globalProperties.$eventbus = Eventbus;
+    voyager.config.globalProperties.$notification = Notification;
+    voyager.config.globalProperties.createPopper = PopperGenerator({
+        defaultModifiers: [...PopperDefaultModifiers, PopperFlip, PopperPreventOverflow, PopperArrow],
+    });
+
     window.$eventbus = Eventbus;
 
-    voyager.config.errorHandler = Store.handleError;
-    voyager.config.warnHandler = Store.handleWarning;
+    //voyager.config.errorHandler = Store.handleError;
+    //voyager.config.warnHandler = Store.handleWarning;
 
     voyager.config.globalProperties.colors = [
         'accent',
@@ -86,7 +98,6 @@ window.createVoyager = function (data = {}, main = true) {
     for (var key in components) {
         voyager.component(StringMixin.methods.kebabCase(key), components[key]);
     }
-    voyager.config.globalProperties.$notification = Notification;
 
     window.voyager = voyager;
 };
