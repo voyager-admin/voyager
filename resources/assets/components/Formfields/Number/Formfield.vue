@@ -1,16 +1,26 @@
 <template>
-    <div v-if="action == 'query'">
+    <div v-if="action == 'query'" class="w-full inline-flex space-x-0.5">
         <input
-            class="input small w-full"
-            :value="modelValue"
+            class="input small"
             type="number"
             :min="options.min || 0"
             :max="options.max || Number.MAX_SAFE_INTEGER"
             :step="options.step || 1"
             :placeholder="placeholder"
-            @input="$emit('update:modelValue', $event.target.value)"
-            @dblclick="$emit('update:modelValue', null)"
-            @keydown.esc="$emit('update:modelValue', null)"
+            v-model.number="fromValue"
+            @dblclick="fromValue = null"
+            @keydown.esc="fromValue = null"
+        />
+        <input
+            class="input small"
+            type="number"
+            :min="options.min || 0"
+            :max="options.max || Number.MAX_SAFE_INTEGER"
+            :step="options.step || 1"
+            :placeholder="placeholder"
+            v-model.number="toValue"
+            @dblclick="toValue = null"
+            @keydown.esc="toValue = null"
         />
     </div>
     <div v-else-if="action == 'edit' || action == 'add'">
@@ -38,7 +48,37 @@ export default {
     computed: {
         formattedNumber: function () {
             return this.numberFormat(this.modelValue, this.options.decimals || 0, this.options.dec_point || '.', this.options.thousands_sep || ',');
-        }
+        },
+        fromValue: {
+            get: function () {
+                return (this.modelValue || {}).from || null;
+            },
+            set: function (val) {
+                var value = this.modelValue || {
+                    from: null,
+                    to: null
+                };
+                value.from = val;
+                value.to = (value.to === undefined ? null : value.to);
+
+                this.$emit('update:modelValue', value);
+            }
+        },
+        toValue: {
+            get: function () {
+                return (this.modelValue || {}).to || null;
+            },
+            set: function (val) {
+                var value = this.modelValue || {
+                    from: null,
+                    to: null
+                };
+                value.from = (value.from === undefined ? null : value.from);
+                value.to = val;
+
+                this.$emit('update:modelValue', value);
+            }
+        },
     }
 }
 </script>

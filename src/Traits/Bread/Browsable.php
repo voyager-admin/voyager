@@ -31,20 +31,7 @@ trait Browsable
         if (!empty($global)) {
             return $query->where(function ($query) use ($global, $layout, $locale) {
                 $layout->searchableFormfields()->each(function ($formfield) use (&$query, $global, $locale) {
-                    if ($formfield->translatable ?? false) {
-                        $query->orWhere(DB::raw('lower('.$formfield->column->column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($global).'%');
-                    } elseif ($formfield->column->type == 'column') {
-                        $query->orWhere(DB::raw('lower('.$formfield->column->column.')'), 'LIKE', '%'.strtolower($global).'%');
-                    } elseif ($formfield->column->type == 'relationship') {
-                        list($name, $column) = explode('.', $formfield->column->column);
-                        $query = $query->orWhereHas($name, function ($q) use ($column, $global, $locale, $formfield) {
-                            if ($formfield->translatable ?? false) {
-                                $q->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($global).'%');
-                            } else {
-                                $q->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($global).'%');
-                            }
-                        });
-                    }
+                    $query = $this->queryColumn($query, $formfield, $global, $locale, true);
                 });
             });
         }
@@ -56,24 +43,11 @@ trait Browsable
     {
         collect(array_filter($filters))->each(function ($filter, $column) use ($layout, &$query, $locale) {
             $formfield = $layout->getFormfieldByColumn($column);
-            $translatable = $formfield->translatable ?? false;
             if (!$formfield) {
                 return;
             }
-            if ($formfield->column->type == 'column' && $translatable) {
-                $query = $query->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
-            } elseif ($formfield->column->type == 'column') {
-                $query = $query->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
-            } elseif ($formfield->column->type == 'relationship') {
-                list($name, $column) = explode('.', $formfield->column->column);
-                $query = $query->whereHas($name, function ($q) use ($column, $filter, $translatable, $locale) {
-                    if ($translatable) {
-                        $q->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
-                    } else {
-                        $q->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
-                    }
-                });
-            }
+
+            $query = $this->queryColumn($query, $formfield, $filter, $locale);
         });
 
         return $query;
@@ -169,5 +143,32 @@ trait Browsable
 
             return $item;
         });
+    }
+
+    private function queryColumn($query, $formfield, $filter, $locale, $global = false)
+    {
+        $translatable = $formfield->translatable ?? false;
+        $column = $formfield->column->column;
+
+        if ($formfield instanceof Features\ManipulateData\Query) {
+            return $formfield->query($query, $filter, ($translatable ? $locale : null), $global);
+        }
+
+        if ($formfield->column->type == 'column' && $translatable) {
+            $query = $query->{$global ? 'orWhere' : 'where'}(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
+        } elseif ($formfield->column->type == 'column') {
+            $query = $query->{$global ? 'orWhere' : 'where'}(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
+        } elseif ($formfield->column->type == 'relationship') {
+            list($name, $column) = explode('.', $formfield->column->column);
+            $query = $query->{$global ? 'orWhereHas' : 'whereHas'}($name, function ($q) use ($column, $filter, $translatable, $locale) {
+                if ($translatable) {
+                    $q->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
+                } else {
+                    $q->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
+                }
+            });
+        }
+
+        return $query;
     }
 }
