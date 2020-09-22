@@ -6,8 +6,6 @@ Instead, they are listed here:
 - Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
 - Measure bread loading times and cache them if necessary
-- Replace BREAD rollback dropdown so tables can get `overflow-x-auto`
-- Ordering settings does not really work
 - Media manager: While uploading files, they are shown in every folder
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
 - Revise formfields to properly emit `update:modelValue`
