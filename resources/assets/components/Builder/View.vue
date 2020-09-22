@@ -3,15 +3,21 @@
         <div v-for="(formfield, key) in formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
             <card :title="translate(formfield.options.title) || ''" :title-size="5">
                 <template #actions>
-                    <button class="button small">
-                        <icon icon="chevron-left" @click.prevent.stop="prev(formfield)" />
-                    </button>
-                    <button class="button small">
-                        <icon icon="chevron-right" @click.prevent.stop="next(formfield)" />
-                    </button>
-                    <button class="button small" @mousedown="startResize(key)">
-                        <icon icon="switch-horizontal" class="cursor-move" />
-                    </button>
+                    <tooltip :value="__('voyager::builder.move_up')">
+                        <button class="button small">
+                            <icon icon="chevron-left" @click.prevent.stop="prev(formfield)" />
+                        </button>
+                    </tooltip>
+                    <tooltip :value="__('voyager::builder.move_down')">
+                        <button class="button small">
+                            <icon icon="chevron-right" @click.prevent.stop="next(formfield)" />
+                        </button>
+                    </tooltip>
+                    <tooltip :value="__('voyager::builder.resize')">
+                        <button class="button small" @mousedown="startResize(key)">
+                            <icon icon="switch-horizontal" class="cursor-move" />
+                        </button>
+                    </tooltip>
                     <slide-in :title="__('voyager::generic.options')">
                         <template #actions>
                             <locale-picker />

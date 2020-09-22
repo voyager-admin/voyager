@@ -45,8 +45,7 @@
 }
 
 .button {
-    @apply whitespace-no-wrap inline-flex items-center mx-1 px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md cursor-pointer;
-
+    @apply whitespace-no-wrap inline-flex items-center mx-1 px-2 py-1 border border-transparent text-sm leading-4 font-medium rounded-md cursor-pointer;
     @include bg-color(button-bg-color, 'colors.gray.50');
     @include border-color(button-border-color, 'colors.gray.300');
     @include text-color(button-text-color, 'colors.gray.600'); 
@@ -120,14 +119,6 @@
                 @include bg-color(accent-active-hover-color, 'colors.blue.700');
             }
         }
-    }
-
-    &.small {
-        @apply px-2 py-1 text-sm leading-4;
-    }
-
-    &.large {
-        @apply px-4 py-2 text-sm leading-5;
     }
 
     span {

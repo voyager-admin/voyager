@@ -171,11 +171,11 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function registerActions()
     {
-        $read_action = (new Action('voyager::generic.read', 'book-open', 'accent'))
+        $read_action = (new Action('voyager::generic.read', 'book-open'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.read';
         })->permission('read');
-        $edit_action = (new Action('voyager::generic.edit', 'pencil', 'yellow'))
+        $edit_action = (new Action('voyager::generic.edit', 'pencil'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.edit';
         })->permission('edit');
@@ -190,7 +190,7 @@ class VoyagerServiceProvider extends ServiceProvider
         ->reloadAfter()
         ->permission('delete');
 
-        $restore_action = (new Action('voyager::generic.restore', 'trash', 'yellow'))
+        $restore_action = (new Action('voyager::generic.restore', 'trash'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.restore';
         })

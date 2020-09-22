@@ -24,10 +24,10 @@ class Action
      *
      * @param string $title The title as a string or translation-key.
      * @param string $icon  The icon of the button. "null" for no icon.
-     * @param string $color The color of the button. Defaults to "accent".
+     * @param string $color The color of the button. Defaults to none.
      * @return self
      */
-    public function __construct($title, $icon = null, string $color = 'accent')
+    public function __construct($title, $icon = null, string $color = '')
     {
         $this->title = $title;
         $this->icon = $icon;

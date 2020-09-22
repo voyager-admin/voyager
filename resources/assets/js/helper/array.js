@@ -54,7 +54,7 @@ Array.prototype.pluck = function (prop) {
 }
 
 Array.prototype.diff = function (arr) {
-    return this.filter(x => !arr.includes(x))
+    return this.filter(x => !arr.includes(x));
 }
 
 Array.prototype.moveElementUp = function (el) {

@@ -24,6 +24,10 @@ export default {
         },
         value: {
             default: null,
+        },
+        absolute: {
+            type: Boolean,
+            default: false
         }
     },
     data: function () {
@@ -53,7 +57,7 @@ export default {
                         this.$refs.slot,
                         this.$refs.tooltip, {
                             placement: this.placement,
-                            strategy: 'fixed',
+                            strategy: this.absolute ? 'absolute' : 'fixed',
                         }
                     );
                 });

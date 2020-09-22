@@ -66,89 +66,99 @@
     </card>
 
     <collapsible title="Buttons" id="ui-buttons">
-        <collapsible title="Default" :title-size="5">
-            <button class="button mb-1">
-                Default
-            </button>
-            <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
-                {{ __('voyager::generic.color_names.'+color) }}
-            </button>
-        </collapsible>
-        <collapsible title="Active" :title-size="5">
-            <button class="button active mb-1">
-                Default
-            </button>
-            <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1', 'active']">
-                {{ __('voyager::generic.color_names.'+color) }}
-            </button>
-        </collapsible>
-        <collapsible title="Disabled" :title-size="5">
-            <button class="button mb-1" disabled>
-                Default
-            </button>
-            <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']" disabled>
-                {{ __('voyager::generic.color_names.'+color) }}
-            </button>
-        </collapsible>
-        <collapsible title="Small" :title-size="5">
-            <button class="button small mb-1">
-                Default
-            </button>
-            <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
-                {{ __('voyager::generic.color_names.'+color) }}
-            </button>
-        </collapsible>
-        <collapsible title="Large" :title-size="5">
-            <button class="button large mb-1">
-                Default
-            </button>
-            <button v-for="color in colors" :key="'button-'+color" :class="['button', 'large', color, 'mb-1']">
-                {{ __('voyager::generic.color_names.'+color) }}
-            </button>
-        </collapsible>
-        <collapsible title="With Icon" :title-size="5">
-            <button class="button small mb-1">
-                <icon icon="information-circle" class="mr-1"></icon>
-                Default
-            </button>
-            <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
-                <icon icon="information-circle" class="mr-1"></icon>
-                {{ __('voyager::generic.color_names.'+color) }}
-            </button>
-        </collapsible>
-        <collapsible title="Responsive" :title-size="5">
-            <button :class="['button', 'small', 'mb-1']">
-                <icon icon="information-circle"></icon>
-                <span>Default</span>
-            </button>
-            <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
-                <icon icon="information-circle"></icon>
-                <span>{{ __('voyager::generic.color_names.'+color) }}</span>
-            </button>
-        </collapsible>
-        <collapsible title="Button group" :title-size="5">
-            <div class="button-group">
-                <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
-                    {{ __('voyager::generic.color_names.'+color) }}
-                </button>
+        <div class="w-full flex">
+            <div class="w-4/12">
+                <collapsible title="Default" :title-size="5">
+                    <div class="flex flex-wrap justify-center">
+                        <button class="button mb-1">
+                            Default
+                        </button>
+                        <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
+                            {{ __('voyager::generic.color_names.'+color) }}
+                        </button>
+                    </div>
+                </collapsible>
             </div>
-        </collapsible>
+            <div class="w-4/12">
+                <collapsible title="Active" :title-size="5">
+                    <div class="flex flex-wrap justify-center">
+                        <button class="button active mb-1">
+                            Default
+                        </button>
+                        <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1', 'active']">
+                            {{ __('voyager::generic.color_names.'+color) }}
+                        </button>
+                    </div>
+                </collapsible>
+            </div>
+            <div class="w-4/12">
+                <collapsible title="Disabled" :title-size="5">
+                    <div class="flex flex-wrap justify-center">
+                        <button class="button mb-1" disabled>
+                            Default
+                        </button>
+                        <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']" disabled>
+                            {{ __('voyager::generic.color_names.'+color) }}
+                        </button>
+                    </div>
+                </collapsible>
+            </div>
+        </div>
+        <div class="w-full flex">
+            <div class="w-4/12">
+                <collapsible title="With Icon" :title-size="5">
+                    <div class="flex flex-wrap justify-center">
+                        <button class="button small mb-1">
+                            <icon icon="information-circle" class="mr-1" :size="4"></icon>
+                            Default
+                        </button>
+                        <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
+                            <icon icon="information-circle" class="mr-1" :size="4"></icon>
+                            {{ __('voyager::generic.color_names.'+color) }}
+                        </button>
+                    </div>
+                </collapsible>
+            </div>
+            <div class="w-4/12">
+                <collapsible title="Responsive" :title-size="5">
+                    <div class="flex flex-wrap justify-center">
+                        <button :class="['button', 'small', 'mb-1']">
+                            <icon icon="information-circle" :size="4"></icon>
+                            <span>Default</span>
+                        </button>
+                        <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
+                            <icon icon="information-circle" :size="4"></icon>
+                            <span>{{ __('voyager::generic.color_names.'+color) }}</span>
+                        </button>
+                    </div>
+                </collapsible>
+            </div>
+            <div class="w-4/12">
+                <collapsible title="Button group" :title-size="5">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="button-group">
+                            <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
+                                {{ __('voyager::generic.color_names.'+color) }}
+                            </button>
+                        </div>
+                    </div>
+                </collapsible>
+            </div>
+        </div>
     </collapsible>
 
     <collapsible title="Inputs" id="ui-inputs">
-        <collapsible title="Default" :title-size="5">
-            <input type="text" class="input w-full" placeholder="Placeholder" />
-        </collapsible>
-        <collapsible title="Disabled" :title-size="5">
-                <input type="text" class="input w-full" disabled placeholder="Placeholder" />
-        </collapsible>
-        <collapsible title="Small" :title-size="5">
-            <input type="text" class="input w-full small" placeholder="Placeholder" />
-        </collapsible>
-        <collapsible title="With label" :title-size="5">
-            <label class="label" for="labeled-input">Label</label>
-            <input type="text" class="input w-full" id="labeled-input" placeholder="Placeholder" />
-        </collapsible>
+        <div class="flex w-full">
+            <collapsible title="Default" :title-size="5" class="w-1/3">
+                <input type="text" class="input w-full" placeholder="Placeholder" />
+            </collapsible>
+            <collapsible title="Disabled" :title-size="5" class="w-1/3">
+                    <input type="text" class="input w-full" disabled placeholder="Placeholder" />
+            </collapsible>
+            <collapsible title="Small" :title-size="5" class="w-1/3">
+                <input type="text" class="input w-full small" placeholder="Placeholder" />
+            </collapsible>
+        </div>
     </collapsible>
 
     <collapsible title="Color picker" id="ui-color-picker">
@@ -212,26 +222,28 @@
     </collapsible>
 
     <collapsible title="Badges" id="ui-badges">
-        <collapsible title="Default" :title-size="5">
-            <badge v-for="color in colors" :color="color" :key="'badge-'+color">
-                {{ __('voyager::generic.color_names.'+color) }}
-            </badge>
-        </collapsible>
-        <collapsible title="Large" :title-size="5">
-            <badge v-for="color in colors" :color="color" :key="'badge-'+color" large>
-                {{ __('voyager::generic.color_names.'+color) }}
-            </badge>
-        </collapsible>
-        <collapsible title="With icon" :title-size="5">
-            <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="x">
-                {{ __('voyager::generic.color_names.'+color) }}
-            </badge>
-        </collapsible>
-        <collapsible title="Large with icon" :title-size="5">
-            <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="information-circle" large>
-                {{ __('voyager::generic.color_names.'+color) }}
-            </badge>
-        </collapsible>
+        <div class="w-full flex">
+            <collapsible title="Default" :title-size="5" class="w-1/4">
+                <badge v-for="color in colors" :color="color" :key="'badge-'+color">
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </badge>
+            </collapsible>
+            <collapsible title="Large" :title-size="5" class="w-1/4">
+                <badge v-for="color in colors" :color="color" :key="'badge-'+color" large>
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </badge>
+            </collapsible>
+            <collapsible title="With icon" :title-size="5" class="w-1/4">
+                <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="x">
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </badge>
+            </collapsible>
+            <collapsible title="Large with icon" :title-size="5" class="w-1/4">
+                <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="information-circle" large>
+                    {{ __('voyager::generic.color_names.'+color) }}
+                </badge>
+            </collapsible>
+        </div>
     </collapsible>
 
     <collapsible title="Alerts" id="ui-alerts">

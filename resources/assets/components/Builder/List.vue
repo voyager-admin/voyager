@@ -18,8 +18,12 @@
                 <tbody>
                     <tr v-for="(formfield, key) in formfields" :key="'formfield-'+key">
                         <td class="hidden md:table-cell">
-                            <icon icon="chevron-up" class="cursor-pointer" :size="4" @click.prevent.stop="up(formfield)" />
-                            <icon icon="chevron-down" class="cursor-pointer" :size="4" @click.prevent.stop="down(formfield)" />
+                            <tooltip :value="__('voyager::builder.move_up')">
+                                <icon icon="chevron-up" class="cursor-pointer" :size="4" @click.prevent.stop="up(formfield)" />
+                            </tooltip>
+                            <tooltip :value="__('voyager::builder.move_down')">
+                                <icon icon="chevron-down" class="cursor-pointer" :size="4" @click.prevent.stop="down(formfield)" />
+                            </tooltip>
                         </td>
                         <td class="hidden md:table-cell">{{ $store.getFormfieldByType(formfield.type).name }}</td>
                         <td>
@@ -139,9 +143,10 @@
                         <tr v-for="(f, key) in options.filters" :key="'filter-'+key">
                             <td>
                                 <language-input
-                                    class="input w-full"
+                                    class="input small w-full"
                                     type="text" :placeholder="__('voyager::generic.name')"
-                                    v-model="f.name" />
+                                    v-model="f.name"
+                                />
                             </td>
                             <td>
                                 <select class="input small w-full" v-model="f.column">
