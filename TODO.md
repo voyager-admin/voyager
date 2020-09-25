@@ -8,7 +8,6 @@ Instead, they are listed here:
 - Measure bread loading times and cache them if necessary
 - Media manager: While uploading files, they are shown in every folder
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
-- Revise formfields to properly emit `update:modelValue`
 
 ## Formfields
 - **Relationship** support polymorphic relationships

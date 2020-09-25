@@ -27,7 +27,7 @@
         "webpack-cli": "^3.3.12"
     },
     "dependencies": {
-        "@popperjs/core": "^2.4.4",
+        "@popperjs/core": "^2.5.2",
         "dayjs": "^1.8.36",
         "debounce": "^1.2.0",
         "heroicons": "^0.4.2",
