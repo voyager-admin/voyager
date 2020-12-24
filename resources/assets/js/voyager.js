@@ -49,7 +49,7 @@ import Store from './store';
 let voyager;
 
 window.createVoyager = function (data = {}, main = true) {
-    voyager = createApp((main ? Voyager : Login), data);
+    voyager = createApp((main ? Voyager : components.Login), data);
 
     voyager.config.globalProperties.Status = Object.freeze({
         Pending  : 1,
