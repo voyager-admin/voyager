@@ -49,6 +49,12 @@ jobs:
           extensions: mbstring, pdo_sqlite, fileinfo, gd
           tools: composer:v2
 
+      # Delete composer.lock
+      - name: Delete composer.lock
+          uses: JesseTG/rm@v1.0.2
+          with:
+            path: /composer.lock
+
       # Install PHP dependencies
       - name: Install Composer dependencies
         run: composer require "illuminate/support:${{ matrix.laravel }}"
