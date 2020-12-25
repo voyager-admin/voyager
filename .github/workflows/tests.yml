@@ -43,10 +43,11 @@ jobs:
       - uses: actions/checkout@master
       # Configure PHP
       - name: Select PHP version
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: mbstring, pdo_sqlite, fileinfo, gd
+          tools: composer:v2
 
       # Install PHP dependencies
       - name: Install Composer dependencies
