@@ -157,7 +157,7 @@
                     </table>
                 </div>
                 <div class="flex w-full">
-                    <div class="hidden lg:block w-1/2 whitespace-no-wrap">
+                    <div class="hidden lg:block w-1/2 whitespace-nowrap">
                         {{ resultDescription }}
                         <a href="#" @click.prevent="parameters.filters = {}; parameters.global = null; parameters.filter = null" v-if="showClearFilterButton">
                             {{ __('voyager::bread.clear_all_filters') }}

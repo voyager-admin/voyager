@@ -101,7 +101,7 @@ export default {
     .wrapper {
         @include border-color(tabs-border-color, 'colors.gray.200');
         .tab {
-            @apply whitespace-no-wrap py-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 capitalize;
+            @apply whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 capitalize;
             @include text-color(tabs-text-color, 'colors.gray.400');
             &:hover {
                 @include text-color(tabs-text-color-hover, 'colors.gray.700');

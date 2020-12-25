@@ -40,7 +40,7 @@
                             <div class="flex-none">
                                 <div class="w-full flex">
                                     <tooltip :value="file.name" class="flex-grow">
-                                        <p class="whitespace-no-wrap">{{ file.name }}</p>
+                                        <p class="whitespace-nowrap">{{ file.name }}</p>
                                     </tooltip>
                                     <div class="flex-grow-0">
                                         <button @click.stop="removeFile(file)">
@@ -101,7 +101,7 @@
                     </div>
                     <div class="ml-3 overflow-hidden">
                         <tooltip :value="file.name">
-                            <p class="whitespace-no-wrap">{{ file.name }}</p>
+                            <p class="whitespace-nowrap">{{ file.name }}</p>
                         </tooltip>
                     </div>
                 </div>

@@ -73,7 +73,7 @@
                                 <div class="flex-grow ml-3 overflow-hidden">
                                     <div class="flex flex-col h-full">
                                         <div class="flex-none">
-                                            <span class="whitespace-no-wrap">{{ file.file.name }}</span>
+                                            <span class="whitespace-nowrap">{{ file.file.name }}</span>
                                             <p class="text-sm" v-if="file.file.thumbnails.length > 0">
                                                 {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
                                             </p>

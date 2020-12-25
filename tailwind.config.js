@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
     purge: {
         preserveHtmlElements: true,
@@ -6,7 +8,7 @@ module.exports = {
             './resources/**/*.blade.php'
         ],
         options: {
-            whitelistPatterns: [
+            safelist: [
                 /w-[0-9]+\/[0-9]+/,     // All variations of width classes we dynamically use in the view-builder
                 /w-[0-9]+/,             // Different sizes used for icons
                 /h-[0-9]+/,             // ^
@@ -59,6 +61,8 @@ module.exports = {
                     900: '#1A202E',
                     950: '#0D1017',
                 },
+                orange: colors.orange,
+                teal: colors.teal,
             },
             spacing: {
                 '0.5': '0.125rem',
