@@ -55,7 +55,7 @@ class Breads
     /**
      * Get all BREADs from storage and validate.
      *
-     * @return \Voyager\Admin\Classes\Bread
+     * @return \Illuminate\Support\Collection<string, BreadClass>
      */
     public function getBreads()
     {
