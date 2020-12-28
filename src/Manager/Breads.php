@@ -141,9 +141,21 @@ class Breads
      *
      * @return \Voyager\Admin\Classes\Bread
      */
-    public function getBread($table)
+    public function getBread(string $table)
     {
         return $this->getBreads()->where('table', $table)->first();
+    }
+
+    /**
+     * Get a BREAD by the table name.
+     *
+     * @param string $breadName
+     *
+     * @return \Voyager\Admin\Classes\Bread
+     */
+    public function getBreadByName(string $breadName)
+    {
+        return $this->getBreads()->get($breadName);
     }
 
     /**
