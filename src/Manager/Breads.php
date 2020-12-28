@@ -87,7 +87,9 @@ class Breads
                 return $b;
             })->filter(function ($bread) {
                 return $bread !== null;
-            })->values();
+            })->values()->mapWithKeys(static function ($value, $key) {
+                return [$value->name_singular => $value];
+            });
         }
 
         return $this->breads;
