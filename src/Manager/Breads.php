@@ -95,6 +95,11 @@ class Breads
         return $this->breads;
     }
 
+    public function getBreadsForJson()
+    {
+        return $this->getBreads()->values();
+    }
+
     /**
      * Get backed-up BREADs.
      *

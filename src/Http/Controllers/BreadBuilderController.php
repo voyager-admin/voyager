@@ -217,7 +217,7 @@ class BreadBuilderController extends Controller
     {
         $this->authorize('browse breads');
         return response()->json([
-            'breads'  => $this->breadmanager->getBreads(),
+            'breads'  => $this->breadmanager->getBreadsForJson(),
             'backups' => $this->breadmanager->getBackups(),
         ], 200);
     }
