@@ -5843,20 +5843,20 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v6.7.0",
+            "version": "v6.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "b009a5632f8b9c8455fb399486a367d1ed249c09"
+                "reference": "7713cc13587e08bace7359abee69f76e6017a561"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/b009a5632f8b9c8455fb399486a367d1ed249c09",
-                "reference": "b009a5632f8b9c8455fb399486a367d1ed249c09",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/7713cc13587e08bace7359abee69f76e6017a561",
+                "reference": "7713cc13587e08bace7359abee69f76e6017a561",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^8.0",
+                "laravel/framework": "^8.18.1",
                 "mockery/mockery": "^1.3.2",
                 "orchestra/testbench-core": "^6.9.1",
                 "php": ">=7.3 || >=8.0",
@@ -5891,7 +5891,7 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v6.7.0"
+                "source": "https://github.com/orchestral/testbench/tree/v6.7.1"
             },
             "funding": [
                 {
@@ -5903,7 +5903,7 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2020-12-15T03:38:46+00:00"
+            "time": "2020-12-28T14:56:36+00:00"
         },
         {
             "name": "orchestra/testbench-core",

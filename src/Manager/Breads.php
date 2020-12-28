@@ -95,6 +95,9 @@ class Breads
         return $this->breads;
     }
 
+    /**
+     * @return Collection
+     */
     public function getBreadsForJson()
     {
         return $this->getBreads()->values();
@@ -146,7 +149,7 @@ class Breads
      *
      * @return \Voyager\Admin\Classes\Bread
      */
-    public function getBread(string $table)
+    public function getBread($table)
     {
         return $this->getBreads()->where('table', $table)->first();
     }
@@ -158,7 +161,7 @@ class Breads
      *
      * @return \Voyager\Admin\Classes\Bread
      */
-    public function getBreadByName(string $breadName)
+    public function getBreadByName($breadName)
     {
         return $this->getBreads()->get($breadName);
     }
