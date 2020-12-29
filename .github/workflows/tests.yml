@@ -51,9 +51,7 @@ jobs:
 
       # Delete composer.lock
       - name: Delete composer.lock
-        uses: JesseTG/rm@v1.0.2
-        with:
-          path: /composer.lock
+        run: rm composer.lock
 
       # Install PHP dependencies
       - name: Install Composer dependencies
