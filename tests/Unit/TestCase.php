@@ -75,9 +75,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('auth.providers.users.model', \Illuminate\Foundation\Auth\User::class);
     }
 
-    protected function getBasePath()
+    /*protected function getBasePath()
     {
         // Adjust this path depending on where your override is located.
         return __DIR__.'/../../vendor/orchestra/testbench-dusk/laravel';
-    }
+    }*/
 }
