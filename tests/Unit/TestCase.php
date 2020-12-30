@@ -35,6 +35,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function setupVoyager(): void
     {
+        // Delete voyager settings
+        $path = __DIR__.'/../../vendor/orchestra/testbench-core/laravel/storage/voyager/settings.json';
+        unlink($path);
+
         $this->artisan('voyager:install');
         $this->artisan('voyager:plugins', [
             'plugin'    => 'voyager-admin/voyager-testbench-plugin@GenericPlugin',

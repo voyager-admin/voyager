@@ -55,7 +55,7 @@ jobs:
 
       # Install PHP dependencies
       - name: Install Composer dependencies
-        run: composer require "illuminate/support:${{ matrix.laravel }}"  "illuminate/contracts:${{ matrix.laravel }}"
+        run: composer require "illuminate/support:${{ matrix.laravel }}" "illuminate/contracts:${{ matrix.laravel }}"
 
       # Run tests
       - name: Run tests

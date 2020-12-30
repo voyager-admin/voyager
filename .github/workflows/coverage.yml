@@ -30,10 +30,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '14.x'
+      # Delete composer.lock
+      - name: Delete composer.lock
+        run: rm composer.lock
 
       # Install PHP dependencies
       - name: Install Composer dependencies
-        run: composer require "illuminate/support:7.*"
+        run: composer require "illuminate/support:7.*" "illuminate/contracts:7.*"
       
       # Make sure the proper Chromedriver for Dusk is installed
       - name: Install Chromedriver for Dusk
