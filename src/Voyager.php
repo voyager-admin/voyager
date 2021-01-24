@@ -506,4 +506,14 @@ class Voyager
             return $thumb !== null;
         });
     }
+
+    /**
+     * @param string $breadName
+     *
+     * @return Classes\Bread
+     */
+    public function getBreadByName($breadName)
+    {
+        return $this->breadmanager->getBreadByName($breadName);
+    }
 }

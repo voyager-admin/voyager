@@ -55,7 +55,7 @@ class Breads
     /**
      * Get all BREADs from storage and validate.
      *
-     * @return \Voyager\Admin\Classes\Bread
+     * @return \Illuminate\Support\Collection<string, BreadClass>
      */
     public function getBreads()
     {
@@ -87,7 +87,9 @@ class Breads
                 return $b;
             })->filter(function ($bread) {
                 return $bread !== null;
-            })->values();
+            })->values()->mapWithKeys(static function ($value, $key) {
+                return [$value->name_singular => $value];
+            });
         }
 
         return $this->breads;
@@ -142,6 +144,18 @@ class Breads
     public function getBread($table)
     {
         return $this->getBreads()->where('table', $table)->first();
+    }
+
+    /**
+     * Get a BREAD by the table name.
+     *
+     * @param string $breadName
+     *
+     * @return \Voyager\Admin\Classes\Bread
+     */
+    public function getBreadByName($breadName)
+    {
+        return $this->getBreads()->get($breadName);
     }
 
     /**

@@ -27,7 +27,7 @@ createVoyager({
     locales: ["{!! implode('","', Voyager::getLocales()) !!}"],
     locale: '{{ Voyager::getLocale() }}',
     initial_locale: '{{ Voyager::getLocale() }}',
-    breads: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()) !!},
+    breads: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()->values()) !!},
     formfields: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!},
     debug: {{ var_export(config('app.debug') ?? false, true) }},
     jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
