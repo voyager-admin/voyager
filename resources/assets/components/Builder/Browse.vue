@@ -5,6 +5,7 @@
                 <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="loading" />
                 <span>{{ __('voyager::builder.reload_breads') }}</span>
             </button>
+            <locale-picker :small="false" />
         </template>
         <div class="voyager-table striped" :class="[loading ? 'loading' : '']">
             <table>
