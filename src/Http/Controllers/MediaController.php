@@ -69,7 +69,6 @@ class MediaController extends Controller
         } while (Storage::disk($this->disk)->exists($path.$name));
 
         $uploaded = Storage::disk($this->disk)->putFileAs($path, $file, $name);
-
         if (in_array($file->getClientMimeType(), $this->imagemimes)) {
             // Orientate image
             $this->orientateImage(Storage::disk($this->disk)->path($path.$name));
@@ -87,10 +86,8 @@ class MediaController extends Controller
             $wm_opac = VoyagerFacade::setting('watermark.opacity', 50);
 
             $wm_path = '';
-
-            
-            if (isset($wm->path) && Storage::disk($this->disk)->exists($wm->path.$wm->name)) {
-                $wm_path = Storage::disk($this->disk)->path($wm->path.$wm->name);
+            if (isset($wm->relative_path) && Storage::disk($wm->disk)->exists($wm->relative_path.$wm->name)) {
+                $wm_path = Storage::disk($this->disk)->path($wm->relative_path.$wm->name);
                 $wm_add = true;
             }
 

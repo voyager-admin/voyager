@@ -39,7 +39,7 @@ A generic plugin does not fit any of the other types.
 ### Theme Plugins
 
 Theme plugins allow you to customize the look and feel of Voyager.  
-After a theme was installed you can preview it by clicking `Preview.  
+After a theme was installed you can preview it by clicking `Preview`.  
 You won't see the theme anymore after reloading your page.
 
 ![](./.gitbook/assets/plugins/theme-preview.png) 
