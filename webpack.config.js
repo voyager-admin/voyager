@@ -8,7 +8,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     mode: process.env.NODE_ENV,
-    devtool: process.env.NODE_ENV === 'production' ? false : 'cheap-module-eval-source-map',
+    devtool: process.env.NODE_ENV === 'production' ? false : 'eval-cheap-module-source-map',
     entry: [
         path.resolve(__dirname, './resources/assets/js/voyager.js'),
         path.resolve(__dirname, './resources/assets/sass/voyager.scss')

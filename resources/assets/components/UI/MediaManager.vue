@@ -451,7 +451,7 @@ export default {
                 if (this.filePicked(file)) {
                     this.$emit('update:modelValue', this.modelValue.removeAtIndex(this.pickedFilePosition(file)));
                 } else {
-                    this.$emit('update:modelValue', [...this.modelValue, file.file]);
+                    this.$emit('update:modelValue', [...this.modelValue || [], file.file]);
                 }
 
                 if (matchMime(file.file.type, 'image/*') && this.modelValue === undefined) {

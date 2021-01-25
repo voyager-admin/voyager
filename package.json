@@ -4,7 +4,7 @@
         "development": "cross-env NODE_ENV=development webpack",
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production webpack",
-        "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
+        "watch": "cross-env NODE_ENV=development webpack --watch --progress",
         "icons": "node resources/assets/js/helper/generate-icons.js"
     },
     "devDependencies": {
