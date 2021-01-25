@@ -37,10 +37,6 @@ jobs:
       # Install PHP dependencies
       - name: Install Composer dependencies
         run: composer require "illuminate/support:7.*" "illuminate/contracts:7.*"
-      
-      # Make sure the proper Chromedriver for Dusk is installed
-      - name: Install Chromedriver for Dusk
-        run: ./vendor/bin/dusk-updater detect --auto-update
 
       # Install NPM dependencies
       - name: Install Dependencies
