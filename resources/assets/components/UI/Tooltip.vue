@@ -19,7 +19,11 @@ export default {
             type: String,
             default: 'bottom',
             validator: function (value) {
-                return ['auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'].includes(value);
+                return [
+                    'auto', 'auto-start', 'auto-end', 'top', 'top-start',
+                    'top-end', 'bottom', 'bottom-start', 'bottom-end',
+                    'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
+                ].includes(value);
             }
         },
         value: {
@@ -75,7 +79,7 @@ export default {
 .tooltip {
     @include bg-color(tooltip-bg-color, 'colors.black');
     @include text-color(tooltip-text-color, 'colors.white');
-    @apply rounded z-50 px-2 py-1.5 shadow;
+    @apply rounded-lg z-50 px-2 py-1.5 shadow absolute;
     
     .arrow {
         @apply absolute h-0 w-0 border-solid;
