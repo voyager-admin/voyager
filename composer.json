@@ -17,15 +17,15 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
-        "illuminate/contracts": "^7.0|^8.0",
-        "illuminate/support": "^7.0|^8.0",
-        "doctrine/dbal": "^2.12",
+        "illuminate/contracts": "^8.0",
+        "illuminate/support": "^8.0",
+        "doctrine/dbal": "^3.0",
         "composer/composer": "^2.0",
         "spatie/laravel-image-optimizer": "^1.6",
         "intervention/image": "^2.5"
     },
     "require-dev": {
-        "orchestra/testbench": "^5.0|^6.0",
+        "orchestra/testbench": "^6.0",
         "voyager-admin/voyager-testbench-plugin": "^1.2"
     },
     "autoload": {

@@ -36,7 +36,7 @@ jobs:
 
       # Install PHP dependencies
       - name: Install Composer dependencies
-        run: composer require "illuminate/support:7.*" "illuminate/contracts:7.*"
+        run: composer require "illuminate/support:8.*" "illuminate/contracts:8.*"
 
       # Install NPM dependencies
       - name: Install Dependencies

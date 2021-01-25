@@ -29,7 +29,7 @@
 
 <hr>
 
-Laravel Admin & BREAD System (Browse, Read, Edit, Add, & Delete) for Laravel 7 and up!
+Laravel Admin & BREAD System (Browse, Read, Edit, Add, & Delete) for Laravel 8 and up!
 
 ## Installation Steps
 
