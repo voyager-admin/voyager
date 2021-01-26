@@ -37,7 +37,7 @@ export default {
     mounted: function () {
         var vm = this;
         document.addEventListener('keydown', function (e) {
-            if (vm.$refs.locale_dropdown.isOpen) {
+            if (vm.$refs.locale_dropdown && vm.$refs.locale_dropdown.isOpen) {
                 if (e.key == 'ArrowDown') {
                     vm.$store.nextLocale();
                     e.preventDefault();

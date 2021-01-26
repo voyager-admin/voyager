@@ -10,15 +10,3 @@
 
 @include default.all;
 @include variable.all;
-
-// https://github.com/mono-company/mono-icons
-@import "~mono-icons/iconfont/icons";
-
-@font-face {
-    font-family: "icons";
-    src: url("voyager-assets?path=fonts/mono-icons/icons.eot") format("embedded-opentype"),
-    url("voyager-assets?path=fonts/mono-icons/icons.woff2") format("woff2"),
-    url("voyager-assets?path=fonts/mono-icons/icons.woff") format("woff"),
-    url("voyager-assets?path=fonts/mono-icons/icons.ttf") format("truetype"),
-    url("voyager-assets?path=fonts/mono-icons/icons.svg") format("svg");
-}

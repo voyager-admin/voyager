@@ -1,6 +1,10 @@
 <template>
     <div>
         <card :title="__('voyager::settings.settings')" icon="cog">
+            <alert v-if="settings.length === 0" color="red" class="mb-2">
+                <template #title>{{ __('voyager::settings.no_settings_title') }}</template>
+                <p>{{ __('voyager::settings.no_settings') }}</p>
+            </alert>
             <template #actions>
                 <div class="flex items-center">
                     <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
