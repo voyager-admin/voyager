@@ -77,7 +77,7 @@
         "type": "simple_array",
         "group": "media",
         "key": "exclude",
-        "name": "exclude",
+        "name": "Exclude",
         "value": [
             ".gitignore",
             ".DS_STORE"
