@@ -74,6 +74,20 @@
         "validation": []
     },
     {
+        "type": "simple_array",
+        "group": "media",
+        "key": "exclude",
+        "name": "exclude",
+        "value": [
+            ".gitignore",
+            ".DS_STORE"
+        ],
+        "info": "Files\/Folders to exclude",
+        "translatable": false,
+        "options": [],
+        "validation": []
+    },
+    {
         "type": "select",
         "group": "admin",
         "key": "ui-components",

@@ -27,6 +27,9 @@ class MediaController extends Controller
     public function __construct()
     {
         $this->disk = VoyagerFacade::setting('media.disk', 'public');
+        if (is_array($this->disk)) {
+            $this->disk = $this->disk[0];
+        }
         $this->path = Str::finish(VoyagerFacade::setting('media.path', '/'), '/');
     }
 
@@ -200,6 +203,7 @@ class MediaController extends Controller
         $thumbnail_names = VoyagerFacade::getThumbnailDefinitions()->pluck('name')->transform(function ($name) {
             return '_'.$name;
         })->toArray();
+        $exclude = VoyagerFacade::setting('media.exclude', []);
         $thumbnails = [];
         $storage = Storage::disk($this->disk);
         $path = Util::normalizePath($this->path.$request->get('path', ''));
@@ -241,6 +245,8 @@ class MediaController extends Controller
             return $f;
         })->filter(function ($file) {
             return $file !== null;
+        })->filter(function ($file) use ($exclude) {
+            return !Str::contains(Str::lower($file['file']['url']), $exclude);
         })->transform(function ($file) use (&$thumbnails) {
             foreach ($thumbnails as $key => $thumb) {
                 if ($thumb['original'] == $file['file']['filename']) {
