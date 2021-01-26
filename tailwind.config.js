@@ -113,12 +113,6 @@ module.exports = {
         padding: ['responsive', 'direction'],
         textAlign: ['responsive', 'direction']
     },
-    future: {
-        removeDeprecatedGapUtilities: true,
-        purgeLayersByDefault: true,
-    },
-    experimental: {
-    },
     plugins: [
         require('tailwindcss-dir')(),
     ],
