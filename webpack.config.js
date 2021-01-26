@@ -21,8 +21,7 @@ module.exports = {
         alias: {
             'components': path.resolve(__dirname, './resources/assets/components'),
             'directives': path.resolve(__dirname, './resources/assets/js/directives'),
-            'mixins': path.resolve(__dirname, './resources/assets/js/mixins'),
-            'vue': 'vue/dist/vue.esm-browser.js'
+            'mixins': path.resolve(__dirname, './resources/assets/js/mixins')
         },
         extensions: ['.vue', '.js', '.json', '.scss'],
     },

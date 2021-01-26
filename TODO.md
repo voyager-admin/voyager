@@ -9,6 +9,7 @@ Instead, they are listed here:
 - Media manager: While uploading files, they are shown in every folder
 - Media manager: When navigating through folders, it is not possible to use browser-back
 - Media manager: X and Y offset for watermarks should be percentage(?)
+- Media manager: Lightbox should scale images when they are too big
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
 
 ## Formfields
