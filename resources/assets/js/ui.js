@@ -4,7 +4,6 @@ import Badge from 'components/UI/Badge';
 import Card from 'components/UI/Card';
 import Collapsible from 'components/UI/Collapsible';
 import ColorPicker from 'components/UI/ColorPicker';
-import DateTime from 'components/UI/DateTime';
 import Dropdown from 'components/UI/Dropdown';
 import IconPicker from 'components/UI/IconPicker';
 import KeyValueForm from 'components/UI/KeyValueForm';
@@ -24,7 +23,6 @@ export {
     Card,
     Collapsible,
     ColorPicker,
-    DateTime,
     Dropdown,
     IconPicker,
     KeyValueForm,

@@ -17,9 +17,6 @@
                 <button class="button accent my-2" v-scroll-to="'ui-color-picker'">
                     Color picker
                 </button>
-                <button class="button accent my-2" v-scroll-to="'ui-datetime'">
-                    Date/Time picker
-                </button>
                 <button class="button accent my-2" v-scroll-to="'ui-tags'">
                     Tag input
                 </button>
@@ -165,39 +162,6 @@
         <collapsible title="Colors" id="ui-color-picker">
             <color-picker :describe="true"></color-picker>
         </collapsible>
-    </collapsible>
-
-    <collapsible title="Date/Time picker" id="ui-datetime">
-        <div class="flex flex-wrap lg:flex-no-wrap">
-            <card class="w-full lg:w-1/3" title="Date" :title-size="6">
-                <date-time />
-            </card>
-            <card class="w-full lg:w-1/3" title="Date and time" :title-size="6">
-                <date-time select-time format="YYYY-MM-DD HH:mm" />
-            </card>
-            <card class="w-full lg:w-1/3" title="Date and time with second" :title-size="6">
-                <date-time select-time select-seconds format="YYYY-MM-DD HH:mm:ss" />
-            </card>
-        </div>
-        <div class="flex flex-wrap lg:flex-no-wrap">
-            <card class="w-full lg:w-1/3" title="Date and time 12 hours" :title-size="6">
-                <date-time select-time am-pm format="YYYY-MM-DD hh:mm A" />
-            </card>
-            <card class="w-full lg:w-1/3" title="Date range" :title-size="6">
-                <date-time format="YYYY-MM-DD" range />
-            </card>
-            <card class="w-full lg:w-1/3" title="Date and time range" :title-size="6">
-                <date-time format="YYYY-MM-DD HH:mm" range select-time />
-            </card>
-        </div>
-        <div class="flex flex-wrap lg:flex-no-wrap">
-            <card class="w-full lg:w-1/2" title="Date and time range with seconds" :title-size="6">
-                <date-time select-time select-seconds range format="YYYY-MM-DD HH:mm:ss" />
-            </card>
-            <card class="w-full lg:w-1/2" title="Date and time range 12 hours" :title-size="6">
-                <date-time select-time am-pm range format="YYYY-MM-DD hh:mm A" />
-            </card>
-        </div>
     </collapsible>
 
     <collapsible title="Tag input" id="ui-tags">
