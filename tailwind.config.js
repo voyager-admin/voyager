@@ -9,34 +9,22 @@ module.exports = {
         ],
         options: {
             safelist: [
-                /w-[0-9]+\/[0-9]+/,     // All variations of width classes we dynamically use in the view-builder
-                /w-[0-9]+/,             // Different sizes used for icons
-                /h-[0-9]+/,             // ^
-                /border-[a-z]+-500/,
-                /bg-[a-z]+-400/,
-                /bg-[a-z]+-500/,
-                /bg-[a-z]+-600/,
-                /bg-[a-z]+-700/,
-                /text-[a-z]+-500/,
-                /text-[a-z]+-600/,
-                /grid-cols-[0-9]+/,     // Used for dashboard-widgets
-                /fill-current/,
+                /^w-[0-9]+\/[0-9]+/,     // All variations of width classes we dynamically use in the view-builder
+                /^w-[0-9]+/,             // Different sizes used for icons
+                /^h-[0-9]+/,             // ^
+                /^border-[a-z]+-500/,
+                /^bg-[a-z]+-400/,
+                /^bg-[a-z]+-500/,
+                /^bg-[a-z]+-600/,
+                /^bg-[a-z]+-700/,
+                /^text-[a-z]+-500/,
+                /^text-[a-z]+-600/,
+                /^grid-cols-[0-9]+/,     // Used for dashboard-widgets
+                /^fill-current/,
             ]
         }
     },
-    // Disabling *-Opacity plugins reduces final css size by ~750kb. This only works in Tailwind > 1.4.3
-    corePlugins: {
-        textOpacity: false,
-        backgroundOpacity: false,
-        borderOpacity: false,
-        placeholderOpacity: false,
-        divideOpacity: false,
-        gradientColorStops: false,
-        backgroundClip: false,
-    },
-    prefix: '',
-    important: false,
-    separator: ':',
+    darkMode: 'class',
     theme: {
         extend: {
             colors: {

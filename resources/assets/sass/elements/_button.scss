@@ -48,7 +48,7 @@
     @apply whitespace-nowrap inline-flex items-center mx-1 px-2 py-1 border border-transparent text-sm leading-4 font-medium rounded-md cursor-pointer;
     @include bg-color(button-bg-color, 'colors.gray.50');
     @include border-color(button-border-color, 'colors.gray.300');
-    @include text-color(button-text-color, 'colors.gray.600'); 
+    @include text-color(button-text-color, 'colors.gray.600');
 
     &:hover {
         @apply transition-colors duration-200 ease-in-out;
