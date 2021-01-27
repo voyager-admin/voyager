@@ -85,17 +85,17 @@ export default {
         };
     },
     created: function () {
-        var vm = this;
-
-        for (const key in vm.$props) {
-            if (vm.$store.hasOwnProperty(key)) {
-                vm.$store[key] = vm.$props[key];
+        for (const key in this.$props) {
+            if (this.$store.hasOwnProperty(key)) {
+                this.$store[key] = this.$props[key];
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            vm.$store.pageLoading = false;
+        document.addEventListener('DOMContentLoaded', () => {
+            this.$store.pageLoading = false;
         });
+
+        this.$store.initDarkMode();
     }
 };
 </script>

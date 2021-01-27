@@ -57,7 +57,15 @@
                 </div>
                 <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
                     <button class="button accent small" @click="$store.toggleDarkMode()">
-                        <icon :icon="$store.darkmode ? 'sun' : 'moon'" />
+                        <tooltip v-if="$store.darkmode == 'dark'" :value="__('voyager::generic.dark_mode_on')">
+                            <icon icon="moon" />
+                        </tooltip>
+                        <tooltip v-else-if="$store.darkmode == 'light'" :value="__('voyager::generic.dark_mode_off')">
+                            <icon icon="sun" />
+                        </tooltip>
+                        <tooltip v-else :value="__('voyager::generic.dark_mode_system')">
+                            <icon icon="desktop-computer" />
+                        </tooltip>
                     </button>
                     <button class="button accent small" v-scroll-to="''">
                         <icon icon="arrow-up" />
@@ -73,9 +81,11 @@
 
 <script>
 import scrollTo from '../js/directives/scroll-to';
+import Tooltip from './UI/Tooltip.vue';
 
 export default {
-    directives: {scrollTo: scrollTo}
+    components: { Tooltip },
+    directives: { scrollTo: scrollTo }
 }
 </script>
 

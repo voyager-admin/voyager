@@ -5,7 +5,8 @@ import { Notification } from './notify'
 export default reactive({
     pageLoading: true,
     sidebarOpen: true,
-    darkmode: false,
+    darkmode: 'system',
+    systemDarkmode: false,
     rtl: false,
     formfields: [],
     breads: [],
@@ -39,13 +40,47 @@ export default reactive({
         }
     },
     toggleDarkMode: function () {
-        this.darkmode = !this.darkmode;
-        if (this.darkmode) {
-            document.querySelector('html').classList.add('dark');
+        if (this.darkmode == 'light') {
+            this.darkmode = 'dark';
+        } else if (this.darkmode == 'dark') {
+            this.darkmode = 'system';
+            this.setDarkMode(this.systemDarkmode ? 'dark' : 'light');
         } else {
-            document.querySelector('html').classList.remove('dark');
+            this.darkmode = 'light';
         }
-        $eventbus.emit('darkmode', this.darkmode);
+        localStorage.mode = this.darkmode;
+        if (['dark', 'light'].includes(this.darkmode)) {
+            this.setDarkMode(this.darkmode);
+        }
+    },
+    setDarkMode: function (mode) {
+        if (mode == 'dark') {
+            document.documentElement.classList.add('dark')
+        } else if (mode == 'light') {
+            document.documentElement.classList.remove('dark')
+        }
+        this.darkmode == mode;
+    },
+    initDarkMode: function () {
+        if (('mode' in localStorage) && ['dark', 'light'].includes(localStorage.mode)) {
+            this.setDarkMode(localStorage.mode);
+            this.darkmode = localStorage.mode;
+        } else {
+            localStorage.mode = 'system';
+        }
+
+        //systemDarkmode
+        var match = window.matchMedia('(prefers-color-scheme: dark)');
+        match.addListener(() => {
+            this.systemDarkmode = match.matches;
+            if (this.darkmode == 'system') {
+                match.matches ? this.setDarkMode('dark') : this.setDarkMode('light');
+            }
+        });
+        this.systemDarkmode = match.matches;
+        if (this.darkmode == 'system') {
+            match.matches ? this.setDarkMode('dark') : this.setDarkMode('light');
+        }
     },
     toggleSidebar: function () {
         this.sidebarOpen = !this.sidebarOpen;
