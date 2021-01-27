@@ -55,9 +55,8 @@ export default {
             this.setStyles(el);
         },
         cleanupTransitionStyles: function (el) {
-            var vm = this;
-            Object.keys(this.styles).forEach(function (key) {
-                if (vm.styles[key]) {
+            Object.keys(this.styles).forEach((key) => {
+                if (this.styles[key]) {
                     el.style[key] = '';
                 }
             })
@@ -65,9 +64,8 @@ export default {
             el.style.animationDelay = '';
         },
         setStyles: function (el) {
-            var vm = this;
-            Object.keys(this.styles).forEach(function (key) {
-                var val = vm.styles[key];
+            Object.keys(this.styles).forEach((key) => {
+                var val = this.styles[key];
                 if (val) {
                     el.style[key] = val;
                 }

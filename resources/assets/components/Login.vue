@@ -78,7 +78,21 @@
 </template>
 <script>
 export default {
-    props: ['error', 'success', 'old', 'hasPasswordForgot', 'routes', 'localization', 'locales', 'locale', 'initial_locale', 'csrf_token', 'welcome', 'has_login_view', 'has_password_view'],
+    props: [
+        'error',
+        'success',
+        'old',
+        'hasPasswordForgot',
+        'routes',
+        'localization',
+        'locales',
+        'locale',
+        'initial_locale',
+        'csrf_token',
+        'welcome',
+        'has_login_view',
+        'has_password_view'
+    ],
     data: function () {
         return {
             passwordForgotOpen: false,

@@ -1,10 +1,10 @@
 <template>
-    <fade-transition :duration="250" @after-leave="destroyPopper" @enter="updatePopper">
+    <transition :duration="0" @after-leave="destroyPopper" @enter="updatePopper">
         <div class="tooltip" ref="tooltip" v-if="display && value !== null">
             <div v-html="value"></div>
             <div class="arrow" data-popper-arrow></div>
         </div>
-    </fade-transition>
+    </transition>
     <div ref="slot" @mouseenter="display = true" @mouseleave="display = false" v-bind="$attrs">
         <slot></slot>
     </div>
