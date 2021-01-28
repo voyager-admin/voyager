@@ -8,7 +8,7 @@
             @click="click(action, $event)"
             v-show="amount(action) > 0"
         >
-            <icon v-if="action.icon !== null" :icon="action.icon" />
+            <icon v-if="action.icon !== null" :icon="action.icon" :size="4" />
             <span>{{ trans_choice(action.title, amount(action), replace) }}</span>
         </component>
     </div>

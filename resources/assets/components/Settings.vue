@@ -33,7 +33,7 @@
                         </div>
                         <template #opener>
                             <button class="button green">
-                                <icon icon="plus" />
+                                <icon icon="plus" :size="4" />
                                 <span>
                                     {{ __('voyager::builder.add_formfield') }}
                                 </span>
