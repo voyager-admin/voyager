@@ -36,11 +36,11 @@
                         <div class="flex">
                             <div class="w-3/5">
                                 <div class="inline-flex">
-                                    <h5 class="mr-2">{{ plugin.name }}</h5>
+                                    <h5 class="mr-2">{{ translate(plugin.name) }}</h5>
                                     <badge :color="getPluginTypeColor(plugin.type)">{{ __('voyager::plugins.types.'+plugin.type) }}</badge>
                                 </div>
-                                <p>{{ plugin.description }}</p>
-                                <a v-if="plugin.website" :href="plugin.website" target="_blank">
+                                <p>{{ translate(plugin.description) }}</p>
+                                <a v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
                                     {{ __('voyager::generic.website') }}
                                 </a>
                                 <span v-else>&nbsp;</span>
@@ -137,7 +137,7 @@
                                 {{ plugin.version || '-' }}
                             </td>
                             <td class="w-full inline-flex justify-end">
-                                <a class="button small" v-if="plugin.website" :href="plugin.website" target="_blank">
+                                <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
                                     <icon icon="globe"></icon>
                                     {{ __('voyager::generic.website') }}
                                 </a>

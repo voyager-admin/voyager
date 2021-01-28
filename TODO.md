@@ -3,7 +3,6 @@ It only contains small things that came to our minds which we couldn't implement
 Instead, they are listed here:
 
 - Test everything on mobile (especially media manager)
-- Datepicker range needs to validate time when range is same-day
 - Modal should show scrollbar inside container, not outside
 - Measure bread loading times and cache them if necessary
 - Media manager: While uploading files, they are shown in every folder
