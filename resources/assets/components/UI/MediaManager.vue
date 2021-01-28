@@ -27,6 +27,13 @@
                     <icon icon="download"></icon>
                     <span>{{ trans_choice('voyager::media.download_files', selectedFiles.length) }}</span>
                 </button>
+                <!-- Hidden until ImageEditor is implemented -->
+                <!--
+                <button class="button accent small" v-show="imageSelected" @click="$refs.image_edit_modal.open()">
+                    <icon icon="pencil"></icon>
+                    <span>{{ __('voyager::generic.edit') }}</span>
+                </button>
+                -->
             </div>
         </div>
         <div class="w-full mb-2 rounded-md breadcrumbs">
@@ -171,6 +178,11 @@
                         />
                     </tooltip>
                 </div>
+            </div>
+        </modal>
+        <modal ref="image_edit_modal" :title="__('voyager::generic.edit_image')">
+            <div v-if="imageSelected">
+                <image-editor :file="selectedFiles[0]" />
             </div>
         </modal>
     </div>
@@ -613,7 +625,10 @@ export default {
             return vm.files.filter(function (file) {
                 return matchMime(file.file.type, 'image/*');
             });
-        }
+        },
+        imageSelected: function () {
+            return this.selectedFiles.length == 1 && matchMime(this.selectedFiles[0].file.type, 'image/*');
+        },
     },
     mounted: function () {
         var vm = this;

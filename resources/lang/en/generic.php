@@ -55,6 +55,7 @@ return [
     'display_length'            => 'Display length',
     'edit'                      => 'Edit',
     'editable'                  => 'Editable',
+    'edit_image'                => 'Edit image',
     'edit_type'                 => 'Edit :type',
     'enable'                    => 'Enable',
     'enter_query'               => 'Enter your search query',

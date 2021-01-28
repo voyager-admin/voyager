@@ -6,6 +6,7 @@ import Collapsible from 'components/UI/Collapsible';
 import ColorPicker from 'components/UI/ColorPicker';
 import Dropdown from 'components/UI/Dropdown';
 import IconPicker from 'components/UI/IconPicker';
+import ImageEditor from 'components/UI/ImageEditor';
 import KeyValueForm from 'components/UI/KeyValueForm';
 import LanguageInput from 'components/UI/LanguageInput';
 import MediaManager from 'components/UI/MediaManager';
@@ -25,6 +26,7 @@ export {
     ColorPicker,
     Dropdown,
     IconPicker,
+    ImageEditor,
     KeyValueForm,
     LanguageInput,
     MediaManager,
