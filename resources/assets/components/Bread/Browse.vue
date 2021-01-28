@@ -27,11 +27,11 @@
                 <div class="inline-flex w-full" v-if="layout.options.filters.length > 0">
                     <template v-for="(filter, i) in layout.options.filters" :key="i">
                         <badge
-                            v-if="displayFilter(filter)"
                             :color="filter.color"
                             @click="setFilter(filter)"
                             :icon="isFilterSelected(filter)"
                         >
+                            <icon v-if="filter.icon" :icon="filter.icon" class="mr-1" :size="4" />
                             {{ translate(filter.name, true) }}
                         </badge>
                     </template>
@@ -307,9 +307,6 @@ export default {
             }
 
             return null;
-        },
-        displayFilter: function (filter) {
-            return !(filter.column == '' || filter.operator == '' || this.translate(filter.name, true) == '');
         },
         orderUp: function (key, i) {
             if (i == 0 && this.parameters.page == 1) {

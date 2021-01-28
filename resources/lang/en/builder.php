@@ -66,6 +66,7 @@ return [
     'validate_all_locales'              => 'Validate all locales',
     'validate_current_locale'           => 'Validate current locale',
     'validate_locales'                  => 'Validate locales',
+    'value_or_scope'                    => 'Value or scope-name',
     'view'                              => 'View',
     'views'                             => 'Views',
 ];

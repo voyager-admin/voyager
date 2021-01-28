@@ -58,7 +58,23 @@ trait Browsable
         if (!is_null($filter) && is_array($filter)) {
             // Validate filter exists in layout
             if (collect($layout->options->filters)->where('column', $filter['column'])->where('operator', $filter['operator'])->where('value', $filter['value'])->count() > 0) {
-                $query = $query->where($filter['column'], $filter['operator'], $filter['value']);
+                if ($filter['column']) {
+                    $query = $query->where($filter['column'], $filter['operator'], $filter['value']);
+                }
+            }
+        }
+
+        return $query;
+    }
+
+    public function applyCustomScope($bread, $layout, $filter, $query)
+    {
+        if (!is_null($filter) && is_array($filter)) {
+            // Validate filter exists in layout
+            if (collect($layout->options->filters)->where('column', $filter['column'])->where('operator', $filter['operator'])->where('value', $filter['value'])->count() > 0) {
+                if ($filter['column'] === null) {
+                    $query = $query->{$filter['value']}();
+                }
             }
         }
 

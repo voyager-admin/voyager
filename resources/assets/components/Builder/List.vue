@@ -134,8 +134,9 @@
                             <th>{{ __('voyager::generic.name') }}</th>
                             <th>{{ __('voyager::generic.column') }}</th>
                             <th>{{ __('voyager::generic.operator') }}</th>
-                            <th>{{ __('voyager::generic.value') }}</th>
+                            <th>{{ __('voyager::builder.value_or_scope') }}</th>
                             <th>{{ __('voyager::generic.color') }}</th>
+                            <th>{{ __('voyager::generic.icon') }}</th>
                             <th>{{ __('voyager::generic.actions') }}</th>
                         </tr>
                     </thead>
@@ -150,11 +151,12 @@
                             </td>
                             <td>
                                 <select class="input small w-full" v-model="f.column">
+                                    <option :value="null">{{ __('voyager::generic.none') }}</option>
                                     <option v-for="column in columns" :key="column">{{ column }}</option>
                                 </select>
                             </td>
                             <td>
-                                <select class="input small w-full" v-model="f.operator">
+                                <select class="input small w-full" v-model="f.operator" :disabled="f.column === null">
                                     <option value="=">{{ __('voyager::builder.operators.equals') }}</option>
                                     <option value="!=">{{ __('voyager::builder.operators.not_equals') }}</option>
                                     <option value=">=">{{ __('voyager::builder.operators.bigger_than') }}</option>
@@ -177,6 +179,23 @@
                                         {{ __('voyager::generic.color_names.'+color) }}
                                     </option>
                                 </select>
+                            </td>
+                            <td>
+                                <modal :ref="`filter_icon_modal_${key}`" :title="__('voyager::generic.select_icon')">
+                                    <icon-picker v-on:select="$refs['filter_icon_modal_'+key].close(); f.icon = $event" />
+                                    <template #opener>
+                                        <div class="w-full">
+                                            <button class="button">
+                                                <icon class="my-1 content-center" :icon="f.icon ? f.icon : 'ban'" />
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template #actions>
+                                        <button class="button" @click="f.icon = null; $refs['filter_icon_modal_'+key].close()">
+                                            {{ __('voyager::generic.none') }}
+                                        </button>
+                                    </template>
+                                </modal>
                             </td>
                             <td>
                                 <button class="button red small" @click.stop="removeFilter(key)">
@@ -208,16 +227,18 @@ export default {
             this.$emit('update:formfields', this.formfields.moveElementDown(formfield));
         },
         addFilter: function () {
+            this.$refs.filters_collapsible.open();
             var options = this.options;
             if (!this.isArray(options.filters)) {
                 options.filters = [];
             }
             options.filters.push({
                 name: '',
-                column: '',
+                column: null,
                 operator: '=',
                 value: '',
                 color: 'accent',
+                icon: null,
             });
             this.$emit('update:options', options);
         },
