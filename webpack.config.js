@@ -23,7 +23,7 @@ module.exports = {
             'directives': path.resolve(__dirname, './resources/assets/js/directives'),
             'mixins': path.resolve(__dirname, './resources/assets/js/mixins')
         },
-        extensions: ['.vue', '.js', '.json', '.scss'],
+        extensions: ['.vue', '.js', '.json', '.scss', '.tsx', '.ts'],
     },
     performance: {
         hints: false,
@@ -49,6 +49,14 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.tsx?$/,
+                loader: 'ts-loader',
+                options: {
+                    appendTsSuffixTo: [/\.vue$/],
+                },
+                exclude: /node_modules/,
+            },
             {
                 test: /\.vue$/,
                 use: 'vue-loader'
