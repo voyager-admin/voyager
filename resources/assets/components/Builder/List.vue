@@ -214,19 +214,19 @@
 export default {
     emits: ['update:formfields', 'update:options', 'delete'],
     props: ['computed', 'columns', 'relationships', 'formfields', 'options'],
-    data: function () {
+    data() {
         return {
             colors: this.colors,
         };
     },
     methods: {
-        up: function (formfield) {
+        up(formfield) {
             this.$emit('update:formfields', this.formfields.moveElementUp(formfield));
         },
-        down: function (formfield) {
+        down(formfield) {
             this.$emit('update:formfields', this.formfields.moveElementDown(formfield));
         },
-        addFilter: function () {
+        addFilter() {
             this.$refs.filters_collapsible.open();
             var options = this.options;
             if (!this.isArray(options.filters)) {
@@ -242,7 +242,7 @@ export default {
             });
             this.$emit('update:options', options);
         },
-        removeFilter: function (key) {
+        removeFilter(key) {
             var options = this.options;
             options.filters.splice(key, 1);
             this.$emit('update:options', options);

@@ -50,7 +50,7 @@ class Fetch {
             }
             return response;
         })
-        .then(function (response) {
+        .then((response) => {
             try {
                 var json = JSON.parse(response.data);
                 response.data = json;

@@ -1,5 +1,5 @@
 export default {
-    install: function (app, config) {
+    install(app, config) {
         app.config.globalProperties.__ = function (key, replace = {}) {
             return this.trans(key, replace);
         };

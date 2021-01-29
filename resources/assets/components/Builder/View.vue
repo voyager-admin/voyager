@@ -109,7 +109,7 @@
 export default {
     emits: ['delete', 'update:formfields', 'update:options'],
     props: ['computed', 'columns', 'relationships', 'formfields', 'options'],
-    data: function () {
+    data() {
         return {
             resizingFormfield: null,
             sizes: [
@@ -123,31 +123,29 @@ export default {
         };
     },
     methods: {
-        startResize: function (key) {
+        startResize(key) {
             this.resizingFormfield = key;
         },
-        prev: function (formfield) {
+        prev(formfield) {
             this.$emit('update:formfields', this.formfields.moveElementUp(formfield));
         },
-        next: function (formfield) {
+        next(formfield) {
             this.$emit('update:formfields', this.formfields.moveElementDown(formfield));
         },
     },
-    mounted: function () {
-        var vm = this;
-
-        window.addEventListener('mouseup', function () {
-            vm.resizingFormfield = null;
+    mounted() {
+        window.addEventListener('mouseup', () => {
+            this.resizingFormfield = null;
         });
 
-        this.$el.addEventListener('mousemove', function (e) {
-            if (vm.resizingFormfield !== null) {
+        this.$el.addEventListener('mousemove', (e) => {
+            if (this.resizingFormfield !== null) {
                 e.preventDefault();
-                var rect = vm.$el.getBoundingClientRect();
+                var rect = this.$el.getBoundingClientRect();
                 var x = e.clientX - rect.left - 50;
-                var threshold = rect.width / (vm.sizes.length - 1);
-                var size = Math.min(Math.max(Math.ceil(x / threshold), 0), vm.sizes.length);
-                vm.formfields[vm.resizingFormfield].options.width = vm.sizes[size];
+                var threshold = rect.width / (this.sizes.length - 1);
+                var size = Math.min(Math.max(Math.ceil(x / threshold), 0), this.sizes.length);
+                this.formfields[this.resizingFormfield].options.width = this.sizes[size];
             }
         });
     }

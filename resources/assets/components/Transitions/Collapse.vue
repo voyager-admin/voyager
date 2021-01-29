@@ -19,16 +19,15 @@ import baseTransition from './baseTransition';
 export default {
     mixins: [baseTransition],
     methods: {
-        transitionStyle: function (duration = 300) {
-            var duration = duration / 1000;
-            return `${duration}s height ease-in-out`;
+        transitionStyle(duration = 300) {
+            return `${(duration / 1000)}s height ease-in-out`;
         },
-        beforeEnter: function (el) {
+        beforeEnter(el) {
             el.style.transition = this.transitionStyle(this.enterDuration);
             el.style.height = '0';
             this.setStyles(el);
         },
-        enter: function (el) {
+        enter(el) {
             if (el.scrollHeight !== 0) {
                 el.style.height = el.scrollHeight + 'px';
             } else {
@@ -36,23 +35,23 @@ export default {
             }
             el.style.overflow = 'hidden';
         },
-        afterEnter: function (el) {
+        afterEnter(el) {
             el.style.transition = '';
             el.style.height = '';
         },
-        beforeLeave: function (el) {
+        beforeLeave(el) {
             el.style.height = el.scrollHeight + 'px';
             el.style.overflow = 'hidden';
             this.setStyles(el);
         },
-        leave: function (el) {
+        leave(el) {
             if (el.scrollHeight !== 0) {
                 el.style.transition = this.transitionStyle(this.leaveDuration);
                 el.style.height = 0;
             }
             this.setAbsolutePositioning(el);
         },
-        afterLeave: function (el) {
+        afterLeave(el) {
             el.style.transition = '';
             el.style.height = '';
         }

@@ -32,14 +32,14 @@ import formfieldBuilder from '../../../js/mixins/formfield-builder';
 export default {
     mixins: [formfieldBuilder],
     computed: {
-        defaultListOptions: function () {
+        defaultListOptions() {
             return {
                 icons: true,
                 display: 3,
                 shuffle: false
             };
         },
-        defaultViewOptions: function () {
+        defaultViewOptions() {
             return {
                 max: 0,
                 meta: [],

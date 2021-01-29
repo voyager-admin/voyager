@@ -49,20 +49,20 @@ export default {
             default: false,
         }
     },
-    data: function () {
+    data() {
         return {
             open: this.isOpen,
         }
     },
     methods: {
-        clickItem: function (e) {
+        clickItem(e) {
             if (this.href == '' || this.href == '#') {
                 e.preventDefault();
                 this.open = !this.open;
             }
         }
     },
-    created: function () {
+    created() {
         if (this.active) {
             this.open = true;
         }

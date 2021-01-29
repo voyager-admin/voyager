@@ -54,12 +54,12 @@ import formfieldBuilder from '../../../js/mixins/formfield-builder';
 export default {
     mixins: [formfieldBuilder],
     computed: {
-        defaultListOptions: function () {
+        defaultListOptions() {
             return {
                 display_length: 150,
             };
         },
-        defaultViewOptions: function () {
+        defaultViewOptions() {
             return {
                 placeholder: '',
                 column: {},

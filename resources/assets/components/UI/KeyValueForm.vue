@@ -40,7 +40,7 @@ export default {
     props: {
         modelValue: {
             type: Array,
-            default: function () {
+            default: () => {
                 return [];
             },
         },
@@ -54,7 +54,7 @@ export default {
         }
     },
     methods: {
-        addOption: function () {
+        addOption() {
             var option = {
                 key: '',
                 value: '',
@@ -68,7 +68,7 @@ export default {
             this.$emit('update:modelValue', options);
             
         },
-        removeOption: function (key) {
+        removeOption(key) {
             this.$emit('update:modelValue', this.modelValue.removeAtIndex(key));
         }
     }

@@ -309,7 +309,7 @@ import fetch from '../../js/fetch';
 
 export default {
     props: ['data', 'isNew'],
-    data: function () {
+    data() {
         return {
             bread: this.data,
             computed: [],
@@ -326,109 +326,102 @@ export default {
         };
     },
     methods: {
-        saveBread: function () {
-            var vm = this;
-
-            if (vm.validateLayouts()) {
-                new vm.$notification(vm.nl2br(vm.__('voyager::builder.layout_field_warning')))
+        saveBread() {
+            if (this.validateLayouts()) {
+                new this.$notification(this.nl2br(this.__('voyager::builder.layout_field_warning')))
                         .confirm()
                         .color('red')
                         .timeout()
                         .show()
-                        .then(function (response) {
+                        .then((response) => {
                     if (response) {
-                        vm.storeBread();
+                        this.storeBread();
                     }
                 });
-            } else if (vm.validateLayoutMapping()) {
-                new vm.$notification(vm.nl2br(vm.__('voyager::builder.layout_mapping_warning')))
+            } else if (this.validateLayoutMapping()) {
+                new this.$notification(this.nl2br(this.__('voyager::builder.layout_mapping_warning')))
                         .confirm()
                         .color('red')
                         .timeout()
                         .show()
-                        .then(function (response) {
+                        .then((response) => {
                     if (response) {
-                        vm.storeBread();
+                        this.storeBread();
                     }
                 });
             } else {
-                vm.storeBread();
+                this.storeBread();
             }
         },
-        storeBread: function () {
-            var vm = this;
-            vm.savingBread = true;
+        storeBread() {
+            this.savingBread = true;
 
             fetch.put(this.route('voyager.bread.update', this.bread.table), {
-                bread: vm.bread
+                bread: this.bread
             })
-            .then(function (response) {
-                new vm.$notification(vm.__('voyager::builder.bread_saved_successfully')).color('green').timeout().show();
+            .then((response) => {
+                new this.$notification(this.__('voyager::builder.bread_saved_successfully')).color('green').timeout().show();
             })
-            .catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            .catch((response) => {
+                this.$store.handleAjaxError(response);
             })
-            .then(function () {
-                vm.savingBread = false;
+            .then(() => {
+                this.savingBread = false;
             });
         },
-        backupBread: function () {
-            var vm = this;
-            vm.backingUp = true;
+        backupBread() {
+            this.backingUp = true;
 
-            fetch.post(vm.route('voyager.bread.backup-bread'), {
-                table: vm.bread.table
+            fetch.post(this.route('voyager.bread.backup-bread'), {
+                table: this.bread.table
             })
-            .then(function (response) {
-                new vm.$notification(vm.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
+            .then((response) => {
+                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
-            .catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            .catch((response) => {
+                this.$store.handleAjaxError(response);
             })
-            .then(function () {
-                vm.backingUp = false;
+            .then(() => {
+                this.backingUp = false;
             });
         },
-        loadProperties: function () {
-            var vm = this;
-
-            if (vm.loadingProps) {
+        loadProperties() {
+            if (this.loadingProps) {
                 return;
             }
 
-            vm.loadingProps = true;
+            this.loadingProps = true;
 
-            fetch.post(vm.route('voyager.bread.get-properties'), {
-                model: vm.bread.model,
+            fetch.post(this.route('voyager.bread.get-properties'), {
+                model: this.bread.model,
                 resolve_relationships: true,
             })
-            .then(function (response) {
-                Object.keys(response.data).map(function(key) {
-                    vm[key] = response.data[key];
-                    // TODO: Vue.set(vm, key, response.data[key]);
+            .then((response) => {
+                Object.keys(response.data).map((key) => {
+                    this[key] = response.data[key];
+                    // TODO: Vue.set(this, key, response.data[key]);
                 });
-                vm.propsLoaded = true;
+                this.propsLoaded = true;
             })
-            .catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            .catch((response) => {
+                this.$store.handleAjaxError(response);
             })
-            .then(function () {
-                vm.loadingProps = false;
+            .then(() => {
+                this.loadingProps = false;
             });
         },
-        addLayout: function (view) {
-            var vm = this;
-            new vm
-            .$notification(vm.__('voyager::builder.enter_name'))
+        addLayout(view) {
+            new this
+            .$notification(this.__('voyager::builder.enter_name'))
             .prompt()
             .timeout()
             .show()
-            .then(function (value) {
+            .then((value) => {
                 if (value && value !== '') {
-                    var filtered = vm.bread.layouts.where('name', value);
+                    var filtered = this.bread.layouts.where('name', value);
 
                     if (filtered.length > 0) {
-                        new vm.$notification(vm.__('voyager::builder.name_already_exists')).color('red').timeout().show();
+                        new this.$notification(this.__('voyager::builder.name_already_exists')).color('red').timeout().show();
 
                         return;
                     }
@@ -447,69 +440,67 @@ export default {
                         filters: [],
                     };
 
-                    vm.bread.layouts.push({
+                    this.bread.layouts.push({
                         name: value,
                         type: (view ? 'view' : 'list'),
                         options: (view ? view_options : list_options),
                         formfields: []
                     });
 
-                    vm.currentLayoutName = value;
+                    this.currentLayoutName = value;
                 }
             });
         },
-        renameLayout: function () {
-            var vm = this;
-            new vm
-            .$notification(vm.__('voyager::builder.enter_new_name'))
+        renameLayout() {
+            new this
+            .$notification(this.__('voyager::builder.enter_new_name'))
             .timeout()
-            .prompt(vm.currentLayoutName)
+            .prompt(this.currentLayoutName)
             .show()
-            .then(function (value) {
+            .then((value) => {
                 if (value && value !== '') {
-                    if (value == vm.currentLayoutName) {
+                    if (value == this.currentLayoutName) {
                         return;
                     }
-                    var filtered = vm.bread.layouts.where('name', value);
+                    var filtered = this.bread.layouts.where('name', value);
 
                     if (filtered.length > 0) {
-                        new vm.$notification(vm.__('voyager::builder.name_already_exists')).color('red').timeout().show();
+                        new this.$notification(this.__('voyager::builder.name_already_exists')).color('red').timeout().show();
 
                         return;
                     }
 
-                    vm.currentLayout.name = value;
-                    vm.currentLayoutName = value;
+                    this.currentLayout.name = value;
+                    this.currentLayoutName = value;
                 }
             });
         },
-        deleteLayout: function () {
-            var vm = this;
-            new vm
-            .$notification(vm.__('voyager::builder.delete_layout_confirm'))
+        deleteLayout() {
+            new this
+            .$notification(this.__('voyager::builder.delete_layout_confirm'))
             .color('yellow')
             .timeout()
             .confirm()
             .show()
-            .then(function (result) {
+            .then((result) => {
                 if (result) {
-                    var name = vm.currentLayoutName;
-                    vm.currentLayoutName = null;
-                    vm.bread.layouts = vm.bread.layouts.whereNot('name', name);
+                    var name = this.currentLayoutName;
+                    this.currentLayoutName = null;
+                    this.bread.layouts = this.bread.layouts.whereNot('name', name);
 
-                    if (vm.bread.layouts.length > 0) {
-                        vm.currentLayoutName = vm.bread.layouts[0].name;
+                    if (this.bread.layouts.length > 0) {
+                        this.currentLayoutName = this.bread.layouts[0].name;
                     }
                 }
             });
         },
-        cloneLayout: function () {
+        cloneLayout() {
             var layout = JSON.parse(JSON.stringify(this.currentLayout));
             layout.name = layout.name + ' 2';
             this.bread.layouts.push(layout);
             this.currentLayoutName = layout.name;
         },
-        addFormfield: function (formfield) {
+        addFormfield(formfield) {
             var options = {
                 width: 'w-3/6',
             };
@@ -531,26 +522,25 @@ export default {
 
             this.currentLayout.formfields.push(formfield);
         },
-        deleteFormfield: function (key) {
-            var vm = this;
-            new vm
-            .$notification(vm.__('voyager::builder.delete_formfield_confirm'))
+        deleteFormfield(key) {
+            new this
+            .$notification(this.__('voyager::builder.delete_formfield_confirm'))
             .color('yellow')
             .timeout()
             .confirm()
             .show()
-            .then(function (result) {
+            .then((result) => {
                 if (result) {
-                    vm.currentLayout.formfields.splice(key, 1);
+                    this.currentLayout.formfields.splice(key, 1);
                 }
             });
         },
-        setSlug: function (value) {
+        setSlug(value) {
             var l = this.$store.locale;
             this.bread.slug = this.get_translatable_object(this.bread.slug);
             this.bread.slug[l] = this.slugify(value[l], { strict: true, lower: true });
         },
-        toggleFocusMode: function () {
+        toggleFocusMode() {
             this.focusMode = !this.focusMode;
 
             if (this.focusMode) {
@@ -566,13 +556,12 @@ export default {
                 this.$store.openSidebar();
             }
         },
-        validateLayouts: function () {
-            var vm = this;
+        validateLayouts() {
             var failed = false;
 
-            vm.bread.layouts.forEach(function (layout) {
-                layout.formfields.forEach(function (formfield) {
-                    if (formfield.column == '' || formfield.column === null || (vm.isObject(formfield.column) && (formfield.column.column == '' || formfield.column.column === null))) {
+            this.bread.layouts.forEach((layout) => {
+                layout.formfields.forEach((formfield) => {
+                    if (formfield.column == '' || formfield.column === null || (this.isObject(formfield.column) && (formfield.column.column == '' || formfield.column.column === null))) {
                         failed = true;
                     }
                 });
@@ -580,12 +569,11 @@ export default {
 
             return failed;
         },
-        validateLayoutMapping: function () {
-            var vm = this;
+        validateLayoutMapping() {
             var failed = false;
 
-            Object.keys(vm.bread.layout_map).forEach(function (action) {
-                if (vm.bread.layout_map[action].length == 0) {
+            Object.keys(this.bread.layout_map).forEach((action) => {
+                if (this.bread.layout_map[action].length == 0) {
                     failed = true;
                 }
             });
@@ -594,52 +582,49 @@ export default {
         },
     },
     computed: {
-        views: function () {
+        views() {
             return this.bread.layouts.where('type', 'view');
         },
-        lists: function () {
+        lists() {
             return this.bread.layouts.where('type', 'list');
         },
-        filteredFormfields: function () {
-            var vm = this;
-            return vm.$store.formfields.filter(function (formfield) {
-                if (vm.currentLayout && vm.currentLayout.type == 'list') {
+        filteredFormfields() {
+            return this.$store.formfields.filter((formfield) => {
+                if (this.currentLayout && this.currentLayout.type == 'list') {
                     return formfield.in_lists;
                 }
                 return formfield.in_views;
             });
         },
-        currentLayout: function () {
-            var vm = this;
-            return this.bread.layouts.filter(function (layout, key) {
-                if (layout.name == vm.currentLayoutName) {
-                    vm.pushToUrlHistory(vm.addParameterToUrl('layout', key));
+        currentLayout() {
+            return this.bread.layouts.filter((layout, key) => {
+                if (layout.name == this.currentLayoutName) {
+                    this.pushToUrlHistory(this.addParameterToUrl('layout', key));
                     return true;
                 }
                 return false;
             })[0];
         },
         jsonBread: {
-            get: function () {
+            get() {
                 return JSON.stringify(this.bread, null, 2);
             },
-            set: function (value) {
+            set(value) {
                 
             }
         },
     },
-    mounted: function () {
-        var vm = this;
+    mounted() {
         // Load model-properties (only when we already know the model-name)
-        if (vm.bread.model) {
-            vm.loadProperties();
+        if (this.bread.model) {
+            this.loadProperties();
         }
 
-        $eventbus.on('ctrl-s-combo', function () {
-            vm.saveBread();
+        $eventbus.on('ctrl-s-combo', () => {
+            this.saveBread();
         });
     },
-    created: function () {
+    created() {
         var layout = parseInt(this.getParameterFromUrl('layout', 0));
         if (this.bread.layouts.length >= (layout+1)) {
             this.currentLayoutName = this.bread.layouts[layout].name;

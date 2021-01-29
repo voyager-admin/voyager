@@ -18,7 +18,7 @@ import icons from '../../js/icons';
 
 export default {
     emits: ['select'],
-    data: function () {
+    data() {
         return {
             query: '',
             page: 0,
@@ -26,38 +26,34 @@ export default {
         };
     },
     methods: {
-        selectIcon: function (icon) {
+        selectIcon(icon) {
             this.$emit('select', icon);
         },
     },
     computed: {
-        start: function () {
+        start() {
             return this.page * this.resultsPerPage;
         },
-        end: function () {
+        end() {
             return this.start + this.resultsPerPage;
         },
-        pages: function () {
+        pages() {
             return Math.ceil(this.filteredIcons.length / this.resultsPerPage);
         },
-        filteredIcons: function () {
-            var vm = this;
-            var q = vm.query.toLowerCase();
-            return icons.whereLike(q).map(function (icon) {
+        filteredIcons() {
+            var q = this.query.toLowerCase();
+            return icons.whereLike(q).map((icon) => {
                 return {
-                    name: vm.kebabCase(icon),
+                    name: this.kebabCase(icon),
                     readable: icon,
                 }
             });
         },
     },
-    created: function () {
-        this.$watch(
-            () => this.query,
-            function () {
-                this.page = 0;
-            }
-        );
+    created() {
+        this.$watch(() => this.query, () => {
+            this.page = 0;
+        });
     },
 };
 </script>

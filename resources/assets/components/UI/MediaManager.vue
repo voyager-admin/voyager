@@ -234,7 +234,7 @@ export default {
         },
         'allowedMimeTypes': {
             type: Array,
-            default: function () {
+            default: () => {
                 return [];
             }
         },
@@ -251,7 +251,7 @@ export default {
             default: undefined,
         }
     },
-    data: function () {
+    data() {
         return {
             filesToUpload: [],
             uploading: 0,
@@ -267,20 +267,19 @@ export default {
     },
     methods: {
         matchMime: matchMime,
-        addUploadFiles: function (files) {
-            var vm = this;
-            vm.filesToUpload = vm.filesToUpload.concat(Array.from(files).map(function (file) {
+        addUploadFiles(files) {
+            this.filesToUpload = this.filesToUpload.concat(Array.from(files).map((file) => {
                 // Validate size
-                if (vm.maxSize > 0 && (file.size > vm.maxSize)) {
+                if (this.maxSize > 0 && (file.size > this.maxSize)) {
                     // TODO: Show error
                     return null;
                 }
 
                 if (file.type !== '') {
                     // Validate mime type
-                    if (vm.allowedMimeTypes.length > 0) {
+                    if (this.allowedMimeTypes.length > 0) {
                         var result = false;
-                        vm.allowedMimeTypes.forEach(function (mime) {
+                        this.allowedMimeTypes.forEach((mime) => {
                             if (mime == '' || mime === null || mime == 'directory') {
                                 return;
                             }
@@ -299,7 +298,7 @@ export default {
 
                 // Check if file already exists by name AND size
                 var exists = false;
-                vm.filesToUpload.forEach(function (ex_file) {
+                this.filesToUpload.forEach((ex_file) => {
                     if (ex_file.file.name == file.name && ex_file.file.size == file.size) {
                         exists = true;
                     }
@@ -321,7 +320,7 @@ export default {
                 // Create FileReader if it is an image
                 if (matchMime(file.type, 'image/*')) {
                     let reader  = new FileReader();
-                    reader.addEventListener('load', function () {
+                    reader.addEventListener('load', () => {
                         f.preview = reader.result;
                     });
                     reader.readAsDataURL(file);
@@ -330,52 +329,49 @@ export default {
                 return f;
             }).filter(x => !!x));
 
-            if (vm.instantUpload) {
-                vm.upload();
+            if (this.instantUpload) {
+                this.upload();
             }
         },
-        loadFiles: function () {
-            var vm = this;
-            vm.loadingFiles = true;
-            vm.selectedFiles = [];
+        loadFiles() {
+            this.loadingFiles = true;
+            this.selectedFiles = [];
 
-            fetch.post(vm.listUrl, { path: vm.path })
-            .then(function (response) {
-                vm.files = response.data;
+            fetch.post(this.listUrl, { path: this.path })
+            .then((response) => {
+                this.files = response.data;
             })
-            .catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            .catch((response) => {
+                this.$store.handleAjaxError(response);
             })
-            .then(function () {
-                vm.loadingFiles = false;
+            .then(() => {
+                this.loadingFiles = false;
             });
         },
-        upload: function () {
-            var vm = this;
-
-            var files = vm.filesToUpload.whereNot('status', Status.Finished);
+        upload() {
+            var files = this.filesToUpload.whereNot('status', Status.Finished);
 
             if (files.length == 0) {
-                vm.loadFiles();
-                vm.filesToUpload = vm.filesToUpload.whereNot('status', Status.Finished);
+                this.loadFiles();
+                this.filesToUpload = this.filesToUpload.whereNot('status', Status.Finished);
                 return;
             }
 
             let formData = new FormData();
-            formData.append('path', vm.path);
+            formData.append('path', this.path);
 
-            files.forEach(function (file) {
+            files.forEach((file) => {
                 file.status = Status.Uploading;
                 file.progress = 100;
                 formData.append('files[]', file.file);
             });
 
             fetch
-            .post(vm.uploadUrl, formData, 'text')
-            .then(function (response) {
-                response.data.forEach(function (file) {
+            .post(this.uploadUrl, formData, 'text')
+            .then((response) => {
+                response.data.forEach((file) => {
                     var uploadFile = null;
-                    files.forEach(function (f) {
+                    files.forEach((f) => {
                         if (f.file.name == file.original) {
                             uploadFile = f;
                         }
@@ -386,7 +382,7 @@ export default {
 
                         if (file.uploaded === false) {
                             uploadFile.status = Status.Failed;
-                            new vm.$notification(vm.__('voyager::media.file_upload_failed', { file: file.original })).color('red').timeout().show();
+                            new this.$notification(this.__('voyager::media.file_upload_failed', { file: file.original })).color('red').timeout().show();
                         } else {
                             uploadFile.status = Status.Finished;
                             // TODO: Display a message?
@@ -395,31 +391,29 @@ export default {
                 });
 
                 // Cleanup finished files
-                vm.loadFiles();
-                vm.filesToUpload = vm.filesToUpload.whereNot('status', Status.Finished);
+                this.loadFiles();
+                this.filesToUpload = this.filesToUpload.whereNot('status', Status.Finished);
             })
-            .catch(function (response) {
+            .catch((response) => {
                 // TODO: Handle fails
             });
         },
-        downloadFiles: function () {
-            var vm = this;
-
-            if (vm.selectedFiles.length > 0) {
-                fetch.post(vm.route('voyager.media.download'), { files: vm.selectedFiles }, 'blob')
-                .then(function (response) {
-                    if (vm.selectedFiles.length == 1) {
-                        vm.downloadBlob(response.data, vm.selectedFiles[0]['file']['name']);
+        downloadFiles() {
+            if (this.selectedFiles.length > 0) {
+                fetch.post(this.route('voyager.media.download'), { files: this.selectedFiles }, 'blob')
+                .then((response) => {
+                    if (this.selectedFiles.length == 1) {
+                        this.downloadBlob(response.data, this.selectedFiles[0]['file']['name']);
                     } else {
-                        vm.downloadBlob(response.data, 'download.zip');
+                        this.downloadBlob(response.data, 'download.zip');
                     }
                 })
-                .catch(function (response) {
-                    vm.$store.handleAjaxError(response);
+                .catch((response) => {
+                    this.$store.handleAjaxError(response);
                 });
             }
         },
-        downloadBlob: function (blob, name) {
+        downloadBlob(blob, name) {
             const url = window.URL.createObjectURL(new Blob([blob]));
             const link = document.createElement('a');
             link.href = url;
@@ -427,25 +421,25 @@ export default {
             link.click();
             window.URL.revokeObjectURL(url);
         },
-        selectFilesToUpload: function () {
+        selectFilesToUpload() {
             this.$refs.upload_input.click();
         },
-        selectFile: function (file, e) {
+        selectFile(file, e) {
             if (!e.ctrlKey || !this.multiSelect) {
                 this.selectedFiles = [];
             }
             this.selectedFiles.push(file);
         },
-        fileSelected: function (file) {
+        fileSelected(file) {
             return this.selectedFiles.indexOf(file) >= 0;
         },
-        filePicked: function (file) {
+        filePicked(file) {
             return this.pickedFilePosition(file) >= 0;
         },
-        pickedFilePosition: function (file) {
+        pickedFilePosition(file) {
             var index = -1;
             if (this.isArray(this.modelValue)) {
-                this.modelValue.filter(function (f, i) {
+                this.modelValue.filter((f, i) => {
                     if (f.disk == file.file.disk && file.file.relative_path == f.relative_path && f.name == file.file.name) {
                         index = i;
                     }
@@ -454,7 +448,7 @@ export default {
 
             return index;
         },
-        openFile: function (file) {
+        openFile(file) {
             if (file.file.type == 'directory') {
                 this.path = this.path + '/' + file.file.name;
                 this.pushCurrentPathToUrl();
@@ -472,13 +466,13 @@ export default {
                 }
             }
         },
-        deleteUpload: function (file) {
+        deleteUpload(file) {
             this.filesToUpload.splice(this.filesToUpload.indexOf(file), 1);
         },
-        getExtensionFromFilename: function (name) {
+        getExtensionFromFilename(name) {
             return this.stringAfterLast('.', name).toLowerCase();
         },
-        isFileImage: function (name) {
+        isFileImage(name) {
             var ext = this.getExtensionFromFilename(name);
 
             if (ext == 'jpeg' || ext == 'jpg' || ext == 'png' || ext == 'gif' || ext == 'bmp') {
@@ -487,14 +481,14 @@ export default {
 
             return false;
         },
-        getFileIcon: function (type) {
+        getFileIcon(type) {
             if (type == 'directory') {
                 return 'folder';
             }
 
             return 'document';
         },
-        openPath: function (path, index) {
+        openPath(path, index) {
             this.path = this.pathSegments.slice(0, (index + 1)).join('/');
 
             // Push path to URL
@@ -502,57 +496,54 @@ export default {
 
             this.loadFiles();
         },
-        pushCurrentPathToUrl: function () {
+        pushCurrentPathToUrl() {
             var url = window.location.href.split('?')[0];
             url = this.addParameterToUrl('path', this.path, url);
             this.pushToUrlHistory(url);
         },
-        deleteSelected: function () {
-            var vm = this;
-
-            new vm
-            .$notification(vm.trans_choice('voyager::media.delete_files_confirm', vm.selectedFiles.length))
+        deleteSelected() {
+            new this
+            .$notification(this.trans_choice('voyager::media.delete_files_confirm', this.selectedFiles.length))
             .color('red')
             .timeout()
             .confirm()
             .show()
-            .then(function (response) {
+            .then((response) => {
                 if (response === true) {
-                    fetch.delete(vm.route('voyager.media.delete'), { files: vm.selectedFiles })
-                    .then(function (response) {
+                    fetch.delete(this.route('voyager.media.delete'), { files: this.selectedFiles })
+                    .then((response) => {
                         if (response.data.files > 0) {
-                            new vm.$notification(vm.trans_choice('voyager::media.delete_files_success', response.data.files)).color('green').timeout().show();
+                            new this.$notification(this.trans_choice('voyager::media.delete_files_success', response.data.files)).color('green').timeout().show();
                         }
                         if (response.data.dirs > 0) {
-                            new vm.$notification(vm.trans_choice('voyager::media.delete_folder_success', response.data.dirs)).color('green').timeout().show();
+                            new this.$notification(this.trans_choice('voyager::media.delete_folder_success', response.data.dirs)).color('green').timeout().show();
                         }
                     })
-                    .catch(function (response) {
-                        vm.$store.handleAjaxError(response);
+                    .catch((response) => {
+                        this.$store.handleAjaxError(response);
                     })
-                    .then(function () {
-                        vm.loadFiles();
-                        vm.selectedFiles = [];
+                    .then(() => {
+                        this.loadFiles();
+                        this.selectedFiles = [];
                     });
                 }
             });
         },
-        createFolder: function () {
-            var vm = this;
-            new vm
-            .$notification(vm.__('voyager::media.create_folder_prompt'))
+        createFolder() {
+            new this
+            .$notification(this.__('voyager::media.create_folder_prompt'))
             .timeout()
             .prompt()
-            .addButton({ key: true, value: vm.__('voyager::generic.ok'), color: 'green'})
-            .addButton({ key: false, value: vm.__('voyager::generic.cancel'), color: 'red'})
+            .addButton({ key: true, value: this.__('voyager::generic.ok'), color: 'green'})
+            .addButton({ key: false, value: this.__('voyager::generic.cancel'), color: 'red'})
             .show()
-            .then(function (result) {
+            .then((result) => {
                 if (result !== false) {
                     // Check if a folder with this name already exists
                     var exists = false;
-                    vm.files.forEach(function (file) {
+                    this.files.forEach((file) => {
                         if (file.file.type == 'directory' && file.file.name == result) {
-                            new vm.$notification(vm.__('voyager::media.folder_exists', { name: result })).color('yellow').timeout().show();
+                            new this.$notification(this.__('voyager::media.folder_exists', { name: result })).color('yellow').timeout().show();
                             exists = true;
                         }
                     });
@@ -561,40 +552,38 @@ export default {
                         return;
                     }
 
-                    fetch.post(vm.route('voyager.media.create_folder'), { type: 'directory', name: result, })
-                    .then(function (response) {
-                        new vm.$notification(vm.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
-                        vm.openFile({
+                    fetch.post(this.route('voyager.media.create_folder'), { type: 'directory', name: result, })
+                    .then((response) => {
+                        new this.$notification(this.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
+                        this.openFile({
                             file: {
                                 type: 'directory',
                                 name: result,
                             }
                         });
                     })
-                    .catch(function (response) {
-                        vm.$store.handleAjaxError(response);
+                    .catch((response) => {
+                        this.$store.handleAjaxError(response);
                     })
-                    .then(function () {
-                        vm.loadFiles();
+                    .then(() => {
+                        this.loadFiles();
                     });
                 }
             });
         },
-        copyPath: function (path) {
+        copyPath(path) {
             this.copyToClipboard(path);
             new this.$notification(this.__('voyager::media.path_copied')).timeout().show();
         },
     },
     computed: {
-        combinedFiles: function () {
-            var vm = this;
-
-            return vm.files.filter(function (file) {
-                if (vm.allowedMimeTypes.length == 0) {
+        combinedFiles() {
+            return this.files.filter((file) => {
+                if (this.allowedMimeTypes.length == 0) {
                     return true;
                 }
                 var result = false;
-                vm.allowedMimeTypes.forEach(function (mime) {
+                this.allowedMimeTypes.forEach((mime) => {
                     if (mime === 'directory') {
                         if (file.file.type === 'directory') {
                             result = true;
@@ -605,85 +594,81 @@ export default {
                 });
 
                 return result;
-            }).concat(vm.filesToUpload);
+            }).concat(this.filesToUpload);
         },
-        selectedFilesSize: function () {
+        selectedFilesSize() {
             var size = 0;
 
-            this.selectedFiles.forEach(function (file) {
+            this.selectedFiles.forEach((file) => {
                 size += file.file.size;
             });
 
             return size;
         },
-        pathSegments: function () {
+        pathSegments() {
             return this.path.split('/');
         },
-        images: function () {
-            var vm = this;
-
-            return vm.files.filter(function (file) {
+        images() {
+            return this.files.filter((file) => {
                 return matchMime(file.file.type, 'image/*');
             });
         },
-        imageSelected: function () {
+        imageSelected() {
             return this.selectedFiles.length == 1 && matchMime(this.selectedFiles[0].file.type, 'image/*');
         },
     },
-    mounted: function () {
-        var vm = this;
-
+    mounted() {
         var div = document.createElement('div');
-        vm.ddCapable = (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
+        this.ddCapable = (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 
-        if (vm.ddCapable) {
+        if (this.ddCapable) {
             // Prevent browser opening a new tab
-            ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach(function (event) {
-                vm.$el.addEventListener(event, function (e) {
+            ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach((event) => {
+                this.$el.addEventListener(event, (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                 });
             });
 
             // Indicates that we are dragging files over our wrapper
-            ['drag', 'dragstart', 'dragover', 'dragenter'].forEach(function (event) {
-                vm.$el.addEventListener(event, function (e) {
+            ['drag', 'dragstart', 'dragover', 'dragenter'].forEach((event) => {
+                this.$el.addEventListener(event, (e) => {
                     if (e.dataTransfer.files.length > 0) {
-                        vm.dragEnterTarget = e.target;
+                        this.dragEnterTarget = e.target;
                         e.stopPropagation();
                         e.preventDefault();
-                        vm.dragging = true;
+                        this.dragging = true;
                     }
                 });
             });
 
             // Indicates that we left our wrapper or dropped files
-            ['dragend', 'dragleave', 'drop'].forEach(function (event) {
-                vm.$el.addEventListener(event, function (e) {
-                    if (vm.dragEnterTarget == e.target) {
+            ['dragend', 'dragleave', 'drop'].forEach((event) => {
+                this.$el.addEventListener(event, (e) => {
+                    if (this.dragEnterTarget == e.target) {
                         e.stopPropagation();
                         e.preventDefault();
-                        vm.dragging = false;
+                        this.dragging = false;
                     }
                 });
             });
 
-            vm.$el.addEventListener('drop', function (e) {
+            this.$el.addEventListener('drop', (e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                vm.dragging = false;
-                vm.addUploadFiles(e.dataTransfer.files);
+                this.dragging = false;
+                this.addUploadFiles(e.dataTransfer.files);
             });
         }
 
-        var path = vm.getParameterFromUrl('path', '');
+        var path = this.getParameterFromUrl('path', '');
         if (path !== '/') {
-            vm.path = path;
+            this.path = path;
         }
 
-        vm.loadFiles();
+        this.loadFiles();
     },
-    created: function () {
+    created() {
         if (this.closed) {
             this.close();
         } else {

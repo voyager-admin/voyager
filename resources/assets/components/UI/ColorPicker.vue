@@ -19,7 +19,7 @@ export default {
         palette: {
             type: String,
             default: 'tailwind-colors',
-            validator: function (value) {
+            validator: (value) => {
                 return ['tailwind-colors'].indexOf(value) !== -1;
             }
         },
@@ -28,7 +28,7 @@ export default {
             default: 'blue',
         }
     },
-    data: function () {
+    data() {
         return {
             current: this.modelValue
         };

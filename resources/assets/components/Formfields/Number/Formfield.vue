@@ -46,14 +46,14 @@ import formfield from '../../../js/mixins/formfield';
 export default {
     mixins: [formfield],
     computed: {
-        formattedNumber: function () {
+        formattedNumber() {
             return this.numberFormat(this.modelValue, this.options.decimals || 0, this.options.dec_point || '.', this.options.thousands_sep || ',');
         },
         fromValue: {
-            get: function () {
+            get() {
                 return (this.modelValue || {}).from || null;
             },
-            set: function (val) {
+            set(val) {
                 var value = this.modelValue || {
                     from: null,
                     to: null
@@ -65,10 +65,10 @@ export default {
             }
         },
         toValue: {
-            get: function () {
+            get() {
                 return (this.modelValue || {}).to || null;
             },
-            set: function (val) {
+            set(val) {
                 var value = this.modelValue || {
                     from: null,
                     to: null

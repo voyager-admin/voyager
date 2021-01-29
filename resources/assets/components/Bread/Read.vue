@@ -36,7 +36,7 @@
 export default {
     props: ['bread', 'data', 'primary', 'layout', 'prevUrl'],
     methods: {
-        getData: function (formfield) {
+        getData(formfield) {
             if (formfield.translatable || false) {
                 return this.data[formfield.column.column][this.$store.locale] || '';
             }

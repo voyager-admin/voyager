@@ -35,20 +35,18 @@ export default {
         'notifications': Notifications
     },
     props: ['routes', 'localization', 'locales', 'locale', 'initial_locale', 'breads', 'formfields', 'debug', 'jsonOutput', 'csrf_token', 'searchPlaceholder', 'current_url', 'user', 'sidebar', 'page'],
-    created: function () {
-        var vm = this;
-
-        for (const key in vm.$props) {
-            if (vm.$store.hasOwnProperty(key)) {
-                vm.$store[key] = vm.$props[key];
+    created() {
+        for (const key in this.$props) {
+            if (this.$store.hasOwnProperty(key)) {
+                this.$store[key] = this.$props[key];
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            vm.$store.pageLoading = false;
+        document.addEventListener('DOMContentLoaded', () => {
+            this.$store.pageLoading = false;
         });
 
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener('keydown', (e) => {
             if (e.ctrlKey) {
                 if (e.key === 's') {
                     if ($eventbus.hasListener('ctrl-s-combo')) {
@@ -56,22 +54,22 @@ export default {
                         e.preventDefault();
                     }
                 } else if (e.code == 'ArrowRight' || e.code == 'ArrowUp') {
-                    vm.$store.nextLocale();
+                    this.$store.nextLocale();
                 } else if (e.code == 'ArrowLeft' || e.code == 'ArrowDown') {
-                    vm.$store.previousLocale();
+                    this.$store.previousLocale();
                 }
             }
         });
 
-        vm.$store.initDarkMode();
+        this.$store.initDarkMode();
 
         // Toggle sidebar when cookie is set
-        var sidebar_open = vm.getCookie('sidebar-open');
+        var sidebar_open = this.getCookie('sidebar-open');
         if (sidebar_open == 'false') {
-            vm.$store.closeSidebar();
+            this.$store.closeSidebar();
         }
-        $eventbus.on('sidebar-open', function (open) {
-            vm.setCookie('sidebar-open', open);
+        $eventbus.on('sidebar-open', (open) => {
+            this.setCookie('sidebar-open', open);
         });
     },
 }

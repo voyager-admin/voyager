@@ -93,12 +93,12 @@ export default {
         'has_login_view',
         'has_password_view'
     ],
-    data: function () {
+    data() {
         return {
             passwordForgotOpen: false,
         };
     },
-    created: function () {
+    created() {
         for (const key in this.$props) {
             if (this.$store.hasOwnProperty(key)) {
                 this.$store[key] = this.$props[key];

@@ -34,15 +34,14 @@ export default {
             default: true,
         },
     },
-    mounted: function () {
-        var vm = this;
-        document.addEventListener('keydown', function (e) {
-            if (vm.$refs.locale_dropdown && vm.$refs.locale_dropdown.isOpen) {
+    mounted() {
+        document.addEventListener('keydown', (e) => {
+            if (this.$refs.locale_dropdown && this.$refs.locale_dropdown.isOpen) {
                 if (e.key == 'ArrowDown') {
-                    vm.$store.nextLocale();
+                    this.$store.nextLocale();
                     e.preventDefault();
                 } else if (e.key == 'ArrowUp') {
-                    vm.$store.previousLocale();
+                    this.$store.previousLocale();
                     e.preventDefault();
                 }
             }

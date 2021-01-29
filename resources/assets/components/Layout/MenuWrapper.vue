@@ -39,7 +39,7 @@ export default {
         },
     },
     methods: {
-        isItemActive: function (item) {
+        isItemActive(item) {
             var url = item.href;
             if (!url.endsWith('/')) {
                 url = url + '/';

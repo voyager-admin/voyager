@@ -32,14 +32,10 @@ export default {
             default: false,
         }
     },
-    created: function () {
-        this.$watch(
-            () => this.closed,
-            function (closed) {
-                this.isOpen = !closed;
-            },
-            { immediate: true }
-        );
+    created() {
+        this.$watch(() => this.closed, (closed) => {
+            this.isOpen = !closed;
+        },{ immediate: true });
     }
 };
 </script>

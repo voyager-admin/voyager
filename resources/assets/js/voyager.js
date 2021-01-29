@@ -48,7 +48,7 @@ import Store from './store';
 
 let voyager;
 
-window.createVoyager = function (data = {}, main = true) {
+window.createVoyager = (data = {}, main = true) => {
     voyager = createApp((main ? Voyager : components.Login), data);
 
     voyager.config.globalProperties.Status = Object.freeze({
@@ -102,6 +102,6 @@ window.createVoyager = function (data = {}, main = true) {
     window.voyager = voyager;
 };
 
-window.mountVoyager = function (el = '#voyager') {
+window.mountVoyager = (el = '#voyager') => {
     voyager.mount(el);
 }

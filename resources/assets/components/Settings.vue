@@ -149,7 +149,7 @@ export default {
             default: true,
         }
     },
-    data: function () {
+    data() {
         return {
             settings: this.input,
             savingSettings: false,
@@ -160,46 +160,42 @@ export default {
         };
     },
     methods: {
-        settingsByGroup: function (group) {
-            var vm = this;
-            return this.settings.filter(function (setting) {
+        settingsByGroup(group) {
+            return this.settings.filter((setting) => {
                 var in_group = setting.group == group;
                 if (group == 'no-group') {
                     in_group = setting.group == null;
                 }
-                var match = true;
-
-                if (vm.query !== '') {
-                    return in_group && setting.key.indexOf(vm.query.toLowerCase()) >= 0;
+                if (this.query !== '') {
+                    return in_group && setting.key.indexOf(this.query.toLowerCase()) >= 0;
                 }
 
                 return in_group;
             });
         },
-        save: function () {
-            var vm = this;
-            vm.savingSettings = true;
-            vm.errors = [];
+        save() {
+            this.savingSettings = true;
+            this.errors = [];
 
-            fetch.post(vm.route('voyager.settings.store'), {
-                settings: vm.settings
+            fetch.post(this.route('voyager.settings.store'), {
+                settings: this.settings
             })
-            .then(function (response) {
-                new vm.$notification(vm.__('voyager::settings.settings_saved')).color('green').timeout().show();
+            .then((response) => {
+                new this.$notification(this.__('voyager::settings.settings_saved')).color('green').timeout().show();
             })
-            .catch(function (response) {
+            .catch((response) => {
                 if (response.status == 422) {
                     // Validation failed
-                    vm.errors = response.data;
+                    this.errors = response.data;
                 } else {
-                    vm.$store.handleAjaxError(response);
+                    this.$store.handleAjaxError(response);
                 }
             })
-            .then(function () {
-                vm.savingSettings = false;
+            .then(() => {
+                this.savingSettings = false;
             });
         },
-        addFormfield: function (formfield) {
+        addFormfield(formfield) {
             var group = this.groups[this.currentGroupId].name
             this.settings.push({
                 type: JSON.parse(JSON.stringify(formfield.type)),
@@ -213,37 +209,36 @@ export default {
                 validation: [],
             });
         },
-        deleteSetting: function (setting) {
-            var vm = this;
-            new vm
-            .$notification(vm.trans_choice('voyager::bread.delete_type_confirm', 1, { type: vm.__('voyager::settings.setting') }))
+        deleteSetting(setting) {
+            new this
+            .$notification(this.trans_choice('voyager::bread.delete_type_confirm', 1, { type: this.__('voyager::settings.setting') }))
             .color('red')
             .timeout()
             .confirm()
             .show()
-            .then(function (response) {
+            .then((response) => {
                 if (response) {
-                    vm.settings.splice(vm.settings.indexOf(setting), 1);
+                    this.settings.splice(this.settings.indexOf(setting), 1);
 
-                    if (!vm.groups[vm.currentGroupId]) {
-                        vm.currentGroupId = 0;
-                        vm.$refs.tabs.openByIndex(0);
+                    if (!this.groups[this.currentGroupId]) {
+                        this.currentGroupId = 0;
+                        this.$refs.tabs.openByIndex(0);
                     }
                 }
             });
         },
-        moveSettingUp: function (setting) {
+        moveSettingUp(setting) {
             if (this.settingsByGroup(setting.group).indexOf(setting) > 0) {
                 this.settings = this.settings.moveElementUp(setting);
             }
         },
-        moveSettingDown: function (setting) {
+        moveSettingDown(setting) {
             var group = this.settingsByGroup(setting.group);
             if (group.length - 1 > group.indexOf(setting)) {
                 this.settings = this.settings.moveElementDown(setting);
             }
         },
-        data: function (setting, value = null) {
+        data(setting, value = null) {
             if (setting.translatable || false && setting.value && this.isString(setting.value)) {
                 // TODO: Vue.set(setting, 'value', this.get_translatable_object(setting.value));
                 setting.value = this.get_translatable_object(setting.value);
@@ -262,7 +257,7 @@ export default {
             }
             return setting.value;
         },
-        getErrors: function (setting) {
+        getErrors(setting) {
             var key = setting.key;
             if (setting.group !== null) {
                 key = setting.group+'.'+setting.key;
@@ -272,18 +267,18 @@ export default {
         },
     },
     computed: {
-        filterFormfields: function () {
+        filterFormfields() {
             return this.$store.formfields.where('in_settings', true);
         },
-        groups: function () {
+        groups() {
             var groups = ['no-group'];
-            this.settings.forEach(function (setting) {
+            this.settings.forEach((setting) => {
                 if (groups.indexOf(setting.group) == -1 && setting.group !== null) {
                     groups.push(setting.group);
                 }
             });
 
-            groups = groups.map(function (group) {
+            groups = groups.map((group) => {
                 return {
                     name: group,
                     title: (group == 'no-group' ? 'No group' : group),
@@ -293,36 +288,35 @@ export default {
             return groups;
         },
         groupedSettings: {
-            get: function () {
+            get() {
                 return this.settingsByGroup(this.groups[this.currentGroupId].name);
             },
-            set: function (settings) {
-                var vm = this;
-                var current_group = vm.groups[vm.currentGroupId].name;
-                vm.settings = vm.settings.filter(function (setting) {
+            set(settings) {
+                var current_group = this.groups[this.currentGroupId].name;
+                this.settings = this.settings.filter((setting) => {
                     if (current_group == 'no-group') {
                         return setting.group !== null;
                     }
                     return setting.group !== current_group;
                 });
-                vm.settings = vm.settings.concat(settings);
+                this.settings = this.settings.concat(settings);
             }
         },
         jsonSettings: {
-            get: function () {
+            get() {
                 return JSON.stringify(this.settings, null, 2);
             },
-            set: function (value) {
+            set(value) {
                 
             }
         },
     },
-    created: function () {
+    created() {
         this.$watch(
             () => this.currentEnteredGroup,
-            function (value) {
+            (value) => {
                 if (value == '') {
-                    this.settings = this.settings.map(function (setting) {
+                    this.settings = this.settings.map((setting) => {
                         if (setting.group == '') {
                             setting.group = null;
                         }
@@ -343,7 +337,7 @@ export default {
         );
         this.$watch(
             () => this.currentGroupId,
-            function (value) {
+            (value) => {
                 var url = window.location.href.split('?')[0];
                 if (value > 0) {
                     url = this.addParameterToUrl('group', this.groups[value].name, url);
@@ -354,16 +348,15 @@ export default {
             }
         );
     },
-    mounted: function () {
-        var vm = this;
-        var group = vm.getParameterFromUrl('group', 'no-group');
+    mounted() {
+        var group = this.getParameterFromUrl('group', 'no-group');
 
         if (group !== null && group !== 'null' && group !== 'no-group') {
-            vm.currentEnteredGroup = group;
+            this.currentEnteredGroup = group;
         }
 
-        $eventbus.on('ctrl-s-combo', function (e) {
-            vm.save();
+        $eventbus.on('ctrl-s-combo', (e) => {
+            this.save();
         });
     }
 };

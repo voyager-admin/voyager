@@ -30,19 +30,19 @@ export default {
     mixins: [formfield],
     computed: {
         queryValue: {
-            get: function () {
+            get() {
                 return this.modelValue || null;
             },
-            set: function (value) {
+            set(value) {
                 this.$emit('update:modelValue', value);
             }
         },
-        defaultListOptions: function () {
+        defaultListOptions() {
             return {
                 options: [],
             };
         },
-        defaultViewOptions: function () {
+        defaultViewOptions() {
             return {
                 options: [],
                 inline: true,
@@ -50,7 +50,7 @@ export default {
         },
     },
     methods: {
-        getOptionByKey: function (key) {
+        getOptionByKey(key) {
             var option = (this.options.options || []).where('key', key).first();
             if (option) {
                 return this.translate(option.value);

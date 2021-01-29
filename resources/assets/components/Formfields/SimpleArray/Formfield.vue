@@ -56,7 +56,7 @@ export default {
     mixins: [formfield],
     computed: {
         value: {
-            get: function () {
+            get() {
                 if (!this.isArray(this.modelValue)) {
                     this.$emit('update:modelValue', []);
                     return [];
@@ -64,23 +64,23 @@ export default {
 
                 return this.modelValue;
             },
-            set: function (value) {
+            set(value) {
                 this.$emit('update:modelValue', value);
             }
         },
     },
     methods: {
-        addOption: function () {
+        addOption() {
             this.$emit('update:modelValue', [...this.value, '']);
             
         },
-        removeOption: function (option) {
+        removeOption(option) {
             this.value.splice(this.value.indexOf(option), 1);
         },
-        optionUp: function (option) {
+        optionUp(option) {
             this.value = this.value.moveElementUp(option);
         },
-        optionDown: function (option) {
+        optionDown(option) {
             this.value = this.value.moveElementDown(option);
         }
     },

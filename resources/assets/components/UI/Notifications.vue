@@ -72,16 +72,16 @@ import focus from '../../js/directives/focus';
 
 export default {
     directives: {focus: focus},
-    data: function () {
+    data() {
         return {
             notifications: notify.notifications
         }
     },
     methods: {
-        close: function (notification, key = false, message = null) {
+        close(notification, key = false, message = null) {
             notify.removeNotification(notification, key, message);
         },
-        clickButton: function (notification, button) {
+        clickButton(notification, button) {
             if (notification._prompt) {
                 this.close(notification, button.key, notification._prompt_value);
             } else {
@@ -89,23 +89,23 @@ export default {
             }
             
         },
-        getProgressStyle: function (notification) {
+        getProgressStyle(notification) {
             return {
                 animationDuration: notification._timeout + 'ms',
                 animationPlayState: notification._timeout_running ? 'running' : 'paused',
             };
         },
-        stopTimeout: function (notification) {
+        stopTimeout(notification) {
             if (notification._timeout !== null) {
                 notification._timeout_running = false;
             }
         },
-        startTimeout: function (notification) {
+        startTimeout(notification) {
             if (notification._timeout !== null) {
                 notification._timeout_running = true;
             }
         },
-        timeout: function (e) {
+        timeout(e) {
             if (e.animationName.startsWith('scale-x')) {
                 var uuid = e.target.dataset.uuid;
                 var notification = notify.notifications.where('_uuid', uuid).first();

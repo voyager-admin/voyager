@@ -37,13 +37,13 @@ import formfieldBuilder from '../../../js/mixins/formfield-builder';
 export default {
     mixins: [formfieldBuilder],
     computed: {
-        defaultViewOptions: function () {
+        defaultViewOptions() {
             return {
                 options: [],
                 inline: false,
             };
         },
-        defaultListOptions: function () {
+        defaultListOptions() {
             return {
                 options: [],
             };

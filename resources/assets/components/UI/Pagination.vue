@@ -100,7 +100,7 @@ export default {
         }
     },
     computed: {
-        pages: function () {
+        pages() {
             let pages = {};
             if (this.pageCount <= this.pageRange) {
                 for (let index = 0; index < this.pageCount; index++) {
@@ -156,36 +156,36 @@ export default {
 
             return pages;
         },
-        isFirstPage: function () {
+        isFirstPage() {
             return this.modelValue === 1;
         },
-        isLastPage: function () {
+        isLastPage() {
             return (this.modelValue === this.pageCount) || (this.pageCount === 0);
         },
     },
     methods: {
-        selectPage: function (selected) {
+        selectPage(selected) {
             if (this.modelValue !== selected && this.isNumber(selected) && selected >= 1) {
                 this.$emit('update:modelValue', selected);
             }
         },
-        prevPage: function () {
+        prevPage() {
             if (this.modelValue > 1) {
                 this.selectPage(this.selected - 1);
             }
         },
-        nextPage: function () {
+        nextPage() {
             if (this.modelValue < this.pageCount) {
                 this.selectPage(this.modelValue + 1);
             }
         },
         
-        selectFirstPage: function () {
+        selectFirstPage() {
             if (this.modelValue !== 1) {
                 this.selectPage(1);
             }
         },
-        selectLastPage: function () {
+        selectLastPage() {
             if (this.modelValue !== this.pageCount) {
                 this.selectPage(this.pageCount);
             }

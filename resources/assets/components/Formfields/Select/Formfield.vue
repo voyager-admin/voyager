@@ -37,7 +37,7 @@ export default {
     mixins: [formfield],
     computed: {
         value: {
-            get: function () {
+            get() {
                 if ((this.options.multiple || false) && !this.isArray(this.modelValue)) {
                     this.$emit('update:modelValue', []);
                     return [];
@@ -49,25 +49,25 @@ export default {
 
                 return this.modelValue;
             },
-            set: function (value) {
+            set(value) {
                 this.$emit('update:modelValue', value);
             }
         },
         queryValue: {
-            get: function () {
+            get() {
                 return this.modelValue || null;
             },
-            set: function (value) {
+            set(value) {
                 this.$emit('update:modelValue', value);
             }
         },
-        defaultListOptions: function () {
+        defaultListOptions() {
             return {
                 options: [],
                 multiple: false,
             };
         },
-        defaultViewOptions: function () {
+        defaultViewOptions() {
             return {
                 options: [],
                 multiple: false,
@@ -75,7 +75,7 @@ export default {
         },
     },
     methods: {
-        getOptionByKey: function (key) {
+        getOptionByKey(key) {
             var option = (this.options.options || []).where('key', key).first();
             if (option) {
                 return this.translate(option.value);

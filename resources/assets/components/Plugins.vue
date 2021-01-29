@@ -200,7 +200,7 @@ import fetch from '../js/fetch';
 
 export default {
     props: ['availablePlugins'],
-    data: function () {
+    data() {
         return {
             installed: {
                 plugins: [],
@@ -222,53 +222,51 @@ export default {
         };
     },
     methods: {
-        closeAddPluginModal: function () {
+        closeAddPluginModal() {
             this.addPluginModalOpen = false;
         },
-        copy: function (plugin) {
+        copy(plugin) {
             this.copyToClipboard('composer require ' + plugin.repository);
             new this.$notification(this.__('voyager::plugins.copy_notice')).timeout().show();
         },
-        loadPlugins: function () {
-            var vm = this;
-            vm.loading = true;
-            fetch.post(vm.route('voyager.plugins.get'))
-            .then(function (response) {
-                vm.installed.plugins = response.data;
+        loadPlugins() {
+            this.loading = true;
+            fetch.post(this.route('voyager.plugins.get'))
+            .then((response) => {
+                this.installed.plugins = response.data;
             })
-            .catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            .catch((response) => {
+                this.$store.handleAjaxError(response);
             })
-            .then(function () {
-                vm.loading = false;
+            .then(() => {
+                this.loading = false;
             });
         },
-        enablePlugin: function (plugin, enable) {
-            var vm = this;
+        enablePlugin(plugin, enable) {
             var message = this.__('voyager::plugins.enable_plugin_confirm', {name: plugin.name});
             if (!enable) {
                 message = this.__('voyager::plugins.disable_plugin_confirm', {name: plugin.name});
             }
 
-            new vm.$notification(message).confirm().timeout().show().then(function (response) {
+            new this.$notification(message).confirm().timeout().show().then((response) => {
                 if (response) {
-                    fetch.post(vm.route('voyager.plugins.enable'), {
+                    fetch.post(this.route('voyager.plugins.enable'), {
                         identifier: plugin.identifier,
                         enable: enable,
                     })
-                    .then(function (response) {
-                        new vm.$notification(vm.__('voyager::plugins.reload_page')).show();
+                    .then((response) => {
+                        new this.$notification(this.__('voyager::plugins.reload_page')).show();
                     })
-                    .catch(function (response) {
-                        vm.$store.handleAjaxError(response);
+                    .catch((response) => {
+                        this.$store.handleAjaxError(response);
                     })
-                    .then(function () {
-                        vm.loadPlugins();
+                    .then(() => {
+                        this.loadPlugins();
                     });
                 }
             });
         },
-        previewTheme: function (name) {
+        previewTheme(name) {
             var file = document.createElement('link');
             file.setAttribute('rel', 'stylesheet');
             file.setAttribute('type', 'text/css');
@@ -277,7 +275,7 @@ export default {
 
             new this.$notification(this.__('voyager::plugins.preview_theme', {name: name})).timeout().show();
         },
-        getPluginTypeColor: function (type) {
+        getPluginTypeColor(type) {
             if (type == 'authentication') {
                 return 'green';
             } else if (type == 'authorization') {
@@ -294,10 +292,10 @@ export default {
 
             return 'red';
         },
-        pluginInstalled: function (plugin) {
+        pluginInstalled(plugin) {
             return this.installed.plugins.where('repository', plugin.repository).length > 0;
         },
-        setTypeFilter: function (type) {
+        setTypeFilter(type) {
             if (this.installed.currentType == type) {
                 this.installed.currentType = null;
             } else {
@@ -305,7 +303,7 @@ export default {
             }
             this.installed.page = 0;
         },
-        setAvailableTypeFilter: function (type) {
+        setAvailableTypeFilter(type) {
             if (this.available.currentType == type) {
                 this.available.currentType = null;
             } else {
@@ -315,107 +313,92 @@ export default {
         }
     },
     computed: {
-        filteredAvailablePlugins: function () {
-            var vm = this;
-            var query = vm.available.query.toLowerCase();
-            return vm.available.plugins.filter(function (plugin) {
-                if (vm.available.currentType !== null) {
-                    return plugin.type == vm.available.currentType;
+        filteredAvailablePlugins() {
+            var query = this.available.query.toLowerCase();
+            return this.available.plugins.filter((plugin) => {
+                if (this.available.currentType !== null) {
+                    return plugin.type == this.available.currentType;
                 }
 
                 return true;
-            }).filter(function (plugin) {
-                return plugin.keywords.filter(function (keyword) {
+            }).filter((plugin) => {
+                return plugin.keywords.filter((keyword) => {
                     return keyword.toLowerCase().indexOf(query) >= 0;
                 }).length > 0;
             });
         },
-        filteredInstalledPlugins: function () {
-            var vm = this;
-            var query = vm.installed.query.toLowerCase();
-            return vm.installed.plugins.filter(function (plugin) {
-                if (vm.installed.onlyEnabled === true) {
+        filteredInstalledPlugins() {
+            var query = this.installed.query.toLowerCase();
+            return this.installed.plugins.filter((plugin) => {
+                if (this.installed.onlyEnabled === true) {
                     return plugin.enabled;
-                } else if (vm.installed.onlyEnabled === false) {
+                } else if (this.installed.onlyEnabled === false) {
                     return !plugin.enabled;
                 }
 
                 return true;
-            }).filter(function (plugin) {
-                if (vm.installed.currentType !== null) {
-                    return plugin.type == vm.installed.currentType;
+            }).filter((plugin) => {
+                if (this.installed.currentType !== null) {
+                    return plugin.type == this.installed.currentType;
                 }
 
                 return true;
-            }).filter(function (plugin) {
+            }).filter((plugin) => {
                 return plugin.description.toLowerCase().indexOf(query) >= 0 || plugin.name.toLowerCase().indexOf(query) >= 0;
             });
         },
-        availableStart: function () {
+        availableStart() {
             return this.available.page * this.available.resultsPerPage;
         },
-        availableEnd: function () {
+        availableEnd() {
             return this.availableStart + this.available.resultsPerPage;
         },
-        availablePages: function () {
+        availablePages() {
             return Math.ceil(this.filteredAvailablePlugins.length / this.available.resultsPerPage);
         },
-        installedStart: function () {
+        installedStart() {
             return this.installed.page * this.installed.resultsPerPage;
         },
-        installedEnd: function () {
+        installedEnd() {
             return this.installedStart + this.installed.resultsPerPage;
         },
-        installedPages: function () {
+        installedPages() {
             return Math.ceil(this.filteredInstalledPlugins.length / this.installed.resultsPerPage);
         },
-        availableTypes: function () {
-            return this.available.plugins.map(function (plugin) {
+        availableTypes() {
+            return this.available.plugins.map((plugin) => {
                 return plugin.type;
-            }).filter(function (value, index, self) {
+            }).filter((value, index, self) => {
                 return self.indexOf(value) === index;
             });
         },
-        installedTypes: function () {
-            return this.installed.plugins.map(function (plugin) {
+        installedTypes() {
+            return this.installed.plugins.map((plugin) => {
                 return plugin.type;
-            }).filter(function (value, index, self) {
+            }).filter((value, index, self) => {
                 return self.indexOf(value) === index;
             });
         },
     },
-    mounted: function () {
-        var vm = this;
+    mounted() {
+        this.loadPlugins();
 
-        vm.loadPlugins();
-
-        var type = vm.getParameterFromUrl('type', null);
+        var type = this.getParameterFromUrl('type', null);
         if (type !== null) {
-            vm.available.currentType = type;
-            vm.$refs.search_plugin_modal.open();
+            this.available.currentType = type;
+            this.$refs.search_plugin_modal.open();
         }
     },
-    created: function () {
-        var vm = this;
-
-        vm.$watch(
-            () => vm.available.query,
-            function () {
-                vm.available.page = 0;
-            }
-        );
-        vm.$watch(
-            () => vm.installed.query,
-            function () {
-                vm.installed.page = 0;
-            }
-        );
-        vm.$watch(
-            () => vm.installed.onlyEnabled,
-            function () {
-                vm.installed.page = 0;
-            }
-        );
+    created() {
+        this.$watch(() => this.available.query, () => {
+            this.available.page = 0;
+        });
+        this.$watch(() => this.installed.query, () => {
+            this.installed.page = 0;
+        });
+        this.$watch(() => this.installed.onlyEnabled, () => {
+            this.installed.page = 0;
+        });
     },
 };
 </script>

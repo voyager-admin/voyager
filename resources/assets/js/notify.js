@@ -2,10 +2,10 @@ import { reactive } from 'vue';
 
 const Notify = {
     notifications: reactive([]),
-    addNotification: function(obj) {
+    addNotification(obj) {
         var vm = this;
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             obj.resolve = resolve;
             obj.reject = reject;
             obj._timeout_running = true;
@@ -13,7 +13,7 @@ const Notify = {
            vm.notifications.push(obj);
         });
     },
-    removeNotification: function(obj, result, message = null) {
+    removeNotification(obj, result, message = null) {
         if (obj._prompt == true) {
             obj.resolve((result == true ? message : false));
         } else if (result !== null) {
@@ -112,9 +112,9 @@ const Notification = class Notification {
         }
         var vm = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             Notify.addNotification(vm)
-            .then(function (result, message = null) {
+            .then((result, message = null) => {
                 resolve(result, message);
             });
         });
@@ -122,7 +122,7 @@ const Notification = class Notification {
 
     uuid() {
         var dt = new Date().getTime();
-        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
             var r = (dt + Math.random()*16)%16 | 0;
             dt = Math.floor(dt/16);
             return (c=='x' ? r :(r&0x3|0x8)).toString(16);

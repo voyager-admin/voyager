@@ -24,7 +24,7 @@ export default {
         placement: {
             type: String,
             default: 'bottom-start',
-            validator: function (value) {
+            validator: (value) => {
                 return ['auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'].includes(value);
             }
         },
@@ -33,13 +33,13 @@ export default {
             default: false,
         }
     },
-    data: function () {
+    data() {
         return {
             popper: null,
         };
     },
     methods: {
-        destroyPopper: function () {
+        destroyPopper() {
             if (this.popper) {
                 this.popper.destroy();
                 this.popper = null;
@@ -47,7 +47,7 @@ export default {
         }
     },
     watch: {
-        isOpen: function (open) {
+        isOpen(open) {
             if (open) {
                 nextTick(() => {
                     this.popper = this.createPopper(

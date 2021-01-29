@@ -20,7 +20,7 @@ export default {
     mixins: [formfield],
     computed: {
         value: {
-            get: function () {
+            get() {
                 if (!this.isArray(this.modelValue)) {
                     this.$emit('update:modelValue', []);
                     return [];
@@ -28,7 +28,7 @@ export default {
 
                 return this.modelValue;
             },
-            set: function (value) {
+            set(value) {
                 this.$emit('update:modelValue', value);
             }
         },

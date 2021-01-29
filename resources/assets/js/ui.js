@@ -1,5 +1,4 @@
 import Alert from 'components/UI/Alert';
-import ArrayForm from 'components/UI/ArrayForm';
 import Badge from 'components/UI/Badge';
 import Card from 'components/UI/Card';
 import Collapsible from 'components/UI/Collapsible';
@@ -19,7 +18,6 @@ import Tooltip from 'components/UI/Tooltip';
 
 export {
     Alert,
-    ArrayForm,
     Badge,
     Card,
     Collapsible,

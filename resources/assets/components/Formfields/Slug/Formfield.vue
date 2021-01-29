@@ -26,17 +26,16 @@ import formfield from '../../../js/mixins/formfield';
 
 export default {
     mixins: [formfield],
-    created: function () {
-        var vm = this;
-        vm.$eventbus.on('input', function (payload) {
+    created() {
+        this.$eventbus.on('input', (payload) => {
             // TODO: We could consider other column types as well
-            if (payload.column.type == 'column' && payload.column.column == vm.options.column) {
-                vm.$emit('update:modelValue', vm.slugValue(payload.value, vm.options.strict));
+            if (payload.column.type == 'column' && payload.column.column == this.options.column) {
+                this.$emit('update:modelValue', this.slugValue(payload.value, this.options.strict));
             }
         });
     },
     methods: {
-        slugValue: function (value, strict) {
+        slugValue(value, strict) {
             return this.slugify(value, {
                 strict: strict || true,
                 lower: this.options.lower || true,

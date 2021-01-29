@@ -83,7 +83,7 @@ import formfieldBuilder from '../../../js/mixins/formfield-builder';
 export default {
     mixins: [formfieldBuilder],
     computed: {
-        defaultViewOptions: function () {
+        defaultViewOptions() {
             return {
                 placeholder: '',
                 min: 0,
@@ -94,7 +94,7 @@ export default {
                 thousands_sep: ',',
             };
         },
-        defaultListOptions: function () {
+        defaultListOptions() {
             return {
                 placeholder: '',
                 decimals: 0,

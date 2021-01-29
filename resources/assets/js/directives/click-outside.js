@@ -1,7 +1,7 @@
 function mounted(el, binding) {
     var first = false;
 
-    document.documentElement.addEventListener('click', function (e) {
+    document.documentElement.addEventListener('click', (e) => {
         var target = e.target;
         var inside = false;
 

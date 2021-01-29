@@ -34,7 +34,7 @@ export default {
     mixins: [formfield],
     computed: {
         value: {
-            get: function () {
+            get() {
                 if (!this.isArray(this.modelValue)) {
                     this.$emit('update:modelValue', []);
                     return [];
@@ -42,32 +42,32 @@ export default {
 
                 return this.modelValue;
             },
-            set: function (value) {
+            set(value) {
                 this.$emit('update:modelValue', value);
             }
         },
         queryValue: {
-            get: function () {
+            get() {
                 return this.modelValue || null;
             },
-            set: function (value) {
+            set(value) {
                 this.$emit('update:modelValue', value);
             }
         },
-        defaultViewOptions: function () {
+        defaultViewOptions() {
             return {
                 options: [],
                 inline: false,
             };
         },
-        defaultListOptions: function () {
+        defaultListOptions() {
             return {
                 options: [],
             };
         },
     },
     methods: {
-        getOptionByKey: function (key) {
+        getOptionByKey(key) {
             var option = (this.options.options || []).where('key', key).first();
             if (option) {
                 return this.translate(option.value);

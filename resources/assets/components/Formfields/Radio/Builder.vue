@@ -66,7 +66,7 @@ import formfieldBuilder from '../../../js/mixins/formfield-builder';
 export default {
     mixins: [formfieldBuilder],
     methods: {
-        addOption: function () {
+        addOption() {
             var option = {
                 key: '',
                 value: '',
@@ -80,7 +80,7 @@ export default {
             this.$emit('update:options', options);
             
         },
-        removeOption: function (key) {
+        removeOption(key) {
             this.$emit('update:options', this.options.options.removeAtIndex(key));
         }
     },

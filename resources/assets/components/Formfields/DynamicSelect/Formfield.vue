@@ -35,35 +35,34 @@ import debounce from 'debounce';
 
 export default {
     mixins: [formfield],
-    data: function () {
+    data() {
         return {
             selects: [],
         };
     },
     methods: {
-        loadOptions: debounce(function () {
-            var vm = this;
-            if (!vm.options.route_name) {
+        loadOptions: debounce(() => {
+            if (!this.options.route_name) {
                 return;
             }
-            var selected = vm.modelValue || {};
+            var selected = this.modelValue || {};
             if (isReactive(selected)) {
                 selected = toRaw(selected);
             }
-            fetch.post(vm.route(vm.options.route_name), selected).then(function (response) {
-                vm.selects = response.data;
-            }).catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            fetch.post(this.route(this.options.route_name), selected).then((response) => {
+                this.selects = response.data;
+            }).catch((response) => {
+                this.$store.handleAjaxError(response);
             });
         }, 250),
-        getValue: function (i) {
+        getValue(i) {
             if (!this.isObject(this.modelValue)) {
                 this.$emit('update:modelValue', {});
             }
 
             return (this.modelValue || {})[i] || '';
         },
-        setValue: function (i, value) {
+        setValue(i, value) {
             var selected = this.modelValue;
             selected[i] = value;
             this.$emit('update:modelValue', selected);
@@ -71,7 +70,7 @@ export default {
             this.loadOptions();
         }
     },
-    created: function () {
+    created() {
         this.loadOptions();
     }
 }

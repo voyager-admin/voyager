@@ -48,19 +48,19 @@ export default {
     props: {
         modelValue: {
             type: Array,
-            default: function () {
+            default: () => {
                 return [];
             }
         }
     },
     methods: {
-        addRule: function () {
+        addRule() {
             this.$emit('update:modelValue', this.modelValue.insert({
                 rule: '',
                 message: '',
             }));
         },
-        removeRule: function (key) {
+        removeRule(key) {
             this.$emit('update:modelValue', this.modelValue.removeAtIndex(key));
         }
     },

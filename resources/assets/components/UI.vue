@@ -292,7 +292,7 @@ import scrollTo from '../js/directives/scroll-to';
 
 export default {
     directives: {scrollTo: scrollTo},
-    data: function () {
+    data() {
         return {
             name: 'Voyager',
             lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',

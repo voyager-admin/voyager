@@ -194,7 +194,7 @@ export default {
             default: 10,
         }
     },
-    data: function () {
+    data() {
         return {
             loading: false,
             results: [],
@@ -219,51 +219,49 @@ export default {
         };
     },
     methods: {
-        load: function () {
-            var vm = this;
-            vm.loading = true;
+        load() {
+            this.loading = true;
 
-            fetch.post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.data'), vm.parameters)
-            .then(function (response) {
+            fetch.post(this.route('voyager.'+this.translate(this.bread.slug, true)+'.data'), this.parameters)
+            .then((response) => {
                 for (var key in response.data) {
-                    if (response.data.hasOwnProperty(key) && vm.$data.hasOwnProperty(key)) {
-                        vm[key] = response.data[key];
+                    if (response.data.hasOwnProperty(key) && this.$data.hasOwnProperty(key)) {
+                        this[key] = response.data[key];
                     }
                 }
 
-                if (vm.parameters.order === null) {
-                    vm.parameters.order = vm.layout.options.default_order_column.column;
+                if (this.parameters.order === null) {
+                    this.parameters.order = this.layout.options.default_order_column.column;
                 }
                 if (response.data.execution > 500) {
-                    new vm.$notification(vm.__('voyager::bread.execution_time_warning', { time: parseInt(response.data.execution) })).color('yellow').timeout().show();
+                    new this.$notification(this.__('voyager::bread.execution_time_warning', { time: parseInt(response.data.execution) })).color('yellow').timeout().show();
                 }
             })
-            .catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            .catch((response) => {
+                this.$store.handleAjaxError(response);
             })
-            .then(function () {
-                vm.loading = false;
+            .then(() => {
+                this.loading = false;
             });
         },
-        getData: function (result, formfield, asArray = false) {
-            var vm = this;
+        getData(result, formfield, asArray = false) {
             var results = result[formfield.column.column];
-            if (vm.isArray(results)) {
+            if (this.isArray(results)) {
                 if (!asArray) {
                     results = results.slice(0, 3);
                 }
-                return results.map(function (r) {
+                return results.map((r) => {
                     if (formfield.translatable) {
-                        return vm.translate((r || ''), !formfield.translatable);
+                        return this.translate((r || ''), !formfield.translatable);
                     }
 
                     return r;
                 });
             }
 
-            return vm.translate((results || ''), !formfield.translatable);
+            return this.translate((results || ''), !formfield.translatable);
         },
-        orderBy: function (column) {
+        orderBy(column) {
             if (this.parameters.order == column) {
                 this.parameters.direction = this.parameters.direction == 'asc' ? 'desc' : 'asc';
             } else {
@@ -271,16 +269,15 @@ export default {
                 this.parameters.direction = 'asc';
             }
         },
-        selectAll: function (checked) {
-            var vm = this;
-            vm.selected = [];
+        selectAll(checked) {
+            this.selected = [];
             if (checked) {
-                vm.results.forEach(function (result) {
-                    vm.selected.push(result.primary_key);
+                this.results.forEach((result) => {
+                    this.selected.push(result.primary_key);
                 });
             }
         },
-        pushParameterToUrl: function (params) {
+        pushParameterToUrl(params) {
             var url = window.location.href.split('?')[0];
             for (var key in params) {
                 if (params.hasOwnProperty(key) && params[key] !== null && key !== 'filter') {
@@ -293,14 +290,14 @@ export default {
             }
             this.pushToUrlHistory(url);
         },
-        setFilter: function (filter) {
+        setFilter(filter) {
             if (this.isFilterSelected(filter)) {
                 this.parameters.filter = null;
             } else {
                 this.parameters.filter = filter;
             }
         },
-        isFilterSelected: function (filter) {
+        isFilterSelected(filter) {
             var p_filter = this.parameters.filter;
             if (filter && p_filter && p_filter.column == filter.column && p_filter.operator == filter.operator && p_filter.value == filter.value) {
                 return 'x';
@@ -308,30 +305,28 @@ export default {
 
             return null;
         },
-        orderUp: function (key, i) {
+        orderUp(key, i) {
             if (i == 0 && this.parameters.page == 1) {
                 return;
             }
             this.order(key, true);
         },
-        orderDown: function (key, i) {
+        orderDown(key, i) {
             this.order(key, false);
         },
-        order: function (key, up) {
-            var vm = this;
-
-            fetch.post(vm.route('voyager.'+vm.translate(vm.bread.slug, true)+'.order'), {
+        order(key, up) {
+            fetch.post(this.route('voyager.'+this.translate(this.bread.slug, true)+'.order'), {
                 key: key,
                 up: up,
             })
-            .then(function (response) {
-                vm.load();
+            .then((response) => {
+                this.load();
             })
-            .catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            .catch((response) => {
+                this.$store.handleAjaxError(response);
             });
         },
-        clamp: function (num, min, max) {
+        clamp(num, min, max) {
             if (num < min) {
                 return min;
             } else if (num > max) {
@@ -342,16 +337,16 @@ export default {
         }
     },
     computed: {
-        pages: function () {
+        pages() {
             return Math.ceil(this.filtered / this.parameters.perpage);
         },
-        showClearFilterButton: function () {
+        showClearFilterButton() {
             if (this.parameters.global !== null && this.parameters.global !== '') {
                 return true;
             }
             return Object.values(this.parameters.filters).whereNot('').length > 0;
         },
-        resultDescription: function () {
+        resultDescription() {
             var type = this.translate(this.bread.name_plural, true);
             if (this.filtered == 1) {
                 type = this.translate(this.bread.name_singular, true);
@@ -381,33 +376,28 @@ export default {
 
             return desc;
         },
-        allSelected: function () {
-            var vm = this;
-
+        allSelected() {
             var not_found = false;
-            if (vm.results.length == 0) {
+            if (this.results.length == 0) {
                 return false;
             }
-            vm.results.forEach(function (result) {
-                if (!vm.selected.includes(result.primary_key)) {
+            this.results.forEach((result) => {
+                if (!this.selected.includes(result.primary_key)) {
                     not_found = true;
                 }
             });
 
             return !not_found;
         },
-        selectedEntries: function () {
-            var vm = this;
-            return vm.results.filter(function (result) {
-                return vm.selected.includes(result.primary_key);
+        selectedEntries() {
+            return this.results.filter((result) => {
+                return this.selected.includes(result.primary_key);
             });
         },
     },
-    mounted: function () {
-        var vm = this;
-
+    mounted() {
         var parameter_found = false;
-        for (var param of vm.getParametersFromUrl()) {
+        for (var param of this.getParametersFromUrl()) {
             try {
                 var val = JSON.parse(param[1]);
                 this.parameters[param[0]] = val;
@@ -423,39 +413,23 @@ export default {
             this.load();
         }
     },
-    created: function () {
-        this.$watch(
-            () => this.selected,
-            function (selected) {
-                this.$emit('select', selected);
-            }
-        );
-        this.$watch(
-            () => this.parameters.page,
-            function (selected) {
-                this.selected = [];
-            }
-        );
-        this.$watch(
-            () => this.parameters.softdeleted,
-            function () {
-                this.parameters.page = 1;
-            }
-        );
-        this.$watch(
-            () => this.$store.locale,
-            function (locale) {
-                this.parameters.locale = locale;
-            }
-        );
-        this.$watch(
-            () => this.parameters,
-            debounce(function (parameters) {
-                this.pushParameterToUrl(parameters);
-                this.load();
-            }, 250),
-            { deep: true }
-        );
+    created() {
+        this.$watch(() => this.selected, (selected) => {
+            this.$emit('select', selected);
+        });
+        this.$watch(() => this.parameters.page, (selected) => {
+            this.selected = [];
+        });
+        this.$watch(() => this.parameters.softdeleted, () => {
+            this.parameters.page = 1;
+        });
+        this.$watch(() => this.$store.locale, (locale) => {
+            this.parameters.locale = locale;
+        });
+        this.$watch(() => this.parameters, debounce((parameters) => {
+            this.pushParameterToUrl(parameters);
+            this.load();
+        }, 250), { deep: true });
     },
 };
 </script>

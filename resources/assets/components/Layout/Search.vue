@@ -58,7 +58,7 @@ import debounce from 'debounce';
 
 export default {
     props: ['placeholder', 'mobilePlaceholder'],
-    data: function () {
+    data() {
         return {
             searchResults: {},
             query: '',
@@ -67,7 +67,7 @@ export default {
         };
     },
     computed: {
-        gridClasses: function () {
+        gridClasses() {
             return [
                 'grid-cols-' + this.max(1),
                 'md:grid-cols-' + this.max(2),
@@ -77,62 +77,57 @@ export default {
         }
     },
     methods: {
-        max: function (val) {
+        max(val) {
             if (Object.keys(this.searchResults).length < val) {
                 return Object.keys(this.searchResults).length;
             }
 
             return val;
         },
-        search: debounce(function (e) {
-            var vm = this;
-            vm.searchResults = [];
-            if (vm.query == '') {
+        search: debounce((e) => {
+            this.searchResults = [];
+            if (this.query == '') {
                 return;
             }
 
-            vm.loading = true;
+            this.loading = true;
 
-            fetch.post(vm.route('voyager.globalsearch'), {
-                query: vm.query,
+            fetch.post(this.route('voyager.globalsearch'), {
+                query: this.query,
             })
-            .then(function (response) {
-                vm.searchResults = response.data;
+            .then((response) => {
+                this.searchResults = response.data;
             })
-            .catch(function (response) {
-                vm.$store.handleAjaxError(response);
+            .catch((response) => {
+                this.$store.handleAjaxError(response);
             })
-            .then(function () {
-                vm.loading = false;
+            .then(() => {
+                this.loading = false;
             });
             
         }, 250),
-        moreUrl: function (table) {
+        moreUrl(table) {
             var bread = this.$store.getBreadByTable(table);
 
             return this.route('voyager.'+this.translate(bread.slug, true)+'.browse')+'?global='+this.query;
         },
-        getResultUrl: function (table, key) {
+        getResultUrl(table, key) {
             var bread = this.$store.getBreadByTable(table);
 
             return this.route('voyager.'+this.translate(bread.slug, true)+'.read', key);
         }
     },
-    created: function () {
-        this.$watch(
-            () => this.query,
-            function (query) {
-                if (query !== '') {
-                    var vm = this;
-                    vm.loading = true;
-                    vm.$refs.results_modal.open();
-                    nextTick(function () {
-                        vm.$refs.search_input.focus();
-                    });
-                    vm.search(query);
-                }
+    created() {
+        this.$watch(() => this.query, (query) => {
+            if (query !== '') {
+                this.loading = true;
+                this.$refs.results_modal.open();
+                nextTick(() => {
+                    this.$refs.search_input.focus();
+                });
+                this.search(query);
             }
-        );
+        });
     }
 };
 </script>

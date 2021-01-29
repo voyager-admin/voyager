@@ -1,6 +1,6 @@
 export default {
-    mounted: function (el, binding) {
-        el.addEventListener('click', function (e) {
+    mounted(el, binding) {
+        el.addEventListener('click', (e) => {
             var element = document.getElementById('top');
             if (binding.value !== '') {
                 element = document.getElementById(binding.value);

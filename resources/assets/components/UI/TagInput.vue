@@ -16,7 +16,7 @@ export default {
     props: {
         modelValue: {
             type: Array,
-            default: function () {
+            default: () => {
                 return [];
             }
         },
@@ -45,14 +45,14 @@ export default {
             default: false,
         }
     },
-    data: function () {
+    data() {
         return {
             tags: this.modelValue,
             deleteCounter: 0,
         };
     },
     methods: {
-        addTag: function (e) {
+        addTag(e) {
             if (this.max > 0 && this.tags.length >= this.max) {
                 return;
             }
@@ -68,13 +68,13 @@ export default {
             this.tags.push(content);
             e.target.value = '';
         },
-        removeTag: function (tag) {
+        removeTag(tag) {
             if (this.tags.length <= this.min) {
                 return;
             }
             this.tags.splice(this.tags.indexOf(tag), 1);
         },
-        removeLastTag: function (e) {
+        removeLastTag(e) {
             if (e.target.value == '') {
                 this.deleteCounter++;
                 if (this.deleteCounter >= 2) {
@@ -84,19 +84,13 @@ export default {
             }
         }
     },
-    created: function () {
-        this.$watch(
-            () => this.tags,
-            function (tags) {
-                this.$emit('update:modelValue', tags);
-            }
-        );
-        this.$watch(
-            () => this.modelValue,
-            function (tags) {
-                this.tags = tags;
-            }
-        );
+    created() {
+        this.$watch(() => this.tags, (tags) => {
+            this.$emit('update:modelValue', tags);
+        });
+        this.$watch(() => this.modelValue, (tags) => {
+            this.tags = tags;
+        });
     },
 };
 </script>

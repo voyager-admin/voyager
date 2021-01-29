@@ -42,34 +42,25 @@ export default {
             type: String,
         }
     },
-    data: function () {
+    data() {
         return {
             uuid: this.uuid()
         };
     },
-    created: function () {
-        var vm = this;
-        vm.$eventbus.on('close-slide-ins', function (uuid) {
-            if (uuid !== vm.uuid) {
-                vm.close();
+    created() {
+        this.$eventbus.on('close-slide-ins', (uuid) => {
+            if (uuid !== this.uuid) {
+                this.close();
             }
         });
-        vm.$watch(
-            () => this.opened,
-            function (opened) {
-                this.isOpen = opened;
-            },
-            { immediate: true }
-        );
-        vm.$watch(
-            () => this.opened,
-            function (open) {
-                if (open) {
-                    this.$eventbus.emit('close-slide-ins', this.uuid);
-                }
-            },
-            { immediate: true }
-        );
+        this.$watch(() => this.opened, (opened) => {
+            this.isOpen = opened;
+        }, { immediate: true });
+        this.$watch(() => this.opened, (open) => {
+            if (open) {
+                this.$eventbus.emit('close-slide-ins', this.uuid);
+            }
+        }, { immediate: true });
     },
 };
 </script>

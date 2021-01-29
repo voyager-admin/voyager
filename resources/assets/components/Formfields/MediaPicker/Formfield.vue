@@ -118,14 +118,14 @@ export default {
     mixins: [formfield],
     computed: {
         value: {
-            get: function () {
+            get() {
                 if (this.isArray(this.modelValue)) {
                     return this.modelValue;
                 }
 
                 return [];
             },
-            set: function (value) {
+            set(value) {
                 if (this.options.max > 0 && this.value.length >= this.options.max) {
                     if (this.options.max === 1) {
                         // Replace the file instead of failing with an error message
@@ -141,10 +141,10 @@ export default {
                 if (this.isArray(this.options.meta)) {
                     var meta = this.options.meta;
 
-                    value.map(function (val) {
+                    value.map((val) => {
                         val.meta = {};
 
-                        meta.forEach(function (m) {
+                        meta.forEach((m) => {
                             val.meta[m.key] = '';
                         });
                     });
@@ -153,7 +153,7 @@ export default {
                 this.$emit('update:modelValue', value);
             }
         },
-        slicedItems: function () {
+        slicedItems() {
             var items = (this.modelValue || []).slice(0, (this.options.items || 3));
             if (this.options.shuffle === true) {
                 return items.shuffle();
@@ -164,12 +164,11 @@ export default {
     },
     methods: {
         matchMime: matchMime,
-        removeFile: function (file) {
-            var vm = this;
-            if (vm.isArray(vm.modelValue)) {
-                vm.modelValue.forEach(function (f, i) {
+        removeFile(file) {
+            if (this.isArray(this.modelValue)) {
+                this.modelValue.forEach((f, i) => {
                     if (f.disk == file.disk && file.relative_path == f.relative_path && f.name == file.name) {
-                        vm.$emit('update:modelValue', vm.modelValue.removeAtIndex(i));
+                        this.$emit('update:modelValue', this.modelValue.removeAtIndex(i));
                     }
                 });
             }

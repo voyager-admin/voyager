@@ -18,7 +18,7 @@ export default {
         },
     },
     computed: {
-        iconContent: function () {
+        iconContent() {
             if (this.icon == 'helm') {
                 return require(`../../svg/helm.svg`);
             } else if (this.icon == 'bread') {
@@ -33,7 +33,7 @@ export default {
             return require(`../../../../node_modules/heroicons/outline/ban.svg`);
         }
     },
-    mounted: function () {
+    mounted() {
         this.$el.firstChild.classList.add(`h-${this.size}`);
         this.$el.firstChild.classList.add(`w-${this.size}`);
     }

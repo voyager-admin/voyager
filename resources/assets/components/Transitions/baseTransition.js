@@ -18,7 +18,7 @@ export default {
         },
         styles: {
             type: Object,
-            default: function () {
+            default() {
                 return {
                     animationFillMode: 'both',
                     animationTimingFunction: 'ease-in-out'
@@ -27,7 +27,7 @@ export default {
         }
     },
     computed: {
-        hooks: function () {
+        hooks() {
             return {
                 beforeEnter: this.beforeEnter,
                 afterEnter: this.cleanupTransitionStyles,
@@ -36,25 +36,23 @@ export default {
                 afterLeave: this.cleanupTransitionStyles
             };
         },
-        enterDuration: function () {
+        enterDuration() {
             return this.duration.enter || this.duration;
         },
-        leaveDuration: function () {
+        leaveDuration() {
             return this.duration.leave || this.duration;
         }
     },
     methods: {
-        beforeEnter: function (el) {
+        beforeEnter(el) {
             el.style.animationDuration = `${this.enterDuration}ms`;
-
             this.setStyles(el);
         },
-        beforeLeave: function (el) {
+        beforeLeave(el) {
             el.style.animationDuration = `${this.leaveDuration}ms`;
-
             this.setStyles(el);
         },
-        cleanupTransitionStyles: function (el) {
+        cleanupTransitionStyles(el) {
             Object.keys(this.styles).forEach((key) => {
                 if (this.styles[key]) {
                     el.style[key] = '';
@@ -63,7 +61,7 @@ export default {
             el.style.animationDuration = '';
             el.style.animationDelay = '';
         },
-        setStyles: function (el) {
+        setStyles(el) {
             Object.keys(this.styles).forEach((key) => {
                 var val = this.styles[key];
                 if (val) {
@@ -71,7 +69,7 @@ export default {
                 }
             });
         },
-        setAbsolutePositioning: function (el) {
+        setAbsolutePositioning(el) {
             if (this.group) {
                 el.style.position = 'absolute';
             }

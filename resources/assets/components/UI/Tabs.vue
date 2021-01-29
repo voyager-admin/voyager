@@ -37,36 +37,35 @@ export default {
         },
         tabs: {
             type: Array,
-            default: function () {
-                return []
+            default: () => {
+                return [];
             }
         }
     },
-    data: function () {
+    data() {
         return {
             currentTab: 0,
         };
     },
     methods: {
-        openByIndex: function (index) {
+        openByIndex(index) {
             this.$emit('select', index);
             this.currentTab = index;
         },
-        openByName: function (name) {
-            var vm = this;
-            vm.tabs.forEach(function (tab, i) {
+        openByName(name) {
+            this.tabs.forEach((tab, i) => {
                 if (tab.name == name) {
-                    vm.currentTab = i;
+                    this.currentTab = i;
                 }
             });
         }
     },
     computed: {
-        current: function () {
+        current() {
             return this.tabs[this.currentTab];
         },
     },
-    mounted: function () {
+    mounted() {
         if (this.openTab !== null) {
             this.openByName(this.openTab);
         }

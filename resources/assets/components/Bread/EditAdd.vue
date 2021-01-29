@@ -76,7 +76,7 @@ import fetch from '../../js/fetch';
 export default {
     emits: ['saved'],
     props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'relationships', 'fromRelationship', 'primaryKey'],
-    data: function () {
+    data() {
         return {
             output: (this.input || {}),
             isSaving: false,
@@ -87,7 +87,7 @@ export default {
         };
     },
     methods: {
-        getData: function (formfield) {
+        getData(formfield) {
             if ((formfield.translatable || false) && !this.isObject(this.output[formfield.column.column])) {
                 var value = this.output[formfield.column.column];
                 this.output[formfield.column.column] = {};
@@ -100,7 +100,7 @@ export default {
 
             return this.output[formfield.column.column];
         },
-        setData: function (formfield, value) {
+        setData(formfield, value) {
             this.getData(formfield);
 
             if (!this.output.hasOwnProperty(formfield.column.column)) {
@@ -120,80 +120,77 @@ export default {
                 value: value,
             });
         },
-        getErrors: function (column) {
+        getErrors(column) {
             return this.errors[column.column] || [];
         },
-        save: function () {
-            var vm = this;
-            if (vm.isSaving) {
+        save() {
+            if (this.isSaving) {
                 return;
             }
-            vm.isSaving = true;
-            vm.isSaved = false;
+            this.isSaving = true;
+            this.isSaved = false;
             fetch.createRequest(
-                (vm.currentAction == 'add' ? vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.store') : vm.route('voyager.' + vm.translate(vm.bread.slug, true) + '.update', vm.id)),
-                (vm.currentAction == 'add' ? 'post' : 'put'),
-                { data: vm.output }
+                (this.currentAction == 'add' ? this.route('voyager.' + this.translate(this.bread.slug, true) + '.store') : this.route('voyager.' + this.translate(this.bread.slug, true) + '.update', this.id)),
+                (this.currentAction == 'add' ? 'post' : 'put'),
+                { data: this.output }
             )
-            .then(function (response) {
-                vm.errors = [];
-                if (vm.fromRelationship === true) {
-                    vm.$emit('saved', {
+            .then((response) => {
+                this.errors = [];
+                if (this.fromRelationship === true) {
+                    this.$emit('saved', {
                         key: response.data,
-                        data: vm.output
+                        data: this.output
                     });
                     return;
                 }
 
-                if (vm.currentAction == 'add') {
-                    vm.currentAction = 'edit';
-                    vm.id = response.data;
+                if (this.currentAction == 'add') {
+                    this.currentAction = 'edit';
+                    this.id = response.data;
 
-                    new vm
-                    .$notification(vm.__('voyager::bread.type_store_success', {type: vm.translate(vm.bread.name_singular, true)}))
+                    new this
+                    .$notification(this.__('voyager::bread.type_store_success', {type: this.translate(this.bread.name_singular, true)}))
                     .color('green').timeout().show();
                 } else {
-                    new vm
-                    .$notification(vm.__('voyager::bread.type_update_success', {type: vm.translate(vm.bread.name_singular, true)}))
+                    new this
+                    .$notification(this.__('voyager::bread.type_update_success', {type: this.translate(this.bread.name_singular, true)}))
                     .color('green').timeout().show();
                 }
             })
-            .catch(function (response) {
+            .catch((response) => {
                 if (response.status == 422) {
                     // Validation failed
-                    vm.errors = response.data;
-                    new vm
-                    .$notification(vm.__('voyager::bread.validation_errors'))
+                    this.errors = response.data;
+                    new this
+                    .$notification(this.__('voyager::bread.validation_errors'))
                     .color('red').timeout().show();
                 } else {
-                    vm.$store.handleAjaxError(response);
+                    this.$store.handleAjaxError(response);
                 }
             })
-            .then(function () {
-                vm.isSaving = false;
-                vm.isSaved = true;
+            .then(() => {
+                this.isSaving = false;
+                this.isSaved = true;
             });
         }
     },
     computed: {
-        jsonOutput: function () {
+        jsonOutput() {
             return JSON.stringify(this.output, null, 2);
         }
     },
-    mounted: function () {
-        var vm = this;
-
-        $eventbus.on('ctrl-s-combo', function () {
-            vm.save();
+    mounted() {
+        $eventbus.on('ctrl-s-combo', () => {
+            this.save();
         });
 
-        vm.layout.formfields.forEach(function (formfield) {
-            var value = vm.output[formfield.column.column];
+        this.layout.formfields.forEach((formfield) => {
+            var value = this.output[formfield.column.column];
             if (formfield.translatable || false) {
-                value = vm.output[formfield.column.column][vm.$store.locale];
+                value = this.output[formfield.column.column][this.$store.locale];
             }
 
-            vm.$eventbus.emit('input', {
+            this.$eventbus.emit('input', {
                 column: formfield.column,
                 value: value,
             });
