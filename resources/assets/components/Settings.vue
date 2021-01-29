@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import fetch from '../js/fetch';
+import wretch from '../js/wretch';
 
 export default {
     props: {
@@ -177,10 +177,9 @@ export default {
             this.savingSettings = true;
             this.errors = [];
 
-            fetch.post(this.route('voyager.settings.store'), {
-                settings: this.settings
-            })
-            .then((response) => {
+            wretch(this.route('voyager.settings.store'))
+            .post({ settings: this.settings })
+            .res((response) => {
                 new this.$notification(this.__('voyager::settings.settings_saved')).color('green').timeout().show();
             })
             .catch((response) => {

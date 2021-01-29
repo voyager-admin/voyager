@@ -179,7 +179,7 @@
 </template>
 
 <script>
-import fetch from '../../js/fetch';
+import wretch from '../../js/wretch';
 import debounce from 'debounce';
 
 export default {
@@ -222,18 +222,19 @@ export default {
         load() {
             this.loading = true;
 
-            fetch.post(this.route('voyager.'+this.translate(this.bread.slug, true)+'.data'), this.parameters)
-            .then((response) => {
-                for (var key in response.data) {
-                    if (response.data.hasOwnProperty(key) && this.$data.hasOwnProperty(key)) {
-                        this[key] = response.data[key];
+            wretch(this.route('voyager.'+this.translate(this.bread.slug, true)+'.data'))
+            .post(this.parameters)
+            .json((response) => {
+                for (var key in response) {
+                    if (response.hasOwnProperty(key) && this.$data.hasOwnProperty(key)) {
+                        this[key] = response[key];
                     }
                 }
 
                 if (this.parameters.order === null) {
                     this.parameters.order = this.layout.options.default_order_column.column;
                 }
-                if (response.data.execution > 500) {
+                if (response.execution > 500) {
                     new this.$notification(this.__('voyager::bread.execution_time_warning', { time: parseInt(response.data.execution) })).color('yellow').timeout().show();
                 }
             })
@@ -315,11 +316,12 @@ export default {
             this.order(key, false);
         },
         order(key, up) {
-            fetch.post(this.route('voyager.'+this.translate(this.bread.slug, true)+'.order'), {
+            wretch(this.route('voyager.'+this.translate(this.bread.slug, true)+'.order'))
+            post({
                 key: key,
                 up: up,
             })
-            .then((response) => {
+            .res(() => {
                 this.load();
             })
             .catch((response) => {

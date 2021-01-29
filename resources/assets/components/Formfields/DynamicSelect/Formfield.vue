@@ -30,7 +30,7 @@
 <script>
 import { isReactive, toRaw } from 'vue';
 import formfield from '../../../js/mixins/formfield';
-import fetch from '../../../js/fetch';
+import wretch from '../../../js/wretch';
 import debounce from 'debounce';
 
 export default {
@@ -49,8 +49,10 @@ export default {
             if (isReactive(selected)) {
                 selected = toRaw(selected);
             }
-            fetch.post(this.route(this.options.route_name), selected).then((response) => {
-                this.selects = response.data;
+            wretch(this.route(this.options.route_name))
+            .post(selected)
+            .json((response) => {
+                this.selects = response;
             }).catch((response) => {
                 this.$store.handleAjaxError(response);
             });

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import fetch from '../../js/fetch';
+import wretch from '../../js/wretch';
 
 export default {
     emits: ['reload'],
@@ -89,13 +89,45 @@ export default {
             }
         },
         executeAction(action) {
-            fetch.createRequest(this.route(action.route_name), (action.method.toLowerCase() || 'post'), {
+            let req = wretch(this.route(action.route_name));
+            let args = {
                 primary: this.selectedPrimarys(action)
-            }, action.download === true ? 'blob' : 'json')
-            .then((response) => {
-                if (this.isObject(action.success)) {
-                    var amount = response.data.amount || 1;
-                    var replace = response.data;
+            };
+
+            switch (action.method.toLowerCase()) {
+                case 'get':
+                    req = req.get(args);
+                    break;
+                case 'put':
+                    req = req.put(args);
+                    break;
+                case 'patch':
+                    req = req.patch(args);
+                    break;
+                case 'delete':
+                    req = req.delete(args);
+                    break;
+                default:
+                    req = req.post(args);
+                    break;
+            }
+
+            action.download === true ? 'blob' : 'json'
+
+            if (action.download === true) {
+                req = req.blob((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', action.file_name);
+                    link.click();
+                    window.URL.revokeObjectURL(url);
+                });
+            } else {
+                req = req.json((response) => {
+                    if (this.isObject(action.success)) {
+                    var amount = response.amount || 1;
+                    var replace = response;
                     replace.type = this.translate(this.bread.name_singular, true);
                     replace.types = this.translate(this.bread.name_plural, true);
 
@@ -105,21 +137,16 @@ export default {
                         .timeout()
                         .show();
                 }
+                });
+            }
 
-                if (action.download === true) {
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', action.file_name);
-                    link.click();
-                    window.URL.revokeObjectURL(url);
-                }
-
+            req.then(() => {
                 if (action.reload_after) {
                     this.$emit('reload');
                 }
             })
             .catch((response) => {
+                console.log(response);
                 this.$store.handleAjaxError(response);
             });
         },

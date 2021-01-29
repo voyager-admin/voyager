@@ -196,7 +196,7 @@
 </template>
 
 <script>
-import fetch from '../js/fetch';
+import wretch from '../js/wretch';
 
 export default {
     props: ['availablePlugins'],
@@ -231,11 +231,12 @@ export default {
         },
         loadPlugins() {
             this.loading = true;
-            fetch.post(this.route('voyager.plugins.get'))
-            .then((response) => {
-                this.installed.plugins = response.data;
+            wretch(this.route('voyager.plugins.get'))
+            .post()
+            .json(plugins => {
+                this.installed.plugins = plugins;
             })
-            .catch((response) => {
+            .catch(response => {
                 this.$store.handleAjaxError(response);
             })
             .then(() => {
@@ -250,14 +251,15 @@ export default {
 
             new this.$notification(message).confirm().timeout().show().then((response) => {
                 if (response) {
-                    fetch.post(this.route('voyager.plugins.enable'), {
+                    wretch(this.route('voyager.plugins.enable'))
+                    .post({
                         identifier: plugin.identifier,
                         enable: enable,
                     })
-                    .then((response) => {
+                    .res(() => {
                         new this.$notification(this.__('voyager::plugins.reload_page')).show();
                     })
-                    .catch((response) => {
+                    .catch(response => {
                         this.$store.handleAjaxError(response);
                     })
                     .then(() => {

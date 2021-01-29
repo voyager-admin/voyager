@@ -53,7 +53,7 @@
 </template>
 <script>
 import { nextTick } from 'vue';
-import fetch from '../../js/fetch';
+import wretch from '../../js/wretch';
 import debounce from 'debounce';
 
 export default {
@@ -92,11 +92,12 @@ export default {
 
             this.loading = true;
 
-            fetch.post(this.route('voyager.globalsearch'), {
+            wretch(this.route('voyager.globalsearch'))
+            .post({
                 query: this.query,
             })
-            .then((response) => {
-                this.searchResults = response.data;
+            .json((response) => {
+                this.searchResults = response;
             })
             .catch((response) => {
                 this.$store.handleAjaxError(response);

@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import fetch from '../../js/fetch';
+import wretch from '../../js/wretch';
 
 export default {
     props: ['tables'],
@@ -136,8 +136,9 @@ export default {
             .then((result) => {
                 if (result) {
                     this.deleting = true;
-                    fetch.delete(this.route('voyager.bread.delete', table))
-                    .then((response) => {
+                    wretch(this.route('voyager.bread.delete', table))
+                    .delete()
+                    .res(() => {
                         new this.$notification(this.__('voyager::builder.delete_bread_success', {bread: table})).color('green').timeout().show();
                     })
                     .catch((response) => {
@@ -153,11 +154,12 @@ export default {
         backupBread(table) {
             this.backingUp = true;
 
-            fetch.post(this.route('voyager.bread.backup-bread'), {
+            wretch(this.route('voyager.bread.backup-bread'))
+            .post({
                 table: table
             })
-            .then((response) => {
-                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
+            .text((response) => {
+                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response })).timeout().show();
             })
             .catch((response) => {
                 this.$store.handleAjaxError(response);
@@ -168,11 +170,12 @@ export default {
             });
         },
         rollbackBread(table, backup) {
-            fetch.post(this.route('voyager.bread.rollback-bread'), {
+            wretch(this.route('voyager.bread.rollback-bread'))
+            .post({
                 table: table,
                 path: backup.path
             })
-            .then((response) => {
+            .res(() => {
                 new this.$notification(this.__('voyager::builder.bread_rolled_back', { date: backup.date })).timeout().show();
             })
             .catch((response) => {
@@ -186,15 +189,16 @@ export default {
             return this.backups.where('table', table);
         },
         loadBreads() {
-            if (thid.loading) {
+            if (this.loading) {
                 return;
             }
 
             this.loading = true;
-            fetch.post(this.route('voyager.bread.get-breads'))
-            .then((response) => {
-                this.breads = response.data.breads;
-                this.backups = response.data.backups;
+            wretch(this.route('voyager.bread.get-breads'))
+            .post()
+            .json((response) => {
+                this.breads = response.breads;
+                this.backups = response.backups;
             })
             .catch((response) => {
                 this.$store.handleAjaxError(response);

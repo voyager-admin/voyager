@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import fetch from '../../js/fetch';
+import wretch from '../../js/wretch';
 
 export default {
     emits: ['saved'],
@@ -129,16 +129,18 @@ export default {
             }
             this.isSaving = true;
             this.isSaved = false;
-            fetch.createRequest(
-                (this.currentAction == 'add' ? this.route('voyager.' + this.translate(this.bread.slug, true) + '.store') : this.route('voyager.' + this.translate(this.bread.slug, true) + '.update', this.id)),
-                (this.currentAction == 'add' ? 'post' : 'put'),
-                { data: this.output }
-            )
-            .then((response) => {
+            let req = wretch((this.currentAction == 'add' ? this.route('voyager.' + this.translate(this.bread.slug, true) + '.store') : this.route('voyager.' + this.translate(this.bread.slug, true) + '.update', this.id)));
+            if (this.currentAction == 'add') {
+                req = req.post({ data: this.output });
+            } else {
+                req = req.put({ data: this.output });
+            }
+
+            req.text((response) => {
                 this.errors = [];
                 if (this.fromRelationship === true) {
                     this.$emit('saved', {
-                        key: response.data,
+                        key: response,
                         data: this.output
                     });
                     return;

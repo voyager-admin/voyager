@@ -305,7 +305,7 @@
 </template>
 
 <script>
-import fetch from '../../js/fetch';
+import wretch from '../../js/wretch';
 
 export default {
     props: ['data', 'isNew'],
@@ -356,10 +356,11 @@ export default {
         storeBread() {
             this.savingBread = true;
 
-            fetch.put(this.route('voyager.bread.update', this.bread.table), {
+            wretch(this.route('voyager.bread.update', this.bread.table))
+            .put({
                 bread: this.bread
             })
-            .then((response) => {
+            .res(() => {
                 new this.$notification(this.__('voyager::builder.bread_saved_successfully')).color('green').timeout().show();
             })
             .catch((response) => {
@@ -372,11 +373,12 @@ export default {
         backupBread() {
             this.backingUp = true;
 
-            fetch.post(this.route('voyager.bread.backup-bread'), {
+            wretch(this.route('voyager.bread.backup-bread'))
+            .post({
                 table: this.bread.table
             })
-            .then((response) => {
-                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
+            .text((response) => {
+                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response })).timeout().show();
             })
             .catch((response) => {
                 this.$store.handleAjaxError(response);
@@ -392,14 +394,14 @@ export default {
 
             this.loadingProps = true;
 
-            fetch.post(this.route('voyager.bread.get-properties'), {
+            wretch(this.route('voyager.bread.get-properties'))
+            .post({
                 model: this.bread.model,
                 resolve_relationships: true,
             })
-            .then((response) => {
-                Object.keys(response.data).map((key) => {
-                    this[key] = response.data[key];
-                    // TODO: Vue.set(this, key, response.data[key]);
+            .json((response) => {
+                Object.keys(response).map((key) => {
+                    this[key] = response[key];
                 });
                 this.propsLoaded = true;
             })

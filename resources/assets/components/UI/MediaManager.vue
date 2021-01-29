@@ -189,7 +189,7 @@
 </template>
 <script>
 import closable from '../../js/mixins/closable';
-import fetch from '../../js/fetch';
+import wretch from '../../js/wretch';
 import matchMime from '../../js/helper/match-mime';
 
 export default {
@@ -337,9 +337,10 @@ export default {
             this.loadingFiles = true;
             this.selectedFiles = [];
 
-            fetch.post(this.listUrl, { path: this.path })
-            .then((response) => {
-                this.files = response.data;
+            wretch(this.listUrl)
+            .post({ path: this.path })
+            .json((response) => {
+                this.files = response;
             })
             .catch((response) => {
                 this.$store.handleAjaxError(response);
@@ -366,10 +367,10 @@ export default {
                 formData.append('files[]', file.file);
             });
 
-            fetch
-            .post(this.uploadUrl, formData, 'text')
-            .then((response) => {
-                response.data.forEach((file) => {
+            wretch(this.uploadUrl)
+            .post(formData)
+            .json((response) => {
+                response.forEach((file) => {
                     var uploadFile = null;
                     files.forEach((f) => {
                         if (f.file.name == file.original) {
@@ -394,18 +395,19 @@ export default {
                 this.loadFiles();
                 this.filesToUpload = this.filesToUpload.whereNot('status', Status.Finished);
             })
-            .catch((response) => {
+            .catch(() => {
                 // TODO: Handle fails
             });
         },
         downloadFiles() {
             if (this.selectedFiles.length > 0) {
-                fetch.post(this.route('voyager.media.download'), { files: this.selectedFiles }, 'blob')
-                .then((response) => {
+                wretch(this.route('voyager.media.download'))
+                .post({ files: this.selectedFiles }, 'blob')
+                .blob((response) => {
                     if (this.selectedFiles.length == 1) {
-                        this.downloadBlob(response.data, this.selectedFiles[0]['file']['name']);
+                        this.downloadBlob(response, this.selectedFiles[0]['file']['name']);
                     } else {
-                        this.downloadBlob(response.data, 'download.zip');
+                        this.downloadBlob(response, 'download.zip');
                     }
                 })
                 .catch((response) => {
@@ -510,13 +512,14 @@ export default {
             .show()
             .then((response) => {
                 if (response === true) {
-                    fetch.delete(this.route('voyager.media.delete'), { files: this.selectedFiles })
-                    .then((response) => {
-                        if (response.data.files > 0) {
-                            new this.$notification(this.trans_choice('voyager::media.delete_files_success', response.data.files)).color('green').timeout().show();
+                    wretch(this.route('voyager.media.delete'))
+                    .delete({ files: this.selectedFiles })
+                    .json((response) => {
+                        if (response.files > 0) {
+                            new this.$notification(this.trans_choice('voyager::media.delete_files_success', response.files)).color('green').timeout().show();
                         }
-                        if (response.data.dirs > 0) {
-                            new this.$notification(this.trans_choice('voyager::media.delete_folder_success', response.data.dirs)).color('green').timeout().show();
+                        if (response.dirs > 0) {
+                            new this.$notification(this.trans_choice('voyager::media.delete_folder_success', response.dirs)).color('green').timeout().show();
                         }
                     })
                     .catch((response) => {
@@ -552,8 +555,9 @@ export default {
                         return;
                     }
 
-                    fetch.post(this.route('voyager.media.create_folder'), { type: 'directory', name: result, })
-                    .then((response) => {
+                    wretch(this.route('voyager.media.create_folder'))
+                    .post({ type: 'directory', name: result, })
+                    .res(() => {
                         new this.$notification(this.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
                         this.openFile({
                             file: {
