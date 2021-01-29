@@ -41,7 +41,7 @@ export default {
         };
     },
     methods: {
-        loadOptions: debounce(() => {
+        loadOptions: debounce(function () {
             if (!this.options.route_name) {
                 return;
             }

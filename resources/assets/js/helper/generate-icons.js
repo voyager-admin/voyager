@@ -16,7 +16,7 @@ fs.readdir(__dirname +'../../../../../node_modules/heroicons/outline', function 
 
     content += '\n];\n';
 
-    fs.writeFile(__dirname +'/../icons.js', content, function (err) {
+    fs.writeFile(__dirname +'/../icons.ts', content, function (err) {
         if (err) return;
     
         console.log('Icon file generated with '+icons+' icons!');

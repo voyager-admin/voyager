@@ -1,18 +1,18 @@
 export default {
     methods: {
-        isArray: function (input) {
+        isArray: function (input: any) {
             return (input && typeof input === 'object' && input instanceof Array);
         },
-        isObject: function (input) {
+        isObject: function (input: any) {
             return (input && typeof input === 'object' && input.constructor === Object);
         },
-        isString: function (input) {
+        isString: function (input: any) {
             return (typeof input === 'string');
         },
-        isNumber: function (input) {
+        isNumber: function (input: any) {
             return (typeof input === 'number');
         },
-        isBoolean: function (input) {
+        isBoolean: function (input: any) {
             return (typeof input === 'boolean');
         },
     }

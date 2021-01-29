@@ -1,6 +1,6 @@
 export default {
     methods: {
-        copyToClipboard: function (message) {
+        copyToClipboard: function (message: string) {
             var dummy = document.createElement('textarea');
             document.body.appendChild(dummy);
             dummy.value = message.replace(/\'/g, "'");
@@ -10,7 +10,7 @@ export default {
 
             return false;
         },
-        getCookie: function(name) {
+        getCookie: function(name: string) {
             var name = name + '=';
             var decodedCookie = decodeURIComponent(document.cookie);
             var ca = decodedCookie.split(';');
@@ -25,7 +25,7 @@ export default {
             }
             return '';
         },
-        setCookie: function (name, value, exdays) {
+        setCookie: function (name: string, value: string, exdays: number) {
             var d = new Date();
             d.setTime(d.getTime() + (exdays*24*60*60*1000));
             var expires = "expires="+ d.toUTCString();

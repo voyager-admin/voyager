@@ -1,41 +1,43 @@
 export default {
     methods: {
-        kebabCase: function (input, char = '-') {
-            return input
-                .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-                .map(x => x.toLowerCase())
-                .join(char);
+        kebabCase: function (input: string, char = '-'): string {
+            let parts = input.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
+            if (parts) {
+                return parts.map(x => x.toLowerCase()).join(char);
+            }
+
+            return input;
         },
-        snakeCase: function (input) {
+        snakeCase: function (input: string) {
             return this.kebabCase(input, '_');
         },
-        titleCase: function (input, join = ' ') {
+        titleCase: function (input: string, join = ' ') {
             return this.kebabCase(input, '_')
                 .split('_')
-                .map(x => x.charAt(0).toUpperCase() + x.slice(1))
+                .map((x: string) => x.charAt(0).toUpperCase() + x.slice(1))
                 .join(join);
         },
-        studly: function (input) {
+        studly: function (input: string) {
             return this.titleCase(input, '');
         },
-        nl2br: function (input) {
+        nl2br: function (input: string) {
             return input.replace(/\\n/g, '<br>');
         },
-        ucFirst: function (input) {
+        ucFirst: function (input: string) {
             return input[0].toUpperCase() + input.slice(1);
         },
-        numberFormat: function (amount, decimalCount = 2, decimal = ".", thousands = ",") {
+        numberFormat: function (amount: number, decimalCount = 2, decimal = ".", thousands = ",") {
             decimalCount = Math.abs(decimalCount);
             decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
         
             const negativeSign = amount < 0 ? "-" : "";
         
-            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+            let i = parseInt(Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
             let j = (i.length > 3) ? i.length % 3 : 0;
         
-            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - parseInt(i)).toFixed(decimalCount).slice(2) : "");
         },
-        readableFileSize: function (bytes, decimals = 2)
+        readableFileSize: function (bytes: number, decimals = 2)
         {
             if (bytes === 0) return '0 Bytes';
         
@@ -47,7 +49,7 @@ export default {
         
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         },
-        stringAfterLast: function (char, input) {
+        stringAfterLast: function (char: string, input: string) {
             var parts = input.split(char);
 
             return parts[parts.length - 1];

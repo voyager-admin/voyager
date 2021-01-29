@@ -84,26 +84,27 @@ export default {
 
             return val;
         },
-        search: debounce((e) => {
-            this.searchResults = [];
-            if (this.query == '') {
+        search: debounce(function (e) {
+            var vm = this;
+            vm.searchResults = {};
+            if (vm.query == '') {
                 return;
             }
 
-            this.loading = true;
+            vm.loading = true;
 
-            wretch(this.route('voyager.globalsearch'))
+            wretch(vm.route('voyager.globalsearch'))
             .post({
                 query: this.query,
             })
             .json((response) => {
-                this.searchResults = response;
+                vm.searchResults = response;
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                vm.$store.handleAjaxError(response);
             })
             .then(() => {
-                this.loading = false;
+                vm.loading = false;
             });
             
         }, 250),

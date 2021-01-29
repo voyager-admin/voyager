@@ -1,10 +1,12 @@
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
     emits: ['update:options'],
     props: {
         action: {
             type: String,
             required: true,
-            validator: function (value) {
+            validator: function (value: any) {
                 return ['view', 'view-options', 'list-options'].indexOf(value) >= 0;
             }
         },
@@ -18,23 +20,27 @@ export default {
         },
         columns: {
             type: Array,
-            default: () => [],
+            default: (): Array<any> => [],
         },
         relationships: {
             type: Array,
-            default: () => [],
+            default: (): Array<any> => [],
         }
     },
     mounted: function () {
         var options = Object.keys(this.options).length;
+        // @ts-ignore
         if (this.defaultListOptions && this.action == 'list-options' && options == 0) {
+            // @ts-ignore
             this.$emit('update:options', JSON.parse(JSON.stringify(this.defaultListOptions)));
+        // @ts-ignore
         } else if (this.defaultViewOptions && this.action == 'view-options' && options == 1) {
             if (this.options.hasOwnProperty('width')) {
-                var options = JSON.parse(JSON.stringify(this.defaultViewOptions));
-                options.width = this.options.width;
-                this.$emit('update:options', options);
+                // @ts-ignore
+                var new_options = JSON.parse(JSON.stringify(this.defaultViewOptions));
+                new_options.width = this.options.width;
+                this.$emit('update:options', new_options);
             }
         }
     }
-};
+});

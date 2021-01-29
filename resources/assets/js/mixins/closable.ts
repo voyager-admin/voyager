@@ -1,6 +1,8 @@
-export default {
+import { watch, defineComponent } from 'vue';
+
+export default defineComponent ({
     emits: ['opened', 'closed', 'toggled'],
-    data: function () {
+    data() {
         return {
             isOpen: false,
         }
@@ -17,18 +19,15 @@ export default {
         }
     },
     created: function () {
-        var vm = this;
-        vm.$watch(
-            () => this.isOpen,
-            function (open) {
+        watch(() => this.isOpen, (open: boolean) => {
                 if (open) {
-                    vm.$emit('opened');
+                    this.$emit('opened');
                 } else {
-                    vm.$emit('closed');
+                    this.$emit('closed');
                 }
     
-                vm.$emit('toggled');
+                this.$emit('toggled');
             }
         );
     },
-};
+});
