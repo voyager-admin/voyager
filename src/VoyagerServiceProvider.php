@@ -82,8 +82,13 @@ class VoyagerServiceProvider extends ServiceProvider
         app(Gate::class)->before(static function ($user, $ability, $arguments = []) {
             return VoyagerFacade::authorize($user, $ability, $arguments);
         });
-    }
 
+        $dev_server = $this->settingmanager->setting('admin.dev-server-url', null);
+
+        if (!empty($dev_server) && filter_var($dev_server, FILTER_VALIDATE_URL) !== false) {
+            view()->share('voyagerDevServer', Str::finish($dev_server, '/'));
+        }
+    }
 
     /**
      * Register the Voyager resources.

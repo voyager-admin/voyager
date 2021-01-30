@@ -42,6 +42,7 @@ return [
     'dark_mode_off'             => 'Dark mode off',
     'dark_mode_system'          => 'Dark mode system',
     'dashboard'                 => 'Dashboard',
+    'debug_notice'              => 'You are using HMR.<br>Remember to set your environment to production when deploying!',
     'default_value'             => 'Default value',
     'delete'                    => 'Delete',
     'delete_setting'            => 'Delete setting',

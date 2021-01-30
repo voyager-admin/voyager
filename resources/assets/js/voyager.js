@@ -1,5 +1,7 @@
 require('./helper/array');
 
+require('../sass/voyager.scss');
+
 import { createApp } from 'vue';
 import slugify from 'slugify';
 window.slugify = slugify;
@@ -104,4 +106,7 @@ window.createVoyager = (data = {}, main = true) => {
 
 window.mountVoyager = (el = '#voyager') => {
     voyager.mount(el);
+    if (module.hot) {
+        new Notification(voyager.config.globalProperties.__('voyager::generic.debug_notice')).timeout().show();
+    }
 }

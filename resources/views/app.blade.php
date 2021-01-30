@@ -8,7 +8,13 @@
     <meta name="base-url" content="{{ Str::finish(route('voyager.dashboard'), '/') }}">
 
     <title>{{ $title ?? '' }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
+@if (isset($voyagerDevServer))
+    <link href="{{ $voyagerDevServer }}css/voyager.css" rel="stylesheet">
+@else
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
+@endif
+    <link href="{{ Voyager::assetUrl('css/font.css') }}" rel="stylesheet">
+    
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
         @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\CSS)
             <link href="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.css') }}" rel="stylesheet">
@@ -19,7 +25,13 @@
 <body>
     <div id="voyager"></div>
 </body>
-<script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
+
+@if (isset($voyagerDevServer))
+    <script src="{{ $voyagerDevServer }}js/voyager.js"></script>
+@else
+    <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
+@endif
+
 <script>
 createVoyager({
     routes: {!! Voyager::getRoutes() !!},

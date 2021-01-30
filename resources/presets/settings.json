@@ -150,6 +150,17 @@
         "validation": []
     },
     {
+        "type": "text",
+        "group": "admin",
+        "key": "dev-server-url",
+        "name": "Dev-Server URL",
+        "value": null,
+        "info": "The dev-server URL used for HMR. Leave empty to use precompiled files.",
+        "translatable": false,
+        "options": [],
+        "validation": []
+    },
+    {
         "type": "simple_array",
         "group": "media",
         "key": "mime-types",
