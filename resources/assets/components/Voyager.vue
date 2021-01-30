@@ -19,7 +19,7 @@
                 </div>
             </main>
         </div>
-        <notifications />
+        <notifications :position="tooltip_position" />
     </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
         'navbar': Navbar,
         'notifications': Notifications
     },
-    props: ['routes', 'localization', 'locales', 'locale', 'initial_locale', 'breads', 'formfields', 'debug', 'jsonOutput', 'csrf_token', 'searchPlaceholder', 'current_url', 'user', 'sidebar', 'page'],
+    props: ['routes', 'localization', 'locales', 'locale', 'initial_locale', 'breads', 'formfields', 'debug', 'jsonOutput', 'csrf_token', 'searchPlaceholder', 'current_url', 'user', 'sidebar', 'page', 'tooltip_position'],
     created() {
         for (const key in this.$props) {
             if (this.$store.hasOwnProperty(key)) {

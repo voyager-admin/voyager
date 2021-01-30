@@ -1,5 +1,10 @@
 <template>
-<div class="notifications sm:p-6 sm:items-start sm:justify-end" v-on:animationend="timeout($event)" v-on:animationcancel="timeout($event)">
+<div
+    class="notifications sm:p-6 sm:items-start sm:justify-end"
+    v-on:animationend="timeout($event)"
+    v-on:animationcancel="timeout($event)"
+    :class="position"
+>
     <transition-group :duration="{enter: 500, leave: 0}" name="notifications" tag="div">
         <div
             v-for="notification in notifications"
@@ -72,6 +77,13 @@ import focus from '../../js/directives/focus';
 
 export default {
     directives: {focus: focus},
+    props: {
+        position: {
+            type: String,
+            default: 'top-right',
+            validator: (value) => ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right'].includes(value)
+        }
+    },
     data() {
         return {
             notifications: notify.notifications
@@ -138,7 +150,27 @@ export default {
 }
 
 .notifications {
-    @apply fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none;
+    @apply fixed inset-0 flex px-4 py-6 pointer-events-none;
+
+    &.top-left {
+        @apply justify-start;
+    }
+
+    &.top-center {
+        @apply justify-center;
+    }
+
+    &.bottom-left {
+        @apply items-end justify-start;
+    }
+
+    &.bottom-center {
+        @apply items-end justify-center;
+    }
+
+    &.bottom-right {
+        @apply items-end;
+    }
 
     > div {
         @apply max-w-sm w-full rounded-lg pointer-events-auto;

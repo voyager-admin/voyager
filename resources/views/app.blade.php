@@ -41,6 +41,7 @@ createVoyager({
     initial_locale: '{{ Voyager::getLocale() }}',
     breads: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()->values()) !!},
     formfields: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!},
+    tooltip_position: '{{ Voyager::setting('admin.tooltip-position', 'top-right') }}',
     debug: {{ var_export(config('app.debug') ?? false, true) }},
     jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
     csrf_token: '{{ csrf_token() }}',

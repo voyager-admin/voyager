@@ -121,6 +121,57 @@
     {
         "type": "select",
         "group": "admin",
+        "key": "tooltip-position",
+        "name": "Tooltip position",
+        "value": "bottom-right",
+        "info": "The position of the tooltips",
+        "translatable": false,
+        "options": {
+            "multiple": false,
+            "options": [
+                {
+                    "key": "top-left",
+                    "value": {
+                        "de": "Top left"
+                    }
+                },
+                {
+                    "key": "top-center",
+                    "value": {
+                        "de": "Top center"
+                    }
+                },
+                {
+                    "key": "top-right",
+                    "value": {
+                        "de": "Top right"
+                    }
+                },
+                {
+                    "key": "bottom-left",
+                    "value": {
+                        "de": "Bottom left"
+                    }
+                },
+                {
+                    "key": "bottom-center",
+                    "value": {
+                        "de": "Bottom center"
+                    }
+                },
+                {
+                    "key": "bottom-right",
+                    "value": {
+                        "de": "Bottom right"
+                    }
+                }
+            ]
+        },
+        "validation": []
+    },
+    {
+        "type": "select",
+        "group": "admin",
         "key": "json-output",
         "name": "JSON output",
         "value": true,
