@@ -10,6 +10,7 @@ Instead, they are listed here:
 - Media manager: X and Y offset for watermarks should be percentage(?)
 - Media manager: Lightbox should scale images when they are too big
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
+- Add ability to disable HMR through the notification (call a method simply emptying `admin.dev-server-url`)
 
 ## Formfields
 - **Relationship** support polymorphic relationships

@@ -19,23 +19,30 @@ export default {
     },
     computed: {
         iconContent() {
+            let icon;
+
             if (this.icon == 'helm') {
-                return require(`../../svg/helm.svg`);
+                icon = require(`../../svg/helm.svg`);
             } else if (this.icon == 'bread') {
-                return require(`../../svg/bread.svg`);
+                icon = require(`../../svg/bread.svg`);
+            } else if (icons.includes(this.icon)) {
+                icon = require(`../../../../node_modules/heroicons/outline/${this.icon}.svg`);
+            } else {
+                console.warn(`Icon "${this.icon}" does not exist`);
+                icon = require(`../../../../node_modules/heroicons/outline/ban.svg`);
+            }
+            
+            if (icon.hasOwnProperty('default')) {
+                return icon.default;
             }
 
-            if (icons.includes(this.icon)) {
-                return require(`../../../../node_modules/heroicons/outline/${this.icon}.svg`);
-            }
-            console.warn(`Icon "${this.icon}" does not exist`);
-
-            return require(`../../../../node_modules/heroicons/outline/ban.svg`);
+            return icon;
         }
     },
     mounted() {
-        this.$el.firstChild.classList.add(`h-${this.size}`);
-        this.$el.firstChild.classList.add(`w-${this.size}`);
+        //this.$el.firstChild.classList.add(`h-${this.size}`);
+        //this.$el.firstChild.classList.add(`w-${this.size}`);
+        //console.log(this.$el);
     }
 };
 </script>
