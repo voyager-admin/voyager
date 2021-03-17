@@ -5,7 +5,8 @@ module.exports = {
         preserveHtmlElements: true,
         content: [
             './resources/**/*.vue',
-            './resources/**/*.blade.php'
+            './resources/**/*.blade.php',
+            './safelist.txt',
         ],
         options: {
             safelist: [

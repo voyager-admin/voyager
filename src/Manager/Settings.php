@@ -39,6 +39,18 @@ class Settings
         return $this->settings;
     }
 
+    // Set a settings-value based on the key. When locale is not provided and the setting is translatable, it expects an array of locale-values
+    public function set(string $key, $value, $locale = null)
+    {
+        $setting = $this->getSettingsByKey($key);
+
+        if ($key->count() == 1) {
+            // ...
+        } else {
+            throw new \Exception('Setting with key `'.$key.'` does not exist');
+        }
+    }
+
     public function merge(array $settings)
     {
         $this->settings = $this->settings->merge($settings);
@@ -47,24 +59,7 @@ class Settings
     public function setting($key = null, $default = null, $translate = true)
     {
         $this->load();
-        $settings = $this->settings;
-        $asGroup = false;
-
-        if (Str::contains($key, '.')) {
-            // We are looking for a setting in a group
-            list($group, $key) = explode('.', $key);
-            $settings = $settings->where('group', $group)->where('key', $key);
-        } elseif (!empty($key)) {
-            // We are looking for a setting without a group OR all group-settings
-            $group = $settings->where('group', null)->where('key', $key);
-
-            if ($group->count() == 0) {
-                $settings = $settings->where('group', $key);
-                $asGroup = true;
-            } else {
-                $settings = $group;
-            }
-        }
+        $settings = $this->getSettingsByKey($key);
 
         // Modify collection and only include key/value pairs
         $settings = $settings->mapWithKeys(function ($setting) use ($translate, $default) {
@@ -81,7 +76,7 @@ class Settings
 
         if ($settings->count() == 0) {
             return $default;
-        } elseif ($settings->count() == 1 && !$asGroup) {
+        } elseif ($settings->count() == 1) { // TODO: Don't use first() when all in a group
             $settings = $settings->first();
         }
 
@@ -110,5 +105,27 @@ class Settings
     {
         VoyagerFacade::ensureFileExists($this->path, '[]');
         $this->settings = collect(VoyagerFacade::getJson(File::get($this->path), []));
+    }
+
+    public function getSettingsByKey($key)
+    {
+        if (Str::contains($key, '.')) {
+            // We are looking for a setting in a group
+            list($group, $key) = explode('.', $key);
+            return $this->settings->where('group', $group)->where('key', $key);
+        } elseif (!empty($key)) {
+            // We are looking for a setting without a group OR all group-settings
+            $group = $this->settings->where('group', null)->where('key', $key);
+
+            if ($group->count() == 0) {
+                // All settings in a group
+                return $this->settings->where('group', $key);
+            } else {
+                // Setting without a group but matching key
+                return $group;
+            }
+        }
+
+        return $this->settings;
     }
 }

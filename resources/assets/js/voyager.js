@@ -106,7 +106,4 @@ window.createVoyager = (data = {}, main = true) => {
 
 window.mountVoyager = (el = '#voyager') => {
     voyager.mount(el);
-    if (module.hot) {
-        new Notification(voyager.config.globalProperties.__('voyager::generic.debug_notice')).timeout().show();
-    }
 }

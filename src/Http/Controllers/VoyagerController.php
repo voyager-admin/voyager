@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
+use Voyager\Admin\Manager\Settings as SettingsManager;
 use Voyager\Admin\Traits\Bread\Browsable;
 
 class VoyagerController extends Controller
@@ -16,11 +17,13 @@ class VoyagerController extends Controller
 
     protected $breadmanager;
     protected $pluginmanager;
+    protected $settingmanager;
 
-    public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager)
+    public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager, SettingsManager $settingmanager)
     {
         $this->breadmanager = $breadmanager;
         $this->pluginmanager = $pluginmanager;
+        $this->settingmanager = $settingmanager;
         parent::__construct($pluginmanager);
     }
 
@@ -201,5 +204,11 @@ class VoyagerController extends Controller
         }
 
         return response()->json($options);
+    }
+
+    public function disableHMR() {
+
+
+        return response()->json([], 200);
     }
 }

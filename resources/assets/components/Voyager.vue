@@ -28,6 +28,8 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Notifications from './UI/Notifications';
 
+import wretch from '../js/wretch';
+
 export default {
     components: {
         'sidebar': Sidebar,
@@ -72,5 +74,27 @@ export default {
             this.setCookie('sidebar-open', open);
         });
     },
+    mounted() {
+        if (module.hot) {
+            new this.$notification(this.__('voyager::generic.debug_notice'))
+            .timeout()
+            .confirm()
+            .addButton({
+                key: false,
+                value: 'voyager::generic.ok',
+                color: 'green',
+            }).addButton({
+                key: true,
+                value: 'voyager::generic.disable',
+                color: 'red',
+            })
+            .show()
+            .then((disable) => {
+                if (disable) {
+                    wretch(this.route('voyager.disable-hmr')).post({}).json();
+                }
+            });
+        }
+    }
 }
 </script>
