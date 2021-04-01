@@ -46,7 +46,6 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
     //
     Route::post('get-disks', ['uses' => 'VoyagerController@getDisks', 'as' => 'get-disks']);
     Route::post('get-thumbnail-options', ['uses' => 'VoyagerController@getThumbnailOptions', 'as' => 'get-thumbnail-options']);
-    Route::post('disable-hmr', ['uses' => 'VoyagerController@disableHMR', 'as' => 'disable-hmr']);
 });
 
 // Login

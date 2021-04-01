@@ -4,8 +4,7 @@
         "development": "webpack --mode development --progress",
         "prod": "npm run production",
         "production": "webpack --mode production --progress",
-        "watch": "webpack serve --hot --mode development",
-        "icons": "node resources/assets/js/helper/generate-icons.js"
+        "watch": "webpack serve --hot --mode development"
     },
     "devDependencies": {
         "@tailwindcss/jit": "^0.1.18",
@@ -31,9 +30,9 @@
         "webpack-dev-server": "^3.11.2"
     },
     "dependencies": {
+        "@heroicons/vue": "^1.0.0",
         "@popperjs/core": "^2.9.1",
         "debounce": "^1.2.1",
-        "heroicons": "^1.0.0",
         "inter-ui": "^3.15.1",
         "slugify": "^1.5.0",
         "tailwindcss": "^2.0.4",

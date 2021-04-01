@@ -34,6 +34,8 @@ import * as PageComponents from './pages';
 import * as TransitionComponents from './transitions';
 import * as UIComponents from './ui';
 
+import icon from './icon'
+
 let components = {
     ...BreadComponents,
     ...FormfieldComponents,
@@ -100,6 +102,8 @@ window.createVoyager = (data = {}, main = true) => {
     for (var key in components) {
         voyager.component(StringMixin.methods.kebabCase(key), components[key]);
     }
+
+    voyager.component('icon', icon);
 
     window.voyager = voyager;
 };

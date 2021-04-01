@@ -205,10 +205,4 @@ class VoyagerController extends Controller
 
         return response()->json($options);
     }
-
-    public function disableHMR() {
-
-
-        return response()->json([], 200);
-    }
 }

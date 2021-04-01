@@ -23,7 +23,7 @@ module.exports = (env, options) => {
         },
         entry: {
             voyager: path.resolve(__dirname, './resources/assets/js/voyager.js'),
-            font: path.resolve(__dirname, './resources/assets/sass/font.scss')
+            icons: path.resolve(__dirname, './resources/assets/js/icons.js'),
         },
         output: {
             path: path.resolve(__dirname, './resources/assets/dist'),
@@ -119,7 +119,7 @@ module.exports = (env, options) => {
                 patterns: [
                     { from: './node_modules/inter-ui/Inter (web)', to: './fonts/inter-ui' },
                 ]
-            })
+            }),
         ],
     };
 }

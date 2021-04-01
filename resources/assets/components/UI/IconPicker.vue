@@ -2,7 +2,7 @@
     <div>
         <input type="text" class="input w-full mb-3" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
         <div class="grid grid-cols-6 gap-1">
-            <tooltip v-for="(icon, i) in filteredIcons.slice(start, end)" :key="'icon-' + i" :value="icon.readable">
+            <tooltip v-for="(icon, i) in filteredIcons.slice(start, end)" :key="icon.readable" :value="icon.readable">
                 <button
                     class="button justify-center my-1 w-full"
                     @dblclick="$emit('select', icon.name)">
@@ -14,8 +14,6 @@
     </div>
 </template>
 <script>
-import icons from '../../js/icons';
-
 export default {
     emits: ['select'],
     data() {
@@ -41,14 +39,19 @@ export default {
             return Math.ceil(this.filteredIcons.length / this.resultsPerPage);
         },
         filteredIcons() {
+            let icons = [];
+            if (Array.isArray(window.icons)) {
+                icons = Object.keys(window.icons);
+            }
+
             var q = this.query.toLowerCase();
             return icons.whereLike(q).map((icon) => {
                 return {
                     name: this.kebabCase(icon),
-                    readable: icon,
+                    readable: this.titleCase(icon),
                 }
             });
-        },
+        }
     },
     created() {
         this.$watch(() => this.query, () => {
