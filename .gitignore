@@ -9,3 +9,4 @@ build
 .phpunit.result.cache
 debug.log
 list.txt
+NUL
