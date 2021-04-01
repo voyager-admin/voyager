@@ -1,7 +1,7 @@
 <template>
     <div @keydown.esc="close" v-click-outside="close">
         <slide-left-transition>
-            <div v-if="isOpen" class="dark slidein text-white w-full" :class="'lg:'+width">
+            <div v-if="isOpen" class="dark slidein text-white w-full" :class="'lg:w-1/3'">
                 <div class="flex w-full mb-3">
                     <div class="flex-grow">
                         <h4>{{ title }}</h4>
@@ -33,10 +33,6 @@ export default {
         opened: {
             type: Boolean,
             default: false
-        },
-        width: {
-            type: String,
-            default: 'w-1/3',
         },
         title: {
             type: String,
