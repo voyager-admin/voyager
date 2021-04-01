@@ -8,7 +8,7 @@
         "icons": "node resources/assets/js/helper/generate-icons.js"
     },
     "devDependencies": {
-        "@tailwindcss/jit": "^0.1.17",
+        "@tailwindcss/jit": "^0.1.18",
         "@vue/compiler-sfc": "^3.0.10",
         "autoprefixer": "^10.2.5",
         "copy-webpack-plugin": "^8.1.0",
@@ -19,7 +19,7 @@
         "mini-css-extract-plugin": "^1.4.0",
         "node-sass": "^5.0.0",
         "postcss": "^8.2.9",
-        "postcss-import": "^14.0.0",
+        "postcss-import": "^14.0.1",
         "postcss-loader": "^5.2.0",
         "sass-loader": "^11.0.1",
         "terser-webpack-plugin": "^5.1.1",
