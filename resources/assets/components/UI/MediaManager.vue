@@ -27,6 +27,12 @@
                     <icon icon="download"></icon>
                     <span>{{ trans_choice('voyager::media.download_files', selectedFiles.length) }}</span>
                 </button>
+                <button class="button accent small" @click="thumbSizeUp()">
+                    <icon icon="plus"></icon>
+                </button>
+                <button class="button accent small" @click="thumbSizeDown()">
+                    <icon icon="minus"></icon>
+                </button>
                 <!-- Hidden until ImageEditor is implemented -->
                 <!--
                 <button class="button accent small" v-show="imageSelected" @click="$refs.image_edit_modal.open()">
@@ -70,10 +76,10 @@
                             <div class="flex p-3">
                                 <div class="flex-none">
                                     <div class="w-full flex justify-center">
-                                        <img :src="file.preview" class="rounded object-contain h-24 max-w-full" v-if="file.preview" />
-                                        <img :src="file.file.url" class="rounded object-contain h-24 max-w-full" v-else-if="matchMime(file.file.type, 'image/*')" />
-                                        <div v-else class="w-full flex justify-center h-24">
-                                            <icon :icon="getFileIcon(file.file.type)" size="24"></icon>
+                                        <img :src="file.preview" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-if="file.preview" />
+                                        <img :src="file.file.url" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-else-if="matchMime(file.file.type, 'image/*')" />
+                                        <div v-else class="`w-full flex justify-center h-${thumbSize}`">
+                                            <icon :icon="getFileIcon(file.file.type)" :size="thumbnailSizes[thumbSize]"></icon>
                                         </div>
                                     </div>
                                 </div>
@@ -263,6 +269,10 @@ export default {
             loadingFiles: false,
             dragEnterTarget: null,
             openedFile: null,
+            thumbnailSizes: [
+                10, 11, 12, 14, 16, 20, 24, 28, 32, 36, 40
+            ],
+            thumbSize: 6,
         };
     },
     methods: {
@@ -579,6 +589,16 @@ export default {
             this.copyToClipboard(path);
             new this.$notification(this.__('voyager::media.path_copied')).timeout().show();
         },
+        thumbSizeUp() {
+            if (this.thumbSize < this.thumbnailSizes.length - 1) {
+                this.thumbSize += 1;
+            }
+        },
+        thumbSizeDown() {
+            if (this.thumbSize > 0) {
+                this.thumbSize -= 1;
+            }
+        }
     },
     computed: {
         combinedFiles() {

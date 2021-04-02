@@ -21,7 +21,7 @@ class MediaController extends Controller
         'image/png',
         'image/gif',
         'image/jpeg',
-        'image/svg+xml'
+        /* 'image/svg+xml' */
     ];
 
     public function __construct()
