@@ -6,20 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ Str::finish(route('voyager.dashboard'), '/') }}">
+    <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">
 
     <title>{{ $title ?? '' }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
-@if (isset($voyagerDevServer))
-    <link href="{{ $voyagerDevServer }}css/voyager.css" rel="stylesheet">
-@else
-    <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
-@endif
-    <link href="{{ Voyager::assetUrl('css/font.css') }}" rel="stylesheet">
-    
+    @if (isset($voyagerDevServer))
+        <link href="{{ $voyagerDevServer }}css/voyager.css" rel="stylesheet">
+    @else
+        <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
+    @endif
+
+    @php $fontProvidedByPlugin = false; @endphp
+
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
         @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\CSS)
             <link href="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.css') }}" rel="stylesheet">
+
+            @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\Font)
+                @php $fontProvidedByPlugin = true; @endphp
+            @endif
         @endif
     @endforeach
+
+@if (!$fontProvidedByPlugin)
+    <link href="{{ Voyager::assetUrl('css/font.css') }}" rel="stylesheet">
+@endif
 </head>
 
 <body>

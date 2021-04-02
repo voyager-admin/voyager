@@ -1,12 +1,22 @@
 <template>
     <div>
-        <input type="text" class="input w-full mb-3" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
+        <div class="input w-full mb-3 flex space-x-1">
+            <input type="text" class="input-transparent flex-grow" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
+            <button @click="sizeUp" class="flex-none">
+                <icon icon="plus" :size="5" />
+            </button>
+            <button @click="sizeDown" class="flex-none">
+                <icon icon="minus" :size="5" />
+            </button>
+        </div>
         <div class="grid grid-cols-6 gap-1">
+            
             <tooltip v-for="(icon, i) in filteredIcons.slice(start, end)" :key="icon.readable" :value="icon.readable">
                 <button
                     class="button justify-center my-1 w-full"
+                    :aria-label="`Icon ${icon.readable}`"
                     @dblclick="$emit('select', icon.name)">
-                    <icon :icon="icon.name" :size="6" />
+                    <icon :icon="icon.name" :size="size" />
                 </button>
             </tooltip>
         </div>
@@ -21,12 +31,23 @@ export default {
             query: '',
             page: 0,
             resultsPerPage: 60,
+            size: 6,
         };
     },
     methods: {
         selectIcon(icon) {
             this.$emit('select', icon);
         },
+        sizeUp() {
+            if (this.size < 12) {
+                this.size += 1;
+            }
+        },
+        sizeDown() {
+            if (this.size > 4) {
+                this.size -= 1;
+            }
+        }
     },
     computed: {
         start() {

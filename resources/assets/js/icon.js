@@ -1,4 +1,4 @@
-import { h } from 'vue';
+import { h, watch } from 'vue';
 import xIcon from '@heroicons/vue/outline/XIcon';
 import breadIcon from './icons/bread';
 import helmIcon from './icons/helm';
@@ -43,9 +43,12 @@ export default {
             console.error('No icons were registered. Please make sure your icon-pack injects an array of icons into `window.icons`');
         }
 
-        if (this.$el.firstChild) {
-            this.$el.firstChild.classList.add(`h-${this.size}`);
-            this.$el.firstChild.classList.add(`w-${this.size}`);
-        }
+        watch(() => this.size, (size) => {
+            if (this.$el.firstChild) {
+                this.$el.firstChild.classList.remove(...this.$el.firstChild.classList);
+                this.$el.firstChild.classList.add(`h-${size}`);
+                this.$el.firstChild.classList.add(`w-${size}`);
+            }
+        }, { immediate: true });
     }
 };

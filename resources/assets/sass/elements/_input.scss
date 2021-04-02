@@ -77,6 +77,10 @@
     }
 }
 
+.input-transparent {
+    @apply bg-transparent border-transparent focus:outline-none;
+}
+
 select:not([multiple]).input {
     @apply bg-no-repeat pr-10;
 

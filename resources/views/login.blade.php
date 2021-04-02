@@ -6,20 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ Str::finish(route('voyager.dashboard'), '/') }}">
+    <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">
 
     <title>{{ __('voyager::auth.login') }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
+    @php $fontProvidedByPlugin = false; @endphp
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
         @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\CSS)
             <link href="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.css') }}" rel="stylesheet">
+
+            @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\Font)
+                @php $fontProvidedByPlugin = true; @endphp
+            @endif
         @endif
     @endforeach
+
+    @if (!$fontProvidedByPlugin)
+        <link href="{{ Voyager::assetUrl('css/font.css') }}" rel="stylesheet">
+    @endif
 </head>
 
 <body>
     <div class="login sm:px-6 lg:px-8" id="voyager-login"></div>
 </body>
-<script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
+@if (isset($voyagerDevServer))
+    <script src="{{ $voyagerDevServer }}js/voyager.js"></script>
+    <script src="{{ $voyagerDevServer }}js/icons.js"></script>
+@else
+    <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
+    <script src="{{ Voyager::assetUrl('js/icons.js') }}"></script>
+@endif
 <script>
 createVoyager({
     routes: {!! Voyager::getRoutes() !!},

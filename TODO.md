@@ -14,7 +14,6 @@ Instead, they are listed here:
 - Add ability to disable HMR through the notification (call a method simply emptying `admin.dev-server-url`)
 - Check if settings are being emptied (for whatever reason, it happened to me)
 - Handle SVG uploads (in media manager)
-- Source out icons so they can be replaced with something different
 
 ## Formfields
 - **Relationship** support polymorphic relationships

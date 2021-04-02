@@ -56,7 +56,7 @@
                     </nav>
                 </div>
                 <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
-                    <button class="button accent small" @click="$store.toggleDarkMode()">
+                    <button class="button accent small" @click="$store.toggleDarkMode()" aria-label="Toggle darkmode">
                         <tooltip v-if="$store.darkmode == 'dark'" :value="__('voyager::generic.dark_mode_on')">
                             <icon icon="moon" />
                         </tooltip>
@@ -67,10 +67,10 @@
                             <icon icon="desktop-computer" />
                         </tooltip>
                     </button>
-                    <button class="button accent small" v-scroll-to="''">
+                    <button class="button accent small" v-scroll-to="''" aria-label="Go to top">
                         <icon icon="arrow-up" />
                     </button>
-                    <button class="button accent small" @click="$store.toggleDirection()">
+                    <button class="button accent small" @click="$store.toggleDirection()" aria-label="Toggle direction">
                         <icon icon="switch-horizontal" />
                     </button>
                 </div>
