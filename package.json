@@ -7,7 +7,6 @@
         "watch": "webpack serve --hot --mode development"
     },
     "devDependencies": {
-        "@tailwindcss/jit": "^0.1.18",
         "@vue/compiler-sfc": "^3.0.11",
         "autoprefixer": "^10.2.5",
         "copy-webpack-plugin": "^8.1.0",
@@ -35,7 +34,7 @@
         "debounce": "^1.2.1",
         "inter-ui": "^3.18.0",
         "slugify": "^1.5.0",
-        "tailwindcss": "^2.0.4",
+        "tailwindcss": "^2.1.1",
         "tailwindcss-dir": "^4.0.0",
         "vue": "^3.0.11",
         "wretch": "^1.7.4"
