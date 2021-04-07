@@ -9,9 +9,10 @@ Instead, they are listed here:
 - Media manager: When navigating through folders, it is not possible to use browser-back
 - Media manager: X and Y offset for watermarks should be percentage(?)
 - Media manager: Lightbox should scale images when they are too big
+- Media manager: Allow downloading folder(s)
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
 - Add setting set method
-- Add ability to disable HMR through the notification (call a method simply emptying `admin.dev-server-url`)
+- Add ability to disable HMR through an artisan command
 - Check if settings are being emptied (for whatever reason, it happened to me)
 - Handle SVG uploads (in media manager)
 

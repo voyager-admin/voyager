@@ -414,7 +414,7 @@ export default {
                 wretch(this.route('voyager.media.download'))
                 .post({ files: this.selectedFiles }, 'blob')
                 .blob((response) => {
-                    if (this.selectedFiles.length == 1) {
+                    if (this.selectedFiles.length == 1 && this.selectedFiles[0]['file']['type'] != 'directory') {
                         this.downloadBlob(response, this.selectedFiles[0]['file']['name']);
                     } else {
                         this.downloadBlob(response, 'download.zip');

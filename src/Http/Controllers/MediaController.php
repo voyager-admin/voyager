@@ -173,10 +173,9 @@ class MediaController extends Controller
     public function download(Request $request)
     {
         $files = $request->get('files', []);
-        if (count($files) == 1) {
+        if (count($files) == 1 && $files[0]['file']['type'] !== 'directory') {
             return Storage::disk($this->disk)->get($files[0]['file']['relative_path'].$files[0]['file']['name']);
         }
-
         $zip = new \ZipArchive();
         $zip->open('download.zip', \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
@@ -190,9 +189,12 @@ class MediaController extends Controller
             }
         }
         $zip->close();
-
-        $content = file_get_contents('download.zip');
-        unlink('download.zip');
+        if (file_exists('download.zip')) {
+            $content = file_get_contents('download.zip');
+            unlink('download.zip');
+        } else {
+            return response()->json(__('voyager::media.empty_folder_error'), 500);
+        }
 
         return $content;
     }

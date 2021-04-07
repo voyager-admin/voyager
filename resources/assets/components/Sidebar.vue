@@ -68,7 +68,7 @@
                         </tooltip>
                     </button>
                     <button class="button accent small" v-scroll-to="''" aria-label="Go to top">
-                        <icon icon="arrow-up" />
+                        <icon icon="chevron-up" />
                     </button>
                     <button class="button accent small" @click="$store.toggleDirection()" aria-label="Toggle direction">
                         <icon icon="switch-horizontal" />

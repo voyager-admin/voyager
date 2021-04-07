@@ -122,10 +122,12 @@ export default reactive({
         }
     },
     handleAjaxError: function (response) {
-        var notification = new Notification(response.data.message).color('red').timeout();
-        if (response.data.hasOwnProperty('exception')) {
-            notification = notification.title(response.data.exception);
-        }
+        console.table(response);
+        var notification = new Notification(response.message).color('red').timeout();
+        /*if (response.hasOwnProperty('stack')) {
+            notification = notification.message(response.stack);
+            notification = notification.title(response.message);
+        }*/
 
         return notification.show();
     },

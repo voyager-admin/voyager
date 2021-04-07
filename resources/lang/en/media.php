@@ -11,6 +11,7 @@ return [
     'download_files'            => 'Download file|Download :num files',
     'drag_files_here'           => 'Drag your files here',
     'drop_files'                => 'Drop it like its 🔥',
+    'empty_folder_error'        => 'Could not create a downloadable zip file. This might be due to the folder being empty.',
     'files_selected'            => ':num files selected',
     'file_upload_failed'        => 'Uploading file ":file" failed',
     'folder_exists'             => 'A folder with the name ":name" already exists!',

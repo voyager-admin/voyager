@@ -40,6 +40,12 @@ const Notification = class Notification {
         return this;
     }
 
+    message(message) {
+        this._message = message;
+
+        return this;
+    }
+
     icon(icon) {
         this._icon = icon;
 
