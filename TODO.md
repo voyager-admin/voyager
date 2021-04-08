@@ -14,7 +14,6 @@ Instead, they are listed here:
 - Add setting set method
 - Add ability to disable HMR through an artisan command
 - Check if settings are being emptied (for whatever reason, it happened to me)
-- Handle SVG uploads (in media manager)
 
 ## Formfields
 - **Relationship** support polymorphic relationships
