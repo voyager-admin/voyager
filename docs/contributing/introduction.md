@@ -14,10 +14,11 @@ We let [code climate](https://codeclimate.com/github/voyager-admin/voyager) chec
 ## Developing Javascript and CSS
 
 If you want to change anything related to Javascript and/or CSS, you can make your life easier by using hot module reloading.  
-To do so, you first have to install all NPM modules by running `npm install`. After that run `npm run watch` to provide a dev-server serving the compiled assets.  
-This will provide a URL (normally `http://localhost:8080`) which you then can use by calling the command `php artisan voyager:hmr --enable http://localhost:8080` or by going to the Settings => Admin and adding the URL to the `Dev-Server URL` setting.  
+To do so, you first have to install all NPM modules by running `npm install`.  
+After that run `npm run watch` to provide a dev-server serving the compiled assets.  
+This will provide a URL (normally `http://localhost:8080`) which you then can use by calling the command `php artisan voyager:hmr --enable http://localhost:8080` or by going to the `Settings => Admin` and adding the URL to the `Dev-Server URL` setting.  
 
-When you are done, you can simply empty the setting, or call `php artisan voyager:hmr --disable`.
+When you are done, you can simply empty the setting, or call `php artisan voyager:hmr --disable`
 
 ## Breaking changes
 
