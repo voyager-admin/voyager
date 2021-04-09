@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Action;
 use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\MenuItem;
+use Voyager\Admin\Commands\HMRCommand;
 use Voyager\Admin\Commands\InstallCommand;
 use Voyager\Admin\Commands\PluginsCommand;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -386,6 +387,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
         $this->settingmanager->load();
 
+        $this->commands(HMRCommand::class);
         $this->commands(InstallCommand::class);
         $this->commands(PluginsCommand::class);
 

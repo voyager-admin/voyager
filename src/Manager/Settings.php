@@ -40,14 +40,27 @@ class Settings
     }
 
     // Set a settings-value based on the key. When locale is not provided and the setting is translatable, it expects an array of locale-values
-    public function set(string $key, $value, $locale = null)
+    public function set(string $key, $value, $locale = null, $save = true)
     {
         $setting = $this->getSettingsByKey($key);
 
-        if ($key->count() == 1) {
-            // ...
+        if ($setting->count() == 1) {
+            $setting = $setting->first();
+            if ($setting->translatable && !is_array($value) && $locale == null) {
+                throw new \Exception('Setting `'.$key.'` is translatable but no locale was provided and the value is not an array');
+            }
+            if ($setting->translatable && is_array($value) && $locale == null) {
+                $setting->value = array_merge($setting->value ?? [], $value);
+            } else if ($setting->translatable && $locale !== null) {
+                $setting->value[$locale] = $value;
+            } else {
+                $setting->value = $value;
+            }
+
+            // Save settings when $save is true. Useful when you want to batch-update settings
+            $save && $this->save();
         } else {
-            throw new \Exception('Setting with key `'.$key.'` does not exist');
+            throw new \Exception('Setting with key `'.$key.'` does not exist or matches multiple settings');
         }
     }
 
@@ -112,6 +125,7 @@ class Settings
         if (Str::contains($key, '.')) {
             // We are looking for a setting in a group
             list($group, $key) = explode('.', $key);
+
             return $this->settings->where('group', $group)->where('key', $key);
         } elseif (!empty($key)) {
             // We are looking for a setting without a group OR all group-settings

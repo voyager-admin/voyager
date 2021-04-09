@@ -11,8 +11,6 @@ Instead, they are listed here:
 - Media manager: Lightbox should scale images when they are too big
 - Media manager: Allow downloading folder(s)
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
-- Add setting set method
-- Add ability to disable HMR through an artisan command
 - Check if settings are being emptied (for whatever reason, it happened to me)
 
 ## Formfields
