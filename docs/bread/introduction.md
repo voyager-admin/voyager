@@ -13,7 +13,7 @@ This will then load all fields from your model, accessors, scopes and relationsh
 
 ## Icon
 
-Clicking this button opens a modal showing you all icons which you can use for your BREAD.
+Clicking this button opens a modal showing you all icons which you can use for your BREAD.  
 Double-click the icon you want to use and the modal will close.  
 This icon is shown in your BREAD and in the menu.
 
@@ -28,7 +28,7 @@ Select `None` to exclude this BREAD from the global search.
 ## Storage path
 
 By default, BREADs are stored under `storage/voyager/breads`.  
-You can change this behavious by calling `setPath` on the BREAD manager in your Service Provider:
+You can change this behaviour by calling `setPath` on the BREAD manager in your Service Provider:
 
 ```php
 use Voyager\Admin\Manager\Breads as BreadManager;

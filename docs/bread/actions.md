@@ -65,6 +65,17 @@ $action = (new Action('My title', 'my-icon', 'color'))
 You can provide a callback function to determine if your action should be displayed on the currently used BREAD.  
 To do so, simply chain the method `->displayOnBread(function ($bread) { ... })` to your action and return a boolean value.
 
+```php
+$action = (new Action('My title', 'my-icon', 'color'))
+    ->displayOnBread(function ($bread) {
+        if ($myCondition) {
+            return true; // Display this action
+        }
+
+        return false; // Don't display this action
+    });
+```
+
 ## Confirm
 
 Sometimes you want the user to confirm the action.  
@@ -76,7 +87,7 @@ $action = (new Action('My title', 'my-icon', 'color'))
 ```
 
 The first parameter is the message, the second the title (can be null), the third again is a color from the Tailwind color-palette (or `accent`)  
-Like for the action title you can provide your title and message also as translation-keys.
+Like for the action title you can provide your title and message as translation-keys.
 
 ## Success
 
