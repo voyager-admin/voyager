@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ Str::finish(route('voyager.dashboard'), '/') }}">
     <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">
+    <meta http-equiv="Cache-control" content="public">
 
     <title>{{ __('voyager::auth.login') }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">

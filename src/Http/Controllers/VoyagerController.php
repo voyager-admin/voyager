@@ -66,7 +66,10 @@ class VoyagerController extends Controller
 
     private function returnAsset($content, $mime)
     {
-        $response = response($content, 200, ['Content-Type' => $mime]);
+        $response = response($content, 200, [
+            'Content-Type'           => $mime,
+            'x-content-type-options' => 'nosniff'
+        ]);
         $response->setSharedMaxAge(31536000);
         $response->setMaxAge(31536000);
         $response->setExpires(new \DateTime('+1 year'));
