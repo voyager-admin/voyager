@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Voyager\Admin\Contracts\Formfields\Features;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 trait Browsable
 {
@@ -73,7 +74,11 @@ trait Browsable
             // Validate filter exists in layout
             if (collect($layout->options->filters)->where('column', $filter['column'])->where('operator', $filter['operator'])->where('value', $filter['value'])->count() > 0) {
                 if ($filter['column'] === null) {
-                    $query = $query->{$filter['value']}();
+                    if (method_exists($query, $filter['value'])) {
+                        $query = $query->{$filter['value']}();
+                    } else {
+                        // TODO: Scope does not exist. Show error?
+                    }
                 }
             }
         }

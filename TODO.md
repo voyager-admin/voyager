@@ -12,6 +12,7 @@ Instead, they are listed here:
 - Media manager: Allow downloading folder(s)
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
 - Check if settings are being emptied (for whatever reason, it happened to me)
+- Make a `admin.sidebar_icon_size` setting
 
 ## Formfields
 - **Relationship** support polymorphic relationships

@@ -9,7 +9,7 @@
     </div>
     <div v-else-if="action == 'browse'">
         <badge v-for="(option, i) in (modelValue || [])" :key="i">
-            {{ getOptionByKey(option) }}
+            {{ getOptionByKey(option) || option }}
         </badge>
     </div>
     <div v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-1.5' : null">
