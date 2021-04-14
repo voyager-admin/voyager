@@ -13,17 +13,17 @@ module.exports = (env, options) => {
         mode: options.mode,
         devtool: options.mode === 'production' ? false : 'eval-cheap-module-source-map',
         devServer: {
-            contentBase: path.resolve(__dirname, '/'),
-            inline: true,
+            static: false,
             hot: true,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            disableHostCheck: true
+            firewall: false
         },
         entry: {
-            voyager: path.resolve(__dirname, './resources/assets/js/voyager.js'),
+            // Currently, HMR does not work (https://github.com/webpack/webpack-dev-server/issues/2692) when using multiple entries 🤷🏼
             icons: path.resolve(__dirname, './resources/assets/js/icons.js'),
+            voyager: path.resolve(__dirname, './resources/assets/js/voyager.js')
         },
         output: {
             path: path.resolve(__dirname, './resources/assets/dist'),
