@@ -6,12 +6,12 @@ This page shows you various ways to manipulate the data shown in your BREADs.
 ## Scopes
 
 You can apply a scope to every layout in a BREAD.  
-The (Laravel documentation)[https://laravel.com/docs/8.x/eloquent#local-scopes] shows you how to implement them.
+The [Laravel documentation](https://laravel.com/docs/8.x/eloquent#local-scopes) shows you how to implement them.
 
 For Voyager to recognize your scope, please make sure to follow the naming convention `scope[X]`, for example `scopeActive`.  
 You can now select the scope you want to use in the layout options:
 
-![Selecting the scope for a layout](./.gitbook/assets/bread-builder/scope-select.png)
+![Selecting the scope for a layout](../.gitbook/assets/bread-builder/scope-select.png)
 
 {% hint style="info" %}
 Because Voyager doesn't know which [view](views.md) you use in combination with which [list](lists.md), you **should** also apply the scope to your views to prevent users from manually setting URL parameters and using entries they are not supposed to.
@@ -35,6 +35,6 @@ The mutator also has to follow the naming `set[X]Attribute`, for example `setFul
 
 Now that you created an accessor (and a mutator when you want to edit/add), you can simply select your accessor in the column dropdown in the `Column` dropdown.
 
-![Selecting a computed property in a list](./.gitbook/assets/bread-builder/computed-list.png)
+![Selecting a computed property in a list](../.gitbook/assets/bread-builder/computed-list.png)
 
-![Selecting a computed property in a view](./.gitbook/assets/bread-builder/computed-view.png)
+![Selecting a computed property in a view](../.gitbook/assets/bread-builder/computed-view.png)
