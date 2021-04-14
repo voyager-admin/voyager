@@ -121,7 +121,7 @@
             </table>
         </div>
 
-        <collapsible :title="__('voyager::generic.filters')" closed ref="filters_collapsible">
+        <collapsible :title="`${__('voyager::generic.filters')} (${options.filters.length || 0})`" closed ref="filters_collapsible">
             <template #actions>
                 <button class="button green small" @click.stop="addFilter">
                     <icon icon="plus" />
@@ -186,7 +186,7 @@
                                     <template #opener>
                                         <div class="w-full">
                                             <button class="button">
-                                                <icon class="my-1 content-center" :icon="f.icon ? f.icon : 'ban'" />
+                                                <icon class="my-1 content-center" :icon="f.icon ? f.icon : 'ban'" :key="key + (f.icon ? f.icon : 'ban')" />
                                             </button>
                                         </div>
                                     </template>

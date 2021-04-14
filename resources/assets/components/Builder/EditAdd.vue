@@ -53,11 +53,11 @@
                     <div class="w-full md:w-2/12 m-1">
                         <label class="label" for="icon">{{ __('voyager::generic.icon') }}</label>
                         <modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
-                            <icon-picker v-on:select="$refs.icon_modal.close(); bread.icon = $event" />
+                            <icon-picker @select="bread.icon = $event; $refs.icon_modal.close()" />
                             <template #opener>
                                 <div class="w-full">
                                     <button class="button">
-                                        <icon class="my-1 content-center" :icon="bread.icon" />
+                                        <icon class="my-1 content-center" :icon="bread.icon" :key="bread.icon" />
                                     </button>
                                 </div>
                             </template>

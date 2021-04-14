@@ -2,6 +2,18 @@
 
 This page shows you various ways to manipulate the data shown in your BREADs.
 
+## Filters
+
+Filters are little but powerful buttons shown on top of the browse table.  
+They allow the user to apply customized queries or scopes to their results.
+
+### Customized queries
+
+
+
+### Scopes
+
+
 
 ## Scopes
 

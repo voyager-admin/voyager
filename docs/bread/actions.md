@@ -1,7 +1,7 @@
 # Actions
 
-Action are the buttons you see when browsing a BREAD.  
-There are two kinds of action: bulk and single.  
+Actions are the buttons you see when browsing a BREAD.  
+There are two kinds of actions: bulk and single.  
 By default all actions are single actions.
 
 ## Adding an Action
