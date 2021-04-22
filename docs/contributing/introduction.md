@@ -19,9 +19,9 @@ Hot module reload allows you to change code and instantly see the changes you ma
 
 To do so, you first have to install all NPM modules by running `npm install`.  
 After that run `npm run watch` to provide a dev-server serving the compiled assets.  
-This will provide a URL (normally `http://localhost:8080`) which you then can use by calling the command `php artisan voyager:hmr --enable http://localhost:8080` or by going to the `Settings => Admin` and adding the URL to the `Dev-Server URL` setting.  
+This will provide a URL (normally `http://localhost:8080`) which you then can use by calling the command `php artisan voyager:dev --enable http://localhost:8080` or by going to the `Settings => Admin` and adding the URL to the `Dev-Server URL` setting.  
 
-When you are done, you can simply empty the setting, or call `php artisan voyager:hmr --disable`
+When you are done, you can simply empty the setting, or call `php artisan voyager:dev --disable`
 
 ## Breaking changes
 
