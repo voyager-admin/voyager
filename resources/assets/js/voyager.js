@@ -6,6 +6,8 @@ import { createApp } from 'vue';
 import slugify from 'slugify';
 window.slugify = slugify;
 
+window.Vue = require('vue');
+
 // Popper
 import {
     popperGenerator as PopperGenerator,

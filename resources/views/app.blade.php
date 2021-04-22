@@ -35,6 +35,11 @@
 
 <body>
     <div id="voyager"></div>
+    @if (isset($voyagerDevServer))
+    <div id="js-warning" style="display:none">
+        {!! __('voyager::generic.dev_server_unavailable', ['url' => $voyagerDevServer]) !!}
+    </div>
+    @endif
 </body>
 
 @if (isset($voyagerDevServer))
@@ -46,34 +51,40 @@
 @endif
 
 <script>
-createVoyager({
-    routes: {!! Voyager::getRoutes() !!},
-    localization: {!! Voyager::getLocalization() !!},
-    locales: ["{!! implode('","', Voyager::getLocales()) !!}"],
-    locale: '{{ Voyager::getLocale() }}',
-    initial_locale: '{{ Voyager::getLocale() }}',
-    breads: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()->values()) !!},
-    formfields: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!},
-    tooltip_position: '{{ Voyager::setting('admin.tooltip-position', 'top-right') }}',
-    debug: {{ var_export(config('app.debug') ?? false, true) }},
-    jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
-    csrf_token: '{{ csrf_token() }}',
-    searchPlaceholder: '{{ resolve(\Voyager\Admin\Manager\Breads::class)->getBreadSearchPlaceholder() }}',
-    current_url: '{{ Str::finish(url()->current(), '/') }}',
-    user: {
-        name: '{{ Voyager::auth()->name() }}',
-        avatar: '{{ Voyager::assetUrl('images/default-avatar.png') }}',
-    },
-    sidebar: {
-        title: '{{ Voyager::setting('admin.sidebar-title', 'Voyager II') }}',
-        items: {!! resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) !!},
-    },
-    page: {
-        component: '{{ $component }}',
-        title: '{{ $title ?? '' }}',
-        parameters: {!! json_encode($parameters) !!},
-    },
-});
+if (window.createVoyager) {
+    createVoyager({
+        routes: {!! Voyager::getRoutes() !!},
+        localization: {!! Voyager::getLocalization() !!},
+        locales: ["{!! implode('","', Voyager::getLocales()) !!}"],
+        locale: '{{ Voyager::getLocale() }}',
+        initial_locale: '{{ Voyager::getLocale() }}',
+        breads: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()->values()) !!},
+        formfields: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!},
+        tooltip_position: '{{ Voyager::setting('admin.tooltip-position', 'top-right') }}',
+        debug: {{ var_export(config('app.debug') ?? false, true) }},
+        jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
+        csrf_token: '{{ csrf_token() }}',
+        searchPlaceholder: '{{ resolve(\Voyager\Admin\Manager\Breads::class)->getBreadSearchPlaceholder() }}',
+        current_url: '{{ Str::finish(url()->current(), '/') }}',
+        user: {
+            name: '{{ Voyager::auth()->name() }}',
+            avatar: '{{ Voyager::assetUrl('images/default-avatar.png') }}',
+        },
+        sidebar: {
+            title: '{{ Voyager::setting('admin.sidebar-title', 'Voyager II') }}',
+            items: {!! resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) !!},
+        },
+        page: {
+            component: '{{ $component }}',
+            title: '{{ $title ?? '' }}',
+            parameters: {!! json_encode($parameters) !!},
+        },
+    });
+} else {
+    @if (isset($voyagerDevServer))
+    document.getElementById('js-warning').style.display = 'block';
+    @endif
+}
 
 </script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
@@ -82,7 +93,24 @@ createVoyager({
     @endif
 @endforeach
 <script>
-mountVoyager();
+if (window.mountVoyager) {
+    mountVoyager();
+}
 </script>
 @yield('js')
+
+@if (isset($voyagerDevServer))
+<style>
+#js-warning {
+    width: 100%;
+    text-align: center;
+    font-size: 1.25rem;
+    padding-top: 20px;
+}
+
+#js-warning code {
+    background-color: #eee;
+}
+</style>
+@endif
 </html>

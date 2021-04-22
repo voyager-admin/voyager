@@ -49,6 +49,7 @@ return [
     'delete_type'               => 'Delete :type',
     'delimiter'                 => 'Delimiter',
     'description'               => 'Description',
+    'dev_server_unavailable'    => 'The development server <code>:url</code> is not available. Please disable HMR by calling <code>php artisan voyager:hmr --disable</code> or start your server.',
     'disable'                   => 'Disable',
     'disabled'                  => 'Disabled',
     'display_column'            => 'Display column',
