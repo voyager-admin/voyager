@@ -1,4 +1,4 @@
-export default function (input: string, allowed: string): boolean {
+export default function (input, allowed) {
     if (allowed == '*/*') {
         return true;
     }

@@ -19,7 +19,7 @@ export default defineComponent ({
         }
     },
     created: function () {
-        watch(() => this.isOpen, (open: boolean) => {
+        watch(() => this.isOpen, (open) => {
                 if (open) {
                     this.$emit('opened');
                 } else {

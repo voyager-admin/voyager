@@ -1,6 +1,6 @@
 export default {
     methods: {
-        kebabCase: function (input: string, char = '-'): string {
+        kebabCase: function (input, char = '-') {
             let parts = input.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
             if (parts) {
                 return parts.map(x => x.toLowerCase()).join(char);
@@ -8,25 +8,25 @@ export default {
 
             return input;
         },
-        snakeCase: function (input: string) {
+        snakeCase: function (input) {
             return this.kebabCase(input, '_');
         },
-        titleCase: function (input: string, join = ' ') {
+        titleCase: function (input, join = ' ') {
             return this.kebabCase(input, '_')
                 .split('_')
-                .map((x: string) => x.charAt(0).toUpperCase() + x.slice(1))
+                .map((x) => x.charAt(0).toUpperCase() + x.slice(1))
                 .join(join);
         },
-        studly: function (input: string) {
+        studly: function (input) {
             return this.titleCase(input, '');
         },
-        nl2br: function (input: string) {
+        nl2br: function (input) {
             return input.replace(/\\n/g, '<br>');
         },
-        ucFirst: function (input: string) {
+        ucFirst: function (input) {
             return input[0].toUpperCase() + input.slice(1);
         },
-        numberFormat: function (amount: number, decimalCount = 2, decimal = ".", thousands = ",") {
+        numberFormat: function (amount, decimalCount = 2, decimal = ".", thousands = ",") {
             decimalCount = Math.abs(decimalCount);
             decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
         
@@ -37,7 +37,7 @@ export default {
         
             return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - parseInt(i)).toFixed(decimalCount).slice(2) : "");
         },
-        readableFileSize: function (bytes: number, decimals = 2)
+        readableFileSize: function (bytes, decimals = 2)
         {
             if (bytes === 0) return '0 Bytes';
         
@@ -49,7 +49,7 @@ export default {
         
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         },
-        stringAfterLast: function (char: string, input: string) {
+        stringAfterLast: function (char, input) {
             var parts = input.split(char);
 
             return parts[parts.length - 1];

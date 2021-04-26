@@ -4,7 +4,7 @@ export default {
         action: {
             type: String,
             required: true,
-            validator: function (value: any) {
+            validator: function (value) {
                 return ['query', 'browse', 'read', 'edit', 'add'].indexOf(value) >= 0;
             }
         },
@@ -25,9 +25,7 @@ export default {
         },
         relationships: {
             type: Array,
-            default: function (): Array<any> {
-                return [];
-            }
+            default: () => [],
         },
         fromRelationship: {
             type: Boolean,

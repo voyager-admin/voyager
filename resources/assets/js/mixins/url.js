@@ -1,6 +1,6 @@
 export default {
     methods: {
-        addParameterToUrl: function (parameter: string, value: string, url?: string) {
+        addParameterToUrl: function (parameter, value, url = null) {
             var newurl = new URL(document.location.href);
         
             if (url)  {
@@ -10,7 +10,7 @@ export default {
         
             return newurl;
         },
-        getParameterFromUrl: function (key: string, default_value: any, url?: string) {
+        getParameterFromUrl: function (key, default_value, url = null) {
             var newurl = new URL(document.location.href);
             if (url)  {
                 newurl = new URL(url);
@@ -18,24 +18,21 @@ export default {
         
             return newurl.searchParams.get(key) || default_value;
         },
-        getParametersFromUrl: function (url?: string) {
+        getParametersFromUrl: function (url = null) {
             var newurl = new URL(document.location.href);
         
             if (url)  {
                 newurl = new URL(url);
             }
-            // @ts-ignore
             return newurl.searchParams.entries();
         },
-        pushToUrlHistory: function (url: URL) {
+        pushToUrlHistory: function (url) {
             window.history.pushState({ path:  url.href }, '', url.search);
         },
-        route: function (): string {
-            // @ts-ignore
+        route: function () {
             return window.route(...arguments);
         },
-        asset: function (path: string): string {
-            // @ts-ignore
+        asset: function (path) {
             return this.route('voyager.voyager_assets')+'?path='+encodeURI(path);
         }
     }
