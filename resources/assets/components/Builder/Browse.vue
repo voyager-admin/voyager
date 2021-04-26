@@ -153,12 +153,11 @@ export default {
         backupBread(table) {
             this.backingUp = true;
 
-            wretch(this.route('voyager.bread.backup-bread'))
-            .post({
+            axios.post(this.route('voyager.bread.backup-bread'), {
                 table: table
             })
-            .text((response) => {
-                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response })).timeout().show();
+            .then((response) => {
+                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
             .catch((response) => {
                 this.handleAjaxError(response);
@@ -169,12 +168,11 @@ export default {
             });
         },
         rollbackBread(table, backup) {
-            wretch(this.route('voyager.bread.rollback-bread'))
-            .post({
+            axios.post(this.route('voyager.bread.rollback-bread'), {
                 table: table,
                 path: backup.path
             })
-            .res(() => {
+            .then(() => {
                 new this.$notification(this.__('voyager::builder.bread_rolled_back', { date: backup.date })).timeout().show();
             })
             .catch((response) => {
@@ -193,11 +191,10 @@ export default {
             }
 
             this.loading = true;
-            wretch(this.route('voyager.bread.get-breads'))
-            .post()
-            .json((response) => {
-                this.breads = response.breads;
-                this.backups = response.backups;
+            axios.post(this.route('voyager.bread.get-breads'))
+            .then((response) => {
+                this.breads = response.data.breads;
+                this.backups = response.data.backups;
             })
             .catch((response) => {
                 this.handleAjaxError(response);

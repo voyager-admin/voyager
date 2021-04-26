@@ -316,12 +316,11 @@ export default {
             this.order(key, false);
         },
         order(key, up) {
-            wretch(this.route('voyager.'+this.translate(this.bread.slug, true)+'.order'))
-            post({
+            axios.post(this.route('voyager.'+this.translate(this.bread.slug, true)+'.order'), {
                 key: key,
                 up: up,
             })
-            .res(() => {
+            .then(() => {
                 this.load();
             })
             .catch((response) => {
