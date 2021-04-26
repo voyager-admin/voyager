@@ -1,11 +1,11 @@
 <template>
     <nav class="flex items-center mb-3 sm:px-3 md:px-4">
-        <button @click.stop="$store.toggleSidebar()" class="button small mx-2 flex-none" aria-label="Toggle navbar">
+        <button @click.stop="toggleSidebar()" class="button small mx-2 flex-none" aria-label="Toggle navbar">
             <icon :icon="$store.sidebarOpen ? 'dots-vertical' : 'dots-horizontal'" />
         </button>
         <search
             class="h-full flex-grow flex"
-            :placeholder="$store.searchPlaceholder"
+            :placeholder="shared.search_placeholder"
             :mobile-placeholder="__('voyager::generic.search')"
         >
         </search>
@@ -13,9 +13,9 @@
             <dropdown placement="bottom-end">
                 <div>
                     <div class="flex items-center px-6 py-4">
-                        <img class="h-10 w-10 rounded-full flex-no-shrink" :src="$store.user.avatar" alt="">
+                        <img class="h-10 w-10 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
                         <div class="ltr:ml-4 rtl:mr-4">
-                        <p class="font-semibold leading-none">{{ $store.user.name }}</p>
+                        <p class="font-semibold leading-none">{{ shared.user.name }}</p>
                         <p>
                             <a href="#" class="text-sm leading-none hover:underline">
                                 {{ __('voyager::generic.view_profile') }}
@@ -36,9 +36,9 @@
                 <template #opener>
                     <button class="flex items-center pl-6 py-2 font-semibold rounded-lg focus:outline-none">
                         <div class="w-48 text-right text-sm flex justify-end">
-                            <img class="h-6 w-6 rounded-full flex-no-shrink" :src="$store.user.avatar" alt="">
+                            <img class="h-6 w-6 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
                             <span class="hidden md:block ltr:ml-3 rtl:mr-3">
-                                Hello {{ $store.user.name }}
+                                {{ __('voyager::generic.hello_user', { user: shared.user.name }) }}
                             </span>
                         </div>
                         <icon icon="chevron-down" :size="4" class="ltr:ml-2 rtl:mr-2" />
@@ -50,7 +50,13 @@
 </template>
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3';
+
 export default {
-    
+    computed: {
+        shared() {
+            return usePage().props.value;
+        }
+    }
 }
 </script>

@@ -16,30 +16,32 @@
         "html-loader": "^2.1.2",
         "mini-css-extract-plugin": "^1.5.0",
         "node-sass": "^5.0.0",
-        "postcss": "^8.2.10",
+        "postcss": "^8.2.12",
         "postcss-import": "^14.0.1",
         "postcss-loader": "^5.2.0",
         "sass-loader": "^11.0.1",
         "terser-webpack-plugin": "^5.1.1",
-        "ts-loader": "^9.1.0",
+        "ts-loader": "^9.1.1",
         "typescript": "^4.2.4",
         "vue-loader": "^16.1.2",
-        "webpack": "^5.35.0",
+        "webpack": "^5.35.1",
         "webpack-cli": "^4.6.0",
         "webpack-dev-server": "^4.0.0-beta.2"
     },
     "dependencies": {
         "@heroicons/vue": "^1.0.1",
+        "@inertiajs/inertia": "^0.8.7",
+        "@inertiajs/inertia-vue3": "^0.3.14",
         "@popperjs/core": "^2.9.2",
         "debounce": "^1.2.1",
         "inter-ui": "^3.18.0",
         "slugify": "^1.5.0",
-        "tailwindcss": "^2.1.1",
+        "tailwindcss": "^2.1.2",
         "tailwindcss-dir": "^4.0.0",
         "vue": "^3.0.11",
         "wretch": "^1.7.4"
     },
     "peerDependencies": {
-        "postcss": "^8.2.10"
+        "postcss": "^8.2.12"
     }
 }

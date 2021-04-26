@@ -15,7 +15,7 @@
                     <card :title="translate(formfield.options.title, true)" :title-size="5" :show-title="translate(formfield.options.label, true) !== ''">
                         <div>
                             <component
-                                :is="$store.getFormfieldByType(formfield.type).component"
+                                :is="getFormfieldByType(formfield.type).component"
                                 :column="formfield.column"
                                 :modelValue="getData(formfield)"
                                 :translatable="formfield.translatable"
@@ -33,12 +33,14 @@
 </template>
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3';
+
 export default {
     props: ['bread', 'data', 'primary', 'layout', 'prevUrl'],
     methods: {
         getData(formfield) {
             if (formfield.translatable || false) {
-                return this.data[formfield.column.column][this.$store.locale] || '';
+                return this.data[formfield.column.column][usePage().props.value.locale] || '';
             }
 
             return this.data[formfield.column.column];

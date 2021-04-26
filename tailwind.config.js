@@ -73,7 +73,6 @@ module.exports = {
             },
             animation: {
                 'spin-reverse': 'spin-reverse 1s linear infinite',
-                'spin-slow': 'spin 2s linear infinite',
                 'scale-x': 'scale-x linear 1s forwards',
             },
             keyframes: {

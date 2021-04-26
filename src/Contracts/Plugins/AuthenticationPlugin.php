@@ -14,7 +14,7 @@ interface AuthenticationPlugin extends GenericPlugin
 
     public function guard(): string;
 
-    public function authenticate(Request $request);
+    public function authenticate(Request $request): ?array;
 
     public function logout();
 

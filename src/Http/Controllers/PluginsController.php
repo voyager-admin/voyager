@@ -24,12 +24,9 @@ class PluginsController extends Controller
 
     public function index()
     {
-        return view('voyager::app', [
-            'component'     => 'plugins-manager',
-            'title'         => __('voyager::plugins.plugins'),
-            'parameters'    => [
-                'available-plugins' => $this->pluginmanager->getAvailablePlugins()
-            ]
+        return $this->inertiaRender('Plugins', [
+            'title'             => __('voyager::plugins.plugins'),
+            'available-plugins' => $this->pluginmanager->getAvailablePlugins()
         ]);
     }
 

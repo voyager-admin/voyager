@@ -39,7 +39,7 @@
                                     </alert>
                                 </collapse-transition>
                                 <component
-                                    :is="$store.getFormfieldByType(formfield.type).component"
+                                    :is="getFormfieldByType(formfield.type).component"
                                     :modelValue="getData(formfield)"
                                     @update:modelValue="setData(formfield, $event)"
                                     :bread="bread"
@@ -64,14 +64,15 @@
                 </button>
             </div>
         </card>
-        <collapsible v-if="!fromRelationship && $store.json_output" :title="__('voyager::builder.json_output')" closed>
+        <collapsible v-if="!fromRelationship && jsonOutput !== null" :title="__('voyager::builder.json_output')" closed>
             <textarea class="input w-full" rows="10" v-model="jsonOutput"></textarea>
         </collapsible>
     </div>
 </template>
 
 <script>
-import wretch from '../../js/wretch';
+import { usePage } from '@inertiajs/inertia-vue3';
+import axios from 'axios';
 
 export default {
     emits: ['saved'],
@@ -91,11 +92,11 @@ export default {
             if ((formfield.translatable || false) && !this.isObject(this.output[formfield.column.column])) {
                 var value = this.output[formfield.column.column];
                 this.output[formfield.column.column] = {};
-                this.output[formfield.column.column][this.$store.locale] = value;
+                this.output[formfield.column.column][usePage().props.value.locale] = value;
             }
             
             if (formfield.translatable || false) {
-                return this.output[formfield.column.column][this.$store.locale];
+                return this.output[formfield.column.column][usePage().props.value.locale];
             }
 
             return this.output[formfield.column.column];
@@ -111,7 +112,7 @@ export default {
                 }
             }
             if (formfield.translatable || false) {
-                this.output[formfield.column.column][this.$store.locale] = value;
+                this.output[formfield.column.column][usePage().props.value.locale] = value;
             } else {
                 this.output[formfield.column.column] = value;
             }
@@ -129,18 +130,17 @@ export default {
             }
             this.isSaving = true;
             this.isSaved = false;
-            let req = wretch((this.currentAction == 'add' ? this.route('voyager.' + this.translate(this.bread.slug, true) + '.store') : this.route('voyager.' + this.translate(this.bread.slug, true) + '.update', this.id)));
-            if (this.currentAction == 'add') {
-                req = req.post({ data: this.output });
-            } else {
-                req = req.put({ data: this.output });
-            }
-
-            req.text((response) => {
+            let url = (this.currentAction == 'add' ? this.route('voyager.' + this.translate(this.bread.slug, true) + '.store') : this.route('voyager.' + this.translate(this.bread.slug, true) + '.update', this.id));
+            let req = axios({
+                method: this.currentAction == 'add' ? 'post' : 'put',
+                url: url,
+                data: this.output
+            }, this.id)
+            .then((response) => {
                 this.errors = [];
                 if (this.fromRelationship === true) {
                     this.$emit('saved', {
-                        key: response,
+                        key: response.data,
                         data: this.output
                     });
                     return;
@@ -167,7 +167,7 @@ export default {
                     .$notification(this.__('voyager::bread.validation_errors'))
                     .color('red').timeout().show();
                 } else {
-                    this.$store.handleAjaxError(response);
+                    this.handleAjaxError(response);
                 }
             })
             .then(() => {
@@ -178,7 +178,7 @@ export default {
     },
     computed: {
         jsonOutput() {
-            return JSON.stringify(this.output, null, 2);
+            return usePage().props.value.json_output ? JSON.stringify(this.output, null, 2) : null;
         }
     },
     mounted() {
@@ -189,7 +189,7 @@ export default {
         this.layout.formfields.forEach((formfield) => {
             var value = this.output[formfield.column.column];
             if (formfield.translatable || false) {
-                value = this.output[formfield.column.column][this.$store.locale];
+                value = this.output[formfield.column.column][usePage().props.value.locale];
             }
 
             this.$eventbus.emit('input', {

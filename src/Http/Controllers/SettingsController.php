@@ -16,12 +16,9 @@ class SettingsController extends Controller
 
     public function index()
     {
-        return view('voyager::app', [
-            'component'     => 'settings-manager',
-            'title'         => __('voyager::generic.settings'),
-            'parameters'    => [
-                'input' => $this->settingmanager->get(),
-            ],
+        return $this->inertiaRender('Settings', [
+            'title' => __('voyager::generic.settings'),
+            'input' => $this->settingmanager->get(),
         ]);
     }
 

@@ -109,30 +109,10 @@ code {
     }
 }
 
-.dark .loader {
-    @include bg-color(loader-bg-color-dark, 'colors.gray.800');
-    @include text-color(loader-text-color-dark, 'colors.gray.200');
-}
-
 ul {
     @apply list-disc list-inside;
 }
 
 ol {
     @apply list-decimal list-inside;
-}
-
-.loader {
-    @include bg-color(loader-bg-color, 'colors.gray.100');
-    @include text-color(loader-text-color, 'colors.black');
-
-    @apply absolute w-full h-full left-0 top-0 z-50;
-
-    .icon {
-        @apply absolute w-32 h-32;
-        top: 50%;
-        left: 50%;
-        margin-left: calc(theme('spacing.16') * -1);
-        margin-right: calc(theme('spacing.16') * -1);
-    }
 }

@@ -20,8 +20,8 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
         Route::delete('{table}', ['uses' => 'BreadBuilderController@destroy', 'as' => 'delete']);
     });
 
-    // UI Routes
-    Route::view('ui', 'voyager::app', ['component' => 'ui', 'parameters' => [], 'title' => 'UI'])->name('ui');
+    // UI Route
+    Route::inertia('ui', 'UI', ['title' => 'UI'])->name('ui');
 
     // Settings
     Route::get('settings', ['uses' => 'SettingsController@index', 'as' => 'settings.index']);
@@ -50,7 +50,7 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
 
 // Login
 Route::get('login', ['uses' => 'AuthController@login', 'as' => 'login']);
-Route::post('login', ['uses' => 'AuthController@processLogin']);
+Route::post('login', ['uses' => 'AuthController@login']);
 Route::post('forgot-password', ['uses' => 'AuthController@forgotPassword', 'as' => 'forgot_password']);
 
 // Asset routes

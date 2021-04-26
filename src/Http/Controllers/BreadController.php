@@ -31,12 +31,9 @@ class BreadController extends Controller
     {
         $bread = $this->getBread($request);
 
-        return view('voyager::app', [
-            'component'     => 'bread-browse',
-            'title'         => __('voyager::bread.browse_type', ['type' => $bread->name_plural]),
-            'parameters'    => [
-                'bread' => $bread,
-            ],
+        return $this->inertiaRender('Bread/Browse', [
+            'title' => __('voyager::bread.browse_type', ['type' => $bread->name_plural]),
+            'bread' => $bread,
         ]);
     }
 
@@ -119,18 +116,15 @@ class BreadController extends Controller
             return compact('bread', 'layout', 'new', 'data', 'relationships');
         }
 
-        return view('voyager::app', [
-            'component'     => 'bread-edit-add',
-            'title'         => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
-            'parameters'    => [
-                'bread'         => $bread,
-                'action'        => 'add',
-                'layout'        => $layout,
-                'relationships' => $relationships,
-                'input'         => $data,
-                'prev-url'      => url()->previous(),
-                'primary-key'   => 0,
-            ]
+        return $this->inertiaRender('Bread/EditAdd', [
+            'title' => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
+            'bread'         => $bread,
+            'action'        => 'add',
+            'layout'        => $layout,
+            'relationships' => $relationships,
+            'input'         => $data,
+            'prev-url'      => url()->previous(),
+            'primary-key'   => 0,
         ]);
     }
 
@@ -197,17 +191,14 @@ class BreadController extends Controller
             }
         });
 
-        return view('voyager::app', [
-            'component'     => 'bread-read',
-            'title'         => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
-            'parameters'    => [
-                'bread'     => $bread,
-                'layout'    => $layout,
-                'data'      => $data,
-                'primary'   => $data->getKey(),
-                'input'     => $data,
-                'prev-url'  => url()->previous(),
-            ]
+        return $this->inertiaRender('Bread/Read', [
+            'title'    => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
+            'bread'    => $bread,
+            'layout'   => $layout,
+            'data'     => $data,
+            'primary'  => $data->getKey(),
+            'input'    => $data,
+            'prev-url' => url()->previous(),
         ]);
     }
 
@@ -249,18 +240,15 @@ class BreadController extends Controller
             }
         });
 
-        return view('voyager::app', [
-            'component'     => 'bread-edit-add',
+        return $this->inertiaRender('Bread/EditAdd', [
             'title'         => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
-            'parameters'    => [
-                'bread'         => $bread,
-                'action'        => 'edit',
-                'layout'        => $layout,
-                'relationships' => $relationships,
-                'input'         => $breadData,
-                'prev-url'      => url()->previous(),
-                'primary-key'   => $pk,
-            ]
+            'bread'         => $bread,
+            'action'        => 'edit',
+            'layout'        => $layout,
+            'relationships' => $relationships,
+            'input'         => $breadData,
+            'prev-url'      => url()->previous(),
+            'primary-key'   => $pk,
         ]);
     }
 

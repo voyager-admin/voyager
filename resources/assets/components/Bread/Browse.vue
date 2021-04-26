@@ -74,7 +74,7 @@
                                         v-if="formfield.searchable"
                                         :modelValue="parameters.filters[formfield.column.column]"
                                         @update:modelValue="!$event ? delete parameters.filters[formfield.column.column] : parameters.filters[formfield.column.column] = $event"
-                                        :is="$store.getFormfieldByType(formfield.type).component"
+                                        :is="getFormfieldByType(formfield.type).component"
                                         :options="formfield.options"
                                         :column="formfield.column"
                                         :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
@@ -107,8 +107,8 @@
                                 </td>
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
-                                        v-if="$store.getFormfieldByType(formfield.type).browse_array && isArray(result[formfield.column.column])"
-                                        :is="$store.getFormfieldByType(formfield.type).component"
+                                        v-if="getFormfieldByType(formfield.type).browse_array && isArray(result[formfield.column.column])"
+                                        :is="getFormfieldByType(formfield.type).component"
                                         action="browse"
                                         :options="formfield.options"
                                         :column="formfield.column"
@@ -118,7 +118,7 @@
                                     </component>
                                     <component
                                         v-else-if="!isArray(result[formfield.column.column])"
-                                        :is="$store.getFormfieldByType(formfield.type).component"
+                                        :is="getFormfieldByType(formfield.type).component"
                                         action="browse"
                                         :options="formfield.options"
                                         :column="formfield.column"
@@ -129,7 +129,7 @@
                                     <div v-else>
                                         <component
                                             v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
-                                            :is="$store.getFormfieldByType(formfield.type).component"
+                                            :is="getFormfieldByType(formfield.type).component"
                                             action="browse"
                                             :options="formfield.options"
                                             :column="formfield.column"
@@ -179,8 +179,9 @@
 </template>
 
 <script>
-import wretch from '../../js/wretch';
+import axios from 'axios';
 import debounce from 'debounce';
+import { usePage } from '@inertiajs/inertia-vue3'
 
 export default {
     emits: ['select'],
@@ -213,7 +214,7 @@ export default {
                 order: null,
                 direction: 'asc',
                 softdeleted: 'show', // show, hide, only
-                locale: this.$store.locale,
+                locale: usePage().props.value.locale,
                 filter: null, // The current selected filter
             },
         };
@@ -222,24 +223,23 @@ export default {
         load() {
             this.loading = true;
 
-            wretch(this.route('voyager.'+this.translate(this.bread.slug, true)+'.data'))
-            .post(this.parameters)
-            .json((response) => {
-                for (var key in response) {
-                    if (response.hasOwnProperty(key) && this.$data.hasOwnProperty(key)) {
-                        this[key] = response[key];
+            axios.post(this.route('voyager.'+this.translate(this.bread.slug, true)+'.data'), this.parameters)
+            .then((response) => {
+                for (var key in response.data) {
+                    if (response.data.hasOwnProperty(key) && this.$data.hasOwnProperty(key)) {
+                        this[key] = response.data[key];
                     }
                 }
 
                 if (this.parameters.order === null) {
                     this.parameters.order = this.layout.options.default_order_column.column;
                 }
-                if (response.execution > 500) {
+                if (response.data.execution > 500) {
                     new this.$notification(this.__('voyager::bread.execution_time_warning', { time: parseInt(response.data.execution) })).color('yellow').timeout().show();
                 }
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
                 this.loading = false;
@@ -325,7 +325,7 @@ export default {
                 this.load();
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             });
         },
         clamp(num, min, max) {
@@ -425,7 +425,7 @@ export default {
         this.$watch(() => this.parameters.softdeleted, () => {
             this.parameters.page = 1;
         });
-        this.$watch(() => this.$store.locale, (locale) => {
+        this.$watch(() => usePage().props.value.locale, (locale) => {
             this.parameters.locale = locale;
         });
         this.$watch(() => this.parameters, debounce((parameters) => {

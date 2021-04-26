@@ -38,6 +38,20 @@
         "validation": []
     },
     {
+        "type": "number",
+        "group": "admin",
+        "key": "icon-size",
+        "name": "Icon size",
+        "value": 6,
+        "info": "The size of the sidebar icons.",
+        "translatable": false,
+        "options": {
+            "min": 4,
+            "max": 8
+        },
+        "validation": []
+    },
+    {
         "type": "dynamic_select",
         "group": "media",
         "key": "disk",
@@ -132,37 +146,37 @@
                 {
                     "key": "top-left",
                     "value": {
-                        "de": "Top left"
+                        "en": "Top left"
                     }
                 },
                 {
                     "key": "top-center",
                     "value": {
-                        "de": "Top center"
+                        "en": "Top center"
                     }
                 },
                 {
                     "key": "top-right",
                     "value": {
-                        "de": "Top right"
+                        "en": "Top right"
                     }
                 },
                 {
                     "key": "bottom-left",
                     "value": {
-                        "de": "Bottom left"
+                        "en": "Bottom left"
                     }
                 },
                 {
                     "key": "bottom-center",
                     "value": {
-                        "de": "Bottom center"
+                        "en": "Bottom center"
                     }
                 },
                 {
                     "key": "bottom-right",
                     "value": {
-                        "de": "Bottom right"
+                        "en": "Bottom right"
                     }
                 }
             ]

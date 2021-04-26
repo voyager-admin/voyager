@@ -12,7 +12,7 @@
                     <span>{{ __('voyager::media.select_upload_files') }}</span>
                 </button>
                 <button class="button accent small" @click="loadFiles()">
-                    <icon icon="refresh" :class="loadingFiles ? 'animate-spin-reverse' : null"></icon>
+                    <icon icon="refresh" :class="store.pageLoading ? 'animate-spin-reverse' : null"></icon>
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <button class="button accent small" @click="createFolder()">
@@ -58,11 +58,8 @@
         <div class="flex w-full min-h-64">
             <div class="w-full max-h-256 overflow-y-auto px-2" @click="selectedFiles = []">
                 <div class="relative flex-grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                    <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !loadingFiles">
+                    <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !store.pageLoading">
                         <h4>{{ dragging ? dropText : dragText }}</h4>
-                    </div>
-                    <div class="absolute w-full h-full flex items-center justify-center opacity-75 loading pointer-events-none" v-if="loadingFiles">
-                        <icon icon="helm" :size="32" class="block animate-spin-slow"></icon>
                     </div>
                     <div v-if="combinedFiles.length == 0" class="h-64"></div>
                     <div
@@ -194,9 +191,11 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 import closable from '../../js/mixins/closable';
-import wretch from '../../js/wretch';
 import matchMime from '../../js/helper/match-mime';
+import store from '../../js/store';
 
 export default {
     mixins: [closable],
@@ -259,6 +258,7 @@ export default {
     },
     data() {
         return {
+            store: store,
             filesToUpload: [],
             uploading: 0,
             files: [],
@@ -344,19 +344,18 @@ export default {
             }
         },
         loadFiles() {
-            this.loadingFiles = true;
+            store.pageLoading = true;
             this.selectedFiles = [];
 
-            wretch(this.listUrl)
-            .post({ path: this.path })
-            .json((response) => {
-                this.files = response;
+            axios.post(this.listUrl, { path: this.path })
+            .then((response) => {
+                this.files = response.data;
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
-                this.loadingFiles = false;
+                store.pageLoading = false;
             });
         },
         upload() {
@@ -377,10 +376,9 @@ export default {
                 formData.append('files[]', file.file);
             });
 
-            wretch(this.uploadUrl)
-            .post(formData)
-            .json((response) => {
-                response.forEach((file) => {
+            axios.post(this.uploadUrl, formData)
+            .then((response) => {
+                response.data.forEach((file) => {
                     var uploadFile = null;
                     files.forEach((f) => {
                         if (f.file.name == file.original) {
@@ -411,8 +409,8 @@ export default {
         },
         downloadFiles() {
             if (this.selectedFiles.length > 0) {
-                wretch(this.route('voyager.media.download'))
-                .post({ files: this.selectedFiles }, 'blob')
+                // TODO: Fix this
+                axios.post(this.route('voyager.media.download'), { files: this.selectedFiles }, 'blob')
                 .blob((response) => {
                     if (this.selectedFiles.length == 1 && this.selectedFiles[0]['file']['type'] != 'directory') {
                         this.downloadBlob(response, this.selectedFiles[0]['file']['name']);
@@ -421,7 +419,7 @@ export default {
                     }
                 })
                 .catch((response) => {
-                    this.$store.handleAjaxError(response);
+                    this.handleAjaxError(response);
                 });
             }
         },
@@ -522,18 +520,17 @@ export default {
             .show()
             .then((response) => {
                 if (response === true) {
-                    wretch(this.route('voyager.media.delete'))
-                    .delete({ files: this.selectedFiles })
-                    .json((response) => {
-                        if (response.files > 0) {
-                            new this.$notification(this.trans_choice('voyager::media.delete_files_success', response.files)).color('green').timeout().show();
+                    axios.delete(this.route('voyager.media.delete'), { files: this.selectedFiles })
+                    .then((response) => {
+                        if (response.data.files > 0) {
+                            new this.$notification(this.trans_choice('voyager::media.delete_files_success', response.data.files)).color('green').timeout().show();
                         }
-                        if (response.dirs > 0) {
-                            new this.$notification(this.trans_choice('voyager::media.delete_folder_success', response.dirs)).color('green').timeout().show();
+                        if (response.data.dirs > 0) {
+                            new this.$notification(this.trans_choice('voyager::media.delete_folder_success', response.data.dirs)).color('green').timeout().show();
                         }
                     })
                     .catch((response) => {
-                        this.$store.handleAjaxError(response);
+                        this.handleAjaxError(response);
                     })
                     .then(() => {
                         this.loadFiles();
@@ -565,9 +562,8 @@ export default {
                         return;
                     }
 
-                    wretch(this.route('voyager.media.create_folder'))
-                    .post({ type: 'directory', name: result, })
-                    .res(() => {
+                    axios.post(this.route('voyager.media.create_folder'), { type: 'directory', name: result, })
+                    .then(() => {
                         new this.$notification(this.__('voyager::media.create_folder_success', { name: result })).color('green').timeout().show();
                         this.openFile({
                             file: {
@@ -577,7 +573,7 @@ export default {
                         });
                     })
                     .catch((response) => {
-                        this.$store.handleAjaxError(response);
+                        this.handleAjaxError(response);
                     })
                     .then(() => {
                         this.loadFiles();

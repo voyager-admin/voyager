@@ -7,18 +7,31 @@ use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class AuthController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
-        if (VoyagerFacade::auth()->user()) {
-            return redirect(VoyagerFacade::auth()->redirectTo());
+        $errors = [];
+        $messages = ['Ble'];
+        $auth = VoyagerFacade::auth();
+        if ($auth->user()) {
+            return redirect($auth->redirectTo());
         }
 
-        return view('voyager::login');
-    }
+        if ($request->method() == 'POST') {
+            $result = $auth->authenticate($request);
+            if ($result == null) {
+                return redirect()->intended($auth->redirectTo());
+            } else {
+                $errors = $result;
+            }
+        }
 
-    public function processLogin(Request $request)
-    {
-        return VoyagerFacade::auth()->authenticate($request);
+        return $this->inertiaRender('Login', [
+            'title'             => __('voyager::auth.login'),
+            'welcome'           => VoyagerFacade::setting('admin.welcome', __('voyager::generic.welcome_to_voyager')),
+            'has_password_view' => true,
+            'errors'            => $errors,
+            'messages'          => $messages,
+        ]);
     }
 
     public function logout()

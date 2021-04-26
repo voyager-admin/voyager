@@ -35,16 +35,13 @@ class MediaController extends Controller
 
     public function index()
     {
-        return view('voyager::app', [
-            'component'     => 'media',
-            'title'         => __('voyager::generic.media'),
-            'parameters'    => [
-                'upload-url'            => route('voyager.media.upload'),
-                'list-url'              => route('voyager.media.list'),
-                'drag-text'             => __('voyager::media.drag_files_here'),
-                'drop-text'             => __('voyager::media.drop_files'),
-                'allowed-mime-types'    => VoyagerFacade::setting('media.mime-types', []),
-            ],
+        return $this->inertiaRender('Media', [
+            'title'                 => __('voyager::generic.media'),
+            'upload-url'            => route('voyager.media.upload'),
+            'list-url'              => route('voyager.media.list'),
+            'drag-text'             => __('voyager::media.drag_files_here'),
+            'drop-text'             => __('voyager::media.drop_files'),
+            'allowed-mime-types'    => VoyagerFacade::setting('media.mime-types', []),
         ]);
     }
 

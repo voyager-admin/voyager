@@ -34,12 +34,9 @@ class BreadBuilderController extends Controller
     {
         $this->authorize('browse breads');
 
-        return view('voyager::app', [
-            'component'     => 'bread-builder-browse',
-            'title'         => __('voyager::generic.breads'),
-            'parameters'    => [
-                'tables'    => VoyagerFacade::getTables(),
-            ],
+        return $this->inertiaRender('Builder/Browse', [
+            'title'  => __('voyager::generic.breads'),
+            'tables' => VoyagerFacade::getTables(),
         ]);
     }
 
@@ -69,13 +66,10 @@ class BreadBuilderController extends Controller
             return redirect()->route('voyager.bread.edit', $table);
         }
 
-        return view('voyager::app', [
-            'component'     => 'bread-builder-edit-add',
-            'title'         => __('voyager::generic.add_type', ['type' => __('voyager::generic.bread')]),
-            'parameters'    => [
-                'data'      => $this->breadmanager->createBread($table),
-                'is-new'    => true,
-            ],
+        return $this->inertiaRender('Builder/EditAdd', [
+            'title'  =>  __('voyager::generic.add_type', ['type' => __('voyager::generic.bread')]),
+            'data'   => $this->breadmanager->createBread($table),
+            'is-new' => true,
         ]);
     }
 
@@ -99,13 +93,10 @@ class BreadBuilderController extends Controller
 
         $this->authorize('edit bread', $table);
 
-        return view('voyager::app', [
-            'component'     => 'bread-builder-edit-add',
-            'title'         => __('voyager::generic.edit_type', ['type' => __('voyager::generic.bread')]),
-            'parameters'    => [
-                'data'      => $bread,
-                'is-new'    => false,
-            ],
+        return $this->inertiaRender('Builder/EditAdd', [
+            'title'  =>  __('voyager::generic.edit_type', ['type' => __('voyager::generic.bread')]),
+            'data'   => $bread,
+            'is-new' => false,
         ]);
     }
 
@@ -216,6 +207,7 @@ class BreadBuilderController extends Controller
     public function getBreads()
     {
         $this->authorize('browse breads');
+
         return response()->json([
             'breads'  => $this->breadmanager->getBreads()->values(),
             'backups' => $this->breadmanager->getBackups(),

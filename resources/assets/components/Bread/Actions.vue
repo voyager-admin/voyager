@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import wretch from '../../js/wretch';
+import { Inertia } from '@inertiajs/inertia'
 
 export default {
     emits: ['reload'],
@@ -89,28 +89,14 @@ export default {
             }
         },
         executeAction(action) {
-            let req = wretch(this.route(action.route_name));
-            let args = {
-                primary: this.selectedPrimarys(action)
-            };
-
-            switch (action.method.toLowerCase()) {
-                case 'get':
-                    req = req.get(args);
-                    break;
-                case 'put':
-                    req = req.put(args);
-                    break;
-                case 'patch':
-                    req = req.patch(args);
-                    break;
-                case 'delete':
-                    req = req.delete(args);
-                    break;
-                default:
-                    req = req.post(args);
-                    break;
-            }
+            // TODO: Revamp this
+            let req = axios({
+                url: this.route(action.route_name),
+                method: action.method.toLowerCase(),
+                data: {
+                    primary: this.selectedPrimarys(action)
+                }
+            });
 
             action.download === true ? 'blob' : 'json'
 
@@ -147,7 +133,7 @@ export default {
             })
             .catch((response) => {
                 console.log(response);
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             });
         },
         selectedPrimarys(action) {

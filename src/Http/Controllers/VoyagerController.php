@@ -5,6 +5,7 @@ namespace Voyager\Admin\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
@@ -79,12 +80,9 @@ class VoyagerController extends Controller
 
     public function dashboard()
     {
-        return view('voyager::app', [
-            'component'     => 'dashboard',
-            'title'         => __('voyager::generic.dashboard'),
-            'parameters'    => [
-                'widgets'   => VoyagerFacade::getWidgets(),
-            ]
+        return $this->inertiaRender('Dashboard', [
+            'title'   => __('voyager::generic.dashboard'),
+            'widgets' => VoyagerFacade::getWidgets(),
         ]);
     }
 

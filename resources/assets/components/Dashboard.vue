@@ -18,6 +18,11 @@
 
 <script>
 export default {
-    props: ['widgets'],
+    props: {
+        widgets: {
+            type: Array,
+            default: () => { return [] }
+        }
+    }
 }
 </script>

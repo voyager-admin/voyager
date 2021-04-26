@@ -31,17 +31,8 @@ export default {
             window.history.pushState({ path:  url.href }, '', url.search);
         },
         route: function (): string {
-            var args = Array.prototype.slice.call(arguments);
-            var name = args.shift();
             // @ts-ignore
-            if (this.$store.routes[name] === undefined) {
-                console.error('Route not found ', name);
-            } else {
-                // @ts-ignore
-                return this.$store.routes[name].split('/').map(s => s[0] == '{' ? args.shift() : s).join('/');
-            }
-
-            return '';
+            return window.route(...arguments);
         },
         asset: function (path: string): string {
             // @ts-ignore

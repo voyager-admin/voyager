@@ -196,7 +196,7 @@
 </template>
 
 <script>
-import wretch from '../js/wretch';
+import axios from 'axios';
 
 export default {
     props: ['availablePlugins'],
@@ -231,13 +231,12 @@ export default {
         },
         loadPlugins() {
             this.loading = true;
-            wretch(this.route('voyager.plugins.get'))
-            .post()
-            .json(plugins => {
-                this.installed.plugins = plugins;
+            axios.post(this.route('voyager.plugins.get'))
+            .then(plugins => {
+                this.installed.plugins = plugins.data;
             })
             .catch(response => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
                 this.loading = false;
@@ -251,16 +250,15 @@ export default {
 
             new this.$notification(message).confirm().timeout().show().then((response) => {
                 if (response) {
-                    wretch(this.route('voyager.plugins.enable'))
-                    .post({
+                    axios.post(this.route('voyager.plugins.enable'), {
                         identifier: plugin.identifier,
                         enable: enable,
                     })
-                    .res(() => {
+                    .then(() => {
                         new this.$notification(this.__('voyager::plugins.reload_page')).show();
                     })
                     .catch(response => {
-                        this.$store.handleAjaxError(response);
+                        this.handleAjaxError(response);
                     })
                     .then(() => {
                         this.loadPlugins();

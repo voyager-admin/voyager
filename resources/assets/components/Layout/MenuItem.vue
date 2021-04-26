@@ -2,10 +2,10 @@
 <div class="menuitem">
     <div class="item" :class="[active ? 'active' : '']">
         <div class="inline-flex items-center">
-            <a :href="href" class="text-sm leading-5 link" @click="clickItem">
-                <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon ltr:mr-2 rtl:ml-2" :size="6"></icon>
+            <inertia-link :href="href" class="text-sm leading-5 link" @click="clickItem">
+                <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon ltr:mr-2 rtl:ml-2" :size="iconSize"></icon>
                 {{ title }}
-            </a>
+            </inertia-link>
         </div>
         <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open">
             <icon :icon="open ? 'chevron-up' : 'chevron-down'" v-if="hasChildren" :size="4" class="icon"></icon>
@@ -47,6 +47,10 @@ export default {
         hasChildren: {
             type: Boolean,
             default: false,
+        },
+        iconSize: {
+            type: Number,
+            default: 6,
         }
     },
     data() {

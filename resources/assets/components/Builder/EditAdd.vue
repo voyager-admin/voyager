@@ -298,14 +298,15 @@
             </div>
         </collapsible>
 
-        <collapsible ref="bread_json" v-if="$store.json_output" :title="__('voyager::builder.json_output')" closed>
+        <collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::builder.json_output')" closed>
             <textarea class="input w-full" rows="10" v-model="jsonBread"></textarea>
         </collapsible>
     </div>
 </template>
 
 <script>
-import wretch from '../../js/wretch';
+import { usePage } from '@inertiajs/inertia-vue3';
+import axios from 'axios';
 
 export default {
     props: ['data', 'isNew'],
@@ -356,15 +357,14 @@ export default {
         storeBread() {
             this.savingBread = true;
 
-            wretch(this.route('voyager.bread.update', this.bread.table))
-            .put({
+            axios.put(this.route('voyager.bread.update', this.bread.table), {
                 bread: this.bread
             })
-            .res(() => {
+            .then(() => {
                 new this.$notification(this.__('voyager::builder.bread_saved_successfully')).color('green').timeout().show();
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
                 this.savingBread = false;
@@ -373,15 +373,14 @@ export default {
         backupBread() {
             this.backingUp = true;
 
-            wretch(this.route('voyager.bread.backup-bread'))
-            .post({
+            axios.post(this.route('voyager.bread.backup-bread'), {
                 table: this.bread.table
             })
-            .text((response) => {
-                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response })).timeout().show();
+            .then((response) => {
+                new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
                 this.backingUp = false;
@@ -394,19 +393,18 @@ export default {
 
             this.loadingProps = true;
 
-            wretch(this.route('voyager.bread.get-properties'))
-            .post({
+            axios.post(this.route('voyager.bread.get-properties'), {
                 model: this.bread.model,
                 resolve_relationships: true,
             })
-            .json((response) => {
-                Object.keys(response).map((key) => {
-                    this[key] = response[key];
+            .then((response) => {
+                Object.keys(response.data).map((key) => {
+                    this[key] = response.data[key];
                 });
                 this.propsLoaded = true;
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
                 this.loadingProps = false;
@@ -538,7 +536,7 @@ export default {
             });
         },
         setSlug(value) {
-            var l = this.$store.locale;
+            var l = usePage().props.value.locale;
             this.bread.slug = this.get_translatable_object(this.bread.slug);
             this.bread.slug[l] = this.slugify(value[l], { strict: true, lower: true });
         },
@@ -548,14 +546,14 @@ export default {
             if (this.focusMode) {
                 this.$refs.bread_settings.close();
                 this.$refs.layout_mapping.close();
-                if (this.$store.json_output) {
+                if (this.jsonOutput) {
                     this.$refs.bread_json.close();
                 }
-                this.$store.closeSidebar();
+                this.closeSidebar();
             } else {
                 this.$refs.bread_settings.open();
                 this.$refs.layout_mapping.open();
-                this.$store.openSidebar();
+                this.openSidebar();
             }
         },
         validateLayouts() {
@@ -615,6 +613,9 @@ export default {
                 
             }
         },
+        jsonOutput() {
+            return usePage().props.value.json_output;
+        }
     },
     mounted() {
         // Load model-properties (only when we already know the model-name)

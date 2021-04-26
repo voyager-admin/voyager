@@ -29,8 +29,8 @@
 
 <script>
 import { isReactive, toRaw } from 'vue';
+import axios from 'axios';
 import formfield from '../../../js/mixins/formfield';
-import wretch from '../../../js/wretch';
 import debounce from 'debounce';
 
 export default {
@@ -49,12 +49,11 @@ export default {
             if (isReactive(selected)) {
                 selected = toRaw(selected);
             }
-            wretch(this.route(this.options.route_name))
-            .post(selected)
-            .json((response) => {
-                this.selects = response;
+            axios.post(this.route(this.options.route_name), selected)
+            .then((response) => {
+                this.selects = response.data;
             }).catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             });
         }, 250),
         getValue(i) {

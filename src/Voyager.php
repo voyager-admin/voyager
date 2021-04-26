@@ -142,20 +142,6 @@ class Voyager
     }
 
     /**
-     * Get all Routes.
-     *
-     * @return array The routes.
-     */
-    public function getRoutes()
-    {
-        return collect(\Route::getRoutes())->mapWithKeys(function ($route) {
-            return [$route->getName() => url($route->uri())];
-        })->filter(function ($value, $key) {
-            return $key != '';
-        });
-    }
-
-    /**
      * Get all tables in the database.
      *
      * @return array

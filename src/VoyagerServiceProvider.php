@@ -7,8 +7,10 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 use Voyager\Admin\Classes\Action;
 use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\MenuItem;
@@ -89,6 +91,44 @@ class VoyagerServiceProvider extends ServiceProvider
         if (!empty($dev_server) && filter_var($dev_server, FILTER_VALIDATE_URL) !== false) {
             view()->share('voyagerDevServer', Str::finish($dev_server, '/'));
         }
+
+        Inertia::setRootView('voyager::app');
+
+        // Share data with Inertia
+        Inertia::share('locales', VoyagerFacade::getLocales());
+        Inertia::share('locale', VoyagerFacade::getLocale());
+        Inertia::share('initial_locale', VoyagerFacade::getLocale());
+        Inertia::share('localization', VoyagerFacade::getLocalization());
+
+        Inertia::share('admin_title', VoyagerFacade::setting('admin.title', 'Voyager II'));
+
+        // Only share sensitive data when user is logged in
+        Event::listen('voyager.auth.registered', function ($plugin) {
+            if ($plugin->user()) {
+                Inertia::share('user', [
+                    'name'   => $plugin->name(),
+                    'avatar' => VoyagerFacade::assetUrl('images/default-avatar.png'), // TODO: ...
+                ]);
+
+                Inertia::share('breads', $this->breadmanager->getBreads()->values());
+                Inertia::share('formfields', $this->breadmanager->getFormfields());
+
+                Inertia::share('tooltip_position', VoyagerFacade::setting('admin.tooltip-position', 'top-right'));
+                Inertia::share('debug', config('app.debug') ?? false);
+                Inertia::share('json_output', VoyagerFacade::setting('admin.json-output', true)); // TODO: Was jsonOutput!
+
+                Inertia::share('search_placeholder', $this->breadmanager->getBreadSearchPlaceholder()); // TODO: Was searchPlaceholder
+                Inertia::share('current_url', Str::finish(url()->current(), '/'));
+
+                Inertia::share('sidebar', [
+                    'items'     => $this->menumanager->getItems($this->pluginmanager),
+                    'title'     => VoyagerFacade::setting('admin.sidebar-title', 'Voyager II'),
+                    'icon_size' => VoyagerFacade::setting('admin.icon-size', 6)
+                ]);
+            }
+        });
+
+        Inertia::share('rtl', __('voyager::generic.is_rtl') == 'true');
     }
 
     /**

@@ -9,6 +9,7 @@
                 :href="item.href"
                 :active="isItemActive(item)"
                 :hasChildren="item.children.length > 0"
+                :iconSize="iconSize"
             >
                 <div v-if="item.children.length > 0">
                     <menu-wrapper
@@ -37,6 +38,10 @@ export default {
             type: String,
             default: '',
         },
+        iconSize: {
+            type: Number,
+            default: 6,
+        }
     },
     methods: {
         isItemActive(item) {

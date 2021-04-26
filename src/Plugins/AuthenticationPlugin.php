@@ -5,11 +5,14 @@ namespace Voyager\Admin\Plugins;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\View\View;
 use Voyager\Admin\Contracts\Plugins\AuthenticationPlugin as AuthContract;
 
 class AuthenticationPlugin implements AuthContract
 {
+    private $registered = false;
+
     public function user(): ?object
     {
         return Auth::user();
@@ -25,22 +28,18 @@ class AuthenticationPlugin implements AuthContract
         return 'web';
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): ?array
     {
         if (!$request->get('email', null) || !$request->get('password', null)) {
-            return redirect()->back()->with([
-                'error' => __('voyager::auth.error_field_empty'),
-            ]);
+            return [ __('voyager::auth.error_field_empty') ];
         }
 
         // TODO: Throttle attempts
         if (Auth::attempt($request->only('email', 'password'), $request->has('remember'))) {
-            return redirect()->intended($this->redirectTo());
+            return null;
         }
 
-        return redirect()->route('voyager.login')->with([
-            'error' => __('voyager::auth.login_failed'),
-        ]);
+        return [ __('voyager::auth.login_failed') ];
     }
 
     public function logout()
@@ -68,7 +67,11 @@ class AuthenticationPlugin implements AuthContract
 
     public function handleRequest(Request $request, Closure $next)
     {
-        auth()->setDefaultDriver($this->guard());
+        if (!$this->registered) {
+            auth()->setDefaultDriver($this->guard());
+            $this->registered = true;
+            Event::dispatch('voyager.auth.registered', $this);
+        }
 
         if ($this->user() && !Auth::guest()) {
             return $next($request);

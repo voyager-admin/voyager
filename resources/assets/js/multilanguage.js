@@ -1,10 +1,19 @@
+
+import { usePage } from '@inertiajs/inertia-vue3';
+
+let localization = null;
+
 export default {
-    install(app, config) {
+    
+    install(app) {
         app.config.globalProperties.__ = function (key, replace = {}) {
             return this.trans(key, replace);
         };
         app.config.globalProperties.trans = function (key, replace = {}) {
-            let translation = key.split('.').reduce((t, i) => t[i] || null, config.localization);
+            if (localization === null) {
+                localization = JSON.parse(usePage().props.value.localization);
+            }
+            let translation = key.split('.').reduce((t, i) => t[i] || null, localization);
 
             if (!translation) {
                 return key;
@@ -20,7 +29,10 @@ export default {
             if (key === null) {
                 return key;
             }
-            let translation = key.split('.').reduce((t, i) => t[i] || key, config.localization).split('|');
+            if (localization === null) {
+                localization = usePage().props.value.localization;
+            }
+            let translation = key.split('.').reduce((t, i) => t[i] || key, localization).split('|');
 
             translation = count > 1 ? translation[1] : translation[0];
 
@@ -40,7 +52,7 @@ export default {
                 if (!this.isObject(input)) {
                     var value = input;
                     input = {};
-                    input[this.$store.initial_locale] = value;
+                    input[usePage().props.value.initial_locale] = value;
                 }
             } else if (!this.isObject(input)) {
                 input = {};
@@ -53,10 +65,26 @@ export default {
                 input = this.get_translatable_object(input);
             }
             if (this.isObject(input)) {
-                return input[once ? this.$store.initial_locale : this.$store.locale] || default_value;
+                return input[once ? usePage().props.value.initial_locale : usePage().props.value.locale] || default_value;
             }
 
             return input;
+        };
+        app.config.globalProperties.nextLocale = function () {
+            var index = usePage().props.value.locales.indexOf(usePage().props.value.locale);
+            if (index >= usePage().props.value.locales.length - 1) {
+                usePage().props.value.locale = usePage().props.value.locales[0];
+            } else {
+                usePage().props.value.locale = usePage().props.value.locales[index + 1];
+            }
+        };
+        app.config.globalProperties.previousLocale = function () {
+            var index = usePage().props.value.locales.indexOf(usePage().props.value.locale);
+            if (index <= 0) {
+                usePage().props.value.locale = usePage().props.value.locales[usePage().props.value.locales.length - 1];
+            } else {
+                usePage().props.value.locale = usePage().props.value.locales[index - 1];
+            }
         };
     }
 };

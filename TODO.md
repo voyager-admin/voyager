@@ -10,9 +10,14 @@ Instead, they are listed here:
 - Media manager: X and Y offset for watermarks should be percentage(?)
 - Media manager: Lightbox should scale images when they are too big
 - Media manager: Allow downloading folder(s)
+- Media manager: "Select files" button should say "Upload files"
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
 - Check if settings are being emptied (for whatever reason, it happened to me)
-- Make a `admin.sidebar_icon_size` setting
+- Setting `admin.tooltip-position` is used for notifications, not tooltips
+- Revamp Actions AJAX requests (won't work right now)
+- Check settings data() method (doesnt follow current locale?)
+- Overhaul dynamic select
+- Make a command to "remove" translations (transform a value from JSON to normal string)
 
 ## Formfields
 - **Relationship** support polymorphic relationships

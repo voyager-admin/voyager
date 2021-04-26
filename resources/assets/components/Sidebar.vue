@@ -4,10 +4,10 @@
         <div class="fixed inset-0 z-30">
             <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
         </div>
-        <div class="fixed inset-0 flex z-40" @click="$store.toggleSidebar()">
+        <div class="fixed inset-0 flex z-40" @click="toggleSidebar()">
             <div class="flex-1 flex flex-col max-w-xs w-full sidebar" @click.stop="">
                 <div class="absolute top-0 right-0 p-1">
-                    <button @click="$store.toggleSidebar()" class="flex items-center justify-center h-12 w-12 rounded-full">
+                    <button @click="toggleSidebar()" class="flex items-center justify-center h-12 w-12 rounded-full">
                         <icon icon="x"></icon>
                     </button>
                 </div>
@@ -15,13 +15,14 @@
                     <div class="flex-shrink-0 flex items-center px-4">
                         <icon icon="helm" :size="10" class="icon"></icon>
                         <span class="font-black text-lg uppercase pl-2 title">
-                            {{ $store.sidebar.title }}
+                            {{ shared.sidebar.title }}
                         </span>
                     </div>
                     <nav class="mt-3 px-2">
                         <menu-wrapper
-                            :items="$store.sidebar.items"
-                            :current-url="$store.current_url"
+                            :items="shared.sidebar.items"
+                            :current-url="shared.current_url"
+                            :icon-size="iconSize"
                             :parent-url="null"
                         />
                     </nav>
@@ -30,7 +31,7 @@
                     <button class="button accent" @click="$store.toggleDarkMode()">
                         <icon :icon="$store.darkmode ? 'sun' : 'moon'"></icon>
                     </button>
-                    <img :src="$store.user.avatar" class="rounded-full m-4 w-8" alt="User Avatar">
+                    <img :src="shared.user.avatar" class="rounded-full m-4 w-8" alt="User Avatar">
                 </div>
             </div>
             <div class="flex-shrink-0 w-14"></div>
@@ -45,18 +46,19 @@
                     <div class="flex items-center flex-shrink-0 px-4">
                         <icon icon="helm" :size="10" class="icon"></icon>
                         <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title whitespace-nowrap">
-                            {{ $store.sidebar.title }}
+                            {{ shared.sidebar.title }}
                         </span>
                     </div>            
                     <nav class="mt-4 flex-1 px-2">
                         <menu-wrapper
-                            :items="$store.sidebar.items"
-                            :current-url="$store.current_url"
+                            :items="shared.sidebar.items"
+                            :current-url="shared.current_url"
+                            :icon-size="iconSize"
                         />
                     </nav>
                 </div>
                 <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
-                    <button class="button accent small" @click="$store.toggleDarkMode()" aria-label="Toggle darkmode">
+                    <button class="button accent small" @click="toggleDarkMode()" aria-label="Toggle darkmode">
                         <tooltip v-if="$store.darkmode == 'dark'" :value="__('voyager::generic.dark_mode_on')">
                             <icon icon="moon" />
                         </tooltip>
@@ -70,7 +72,7 @@
                     <button class="button accent small" v-scroll-to="''" aria-label="Go to top">
                         <icon icon="chevron-up" />
                     </button>
-                    <button class="button accent small" @click="$store.toggleDirection()" aria-label="Toggle direction">
+                    <button class="button accent small" @click="toggleDirection()" aria-label="Toggle direction">
                         <icon icon="switch-horizontal" />
                     </button>
                 </div>
@@ -80,12 +82,35 @@
 </template>
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3'
+
 import scrollTo from '../js/directives/scroll-to';
 import Tooltip from './UI/Tooltip.vue';
 
 export default {
     components: { Tooltip },
-    directives: { scrollTo: scrollTo }
+    directives: { scrollTo: scrollTo },
+    data() {
+        return {
+            iconSize: 6,
+        };
+    },
+    computed: {
+        shared() {
+            return usePage().props.value;
+        }
+    },
+    mounted() {
+        $eventbus.on('setting-updated', (s) => {
+            if (s.group == 'admin' && s.key == 'sidebar-title') {
+                this.shared.sidebar.title = this.translate(s.value);
+            } else if (s.group == 'admin' && s.key == 'icon-size') {
+                this.iconSize = s.value;
+            }
+        });
+
+        this.iconSize = this.shared.sidebar.icon_size || 6;
+    }
 }
 </script>
 

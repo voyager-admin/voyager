@@ -25,32 +25,32 @@
                                 <icon icon="chevron-down" class="cursor-pointer" :size="4" @click.prevent.stop="down(formfield)" />
                             </tooltip>
                         </td>
-                        <td class="hidden md:table-cell">{{ $store.getFormfieldByType(formfield.type).name }}</td>
+                        <td class="hidden md:table-cell">{{ getFormfieldByType(formfield.type).name }}</td>
                         <td>
                             <select class="input small w-full" v-model="formfield.column">
-                                <optgroup :label="__('voyager::builder.columns')" v-if="$store.getFormfieldByType(formfield.type).allow_columns">
+                                <optgroup :label="__('voyager::builder.columns')" v-if="getFormfieldByType(formfield.type).allow_columns">
                                     <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
                                         {{ column }}
                                     </option>
                                 </optgroup>
-                                <optgroup :label="__('voyager::builder.computed')" v-if="$store.getFormfieldByType(formfield.type).allow_computed_props">
+                                <optgroup :label="__('voyager::builder.computed')" v-if="getFormfieldByType(formfield.type).allow_computed_props">
                                     <option v-for="(prop, i) in computed" :key="'computed_'+i" :value="{column: prop, type: 'computed'}">
                                         {{ prop }}
                                     </option>
                                 </optgroup>
                                 <template v-for="(relationship, i) in relationships" :key="'relationship_'+i">
-                                    <optgroup :label="relationship.method" v-if="$store.getFormfieldByType(formfield.type).allow_relationship_props">
+                                    <optgroup :label="relationship.method" v-if="getFormfieldByType(formfield.type).allow_relationship_props">
                                         <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
                                             {{ column }}
                                         </option>
                                         <template v-for="(column, i) in relationship.pivot" :key="'pivot_'+i">
-                                            <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="$store.getFormfieldByType(formfield.type).allow_relationship_pivots">
+                                            <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="getFormfieldByType(formfield.type).allow_relationship_pivots">
                                                 pivot.{{ column }}
                                             </option>
                                         </template>
                                     </optgroup>
                                 </template>
-                                <optgroup v-if="$store.getFormfieldByType(formfield.type).allow_relationships" :label="__('voyager::generic.relationships')">
+                                <optgroup v-if="getFormfieldByType(formfield.type).allow_relationships" :label="__('voyager::generic.relationships')">
                                     <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
                                         {{ relationship.method }}
                                     </option>
@@ -90,7 +90,7 @@
                                 type="checkbox"
                                 class="input"
                                 v-model="formfield.translatable"
-                                :disabled="!$store.getFormfieldByType(formfield.type).can_be_translated">
+                                :disabled="!getFormfieldByType(formfield.type).can_be_translated">
                         </td>
                         <td class="flex flex-no-wrap justify-end">
                             <slide-in :title="__('voyager::generic.options')">
@@ -98,7 +98,7 @@
                                     <locale-picker />
                                 </template>
                                 <component
-                                    :is="$store.getFormfieldByType(formfield.type).builder_component"
+                                    :is="getFormfieldByType(formfield.type).builder_component"
                                     v-model:options="formfield.options"
                                     :column="formfield.column"
                                     :columns="columns"

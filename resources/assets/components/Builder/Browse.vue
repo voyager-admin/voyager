@@ -71,12 +71,12 @@
                                         </button>
                                     </template>
                                 </dropdown>
-                                <a class="button yellow" :href="route('voyager.bread.edit', table)">
+                                <inertia-link as="button" class="button yellow" :href="route('voyager.bread.edit', table)">
                                     <icon icon="pencil" :size="4" />
                                     <span>
                                         {{ __('voyager::generic.edit') }}
                                     </span>
-                                </a>
+                                </inertia-link>
                                 <button class="button red" @click="deleteBread(table)">
                                     <icon :icon="deleting ? 'refresh' : 'trash'" :class="[deleting ? 'animate-spin-reverse' : '']" :size="4" />
                                     <span>
@@ -84,12 +84,12 @@
                                     </span>
                                 </button>
                             </template>
-                            <a v-else class="button green" :href="route('voyager.bread.create', table)">
+                            <inertia-link as="button" v-else class="button green" :href="route('voyager.bread.create', table)">
                                 <icon icon="plus" :size="4" />
                                 <span class="hidden md:block">
                                     {{ __('voyager::generic.add_type', { type: __('voyager::generic.bread') }) }}
                                 </span>
-                            </a>
+                            </inertia-link>
                         </td>
                     </tr>
                 </tbody>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import wretch from '../../js/wretch';
+import axios from 'axios';
 
 export default {
     props: ['tables'],
@@ -136,13 +136,12 @@ export default {
             .then((result) => {
                 if (result) {
                     this.deleting = true;
-                    wretch(this.route('voyager.bread.delete', table))
-                    .delete()
-                    .res(() => {
+                    axios.delete(this.route('voyager.bread.delete', table))
+                    .then(() => {
                         new this.$notification(this.__('voyager::builder.delete_bread_success', {bread: table})).color('green').timeout().show();
                     })
                     .catch((response) => {
-                        this.$store.handleAjaxError(response);
+                        this.handleAjaxError(response);
                     })
                     .then(() => {
                         this.loadBreads();
@@ -162,7 +161,7 @@ export default {
                 new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response })).timeout().show();
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
                 this.backingUp = false;
@@ -179,7 +178,7 @@ export default {
                 new this.$notification(this.__('voyager::builder.bread_rolled_back', { date: backup.date })).timeout().show();
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
                 this.loadBreads();
@@ -201,7 +200,7 @@ export default {
                 this.backups = response.backups;
             })
             .catch((response) => {
-                this.$store.handleAjaxError(response);
+                this.handleAjaxError(response);
             })
             .then(() => {
                 this.loading = false;

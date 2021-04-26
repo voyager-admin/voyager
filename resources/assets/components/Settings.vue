@@ -78,13 +78,13 @@
                                             <template #actions>
                                                 <locale-picker />
                                             </template>
-                                            <div v-if="$store.getFormfieldByType(setting.type).can_be_translated">
+                                            <div v-if="getFormfieldByType(setting.type).can_be_translated">
                                                 <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
                                                 <input type="checkbox" class="input" v-model="setting.translatable">
                                             </div>
 
                                             <component
-                                                :is="$store.getFormfieldByType(setting.type).builder_component"
+                                                :is="getFormfieldByType(setting.type).builder_component"
                                                 v-model:options="setting.options"
                                                 :column="{}"
                                                 action="view-options" />
@@ -112,7 +112,7 @@
                                         </ul>
                                     </alert>
                                     <component
-                                        :is="$store.getFormfieldByType(setting.type).component"
+                                        :is="getFormfieldByType(setting.type).component"
                                         :model-value="data(setting, null)"
                                         @update:model-value="data(setting, $event)"
                                         :options="setting.options"
@@ -129,14 +129,15 @@
                 </template>
             </tabs>
         </card>
-        <collapsible v-if="$store.json_output" :title="__('voyager::builder.json_output')" closed>
+        <collapsible v-if="jsonOutput" :title="__('voyager::builder.json_output')" closed>
             <textarea class="input w-full" rows="10" v-model="jsonSettings"></textarea>
         </collapsible>
     </div>
 </template>
 
 <script>
-import wretch from '../js/wretch';
+import { usePage } from '@inertiajs/inertia-vue3';
+import axios from 'axios';
 
 export default {
     props: {
@@ -177,9 +178,8 @@ export default {
             this.savingSettings = true;
             this.errors = [];
 
-            wretch(this.route('voyager.settings.store'))
-            .post({ settings: this.settings })
-            .res((response) => {
+            axios.post(this.route('voyager.settings.store'), { settings: this.settings })
+            .then((response) => {
                 new this.$notification(this.__('voyager::settings.settings_saved')).color('green').timeout().show();
             })
             .catch((response) => {
@@ -187,7 +187,7 @@ export default {
                     // Validation failed
                     this.errors = response.data;
                 } else {
-                    this.$store.handleAjaxError(response);
+                    this.handleAjaxError(response);
                 }
             })
             .then(() => {
@@ -239,17 +239,16 @@ export default {
         },
         data(setting, value = null) {
             if (setting.translatable || false && setting.value && this.isString(setting.value)) {
-                // TODO: Vue.set(setting, 'value', this.get_translatable_object(setting.value));
                 setting.value = this.get_translatable_object(setting.value);
             }
             if (value !== null) {
                 if (setting.translatable || false) {
-                    // TODO: Vue.set(setting.value, this.$language.locale, value);
-                    setting.value[this.$store.locale] = value;
+                    setting.value[usePage().props.value.locale] = value;
                 } else {
-                    // TODO: Vue.set(setting, 'value', value);
                     setting.value = value;
                 }
+
+                $eventbus.emit('setting-updated', setting);
             }
             if (setting.translatable || false) {
                 return this.translate(this.get_translatable_object(setting.value));
@@ -309,6 +308,9 @@ export default {
                 
             }
         },
+        jsonOutput() {
+            return usePage().props.value.json_output;
+        }
     },
     created() {
         this.$watch(

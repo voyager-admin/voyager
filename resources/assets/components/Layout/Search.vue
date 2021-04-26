@@ -22,7 +22,7 @@
                 </div>
                 <div class="grid" :class="gridClasses" v-else>
                     <div v-for="(bread, table) in searchResults" :key="'bread-results-'+table" class="w-full">
-                        <h5>{{ translate($store.getBreadByTable(table).name_plural, true) }}</h5>
+                        <h5>{{ translate(getBreadByTable(table).name_plural, true) }}</h5>
                         <p v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key">
                             <a :href="getResultUrl(table, key)">
                                 {{ translate(result, true) }}
@@ -53,7 +53,7 @@
 </template>
 <script>
 import { nextTick } from 'vue';
-import wretch from '../../js/wretch';
+import axios from 'axios';
 import debounce from 'debounce';
 
 export default {
@@ -92,16 +92,14 @@ export default {
             }
 
             vm.loading = true;
-
-            wretch(vm.route('voyager.globalsearch'))
-            .post({
+            axios.post(vm.route('voyager.globalsearch'), {
                 query: this.query,
             })
-            .json((response) => {
-                vm.searchResults = response;
+            .then((response) => {
+                vm.searchResults = response.data;
             })
             .catch((response) => {
-                vm.$store.handleAjaxError(response);
+                vm.handleAjaxError(response);
             })
             .then(() => {
                 vm.loading = false;
@@ -109,12 +107,12 @@ export default {
             
         }, 250),
         moreUrl(table) {
-            var bread = this.$store.getBreadByTable(table);
+            var bread = this.getBreadByTable(table);
 
             return this.route('voyager.'+this.translate(bread.slug, true)+'.browse')+'?global='+this.query;
         },
         getResultUrl(table, key) {
-            var bread = this.$store.getBreadByTable(table);
+            var bread = this.getBreadByTable(table);
 
             return this.route('voyager.'+this.translate(bread.slug, true)+'.read', key);
         }

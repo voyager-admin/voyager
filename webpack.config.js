@@ -23,7 +23,8 @@ module.exports = (env, options) => {
         entry: {
             // Currently, HMR does not work (https://github.com/webpack/webpack-dev-server/issues/2692) when using multiple entries 🤷🏼
             icons: path.resolve(__dirname, './resources/assets/js/icons.js'),
-            voyager: path.resolve(__dirname, './resources/assets/js/voyager.js')
+            voyager: path.resolve(__dirname, './resources/assets/js/voyager.js'),
+            font: path.resolve(__dirname, './resources/assets/sass/font.scss'),
         },
         output: {
             path: path.resolve(__dirname, './resources/assets/dist'),
@@ -119,6 +120,9 @@ module.exports = (env, options) => {
                 patterns: [
                     { from: './node_modules/inter-ui/Inter (web)', to: './fonts/inter-ui' },
                 ]
+            }),
+            new webpack.optimize.LimitChunkCountPlugin({
+                maxChunks: 1
             }),
         ],
     };

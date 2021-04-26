@@ -1,15 +1,15 @@
 <template>
-    <div v-if="$store.locales.length > 1">
+    <div v-if="locales.length > 1">
         <dropdown ref="locale_dropdown">
             <div>
                 <a
-                    v-for="locale in $store.locales"
+                    v-for="l in locales"
                     v-bind:key="locale"
-                    @click="$store.locale = locale"
+                    @click="locale = l"
                     class="link uppercase"
-                    :class="$store.locale == locale ? 'active' : null"
+                    :class="locale == l ? 'active' : null"
                 >
-                    {{ locale }}
+                    {{ l }}
                 </a>
             </div>
             <template #opener>
@@ -18,7 +18,7 @@
                     :class="[small ? 'small' : '']"
                     @click.prevent.stop="$refs.locale_dropdown.open()"
                 >
-                    <span>{{ $store.locale }}</span>
+                    <span>{{ locale }}</span>
                     <icon icon="chevron-down" :size="4" />
                 </button>
             </template>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3';
+
 export default {
     props: {
         small: {
@@ -38,14 +40,27 @@ export default {
         document.addEventListener('keydown', (e) => {
             if (this.$refs.locale_dropdown && this.$refs.locale_dropdown.isOpen) {
                 if (e.key == 'ArrowDown') {
-                    this.$store.nextLocale();
+                    this.nextLocale();
                     e.preventDefault();
                 } else if (e.key == 'ArrowUp') {
-                    this.$store.previousLocale();
+                    this.previousLocale();
                     e.preventDefault();
                 }
             }
         });
+    },
+    computed: {
+        locales() {
+            return usePage().props.value.locales;
+        },
+        locale: {
+            get() {
+                return usePage().props.value.locale;
+            },
+            set(locale) {
+                usePage().props.value.locale = locale;
+            }
+        },
     }
 };
 </script>

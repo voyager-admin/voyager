@@ -9,7 +9,7 @@
     <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">
     <meta http-equiv="Cache-control" content="public">
 
-    <title>{{ $title ?? '' }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
+    <title>{{ $page['props']['title'] ?? '' }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     @if (isset($voyagerDevServer))
         <link href="{{ $voyagerDevServer }}css/voyager.css" rel="stylesheet">
     @else
@@ -34,13 +34,16 @@
 </head>
 
 <body>
-    <div id="voyager"></div>
+    @inertia
+
     @if (isset($voyagerDevServer))
     <div id="js-warning" style="display:none">
         {!! __('voyager::generic.dev_server_unavailable', ['url' => $voyagerDevServer]) !!}
     </div>
     @endif
 </body>
+
+@routes
 
 @if (isset($voyagerDevServer))
     <script src="{{ $voyagerDevServer }}js/voyager.js"></script>
@@ -52,34 +55,7 @@
 
 <script>
 if (window.createVoyager) {
-    createVoyager({
-        routes: {!! Voyager::getRoutes() !!},
-        localization: {!! Voyager::getLocalization() !!},
-        locales: ["{!! implode('","', Voyager::getLocales()) !!}"],
-        locale: '{{ Voyager::getLocale() }}',
-        initial_locale: '{{ Voyager::getLocale() }}',
-        breads: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()->values()) !!},
-        formfields: {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!},
-        tooltip_position: '{{ Voyager::setting('admin.tooltip-position', 'top-right') }}',
-        debug: {{ var_export(config('app.debug') ?? false, true) }},
-        jsonOutput: {{ var_export(Voyager::setting('admin.json-output', true)) }},
-        csrf_token: '{{ csrf_token() }}',
-        searchPlaceholder: '{{ resolve(\Voyager\Admin\Manager\Breads::class)->getBreadSearchPlaceholder() }}',
-        current_url: '{{ Str::finish(url()->current(), '/') }}',
-        user: {
-            name: '{{ Voyager::auth()->name() }}',
-            avatar: '{{ Voyager::assetUrl('images/default-avatar.png') }}',
-        },
-        sidebar: {
-            title: '{{ Voyager::setting('admin.sidebar-title', 'Voyager II') }}',
-            items: {!! resolve(\Voyager\Admin\Manager\Menu::class)->getItems(resolve(\Voyager\Admin\Manager\Plugins::class)) !!},
-        },
-        page: {
-            component: '{{ $component }}',
-            title: '{{ $title ?? '' }}',
-            parameters: {!! json_encode($parameters) !!},
-        },
-    });
+    createVoyager();
 } else {
     @if (isset($voyagerDevServer))
     document.getElementById('js-warning').style.display = 'block';

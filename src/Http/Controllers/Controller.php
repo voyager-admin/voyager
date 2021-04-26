@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Layouts as LayoutFilter;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Plugins as PluginManager;
@@ -21,6 +22,13 @@ abstract class Controller extends BaseController
     public function __construct(PluginManager $pluginmanager)
     {
         $this->pluginmanager = $pluginmanager;
+    }
+
+    protected function inertiaRender($page, $data = [], $root_view = null)
+    {
+        Inertia::setRootView($root_view ?? 'voyager::app');
+
+        return Inertia::render($page, $data);
     }
 
     protected function validateData($formfields, $data, $all_locales = false): array
