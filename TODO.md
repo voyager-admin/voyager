@@ -18,6 +18,7 @@ Instead, they are listed here:
 - Check settings data() method (doesnt follow current locale?)
 - Overhaul dynamic select
 - Make a command to "remove" translations (transform a value from JSON to normal string)
+- Notification class has to be renamed
 
 ## Formfields
 - **Relationship** support polymorphic relationships

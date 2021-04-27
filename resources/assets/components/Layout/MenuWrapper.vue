@@ -2,7 +2,7 @@
     <div>
         <div v-for="(item, i) in items" :key="i">
             <hr class="my-3 sidebar-border" v-if="item.divider" />
-            <menu-item
+            <menuItem
                 v-else
                 :title="item.title"
                 :icon="item.icon"
@@ -12,22 +12,23 @@
                 :iconSize="iconSize"
             >
                 <div v-if="item.children.length > 0">
-                    <menu-wrapper
+                    <menuWrapper
                         :items="item.children"
                         :current-url="currentUrl"
                     />
                 </div>
-            </menu-item>
+            </menuItem>
         </div>
     </div>
 </template>
 
 <script>
-import MenuItem from './MenuItem.vue';
+import MenuItem from './MenuItem';
 
 export default {
     components: {
-        'menu-item': MenuItem,
+        MenuItem,
+        'menuWrapper': this,
     },
     props: {
         items: {

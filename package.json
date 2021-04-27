@@ -16,7 +16,7 @@
         "html-loader": "^2.1.2",
         "mini-css-extract-plugin": "^1.5.0",
         "node-sass": "^5.0.0",
-        "postcss": "^8.2.12",
+        "postcss": "^8.2.13",
         "postcss-import": "^14.0.1",
         "postcss-loader": "^5.2.0",
         "sass-loader": "^11.0.1",
@@ -39,6 +39,6 @@
         "vue": "^3.0.11"
     },
     "peerDependencies": {
-        "postcss": "^8.2.12"
+        "postcss": "^8.2.13"
     }
 }

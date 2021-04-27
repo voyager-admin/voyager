@@ -77,7 +77,7 @@
                             :columns="columns"
                             v-bind:relationships="relationships"
                             action="view-options" />
-                        <bread-builder-validation v-model="formfield.validation" />
+                        <breadBuilderValidation v-model="formfield.validation" />
 
                         <template #opener>
                             <button class="button small">
@@ -106,7 +106,12 @@
 </template>
 
 <script>
+import BreadBuilderValidation from './ValidationForm';
+
 export default {
+    components: {
+        BreadBuilderValidation,
+    },
     emits: ['delete', 'update:formfields', 'update:options'],
     props: ['computed', 'columns', 'relationships', 'formfields', 'options'],
     data() {

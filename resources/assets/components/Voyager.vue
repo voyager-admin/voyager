@@ -41,9 +41,9 @@ import { Inertia } from '@inertiajs/inertia';
 
 export default {
     components: {
-        'sidebar': Sidebar,
-        'navbar': Navbar,
-        'notifications': Notifications
+        Sidebar,
+        Navbar,
+        Notifications
     },
     created() {
         watch(() => usePage().props.value.title, (title) => {

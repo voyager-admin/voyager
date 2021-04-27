@@ -19,7 +19,7 @@
                         </span>
                     </div>
                     <nav class="mt-3 px-2">
-                        <menu-wrapper
+                        <menuWrapper
                             :items="shared.sidebar.items"
                             :current-url="shared.current_url"
                             :icon-size="iconSize"
@@ -50,7 +50,7 @@
                         </span>
                     </div>            
                     <nav class="mt-4 flex-1 px-2">
-                        <menu-wrapper
+                        <menuWrapper
                             :items="shared.sidebar.items"
                             :current-url="shared.current_url"
                             :icon-size="iconSize"
@@ -85,10 +85,11 @@
 import { usePage } from '@inertiajs/inertia-vue3'
 
 import scrollTo from '../js/directives/scroll-to';
-import Tooltip from './UI/Tooltip.vue';
+import Tooltip from './UI/Tooltip';
+import MenuWrapper from './Layout/MenuWrapper';
 
 export default {
-    components: { Tooltip },
+    components: { Tooltip, MenuWrapper },
     directives: { scrollTo: scrollTo },
     data() {
         return {

@@ -18,7 +18,7 @@
                     <icon icon="refresh" :class="[loading ? 'animate-spin-reverse' : '']" :size="4"></icon>
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
-                <bread-actions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
+                <breadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
                 <locale-picker :small="false" />
             </div>
         </template>
@@ -144,7 +144,7 @@
                                 </td>
                                 <td>
                                     <div class="flex flex-no-wrap justify-end">
-                                        <bread-actions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
+                                        <breadActions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
                                     </div>
                                 </td>
                             </tr>
@@ -183,8 +183,13 @@ import axios from 'axios';
 import debounce from 'debounce';
 import { usePage } from '@inertiajs/inertia-vue3'
 
+import BreadActions from './Actions';
+
 export default {
     emits: ['select'],
+    components: {
+        BreadActions
+    },
     props: {
         bread: {
             type: Object,

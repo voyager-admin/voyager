@@ -292,7 +292,7 @@ class Breads
      */
     public function getFormfields()
     {
-        return $this->formfields->transform(function ($formfield) {
+        return $this->formfields->map(function ($formfield) {
             return [
                 'name'                      => $formfield->name(),
                 'type'                      => $formfield->type(),

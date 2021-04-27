@@ -308,8 +308,15 @@
 import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 
+import BreadBuilderList from './List';
+import BreadBuilderView from './View';
+
 export default {
     props: ['data', 'isNew'],
+    components: {
+        'bread-builder-list': BreadBuilderList,
+        'bread-builder-view': BreadBuilderView
+    },
     data() {
         return {
             bread: this.data,

@@ -34,18 +34,16 @@ import TypeMixin from 'mixins/types';
 import UrlMixin from 'mixins/url';
 
 // Components
-import * as BreadComponents from './bread';
 import * as FormfieldComponents from './formfields';
-import * as LayoutComponents from './layout';
 import * as TransitionComponents from './transitions';
 import * as UIComponents from './ui';
 
-import icon from './icon'
+// Global components
+import LocalePicker from '../components/Layout/LocalePicker.vue';
+import Icon from './icon'
 
 let components = {
-    ...BreadComponents,
     ...FormfieldComponents,
-    ...LayoutComponents,
     ...TransitionComponents,
     ...UIComponents,
 };
@@ -113,7 +111,8 @@ window.createVoyager = () => {
         voyager.component(StringMixin.methods.kebabCase(key), components[key]);
     }
 
-    voyager.component('icon', icon);
+    voyager.component('locale-picker', LocalePicker);
+    voyager.component('icon', Icon);
 
     window.voyager = voyager;
 };

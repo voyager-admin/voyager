@@ -3,12 +3,11 @@
         <button @click.stop="toggleSidebar()" class="button small mx-2 flex-none" aria-label="Toggle navbar">
             <icon :icon="$store.sidebarOpen ? 'dots-vertical' : 'dots-horizontal'" />
         </button>
-        <search
+        <Search
             class="h-full flex-grow flex"
             :placeholder="shared.search_placeholder"
             :mobile-placeholder="__('voyager::generic.search')"
-        >
-        </search>
+        />
         <div class="mt-1 text-right max-w-sm mx-auto z-30">
             <dropdown placement="bottom-end">
                 <div>
@@ -52,7 +51,12 @@
 <script>
 import { usePage } from '@inertiajs/inertia-vue3';
 
+import Search from './Layout/Search';
+
 export default {
+    components: {
+        Search
+    },
     computed: {
         shared() {
             return usePage().props.value;

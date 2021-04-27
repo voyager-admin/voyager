@@ -88,7 +88,7 @@
                                                 v-model:options="setting.options"
                                                 :column="{}"
                                                 action="view-options" />
-                                            <bread-builder-validation v-model="setting.validation" />
+                                            <breadBuilderValidation v-model="setting.validation" />
 
                                             <template #opener>
                                                 <button class="button">
@@ -139,7 +139,12 @@
 import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 
+import BreadBuilderValidation from './Builder/ValidationForm';
+
 export default {
+    components: {
+        BreadBuilderValidation,
+    },
     props: {
         input: {
             type: Array,
