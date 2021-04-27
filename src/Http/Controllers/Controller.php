@@ -5,9 +5,11 @@ namespace Voyager\Admin\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Layouts as LayoutFilter;
+use Voyager\Admin\Exceptions\NoLayoutFoundException;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Plugins\AuthenticationPlugin;
@@ -22,6 +24,7 @@ abstract class Controller extends BaseController
     public function __construct(PluginManager $pluginmanager)
     {
         $this->pluginmanager = $pluginmanager;
+        Event::dispatch('voyager.page');
     }
 
     protected function inertiaRender($page, $data = [], $root_view = null)
@@ -98,7 +101,7 @@ abstract class Controller extends BaseController
         });
 
         if ($layouts->count() < 1) {
-            throw new \Exception(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)]));
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)]));
         }
 
         return $layouts->first();

@@ -11,13 +11,11 @@ Instead, they are listed here:
 - Media manager: Lightbox should scale images when they are too big
 - Media manager: Allow downloading folder(s)
 - Media manager: "Select files" button should say "Upload files"
-- Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
 - Check if settings are being emptied (for whatever reason, it happened to me)
-- Revamp Actions AJAX requests (won't work right now)
-- Check settings data() method (doesnt follow current locale?)
 - Overhaul dynamic select
 - Make a command to "remove" translations (transform a value from JSON to normal string)
 - Notification class has to be renamed
+- Exception handler should only be replaced when logged in (?)
 
 ## Formfields
 - **Relationship** support polymorphic relationships
@@ -31,3 +29,4 @@ Instead, they are listed here:
 - Accessors need to be named `getFieldAttribute` (ex. `getFullNameAttribute`)
 - Computed properties need to implement an accessor AND mutator when used for adding or editing
 - Press escape or double-click (most) search inputs to clear them
+- Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)

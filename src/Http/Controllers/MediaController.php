@@ -11,6 +11,7 @@ use Intervention\Image\Facades\Image as Intervention;
 use League\Flysystem\Plugin\ListWith;
 use League\Flysystem\Util;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Manager\Plugins as PluginManager;
 
 class MediaController extends Controller
 {
@@ -24,13 +25,15 @@ class MediaController extends Controller
         /* 'image/svg+xml' */
     ];
 
-    public function __construct()
+    public function __construct(PluginManager $pluginsmanager)
     {
         $this->disk = VoyagerFacade::setting('media.disk', 'public');
         if (is_array($this->disk)) {
             $this->disk = $this->disk[0];
         }
         $this->path = Str::finish(VoyagerFacade::setting('media.path', '/'), '/');
+
+        parent::__construct($pluginsmanager);
     }
 
     public function index()

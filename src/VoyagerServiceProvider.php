@@ -17,6 +17,7 @@ use Voyager\Admin\Classes\MenuItem;
 use Voyager\Admin\Commands\DevCommand;
 use Voyager\Admin\Commands\InstallCommand;
 use Voyager\Admin\Commands\PluginsCommand;
+use Voyager\Admin\Exceptions\Handler as ExceptionHandler;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Http\Middleware\VoyagerAdminMiddleware;
 use Voyager\Admin\Manager\Breads as BreadManager;
@@ -113,11 +114,11 @@ class VoyagerServiceProvider extends ServiceProvider
                 Inertia::share('breads', $this->breadmanager->getBreads()->values());
                 Inertia::share('formfields', $this->breadmanager->getFormfields());
 
-                Inertia::share('tooltip_position', VoyagerFacade::setting('admin.tooltip-position', 'top-right'));
+                Inertia::share('notification_position', VoyagerFacade::setting('admin.notification-position', 'top-right'));
                 Inertia::share('debug', config('app.debug') ?? false);
-                Inertia::share('json_output', VoyagerFacade::setting('admin.json-output', true)); // TODO: Was jsonOutput!
+                Inertia::share('json_output', VoyagerFacade::setting('admin.json-output', true));
 
-                Inertia::share('search_placeholder', $this->breadmanager->getBreadSearchPlaceholder()); // TODO: Was searchPlaceholder
+                Inertia::share('search_placeholder', $this->breadmanager->getBreadSearchPlaceholder());
                 Inertia::share('current_url', Str::finish(url()->current(), '/'));
 
                 Inertia::share('sidebar', [
@@ -126,6 +127,15 @@ class VoyagerServiceProvider extends ServiceProvider
                     'icon_size' => VoyagerFacade::setting('admin.icon-size', 6)
                 ]);
             }
+        });
+
+        // A Voyager page was requested. Dispatched in Controller::__construct()
+        Event::listen('voyager.page', function () {
+            // Override ExceptionHandler only when on a Voyager page
+            app()->singleton(
+                \Illuminate\Contracts\Debug\ExceptionHandler::class,
+                ExceptionHandler::class
+            );
         });
 
         Inertia::share('rtl', __('voyager::generic.is_rtl') == 'true');
@@ -402,26 +412,26 @@ class VoyagerServiceProvider extends ServiceProvider
         $loader->alias('Voyager', VoyagerFacade::class);
 
         $this->menumanager = new MenuManager();
-        $this->app->singleton(MenuManager::class, function () {
+        app()->singleton(MenuManager::class, function () {
             return $this->menumanager;
         });
 
         $this->settingmanager = new SettingManager();
-        $this->app->singleton(SettingManager::class, function () {
+        app()->singleton(SettingManager::class, function () {
             return $this->settingmanager;
         });
 
         $this->pluginmanager = new PluginManager($this->menumanager, $this->settingmanager);
-        $this->app->singleton(PluginManager::class, function () {
+        app()->singleton(PluginManager::class, function () {
             return $this->pluginmanager;
         });
 
         $this->breadmanager = new BreadManager();
-        $this->app->singleton(BreadManager::class, function () {
+        app()->singleton(BreadManager::class, function () {
             return $this->breadmanager;
         });
 
-        $this->app->singleton('voyager', function () {
+        app()->singleton('voyager', function () {
             return new Voyager($this->breadmanager, $this->pluginmanager, $this->settingmanager);
         });
 
@@ -433,7 +443,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
         $this->registerFormfields();
 
-        $this->app->booted(function () {
+        app()->booted(function () {
             $this->registerRoutes($this->breadmanager->getBreads());
         });
     }
