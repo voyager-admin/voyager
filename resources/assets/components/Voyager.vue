@@ -94,7 +94,6 @@ export default {
         });
 
         $store.formfields = usePage().props.value.formfields;
-        $store.breads = usePage().props.value.breads;
     },
     computed: {
         notificationPosition() {

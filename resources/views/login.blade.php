@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <div id="app" class="login sm:px-6 lg:px-8" data-page="{{ json_encode($page) }}"></div>
+    <div id="voyager" class="login sm:px-6 lg:px-8" data-page="{{ json_encode($page) }}"></div>
 </body>
 
 @routes

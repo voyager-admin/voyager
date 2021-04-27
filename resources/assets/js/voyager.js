@@ -48,9 +48,9 @@ import Store from './store';
 
 let voyager;
 
-window.createVoyager = () => {
+window.createVoyager = (el = 'voyager') => {
     voyager = createApp(App, {
-        initialPage: JSON.parse(document.getElementById('app').dataset.page),
+        initialPage: JSON.parse(document.getElementById(el).dataset.page),
         resolveComponent: name => import(`../components/${name}`)
             .then(({ default: page }) => {
                 if (page.layout === undefined) {
@@ -104,6 +104,6 @@ window.createVoyager = () => {
     window.voyager = voyager;
 };
 
-window.mountVoyager = (el = '#app') => {
-    voyager.mount(el);
-}
+window.mountVoyager = (el = 'voyager') => {
+    voyager.mount('#' + el);
+};

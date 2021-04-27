@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    @inertia
+    <div id="voyager" data-page="{{ json_encode($page) }}"></div>
 
     @if (isset($voyagerDevServer))
     <div id="js-warning" style="display:none">

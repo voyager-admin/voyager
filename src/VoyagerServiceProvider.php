@@ -102,6 +102,7 @@ class VoyagerServiceProvider extends ServiceProvider
         Inertia::share('localization', VoyagerFacade::getLocalization());
 
         Inertia::share('admin_title', VoyagerFacade::setting('admin.title', 'Voyager II'));
+        Inertia::share('notification_position', VoyagerFacade::setting('admin.notification-position', 'top-right'));
 
         // Only share sensitive data when user is logged in
         Event::listen('voyager.auth.registered', function ($plugin) {
@@ -114,7 +115,6 @@ class VoyagerServiceProvider extends ServiceProvider
                 Inertia::share('breads', $this->breadmanager->getBreads()->values());
                 Inertia::share('formfields', $this->breadmanager->getFormfields());
 
-                Inertia::share('notification_position', VoyagerFacade::setting('admin.notification-position', 'top-right'));
                 Inertia::share('debug', config('app.debug') ?? false);
                 Inertia::share('json_output', VoyagerFacade::setting('admin.json-output', true));
 

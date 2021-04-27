@@ -117,11 +117,11 @@
             </div>
 
             <div class="inline-flex">
-                <button class="button blue" @click="saveBread">
+                <button class="button blue" @click="saveBread" :disabled="savingBread || backingUp">
                     <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="savingBread" />
                     {{ __('voyager::generic.save') }}
                 </button>
-                <button class="button" @click="backupBread">
+                <button class="button" @click="backupBread" :disabled="savingBread || backingUp">
                     <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="backingUp" />
                     {{ __('voyager::generic.backup') }}
                 </button>

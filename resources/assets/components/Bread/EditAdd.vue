@@ -58,7 +58,7 @@
                         </card>
                     </div>
                 </div>
-                <button class="button green" @click="save">
+                <button class="button green" @click="save" :disabled="isSaving">
                     <icon icon="refresh" class="animate-spin-reverse" v-if="isSaving" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
