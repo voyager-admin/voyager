@@ -13,7 +13,6 @@ Instead, they are listed here:
 - Media manager: "Select files" button should say "Upload files"
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
 - Check if settings are being emptied (for whatever reason, it happened to me)
-- Setting `admin.tooltip-position` is used for notifications, not tooltips
 - Revamp Actions AJAX requests (won't work right now)
 - Check settings data() method (doesnt follow current locale?)
 - Overhaul dynamic select

@@ -26,7 +26,7 @@
         <template v-else>
             <slot />
         </template>
-        <notifications :position="tooltipPosition" />
+        <notifications :position="notificationPosition" />
     </div>
 </template>
 
@@ -97,8 +97,8 @@ export default {
         $store.breads = usePage().props.value.breads;
     },
     computed: {
-        tooltipPosition() {
-            return usePage().props.value.tooltip_position || '';
+        notificationPosition() {
+            return usePage().props.value.notification_position || '';
         },
         isLogin() {
             return usePage().component.value == 'Login';

@@ -74,7 +74,6 @@ export default {
 
         // Error handler
         app.config.globalProperties.handleAjaxError = function (response) {
-            console.log(new Notification(response.response.data.message));
             var notification = new Notification(response.response.data.message).color('red').timeout();
             /*if (response.hasOwnProperty('stack')) {
                 notification = notification.message(response.stack);

@@ -144,7 +144,7 @@ export default {
         }
 
         p.message {
-            @include text-color(notification-message-color-dark, 'colors.gray.500');
+            @include text-color(notification-message-color-dark, 'colors.gray.400');
         }
     }
 }

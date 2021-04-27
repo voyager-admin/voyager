@@ -135,10 +135,10 @@
     {
         "type": "select",
         "group": "admin",
-        "key": "tooltip-position",
-        "name": "Tooltip position",
+        "key": "notification-position",
+        "name": "Notification position",
         "value": "bottom-right",
-        "info": "The position of the tooltips",
+        "info": "The position of the notifications",
         "translatable": false,
         "options": {
             "multiple": false,
