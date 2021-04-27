@@ -17,6 +17,18 @@ import { nextTick } from 'vue';
 import closable from '../../js/mixins/closable';
 import clickOutside from '../../js/directives/click-outside';
 
+import {
+    popperGenerator as PopperGenerator,
+    defaultModifiers as PopperDefaultModifiers,
+} from '@popperjs/core/lib/popper-lite';
+import PopperFlip from '@popperjs/core/lib/modifiers/flip';
+import PopperPreventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
+import PopperArrow from '@popperjs/core/lib/modifiers/arrow';
+
+const popperGenerator = PopperGenerator({
+    defaultModifiers: [...PopperDefaultModifiers, PopperFlip, PopperPreventOverflow, PopperArrow],
+});
+
 export default {
     mixins: [closable],
     directives: {clickOutside: clickOutside},
@@ -44,13 +56,13 @@ export default {
                 this.popper.destroy();
                 this.popper = null;
             }
-        }
+        },
     },
     watch: {
         isOpen(open) {
             if (open) {
                 nextTick(() => {
-                    this.popper = this.createPopper(
+                    this.popper = popperGenerator(
                         this.$refs.opener,
                         this.$refs.dropdown,
                         {

@@ -60,6 +60,7 @@ return [
     'edit_type'                 => 'Edit :type',
     'enable'                    => 'Enable',
     'enter_query'               => 'Enter your search query',
+    'error'                     => 'Error :code',
     'file'                      => 'File',
     'filters'                   => 'Filters',
     'first'                     => 'First',

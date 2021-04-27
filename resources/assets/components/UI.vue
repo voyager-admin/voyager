@@ -294,7 +294,6 @@ import scrollTo from '../js/directives/scroll-to';
 
 export default {
     directives: {scrollTo: scrollTo},
-    props: [],
     data() {
         return {
             name: 'Voyager',

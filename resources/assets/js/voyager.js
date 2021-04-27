@@ -2,26 +2,17 @@ require('./helper/array');
 
 require('../sass/voyager.scss');
 
+// External libraries
 import { createApp } from 'vue';
 import { App, plugin } from '@inertiajs/inertia-vue3';
-
 import slugify from 'slugify';
+
 window.slugify = slugify;
-
 window.Vue = require('vue');
-
-// Popper
-import {
-    popperGenerator as PopperGenerator,
-    defaultModifiers as PopperDefaultModifiers,
-} from '@popperjs/core/lib/popper-lite';
-import PopperFlip from '@popperjs/core/lib/modifiers/flip';
-import PopperPreventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
-import PopperArrow from '@popperjs/core/lib/modifiers/arrow';
 
 import Voyager from 'components/Voyager';
 
-// Multi language
+// Multilanguage
 import Multilanguage from './multilanguage';
 
 // Global (helper) functions
@@ -46,6 +37,8 @@ let components = {
     ...FormfieldComponents,
     ...TransitionComponents,
     ...UIComponents,
+    LocalePicker,
+    Icon
 };
 
 // Core modules
@@ -87,9 +80,6 @@ window.createVoyager = () => {
     voyager.use(Global);
     voyager.config.globalProperties.$eventbus = Eventbus;
     voyager.config.globalProperties.$notification = Notification;
-    voyager.config.globalProperties.createPopper = PopperGenerator({
-        defaultModifiers: [...PopperDefaultModifiers, PopperFlip, PopperPreventOverflow, PopperArrow],
-    });
 
     window.$eventbus = Eventbus;
 
@@ -111,12 +101,9 @@ window.createVoyager = () => {
         voyager.component(StringMixin.methods.kebabCase(key), components[key]);
     }
 
-    voyager.component('locale-picker', LocalePicker);
-    voyager.component('icon', Icon);
-
     window.voyager = voyager;
 };
 
-window.mountVoyager = (el = '#voyager') => {
-    voyager.mount('#app');
+window.mountVoyager = (el = '#app') => {
+    voyager.mount(el);
 }
