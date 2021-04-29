@@ -26,7 +26,8 @@ class PluginsController extends Controller
     {
         return $this->inertiaRender('Plugins', [
             'title'             => __('voyager::plugins.plugins'),
-            'available-plugins' => $this->pluginmanager->getAvailablePlugins()
+            'available-plugins' => $this->pluginmanager->getAvailablePlugins(),
+            'installed-plugins' => $this->getInstalledPlugins()
         ]);
     }
 
@@ -40,7 +41,7 @@ class PluginsController extends Controller
         return $this->pluginmanager->enablePlugin($identifier, false);
     }
 
-    public function get()
+    private function getInstalledPlugins()
     {
         return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {
             $plugin->type = collect(class_implements($plugin))->filter(static function ($interface) {

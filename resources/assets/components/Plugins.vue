@@ -10,6 +10,7 @@
                     @dblclick="installed.query = ''"
                     @keydown.esc="installed.query = ''"
                 >
+                <button class="button" @click="reload">Reload</button>
                 <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
                     <input
                         type="text"
@@ -103,7 +104,7 @@
             <div v-if="filteredInstalledPlugins.length == 0" class="w-full text-center">
                 <h3>{{ __('voyager::plugins.no_plugins_match_search') }}</h3>
             </div>
-            <div class="voyager-table striped" :class="[loading ? 'loading' : '']" v-else>
+            <div class="voyager-table striped" :class="$store.pageLoading ? 'loading' : null" v-else>
                 <table id="bread-builder-browse">
                     <thead>
                         <tr>
@@ -188,7 +189,7 @@
                 ></pagination>
             </div>
         </div>
-        <div v-else-if="!loading" class="w-full text-center">
+        <div v-else class="w-full text-center">
             <h3>{{ __('voyager::plugins.no_plugins_installed_title') }}</h3>
             <h4>{{ __('voyager::plugins.no_plugins_installed_hint') }}</h4>
         </div>
@@ -197,13 +198,14 @@
 
 <script>
 import axios from 'axios';
+import { Inertia } from '@inertiajs/inertia';
 
 export default {
-    props: ['availablePlugins'],
+    props: ['availablePlugins', 'installedPlugins'],
     data() {
         return {
             installed: {
-                plugins: [],
+                plugins: this.installedPlugins,
                 query: '',
                 currentType: null,
                 page: 0,
@@ -218,29 +220,18 @@ export default {
                 resultsPerPage: 3,
             },
             addPluginModalOpen: false,
-            loading: true,
         };
     },
     methods: {
+        reload() {
+            this.$inertia.get(route('voyager.plugins.index'));
+        },
         closeAddPluginModal() {
             this.addPluginModalOpen = false;
         },
         copy(plugin) {
             this.copyToClipboard('composer require ' + plugin.repository);
             new this.$notification(this.__('voyager::plugins.copy_notice')).timeout().show();
-        },
-        loadPlugins() {
-            this.loading = true;
-            axios.post(this.route('voyager.plugins.get'))
-            .then(plugins => {
-                this.installed.plugins = plugins.data;
-            })
-            .catch(response => {
-                this.handleAjaxError(response);
-            })
-            .then(() => {
-                this.loading = false;
-            });
         },
         enablePlugin(plugin, enable) {
             var message = this.__('voyager::plugins.enable_plugin_confirm', {name: plugin.name});
@@ -261,7 +252,7 @@ export default {
                         this.handleAjaxError(response);
                     })
                     .then(() => {
-                        this.loadPlugins();
+                        this.reload();
                     });
                 }
             });
@@ -381,8 +372,6 @@ export default {
         },
     },
     mounted() {
-        this.loadPlugins();
-
         var type = this.getParameterFromUrl('type', null);
         if (type !== null) {
             this.available.currentType = type;
