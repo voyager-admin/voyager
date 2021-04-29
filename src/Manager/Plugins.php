@@ -55,11 +55,12 @@ class Plugins
         }
 
         if (!($plugin instanceof GenericPlugin)) {
-            throw new \Exception('Plugin added to Voyager has to extend GenericPlugin');
+            throw new \Exception('Plugin added to Voyager has to inherit GenericPlugin');
         }
 
         $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
         $plugin->enabled = array_key_exists($plugin->identifier, $this->enabled_plugins);
+        $plugin->latest_version = 'Meh';
 
         $plugin->preferences = new class ($plugin, $this) {
             private $plugin, $pluginmanager;
@@ -125,12 +126,11 @@ class Plugins
 
     public function getAllPlugins($enabled = true): Collection
     {
-        $plugins = $this->plugins;
         if ($enabled) {
-            $plugins = $plugins->where('enabled');
+            return $this->plugins->where('enabled');
         }
 
-        return $plugins;
+        return $this->plugins;
     }
 
     public function getAvailablePlugins()

@@ -1,5 +1,15 @@
 <template>
     <div>
+        <div class="w-full">
+            <button class="button inline-flex" @click="loading = !loading">
+                <div>
+                    <collapse-x-transition>
+                        <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="loading" />
+                    </collapse-x-transition>
+                </div>
+                <span>Load</span>
+            </button>
+        </div>
         <card title="UI Elements">
             <div>
                 <div class="inline w-full">
@@ -299,8 +309,7 @@ export default {
             name: 'Voyager',
             lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
-            loading: false,
-            editing: false
+            loading: false
         };
     }
 }
