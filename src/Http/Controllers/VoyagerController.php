@@ -52,7 +52,7 @@ class VoyagerController extends Controller
             return abort(404);
         }
 
-        $path = str_replace('/', DIRECTORY_SEPARATOR, Str::start(urldecode($request->path), '/'));
+        $path = Str::before(str_replace('/', DIRECTORY_SEPARATOR, Str::start(urldecode($request->path), '/')), '?');
         $path = realpath(dirname(__DIR__, 3).'/resources/assets/dist').$path;
 
         if (realpath($path) === $path && File::exists($path)) {
