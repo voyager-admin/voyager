@@ -86,6 +86,13 @@ class VoyagerController extends Controller
         ]);
     }
 
+    public function ui()
+    {
+        return $this->inertiaRender('UI', [
+            'title'   => 'UI',
+        ]);
+    }
+
     // Search all BREADS
     public function globalSearch(Request $request)
     {

@@ -21,7 +21,7 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
     });
 
     // UI Route
-    Route::inertia('ui', 'UI', ['title' => 'UI'])->name('ui');
+    Route::get('ui', ['uses' => 'VoyagerController@ui', 'as' => 'ui']);
 
     // Settings
     Route::get('settings', ['uses' => 'SettingsController@index', 'as' => 'settings.index']);

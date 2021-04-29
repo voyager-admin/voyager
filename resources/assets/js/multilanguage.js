@@ -1,5 +1,6 @@
 
 import { usePage } from '@inertiajs/inertia-vue3';
+import $store from './store';
 
 let localization = null;
 
@@ -10,10 +11,7 @@ export default {
             return this.trans(key, replace);
         };
         app.config.globalProperties.trans = function (key, replace = {}) {
-            if (localization === null) {
-                localization = JSON.parse(usePage().props.value.localization);
-            }
-            let translation = key.split('.').reduce((t, i) => t[i] || null, localization);
+            let translation = key.split('.').reduce((t, i) => t[i] || null, $store.localization);
 
             if (!translation) {
                 return key;
@@ -29,10 +27,7 @@ export default {
             if (key === null) {
                 return key;
             }
-            if (localization === null) {
-                localization = usePage().props.value.localization;
-            }
-            let translation = key.split('.').reduce((t, i) => t[i] || key, localization).split('|');
+            let translation = key.split('.').reduce((t, i) => t[i] || key, $store.localization).split('|');
 
             translation = count > 1 ? translation[1] : translation[0];
 

@@ -16,6 +16,8 @@ Instead, they are listed here:
 - Make a command to "remove" translations (transform a value from JSON to normal string)
 - Notification class has to be renamed
 - Exception handler should only be replaced when logged in (?)
+- Show a dark background when using darkmode to prevent white flashing
+- Share a lot less stuff with Inertia. Instead, simply pass it to `createVoyager`
 
 ## Formfields
 - **Relationship** support polymorphic relationships

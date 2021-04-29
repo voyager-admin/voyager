@@ -85,7 +85,7 @@ export default {
 
         // Formfield
         app.config.globalProperties.getFormfieldByType = function (type) {
-            var formfield = (usePage().props.value.formfields || []).where('type', type).first();
+            var formfield = (this.$store.formfields || []).where('type', type).first();
             if (!formfield) {
                 console.error('Formfield with type "'+type+'" does not exist!');
             }
@@ -95,7 +95,7 @@ export default {
 
         // BREADs
         app.config.globalProperties.getBreadByTable = function (table) {
-            return (usePage().props.value.breads || []).where('table', table).first();
+            return (this.$store.breads || []).where('table', table).first();
         };
 
         // Initialize darkmode

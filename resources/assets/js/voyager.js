@@ -48,7 +48,7 @@ import Store from './store';
 
 let voyager;
 
-window.createVoyager = (el = 'voyager') => {
+window.createVoyager = (data = {}, el = 'voyager') => {
     voyager = createApp(App, {
         initialPage: JSON.parse(document.getElementById(el).dataset.page),
         resolveComponent: name => import(`../components/${name}`)
@@ -59,6 +59,10 @@ window.createVoyager = (el = 'voyager') => {
                 return page;
             }),
     }).use(plugin);
+
+    for (let key of Object.keys(data)) {
+        Store[key] = data[key];
+    }
 
     voyager.config.globalProperties.Status = Object.freeze({
         Pending  : 1,

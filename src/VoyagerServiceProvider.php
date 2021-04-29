@@ -96,35 +96,34 @@ class VoyagerServiceProvider extends ServiceProvider
         Inertia::setRootView('voyager::app');
 
         // Share data with Inertia
-        Inertia::share('locales', VoyagerFacade::getLocales());
-        Inertia::share('locale', VoyagerFacade::getLocale());
-        Inertia::share('initial_locale', VoyagerFacade::getLocale());
-        Inertia::share('localization', VoyagerFacade::getLocalization());
+        Inertia::share([
+            'locales'               => VoyagerFacade::getLocales(),
+            'locale'                => VoyagerFacade::getLocale(),
+            'initial_locale'        => VoyagerFacade::getLocale(),
 
-        Inertia::share('admin_title', VoyagerFacade::setting('admin.title', 'Voyager II'));
-        Inertia::share('notification_position', VoyagerFacade::setting('admin.notification-position', 'top-right'));
+            'admin_title'           => VoyagerFacade::setting('admin.title', 'Voyager II'),
+            'notification_position' => VoyagerFacade::setting('admin.notification-position', 'top-right'),
+
+            'current_url'           => Str::finish(url()->current(), '/'),
+            'rtl'                   => (__('voyager::generic.is_rtl') == 'true'),
+        ]);
 
         // Only share sensitive data when user is logged in
-        Event::listen('voyager.auth.registered', function ($plugin) {
-            if ($plugin->user()) {
-                Inertia::share('user', [
-                    'name'   => $plugin->name(),
-                    'avatar' => VoyagerFacade::assetUrl('images/default-avatar.png'), // TODO: ...
-                ]);
-
-                Inertia::share('breads', $this->breadmanager->getBreads()->values());
-                Inertia::share('formfields', $this->breadmanager->getFormfields());
-
-                Inertia::share('debug', config('app.debug') ?? false);
-                Inertia::share('json_output', VoyagerFacade::setting('admin.json-output', true));
-
-                Inertia::share('search_placeholder', $this->breadmanager->getBreadSearchPlaceholder());
-                Inertia::share('current_url', Str::finish(url()->current(), '/'));
-
-                Inertia::share('sidebar', [
-                    'items'     => $this->menumanager->getItems($this->pluginmanager),
-                    'title'     => VoyagerFacade::setting('admin.sidebar-title', 'Voyager II'),
-                    'icon_size' => VoyagerFacade::setting('admin.icon-size', 6)
+        Event::listen('voyager.auth.registered', function ($auth) {
+            if ($auth->user()) {
+                Inertia::share([
+                    'debug'                 => config('app.debug') ?? false,
+                    'json_output'           => VoyagerFacade::setting('admin.json-output', true),
+                    'search_placeholder'    => $this->breadmanager->getBreadSearchPlaceholder(),
+                    'sidebar'               => [
+                        'items'     => $this->menumanager->getItems($this->pluginmanager),
+                        'title'     => VoyagerFacade::setting('admin.sidebar-title', 'Voyager II'),
+                        'icon_size' => VoyagerFacade::setting('admin.icon-size', 6)
+                    ],
+                    'user'                  => [
+                        'name'      => $auth->name(),
+                        'avatar'    => VoyagerFacade::assetUrl('images/default-avatar.png'),
+                    ]
                 ]);
             }
         });
@@ -137,8 +136,6 @@ class VoyagerServiceProvider extends ServiceProvider
                 ExceptionHandler::class
             );
         });
-
-        Inertia::share('rtl', __('voyager::generic.is_rtl') == 'true');
     }
 
     /**

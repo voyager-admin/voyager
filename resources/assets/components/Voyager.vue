@@ -92,8 +92,6 @@ export default {
         $eventbus.on('sidebar-open', (open) => {
             this.setCookie('sidebar-open', open);
         });
-
-        $store.formfields = usePage().props.value.formfields;
     },
     computed: {
         notificationPosition() {

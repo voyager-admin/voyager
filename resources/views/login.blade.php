@@ -41,10 +41,7 @@
 @endif
 <script>
 createVoyager({
-    welcome: '{{ Voyager::setting('admin.welcome', __('voyager::generic.welcome_to_voyager')) }}',
-    has_login_view: {{ (Voyager::auth()->loginView() !== null ? 'true' : 'false') }},
-    has_password_view: {{ (Voyager::auth()->forgotPasswordView() !== null ? 'true' : 'false') }},
-    error: '{{ Session::get('error', '') }}',
+    'localization': {!! Voyager::getLocalization() !!}
 });
 </script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)

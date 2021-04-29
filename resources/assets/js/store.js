@@ -7,6 +7,7 @@ export default reactive({
 
     formfields: [],
     breads: [],
+    localization: [],
 
     pageLoading: true,
     sidebarOpen: true,
