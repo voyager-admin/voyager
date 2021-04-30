@@ -60,7 +60,6 @@ class Plugins
 
         $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
         $plugin->enabled = array_key_exists($plugin->identifier, $this->enabled_plugins);
-        $plugin->latest_version = 'Meh';
 
         $plugin->preferences = new class ($plugin, $this) {
             private $plugin, $pluginmanager;
