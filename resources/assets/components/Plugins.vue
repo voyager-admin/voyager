@@ -10,7 +10,8 @@
                     @dblclick="installed.query = ''"
                     @keydown.esc="installed.query = ''"
                 >
-                <button class="button" @click="reload">Reload</button>
+                <button class="button" @click="reload">{{ __('voyager::generic.reload') }}</button>
+                <button class="button" @click="checkUpdates">{{ __('voyager::plugins.check_for_updates') }}</button>
                 <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
                     <input
                         type="text"
@@ -72,6 +73,20 @@
                 </modal>
             </div>
         </template>
+        <alert color="blue" v-if="update.installed > 0">
+            <template #title>
+                {{ __('voyager::plugins.checking_for_updates', { x: update.checked, y: update.installed }) }}
+            </template>
+            <div v-if="update.updates.length > 0">
+                <span v-html="__('voyager::plugins.updates_available')"></span>
+                <ul class="my-2">
+                    <li v-for="(plugin, i) in update.updates" :key="`update-${i}`">
+                        {{ plugin.repo }} (v{{ plugin.current }} => {{ plugin.newest }})
+                    </li>
+                </ul>
+                <span v-html="__('voyager::plugins.updates_available_install')"></span>
+            </div>
+        </alert>
         <div class="w-full flex">
             <div class="flex-grow">
                 <badge
@@ -200,6 +215,8 @@
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
 
+const compare = require('semver-compare');
+
 export default {
     props: ['availablePlugins', 'installedPlugins'],
     data() {
@@ -218,6 +235,11 @@ export default {
                 currentType: null,
                 page: 0,
                 resultsPerPage: 3,
+            },
+            update: {
+                updates: [],
+                checked: 0,
+                installed: 0,
             },
             addPluginModalOpen: false,
         };
@@ -301,6 +323,46 @@ export default {
                 this.available.currentType = type;
             }
             this.available.page = 0;
+        },
+        checkUpdates() {
+            this.update.updates = [];
+            this.update.checked = 0;
+
+            let repos = [];
+            this.installed.plugins.forEach((plugin) => {
+                if (repos.indexOf(plugin.repository) === -1) {
+                    repos.push(plugin.repository);
+                }
+            });
+
+            this.update.installed = repos.length;
+
+            repos.forEach((repo) => {
+                axios.get(`https://repo.packagist.org/p2/${repo}.json`)
+                .then((response) => {
+                    let newest = response.data.packages[repo][0].version_normalized;
+                    let current = this.installed.plugins.where('repository', repo).first().version;
+                    if (compare(newest, current) === 1) {
+                        this.update.updates.push({
+                            repo, current, newest: response.data.packages[repo][0].version
+                        });
+                    }
+                })
+                .catch()
+                .then(() => {
+                    this.update.checked++;
+
+                    if (this.update.checked >= repos.length) {
+                        if (this.update.updates.length == 0) {
+                            this.update.updates = [];
+                            this.update.checked = 0;
+                            this.update.installed = 0;
+
+                            new this.$notification(this.__('voyager::plugins.no_updates')).timeout().show();
+                        }
+                    }
+                });
+            });
         }
     },
     computed: {

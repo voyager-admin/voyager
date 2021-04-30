@@ -33,6 +33,7 @@
         "@popperjs/core": "^2.9.2",
         "debounce": "^1.2.1",
         "inter-ui": "^3.18.1",
+        "semver-compare": "^1.0.0",
         "slugify": "^1.5.0",
         "tailwindcss": "^2.1.2",
         "tailwindcss-dir": "^4.0.0",
