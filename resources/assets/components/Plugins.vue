@@ -73,20 +73,22 @@
                 </modal>
             </div>
         </template>
-        <alert color="blue" v-if="update.installed > 0">
-            <template #title>
-                {{ __('voyager::plugins.checking_for_updates', { x: update.checked, y: update.installed }) }}
-            </template>
-            <div v-if="update.updates.length > 0">
-                <span v-html="__('voyager::plugins.updates_available')"></span>
-                <ul class="my-2">
-                    <li v-for="(plugin, i) in update.updates" :key="`update-${i}`">
-                        {{ plugin.repo }} ({{ plugin.current }} => {{ plugin.newest }})
-                    </li>
-                </ul>
-                <span v-html="__('voyager::plugins.updates_available_install')"></span>
-            </div>
-        </alert>
+        <slide-down-transition>
+            <alert color="blue" v-if="update.installed > 0" class="mb-4">
+                <template #title>
+                    {{ __('voyager::plugins.checking_for_updates', { x: update.checked, y: update.installed }) }}
+                </template>
+                <div v-if="update.updates.length > 0">
+                    <span v-html="__('voyager::plugins.updates_available')"></span>
+                    <ul class="my-2">
+                        <li v-for="(plugin, i) in update.updates" :key="`update-${i}`">
+                            {{ plugin.repo }} ({{ plugin.current }} => {{ plugin.newest }})
+                        </li>
+                    </ul>
+                    <span v-html="__('voyager::plugins.updates_available_install')"></span>
+                </div>
+            </alert>
+        </slide-down-transition>
         <div class="w-full flex">
             <div class="flex-grow">
                 <badge
