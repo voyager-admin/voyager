@@ -60,6 +60,8 @@ class Plugins
 
         $plugin->identifier = $plugin->repository.'@'.class_basename($plugin);
         $plugin->enabled = array_key_exists($plugin->identifier, $this->enabled_plugins);
+        $plugin->version = \Composer\InstalledVersions::getPrettyVersion($plugin->repository);
+        $plugin->version_normalized = \Composer\InstalledVersions::getVersion($plugin->repository);
 
         $plugin->preferences = new class ($plugin, $this) {
             private $plugin, $pluginmanager;

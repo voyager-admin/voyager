@@ -81,7 +81,7 @@
                 <span v-html="__('voyager::plugins.updates_available')"></span>
                 <ul class="my-2">
                     <li v-for="(plugin, i) in update.updates" :key="`update-${i}`">
-                        {{ plugin.repo }} (v{{ plugin.current }} => {{ plugin.newest }})
+                        {{ plugin.repo }} ({{ plugin.current }} => {{ plugin.newest }})
                     </li>
                 </ul>
                 <span v-html="__('voyager::plugins.updates_available_install')"></span>
@@ -325,6 +325,7 @@ export default {
             this.available.page = 0;
         },
         checkUpdates() {
+            this.$store.pageLoading = true;
             this.update.updates = [];
             this.update.checked = 0;
 
@@ -341,10 +342,12 @@ export default {
                 axios.get(`https://repo.packagist.org/p2/${repo}.json`)
                 .then((response) => {
                     let newest = response.data.packages[repo][0].version_normalized;
-                    let current = this.installed.plugins.where('repository', repo).first().version;
+                    let current = this.installed.plugins.where('repository', repo).first().version_normalized;
                     if (compare(newest, current) === 1) {
                         this.update.updates.push({
-                            repo, current, newest: response.data.packages[repo][0].version
+                            repo,
+                            current: this.installed.plugins.where('repository', repo).first().version,
+                            newest: response.data.packages[repo][0].version
                         });
                     }
                 })
@@ -360,6 +363,7 @@ export default {
 
                             new this.$notification(this.__('voyager::plugins.no_updates')).timeout().show();
                         }
+                        this.$store.pageLoading = false;
                     }
                 });
             });
