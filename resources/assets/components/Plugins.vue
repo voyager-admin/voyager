@@ -72,19 +72,6 @@
                 </modal>
             </div>
         </template>
-        <alert v-if="updatablePlugins.length > 0" class="mt-2 mb-4" color="blue">
-            <template #title>
-                {{ trans_choice('voyager::plugins.plugin_updates', updatablePlugins.length) }}
-            </template>
-
-            <span v-html="__('voyager::plugins.plugin_updates_info')"></span>
-            <ul class="my-2">
-                <li v-for="updatable in updatablePlugins">
-                    {{ updatable.name }} ({{ updatable.version }} => {{ updatable.latest_version }})
-                </li>
-            </ul>
-            <span v-html="__('voyager::plugins.plugin_updates_install')"></span>
-        </alert>
         <div class="w-full flex">
             <div class="flex-grow">
                 <badge
@@ -133,9 +120,6 @@
                             <th>
                                 {{ __('voyager::generic.version') }}
                             </th>
-                            <th>
-                                {{ __('voyager::generic.latest_version') }}
-                            </th>
                             <th class="ltr:text-right rtl:text-left">
                                 {{ __('voyager::generic.actions') }}
                             </th>
@@ -152,14 +136,6 @@
                             </td>
                             <td>
                                 {{ plugin.version || '-' }}
-                            </td>
-                            <td>
-                                <span v-if="plugin.latest_version" :class="plugin.has_update ? 'text-red-500' : null">
-                                    {{ plugin.latest_version || '-' }}
-                                </span>
-                                <span v-else>
-                                    {{ __('voyager::generic.unknown') }}
-                                </span>
                             </td>
                             <td class="w-full inline-flex justify-end">
                                 <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
@@ -394,11 +370,6 @@ export default {
                 return self.indexOf(value) === index;
             });
         },
-        updatablePlugins() {
-            return this.installed.plugins.filter((plugin) => {
-                return plugin.latest_version && plugin.has_update;
-            });
-        }
     },
     mounted() {
         var type = this.getParameterFromUrl('type', null);

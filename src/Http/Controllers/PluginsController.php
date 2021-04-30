@@ -43,9 +43,7 @@ class PluginsController extends Controller
 
     private function getInstalledPlugins()
     {
-        $available = collect($this->pluginmanager->getAvailablePlugins());
-
-        return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) use ($available) {
+        return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {
             $plugin->type = collect(class_implements($plugin))->filter(static function ($interface) {
                 return Str::startsWith($interface, 'Voyager\\Admin\\Contracts\\Plugins\\') && Str::endsWith($interface, 'Plugin');
             })->transform(static function ($interface) {
@@ -58,9 +56,6 @@ class PluginsController extends Controller
             if ($plugin instanceof InstructionsComponent) {
                 $plugin->instructions_component = $plugin->getInstructionsComponent();
             }
-
-            $plugin->latest_version = $available->where('repository', $plugin->repository)->first()->version ?? null;
-            $plugin->has_update = version_compare($plugin->version, $plugin->latest_version) == -1;
 
             return $plugin;
         })->values();

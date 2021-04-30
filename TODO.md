@@ -18,7 +18,6 @@ Instead, they are listed here:
 - Exception handler should only be replaced when logged in (?)
 - Show a dark background when using darkmode to prevent white flashing
 - Share a lot less stuff with Inertia. Instead, simply pass it to `createVoyager`
-- Write a GH action to fetch composers latest version for each plugin
 
 ## Formfields
 - **Relationship** support polymorphic relationships
