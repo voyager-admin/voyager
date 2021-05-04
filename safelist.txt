@@ -28,6 +28,8 @@ w-12
 w-24
 w-32
 
+pl-4
+
 border-red-500
 border-orange-500
 border-yellow-500
@@ -66,3 +68,4 @@ fill-current
 space-x-2
 
 focus:outline-none
+list-none

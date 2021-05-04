@@ -48,14 +48,25 @@ import Store from './store';
 
 let voyager;
 
+function resolveInertiaComponent(name) {
+    try {
+        require(`../components/${name}`);
+
+        return import(`../components/${name}`);
+    } catch (e) {
+        return import(`../components/Generic`);
+    }
+}
+
 window.createVoyager = (data = {}, el = 'voyager') => {
     voyager = createApp(App, {
         initialPage: JSON.parse(document.getElementById(el).dataset.page),
-        resolveComponent: name => import(`../components/${name}`)
+        resolveComponent: (name) => resolveInertiaComponent(name)
             .then(({ default: page }) => {
                 if (page.layout === undefined) {
                     page.layout = Voyager;
                 }
+
                 return page;
             }),
     }).use(plugin);

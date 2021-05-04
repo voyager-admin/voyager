@@ -14,7 +14,7 @@
         "css-minimizer-webpack-plugin": "^2.0.0",
         "dart-sass": "^1.25.0",
         "html-loader": "^2.1.2",
-        "mini-css-extract-plugin": "^1.5.1",
+        "mini-css-extract-plugin": "^1.6.0",
         "node-sass": "^5.0.0",
         "postcss": "^8.2.13",
         "postcss-import": "^14.0.1",
@@ -22,7 +22,7 @@
         "sass-loader": "^11.0.1",
         "terser-webpack-plugin": "^5.1.1",
         "vue-loader": "^16.1.2",
-        "webpack": "^5.36.1",
+        "webpack": "^5.36.2",
         "webpack-cli": "^4.6.0",
         "webpack-dev-server": "^4.0.0-beta.2"
     },
@@ -34,7 +34,7 @@
         "debounce": "^1.2.1",
         "inter-ui": "^3.18.1",
         "semver-compare": "^1.0.0",
-        "slugify": "^1.5.0",
+        "slugify": "^1.5.1",
         "tailwindcss": "^2.1.2",
         "tailwindcss-dir": "^4.0.0",
         "vue": "^3.0.11"

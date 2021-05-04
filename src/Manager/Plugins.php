@@ -172,14 +172,23 @@ class Plugins
 
     public function getAssets()
     {
-        return $this->getAllPlugins(false)->filter(function ($plugin) {
-            return $plugin instanceof CSSProvider || ($plugin instanceof JSProvider && $plugin->enabled);
-        })->transform(function ($plugin) {
-            return [
-                'name'      => Str::slug($plugin->name).($plugin instanceof CSSProvider ? '.css' : '.js'),
-                'content'   => ($plugin instanceof CSSProvider ? $plugin->provideCSS() : $plugin->provideJS())
-            ];
+        $assets = collect();
+        $this->getAllPlugins(false)->each(function ($plugin) use ($assets) {
+            if ($plugin instanceof CSSProvider) {
+                $assets->push([
+                    'name'      => Str::slug($plugin->name).'.css',
+                    'content'   => $plugin->provideCSS()
+                ]);
+            }
+            if ($plugin instanceof JSProvider && $plugin->enabled) {
+                $assets->push([
+                    'name'      => Str::slug($plugin->name).'.js',
+                    'content'   => $plugin->provideJS()
+                ]);
+            }
         });
+
+        return $assets;
     }
 
     public function setPreference($identifier, $key, $value, $locale = null)
