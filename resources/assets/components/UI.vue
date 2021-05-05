@@ -39,10 +39,12 @@
                     <button class="button accent my-2" v-scroll-to="'ui-pagination'">
                         Pagination
                     </button>
+                    <button class="button accent my-2" v-for="el in $store.ui" v-scroll-to="`ui-${slugify(el.title, { lower: true })}`">
+                        {{ el.title }}
+                    </button>
                 </div>
             </div>
         </card>
-
         <card dont-show-header>
             <div class="w-full flex">
                 <div class="w-6/12">
@@ -286,6 +288,9 @@
             <collapsible title="Different color (Works with all other colors as well)" :title-size="5">
                 <pagination :page-count="100" :value="100" color="red"></pagination>
             </collapsible>
+        </collapsible>
+        <collapsible v-for="el in $store.ui" :id="`ui-${slugify(el.title, { lower: true })}`" :title="el.title">
+            <component :is="el.component" />
         </collapsible>
     </div>
 </template>

@@ -30,6 +30,26 @@ w-32
 
 pl-4
 
+bg-gray-50
+bg-gray-100
+bg-gray-150
+bg-gray-200
+bg-gray-250
+bg-gray-300
+bg-gray-350
+bg-gray-400
+bg-gray-450
+bg-gray-500
+bg-gray-550
+bg-gray-600
+bg-gray-650
+bg-gray-700
+bg-gray-750
+bg-gray-800
+bg-gray-850
+bg-gray-900
+bg-gray-950
+
 border-red-500
 border-orange-500
 border-yellow-500

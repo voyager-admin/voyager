@@ -249,7 +249,7 @@ export default {
             this.addPluginModalOpen = false;
         },
         copy(plugin) {
-            this.copyToClipboard('composer require ' + plugin.repository);
+            this.copyToClipboard('composer require ' + plugin.name);
             new this.$notification(this.__('voyager::plugins.copy_notice')).timeout().show();
         },
         enablePlugin(plugin, enable) {

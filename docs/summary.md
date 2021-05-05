@@ -37,3 +37,13 @@
 * [Introduction](contributing/introduction.md)
 * [Assets](contributing/assets.md)
 * [CSS](contributing/css.md)
+
+## Plugin development
+
+* [Introduction](plugins/introduction.md)
+* [Assets](plugins/assets.md)
+* [Language](plugins/language.md)
+* [Components](plugins/components.md)
+* [Settings](plugins/settings.md)
+* [Preferences](plugins/preferences.md)
+* [Menu Items](plugins/menu-items.md)

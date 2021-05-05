@@ -71,6 +71,10 @@ window.createVoyager = (data = {}, el = 'voyager') => {
             }),
     }).use(plugin);
 
+    voyager.addToUI = function (title, component) {
+        Store.ui.push({ title, component });
+    };
+
     for (let key of Object.keys(data)) {
         Store[key] = data[key];
     }

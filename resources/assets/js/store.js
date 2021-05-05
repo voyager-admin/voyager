@@ -9,6 +9,8 @@ export default reactive({
     breads: [],
     localization: [],
 
+    ui: [],
+
     pageLoading: true,
     sidebarOpen: true,
 });

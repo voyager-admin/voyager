@@ -125,20 +125,25 @@ class Voyager
      */
     public function getLocalization()
     {
-        return collect(['auth', 'bread', 'builder', 'formfields', 'generic', 'media', 'plugins', 'settings', 'validation'])->flatMap(function ($file) {
-            return ['voyager::'.$file => trans('voyager::'.$file)];
-        })->merge($this->translations)->toJson();
+        $translator = app()->make('translator');
+
+        return collect(['auth', 'bread', 'builder', 'formfields', 'generic', 'media', 'plugins', 'settings', 'validation'])->flatMap(function ($group) {
+            return ['voyager::'.$group => trans('voyager::'.$group)];
+        })->merge(collect($this->translations)->flatMap(function ($namespace, $group) use ($translator) {
+            $translator->load($namespace, $group, $this->getLocale());
+            return [$namespace.'::'.$group => trans($namespace.'::'.$group)];
+        }))->toJson();
     }
 
     /**
      * Add translations to the Voyager namespace.
      *
      * @param string $namespace   The namespace.
-     * @param array $translations The translationss.
+     * @param string $group       The group.
      */
-    public function addTranslations(string $namespace, array $translations)
+    public function addTranslations(string $namespace, string $group)
     {
-        $this->translations['voyager::'.$namespace] = $translations;
+        $this->translations[$namespace] = $group;
     }
 
     /**

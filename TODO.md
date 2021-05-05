@@ -18,6 +18,7 @@ Instead, they are listed here:
 - Exception handler should only be replaced when logged in (?)
 - Show a dark background when using darkmode to prevent white flashing
 - Share a lot less stuff with Inertia. Instead, simply pass it to `createVoyager`
+- Remove plugins that are no longer installed from `plugins.json`
 
 ## Formfields
 - **Relationship** support polymorphic relationships
