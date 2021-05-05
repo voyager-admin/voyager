@@ -7,6 +7,7 @@ return [
     'copy_notice'                   => 'Copied to clipboard',
     'enable_plugin_confirm'         => 'Are your sure you want to enable the ":name" Plugin?',
     'error_changing_plugin'         => 'There was an error changing the plugin:',
+    'error_loading_plugins'         => 'Available plugins could not be loaded. Are you online?',
     'no_plugins_installed_title'    => 'No plugins installed 😞',
     'no_plugins_installed_hint'     => 'Go ahead and install one',
     'no_plugins_match_search'       => 'No plugins match your search',
@@ -29,6 +30,6 @@ return [
         'theme'                         => 'Theme',
         'widget'                        => 'Widget',
     ],
-    'updates_available'             => 'The following plugins can be updated:',
+    'updates_available'             => 'The following packages can be updated:',
     'updates_available_install'     => 'Run <code>composer update</code> to update them!',
 ];

@@ -20,35 +20,29 @@
                         :placeholder="__('voyager::generic.search')"
                         @dblclick="available.query = ''"
                     >
-                    <div class="w-full my-3">
-                        <badge
-                            v-for="(type, i) in availableTypes"
-                            :key="i"
-                            :color="getPluginTypeColor(type)"
-                            :icon="available.currentType == type ? 'x' : null"
-                            @click="setAvailableTypeFilter(type)"
-                        >
-                            {{ __('voyager::plugins.types.'+type) }}
-                        </badge>
-                    </div>
                     <div v-if="filteredAvailablePlugins.length == 0" class="w-full text-center">
                         <h4>{{ __('voyager::plugins.no_plugins_match_search') }}</h4>
                     </div>
                     <div v-for="(plugin, i) in filteredAvailablePlugins.slice(availableStart, availableEnd)" :key="'plugin-'+i">
                         <div class="flex">
                             <div class="w-3/5">
-                                <div class="inline-flex">
+                                <div class="w-full inline-flex">
                                     <h5 class="mr-2">{{ translate(plugin.name) }}</h5>
-                                    <badge :color="getPluginTypeColor(plugin.type)">{{ __('voyager::plugins.types.'+plugin.type) }}</badge>
+                                    <badge icon="download">{{ plugin.downloads }}</badge>
+                                    <badge icon="thumb-up">{{ plugin.favers }}</badge>
                                 </div>
                                 <p>{{ translate(plugin.description) }}</p>
-                                <a v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
-                                    {{ __('voyager::generic.website') }}
-                                </a>
-                                <span v-else>&nbsp;</span>
+                                <div class="w-full space-x-1.5">
+                                    <a v-if="plugin.url" :href="plugin.url" target="_blank">
+                                        {{ __('voyager::generic.website') }}
+                                    </a>
+                                    <a v-if="plugin.repository" :href="plugin.repository" target="_blank">
+                                        {{ __('voyager::generic.repository') }}
+                                    </a>
+                                </div>
                             </div>
                             <div class="w-2/5 text-right" v-if="!pluginInstalled(plugin)">
-                                <input class="input w-full select-none" :value="'composer require '+plugin.repository" @dblclick="copy(plugin)">
+                                <input class="input w-full select-none" :value="'composer require '+plugin.name" @dblclick="copy(plugin)">
                             </div>
                             <div class="w-2/5 text-right" v-else>
                                 <badge color="orange">{{ __('voyager::plugins.plugin_installed') }}</badge>
@@ -220,7 +214,7 @@ import { Inertia } from '@inertiajs/inertia';
 const compare = require('semver-compare');
 
 export default {
-    props: ['availablePlugins', 'installedPlugins'],
+    props: ['installedPlugins'],
     data() {
         return {
             installed: {
@@ -232,7 +226,7 @@ export default {
                 onlyEnabled: null,
             },
             available: {
-                plugins: this.availablePlugins,
+                plugins: [],
                 query: '',
                 currentType: null,
                 page: 0,
@@ -244,6 +238,7 @@ export default {
                 installed: 0,
             },
             addPluginModalOpen: false,
+            pp: [],
         };
     },
     methods: {
@@ -369,6 +364,26 @@ export default {
                     }
                 });
             });
+        },
+        getAvailablePlugins(url = null) {
+            this.$store.pageLoading = true;
+            if (url === null) {
+                url = 'https://packagist.org/search.json?tags=voyager2-plugin';
+                this.available.plugins = [];
+            }
+            axios.get(url)
+                .then((response) => {
+                    // TODO: Filter out "unwanted" plugins here
+                    this.available.plugins = [...this.available.plugins, ...response.data.results];
+                    if (response.data.hasOwnProperty('next')) {
+                        this.getAvailablePlugins(response.data.next);
+                    } else {
+                        this.$store.pageLoading = false;
+                    }
+                })
+                .catch((response) => {
+                    new this.$notification(this.__('voyager::plugins.error_loading_plugins')).color('red').timeout().show();
+                });
         }
     },
     computed: {
@@ -381,9 +396,7 @@ export default {
 
                 return true;
             }).filter((plugin) => {
-                return plugin.keywords.filter((keyword) => {
-                    return keyword.toLowerCase().indexOf(query) >= 0;
-                }).length > 0;
+                return plugin.name.toLowerCase().includes(query) || plugin.description.toLowerCase().includes(query);
             });
         },
         filteredInstalledPlugins() {
@@ -424,13 +437,6 @@ export default {
         installedPages() {
             return Math.ceil(this.filteredInstalledPlugins.length / this.installed.resultsPerPage);
         },
-        availableTypes() {
-            return this.available.plugins.map((plugin) => {
-                return plugin.type;
-            }).filter((value, index, self) => {
-                return self.indexOf(value) === index;
-            });
-        },
         installedTypes() {
             return this.installed.plugins.map((plugin) => {
                 return plugin.type;
@@ -445,6 +451,7 @@ export default {
             this.available.currentType = type;
             this.$refs.search_plugin_modal.open();
         }
+        this.getAvailablePlugins();
     },
     created() {
         this.$watch(() => this.available.query, () => {

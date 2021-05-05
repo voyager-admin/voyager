@@ -134,11 +134,6 @@ class Plugins
         return $this->plugins;
     }
 
-    public function getAvailablePlugins()
-    {
-        return VoyagerFacade::getJson(File::get(dirname(__DIR__, 2) . '/plugins.json'), []);
-    }
-
     public function enablePlugin($identifier, $enable = true)
     {
         $found = false;

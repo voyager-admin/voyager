@@ -25,11 +25,6 @@ class PluginsTest extends TestCase
         $this->assertEquals($message, 'Plugin added to Voyager has to extend GenericPlugin');
     }
 
-    public function test_can_read_available_plugins()
-    {
-        $this->assertTrue(count(resolve(PluginManager::class)->getAvailablePlugins()) > 0);
-    }
-
     public function test_can_write_enabled_plugins()
     {
         $this->assertTrue(resolve(PluginManager::class)->enablePlugin('voyager-admin/voyager-testbench-plugin@GenericPlugin') > 0);

@@ -123,6 +123,7 @@ return [
     'relationships'             => 'Relationships',
     'reload'                    => 'Reload',
     'remove'                    => 'Remove',
+    'repository'                => 'Repository',
     'restore'                   => 'Restore',
     'rule'                      => 'Rule',
     'rows'                      => 'Rows',

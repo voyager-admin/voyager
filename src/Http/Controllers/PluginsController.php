@@ -26,7 +26,6 @@ class PluginsController extends Controller
     {
         return $this->inertiaRender('Plugins', [
             'title'             => __('voyager::plugins.plugins'),
-            'available-plugins' => $this->pluginmanager->getAvailablePlugins(),
             'installed-plugins' => $this->getInstalledPlugins()
         ]);
     }
