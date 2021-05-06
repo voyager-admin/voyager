@@ -68,55 +68,54 @@
                         :key="i"
                         :class="[fileSelected(file) ? 'selected' : '', filePicked(file) ? 'picked' : '', file.is_upload ? 'opacity-50' : '']"
                         v-on:click.prevent.stop="selectFile(file, $event)"
-                        v-on:dblclick.prevent.stop="openFile(file)">
-                        <tooltip :value="file.file.name">
-                            <div class="flex p-3">
-                                <div class="flex-none">
-                                    <div class="w-full flex justify-center">
-                                        <img :src="file.preview" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-if="file.preview" />
-                                        <img :src="file.file.url" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-else-if="matchMime(file.file.type, 'image/*')" />
-                                        <div v-else :class="`w-full flex justify-center h-${thumbSize}`">
-                                            <icon :icon="getFileIcon(file.file.type)" :size="thumbnailSizes[thumbSize]"></icon>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-grow ml-3 overflow-hidden">
-                                    <div class="flex flex-col h-full">
-                                        <div class="flex-none">
-                                            <span class="whitespace-nowrap">{{ file.file.name }}</span>
-                                            <p class="text-sm" v-if="file.file.thumbnails.length > 0">
-                                                {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
-                                            </p>
-                                            <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
-                                        </div>
-                                        <div class="flex items-end justify-end flex-grow">
-                                            <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
-                                                <icon icon="x" :size="4"></icon>
-                                            </button>
-                                        </div>
+                        v-on:dblclick.prevent.stop="openFile(file)"
+                        v-tooltip="file.file.name">
+                        <div class="flex p-3">
+                            <div class="flex-none">
+                                <div class="w-full flex justify-center">
+                                    <img :src="file.preview" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-if="file.preview" />
+                                    <img :src="file.file.url" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-else-if="matchMime(file.file.type, 'image/*')" />
+                                    <div v-else :class="`w-full flex justify-center h-${thumbSize}`">
+                                        <icon :icon="getFileIcon(file.file.type)" :size="thumbnailSizes[thumbSize]"></icon>
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                class="flex-none h-1 bg-blue-500 rounded-b-md"
-                                v-if="file.status == Status.Uploading && file.progress < 100"
-                                :style="{ width: file.progress+'%' }">
-                            </div>
-                            <div class="max-w-full h-1 overflow-hidden" v-if="file.status == Status.Uploading && file.progress >= 100">
-                                <div class="indeterminate">
-                                    <div class="before bg-blue-500 rounded"></div>
-                                    <div class="after bg-blue-500 rounded"></div>
+                            <div class="flex-grow ml-3 overflow-hidden">
+                                <div class="flex flex-col h-full">
+                                    <div class="flex-none">
+                                        <span class="whitespace-nowrap">{{ file.file.name }}</span>
+                                        <p class="text-sm" v-if="file.file.thumbnails.length > 0">
+                                            {{ trans_choice('voyager::media.thumbnail_amount', file.file.thumbnails.length) }}
+                                        </p>
+                                        <p class="text-xs" v-if="file.file.type !== 'directory'">{{ readableFileSize(file.file.size) }}</p>
+                                    </div>
+                                    <div class="flex items-end justify-end flex-grow">
+                                        <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
+                                            <icon icon="x" :size="4"></icon>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div
-                                class="flex-none h-1 w-full bg-green-500 rounded-b-md"
-                                v-if="file.status == Status.Finished">
+                        </div>
+                        <div
+                            class="flex-none h-1 bg-blue-500 rounded-b-md"
+                            v-if="file.status == Status.Uploading && file.progress < 100"
+                            :style="{ width: file.progress+'%' }">
+                        </div>
+                        <div class="max-w-full h-1 overflow-hidden" v-if="file.status == Status.Uploading && file.progress >= 100">
+                            <div class="indeterminate">
+                                <div class="before bg-blue-500 rounded"></div>
+                                <div class="after bg-blue-500 rounded"></div>
                             </div>
-                            <div
-                                class="flex-none h-1 w-full bg-red-500 rounded-b-md"
-                                v-if="file.status == Status.Failed">
-                            </div>
-                        </tooltip>
+                        </div>
+                        <div
+                            class="flex-none h-1 w-full bg-green-500 rounded-b-md"
+                            v-if="file.status == Status.Finished">
+                        </div>
+                        <div
+                            class="flex-none h-1 w-full bg-red-500 rounded-b-md"
+                            v-if="file.status == Status.Failed">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,14 +171,15 @@
                     <img :src="openedFile.url" class="rounded object-contain max-w-full" />
                 </div>
                 <div class="w-full mt-2 justify-center items-center flex flex-wrap space-x-1 space-y-1">
-                    <tooltip v-for="(image, i) in images" :key="i" :value="image.file.relative_path+image.file.name">
-                        <img
-                            class="rounded object-contain h-24 cursor-pointer"
-                            :class="openedFile.url == image.file.url ? 'border border-blue-500' : null"
-                            :src="image.file.url"
-                            @click="openedFile = image.file"
-                        />
-                    </tooltip>
+                    <img
+                        v-for="(image, i) in images"
+                        :key="i"
+                        v-tooltip="image.file.relative_path+image.file.name"
+                        class="rounded object-contain h-24 cursor-pointer"
+                        :class="openedFile.url == image.file.url ? 'border border-blue-500' : null"
+                        :src="image.file.url"
+                        @click="openedFile = image.file"
+                    />
                 </div>
             </div>
         </modal>

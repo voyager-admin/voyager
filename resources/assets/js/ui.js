@@ -14,7 +14,6 @@ import Pagination from '../components/UI/Pagination.vue';
 import SlideIn from '../components/UI/SlideIn.vue';
 import Tabs from '../components/UI/Tabs.vue';
 import TagInput from '../components/UI/TagInput.vue';
-import Tooltip from '../components/UI/Tooltip.vue';
 
 export {
     Alert,
@@ -33,5 +32,4 @@ export {
     SlideIn,
     Tabs,
     TagInput,
-    Tooltip,
 };

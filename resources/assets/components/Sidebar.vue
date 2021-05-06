@@ -58,16 +58,10 @@
                     </nav>
                 </div>
                 <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
-                    <button class="button accent small" @click="toggleDarkMode()" aria-label="Toggle darkmode">
-                        <tooltip v-if="$store.darkmode == 'dark'" :value="__('voyager::generic.dark_mode_on')">
-                            <icon icon="moon" />
-                        </tooltip>
-                        <tooltip v-else-if="$store.darkmode == 'light'" :value="__('voyager::generic.dark_mode_off')">
-                            <icon icon="sun" />
-                        </tooltip>
-                        <tooltip v-else :value="__('voyager::generic.dark_mode_system')">
-                            <icon icon="desktop-computer" />
-                        </tooltip>
+                    <button class="button accent small" @click="toggleDarkMode()" aria-label="Toggle darkmode" v-tooltip.auto="`Blöb`">
+                        <icon icon="moon" v-if="$store.darkmode == 'dark'" />
+                        <icon icon="sun" v-else-if="$store.darkmode == 'light'" />
+                        <icon icon="desktop-computer" v-else />
                     </button>
                     <button class="button accent small" v-scroll-to="''" aria-label="Go to top">
                         <icon icon="chevron-up" />
@@ -85,12 +79,11 @@
 import { usePage } from '@inertiajs/inertia-vue3'
 
 import scrollTo from '../js/directives/scroll-to';
-import Tooltip from './UI/Tooltip';
 import MenuWrapper from './Layout/MenuWrapper';
 
 export default {
-    components: { Tooltip, MenuWrapper },
-    directives: { scrollTo: scrollTo },
+    components: { MenuWrapper },
+    directives: { scrollTo },
     data() {
         return {
             iconSize: 6,

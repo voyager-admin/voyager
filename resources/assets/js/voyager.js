@@ -23,6 +23,11 @@ import MiscMixin from 'mixins/misc';
 import StringMixin from 'mixins/strings';
 import TypeMixin from 'mixins/types';
 import UrlMixin from 'mixins/url';
+import FormfieldMixin from 'mixins/formfield';
+import FormfieldBuilderMixin from 'mixins/formfield-builder';
+
+// Directives
+import TooltipDirective from 'directives/tooltip';
 
 // Components
 import * as FormfieldComponents from './formfields';
@@ -75,6 +80,9 @@ window.createVoyager = (data = {}, el = 'voyager') => {
         Store.ui.push({ title, component });
     };
 
+    voyager.formfieldMixin = FormfieldMixin;
+    voyager.formfieldBuilderMixin = FormfieldBuilderMixin;
+
     for (let key of Object.keys(data)) {
         Store[key] = data[key];
     }
@@ -88,6 +96,8 @@ window.createVoyager = (data = {}, el = 'voyager') => {
     window.Status = voyager.config.globalProperties.Status;
     
     voyager.use(Multilanguage);
+
+    voyager.directive('tooltip', TooltipDirective);
 
     voyager.mixin(MiscMixin);
     voyager.mixin(StringMixin);

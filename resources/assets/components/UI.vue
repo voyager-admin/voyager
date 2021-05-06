@@ -3,7 +3,7 @@
         <card title="UI Elements">
             <div>
                 <div class="inline w-full">
-                <button class="button accent my-2" v-scroll-to="'ui-headings'">
+                    <button class="button accent my-2" v-scroll-to="'ui-headings'">
                         Headings
                     </button>
                     <button class="button accent my-2" v-scroll-to="'ui-icons'">
@@ -45,6 +45,10 @@
                 </div>
             </div>
         </card>
+
+        <collapsible v-for="el in $store.ui" :id="`ui-${slugify(el.title, { lower: true })}`" :title="el.title">
+            <component :is="el.component" />
+        </collapsible>
         <card dont-show-header>
             <div class="w-full flex">
                 <div class="w-6/12">
@@ -222,22 +226,14 @@
 
         <collapsible title="Tooltips" id="ui-tooltips">
             <div class="w-full flex justify-center">
-                <tooltip value="Tooltip on top" placement="top">
-                    <button class="button">Top</button>
-                </tooltip>
+                <button class="button" v-tooltip:top="'Tooltip on top'">Top</button>
             </div>
             <div class="w-full inline-flex justify-center my-2">
-                <tooltip value="Tooltip on the left" placement="left">
-                    <button class="button">Left</button>
-                </tooltip>
-                <tooltip value="Tooltip on the right" placement="right">
-                    <button class="button">Right</button>
-                </tooltip>
+                <button class="button" v-tooltip:left="'Tooltip on the left'">Left</button>
+                <button class="button" v-tooltip:right="'Tooltip on the right'">Right</button>
             </div>
             <div class="w-full flex justify-center">
-                <tooltip value="Tooltip on the bottom">
-                    <button class="button">Bottom</button>
-                </tooltip>
+                <button class="button" v-tooltip:bottom="'Tooltip on the bottom'">Bottom</button>
             </div>
         </collapsible>
 
@@ -289,9 +285,6 @@
                 <pagination :page-count="100" :value="100" color="red"></pagination>
             </collapsible>
         </collapsible>
-        <collapsible v-for="el in $store.ui" :id="`ui-${slugify(el.title, { lower: true })}`" :title="el.title">
-            <component :is="el.component" />
-        </collapsible>
     </div>
 </template>
 <script>
@@ -304,8 +297,6 @@ export default {
             name: 'Voyager',
             lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
-            loading: false,
-            editing: false
         };
     }
 }

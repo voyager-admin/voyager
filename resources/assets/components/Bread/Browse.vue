@@ -49,17 +49,15 @@
                                     :class="formfield.orderable ? 'cursor-pointer' : ''"
                                     @click="formfield.orderable ? orderBy(formfield.column.column) : ''">
                                     <div class="flex h-full items-center">
-                                        <tooltip :value="(formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : null)">
-                                            <div class="inline-flex items-center">
-                                                {{ translate(formfield.title, true) }}
-                                                <icon
-                                                    v-if="formfield.orderable && parameters.order == formfield.column.column"
-                                                    :icon="parameters.direction == 'asc' ? 'chevron-up' : 'chevron-down'"
-                                                    :size="4"
-                                                    class="ltr:ml-2 rtl:mr-2"
-                                                />
-                                            </div>
-                                        </tooltip>
+                                        <div class="inline-flex items-center" v-tooltip="(formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : null)">
+                                            {{ translate(formfield.title, true) }}
+                                            <icon
+                                                v-if="formfield.orderable && parameters.order == formfield.column.column"
+                                                :icon="parameters.direction == 'asc' ? 'chevron-up' : 'chevron-down'"
+                                                :size="4"
+                                                class="ltr:ml-2 rtl:mr-2"
+                                            />
+                                        </div>
                                     </div>
                                 </th>
                                 <th class="ltr:text-right rtl:text-left">

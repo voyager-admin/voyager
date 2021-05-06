@@ -18,12 +18,8 @@
                 <tbody>
                     <tr v-for="(formfield, key) in formfields" :key="'formfield-'+key">
                         <td class="hidden md:table-cell">
-                            <tooltip :value="__('voyager::builder.move_up')">
-                                <icon icon="chevron-up" class="cursor-pointer" :size="4" @click.prevent.stop="up(formfield)" />
-                            </tooltip>
-                            <tooltip :value="__('voyager::builder.move_down')">
-                                <icon icon="chevron-down" class="cursor-pointer" :size="4" @click.prevent.stop="down(formfield)" />
-                            </tooltip>
+                            <icon icon="chevron-up" class="cursor-pointer" :size="4" @click.prevent.stop="up(formfield)" v-tooltip.top="__('voyager::builder.move_up')" />
+                            <icon icon="chevron-down" class="cursor-pointer" :size="4" @click.prevent.stop="down(formfield)" v-tooltip.bottom="__('voyager::builder.move_down')" />
                         </td>
                         <td class="hidden md:table-cell">{{ getFormfieldByType(formfield.type).name }}</td>
                         <td>

@@ -3,12 +3,10 @@
     <div v-else-if="action == 'browse'">
         <div class="flex items-center space-x-1" v-if="options.icons === true">
             <div v-for="(file, i) in slicedItems" :key="i">
-                <tooltip :value="file.relative_path + file.name">
-                    <div>
-                        <img :src="file.url" class="rounded-lg object-contain h-16 max-w-full" v-if="matchMime(file.type, 'image/*')" />
-                        <icon v-else icon="document" size="16"></icon>
-                    </div>
-                </tooltip>
+                <div v-tooltip="file.relative_path + file.name">
+                    <img :src="file.url" class="rounded-lg object-contain h-16 max-w-full" v-if="matchMime(file.type, 'image/*')" />
+                    <icon v-else icon="document" size="16"></icon>
+                </div>
             </div>
             <span v-if="modelValue.length > options.display" class="italic text-sm">
                 {{ __('voyager::generic.more_results', { num: modelValue.length - options.display }) }}
@@ -39,9 +37,9 @@
                         <div class="flex flex-col h-full">
                             <div class="flex-none">
                                 <div class="w-full flex">
-                                    <tooltip :value="file.name" class="flex-grow">
+                                    <div v-tooltip="file.name" class="flex-grow">
                                         <p class="whitespace-nowrap">{{ file.name }}</p>
-                                    </tooltip>
+                                    </div>
                                     <div class="flex-grow-0">
                                         <button @click.stop="removeFile(file)">
                                             <icon icon="x" :size="4"></icon>
@@ -99,10 +97,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ml-3 overflow-hidden">
-                        <tooltip :value="file.name">
-                            <p class="whitespace-nowrap">{{ file.name }}</p>
-                        </tooltip>
+                    <div class="ml-3 overflow-hidden" v-tooltip="file.name">
+                        <p class="whitespace-nowrap">{{ file.name }}</p>
                     </div>
                 </div>
             </div>

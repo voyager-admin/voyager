@@ -10,15 +10,15 @@
             </button>
         </div>
         <div class="grid grid-cols-6 gap-1">
-            
-            <tooltip v-for="(icon, i) in filteredIcons.slice(start, end)" :key="icon.readable" :value="icon.readable">
-                <button
-                    class="button justify-center my-1 w-full"
-                    :aria-label="`Icon ${icon.readable}`"
-                    @dblclick="$emit('select', icon.name)">
-                    <icon :icon="icon.name" :size="size" />
-                </button>
-            </tooltip>
+            <button
+                v-for="(icon, i) in filteredIcons.slice(start, end)"
+                :key="icon.readable"
+                v-tooltip="icon.readable"
+                class="button justify-center my-1 w-full"
+                :aria-label="`Icon ${icon.readable}`"
+                @dblclick="$emit('select', icon.name)">
+                <icon :icon="icon.name" :size="size" />
+            </button>
         </div>
         <pagination class="mt-2" :page-count="pages" @update:model-value="page = $event - 1" :model-value="page + 1" :first-last-buttons="false" :prev-next-buttons="false"></pagination>
     </div>

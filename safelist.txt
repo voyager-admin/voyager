@@ -86,6 +86,9 @@ grid-cols-9
 fill-current
 
 space-x-2
+space-y-2
 
 focus:outline-none
 list-none
+
+invisible

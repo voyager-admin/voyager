@@ -116,3 +116,12 @@ ul {
 ol {
     @apply list-decimal list-inside;
 }
+
+.dark blockquote {
+    @include border-color(blockquote-border-color, 'colors.gray.400');
+}
+
+blockquote {
+    @apply pl-4 border-l-2;
+    @include border-color(blockquote-border-color, 'colors.gray.300');
+}

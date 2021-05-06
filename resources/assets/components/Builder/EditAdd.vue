@@ -92,9 +92,7 @@
                     <div class="w-full md:w-1/5 m-1">
                         <label class="label inline-flex" for="global_search">
                             <span class="mx-2">{{ __('voyager::builder.global_search_display_field') }}</span>
-                            <tooltip :value="__('voyager::builder.global_search_display_field_hint')">
-                                <icon icon="question-mark-circle"></icon>
-                            </tooltip>
+                            <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.global_search_display_field_hint')"></icon>
                         </label>
                         <select class="input w-full" v-model="bread.global_search_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
@@ -104,9 +102,7 @@
                     <div class="w-full md:w-1/5 m-1">
                         <label class="label inline-flex" for="order_field">
                             <span class="mx-2">{{ __('voyager::builder.order_field') }}</span>
-                            <tooltip :value="__('voyager::builder.order_field_hint')">
-                                <icon icon="question-mark-circle"></icon>
-                            </tooltip>
+                            <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.order_field_hint')"></icon>
                         </label>
                         <select class="input w-full" v-model="bread.order_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>

@@ -67,9 +67,7 @@ class MenuItem implements \JsonSerializable
 
     public function addChildren()
     {
-        foreach (func_get_args() as $item) {
-            $this->children->push($item);
-        }
+        $this->children = $this->children->merge(func_get_args());
 
         return $this;
     }

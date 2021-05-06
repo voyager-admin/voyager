@@ -58,9 +58,7 @@
                                     >
                                     <input type="text" class="input small hidden md:block md:w-1/4" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
                                     <input type="text" class="input small w-full md:w-1/4" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
-                                    <tooltip :value="setting.info" class="w-full md:w-1/4">
-                                        <input type="text" class="input small w-full" v-model="setting.info" :placeholder="__('voyager::generic.info')">
-                                    </tooltip>
+                                    <input type="text" class="input small w-full" v-model="setting.info" v-tooltip="setting.info" :placeholder="__('voyager::generic.info')">
                                 </div>
                                 <div v-else>
                                     <h4>{{ setting.name }}</h4>
