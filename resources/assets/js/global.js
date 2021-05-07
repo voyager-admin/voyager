@@ -74,11 +74,14 @@ export default {
 
         // Error handler
         app.config.globalProperties.handleAjaxError = function (response) {
-            var notification = new Notification(response.response.data.message).color('red').timeout();
-            /*if (response.hasOwnProperty('stack')) {
+            if (response.hasOwnProperty('response')) {
+                response = response.response;
+            }
+            var notification = new Notification(response.message).color('red').timeout();
+            if (response.hasOwnProperty('stack')) {
                 notification = notification.message(response.stack);
                 notification = notification.title(response.message);
-            }*/
+            }
     
             return notification.show();
         };

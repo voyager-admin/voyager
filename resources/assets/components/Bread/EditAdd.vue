@@ -162,9 +162,9 @@ export default {
                 }
             })
             .catch((response) => {
-                if (response.status == 422) {
+                if (response.response.status == 422) {
                     // Validation failed
-                    this.errors = response.data;
+                    this.errors = response.response.data;
                     new this
                     .$notification(this.__('voyager::bread.validation_errors'))
                     .color('red').timeout().show();

@@ -12,7 +12,7 @@
             {{ getOptionByKey(option) || option }}
         </badge>
     </div>
-    <div v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-1.5' : null">
+    <div v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-2' : null">
         <template v-for="(option, i) in options.options" :key="i">
             <div class="inline-flex items-center space-x-1.5" :class="options.inline ? null : 'w-full'">
                 <input type="checkbox" class="input" :value="option.key" v-model="value" />

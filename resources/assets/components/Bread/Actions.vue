@@ -90,50 +90,39 @@ export default {
             }
         },
         executeAction(action) {
-            // TODO: Revamp this
-            let req = axios({
-                url: this.route(action.route_name),
+            axios({
                 method: action.method.toLowerCase(),
+                url: this.route(action.route_name),
+                responseType: action.download === true ? 'blob' : 'json',
                 data: {
-                    primary: this.selectedPrimarys(action)
+                    primary: this.selectedPrimarys(action),
                 }
-            });
-
-            action.download === true ? 'blob' : 'json'
-
-            if (action.download === true) {
-                req = req.blob((response) => {
-                    const url = window.URL.createObjectURL(new Blob([response]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', action.file_name);
-                    link.click();
-                    window.URL.revokeObjectURL(url);
-                });
-            } else {
-                req = req.json((response) => {
-                    if (this.isObject(action.success)) {
-                    var amount = response.amount || 1;
-                    var replace = response;
+            })
+            .then((response) => {
+                if (this.isObject(action.success)) {
+                    var amount = response.data.amount || 1;
+                    var replace = response.data;
                     replace.type = this.translate(this.bread.name_singular, true);
                     replace.types = this.translate(this.bread.name_plural, true);
-
                     new this.$notification(this.trans_choice(action.success.message || null, amount, replace))
                         .title(this.trans_choice(action.success.title || null, amount, replace))
                         .color(action.success.color)
                         .timeout()
                         .show();
                 }
-                });
-            }
-
-            req.then(() => {
+                if (action.download === true) {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', action.file_name);
+                    link.click();
+                    window.URL.revokeObjectURL(url);
+                }
                 if (action.reload_after) {
                     this.$emit('reload');
                 }
             })
             .catch((response) => {
-                console.log(response);
                 this.handleAjaxError(response);
             });
         },
