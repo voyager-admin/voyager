@@ -16,7 +16,6 @@ export default {
 
         let popper;
         let tooltip;
-        let destroying = false;
 
         // Register event listener
         el.addEventListener('mouseenter', () => {
@@ -25,12 +24,7 @@ export default {
                 tooltip = document.createElement('div');
                 tooltip.setAttribute('id', uuid);
                 tooltip.classList.add('tooltip');
-                tooltip.classList.add('opacity-0');
                 tooltip.classList.add('pointer-events-none');
-                setTimeout(() => {
-                    tooltip.classList.remove('opacity-0');
-                    tooltip.classList.add('opacity-100');
-                }, 1);
 
                 // Create tooltip content
                 let content = document.createElement('div');
@@ -49,20 +43,14 @@ export default {
                 popper = createPopper(el, tooltip, {
                     placement: placement,
                 });
-                destroying = false;
             }
         });
         el.addEventListener('mouseleave', () => {
-            if (popper && !destroying) {
-                destroying = true;
-                tooltip.classList.remove('opacity-100');
-                tooltip.classList.add('opacity-0');
-                setTimeout(() => {
-                    popper.destroy();
-                    popper = null;
-                    tooltip.parentNode.removeChild(tooltip);
-                    tooltip = null;
-                }, 150);
+            if (popper) {
+                popper.destroy();
+                popper = null;
+                tooltip.parentNode.removeChild(tooltip);
+                tooltip = null;
             }
         });
     },

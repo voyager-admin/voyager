@@ -6,8 +6,6 @@
     @include text-color(tooltip-text-color, 'colors.white');
     @apply rounded-lg z-50 px-2 py-1.5 shadow;
 
-    @apply transition-opacity;
-
     .arrow {
         @apply absolute h-0 w-0 border-solid;
         content: '';
