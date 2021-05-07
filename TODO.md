@@ -27,6 +27,20 @@ Instead, they are listed here:
 - **Masked input**
 - **Repeater** should "simply" use another view
 
+## Formfields testing
+
+- [X] Checkbox
+- [ ] DynamicSelect
+- [ ] MediaPicker
+- [ ] Number
+- [ ] Password
+- [ ] Radio
+- [ ] Select
+- [ ] SimpleArray
+- [ ] Slug
+- [ ] Tags
+- [ ] Text
+
 ## Documentation
 - Scopes need to start with `scope` (ex. `scopeCurrentUser()`)
 - Accessors need to be named `getFieldAttribute` (ex. `getFullNameAttribute`)

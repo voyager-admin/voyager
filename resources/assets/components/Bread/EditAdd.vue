@@ -134,7 +134,9 @@ export default {
             let req = axios({
                 method: this.currentAction == 'add' ? 'post' : 'put',
                 url: url,
-                data: this.output
+                data: {
+                    data: this.output,
+                }
             }, this.id)
             .then((response) => {
                 this.errors = [];

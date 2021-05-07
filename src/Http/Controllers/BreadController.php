@@ -117,7 +117,7 @@ class BreadController extends Controller
         }
 
         return $this->inertiaRender('Bread/EditAdd', [
-            'title' => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
+            'title' => __('voyager::generic.add_type', ['type' => $bread->name_singular]),
             'bread'         => $bread,
             'action'        => 'add',
             'layout'        => $layout,
@@ -241,7 +241,7 @@ class BreadController extends Controller
         });
 
         return $this->inertiaRender('Bread/EditAdd', [
-            'title'         => __('voyager::generic.show_type', ['type' => $bread->name_singular]),
+            'title'         => __('voyager::generic.edit_type', ['type' => $bread->name_singular]),
             'bread'         => $bread,
             'action'        => 'edit',
             'layout'        => $layout,

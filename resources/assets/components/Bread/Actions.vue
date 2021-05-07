@@ -15,7 +15,8 @@
 </template>
 
 <script>
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia';
+import axios from 'axios';
 
 export default {
     emits: ['reload'],

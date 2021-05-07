@@ -1,5 +1,7 @@
 <template>
     <div v-if="action == 'list-options' || action == 'view-options'">
+        <h5 class="w-full mt-2">{{ __('voyager::generic.options') }}</h5>
+        <key-value-form v-model="options.options" />
         <div v-if="action == 'view-options'">
             <label for="inline" class="label">{{ __('voyager::generic.inline') }}</label>
             <input
@@ -9,19 +11,8 @@
                 v-model="options.inline"
             /> 
         </div>
-        <div class="w-full flex">
-            <div class="w-4/6">
-                <h5>{{ __('voyager::generic.options') }}</h5>
-            </div>
-            <div class="w-2/6 text-right">
-                <button class="button green small" @click.stop="addOption">
-                    <icon icon="plus" />
-                </button>
-            </div>
-        </div>
-        <key-value-form v-model="options.options" />
     </div>
-    <div v-else-if="action == 'view'" class="w-full" :class="options.inline ? 'space-x-1.5' : null">
+    <div v-else-if="action == 'view'" class="w-full mb-4" :class="options.inline ? 'space-x-1.5' : null">
         <template v-for="(option, i) in (options.options || [])" :key="i">
             <div class="inline-flex items-center space-x-1.5" :class="options.inline ? null : 'w-full'">
                 <input type="checkbox" class="input" :value="option.key" />
@@ -32,6 +23,7 @@
 </template>
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3';
 import formfieldBuilder from '../../../js/mixins/formfield-builder';
 
 export default {
@@ -47,7 +39,7 @@ export default {
             return {
                 options: [],
             };
-        }
+        },
     }
 }
 </script>
