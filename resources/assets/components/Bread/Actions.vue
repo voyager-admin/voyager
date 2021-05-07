@@ -122,9 +122,7 @@ export default {
                     this.$emit('reload');
                 }
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            });
+            .catch((response) => {});
         },
         selectedPrimarys(action) {
             if (action.bulk) {

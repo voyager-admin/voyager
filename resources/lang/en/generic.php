@@ -85,6 +85,10 @@ return [
     'item'                      => 'Item',
     'instructions'              => 'Instructions',
     'key'                       => 'Key',
+    'languages'                 => [
+        'en'        => 'English',
+        'de'        => 'German',
+    ],
     'last'                      => 'Last',
     'load'                      => 'Load',
     'loading'                   => 'Loading',

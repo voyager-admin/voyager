@@ -98,9 +98,7 @@ export default {
             .then((response) => {
                 vm.searchResults = response.data;
             })
-            .catch((response) => {
-                vm.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 vm.loading = false;
             });

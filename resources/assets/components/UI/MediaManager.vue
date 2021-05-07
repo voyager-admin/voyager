@@ -351,9 +351,7 @@ export default {
             .then((response) => {
                 this.files = response.data;
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 store.pageLoading = false;
             });
@@ -418,9 +416,7 @@ export default {
                         this.downloadBlob(response, 'download.zip');
                     }
                 })
-                .catch((response) => {
-                    this.handleAjaxError(response);
-                });
+                .catch((response) => {});
             }
         },
         downloadBlob(blob, name) {
@@ -529,9 +525,7 @@ export default {
                             new this.$notification(this.trans_choice('voyager::media.delete_folder_success', response.data.dirs)).color('green').timeout().show();
                         }
                     })
-                    .catch((response) => {
-                        this.handleAjaxError(response);
-                    })
+                    .catch((response) => {})
                     .then(() => {
                         this.loadFiles();
                         this.selectedFiles = [];
@@ -572,9 +566,7 @@ export default {
                             }
                         });
                     })
-                    .catch((response) => {
-                        this.handleAjaxError(response);
-                    })
+                    .catch((response) => {})
                     .then(() => {
                         this.loadFiles();
                     });

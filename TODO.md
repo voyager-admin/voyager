@@ -14,12 +14,12 @@ Instead, they are listed here:
 - Check if settings are being emptied (for whatever reason, it happened to me)
 - Overhaul dynamic select
 - Make a command to "remove" translations (transform a value from JSON to normal string)
-- Notification class has to be renamed
 - Check ALL axios calls (response => response.response)
 - Exception handler should only be replaced when logged in (?)
 - Show a dark background when using darkmode to prevent white flashing
 - Share a lot less stuff with Inertia. Instead, simply pass it to `createVoyager`
 - Remove plugins that are no longer installed from `plugins.json`
+- Refreshing the page and going back fails (Inertia problem?)
 
 ## Formfields
 - **Relationship** support polymorphic relationships

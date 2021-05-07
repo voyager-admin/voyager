@@ -38,5 +38,9 @@ export default {
             type: String,
             default: '',
         },
+        errors: {
+            type: Array,
+            default: () => []
+        }
     },
 };

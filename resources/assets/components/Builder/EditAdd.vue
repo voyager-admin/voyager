@@ -366,9 +366,7 @@ export default {
             .then(() => {
                 new this.$notification(this.__('voyager::builder.bread_saved_successfully')).color('green').timeout().show();
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 this.savingBread = false;
             });
@@ -382,9 +380,7 @@ export default {
             .then((response) => {
                 new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 this.backingUp = false;
             });
@@ -406,9 +402,7 @@ export default {
                 });
                 this.propsLoaded = true;
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 this.loadingProps = false;
             });

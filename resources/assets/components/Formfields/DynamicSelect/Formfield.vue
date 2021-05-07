@@ -52,9 +52,7 @@ export default {
             axios.post(this.route(this.options.route_name), selected)
             .then((response) => {
                 this.selects = response.data;
-            }).catch((response) => {
-                this.handleAjaxError(response);
-            });
+            }).catch((response) => {});
         }, 250),
         getValue(i) {
             if (!this.isObject(this.modelValue)) {

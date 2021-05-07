@@ -6,19 +6,19 @@
                     v-for="l in locales"
                     v-bind:key="locale"
                     @click="locale = l"
-                    class="link uppercase"
+                    class="link"
                     :class="locale == l ? 'active' : null"
                 >
-                    {{ l }}
+                    {{ languageForLocale(l) }}
                 </a>
             </div>
             <template #opener>
                 <button
-                    class="button accent uppercase"
+                    class="button accent"
                     :class="[small ? 'small' : '']"
                     @click.prevent.stop="$refs.locale_dropdown.open()"
                 >
-                    <span>{{ locale }}</span>
+                    <span>{{ languageForLocale(locale) }}</span>
                     <icon icon="chevron-down" :size="4" />
                 </button>
             </template>
@@ -48,6 +48,16 @@ export default {
                 }
             }
         });
+    },
+    methods: {
+        languageForLocale(locale) {
+            let key = `voyager::generic.languages.${locale}`;
+            if (key !== this.__(key)) {
+                return this.__(key);
+            }
+
+            return locale.toUpperCase();
+        }
     },
     computed: {
         locales() {

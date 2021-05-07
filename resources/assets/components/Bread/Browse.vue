@@ -241,9 +241,7 @@ export default {
                     new this.$notification(this.__('voyager::bread.execution_time_warning', { time: parseInt(response.data.execution) })).color('yellow').timeout().show();
                 }
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 this.loading = false;
             });
@@ -326,9 +324,7 @@ export default {
             .then(() => {
                 this.load();
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            });
+            .catch((response) => {});
         },
         clamp(num, min, max) {
             if (num < min) {

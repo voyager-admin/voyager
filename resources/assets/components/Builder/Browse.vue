@@ -140,9 +140,7 @@ export default {
                     .then(() => {
                         new this.$notification(this.__('voyager::builder.delete_bread_success', {bread: table})).color('green').timeout().show();
                     })
-                    .catch((response) => {
-                        this.handleAjaxError(response);
-                    })
+                    .catch((response) => {})
                     .then(() => {
                         this.loadBreads();
                         this.deleting = false;
@@ -159,9 +157,7 @@ export default {
             .then((response) => {
                 new this.$notification(this.__('voyager::builder.bread_backed_up', { name: response.data })).timeout().show();
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 this.backingUp = false;
                 this.loadBreads();
@@ -175,9 +171,7 @@ export default {
             .then(() => {
                 new this.$notification(this.__('voyager::builder.bread_rolled_back', { date: backup.date })).timeout().show();
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 this.loadBreads();
             });
@@ -196,9 +190,7 @@ export default {
                 this.breads = response.data.breads;
                 this.backups = response.data.backups;
             })
-            .catch((response) => {
-                this.handleAjaxError(response);
-            })
+            .catch((response) => {})
             .then(() => {
                 this.loading = false;
             });

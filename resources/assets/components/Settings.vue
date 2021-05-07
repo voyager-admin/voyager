@@ -187,10 +187,7 @@ export default {
             })
             .catch((response) => {
                 if (response.status == 422) {
-                    // Validation failed
                     this.errors = response.data;
-                } else {
-                    this.handleAjaxError(response);
                 }
             })
             .then(() => {

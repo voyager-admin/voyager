@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Http\Controllers;
 
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -51,10 +52,11 @@ abstract class Controller extends BaseController
                 if ($all_locales && $formfield->translatable && is_array($value)) {
                     $locales = VoyagerFacade::getLocales();
                     foreach ($locales as $locale) {
-                        $val = $value[$locale];
+                        $val = $value[$locale] ?? null;
                         $result = $this->validateField($val, $rule->rule, $rule->message);
                         if (!is_null($result)) {
-                            $errors[$formfield->column->column][] = strtoupper($locale.': ').$result;
+                            $locale = Lang::has('voyager::generic.languages.'.$locale, null, false) ? __('voyager::generic.languages.'.$locale) : strtoupper($locale);
+                            $errors[$formfield->column->column][] = $locale.': '.$result;
                         }
                     }
                 } else {

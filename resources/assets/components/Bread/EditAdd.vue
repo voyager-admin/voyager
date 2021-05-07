@@ -42,6 +42,7 @@
                                     :is="getFormfieldByType(formfield.type).component"
                                     :modelValue="getData(formfield)"
                                     @update:modelValue="setData(formfield, $event)"
+                                    :errors="getErrors(formfield.column)"
                                     :bread="bread"
                                     :options="formfield.options"
                                     :column="formfield.column"
@@ -163,13 +164,8 @@ export default {
             })
             .catch((response) => {
                 if (response.response.status == 422) {
-                    // Validation failed
                     this.errors = response.response.data;
-                    new this
-                    .$notification(this.__('voyager::bread.validation_errors'))
-                    .color('red').timeout().show();
-                } else {
-                    this.handleAjaxError(response);
+                    new this.$notification(this.__('voyager::bread.validation_errors')).color('red').timeout().show();
                 }
             })
             .then(() => {

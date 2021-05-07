@@ -39,6 +39,7 @@ import $store from '../js/store';
 import { watch } from 'vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
+import axios from 'axios';
 
 export default {
     components: {
@@ -47,9 +48,11 @@ export default {
         Notifications
     },
     created() {
-        watch(() => usePage().props.value.title, (title) => {
-            document.title = title + ' - ' + usePage().props.value.admin_title;
-        }, { immediate: true });
+        watch(() => usePage().props.value, (props) => {
+            if (props) {
+                document.title = props.title + ' - ' + props.admin_title;
+            }
+        }, { immediate: true, deep: true });
 
         $eventbus.on('setting-updated', (s) => {
             if (s.group == 'admin' && s.key == 'title') {
@@ -92,6 +95,30 @@ export default {
         }
         $eventbus.on('sidebar-open', (open) => {
             this.setCookie('sidebar-open', open);
+        });
+
+        axios.interceptors.response.use((response) => {
+            return response;
+        }, (error) => {
+            let response = error;
+            if (response.response.status !== 422) {
+                if (response.hasOwnProperty('response')) {
+                    response = response.response;
+                }
+                if (response.hasOwnProperty('data')) {
+                    response = response.data;
+                }
+
+                var notification = new this.$notification(response.message).color('red').timeout();
+                if (response.hasOwnProperty('stack')) {
+                    notification = notification.message(response.stack);
+                    notification = notification.title(response.message);
+                }
+        
+                notification.show();
+            }
+
+            throw error;
         });
     },
     computed: {

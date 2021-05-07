@@ -32,6 +32,11 @@ class Handler extends ExceptionHandler
             ]);
         }
 
+        // If this is an AJAX request let original handler handle the JSON response
+        if ($request->expectsJson()) {
+            return $this->prepareJsonResponse($request, $e);
+        }
+
         return Inertia::render('Error', [
             'title'     => __('voyager::generic.error', [ 'code' => $response->status() ]),
             'exception' => $exception

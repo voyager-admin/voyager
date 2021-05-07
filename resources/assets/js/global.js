@@ -72,20 +72,6 @@ export default {
             $eventbus.emit('sidebar-open', false);
         };
 
-        // Error handler
-        app.config.globalProperties.handleAjaxError = function (response) {
-            if (response.hasOwnProperty('response')) {
-                response = response.response;
-            }
-            var notification = new Notification(response.message).color('red').timeout();
-            if (response.hasOwnProperty('stack')) {
-                notification = notification.message(response.stack);
-                notification = notification.title(response.message);
-            }
-    
-            return notification.show();
-        };
-
         // Formfield
         app.config.globalProperties.getFormfieldByType = function (type) {
             var formfield = (this.$store.formfields || []).where('type', type).first();

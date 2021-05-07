@@ -267,9 +267,7 @@ export default {
                     .then(() => {
                         new this.$notification(this.__('voyager::plugins.reload_page')).show();
                     })
-                    .catch(response => {
-                        this.handleAjaxError(response);
-                    })
+                    .catch(response => {})
                     .then(() => {
                         this.reload();
                     });
