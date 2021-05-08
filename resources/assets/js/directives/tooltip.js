@@ -12,14 +12,16 @@ export default {
         let uuid = createUUID();
 
         el.uuid = uuid;
-        el.value = binding.value;
+        if (binding.value !== null && binding.value !== undefined) {
+            el.value = binding.value;
+        }
 
         let popper;
         let tooltip;
 
         // Register event listener
         el.addEventListener('mouseenter', () => {
-            if (!popper) {
+            if (!popper && el.value) {
                 // Create tooltip
                 tooltip = document.createElement('div');
                 tooltip.setAttribute('id', uuid);
@@ -55,7 +57,7 @@ export default {
         });
     },
     updated(el, binding) {
-        if (binding.value !== binding.oldValue && el.uuid) {
+        if (binding.value !== binding.oldValue && el.uuid && binding.value !== null && binding.value !== undefined) {
             if (document.getElementById(el.uuid)) {
                 document.getElementById(el.uuid).children[0].innerHTML = binding.value;
             }

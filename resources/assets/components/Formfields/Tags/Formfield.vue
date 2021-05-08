@@ -1,7 +1,7 @@
 <template>
     <slot v-if="action == 'query'"></slot>
     <div v-else-if="action == 'browse'">
-        <badge v-for="(tag, i) in modelValue.slice(0, options.display_amount > 0 ? options.display_amount : modelValue.length)" :key="'tag-'+i">
+        <badge v-for="(tag, i) in modelValue.slice(0, options.display_amount > 0 ? options.display_amount : modelValue.length)" :key="'tag-'+i" :color="options.color">
             {{ tag }}
         </badge>
         <template v-if="options.display_amount > 0 && modelValue.length > options.display_amount">
@@ -16,6 +16,7 @@
             :reorder="options.reorder"
             :duplicates="options.duplicates"
             :empty="options.empty"
+            :badgeColor="options.color"
         />
     </div>
     <div v-else>

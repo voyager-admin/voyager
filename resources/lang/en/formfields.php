@@ -56,6 +56,7 @@ return [
         'allow_duplicates'  => 'Allow duplicates',
         'allow_reordering'  => 'Allow reordering',
         'display_amount'    => 'Amount of tags to display',
+        'allow_empty'       => 'Allow empty tags',
     ],
     'text'          => [
         'name'          => 'Text',

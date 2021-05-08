@@ -22,7 +22,6 @@ Instead, they are listed here:
 - Refreshing the page and going back fails (Inertia problem?)
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, ...)
-- Hide tooltip when value is null
 
 ## Formfields
 - **Relationship** support polymorphic relationships
@@ -42,7 +41,7 @@ Instead, they are listed here:
 - [ ] Select
 - [ ] SimpleArray
 - [ ] Slug
-- [X] Tags (Note that min/max does not replace proper validation. Add badge color. Add reordering)
+- [X] Tags (Note that min/max does not replace proper validation. Add reordering)
 - [X] Text
 
 ## Documentation
