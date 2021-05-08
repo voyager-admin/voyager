@@ -22,6 +22,7 @@ Instead, they are listed here:
 - Refreshing the page and going back fails (Inertia problem?)
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, ...)
+- Hide tooltip when value is null
 
 ## Formfields
 - **Relationship** support polymorphic relationships

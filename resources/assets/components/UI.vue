@@ -164,7 +164,15 @@
 
         <collapsible title="Color picker" id="ui-color-picker">
             <collapsible title="Colors" id="ui-color-picker">
-                <color-picker :describe="true"></color-picker>
+                <template #actions>
+                    <button class="button" @click="colorSizePlus">
+                        <icon icon="plus" />
+                    </button>
+                    <button class="button" @click="colorSizeMinus">
+                        <icon icon="minus" />
+                    </button>
+                </template>
+                <color-picker :size="colorSize"></color-picker>
             </collapsible>
         </collapsible>
 
@@ -298,7 +306,20 @@ export default {
             name: 'Voyager',
             lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
+            colorSize: 4
         };
+    },
+    methods: {
+        colorSizePlus() {
+            if (this.colorSize < 10) {
+                this.colorSize += 1;
+            }
+        },
+        colorSizeMinus() {
+            if (this.colorSize > 1) {
+                this.colorSize -= 1;
+            }
+        }
     }
 }
 </script>

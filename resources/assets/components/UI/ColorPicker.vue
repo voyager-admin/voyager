@@ -1,15 +1,17 @@
 <template>
     <div>
-        <div v-if="palette == 'tailwind-colors'" class="w-full inline-flex justify-center">
-            <button
+        <div v-if="palette == 'tailwind-colors'" class="w-full flex flex-wrap justify-center">
+            <div
                 v-for="(color, key) in colors" :key="'color-'+key"
                 @click="$emit('update:modelValue', color); current = color"
-                class="button mb-2" :class="[color]"
                 v-tooltip="__('voyager::generic.color_names.'+color)"
+                class="rounded-full flex items-center justify-center border-2 cursor-pointer p-0.5"
+                :class="[current == color ? 'border-gray-500' : 'border-transparent', `h-${sizes[size-1]} w-${sizes[size-1]}`]"
             >
-                <input type="radio" class="input opacity-75" :checked="current == color">
-            </button>
+                <div class="rounded-full flex items-center justify-center w-full h-full" :class="`bg-${color}-500`"></div>
+            </div>
         </div>
+        
     </div>
 </template>
 <script>
@@ -26,11 +28,19 @@ export default {
         modelValue: {
             type: String,
             default: 'blue',
+        },
+        size: {
+            type: Number,
+            default: 4,
+            validator: (value) => {
+                return value >= 1 && value <= 10;
+            }
         }
     },
     data() {
         return {
-            current: this.modelValue
+            current: this.modelValue,
+            sizes: [6, 8, 10, 12, 14, 16, 20, 24, 28, 32],
         };
     }
 };
