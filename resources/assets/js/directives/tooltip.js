@@ -13,7 +13,7 @@ export default {
 
         el.uuid = uuid;
         if (binding.value !== null && binding.value !== undefined) {
-            el.value = binding.value;
+            el.tooltip_value = binding.value;
         }
 
         let popper;
@@ -21,7 +21,7 @@ export default {
 
         // Register event listener
         el.addEventListener('mouseenter', () => {
-            if (!popper && el.value) {
+            if (!popper && el.tooltip_value) {
                 // Create tooltip
                 tooltip = document.createElement('div');
                 tooltip.setAttribute('id', uuid);
@@ -31,7 +31,7 @@ export default {
                 // Create tooltip content
                 let content = document.createElement('div');
                 content.setAttribute('class', 'tooltip-content');
-                content.innerHTML = el.value;
+                content.innerHTML = el.tooltip_value;
                 tooltip.appendChild(content);
 
                 // Create arrow
@@ -61,7 +61,7 @@ export default {
             if (document.getElementById(el.uuid)) {
                 document.getElementById(el.uuid).children[0].innerHTML = binding.value;
             }
-            el.value = binding.value;
+            el.tooltip_value = binding.value;
         }
     },
     unmounted(el) {

@@ -240,8 +240,6 @@
             <div class="w-full flex justify-center">
                 <button class="button" v-tooltip:bottom="'Tooltip on the bottom'">Bottom</button>
             </div>
-            <button class="button" v-tooltip="null">Null</button>
-            <button class="button" v-tooltip="undefined">Undefined</button>
         </collapsible>
 
         <collapsible title="Notifications" id="ui-notifications">
