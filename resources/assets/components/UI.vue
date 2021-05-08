@@ -46,9 +46,6 @@
             </div>
         </card>
 
-        <collapsible v-for="el in $store.ui" :id="`ui-${slugify(el.title, { lower: true })}`" :title="el.title">
-            <component :is="el.component" />
-        </collapsible>
         <card dont-show-header>
             <div class="w-full flex">
                 <div class="w-6/12">
@@ -284,6 +281,10 @@
             <collapsible title="Different color (Works with all other colors as well)" :title-size="5">
                 <pagination :page-count="100" :value="100" color="red"></pagination>
             </collapsible>
+        </collapsible>
+
+        <collapsible v-for="el in $store.ui" :id="`ui-${slugify(el.title, { lower: true })}`" :title="el.title">
+            <component :is="el.component" />
         </collapsible>
     </div>
 </template>

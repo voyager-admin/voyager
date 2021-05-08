@@ -2,8 +2,7 @@
     "scripts": {
         "dev": "npm run development",
         "development": "webpack --mode development --progress",
-        "prod": "npm run production",
-        "production": "webpack --mode production --progress",
+        "build": "webpack --mode production --progress",
         "watch": "webpack --watch --mode development",
         "watch-not-working": "webpack server --hot --mode development"
     },
