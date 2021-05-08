@@ -15,21 +15,11 @@
         <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
     @endif
 
-    @php $fontProvidedByPlugin = false; @endphp
-
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
         @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\CSS)
             <link href="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.css') }}" rel="stylesheet">
-
-            @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\Font)
-                @php $fontProvidedByPlugin = true; @endphp
-            @endif
         @endif
     @endforeach
-
-@if (!$fontProvidedByPlugin)
-    <link href="{{ Voyager::assetUrl('css/font.css') }}" rel="stylesheet">
-@endif
 </head>
 
 <body>

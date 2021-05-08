@@ -2,7 +2,7 @@
     <div class="input" @click="$refs.input.focus()">
         <span>
             <span v-for="(tag, i) in tags" :key="'tag-'+i">
-                <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[allowReorder ? 'cursor-move' : '']">
+                <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[reorder ? 'cursor-move' : '']">
                     <i>{{ tag }}</i>
                 </badge>
             </span>
@@ -24,11 +24,11 @@ export default {
             type: String,
             default: 'accent',
         },
-        allowEmpty: {
+        empty: {
             type: Boolean,
             default: false,
         },
-        allowReorder: {
+        reorder: {
             type: Boolean,
             default: true,
         },
@@ -57,7 +57,7 @@ export default {
                 return;
             }
             var content = e.target.value;
-            if (!this.allowEmpty && content == '') {
+            if (!this.empty && content == '') {
                 return;
             }
             if (!this.duplicates && this.tags.indexOf(content) !== -1) {

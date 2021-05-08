@@ -1,6 +1,5 @@
 @import "mixins/bg-color";
 @import "mixins/border-color";
-@import "mixins/font-family";
 @import "mixins/scrollbar-color";
 @import "mixins/text-color";
 
@@ -37,7 +36,7 @@
 }
 
 html {
-    @include font-family('font-family', 'Inter, system-ui');
+    @apply font-sans;
     scroll-behavior: smooth;
 }
 

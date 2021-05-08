@@ -2,9 +2,10 @@
 
 namespace Voyager\Admin\Formfields;
 
+use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
 use Voyager\Admin\Contracts\Formfields\Formfield;
 
-class Text implements Formfield
+class Text implements Formfield, Add
 {
     public function type(): string
     {
@@ -24,5 +25,10 @@ class Text implements Formfield
     public function getBuilderComponentName(): string
     {
         return 'formfield-text-builder';
+    }
+
+    public function add()
+    {
+        return $this->options->default_value ?? '';
     }
 }

@@ -228,10 +228,12 @@ class VoyagerServiceProvider extends ServiceProvider
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.read';
         })->permission('read');
+
         $edit_action = (new Action('voyager::generic.edit', 'pencil'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.edit';
         })->permission('edit');
+
         $delete_action = (new Action('voyager::generic.delete', 'trash', 'red'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.delete';
@@ -258,7 +260,7 @@ class VoyagerServiceProvider extends ServiceProvider
             $read_action,
             $edit_action,
             $delete_action,
-            $restore_action
+            $restore_action,
         );
     }
 

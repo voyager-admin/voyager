@@ -20,6 +20,8 @@ Instead, they are listed here:
 - Share a lot less stuff with Inertia. Instead, simply pass it to `createVoyager`
 - Remove plugins that are no longer installed from `plugins.json`
 - Refreshing the page and going back fails (Inertia problem?)
+- Test (download) actions
+- Catch some common errors (Not a JSON column, column can not be null, Column does not exist, ...)
 
 ## Formfields
 - **Relationship** support polymorphic relationships
@@ -39,8 +41,8 @@ Instead, they are listed here:
 - [ ] Select
 - [ ] SimpleArray
 - [ ] Slug
-- [ ] Tags
-- [ ] Text
+- [X] Tags (Note that min/max does not replace proper validation. Add badge color. Add reordering)
+- [X] Text
 
 ## Documentation
 - Scopes need to start with `scope` (ex. `scopeCurrentUser()`)

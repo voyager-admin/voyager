@@ -17,13 +17,3 @@ You don't need to do this manually!
 ## CSS
 
 Implement the contract `Voyager\Admin\Contracts\Plugins\Features\Provider\CSS` and provide a method `provideCSS()` returning a string containing your CSS.
-
-### Font
-
-When your CSS provides a font that should be used throughout Voyager, simply implement the `Voyager\Admin\Contracts\Plugins\Features\Provider\Font` contract and set the font-family to your font:
-
-```css
-html {
-    font-family: your-font, system-ui;
-}
-```

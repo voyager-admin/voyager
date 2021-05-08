@@ -13,7 +13,7 @@
             v-if="(options.rows || 1) == 1"
             type="text"
             class="input w-full"
-            :value="modelValue || translate(options.default_value, true)"
+            :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
             :placeholder="translate(options.placeholder, true)"
             :inputmode="options.inputmode || 'text'">
@@ -21,7 +21,7 @@
             v-else
             class="input w-full"
             :rows="options.rows"
-            :value="modelValue || translate(options.default_value)"
+            :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
             :placeholder="translate(options.placeholder)"
             :inputmode="options.inputmode || 'text'"></textarea>

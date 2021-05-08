@@ -53,6 +53,7 @@ return [
     ],
     'tags'          => [
         'name'              => 'Tags',
+        'allow_duplicates'  => 'Allow duplicates',
         'allow_reordering'  => 'Allow reordering',
         'display_amount'    => 'Amount of tags to display',
     ],

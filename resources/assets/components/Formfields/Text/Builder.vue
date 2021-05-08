@@ -6,14 +6,14 @@
             id="length"
             class="input w-full"
             v-model.number="options.display_length"
-        /> 
+        > 
     </div>
     <div v-else-if="action == 'view-options'">
         <label class="label mt-4">{{ __('voyager::generic.placeholder') }}</label>
         <language-input
             class="input w-full"
             type="text" :placeholder="__('voyager::generic.placeholder')"
-            v-model="options.placeholder" /> 
+            v-model="options.placeholder" />
 
         <label class="label mt-4">{{ __('voyager::generic.default_value') }}</label>
         <language-input
@@ -22,10 +22,10 @@
             v-model="options.default_value" /> 
 
         <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
-        <input type="number" :min="1" :max="1000" class="input w-full" v-model.number="options.rows" />
+        <input type="number" :min="1" :max="1000" class="input w-full" v-model.number="options.rows">
 
         <label class="label mt-4">{{ __('voyager::generic.inputmode') }}</label>
-        <select class="input w-full" v-model="options.inputmode">
+        <select class="input w-full" v-model="options.inputmode" :disabled="options.rows > 1">
             <option v-for="(mode, key) in __('voyager::generic.inputmodes')" :key="key" :value="key">{{ mode }}</option>
         </select>
     </div>

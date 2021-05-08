@@ -13,18 +13,17 @@ module.exports = (env, options) => {
         mode: options.mode,
         devtool: options.mode === 'production' ? false : 'eval-cheap-module-source-map',
         devServer: {
-            static: false,
-            hot: true,
+            contentBase: path.resolve(__dirname, '/'),
+            inline: true,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            firewall: false
+            disableHostCheck: true
         },
         entry: {
             // Currently, HMR does not work (https://github.com/webpack/webpack-dev-server/issues/2692) when using multiple entries 🤷🏼
             icons: path.resolve(__dirname, './resources/assets/js/icons.js'),
             voyager: path.resolve(__dirname, './resources/assets/js/voyager.js'),
-            font: path.resolve(__dirname, './resources/assets/sass/font.scss'),
         },
         output: {
             path: path.resolve(__dirname, './resources/assets/dist'),
@@ -107,11 +106,6 @@ module.exports = (env, options) => {
             new webpack.DefinePlugin({
                 __VUE_OPTIONS_API__: true,
                 __VUE_PROD_DEVTOOLS__: false
-            }),
-            new CopyPlugin({
-                patterns: [
-                    { from: './node_modules/inter-ui/Inter (web)', to: './fonts/inter-ui' },
-                ]
             }),
             new webpack.optimize.LimitChunkCountPlugin({
                 maxChunks: 1
