@@ -12,14 +12,12 @@
         </div>
         <template v-if="!isLogin">
             <sidebar />
-            <div class="flex flex-col w-0 flex-1 overflow-hidden">
+            <div class="flex flex-col w-0 flex-1 overflow-hidden" id="top">
                 <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 outline-none" id="content">
                     <navbar></navbar>
                     <div id="tooltips" class="h-0 w-0"></div>
-                    <div class="mx-auto sm:px-3 md:px-4" id="top">
-                        <!-- Content -->
+                    <div class="mx-auto sm:px-3 md:px-4">
                         <slot />
-                        <!-- End content -->
                     </div>
                 </main>
             </div>
