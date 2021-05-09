@@ -22,7 +22,7 @@ class PluginsTest extends TestCase
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
-        $this->assertEquals($message, 'Plugin added to Voyager has to extend GenericPlugin');
+        $this->assertEquals($message, 'Plugin added to Voyager has to inherit GenericPlugin');
     }
 
     public function test_can_write_enabled_plugins()

@@ -10,7 +10,6 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $errors = [];
-        $messages = ['Ble'];
         $auth = VoyagerFacade::auth();
         if ($auth->user()) {
             return redirect($auth->redirectTo());
@@ -30,7 +29,6 @@ class AuthController extends Controller
             'welcome'           => VoyagerFacade::setting('admin.welcome', __('voyager::generic.welcome_to_voyager')),
             'has_password_view' => true,
             'errors'            => $errors,
-            'messages'          => $messages,
         ]);
     }
 

@@ -407,6 +407,8 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        app()->register(\Inertia\ServiceProvider::class);
+
         $loader = AliasLoader::getInstance();
         $loader->alias('Voyager', VoyagerFacade::class);
 
