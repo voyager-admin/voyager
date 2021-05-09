@@ -38,7 +38,7 @@ Laravel Admin & BREAD System (Browse, Read, Edit, Add, & Delete) for Laravel 8 a
 After creating your new Laravel application you can include the Voyager package with the following command:
 
 ```bash
-composer require voyager-admin/voyager
+composer require voyager-admin/voyager:"2.x-dev@dev"
 ```
 
 ### 2. Run The Installer
