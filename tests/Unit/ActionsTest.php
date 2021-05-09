@@ -30,4 +30,28 @@ class ActionsTest extends TestCase
 
         $this->assertEquals($message, 'Method "wrong-method" can not be used in an action!');
     }
+
+    public function test_can_hide_action_on_bread()
+    {
+        resolve(BreadManager::class)->addAction(
+            (new Action('HiddenAction', 'book-open', 'accent'))->method('get')->displayOnBread(function ($bread) {
+                return $bread->name_plural !== 'Users';
+            })
+        );
+
+        $this->assertTrue($this->post(route('voyager.users.data'))->original['actions']->filter(function ($action) {
+            return $action->title == 'HiddenAction';
+        })->count() == 0);
+    }
+
+    public function test_can_add_download_action()
+    {
+        resolve(BreadManager::class)->addAction(
+            (new Action('Download', 'book-open', 'accent'))->method('get')->download('list.txt')
+        );
+
+        $this->assertTrue($this->post(route('voyager.users.data'))->original['actions']->filter(function ($action) {
+            return $action->title == 'Download';
+        })->count() >= 1);
+    }
 }

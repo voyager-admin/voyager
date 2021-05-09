@@ -59,4 +59,4 @@ jobs:
 
       # Run tests
       - name: Run tests
-        run: ./vendor/bin/phpunit --no-coverage
+        run: composer run test

@@ -43,7 +43,15 @@ class BreadController extends Controller
         $bread = $this->getBread($request);
         $layout = $this->getLayoutForAction($bread, 'browse');
 
-        extract($request->only(['page', 'perpage', 'global', 'filters', 'order', 'direction', 'softdeleted', 'locale', 'filter']));
+        $page = $request->get('page', 1);
+        $perpage = $request->get('perpage', 10);
+        $global = $request->get('global', '');
+        $filters = $request->get('filters', []);
+        $filter = $request->get('filter', null);
+        $order = $request->get('order', null);
+        $direction = $request->get('direction', 'asc');
+        $softdeleted = $request->get('softdeleted', 'show');
+        $locale = $request->get('locale', VoyagerFacade::getLocale());
 
         $query = $bread->getModel();
 
