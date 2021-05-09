@@ -3,11 +3,12 @@
 namespace Voyager\Admin\Formfields;
 
 use Voyager\Admin\Classes\Formfield;
-use Voyager\Admin\Contracts\Formfields\Features\BrowseArray;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
-class MediaPicker extends Formfield implements BrowseArray
+class MediaPicker extends Formfield
 {
+    public $browseArray = true;
+
     public function type(): string
     {
         return 'media_picker';

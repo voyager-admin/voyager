@@ -3,11 +3,12 @@
 namespace Voyager\Admin\Formfields;
 
 use Voyager\Admin\Classes\Formfield;
-use Voyager\Admin\Contracts\Formfields\Features\BrowseArray;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
-class SimpleArray extends Formfield implements BrowseArray
+class SimpleArray extends Formfield
 {
+    public $browseArray = true;
+
     public function type(): string
     {
         return 'simple_array';

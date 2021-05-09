@@ -3,10 +3,11 @@
 namespace Voyager\Admin\Formfields;
 
 use Voyager\Admin\Classes\Formfield;
-use Voyager\Admin\Contracts\Formfields\Features;
 
-class Password extends Formfield implements Features\NotTranslatable
+class Password extends Formfield
 {
+    public $notTranslatable = true;
+
     public function type(): string
     {
         return 'password';
