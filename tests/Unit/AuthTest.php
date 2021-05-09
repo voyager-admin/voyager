@@ -29,7 +29,8 @@ class AuthTest extends TestCase
             'email'     => 'user@user.com',
             'password'  => 'wrong',
         ])->assertInertia(function (Assert $page) {
-            $page->has('errors', 1);
+            $page->has('errors', 1)
+            ->where('errors.0', __('voyager::auth.login_failed'));
         });
     }
 
@@ -37,7 +38,8 @@ class AuthTest extends TestCase
     {
         $this->postJson(route('voyager.login'), [
         ])->assertInertia(function (Assert $page) {
-            $page->has('errors', 1);
+            $page->has('errors', 1)
+                 ->where('errors.0', __('voyager::auth.error_field_empty'));
         });
     }
 }
