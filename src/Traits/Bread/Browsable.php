@@ -5,7 +5,6 @@ namespace Voyager\Admin\Traits\Bread;
 use DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Voyager\Admin\Contracts\Formfields\Features;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 trait Browsable
@@ -123,7 +122,7 @@ trait Browsable
                         $pivot = [];
                         $item->{$relationship}->each(function ($related) use (&$pivot, $formfield, $property) {
                             if (isset($related->pivot) && isset($related->pivot->{$property})) {
-                                $pivot[] = $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($related->pivot->{$property}) : $related->pivot->{$property};
+                                $pivot[] = $formfield->browse($related->pivot->{$property});
                             }
                         });
                         $item->{$column} = $pivot;
@@ -139,11 +138,11 @@ trait Browsable
                     } elseif ($item->{$relationship} instanceof Collection) {
                         // X-Many relationship
                         $item->{$column} = $item->{$relationship}->pluck($property)->transform(function ($value) use ($formfield) {
-                            return $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($value) : $value;
+                            return $formfield->browse($value);
                         });
                     } elseif (!empty($item->{$relationship})) {
                         // Normal property/X-One relationship
-                        $item->{$column} = $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($item->{$relationship}->{$property}) : $item->{$relationship}->{$property};
+                        $item->{$column} = $formfield->browse($item->{$relationship}->{$property});
                     }
                 } elseif ($formfield->translatable ?? false) {
                     $value = $item->{$column};
@@ -153,12 +152,12 @@ trait Browsable
                         $value = [];
                     }
                     foreach ($value as $locale => $content) {
-                        $value->{$locale} = $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($content) : $content;
+                        $value->{$locale} = $formfield->browse($content);
                     }
 
                     $item->{$column} = $value;
                 } else {
-                    $item->{$column} = $formfield instanceof Features\ManipulateData\Browse ? $formfield->browse($item->{$column}) : $item->{$column};
+                    $item->{$column} = $formfield->browse($item->{$column});
                 }
             });
 
@@ -171,7 +170,7 @@ trait Browsable
         $translatable = $formfield->translatable ?? false;
         $column = $formfield->column->column;
 
-        if ($formfield instanceof Features\ManipulateData\Query) {
+        if (method_exists($formfield, 'query')) {
             return $formfield->query($query, $filter, ($translatable ? $locale : null), $global);
         }
 

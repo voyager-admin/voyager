@@ -2,17 +2,11 @@
 
 namespace Voyager\Admin\Formfields;
 
+use Voyager\Admin\Classes\Formfield;
 use Voyager\Admin\Contracts\Formfields\Features\BrowseArray;
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Browse;
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Edit;
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Read;
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Store;
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Update;
-use Voyager\Admin\Contracts\Formfields\Formfield;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
-class Checkbox implements Formfield, BrowseArray, Add, Browse, Read, Edit, Store, Update
+class Checkbox extends Formfield implements BrowseArray
 {
     public function type(): string
     {

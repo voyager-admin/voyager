@@ -3,11 +3,9 @@
 namespace Voyager\Admin\Formfields;
 
 use DB;
-use Voyager\Admin\Contracts\Formfields\Formfield;
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Query;
+use Voyager\Admin\Classes\Formfield;
 
-class Number implements Formfield, Add, Query
+class Number extends Formfield
 {
     public function type(): string
     {

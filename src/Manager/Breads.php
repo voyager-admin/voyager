@@ -286,6 +286,17 @@ class Breads
             $this->formfields = collect();
         }
         $class = new $class();
+
+        if (!method_exists($class, 'name')) {
+            throw new \Exception('Formfields need to implement the "name" method.');
+        } elseif (!method_exists($class, 'type')) {
+            throw new \Exception('Formfields need to implement the "type" method.');
+        } elseif (!method_exists($class, 'getComponentName')) {
+            throw new \Exception('Formfields need to implement the "getComponentName" method.');
+        } elseif (!method_exists($class, 'getBuilderComponentName')) {
+            throw new \Exception('Formfields need to implement the "getBuilderComponentName" method.');
+        }
+
         $this->formfields->push($class);
     }
 

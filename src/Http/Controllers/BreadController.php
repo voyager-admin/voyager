@@ -117,7 +117,7 @@ class BreadController extends Controller
         $relationships = $this->breadmanager->getModelRelationships($reflection, $instance, true)->values();
 
         $layout->formfields->each(function ($formfield) use (&$data) {
-            $data->put($formfield->column->column, $formfield instanceof Features\ManipulateData\Add ? $formfield->add() : '');
+            $data->put($formfield->column->column, $formfield->add());
         });
 
         if ($request->has('from_relationship')) {
@@ -158,11 +158,8 @@ class BreadController extends Controller
         $model = $this->updateStoreData($layout->formfields, $data, $model, false);
 
         if ($model->save()) {
-            // TODO: We can set a flag to true here and save only if this flag is true
             $layout->formfields->each(function ($formfield) use ($data, $model) {
-                if ($formfield instanceof Features\ManipulateData\AfterStore) {
-                    $formfield->stored($model, $data[$formfield->column->column]);
-                }
+                $formfield->stored($model, $data[$formfield->column->column]);
             });
 
             // Some formfields need to do something after the model was stored.
@@ -191,11 +188,11 @@ class BreadController extends Controller
                 $translations = [];
                 $value = json_decode($value) ?? [];
                 foreach ($value as $locale => $translated) {
-                    $translations[$locale] = $formfield instanceof Features\ManipulateData\Read ? $formfield->read($translated) : $translated;
+                    $translations[$locale] = $formfield->read($translated);
                 }
                 $data->{$formfield->column->column} = $translations;
             } else {
-                $data->{$formfield->column->column} = $formfield instanceof Features\ManipulateData\Read ? $formfield->read($value) : $value;
+                $data->{$formfield->column->column} = $formfield->read($value);
             }
         });
 
@@ -240,11 +237,11 @@ class BreadController extends Controller
                 $translations = [];
                 $value = json_decode($value) ?? [];
                 foreach ($value as $locale => $translated) {
-                    $translations[$locale] = $formfield instanceof Features\ManipulateData\Edit ? $formfield->edit($translated) : $translated;
+                    $translations[$locale] = $formfield->edit($translated);
                 }
                 $breadData->{$formfield->column->column} = $translations;
             } else {
-                $breadData->{$formfield->column->column} = $formfield instanceof Features\ManipulateData\Edit ? $formfield->edit($value) : $value;
+                $breadData->{$formfield->column->column} = $formfield->edit($value);
             }
         });
 
@@ -284,6 +281,10 @@ class BreadController extends Controller
         $model = $this->updateStoreData($layout->formfields, $data, $model);
 
         if ($model->save()) {
+            $layout->formfields->each(function ($formfield) use ($data, $model) {
+                $formfield->updated($model, $data[$formfield->column->column]);
+            });
+
             return response($model->getKey(), 200);
         } else {
             return response($model->getKey(), 500);

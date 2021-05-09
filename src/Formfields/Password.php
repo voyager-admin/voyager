@@ -2,10 +2,10 @@
 
 namespace Voyager\Admin\Formfields;
 
+use Voyager\Admin\Classes\Formfield;
 use Voyager\Admin\Contracts\Formfields\Features;
-use Voyager\Admin\Contracts\Formfields\Formfield;
 
-class Password implements Formfield, Features\NotTranslatable, Features\ManipulateData\Store, Features\ManipulateData\Edit, Features\ManipulateData\Update
+class Password extends Formfield implements Features\NotTranslatable
 {
     public function type(): string
     {

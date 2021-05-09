@@ -2,10 +2,9 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
-use Voyager\Admin\Contracts\Formfields\Formfield;
+use Voyager\Admin\Classes\Formfield;
 
-class Radio implements Formfield, Add
+class Radio extends Formfield
 {
     public function type(): string
     {

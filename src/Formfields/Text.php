@@ -2,10 +2,10 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Contracts\Formfields\Features\ManipulateData\Add;
-use Voyager\Admin\Contracts\Formfields\Formfield;
+use Illuminate\Support\Str;
+use Voyager\Admin\Classes\Formfield;
 
-class Text implements Formfield, Add
+class Text extends Formfield
 {
     public function type(): string
     {
@@ -25,6 +25,11 @@ class Text implements Formfield, Add
     public function getBuilderComponentName(): string
     {
         return 'formfield-text-builder';
+    }
+
+    public function browse($input)
+    {
+        return Str::limit(strip_tags($input), $this->options->display_length ?? 150);
     }
 
     public function add()

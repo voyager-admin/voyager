@@ -2,9 +2,9 @@
 
 namespace Voyager\Admin\Formfields;
 
-use Voyager\Admin\Contracts\Formfields\Formfield;
+use Voyager\Admin\Classes\Formfield;
 
-class Slug implements Formfield
+class Slug extends Formfield
 {
     public function type(): string
     {
