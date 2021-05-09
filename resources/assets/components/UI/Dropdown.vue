@@ -17,17 +17,8 @@ import { nextTick } from 'vue';
 import closable from '../../js/mixins/closable';
 import clickOutside from '../../js/directives/click-outside';
 
-import {
-    popperGenerator as PopperGenerator,
-    defaultModifiers as PopperDefaultModifiers,
-} from '@popperjs/core/lib/popper-lite';
-import PopperFlip from '@popperjs/core/lib/modifiers/flip';
-import PopperPreventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
-import PopperArrow from '@popperjs/core/lib/modifiers/arrow';
-
-const popperGenerator = PopperGenerator({
-    defaultModifiers: [...PopperDefaultModifiers, PopperFlip, PopperPreventOverflow, PopperArrow],
-});
+import { createPopper } from '@popperjs/core/lib/popper-lite';
+import { placements } from '@popperjs/core/lib/enums';
 
 export default {
     mixins: [closable],
@@ -37,7 +28,7 @@ export default {
             type: String,
             default: 'bottom-start',
             validator: (value) => {
-                return ['auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'].includes(value);
+                return placements.includes(value);
             }
         },
         dontCloseOnInsideClick: {
@@ -62,7 +53,7 @@ export default {
         isOpen(open) {
             if (open) {
                 nextTick(() => {
-                    this.popper = popperGenerator(
+                    this.popper = createPopper(
                         this.$refs.opener,
                         this.$refs.dropdown,
                         {

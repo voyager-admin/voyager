@@ -44,7 +44,7 @@ jobs:
 
       # Build static assets
       - name: Compile Assets
-        run: npm run prod
+        run: npm run build
 
       # Run phpunit tests to generate coverage report
       - name: Test & publish code coverage

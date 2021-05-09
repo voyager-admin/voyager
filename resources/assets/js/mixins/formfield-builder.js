@@ -28,15 +28,13 @@ export default defineComponent({
         }
     },
     mounted: function () {
-        var options = Object.keys(this.options).length;
-        if (this.defaultListOptions && this.action == 'list-options' && options == 0) {
-            this.$emit('update:options', JSON.parse(JSON.stringify(this.defaultListOptions)));
-        } else if (this.defaultViewOptions && this.action == 'view-options' && options == 1) {
-            if (this.options.hasOwnProperty('width')) {
-                var new_options = JSON.parse(JSON.stringify(this.defaultViewOptions));
-                new_options.width = this.options.width;
-                this.$emit('update:options', new_options);
-            }
+        // Merge default options into options.
+        // This is useful when adding options at a later time, so code won't fail because props don't exist.
+
+        if (this.defaultListOptions && this.action == 'list-options') {
+            this.$emit('update:options', Object.assign({ ...this.defaultListOptions, ...this.options }));
+        } else if (this.defaultViewOptions && this.action == 'view-options') {
+            this.$emit('update:options', Object.assign({ ...this.defaultViewOptions, ...this.options }));
         }
     }
 });

@@ -2,7 +2,7 @@
     <div :class="!isLogin ? 'h-screen flex overflow-hidden' : null ">
         <div>
             <fade-transition tag="div" :duration="250">
-                <div class="absolute w-full h-1.5 overflow-hidden" v-if="$store.pageLoading">
+                <div class="absolute w-full h-1.5 overflow-hidden" style="z-index: 9999" v-if="$store.pageLoading">
                     <div class="indeterminate">
                         <div class="before rounded" :class="`bg-blue-500`"></div>
                         <div class="after rounded" :class="`bg-blue-500`"></div>
@@ -100,6 +100,7 @@ export default {
         }, (error) => {
             let response = error;
             if (response.response.status !== 422) {
+                console.table(response);
                 if (response.hasOwnProperty('response')) {
                     response = response.response;
                 }

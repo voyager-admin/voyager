@@ -1,12 +1,13 @@
-import { createPopper } from '@popperjs/core';
+import { createPopper } from '@popperjs/core/lib/popper-lite';
+import { placements } from '@popperjs/core/lib/enums';
 
 export default {
     mounted(el, binding) {
         let placement = 'bottom';
-        if (['top', 'left', 'bottom', 'right', 'auto'].includes(binding.arg)) {
+        if (placements.includes(binding.arg)) {
             placement = binding.arg;
         } else if (binding.arg) {
-            console.error(`The placement '${binding.arg}' is not valid for a tooltip. It can be top, bottom, left, right or auto.`);
+            console.error(`'${binding.arg}' is not a valid placement for a tooltip. It can be ${placements.join(', ')}.`);
         }
         
         let uuid = createUUID();
@@ -34,17 +35,13 @@ export default {
                 content.innerHTML = el.tooltip_value;
                 tooltip.appendChild(content);
 
-                // Create arrow
-                let arrow = document.createElement('div');
-                arrow.classList.add('arrow');
-                arrow.setAttribute('data-popper-arrow', '');
-                tooltip.appendChild(arrow);
-
                 document.getElementById('tooltips').appendChild(tooltip);
 
                 popper = createPopper(el, tooltip, {
                     placement: placement,
                 });
+
+                el.popper = popper;
             }
         });
         el.addEventListener('mouseleave', () => {
@@ -65,6 +62,9 @@ export default {
         }
     },
     unmounted(el) {
+        if (el.popper) {
+            el.popper.destroy();
+        }
         el.replaceWith(el.cloneNode(true)); // Instead of removing all event listeners, we simply replace the element with its own clone
     }
 };
