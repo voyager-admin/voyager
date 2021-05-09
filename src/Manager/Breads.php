@@ -102,6 +102,10 @@ class Breads
      */
     public function getBackups()
     {
+        $this->breads = null;
+        $this->backups = [];
+        $this->getBreads();
+
         return $this->backups;
     }
 
