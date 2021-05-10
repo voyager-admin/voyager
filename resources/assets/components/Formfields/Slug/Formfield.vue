@@ -28,9 +28,11 @@ export default {
     mixins: [formfield],
     created() {
         this.$eventbus.on('input', (payload) => {
-            // TODO: We could consider other column types as well
             if (payload.column.type == 'column' && payload.column.column == this.options.column) {
-                this.$emit('update:modelValue', this.slugValue(payload.value, this.options.strict));
+                let slugged = this.slugValue(payload.value, this.options.strict);
+                if (this.modelValue !== slugged) {
+                    this.$emit('update:modelValue', slugged);
+                }
             }
         });
     },
