@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin\Manager;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Setting;
@@ -28,20 +29,23 @@ class Settings
     {
         if (!is_null($path)) {
             $this->path = $path;
-            $this->load();
         }
+
+        $this->load(true);
 
         return $this->path;
     }
 
     public function get()
     {
+        $this->load();
         return $this->settings;
     }
 
     // Set a settings-value based on the key. When locale is not provided and the setting is translatable, it expects an array of locale-values
     public function set(string $key, $value, $locale = null, $save = true)
     {
+        $this->load();
         $setting = $this->getSettingsByKey($key);
 
         if ($setting->count() == 1) {
@@ -66,6 +70,7 @@ class Settings
 
     public function merge(array $settings)
     {
+        $this->load();
         $this->settings = $this->settings->merge($settings);
     }
 
@@ -89,7 +94,7 @@ class Settings
 
         if ($settings->count() == 0) {
             return $default;
-        } elseif ($settings->count() == 1) { // TODO: Don't use first() when all in a group
+        } elseif ($settings->count() == 1) {
             $settings = $settings->first();
         }
 
@@ -98,6 +103,8 @@ class Settings
 
     public function exists($group, $key)
     {
+        $this->load();
+
         return $this->settings->where('group', $group)->where('key', $key)->count() > 0;
     }
 
@@ -112,16 +119,13 @@ class Settings
         }
 
         File::put($this->path, $content);
-    }
 
-    public function load()
-    {
-        VoyagerFacade::ensureFileExists($this->path, '[]');
-        $this->settings = collect(VoyagerFacade::getJson(File::get($this->path), []));
+        $this->load(true);
     }
 
     public function getSettingsByKey($key)
     {
+        $this->load();
         if (Str::contains($key, '.')) {
             // We are looking for a setting in a group
             list($group, $key) = explode('.', $key);
@@ -141,5 +145,18 @@ class Settings
         }
 
         return $this->settings;
+    }
+
+    public function load($force = false)
+    {
+        if (!$this->settings || (is_array($this->settings) && count($this->settings) == 0) || $force) {
+            VoyagerFacade::ensureFileExists($this->path, '[]');
+            $this->settings = collect(VoyagerFacade::getJson(File::get($this->path), []));
+        }
+    }
+
+    public function unload()
+    {
+        $this->settings = null;
     }
 }

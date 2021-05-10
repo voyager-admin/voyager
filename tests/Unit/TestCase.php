@@ -39,7 +39,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $path = __DIR__.'/../../vendor/orchestra/testbench-core/laravel/storage/voyager/settings.json';
         unlink($path);
 
-        $this->artisan('voyager:install');
+        $this->artisan('voyager:install')
+             ->expectsOutput('Default settings written')
+             ->expectsOutput('Successfully installed Voyager! Enjoy');
         $this->artisan('voyager:plugins', [
             'plugin'    => 'voyager-admin/voyager-testbench-plugin@GenericPlugin',
             '--enable'  => true,
@@ -48,6 +50,16 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'plugin'    => 'voyager-admin/voyager-testbench-plugin@ThemePlugin',
             '--enable'  => true,
         ]);
+
+        // Force-load settings
+        resolve(\Voyager\Admin\Manager\Settings::class)->load(true);
+    }
+
+    protected function tearDown(): void
+    {
+        $path = __DIR__.'/../../vendor/orchestra/testbench-core/laravel/storage/voyager/settings.json';
+        unlink($path);
+        resolve(\Voyager\Admin\Manager\Settings::class)->unload();
     }
 
     protected function getPackageProviders($app)

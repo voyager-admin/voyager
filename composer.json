@@ -33,6 +33,7 @@
     },
     "scripts": {
         "test": "./vendor/bin/phpunit --no-coverage",
+        "test:stop": "./vendor/bin/phpunit --no-coverage --stop-on-defect  --stop-on-error  --stop-on-failure",
         "coverage:html": "php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-html=build",
         "coverage:clover": "php -d pcov.enabled=1 ./vendor/bin/phpunit --coverage-clover=coverage.xml"
     },
