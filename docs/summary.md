@@ -47,3 +47,4 @@
 * [Settings](plugins/settings.md)
 * [Preferences](plugins/preferences.md)
 * [Menu Items](plugins/menu-items.md)
+* [Features](plugins/features.md)
