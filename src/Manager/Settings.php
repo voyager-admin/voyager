@@ -2,7 +2,6 @@
 
 namespace Voyager\Admin\Manager;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Voyager\Admin\Classes\Setting;
