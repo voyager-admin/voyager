@@ -2,36 +2,36 @@
     <div class="w-full media-manager border rounded-lg p-4 mb-4 min-h-64">
         <input class="hidden" type="file" :multiple="multiple" @change="addUploadFiles($event.target.files)" ref="upload_input">
         <div class="w-full mb-2" v-if="showToolbar">
-            <div class="inline-block">
+            <div class="flex-wrap space-x-1 space-y-1">
                 <button class="button green small" @click="upload()" :disabled="filesToUpload.length == 0" v-if="!instantUpload">
-                    <icon icon="upload"></icon>
+                    <icon icon="upload" />
                     <span>{{ __('voyager::media.upload') }}</span>
                 </button>
                 <button class="button accent small" @click="selectFilesToUpload()">
-                    <icon icon="check-circle"></icon>
+                    <icon icon="check-circle" />
                     <span>{{ __('voyager::media.select_upload_files') }}</span>
                 </button>
                 <button class="button accent small" @click="loadFiles()">
-                    <icon icon="refresh" :class="store.pageLoading ? 'animate-spin-reverse' : null"></icon>
+                    <icon icon="refresh" :class="store.pageLoading ? 'animate-spin-reverse' : null" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <button class="button accent small" @click="createFolder()">
-                    <icon icon="folder-add"></icon>
+                    <icon icon="folder-add" />
                     <span>{{ __('voyager::media.create_folder') }}</span>
                 </button>
                 <button class="button red small" @click="deleteSelected()" v-if="selectedFiles.length > 0">
-                    <icon icon="trash"></icon>
+                    <icon icon="trash" />
                     <span>{{ trans_choice('voyager::media.delete_files', selectedFiles.length) }}</span>
                 </button>
                 <button class="button accent small" v-show="selectedFiles.length > 0" @click="downloadFiles()">
-                    <icon icon="download"></icon>
+                    <icon icon="download" />
                     <span>{{ trans_choice('voyager::media.download_files', selectedFiles.length) }}</span>
                 </button>
                 <button class="button accent small" @click="thumbSizeUp()">
-                    <icon icon="plus"></icon>
+                    <icon icon="plus" />
                 </button>
                 <button class="button accent small" @click="thumbSizeDown()">
-                    <icon icon="minus"></icon>
+                    <icon icon="minus" />
                 </button>
                 <!-- Hidden until ImageEditor is implemented -->
                 <!--

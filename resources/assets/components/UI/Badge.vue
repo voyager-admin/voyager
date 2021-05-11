@@ -3,7 +3,7 @@
         <slot></slot>
         <icon
             v-on:click="$emit('click-icon', $event)"
-            class="icon ltr:ml-1 ltr:mr-0 rtl:mr-1 rtl:ml-0"
+            class="icon"
             :size="large ? 5 : 4"
             v-if="icon !== null"
             :icon="icon"
@@ -32,7 +32,7 @@ export default {
 
 <style lang="scss" scoped>
 .badge {
-    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium leading-4 m-1 transition ease-in-out duration-150 select-none;
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium leading-4 transition ease-in-out duration-150 select-none;
 
     &.large {
         @apply px-3 text-sm leading-5;

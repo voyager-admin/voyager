@@ -1,15 +1,15 @@
 <template>
     <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
         <template #actions>
-            <div class="flex flex-wrap items-center">
+            <div class="flex flex-wrap items-center space-x-2">
                 <input
                     type="text"
-                    class="input small ltr:mr-2 rtl:ml-2"
+                    class="input small"
                     v-model="parameters.global"
                     @dblclick="parameters.global = null"
                     @keydown.esc="parameters.global = null"
                     :placeholder="__('voyager::bread.search_type', {type: translate(bread.name_plural, true)})">
-                <select class="input small ltr:mr-2 rtl:ml-2" v-model="parameters.softdeleted" v-if="uses_soft_deletes">
+                <select class="input small" v-model="parameters.softdeleted" v-if="uses_soft_deletes">
                     <option value="show">{{ __('voyager::bread.soft_delete_show') }}</option>
                     <option value="hide">{{ __('voyager::bread.soft_delete_hide') }}</option>
                     <option value="only">{{ __('voyager::bread.soft_delete_only') }}</option>
@@ -49,19 +49,18 @@
                                     :class="formfield.orderable ? 'cursor-pointer' : ''"
                                     @click="formfield.orderable ? orderBy(formfield.column.column) : ''">
                                     <div class="flex h-full items-center">
-                                        <div class="inline-flex items-center" v-tooltip="(formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : null)">
-                                            {{ translate(formfield.title, true) }}
+                                        <div class="inline-flex items-center space-x-2" v-tooltip="(formfield.orderable ? __('voyager::bread.order_by_field_' + (parameters.order == formfield.column.column && parameters.direction == 'asc' ? 'desc' : 'asc'), { field: formfield.column.column }) : null)">
+                                            <span>{{ translate(formfield.title, true) }}</span>
                                             <icon
                                                 v-if="formfield.orderable && parameters.order == formfield.column.column"
                                                 :icon="parameters.direction == 'asc' ? 'chevron-up' : 'chevron-down'"
                                                 :size="4"
-                                                class="ltr:ml-2 rtl:mr-2"
                                             />
                                         </div>
                                     </div>
                                 </th>
-                                <th class="ltr:text-right rtl:text-left">
-                                    {{ __('voyager::generic.actions') }}
+                                <th class="flex justify-end">
+                                    <span>{{ __('voyager::generic.actions') }}</span>
                                 </th>
                             </tr>
                             <tr>
@@ -161,8 +160,8 @@
                             {{ __('voyager::bread.clear_all_filters') }}
                         </a>
                     </div>
-                    <div class="w-full lg:w1/2 lg:justify-end inline-flex">
-                        <select v-model="parameters.perpage" class="input small ltr:mr-2 rtl:ml-2" v-if="filtered >= 10">
+                    <div class="w-full lg:w1/2 lg:justify-end inline-flex space-x-2">
+                        <select v-model="parameters.perpage" class="input small" v-if="filtered >= 10">
                             <option>10</option>
                             <option v-if="filtered >= 25">25</option>
                             <option v-if="filtered >= 50">50</option>

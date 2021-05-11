@@ -43,9 +43,9 @@
         <div class="hidden md:flex md:flex-shrink-0 sidebar h-full" v-if="$store.sidebarOpen" id="sidebar">
             <div class="flex flex-col w-64 border-r sidebar-border">
                 <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-                    <div class="flex items-center flex-shrink-0 px-4">
+                    <div class="flex space-x-2 items-center flex-shrink-0 px-4">
                         <icon icon="helm" :size="10" class="icon"></icon>
-                        <span class="font-black text-lg uppercase ltr:pl-2 rtl:pr-2 title whitespace-nowrap">
+                        <span class="font-black text-lg uppercase title whitespace-nowrap">
                             {{ shared.sidebar.title }}
                         </span>
                     </div>            

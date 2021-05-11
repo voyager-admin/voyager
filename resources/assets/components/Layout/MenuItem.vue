@@ -3,8 +3,8 @@
     <div class="item" :class="[active ? 'active' : '']">
         <div class="inline-flex items-center">
             <inertia-link :href="href" class="text-sm leading-5 link" @click="clickItem">
-                <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon ltr:mr-2 rtl:ml-2" :size="iconSize"></icon>
-                {{ title }}
+                <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize"></icon>
+                <span>{{ title }}</span>
             </inertia-link>
         </div>
         <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open">
@@ -80,7 +80,7 @@ export default {
         @apply flex items-center justify-between flex-wrap rounded-md font-medium mt-1 px-2 py-2;
 
         .link {
-            @apply inline-flex items-center;
+            @apply inline-flex space-x-2 items-center;
         }
     }
 

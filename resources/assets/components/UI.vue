@@ -2,7 +2,7 @@
     <div>
         <card title="UI Elements">
             <div>
-                <div class="inline w-full">
+                <div class="inline-flex space-x-1 w-full">
                     <button class="button accent my-2" v-scroll-to="'ui-headings'">
                         Headings
                     </button>
@@ -67,7 +67,7 @@
         </card>
 
         <collapsible title="Buttons" id="ui-buttons">
-            <div class="w-full flex">
+            <div class="w-full flex space-x-1">
                 <div class="w-4/12">
                     <collapsible title="Default" :title-size="5">
                         <div class="flex flex-wrap justify-center">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="w-4/12">
                     <collapsible title="Active" :title-size="5">
-                        <div class="flex flex-wrap justify-center">
+                        <div class="flex flex-wrap space-x-1 justify-center">
                             <button class="button active mb-1">
                                 Default
                             </button>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="w-4/12">
                     <collapsible title="Disabled" :title-size="5">
-                        <div class="flex flex-wrap justify-center">
+                        <div class="flex flex-wrap space-x-1 justify-center">
                             <button class="button mb-1" disabled>
                                 Default
                             </button>
@@ -108,7 +108,7 @@
             <div class="w-full flex">
                 <div class="w-4/12">
                     <collapsible title="With Icon" :title-size="5">
-                        <div class="flex flex-wrap justify-center">
+                        <div class="flex flex-wrap space-x-1 justify-center">
                             <button class="button small mb-1">
                                 <icon icon="information-circle" class="mr-1" :size="4"></icon>
                                 Default
@@ -122,7 +122,7 @@
                 </div>
                 <div class="w-4/12">
                     <collapsible title="Responsive" :title-size="5">
-                        <div class="flex flex-wrap justify-center">
+                        <div class="flex flex-wrap space-x-1 justify-center">
                             <button :class="['button', 'small', 'mb-1']">
                                 <icon icon="information-circle" :size="4"></icon>
                                 <span>Default</span>
@@ -136,7 +136,7 @@
                 </div>
                 <div class="w-4/12">
                     <collapsible title="Button group" :title-size="5">
-                        <div class="flex flex-wrap justify-center">
+                        <div class="flex flex-wrap space-x-1 justify-center">
                             <div class="button-group">
                                 <button v-for="color in colors" :key="'button-'+color" :class="['button', color, 'mb-1']">
                                     {{ __('voyager::generic.color_names.'+color) }}
@@ -202,24 +202,32 @@
         <collapsible title="Badges" id="ui-badges">
             <div class="w-full flex">
                 <collapsible title="Default" :title-size="5" class="w-1/4">
-                    <badge v-for="color in colors" :color="color" :key="'badge-'+color">
-                        {{ __('voyager::generic.color_names.'+color) }}
-                    </badge>
+                    <div class=" flex flex-wrap space-x-1 space-y-1">
+                        <badge v-for="color in colors" :color="color" :key="'badge-'+color">
+                            {{ __('voyager::generic.color_names.'+color) }}
+                        </badge>
+                    </div>
                 </collapsible>
                 <collapsible title="Large" :title-size="5" class="w-1/4">
-                    <badge v-for="color in colors" :color="color" :key="'badge-'+color" large>
-                        {{ __('voyager::generic.color_names.'+color) }}
-                    </badge>
+                    <div class=" flex flex-wrap space-x-1 space-y-1">
+                        <badge v-for="color in colors" :color="color" :key="'badge-'+color" large>
+                            {{ __('voyager::generic.color_names.'+color) }}
+                        </badge>
+                    </div>
                 </collapsible>
                 <collapsible title="With icon" :title-size="5" class="w-1/4">
-                    <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="x">
-                        {{ __('voyager::generic.color_names.'+color) }}
-                    </badge>
+                    <div class=" flex flex-wrap space-x-1 space-y-1">
+                        <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="x">
+                            {{ __('voyager::generic.color_names.'+color) }}
+                        </badge>
+                    </div>
                 </collapsible>
                 <collapsible title="Large with icon" :title-size="5" class="w-1/4">
-                    <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="information-circle" large>
-                        {{ __('voyager::generic.color_names.'+color) }}
-                    </badge>
+                    <div class=" flex flex-wrap space-x-1 space-y-1">
+                        <badge v-for="color in colors" :color="color" :key="'badge-'+color" icon="information-circle" large>
+                            {{ __('voyager::generic.color_names.'+color) }}
+                        </badge>
+                    </div>
                 </collapsible>
             </div>
         </collapsible>
@@ -235,7 +243,7 @@
             <div class="w-full flex justify-center">
                 <button class="button" v-tooltip:top="'Tooltip on top'">Top</button>
             </div>
-            <div class="w-full inline-flex justify-center my-2">
+            <div class="w-full inline-flex space-x-1 justify-center my-2">
                 <button class="button" v-tooltip:left="'Tooltip on the left'">Left</button>
                 <button class="button" v-tooltip:right="'Tooltip on the right'">Right</button>
             </div>
@@ -246,7 +254,7 @@
 
         <collapsible title="Notifications" id="ui-notifications">
             <collapsible v-for="color in colors" :key="'notification_'+color" :title="__('voyager::generic.color_names.'+color)" :title-size="5">
-                <div class="inline-flex flex-wrap">
+                <div class="flex flex-wrap space-x-1">
                     <button @click="new $notification(lorem).title(ucFirst(color)).color(color).show()" class="button mb-1" :class="color">Message and title</button>
                     <button @click="new $notification(lorem).color(color).show()" class="button mb-1" :class="color">Message only</button>
                     <button @click="new $notification(lorem).title(ucFirst(color)).color(color).indeterminate().show()" class="button mb-1" :class="color">Indeterminate</button>
@@ -254,7 +262,7 @@
                 </div>
             </collapsible>
             <collapsible title="Confirm" :title-size="5">
-                <div class="inline-flex flex-wrap">
+                <div class="flex flex-wrap space-x-1">
                     <button @click="new $notification('Are you sure?').confirm().show().then((r) => {})" class="button blue mb-1">Simple</button>
                     <button @click="new $notification('Are you sure?').confirm().indeterminate().show()" class="button blue mb-1">Indeterminate</button>
                     <button @click="new $notification('Are you sure?').confirm().timeout().show()" class="button blue mb-1">With timeout</button>
@@ -262,7 +270,7 @@
                 </div>
             </collapsible>
             <collapsible title="Prompt" :title-size="5">
-                <div class="inline-flex flex-wrap">
+                <div class="flex flex-wrap space-x-1">
                     <button @click="new $notification('Enter your name').prompt('').show()" class="button blue mb-1">Simple</button>
                     <button @click="new $notification('Enter your name').prompt('').timeout().show()" class="button blue mb-1">With timeout</button>
                     <button @click="new $notification('Enter your name').prompt('').addButton({key: true, value: 'Safe', color: 'green'}).addButton({key: false, value: 'Abort', color: 'red'}).show()" class="button blue mb-1">Custom buttons</button>

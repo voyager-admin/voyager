@@ -13,7 +13,7 @@
                 <div>
                     <div class="flex items-center px-6 py-4">
                         <img class="h-10 w-10 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
-                        <div class="ltr:ml-4 rtl:mr-4">
+                        <div class="ml-4">
                         <p class="font-semibold leading-none">{{ shared.user.name }}</p>
                         <p>
                             <a href="#" class="text-sm leading-none hover:underline">
@@ -36,11 +36,11 @@
                     <button class="flex items-center pl-6 py-2 font-semibold rounded-lg focus:outline-none">
                         <div class="w-48 text-right text-sm flex justify-end">
                             <img class="h-6 w-6 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
-                            <span class="hidden md:block ltr:ml-3 rtl:mr-3">
+                            <span class="hidden md:block ml-3">
                                 {{ __('voyager::generic.hello_user', { user: shared.user.name }) }}
                             </span>
                         </div>
-                        <icon icon="chevron-down" :size="4" class="ltr:ml-2 rtl:mr-2" />
+                        <icon icon="chevron-down" :size="4" class="ml-2" />
                     </button>
                 </template>
             </dropdown>

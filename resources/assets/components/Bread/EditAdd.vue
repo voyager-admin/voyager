@@ -9,12 +9,12 @@
             :no-padding="fromRelationship"
         >
             <template #actions>
-                <div class="flex items-center">
+                <div class="flex items-center space-x-2">
                     <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
                         <icon icon="chevron-left"></icon>
                         <span>{{ __('voyager::generic.back') }}</span>
                     </a>
-                    <locale-picker class="ltr:mr-2 rtl:ml-2"></locale-picker>
+                    <locale-picker />
                 </div>
             </template>
             <div>

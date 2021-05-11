@@ -1,9 +1,11 @@
 <template>
     <card :title="title" :title-size="titleSize">
         <template #actions>
-            <div class="inline-flex items-center">
-                <slot name="actions"></slot>
-                <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="6" class="ltr:ml-6 rtl:mr-6 cursor-pointer" @click="toggle" />
+            <div class="inline-flex items-center space-x-6">
+                <div>
+                    <slot name="actions"></slot>
+                </div>
+                <icon :icon="isOpen ? 'chevron-up' : 'chevron-down'" :size="6" class="cursor-pointer" @click="toggle" />
             </div>
         </template>
         <collapse-transition>

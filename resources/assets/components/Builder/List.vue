@@ -87,7 +87,7 @@
                                 v-model="formfield.translatable"
                                 :disabled="!getFormfieldByType(formfield.type).can_be_translated">
                         </td>
-                        <td class="flex flex-no-wrap justify-end">
+                        <td class="flex flex-no-wrap space-x-1 justify-end">
                             <slide-in :title="__('voyager::generic.options')">
                                 <template #actions>
                                     <locale-picker />

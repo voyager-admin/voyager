@@ -1,11 +1,11 @@
 <template>
     <card :title="__('voyager::plugins.plugins')" icon="puzzle">
         <template #actions>
-            <div class="flex items-center">
+            <div class="flex items-center space-x-2">
                 <input
                     type="text"
                     v-model="installed.query"
-                    class="input w-full small ltr:mr-2 rtl:ml-2"
+                    class="input w-full small"
                     :placeholder="__('voyager::plugins.search_installed_plugins')"
                     @dblclick="installed.query = ''"
                     @keydown.esc="installed.query = ''"
@@ -60,7 +60,7 @@
                     </div>
                     <template #opener>
                         <button class="button">
-                            <icon icon="search"></icon>
+                            <icon icon="search" :size="4"></icon>
                             <span>{{ __('voyager::plugins.search_plugins') }}</span>
                         </button>
                     </template>
@@ -84,7 +84,7 @@
             </alert>
         </slide-down-transition>
         <div class="w-full flex">
-            <div class="flex-grow">
+            <div class="flex-grow space-x-1">
                 <badge
                     v-for="(type, i) in installedTypes"
                     :key="i" :color="getPluginTypeColor(type)"
@@ -94,7 +94,7 @@
                     {{ __('voyager::plugins.types.'+type) }}
                 </badge>
             </div>
-            <div class="flex-grow-0">
+            <div class="flex-grow-0 space-x-1">
                 <badge
                     color="green"
                     @click="installed.onlyEnabled === true ? installed.onlyEnabled = null : installed.onlyEnabled = true"
@@ -131,8 +131,8 @@
                             <th>
                                 {{ __('voyager::generic.version') }}
                             </th>
-                            <th class="ltr:text-right rtl:text-left">
-                                {{ __('voyager::generic.actions') }}
+                            <th class="flex justify-end">
+                                <span>{{ __('voyager::generic.actions') }}</span>
                             </th>
                         </tr>
                     </thead>
@@ -148,7 +148,7 @@
                             <td>
                                 {{ plugin.version || '-' }}
                             </td>
-                            <td class="w-full inline-flex justify-end">
+                            <td class="w-full inline-flex space-x-1 justify-end">
                                 <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
                                     <icon icon="globe"></icon>
                                     {{ __('voyager::generic.website') }}

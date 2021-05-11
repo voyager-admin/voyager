@@ -2,7 +2,7 @@
     <div>
         <collapsible ref="bread_settings" :title="__('voyager::generic.'+(isNew ? 'add' : 'edit')+'_type', { type: __('voyager::generic.bread')})" icon="bread" :icon-size="8">
             <template #actions>
-                <div class="flex items-center">
+                <div class="flex items-center space-x-2">
                     <button class="button" @click.stop="toggleFocusMode">
                         <icon icon="arrows-expand" :size="4" />
                         <span>{{ __('voyager::generic.focus') }}</span>
@@ -11,7 +11,7 @@
                         <icon icon="refresh" :size="4" :class="loadingProps ? 'animate-spin-reverse' : ''" />
                         <span>{{ __('voyager::builder.reload_properties') }}</span>
                     </button>
-                    <locale-picker :small="false" class="ltr:ml-2 rtl:mr-2" />
+                    <locale-picker :small="false" />
                 </div>
             </template>
             <div>
@@ -112,13 +112,13 @@
                 </div>
             </div>
 
-            <div class="inline-flex">
+            <div class="inline-flex space-x-1">
                 <button class="button blue" @click="saveBread" :disabled="savingBread || backingUp">
-                    <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="savingBread" />
+                    <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="savingBread" />
                     {{ __('voyager::generic.save') }}
                 </button>
                 <button class="button" @click="backupBread" :disabled="savingBread || backingUp">
-                    <icon icon="refresh" class="animate-spin-reverse ltr:mr-1 rtl:ml-1" :size="4" v-if="backingUp" />
+                    <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="backingUp" />
                     {{ __('voyager::generic.backup') }}
                 </button>
             </div>
@@ -126,7 +126,7 @@
 
         <card dont-show-header>
             <!-- Toolbar -->
-            <div class="w-full mb-5 flex">
+            <div class="w-full mb-5 flex space-x-1">
                 <select class="input small self-center" v-model="currentLayoutName" :disabled="bread.layouts.length == 0">
                     <option :value="null" v-if="bread.layouts.length == 0">
                         {{ __('voyager::builder.create_layout_first') }}
@@ -158,7 +158,7 @@
                         </a>
                     </div>
                     <template #opener>
-                        <button class="button small ml-2"
+                        <button class="button small"
                                 :disabled="bread.layouts.length == 0">
                             <icon icon="plus" />
                             <span>

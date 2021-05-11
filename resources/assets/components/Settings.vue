@@ -6,7 +6,7 @@
                 <p>{{ __('voyager::settings.no_settings') }}</p>
             </alert>
             <template #actions>
-                <div class="flex items-center">
+                <div class="flex space-x-1 items-center">
                     <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
                     <button class="button accent" @click="save">
                         <icon icon="refresh" class="mr-0 md:mr-1 animate-spin-reverse" :size="4" v-if="savingSettings" />
@@ -65,7 +65,7 @@
                                     <p class="mx-4">{{ setting.key }}</p>
                                 </div>
                                 <template #actions v-if="editMode">
-                                    <div class="flex items-center mt-1 md:mt-0">
+                                    <div class="flex items-center mt-1 md:mt-0 space-x-1">
                                         <button class="button small" @click="moveSettingUp(setting)">
                                             <icon icon="chevron-up"></icon>
                                         </button>

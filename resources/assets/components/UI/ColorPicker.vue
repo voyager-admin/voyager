@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="palette == 'tailwind-colors'" class="w-full flex flex-wrap justify-center">
+        <div v-if="palette == 'tailwind-colors'" class="w-full flex flex-wrap space-x-1 justify-center">
             <div
                 v-for="(color, key) in allColors" :key="'color-'+key"
                 @click="$emit('update:modelValue', color)"

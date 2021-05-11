@@ -7,9 +7,9 @@
                         <h4>{{ title }}</h4>
                     </div>
                     
-                    <div class="flex justify-end items-center">
+                    <div class="flex justify-end items-center space-x-2">
                         <slot name="actions" />
-                        <button class="ltr:ml-2 rtl:mr-2" @click="close">
+                        <button @click="close">
                             <icon icon="x" />
                         </button>
                     </div>

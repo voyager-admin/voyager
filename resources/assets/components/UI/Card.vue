@@ -3,8 +3,8 @@
     <div class="header" v-if="!dontShowHeader">
         <div class="flex items-center justify-between">
             <slot name="title">
-                <div class="flex items-center">
-                    <icon v-if="icon" :icon="icon" :size="iconSize" class="ltr:mr-2 rtl:ml-2"></icon>
+                <div class="flex space-x-2 items-center">
+                    <icon v-if="icon" :icon="icon" :size="iconSize"></icon>
                     <component :is="`h${titleSize}`" class="leading-6 font-medium" :class="titlePointer ? 'cursor-pointer' : ''" @click="$emit('click-title', $event)">
                         {{ title }}
                     </component>
