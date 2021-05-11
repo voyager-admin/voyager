@@ -36,11 +36,11 @@ Instead, they are listed here:
 - [ ] DynamicSelect
 - [ ] MediaPicker
 - [ ] Number
-- [ ] Password
+- [X] Password
 - [ ] Radio
 - [ ] Select
 - [ ] SimpleArray
-- [ ] Slug
+- [X] Slug
 - [X] Tags (Note that min/max does not replace proper validation. Add reordering)
 - [X] Text
 
