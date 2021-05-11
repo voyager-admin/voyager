@@ -10,7 +10,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>{{ __('voyager::generic.value') }}</th>
+                        <th>{{ translate(options.item_description, true) || __('voyager::generic.value') }}</th>
                         <th class="flex flex-no-wrap justify-end items-center">
                             <button class="button green small" @click.stop="addOption">
                                 <icon icon="plus" />

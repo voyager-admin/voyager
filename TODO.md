@@ -39,7 +39,7 @@ Instead, they are listed here:
 - [X] Password
 - [X] Radio
 - [X] Select
-- [ ] SimpleArray
+- [X] SimpleArray
 - [X] Slug
 - [X] Tags (Add reordering)
 - [X] Text

@@ -45,6 +45,9 @@ return [
     'select'        => [
         'name'          => 'Select',
     ],
+    'simple_array'  => [
+        'item_description'  => 'Item description',
+    ],
     'slug'          => [
         'lower'         => 'Lower',
         'name'          => 'Slug',
