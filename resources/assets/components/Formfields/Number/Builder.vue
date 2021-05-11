@@ -87,7 +87,7 @@ export default {
             return {
                 placeholder: '',
                 min: 0,
-                max: Number.MAX_SAFE_INTEGER,
+                max: 0,
                 step: 1,
                 decimals: 0,
                 dec_point: '.',

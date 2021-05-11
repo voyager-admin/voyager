@@ -24,7 +24,7 @@ Instead, they are listed here:
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, ...)
 
 ## Formfields
-- **Relationship** support polymorphic relationships
+- **Relationship**
 - **Color Picker**
 - **Date/Time Picker**
 - **Masked input**
@@ -35,7 +35,7 @@ Instead, they are listed here:
 - [X] Checkbox
 - [ ] DynamicSelect
 - [ ] MediaPicker
-- [ ] Number
+- [X] Number
 - [X] Password
 - [X] Radio
 - [X] Select
@@ -48,5 +48,4 @@ Instead, they are listed here:
 - Scopes need to start with `scope` (ex. `scopeCurrentUser()`)
 - Accessors need to be named `getFieldAttribute` (ex. `getFullNameAttribute`)
 - Computed properties need to implement an accessor AND mutator when used for adding or editing
-- Press escape or double-click (most) search inputs to clear them
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)

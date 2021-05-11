@@ -7,6 +7,7 @@
 * [What is Voyager](getting-started/what-is-voyager.md)
 * [Prerequisites](getting-started/prerequisites.md)
 * [Installation](getting-started/installation.md)
+* [Tips and tricks](getting-started/tips-and-tricks.md)
 
 ## BREAD Builder
 
