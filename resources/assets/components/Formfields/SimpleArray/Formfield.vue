@@ -29,10 +29,10 @@
                             />
                         </td>
                         <td class="flex flex-no-wrap justify-end items-center">
-                            <button class="button small" @click.prevent.stop="optionUp(option)">
+                            <button class="button small" @click.prevent.stop="optionUp(option)" v-if="options.reordering">
                                 <icon icon="chevron-up" />
                             </button>
-                            <button class="button small" @click.prevent.stop="optionDown(option)">
+                            <button class="button small" @click.prevent.stop="optionDown(option)" v-if="options.reordering">
                                 <icon icon="chevron-down" />
                             </button>
                             <button class="button red small" @click.stop="removeOption(option)">
@@ -78,10 +78,14 @@ export default {
             this.value.splice(this.value.indexOf(option), 1);
         },
         optionUp(option) {
-            this.value = this.value.moveElementUp(option);
+            if (this.options.reordering) {
+                this.value = this.value.moveElementUp(option);
+            }
         },
         optionDown(option) {
-            this.value = this.value.moveElementDown(option);
+            if (this.options.reordering) {
+                this.value = this.value.moveElementDown(option);
+            }
         }
     },
 }

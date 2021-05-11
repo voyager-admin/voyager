@@ -5,6 +5,9 @@
             class="input w-full"
             type="text" :placeholder="__('voyager::formfields.simple_array.item_description')"
             v-model="options.item_description" /> 
+
+        <label class="label mt-4">{{ __('voyager::formfields.simple_array.allow_reordering') }}</label>
+        <input type="checkbox" class="input" v-model="options.reordering">
     </template>
 </template>
 
@@ -17,6 +20,7 @@ export default {
         defaultViewOptions() {
             return {
                 item_description: null,
+                reordering: true,
             }
         }
     }

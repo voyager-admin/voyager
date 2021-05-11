@@ -46,7 +46,9 @@ return [
         'name'          => 'Select',
     ],
     'simple_array'  => [
+        'allow_reordering'  => 'Allow reordering',
         'item_description'  => 'Item description',
+        'name'              => 'Simple Array',
     ],
     'slug'          => [
         'lower'         => 'Lower',
