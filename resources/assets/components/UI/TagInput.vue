@@ -1,18 +1,21 @@
 <template>
     <div class="input" @click="$refs.input.focus()">
-        <span>
-            <span v-for="(tag, i) in tags" :key="'tag-'+i">
-                <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[reorder ? 'cursor-move' : '']">
+        <component as="span" :is="!noReorder ? 'draggable' : 'span'" v-model="tags" handle=".dd-source">
+            <span v-for="(tag, i) in tags" :key="tag" class="dd-source">
+                <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[!noReorder ? 'cursor-move' : '']">
                     <i>{{ tag }}</i>
                 </badge>
             </span>
-        </span>
+        </component>
         <input type="text" class="bg-transparent border-0 focus:outline-none" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
     </div>
 </template>
 <script>
+import Draggable from './Draggable';
+
 export default {
     emits: ['update:modelValue'],
+    components: { Draggable },
     props: {
         modelValue: {
             type: Array,
@@ -28,9 +31,9 @@ export default {
             type: Boolean,
             default: false,
         },
-        reorder: {
+        noReorder: {
             type: Boolean,
-            default: true,
+            default: false,
         },
         min: {
             type: Number,

@@ -179,7 +179,7 @@
         </collapsible>
 
         <collapsible title="Tag input" id="ui-tags">
-            <tag-input v-model="tags"></tag-input>
+            <tag-input v-model="tags" />
         </collapsible>
 
         <collapsible title="Tabs" id="ui-tabs">
