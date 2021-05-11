@@ -41,7 +41,7 @@ Instead, they are listed here:
 - [X] Select
 - [ ] SimpleArray
 - [X] Slug
-- [X] Tags (Note that min/max does not replace proper validation. Add reordering)
+- [X] Tags (Add reordering)
 - [X] Text
 
 ## Documentation
