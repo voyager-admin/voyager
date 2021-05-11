@@ -8,15 +8,15 @@
         </select>
     </div>
     <div v-else-if="action == 'browse'">
-        <span v-if="options.multiple && isArray(modelValue)">
+        <template v-if="options.multiple && isArray(modelValue)">
             <span v-for="(option, i) in modelValue" :key="i">
                 {{ getOptionByKey(option) }}
                 <span v-if="i < modelValue.length - 1">, </span>
             </span>
-        </span>
-        <span v-else>
+        </template>
+        <template v-else>
             {{ getOptionByKey(modelValue) }}
-        </span>
+        </template>
     </div>
     <div v-else-if="action == 'edit' || action == 'add'">
         <select class="input w-full" :multiple="options.multiple" v-model="value">
@@ -61,24 +61,12 @@ export default {
                 this.$emit('update:modelValue', value);
             }
         },
-        defaultListOptions() {
-            return {
-                options: [],
-                multiple: false,
-            };
-        },
-        defaultViewOptions() {
-            return {
-                options: [],
-                multiple: false,
-            };
-        },
     },
     methods: {
         getOptionByKey(key) {
             var option = (this.options.options || []).where('key', key).first();
             if (option) {
-                return this.translate(option.value);
+                return this.translate(option.value, true);
             }
 
             return '';

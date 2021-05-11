@@ -38,7 +38,7 @@ Instead, they are listed here:
 - [ ] Number
 - [X] Password
 - [ ] Radio
-- [ ] Select
+- [X] Select
 - [ ] SimpleArray
 - [X] Slug
 - [X] Tags (Note that min/max does not replace proper validation. Add reordering)

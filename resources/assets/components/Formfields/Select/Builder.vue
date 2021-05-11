@@ -45,7 +45,7 @@
         </div>
     </div>
     <div v-else-if="action == 'view'">
-        <select class="input w-full">
+        <select class="input w-full" :multiple="options.multiple">
             <option v-for="(option, i) in (options.options || [])" :key="i" :value="option.key">
                 {{ translate(option.value) }}
             </option>
@@ -58,6 +58,20 @@ import formfieldBuilder from '../../../js/mixins/formfield-builder';
 
 export default {
     mixins: [formfieldBuilder],
+    computed: {
+        defaultViewOptions() {
+            return {
+                multiple: false,
+                options: []
+            };
+        },
+        defaultListOptions() {
+            return {
+                multiple: false,
+                options: []
+            };
+        }
+    },
     methods: {
         addOption() {
             var option = {
@@ -65,16 +79,16 @@ export default {
                 value: '',
             };
 
-            var options = this.options;
             if (!this.isArray(this.options.options)) {
-                options.options = [];
+                this.options.options = [];
             }
-            options.options = [...this.options.options, option];
-            this.$emit('update:options', options);
+            this.options.options = [...this.options.options, option];
+            this.$emit('update:options', this.options);
             
         },
         removeOption(key) {
-            this.$emit('update:options', this.options.options.removeAtIndex(key));
+            this.options.options = this.options.options.removeAtIndex(key);
+            this.$emit('update:options', this.options);
         }
     },
 }
