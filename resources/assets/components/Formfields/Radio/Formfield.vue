@@ -37,23 +37,12 @@ export default {
                 this.$emit('update:modelValue', value);
             }
         },
-        defaultListOptions() {
-            return {
-                options: [],
-            };
-        },
-        defaultViewOptions() {
-            return {
-                options: [],
-                inline: true,
-            };
-        },
     },
     methods: {
         getOptionByKey(key) {
             var option = (this.options.options || []).where('key', key).first();
             if (option) {
-                return this.translate(option.value);
+                return this.translate(option.value, true);
             }
 
             return '';

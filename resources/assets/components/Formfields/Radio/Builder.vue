@@ -66,22 +66,33 @@ import formfieldBuilder from '../../../js/mixins/formfield-builder';
 export default {
     mixins: [formfieldBuilder],
     methods: {
+        defaultListOptions() {
+            return {
+                options: [],
+            };
+        },
+        defaultViewOptions() {
+            return {
+                options: [],
+                inline: true,
+            };
+        },
         addOption() {
             var option = {
                 key: '',
                 value: '',
             };
 
-            var options = this.options;
             if (!this.isArray(this.options.options)) {
-                options.options = [];
+                this.options.options = [];
             }
-            options.options = [...this.options.options, option];
-            this.$emit('update:options', options);
+            this.options.options = [...this.options.options, option];
+            this.$emit('update:options', this.options);
             
         },
         removeOption(key) {
-            this.$emit('update:options', this.options.options.removeAtIndex(key));
+            this.options.options.removeAtIndex(key)
+            this.$emit('update:options', this.options);
         }
     },
 }

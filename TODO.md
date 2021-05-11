@@ -37,7 +37,7 @@ Instead, they are listed here:
 - [ ] MediaPicker
 - [ ] Number
 - [X] Password
-- [ ] Radio
+- [X] Radio
 - [X] Select
 - [ ] SimpleArray
 - [X] Slug

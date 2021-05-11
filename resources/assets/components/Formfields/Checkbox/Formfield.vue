@@ -54,17 +54,6 @@ export default {
                 this.$emit('update:modelValue', value);
             }
         },
-        defaultViewOptions() {
-            return {
-                options: [],
-                inline: false,
-            };
-        },
-        defaultListOptions() {
-            return {
-                options: [],
-            };
-        },
     },
     methods: {
         getOptionByKey(key) {
