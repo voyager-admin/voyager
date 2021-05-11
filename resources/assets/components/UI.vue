@@ -172,7 +172,9 @@
                         <icon icon="minus" />
                     </button>
                 </template>
-                <color-picker :size="colorSize"></color-picker>
+                <color-picker :size="colorSize" v-model="color"></color-picker>
+                
+                <color-picker :size="colorSize" v-model="color" add-none></color-picker>
             </collapsible>
         </collapsible>
 
@@ -306,6 +308,7 @@ export default {
             name: 'Voyager',
             lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
+            color: this.colors[0],
             colorSize: 4
         };
     },

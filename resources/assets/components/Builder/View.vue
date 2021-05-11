@@ -1,13 +1,10 @@
 <template>
-    <div class="flex flex-wrap w-full">
-        <div v-for="(formfield, key) in formfields" :key="'formfield-'+key" class="m-0" :class="formfield.options.width">
+    <draggable as="div" class="flex flex-wrap w-full" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" handle=".dd-handle">
+        <div v-for="formfield in formfields" :key="formfield.uuid" class="m-0 dd-source" :class="formfield.options.width">
             <card :title="translate(formfield.options.title) || ''" :title-size="5">
                 <template #actions>
-                    <button class="button small" v-tooltip="__('voyager::builder.move_up')">
-                        <icon icon="chevron-left" @click.prevent.stop="prev(formfield)" />
-                    </button>
-                    <button class="button small">
-                        <icon icon="chevron-right" @click.prevent.stop="next(formfield)" v-tooltip="__('voyager::builder.move_down')" />
+                    <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::builder.move')">
+                        <icon icon="arrows-expand" />
                     </button>
                     <button class="button small" @mousedown="startResize(key)" v-tooltip="__('voyager::builder.resize')">
                         <icon icon="switch-horizontal" class="cursor-move" />
@@ -96,15 +93,17 @@
             </card>
         </div>
         <slot v-if="formfields.length == 0" />
-    </div>
+    </draggable>
 </template>
 
 <script>
+import Draggable from '../UI/Draggable';
 import BreadBuilderValidation from './ValidationForm';
 
 export default {
     components: {
         BreadBuilderValidation,
+        Draggable,
     },
     emits: ['delete', 'update:formfields', 'update:options'],
     props: ['computed', 'columns', 'relationships', 'formfields', 'options'],

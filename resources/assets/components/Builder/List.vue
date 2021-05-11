@@ -15,11 +15,10 @@
                         <th style="text-align:right !important">{{ __('voyager::generic.actions') }}</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-for="(formfield, key) in formfields" :key="'formfield-'+key">
-                        <td class="hidden md:table-cell">
-                            <icon icon="chevron-up" class="cursor-pointer" :size="4" @click.prevent.stop="up(formfield)" v-tooltip.top="__('voyager::builder.move_up')" />
-                            <icon icon="chevron-down" class="cursor-pointer" :size="4" @click.prevent.stop="down(formfield)" v-tooltip.bottom="__('voyager::builder.move_down')" />
+                <draggable as="tbody" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" handle=".dd-handle">
+                    <tr v-for="formfield in formfields" :key="formfield.uuid" class="dd-source">
+                        <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::builder.move')">
+                            <icon icon="selector" />
                         </td>
                         <td class="hidden md:table-cell">{{ getFormfieldByType(formfield.type).name }}</td>
                         <td>
@@ -113,7 +112,7 @@
                             </button>
                         </td>
                     </tr>
-                </tbody>
+                </draggable>
             </table>
         </div>
 
@@ -166,15 +165,7 @@
                                 <input type="text" class="input small w-full" v-model="f.value">
                             </td>
                             <td>
-                                <select class="input small w-full" v-model="f.color">
-                                    <option
-                                        v-for="(color, i) in colors"
-                                        :value="color"
-                                        :key="i"
-                                    >
-                                        {{ __('voyager::generic.color_names.'+color) }}
-                                    </option>
-                                </select>
+                                <color-picker v-model="f.color" :size="2" add-none />
                             </td>
                             <td>
                                 <modal :ref="`filter_icon_modal_${key}`" :title="__('voyager::generic.select_icon')">
@@ -207,7 +198,10 @@
 </template>
 
 <script>
+import Draggable from '../UI/Draggable';
+
 export default {
+    components: { Draggable },
     emits: ['update:formfields', 'update:options', 'delete'],
     props: ['computed', 'columns', 'relationships', 'formfields', 'options'],
     data() {
@@ -216,12 +210,6 @@ export default {
         };
     },
     methods: {
-        up(formfield) {
-            this.$emit('update:formfields', this.formfields.moveElementUp(formfield));
-        },
-        down(formfield) {
-            this.$emit('update:formfields', this.formfields.moveElementDown(formfield));
-        },
         addFilter() {
             this.$refs.filters_collapsible.open();
             var options = this.options;
@@ -243,6 +231,6 @@ export default {
             options.filters.splice(key, 1);
             this.$emit('update:options', options);
         }
-    },
+    }
 };
 </script>

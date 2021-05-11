@@ -2,13 +2,16 @@
     <div>
         <div v-if="palette == 'tailwind-colors'" class="w-full flex flex-wrap justify-center">
             <div
-                v-for="(color, key) in colors" :key="'color-'+key"
-                @click="$emit('update:modelValue', color); current = color"
-                v-tooltip="__('voyager::generic.color_names.'+color)"
-                class="rounded-full flex items-center justify-center border-2 cursor-pointer p-0.5"
-                :class="[current == color ? 'border-gray-500' : 'border-transparent', `h-${sizes[size-1]} w-${sizes[size-1]}`]"
+                v-for="(color, key) in allColors" :key="'color-'+key"
+                @click="$emit('update:modelValue', color)"
+                v-tooltip="color ? __('voyager::generic.color_names.'+color) : __('voyager::generic.none')"
+                class="rounded-full flex items-center justify-center border-2 cursor-pointer p-0.5 border-gray-500 transition"
+                :class="[modelValue == color ? 'border-opacity-100' : 'border-opacity-25', `h-${sizes[size-1]} w-${sizes[size-1]}`]"
             >
-                <div class="rounded-full flex items-center justify-center w-full h-full" :class="`bg-${color}-500`"></div>
+                <div class="rounded-full flex items-center justify-center w-full h-full" :class="`bg-${color}-500`" v-if="color"></div>
+                <div class="rounded-full flex items-center justify-center w-full h-full text-red-500" v-else>
+                    <icon icon="x-circle" size="full" />
+                </div>
             </div>
         </div>
         
@@ -25,6 +28,10 @@ export default {
                 return ['tailwind-colors'].indexOf(value) !== -1;
             }
         },
+        addNone: {
+            type: Boolean,
+            default: false
+        },
         modelValue: {
             type: String,
             default: 'blue',
@@ -37,9 +44,17 @@ export default {
             }
         }
     },
+    computed: {
+        allColors() {
+            if (this.addNone) {
+                return [null, ...this.colors]
+            }
+
+            return this.colors;
+        }
+    },
     data() {
         return {
-            current: this.modelValue,
             sizes: [6, 8, 10, 12, 14, 16, 20, 24, 28, 32],
         };
     }
