@@ -464,7 +464,7 @@
         "key": "opacity",
         "name": "Opacity",
         "value": 50,
-        "info": "Opacity of the thumbnail",
+        "info": "Opacity of the watermark image",
         "translatable": false,
         "canBeTranslated": true,
         "options": {
