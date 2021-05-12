@@ -1,6 +1,6 @@
 <template>
     <slot v-if="action == 'query'"></slot>
-    <div v-else-if="action == 'browse'">
+    <div v-else-if="action == 'browse'" class="flex flex-wrap space-x-1">
         <badge v-for="(tag, i) in modelValue" :key="'tag-'+i">
             {{ tag }}
         </badge>

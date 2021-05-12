@@ -26,13 +26,13 @@
                     <div v-for="(plugin, i) in filteredAvailablePlugins.slice(availableStart, availableEnd)" :key="'plugin-'+i">
                         <div class="flex">
                             <div class="w-3/5">
-                                <div class="w-full inline-flex">
-                                    <h5 class="mr-2">{{ translate(plugin.name) }}</h5>
+                                <div class="w-full inline-flex space-x-2">
+                                    <h5>{{ translate(plugin.name) }}</h5>
                                     <badge icon="download">{{ plugin.downloads }}</badge>
                                     <badge icon="thumb-up">{{ plugin.favers }}</badge>
                                 </div>
                                 <p>{{ translate(plugin.description) }}</p>
-                                <div class="w-full space-x-1.5">
+                                <div class="w-full inline-flex space-x-1.5">
                                     <a v-if="plugin.url" :href="plugin.url" target="_blank">
                                         {{ __('voyager::generic.website') }}
                                     </a>

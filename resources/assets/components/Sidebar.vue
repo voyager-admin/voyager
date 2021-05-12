@@ -57,7 +57,7 @@
                         />
                     </nav>
                 </div>
-                <div class="flex-shrink-0 inline-flex border-t sidebar-border p-4 h-auto overflow-x-hidden">
+                <div class="flex-shrink-0 inline-flex space-x-2 border-t sidebar-border p-4 h-auto overflow-x-hidden">
                     <button class="button accent small" @click="toggleDarkMode()" aria-label="Toggle darkmode" v-tooltip.auto="`Blöb`">
                         <icon icon="moon" v-if="$store.darkmode == 'dark'" />
                         <icon icon="sun" v-else-if="$store.darkmode == 'light'" />

@@ -8,18 +8,18 @@
             :placeholder="shared.search_placeholder"
             :mobile-placeholder="__('voyager::generic.search')"
         />
-        <div class="mt-1 text-right max-w-sm mx-auto z-30">
+        <div class="mt-1 text-right z-30">
             <dropdown placement="bottom-end">
                 <div>
-                    <div class="flex items-center px-6 py-4">
+                    <div class="flex space-x-4 items-center px-6 py-4">
                         <img class="h-10 w-10 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
-                        <div class="ml-4">
-                        <p class="font-semibold leading-none">{{ shared.user.name }}</p>
-                        <p>
-                            <a href="#" class="text-sm leading-none hover:underline">
-                                {{ __('voyager::generic.view_profile') }}
-                            </a>
-                        </p>
+                        <div>
+                            <p class="font-semibold leading-none">{{ shared.user.name }}</p>
+                            <p>
+                                <a href="#" class="text-sm leading-none hover:underline">
+                                    {{ __('voyager::generic.view_profile') }}
+                                </a>
+                            </p>
                         </div>
                     </div>
                     <a :href="route('voyager.dashboard')" class="link">
@@ -33,14 +33,12 @@
                     </a>
                 </div>
                 <template #opener>
-                    <button class="flex items-center pl-6 py-2 font-semibold rounded-lg focus:outline-none">
-                        <div class="w-48 text-right text-sm flex justify-end">
-                            <img class="h-6 w-6 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
-                            <span class="hidden md:block ml-3">
-                                {{ __('voyager::generic.hello_user', { user: shared.user.name }) }}
-                            </span>
-                        </div>
-                        <icon icon="chevron-down" :size="4" class="ml-2" />
+                    <button class="inline-flex justify-end w-48 max-w-sm space-x-2 items-center font-semibold focus:outline-none">
+                        <img class="h-6 w-6 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
+                        <span class="hidden md:block whitespace-no-wrap">
+                            {{ __('voyager::generic.hello_user', { user: shared.user.name }) }}
+                        </span>
+                        <icon icon="chevron-down" :size="4" />
                     </button>
                 </template>
             </dropdown>

@@ -27,6 +27,12 @@
 
     // SELECT
     select.input {
+        @apply pr-3 #{!important};
+        @apply pl-10;
         background-position: left 0.5rem center;
+    }
+
+    [class*="space-x"] {
+        @apply space-x-reverse #{!important};
     }
 }

@@ -1,10 +1,10 @@
 <template>
     <div class="mt-5">
         <div class="w-full flex">
-            <div class="w-4/6">
+            <div class="flex-grow">
                 <h5>{{ __('voyager::generic.validation') }}</h5>
             </div>
-            <div class="w-2/6 text-right">
+            <div class="flex-none">
                 <button class="button green small" @click.stop="addRule">
                     <icon icon="plus" />
                 </button>

@@ -1,6 +1,6 @@
 <template>
-    <div class="input" @click="$refs.input.focus()">
-        <component as="span" :is="!noReorder ? 'draggable' : 'span'" v-model="tags" handle=".dd-source">
+    <div class="input flex flex-wrap" @click="$refs.input.focus()">
+        <component as="span" :is="!noReorder ? 'draggable' : 'span'" v-model="tags" handle=".dd-source" class="flex flex-wrap space-x-1">
             <span v-for="(tag, i) in tags" :key="tag" class="dd-source">
                 <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[!noReorder ? 'cursor-move' : '']">
                     <i>{{ tag }}</i>

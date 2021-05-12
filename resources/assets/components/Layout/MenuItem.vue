@@ -2,7 +2,7 @@
 <div class="menuitem">
     <div class="item" :class="[active ? 'active' : '']">
         <div class="inline-flex items-center">
-            <inertia-link :href="href" class="text-sm leading-5 link" @click="clickItem">
+            <inertia-link :href="href" class="text-sm leading-5 link inline-flex items-center space-x-2" @click="clickItem">
                 <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize"></icon>
                 <span>{{ title }}</span>
             </inertia-link>
@@ -12,7 +12,7 @@
         </div>
     </div>
     
-    <div v-if="hasChildren" :class="[open ? 'submenu' : '']">
+    <div v-if="hasChildren" :class="[open ? 'mx-5' : '']">
         <collapse-transition :duration="200">
             <slot v-if="open" />
         </collapse-transition>
@@ -78,14 +78,6 @@ export default {
 .menuitem {
     .item {
         @apply flex items-center justify-between flex-wrap rounded-md font-medium mt-1 px-2 py-2;
-
-        .link {
-            @apply inline-flex space-x-2 items-center;
-        }
-    }
-
-    .submenu {
-        @apply ml-5;
     }
 }
 </style>

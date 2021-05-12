@@ -12,7 +12,7 @@
                         <th class="hidden md:table-cell">{{ __('voyager::builder.orderable') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.order_default') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::generic.translatable') }}</th>
-                        <th style="text-align:right !important">{{ __('voyager::generic.actions') }}</th>
+                        <th class="flex justify-end">{{ __('voyager::generic.actions') }}</th>
                     </tr>
                 </thead>
                 <draggable as="tbody" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" handle=".dd-handle">
@@ -132,7 +132,7 @@
                             <th>{{ __('voyager::builder.value_or_scope') }}</th>
                             <th>{{ __('voyager::generic.color') }}</th>
                             <th>{{ __('voyager::generic.icon') }}</th>
-                            <th>{{ __('voyager::generic.actions') }}</th>
+                            <th class="flex justify-end">{{ __('voyager::generic.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -184,7 +184,7 @@
                                     </template>
                                 </modal>
                             </td>
-                            <td>
+                            <td class="flex justify-end">
                                 <button class="button red small" @click.stop="removeFilter(key)">
                                     <icon icon="trash" />
                                 </button>

@@ -15,11 +15,11 @@
             @mouseleave="startTimeout(notification)"
         >
             <div class="p-4">
-                <div class="flex items-start">
+                <div class="flex space-x-3 items-start">
                     <div class="w-6" v-if="notification._icon">
                         <icon :icon="notification._icon" :class="`text-${notification._color}-500`" :size="6" type="solid"></icon>
                     </div>
-                    <div class="w-0 flex-1" :class="notification._icon ? 'ml-3' : ''">
+                    <div class="w-0 flex-1" >
                         <span v-if="notification._title">
                             <p class="title">{{ notification._title }}</p>
                             <p class="message mt-1">{{ notification._message }}</p>
@@ -35,7 +35,7 @@
                                 v-focus
                             />
                         </div>
-                        <div class="mt-4 flex" v-if="notification._buttons && notification._buttons.length >= 1">
+                        <div class="mt-4 flex space-x-1" v-if="notification._buttons && notification._buttons.length >= 1">
                             <span class="inline-flex" v-for="(button, key) in notification._buttons" :key="'button-'+key">
                                 <button type="button" class="button" :class="button.color" @click="clickButton(notification, button)">
                                     <span>{{ button.value.startsWith('voyager::') ? __(button.value) : button.value }}</span>

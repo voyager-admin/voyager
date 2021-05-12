@@ -70,7 +70,7 @@
             <div class="w-full flex space-x-1">
                 <div class="w-4/12">
                     <collapsible title="Default" :title-size="5">
-                        <div class="flex flex-wrap justify-center">
+                        <div class="flex flex-wrap space-x-1 justify-center">
                             <button class="button mb-1">
                                 Default
                             </button>

@@ -9,8 +9,8 @@
         </div>
         <div class="hidden sm:block">
             <div class="border-b wrapper">
-                <nav class="-mb-px flex">
-                    <a href="#" @click.prevent="openByIndex(i)" class="tab" v-for="(tab, i) in tabs" :key="'tab-'+i" :class="[i > 0 ? 'ml-8' : '', currentTab == i ? 'active' : '']">
+                <nav class="-mb-px flex space-x-8">
+                    <a href="#" @click.prevent="openByIndex(i)" class="tab" v-for="(tab, i) in tabs" :key="'tab-'+i" :class="{active: currentTab == i}">
                         {{ tab.title }}
                     </a>
                 </nav>

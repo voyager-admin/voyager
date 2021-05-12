@@ -70,7 +70,7 @@
                         v-on:click.prevent.stop="selectFile(file, $event)"
                         v-on:dblclick.prevent.stop="openFile(file)"
                         v-tooltip="file.file.name">
-                        <div class="flex p-3">
+                        <div class="flex space-x-3 p-3">
                             <div class="flex-none">
                                 <div class="w-full flex justify-center">
                                     <img :src="file.preview" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-if="file.preview" />
@@ -80,7 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex-grow ml-3 overflow-hidden">
+                            <div class="flex-grow overflow-hidden">
                                 <div class="flex flex-col h-full">
                                     <div class="flex-none">
                                         <span class="whitespace-nowrap">{{ file.file.name }}</span>

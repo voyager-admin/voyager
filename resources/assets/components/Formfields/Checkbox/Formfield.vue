@@ -20,7 +20,7 @@
             </div>
         </template>
     </div>
-    <div v-else>
+    <div v-else class="flex flex-wrap space-x-1">
         <badge v-for="(option, i) in modelValue" :key="i">
             {{ getOptionByKey(option) }}
         </badge>

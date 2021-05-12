@@ -1,11 +1,13 @@
 <template>
     <card :title="__('voyager::generic.breads')" icon="bread">
         <template #actions>
-            <button class="button" @click.stop="loadBreads">
-                <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="loading" />
-                <span>{{ __('voyager::builder.reload_breads') }}</span>
-            </button>
-            <locale-picker :small="false" />
+            <div class="inline-flex space-x-1">
+                <button class="button" @click.stop="loadBreads">
+                    <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="loading" />
+                    <span>{{ __('voyager::builder.reload_breads') }}</span>
+                </button>
+                <locale-picker :small="false" />
+            </div>
         </template>
         <div class="voyager-table striped" :class="[loading ? 'loading' : '']">
             <table>
@@ -17,7 +19,7 @@
                         <th class="hidden md:table-cell">{{ __('voyager::builder.name_plural') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.lists') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.views') }}</th>
-                        <th style="text-align:right !important">{{ __('voyager::generic.actions') }}</th>
+                        <th class="flex justify-end">{{ __('voyager::generic.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,19 +40,15 @@
                         <td class="hidden md:table-cell">
                             <span v-if="hasBread(table)">{{ getBread(table).layouts.where('type', 'view').length }}</span>
                         </td>
-                        <td class="flex flex-no-wrap justify-end">
+                        <td class="flex flex-no-wrap justify-end space-x-1">
                             <template v-if="hasBread(table)">
                                 <a class="button blue" :href="route('voyager.'+translate(getBread(table).slug, true)+'.browse')">
                                     <icon icon="globe" :size="4" />
-                                    <span>
-                                        {{ __('voyager::generic.browse') }}
-                                    </span>
+                                    <span>{{ __('voyager::generic.browse') }}</span>
                                 </a>
                                 <button class="button green" @click="backupBread(table)">
                                     <icon icon="clock" :class="[backingUp ? 'animate-spin-reverse' : '']" :size="4" />
-                                    <span>
-                                        {{ __('voyager::generic.backup') }}
-                                    </span>
+                                    <span>{{ __('voyager::generic.backup') }}</span>
                                 </button>
                                 <dropdown v-if="getBackupsForTable(table).length > 0" placement="bottom">
                                     <div>
@@ -65,23 +63,17 @@
                                     <template #opener>
                                         <button class="button green">
                                             <icon icon="clock" :size="4" />
-                                            <span>
-                                                {{ __('voyager::builder.rollback') }} ({{ getBackupsForTable(table).length }})
-                                            </span>
+                                            <span>{{ __('voyager::builder.rollback') }} ({{ getBackupsForTable(table).length }})</span>
                                         </button>
                                     </template>
                                 </dropdown>
                                 <inertia-link as="button" class="button yellow" :href="route('voyager.bread.edit', table)">
                                     <icon icon="pencil" :size="4" />
-                                    <span>
-                                        {{ __('voyager::generic.edit') }}
-                                    </span>
+                                    <span>{{ __('voyager::generic.edit') }}</span>
                                 </inertia-link>
                                 <button class="button red" @click="deleteBread(table)">
                                     <icon :icon="deleting ? 'refresh' : 'trash'" :class="[deleting ? 'animate-spin-reverse' : '']" :size="4" />
-                                    <span>
-                                        {{ __('voyager::generic.delete') }}
-                                    </span>
+                                    <span>{{ __('voyager::generic.delete') }}</span>
                                 </button>
                             </template>
                             <inertia-link as="button" v-else class="button green" :href="route('voyager.bread.create', table)">

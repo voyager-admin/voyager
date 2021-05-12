@@ -1,7 +1,7 @@
 <template>
     <card :title="__('voyager::bread.browse_type', { type: translate(bread.name_plural, true) })" :icon="bread.icon">
         <template #actions>
-            <div class="flex flex-wrap items-center space-x-2">
+            <div class="flex flex-wrap items-center space-x-1">
                 <input
                     type="text"
                     class="input small"
@@ -140,7 +140,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="flex flex-no-wrap justify-end">
+                                    <div class="flex flex-no-wrap justify-end space-x-1">
                                         <breadActions :actions="actions" :selected="[result]" @reload="load" :bread="bread" />
                                     </div>
                                 </td>
