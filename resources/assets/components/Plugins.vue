@@ -60,7 +60,7 @@
                     </div>
                     <template #opener>
                         <button class="button">
-                            <icon icon="search" :size="4"></icon>
+                            <icon icon="search" :size="4" />
                             <span>{{ __('voyager::plugins.search_plugins') }}</span>
                         </button>
                     </template>
@@ -150,7 +150,7 @@
                             </td>
                             <td class="w-full inline-flex space-x-1 justify-end">
                                 <a class="button small" v-if="plugin.website" :href="translate(plugin.website)" target="_blank">
-                                    <icon icon="globe"></icon>
+                                    <icon icon="globe" />
                                     {{ __('voyager::generic.website') }}
                                 </a>
                                 
@@ -158,7 +158,7 @@
                                     <component :is="plugin.settings_component"></component>
                                     <template #opener>
                                         <button class="button small">
-                                        <icon icon="cog"></icon>
+                                        <icon icon="cog" />
                                         <span>{{ __('voyager::generic.settings') }}</span>
                                     </button>
                                     </template>
@@ -168,22 +168,22 @@
                                     <component :is="plugin.instructions_component"></component>
                                     <template #opener>
                                         <button class="button small">
-                                        <icon icon="eye"></icon>
+                                        <icon icon="eye" />
                                         <span>{{ __('voyager::generic.instructions') }}</span>
                                     </button>
                                     </template>
                                 </modal>
 
                                 <button v-if="plugin.type == 'theme' && !plugin.enabled" class="button small" @click="previewTheme(plugin.name)">
-                                    <icon icon="eye"></icon>
+                                    <icon icon="eye" />
                                     <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>
                                 <button v-if="!plugin.enabled" class="button small green" @click="enablePlugin(plugin, true)">
-                                    <icon icon="play"></icon>
+                                    <icon icon="play" />
                                     <span>{{ __('voyager::generic.enable') }}</span>
                                 </button>
                                 <button v-else class="button small red" @click="enablePlugin(plugin, false)">
-                                    <icon icon="stop"></icon>
+                                    <icon icon="stop" />
                                     <span>{{ __('voyager::generic.disable') }}</span>
                                 </button>
                             </td>

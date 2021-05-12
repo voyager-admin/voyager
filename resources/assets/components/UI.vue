@@ -110,11 +110,11 @@
                     <collapsible title="With Icon" :title-size="5">
                         <div class="flex flex-wrap space-x-1 justify-center">
                             <button class="button small mb-1">
-                                <icon icon="information-circle" class="mr-1" :size="4"></icon>
+                                <icon icon="information-circle" class="mr-1" :size="4" />
                                 Default
                             </button>
                             <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
-                                <icon icon="information-circle" class="mr-1" :size="4"></icon>
+                                <icon icon="information-circle" class="mr-1" :size="4" />
                                 {{ __('voyager::generic.color_names.'+color) }}
                             </button>
                         </div>
@@ -124,11 +124,11 @@
                     <collapsible title="Responsive" :title-size="5">
                         <div class="flex flex-wrap space-x-1 justify-center">
                             <button :class="['button', 'small', 'mb-1']">
-                                <icon icon="information-circle" :size="4"></icon>
+                                <icon icon="information-circle" :size="4" />
                                 <span>Default</span>
                             </button>
                             <button v-for="color in colors" :key="'button-'+color" :class="['button', 'small', color, 'mb-1']">
-                                <icon icon="information-circle" :size="4"></icon>
+                                <icon icon="information-circle" :size="4" />
                                 <span>{{ __('voyager::generic.color_names.'+color) }}</span>
                             </button>
                         </div>
@@ -317,7 +317,7 @@ export default {
             lorem: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.',
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
             color: this.colors[0],
-            colorSize: 4
+            colorSize: 4,
         };
     },
     methods: {

@@ -17,7 +17,7 @@
             <div class="p-4">
                 <div class="flex space-x-3 items-start">
                     <div class="w-6" v-if="notification._icon">
-                        <icon :icon="notification._icon" :class="`text-${notification._color}-500`" :size="6" type="solid"></icon>
+                        <icon :icon="notification._icon" :class="`text-${notification._color}-500`" :size="6" type="solid" />
                     </div>
                     <div class="w-0 flex-1" >
                         <span v-if="notification._title">

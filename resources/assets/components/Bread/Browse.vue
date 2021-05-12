@@ -15,7 +15,7 @@
                     <option value="only">{{ __('voyager::bread.soft_delete_only') }}</option>
                 </select>
                 <button class="button small" @click.stop="load">
-                    <icon icon="refresh" :class="[loading ? 'animate-spin-reverse' : '']" :size="4"></icon>
+                    <icon icon="refresh" :class="[loading ? 'animate-spin-reverse' : '']" :size="4" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <breadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />

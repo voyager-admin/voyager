@@ -67,10 +67,10 @@
                                 <template #actions v-if="editMode">
                                     <div class="flex items-center mt-1 md:mt-0 space-x-1">
                                         <button class="button small" @click="moveSettingUp(setting)">
-                                            <icon icon="chevron-up"></icon>
+                                            <icon icon="chevron-up" />
                                         </button>
                                         <button class="button small" @click="moveSettingDown(setting)">
-                                            <icon icon="chevron-down"></icon>
+                                            <icon icon="chevron-down" />
                                         </button>
                                         <slide-in :title="__('voyager::generic.options')">
                                             <template #actions>
@@ -90,13 +90,13 @@
 
                                             <template #opener>
                                                 <button class="button">
-                                                    <icon icon="cog" :size="4"></icon>
+                                                    <icon icon="cog" :size="4" />
                                                     <span>{{ __('voyager::generic.options') }}</span>
                                                 </button>
                                             </template>
                                         </slide-in>
                                         <button class="button red" @click="deleteSetting(setting)">
-                                            <icon icon="trash" :size="4"></icon>
+                                            <icon icon="trash" :size="4" />
                                             <span>{{ __('voyager::generic.delete') }}</span>
                                         </button>
                                     </div>

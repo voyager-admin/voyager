@@ -1,10 +1,10 @@
 <template>
 <div class="card" :class="[`border-${border}`, !noPadding ? 'p-4 mx-1' : null]">
     <div class="header" v-if="!dontShowHeader">
-        <div class="flex items-center justify-between">
+        <div class="flex justify-between">
             <slot name="title">
                 <div class="flex space-x-2 items-center">
-                    <icon v-if="icon" :icon="icon" :size="iconSize"></icon>
+                    <icon v-if="icon" :icon="icon" :size="iconSize" />
                     <component :is="`h${titleSize}`" class="leading-6 font-medium" :class="titlePointer ? 'cursor-pointer' : ''" @click="$emit('click-title', $event)">
                         {{ title }}
                     </component>
@@ -13,7 +13,7 @@
                     </p>
                 </div>
             </slot>
-            <div class="flex flex-shrink-0 sm:mt-2">
+            <div class="flex flex-shrink-0 items-start">
                 <slot name="actions"></slot>
             </div>
         </div>

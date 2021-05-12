@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { Sortable } from '@shopify/draggable';
+import { Sortable, Plugins } from '@shopify/draggable';
 
 export default {
     emits: ['update:modelValue'],
@@ -25,6 +25,10 @@ export default {
         handle: {
             type: String,
             default: null,
+        },
+        mirrorClass: {
+            type: String,
+            default: 'opacity-75',
         }
     },
     data() {
@@ -54,6 +58,14 @@ export default {
                 mirror: {
                     appendTo: this.$el,
                     constrainDimensions: true,
+                },
+                classes: {
+                    mirror: this.mirrorClass,
+                },
+                plugins: [Plugins.SortAnimation],
+                swapAnimation: {
+                    duration: 200,
+                    easingFunction: 'ease-in-out',
                 },
             });
 

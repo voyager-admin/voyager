@@ -8,12 +8,12 @@
             <div class="flex-1 flex flex-col max-w-xs w-full sidebar" @click.stop="">
                 <div class="absolute top-0 right-0 p-1">
                     <button @click="toggleSidebar()" class="flex items-center justify-center h-12 w-12 rounded-full">
-                        <icon icon="x"></icon>
+                        <icon icon="x" />
                     </button>
                 </div>
                 <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                     <div class="flex-shrink-0 flex items-center px-4">
-                        <icon icon="helm" :size="10" class="icon"></icon>
+                        <icon icon="helm" :size="10" class="icon" />
                         <span class="font-black text-lg uppercase pl-2 title">
                             {{ shared.sidebar.title }}
                         </span>
@@ -29,7 +29,9 @@
                 </div>
                 <div class="flex-shrink-0 flex border-t sidebar-border p-4">
                     <button class="button accent" @click="$store.toggleDarkMode()">
-                        <icon :icon="$store.darkmode ? 'sun' : 'moon'"></icon>
+                        <icon icon="moon" v-if="$store.darkmode == 'dark'" />
+                        <icon icon="sun" v-else-if="$store.darkmode == 'light'" />
+                        <icon icon="desktop-computer" v-else />
                     </button>
                     <img :src="shared.user.avatar" class="rounded-full m-4 w-8" alt="User Avatar">
                 </div>
@@ -44,7 +46,7 @@
             <div class="flex flex-col w-64 border-r sidebar-border">
                 <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                     <div class="flex space-x-2 items-center flex-shrink-0 px-4">
-                        <icon icon="helm" :size="10" class="icon"></icon>
+                        <icon icon="helm" :size="10" class="icon" />
                         <span class="font-black text-lg uppercase title whitespace-nowrap">
                             {{ shared.sidebar.title }}
                         </span>

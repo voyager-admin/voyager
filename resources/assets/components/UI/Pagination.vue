@@ -16,7 +16,7 @@
         class="button"
         :class="[isFirstPage ? 'disabled' : '', color, small ? 'small' : '']"
     >
-        <icon icon="chevron-left"></icon>
+        <icon icon="chevron-left" />
     </a>
 
     <a
@@ -45,7 +45,7 @@
         :class="[isLastPage ? 'disabled' : '', color, small ? 'small' : '']"
         :tabindex="isLastPage ? -1 : 0"
     >
-        <icon icon="chevron-right"></icon>
+        <icon icon="chevron-right" />
     </a>
     <a
         v-if="firstLastButtons"

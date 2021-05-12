@@ -2,7 +2,7 @@
     <div class="login sm:px-6 lg:px-8">
         <div class="header sm:mx-auto sm:w-full sm:max-w-md">
             <div class="justify-center flex text-center">
-                <icon icon="helm" size="16" class="icon"></icon>
+                <icon icon="helm" size="16" class="icon" />
             </div>
             <p class="mt-6 text-center text-sm leading-5 max-w">
                 {{ welcome }}

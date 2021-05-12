@@ -3,16 +3,17 @@
     <div class="item" :class="[active ? 'active' : '']">
         <div class="inline-flex items-center">
             <inertia-link :href="href" class="text-sm leading-5 link inline-flex items-center space-x-2" @click="clickItem">
-                <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize"></icon>
+                <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize" />
                 <span>{{ title }}</span>
             </inertia-link>
         </div>
-        <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open">
-            <icon :icon="open ? 'chevron-up' : 'chevron-down'" v-if="hasChildren" :size="4" class="icon"></icon>
+        <div class="flex-shrink-0 cursor-pointer inline-flex items-center" @click="open = !open" v-if="hasChildren">
+            <icon icon="chevron-up" v-if="open" :size="4" class="icon" />
+            <icon icon="chevron-down" v-else :size="4" class="icon" />
         </div>
     </div>
     
-    <div v-if="hasChildren" :class="[open ? 'mx-5' : '']">
+    <div v-if="hasChildren" class="mx-5">
         <collapse-transition :duration="200">
             <slot v-if="open" />
         </collapse-transition>

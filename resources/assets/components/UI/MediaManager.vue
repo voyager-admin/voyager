@@ -36,7 +36,7 @@
                 <!-- Hidden until ImageEditor is implemented -->
                 <!--
                 <button class="button accent small" v-show="imageSelected" @click="$refs.image_edit_modal.open()">
-                    <icon icon="pencil"></icon>
+                    <icon icon="pencil" />
                     <span>{{ __('voyager::generic.edit') }}</span>
                 </button>
                 -->
@@ -76,7 +76,7 @@
                                     <img :src="file.preview" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-if="file.preview" />
                                     <img :src="file.file.url" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-else-if="matchMime(file.file.type, 'image/*')" />
                                     <div v-else :class="`w-full flex justify-center h-${thumbSize}`">
-                                        <icon :icon="getFileIcon(file.file.type)" :size="thumbnailSizes[thumbSize]"></icon>
+                                        <icon :icon="getFileIcon(file.file.type)" :size="thumbnailSizes[thumbSize]" />
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="flex items-end justify-end flex-grow">
                                         <button @click.stop="deleteUpload(file)" v-if="file.is_upload">
-                                            <icon icon="x" :size="4"></icon>
+                                            <icon icon="x" :size="4" />
                                         </button>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                     <div v-if="selectedFiles.length > 0">
                         <div class="w-full flex justify-center">
                             <div v-if="selectedFiles.length > 1" class="w-full flex justify-center h-32">
-                                <icon icon="document-duplicate" size="32"></icon>
+                                <icon icon="document-duplicate" size="32" />
                             </div>
                             <img :src="selectedFiles[0].preview" class="rounded object-contain h-32 max-w-full" v-else-if="selectedFiles[0].preview" />
                             <img :src="selectedFiles[0].file.url" class="rounded object-contain h-32 max-w-full" v-else-if="matchMime(selectedFiles[0].file.type, 'image/*')" />
@@ -135,7 +135,7 @@
                                 <source :src="selectedFiles[0].file.url" :type="selectedFiles[0].file.type" />
                             </audio>
                             <div v-else class="w-full flex justify-center h-32">
-                                <icon :icon="getFileIcon(selectedFiles[0].file.type)" size="32"></icon>
+                                <icon :icon="getFileIcon(selectedFiles[0].file.type)" size="32" />
                             </div>
                         </div>
                         <div class="w-full flex justify-start mt-2">

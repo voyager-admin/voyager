@@ -7,7 +7,7 @@
                         <icon icon="arrows-expand" :size="4" />
                         <span>{{ __('voyager::generic.focus') }}</span>
                     </button>
-                    <button class="button" @click="loadProperties">
+                    <button class="button" @click="loadProperties" :disabled="!bread.model">
                         <icon icon="refresh" :size="4" :class="loadingProps ? 'animate-spin-reverse' : ''" />
                         <span>{{ __('voyager::builder.reload_properties') }}</span>
                     </button>
@@ -15,7 +15,7 @@
                 </div>
             </template>
             <div>
-                <alert color="yellow" v-if="!propsLoaded" class="mx-4">
+                <alert color="yellow" v-if="!propsLoaded && !loadingProps" class="mx-4">
                     <template #title>
                         <span>{{ __('voyager::generic.heads_up') }}</span>
                     </template>
@@ -92,7 +92,7 @@
                     <div class="w-full md:w-1/5 m-1">
                         <label class="label inline-flex" for="global_search">
                             <span class="mx-2">{{ __('voyager::builder.global_search_display_field') }}</span>
-                            <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.global_search_display_field_hint')"></icon>
+                            <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.global_search_display_field_hint')" />
                         </label>
                         <select class="input w-full" v-model="bread.global_search_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
@@ -102,7 +102,7 @@
                     <div class="w-full md:w-1/5 m-1">
                         <label class="label inline-flex" for="order_field">
                             <span class="mx-2">{{ __('voyager::builder.order_field') }}</span>
-                            <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.order_field_hint')"></icon>
+                            <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.order_field_hint')" />
                         </label>
                         <select class="input w-full" v-model="bread.order_field">
                             <option :value="null">{{ __('voyager::generic.none') }}</option>
@@ -631,12 +631,14 @@ export default {
             this.currentLayoutName = this.bread.layouts[layout].name;
         }
 
-        this.$watch(() => this.currentLayout.formfields, (formfields) => {
-            formfields.forEach((formfield) => {
-                if (!formfield.hasOwnProperty('uuid')) {
-                    formfield.uuid = uuidv4();
-                }
-            });
+        this.$watch(() => this.currentLayout, (l) => {
+            if (l) {
+                l.formfields.forEach((formfield) => {
+                    if (!formfield.hasOwnProperty('uuid')) {
+                        formfield.uuid = uuidv4();
+                    }
+                });
+            }
         }, { immediate: true, deep: true});
     },
 };

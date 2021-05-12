@@ -16,7 +16,7 @@ export default {
         },
     },
     render() {
-        return h('i', { class: `h-${this.size} w-${this.size}` }, [
+        return h('i', { class: `h-${this.size} w-${this.size}`, key: `icon-${this.icon}` }, [
             this.getIcon(),
         ]);
     },

@@ -1,5 +1,6 @@
 import { createPopper } from '@popperjs/core/lib/popper-lite';
 import { placements } from '@popperjs/core/lib/enums';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
     mounted(el, binding) {
@@ -10,7 +11,7 @@ export default {
             console.error(`'${binding.arg}' is not a valid placement for a tooltip. It can be ${placements.join(', ')}.`);
         }
         
-        let uuid = createUUID();
+        let uuid = uuidv4();
 
         el.uuid = uuid;
         if (binding.value !== null && binding.value !== undefined) {
@@ -65,13 +66,12 @@ export default {
         if (el.popper) {
             el.popper.destroy();
         }
+        if (el.uuid) {
+            let tooltipEl = document.getElementById(el.uuid);
+            if (tooltipEl) {
+                tooltipEl.parentElement.removeChild(tooltipEl);
+            }
+        }
         el.replaceWith(el.cloneNode(true)); // Instead of removing all event listeners, we simply replace the element with its own clone
     }
 };
-
-function createUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}

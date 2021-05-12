@@ -5,7 +5,7 @@
             <div v-for="(file, i) in slicedItems" :key="i">
                 <div v-tooltip="file.relative_path + file.name">
                     <img :src="file.url" class="rounded-lg object-contain h-16 max-w-full" v-if="matchMime(file.type, 'image/*')" />
-                    <icon v-else icon="document" size="16"></icon>
+                    <icon v-else icon="document" size="16" />
                 </div>
             </div>
             <span v-if="modelValue.length > options.display" class="italic text-sm">
@@ -29,7 +29,7 @@
                         <div class="w-full flex justify-center">
                             <img :src="file.url" class="rounded object-contain h-24 max-w-full" v-if="matchMime(file.type, 'image/*')" />
                             <div v-else class="w-full flex justify-center h-24">
-                                <icon icon="document" size="24"></icon>
+                                <icon icon="document" size="24" />
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="flex-grow-0">
                                         <button @click.stop="removeFile(file)">
-                                            <icon icon="x" :size="4"></icon>
+                                            <icon icon="x" :size="4" />
                                         </button>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                             <div class="flex-none">
                                 <div class="w-full flex justify-center">
                                     <div class="w-full flex justify-center h-24">
-                                        <icon icon="plus-circle" size="24"></icon>
+                                        <icon icon="plus-circle" size="24" />
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                         <div class="w-full flex justify-center">
                             <img :src="file.url" class="rounded object-contain h-24 max-w-full" v-if="matchMime(file.type, 'image/*')" />
                             <div v-else class="w-full flex justify-center h-24">
-                                <icon icon="document" size="24"></icon>
+                                <icon icon="document" size="24" />
                             </div>
                         </div>
                     </div>

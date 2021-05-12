@@ -4,7 +4,7 @@
             <template #actions>
                 <div class="flex items-center">
                     <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
-                        <icon icon="chevron-left"></icon>
+                        <icon icon="chevron-left" />
                         <span>{{ __('voyager::generic.back') }}</span>
                     </a>
                     <locale-picker :small="false"></locale-picker>
