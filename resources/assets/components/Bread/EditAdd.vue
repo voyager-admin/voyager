@@ -131,9 +131,16 @@ export default {
         getErrors(column) {
             return this.errors[column.column] || [];
         },
-        save() {
+        save(e = null) {
             if (this.isSaving) {
                 return;
+            }
+            if (typeof e === 'object' && e instanceof KeyboardEvent) {
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                } else {
+                    return;
+                }
             }
             this.isSaving = true;
             this.isSaved = false;
@@ -186,12 +193,7 @@ export default {
         }
     },
     mounted() {
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 's') {
-                this.save();
-                e.preventDefault();
-            }
-        });
+        document.addEventListener('keydown', this.save);
 
         this.layout.formfields.forEach((formfield) => {
             var value = this.output[formfield.column.column];
@@ -204,6 +206,9 @@ export default {
                 value: value,
             });
         })
+    },
+    unmounted() {
+        document.removeEventListener('keydown', this.save);
     }
 };
 </script>

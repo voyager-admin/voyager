@@ -1,6 +1,6 @@
 <template>
     <div v-if="locales.length > 1">
-        <dropdown ref="locale_dropdown">
+        <dropdown>
             <div>
                 <a
                     v-for="l in locales"
@@ -16,7 +16,6 @@
                 <button
                     class="button accent"
                     :class="[small ? 'small' : '']"
-                    @click.prevent.stop="$refs.locale_dropdown.open()"
                 >
                     <span>{{ languageForLocale(locale) }}</span>
                     <icon icon="chevron-down" :size="4" />
@@ -38,14 +37,12 @@ export default {
     },
     mounted() {
         document.addEventListener('keydown', (e) => {
-            if (this.$refs.locale_dropdown && this.$refs.locale_dropdown.isOpen) {
-                if (e.key == 'ArrowDown') {
-                    this.nextLocale();
-                    e.preventDefault();
-                } else if (e.key == 'ArrowUp') {
-                    this.previousLocale();
-                    e.preventDefault();
-                }
+            if (e.ctrlKey && (e.key == 'ArrowDown' || e.key == 'ArrowRight')) {
+                this.nextLocale();
+                e.preventDefault();
+            } else if (e.ctrlKey && (e.key == 'ArrowUp' || e.key == 'ArrowLeft')) {
+                this.previousLocale();
+                e.preventDefault();
             }
         });
     },

@@ -331,7 +331,15 @@ export default {
         };
     },
     methods: {
-        save() {
+        save(e = null) {
+            if (typeof e === 'object' && e instanceof KeyboardEvent) {
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                } else {
+                    return;
+                }
+            }
+
             if (this.validateLayouts()) {
                 new this.$notification(this.nl2br(this.__('voyager::builder.layout_field_warning')))
                         .confirm()
@@ -621,12 +629,10 @@ export default {
             this.loadProperties();
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 's') {
-                this.save();
-                e.preventDefault();
-            }
-        });
+        document.addEventListener('keydown', this.save);
+    },
+    unmounted() {
+        document.removeEventListener('keydown', this.save);
     },
     created() {
         var layout = parseInt(this.getParameterFromUrl('layout', 0));

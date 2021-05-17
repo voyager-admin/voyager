@@ -11,7 +11,6 @@ Instead, they are listed here:
 - Media manager: Lightbox should scale images when they are too big
 - Media manager: Allow downloading folder(s)
 - Media manager: "Select files" button should say "Upload files"
-- Check if settings are being emptied (for whatever reason, it happened to me)
 - Overhaul dynamic select
 - Make a command to "remove" translations (transform a value from JSON to normal string)
 - Check ALL axios calls (response => response.response)

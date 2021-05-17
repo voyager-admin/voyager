@@ -184,7 +184,17 @@ export default {
                 window.location.hash = this.currentGroup;
             }
         },
-        save() {
+        save(e = null) {
+            if (this.savingSettings) {
+                return;
+            }
+            if (typeof e === 'object' && e instanceof KeyboardEvent) {
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                } else {
+                    return;
+                }
+            }
             this.savingSettings = true;
             this.errors = [];
 
@@ -333,16 +343,14 @@ export default {
         }, { immediate: true, deep: true});
     },
     mounted() {
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 's') {
-                this.save();
-                e.preventDefault();
-            }
-        });
+        document.addEventListener('keydown', this.save);
 
         if (this.groups.includes(window.location.hash.substr(1))) {
             this.currentGroup = window.location.hash.substr(1);
         }
+    },
+    unmounted() {
+        document.removeEventListener('keydown', this.save);
     }
 };
 </script>

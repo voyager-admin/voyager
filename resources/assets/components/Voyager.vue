@@ -59,16 +59,6 @@ export default {
             }
         });
 
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey) {
-                if (e.code == 'ArrowRight' || e.code == 'ArrowUp') {
-                    this.nextLocale();
-                } else if (e.code == 'ArrowLeft' || e.code == 'ArrowDown') {
-                    this.previousLocale();
-                }
-            }
-        });
-
         document.addEventListener('DOMContentLoaded', () => {
             this.$store.pageLoading = false;
         });
