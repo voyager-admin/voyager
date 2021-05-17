@@ -100,7 +100,6 @@ export default {
         }, (error) => {
             let response = error;
             if (response.response.status !== 422) {
-                console.table(response);
                 if (response.hasOwnProperty('response')) {
                     response = response.response;
                 }

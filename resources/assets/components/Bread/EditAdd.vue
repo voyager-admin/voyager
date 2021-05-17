@@ -19,7 +19,13 @@
             </template>
             <div>
                 <div class="flex flex-wrap w-full">
-                    <div v-for="(formfield, key) in layout.formfields" :key="'formfield-'+key" class="m-0 w-full" :class="'md:' + formfield.options.width">
+                    <div
+                        v-for="(formfield, key) in layout.formfields"
+                        :key="'formfield-'+key"
+                        class="m-0 w-full"
+                        :class="'md:' + formfield.options.width"
+                        uses="md:w-1/6 md:w-2/6 md:w-3/6 md:w-4/6 md:w-5/6 md:w-full"
+                    >
                         <card
                             :title="translate(formfield.options.title, true)"
                             :title-size="5"

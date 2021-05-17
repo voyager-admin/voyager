@@ -11,13 +11,19 @@
             :key="notification._uuid"
             class="notification"
             :class="[`border-${notification._color}-500`]"
+            uses="border-red-500 border-orange-500 border-yellow-500 border-green-500 border-teal-500 border-blue-500 border-indigo-500 border-purple-500 border-pink-500 border-gray-500"
             @mouseover="stopTimeout(notification)"
             @mouseleave="startTimeout(notification)"
         >
             <div class="p-4">
                 <div class="flex space-x-3 items-start">
                     <div class="w-6" v-if="notification._icon">
-                        <icon :icon="notification._icon" :class="`text-${notification._color}-500`" :size="6" type="solid" />
+                        <icon
+                            :icon="notification._icon"
+                            :class="`text-${notification._color}-500`"
+                            uses="text-red-500 text-orange-500 text-yellow-500 text-green-500 text-teal-500 text-blue-500 text-indigo-500 text-purple-500 text-pink-500 text-gray-500"
+                            :size="6"
+                        />
                     </div>
                     <div class="w-0 flex-1" >
                         <span v-if="notification._title">
@@ -51,7 +57,7 @@
                 </div>
             </div>
             <div class="w-full h-1.5 overflow-hidden" v-if="notification._indeterminate === true">
-                <div class="indeterminate">
+                <div class="indeterminate" uses="bg-red-500 bg-orange-500 bg-yellow-500 bg-green-500 bg-teal-500 bg-blue-500 bg-indigo-500 bg-purple-500 bg-pink-500 bg-gray-500">
                     <div class="before rounded" :class="`bg-${notification._color}-500`"></div>
                     <div class="after rounded" :class="`bg-${notification._color}-500`"></div>
                 </div>

@@ -12,13 +12,13 @@
                         <icon icon="refresh" class="mr-0 md:mr-1 animate-spin-reverse" :size="4" v-if="savingSettings" />
                         <span>{{ __('voyager::generic.save') }}</span>
                     </button>
-                    <dropdown>
+                    <dropdown placement="bottom-end">
                         <div>
                             <div class="grid grid-cols-2">
-                                <a v-for="formfield in filterFormfields"
+                                <a v-for="formfield in filteredFormfields"
                                     :key="'formfield-'+formfield.type"
                                     href="#"
-                                    @click.prevent="addFormfield(formfield)"
+                                    @click.prevent="addSetting(formfield)"
                                     class="link rounded">
                                     {{ formfield.name }}
                                 </a>
@@ -34,98 +34,102 @@
                         <template #opener>
                             <button class="button green">
                                 <icon icon="plus" :size="4" />
-                                <span>
-                                    {{ __('voyager::builder.add_formfield') }}
-                                </span>
+                                <span>{{ __('voyager::settings.add_setting') }}</span>
                             </button>
                         </template>
                     </dropdown>
+                    <button class="button green" @click="addGroup">
+                        <icon icon="plus" :size="4" />
+                        <span>{{ __('voyager::settings.add_group') }}</span>
+                    </button>
                     <locale-picker :small="false" />
                 </div>
             </template>
-            <tabs v-on:select="currentGroupId = $event" :tabs="groups" ref="tabs">
-                <template v-for="(group, i) in groups" :key="'group-'+i" #[group.name]>
-                    <div>
-                        <div v-for="(setting, i) in settingsByGroup(group.name)" :key="'settings-'+i">
-                            <card :title="setting.name">
-                                <div class="flex space-x-1" v-if="editMode">
-                                    <input
-                                        type="text"
-                                        class="input small w-full md:w-1/4"
-                                        v-model="setting.name"
-                                        v-on:input="setting.key = slugify($event.target.value, { lower: true, strict: true })"
-                                        :placeholder="__('voyager::generic.name')"
-                                    >
-                                    <input type="text" class="input small hidden md:block md:w-1/4" v-bind:value="setting.key" disabled :placeholder="__('voyager::generic.key')">
-                                    <input type="text" class="input small w-full md:w-1/4" v-bind:value="setting.group" v-on:input="setting.group = slugify($event.target.value, {strict:true,lower:true}); currentEnteredGroup = $event.target.value" :placeholder="__('voyager::generic.group')">
-                                    <input type="text" class="input small w-full" v-model="setting.info" v-tooltip="setting.info" :placeholder="__('voyager::generic.info')">
-                                </div>
-                                <div v-else>
-                                    <h4>{{ setting.name }}</h4>
-                                    <p class="mx-4">{{ setting.key }}</p>
-                                </div>
-                                <template #actions v-if="editMode">
-                                    <div class="flex items-center mt-1 md:mt-0 space-x-1">
-                                        <button class="button small" @click="moveSettingUp(setting)">
-                                            <icon icon="chevron-up" />
-                                        </button>
-                                        <button class="button small" @click="moveSettingDown(setting)">
-                                            <icon icon="chevron-down" />
-                                        </button>
-                                        <slide-in :title="__('voyager::generic.options')">
-                                            <template #actions>
-                                                <locale-picker />
-                                            </template>
-                                            <div v-if="getFormfieldByType(setting.type).can_be_translated">
-                                                <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
-                                                <input type="checkbox" class="input" v-model="setting.translatable">
-                                            </div>
+            <div class="w-full inline-flex space-x-1 mb-4">
+                <badge
+                    v-for="group in groups"
+                    @click="setCurrentGroup(group)"
+                    :icon="currentGroup == group ? 'x' : null"
+                    :color="groupHasErrors(group) ? 'red' : 'accent'"
+                >
+                    {{ titleCase(group ? group : __('voyager::settings.no_group')) }} ({{ settingsInGroup(group).length }})
+                </badge>
+            </div>
 
-                                            <component
-                                                :is="getFormfieldByType(setting.type).builder_component"
-                                                v-model:options="setting.options"
-                                                :column="{}"
-                                                action="view-options" />
-                                            <breadBuilderValidation v-model="setting.validation" />
+            <draggable as="div" v-model="settings" handle=".dd-handle">
+                <card
+                    v-for="setting in filteredSettings"
+                    :key="setting.uuid"
+                    class="dd-source"
+                    :title="translate(setting.name, false) || __('voyager::settings.no_name')"
+                    v-show="setting.group == currentGroup"
+                >
+                    <template #actions>
+                        <div class="flex space-x-1">
+                            <language-input type="text" class="input small" v-model="setting.name" :placeholder="__('voyager::settings.name')" />
 
-                                            <template #opener>
-                                                <button class="button">
-                                                    <icon icon="cog" :size="4" />
-                                                    <span>{{ __('voyager::generic.options') }}</span>
-                                                </button>
-                                            </template>
-                                        </slide-in>
-                                        <button class="button red" @click="deleteSetting(setting)">
-                                            <icon icon="trash" :size="4" />
-                                            <span>{{ __('voyager::generic.delete') }}</span>
-                                        </button>
-                                    </div>
+                            <input type="text" class="input small" v-model="setting.key" :placeholder="__('voyager::settings.key')" />
+
+                            <select class="input small" v-model="setting.group">
+                                <option v-for="group in groups" :value="group">
+                                    {{ titleCase(group ? group : __('voyager::settings.no_group')) }}
+                                </option>
+                            </select>
+
+                            <button class="button small" @click="generateKey(setting)" v-tooltip="__('voyager::settings.generate_key')">
+                                <icon icon="finger-print" />
+                            </button>
+
+                            <slide-in :title="__('voyager::generic.options')">
+                                <template #actions>
+                                    <locale-picker />
                                 </template>
-                                <div class="mt-2">
-                                    <alert v-if="getErrors(setting).length > 0" color="red" class="my-2">
-                                        <ul class="list-disc ml-4">
-                                            <li v-for="(error, i) in getErrors(setting)" :key="'error-'+i">
-                                                {{ error }}
-                                            </li>
-                                        </ul>
-                                    </alert>
-                                    <component
-                                        :is="getFormfieldByType(setting.type).component"
-                                        :model-value="data(setting, null)"
-                                        @update:model-value="data(setting, $event)"
-                                        :options="setting.options"
-                                        :column="{}"
-                                        action="edit" />
+                                <div v-if="getFormfieldByType(setting.type).can_be_translated">
+                                    <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
+                                    <input type="checkbox" class="input" v-model="setting.translatable">
                                 </div>
-                            </card>
+                                <component
+                                    :is="getFormfieldByType(setting.type).builder_component"
+                                    v-model:options="setting.options"
+                                    :column="{}"
+                                    action="view-options" />
+                                <breadBuilderValidation v-model="setting.validation" />
+                                <template #opener>
+                                    <button class="button" v-tooltip="__('voyager::generic.options')">
+                                        <icon icon="cog" />
+                                    </button>
+                                </template>
+                            </slide-in>
+
+                            <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
+                                <icon icon="switch-vertical" />
+                            </button>
+
+                            <button class="button small red" @click="$emit('delete', key)" v-tooltip="__('voyager::generic.delete')">
+                                <icon icon="trash" />
+                            </button>
                         </div>
-                    </div>
-                    <div v-if="groupedSettings.length == 0" class="w-full text-center">
-                        <h4>{{ __('voyager::settings.no_settings_in_group') }}</h4>
-                        <h6 v-if="query !== ''">{{ __('voyager::settings.search_warning') }}</h6>
-                    </div>
-                </template>
-            </tabs>
+                    </template>
+
+                    <alert v-if="getErrors(setting).length > 0" color="red" class="my-2">
+                        <ul class="list-disc">
+                            <li v-for="(error, i) in getErrors(setting)" :key="'error-'+i">
+                                {{ error }}
+                            </li>
+                        </ul>
+                    </alert>
+
+                    <component
+                        :is="getFormfieldByType(setting.type).component"
+                        :model-value="data(setting, null)"
+                        @update:model-value="data(setting, $event)"
+                        :options="setting.options"
+                        :column="{}"
+                        action="edit"
+                    />
+                </card>
+            </draggable>
+            <h3 class="text-center" v-if="!groupHasSettings()">{{ __('voyager::settings.no_settings_in_group') }}</h3>
         </card>
         <collapsible v-if="jsonOutput" :title="__('voyager::builder.json_output')" closed>
             <textarea class="input w-full" rows="10" v-model="jsonSettings"></textarea>
@@ -136,12 +140,15 @@
 <script>
 import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 import BreadBuilderValidation from './Builder/ValidationForm';
+import Draggable from './UI/Draggable';
 
 export default {
     components: {
         BreadBuilderValidation,
+        Draggable,
     },
     props: {
         input: {
@@ -157,25 +164,19 @@ export default {
         return {
             settings: this.input,
             savingSettings: false,
-            currentGroupId: 0,
-            currentEnteredGroup: null,
-            errors: [],
+            currentGroup: null,
             query: '',
+            errors: [],
+            tempGroups: [],
         };
     },
     methods: {
-        settingsByGroup(group) {
-            return this.settings.filter((setting) => {
-                var in_group = setting.group == group;
-                if (group == 'no-group') {
-                    in_group = setting.group == null;
-                }
-                if (this.query !== '') {
-                    return in_group && setting.key.indexOf(this.query.toLowerCase()) >= 0;
-                }
-
-                return in_group;
-            });
+        setCurrentGroup(group) {
+            if (this.currentGroup !== group) {
+                this.currentGroup = group;
+            } else {
+                this.currentGroup = null;
+            }
         },
         save() {
             this.savingSettings = true;
@@ -186,21 +187,21 @@ export default {
                 new this.$notification(this.__('voyager::settings.settings_saved')).color('green').timeout().show();
             })
             .catch((response) => {
-                if (response.status == 422) {
-                    this.errors = response.data;
+                if (response.response.status == 422) {
+                    this.errors = response.response.data;
+                    new this.$notification(this.__('voyager::settings.validation_errors')).color('red').timeout().show();
                 }
             })
             .then(() => {
                 this.savingSettings = false;
             });
         },
-        addFormfield(formfield) {
-            var group = this.groups[this.currentGroupId].name
+        addSetting(formfield) {
             this.settings.push({
                 type: JSON.parse(JSON.stringify(formfield.type)),
-                group: (group == 'no-group' ? null : group),
-                key: '',
-                name: '',
+                group: this.currentGroup,
+                key: null,
+                name: null,
                 value: null,
                 info: '',
                 translatable: false,
@@ -208,34 +209,19 @@ export default {
                 validation: [],
             });
         },
-        deleteSetting(setting) {
+        addGroup() {
             new this
-            .$notification(this.trans_choice('voyager::bread.delete_type_confirm', 1, { type: this.__('voyager::settings.setting') }))
-            .color('red')
+            .$notification(this.__('voyager::settings.enter_group_name'))
+            .prompt()
             .timeout()
-            .confirm()
             .show()
-            .then((response) => {
-                if (response) {
-                    this.settings.splice(this.settings.indexOf(setting), 1);
-
-                    if (!this.groups[this.currentGroupId]) {
-                        this.currentGroupId = 0;
-                        this.$refs.tabs.openByIndex(0);
-                    }
+            .then((value) => {
+                if (value && value !== '') {
+                    let group = this.slugify(value, { lower: true, strict:true });
+                    this.tempGroups.push(group);
+                    this.currentGroup = group;
                 }
             });
-        },
-        moveSettingUp(setting) {
-            if (this.settingsByGroup(setting.group).indexOf(setting) > 0) {
-                this.settings = this.settings.moveElementUp(setting);
-            }
-        },
-        moveSettingDown(setting) {
-            var group = this.settingsByGroup(setting.group);
-            if (group.length - 1 > group.indexOf(setting)) {
-                this.settings = this.settings.moveElementDown(setting);
-            }
         },
         data(setting, value = null) {
             if (setting.translatable || false && setting.value && this.isString(setting.value)) {
@@ -263,42 +249,46 @@ export default {
 
             return this.errors[key] || [];
         },
-    },
-    computed: {
-        filterFormfields() {
-            return this.$store.formfields.where('in_settings', true);
-        },
-        groups() {
-            var groups = ['no-group'];
+        groupHasErrors(group) {
+            let errors = false;
             this.settings.forEach((setting) => {
-                if (groups.indexOf(setting.group) == -1 && setting.group !== null) {
-                    groups.push(setting.group);
+                if (setting.group == group && this.getErrors(setting).length > 0) {
+                    errors = true;
                 }
             });
-
-            groups = groups.map((group) => {
-                return {
-                    name: group,
-                    title: (group == 'no-group' ? 'No group' : group),
-                };
-            });
-
-            return groups;
+            return errors;
         },
-        groupedSettings: {
-            get() {
-                return this.settingsByGroup(this.groups[this.currentGroupId].name);
-            },
-            set(settings) {
-                var current_group = this.groups[this.currentGroupId].name;
-                this.settings = this.settings.filter((setting) => {
-                    if (current_group == 'no-group') {
-                        return setting.group !== null;
-                    }
-                    return setting.group !== current_group;
-                });
-                this.settings = this.settings.concat(settings);
-            }
+        groupHasSettings() {
+            return this.filteredSettings.filter((setting) => {
+                return setting.group == this.currentGroup;
+            }).length > 0;
+        },
+        settingsInGroup(group) {
+            return this.filteredSettings.filter((setting) => {
+                return setting.group == group;
+            });
+        },
+        generateKey(setting) {
+            setting.key = this.slugify(this.translate(setting.name, false), { lower: true, strict: true });
+        },
+    },
+    computed: {
+        groups() {
+            return [null, ...[...this.tempGroups, ...this.settings.map((setting) => {
+                return setting.group;
+            })].filter((group, key, self) => {
+                return self.indexOf(group) === key && group;
+            }).sort()];
+        },
+        filteredFormfields() {
+            return this.$store.formfields.filter((formfield) => {
+                return formfield.in_settings;
+            });
+        },
+        filteredSettings() {
+            return this.settings.filter((s) => {
+                return this.translate(s.title, false).toLowerCase().includes(this.query) || s.key.toLowerCase().includes(this.query);
+            });
         },
         jsonSettings: {
             get() {
@@ -313,47 +303,18 @@ export default {
         }
     },
     created() {
-        this.$watch(
-            () => this.currentEnteredGroup,
-            (value) => {
-                if (value == '') {
-                    this.settings = this.settings.map((setting) => {
-                        if (setting.group == '') {
-                            setting.group = null;
-                        }
-
-                        return setting;
-                    });
-
-                    value = 'no-group';
+        this.$watch(() => this.settings, (settings) => {
+            settings.forEach((setting) => {
+                if (!setting.hasOwnProperty('uuid')) {
+                    setting.uuid = uuidv4();
                 }
-                for (var group in this.groups) {
-                    if (this.groups.hasOwnProperty(group)) {
-                        if (this.groups[group].name == value) {
-                            this.$refs.tabs.openByIndex(group);
-                        }
-                    }
-                }
-            }
-        );
-        this.$watch(
-            () => this.currentGroupId,
-            (value) => {
-                var url = window.location.href.split('?')[0];
-                if (value > 0) {
-                    url = this.addParameterToUrl('group', this.groups[value].name, url);
-                } else {
-                    url = this.addParameterToUrl('group', '', url);
-                }
-                this.pushToUrlHistory(url);
-            }
-        );
+            });
+        }, { immediate: true, deep: true});
     },
     mounted() {
-        var group = this.getParameterFromUrl('group', 'no-group');
-
-        if (group !== null && group !== 'null' && group !== 'no-group') {
-            this.currentEnteredGroup = group;
+        var group = this.getParameterFromUrl('group', null);
+        if (this.groups.includes(group)) {
+            this.currentGroup = group;
         }
 
         $eventbus.on('ctrl-s-combo', (e) => {

@@ -63,7 +63,7 @@ export default {
                     mirror: this.mirrorClass,
                 },
                 plugins: [Plugins.SortAnimation],
-                swapAnimation: {
+                sortAnimation: {
                     duration: 200,
                     easingFunction: 'ease-in-out',
                 },

@@ -1,10 +1,15 @@
 <template>
     <draggable as="div" class="flex flex-wrap w-full" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" handle=".dd-handle">
-        <div v-for="formfield in formfields" :key="formfield.uuid" class="m-0 dd-source" :class="formfield.options.width">
+        <div
+            v-for="(formfield, key) in formfields"
+            :key="formfield.uuid"
+            class="m-0 dd-source" :class="formfield.options.width"
+            uses="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6 w-full"
+        >
             <card :title="translate(formfield.options.title) || ''" :title-size="5">
                 <template #actions>
                     <div class="flex space-x-1">
-                        <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::builder.move')">
+                        <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
                             <icon icon="arrows-expand" />
                         </button>
                         <button class="button small" @mousedown="startResize(key)" v-tooltip="__('voyager::builder.resize')">

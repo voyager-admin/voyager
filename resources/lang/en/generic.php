@@ -103,6 +103,7 @@ return [
     'min'                       => 'Min',
     'minimum'                   => 'Minimum',
     'more_results'              => 'And :num more',
+    'move'                      => 'Move',
     'multiple'                  => 'Multiple',
     'name'                      => 'Name',
     'new_window'                => 'New window',

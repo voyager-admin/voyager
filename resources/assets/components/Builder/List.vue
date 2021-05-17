@@ -17,7 +17,7 @@
                 </thead>
                 <draggable as="tbody" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" handle=".dd-handle">
                     <tr v-for="formfield in formfields" :key="formfield.uuid" class="dd-source">
-                        <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::builder.move')">
+                        <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
                             <icon icon="selector" />
                         </td>
                         <td class="hidden md:table-cell">{{ getFormfieldByType(formfield.type).name }}</td>

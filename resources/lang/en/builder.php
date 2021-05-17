@@ -34,7 +34,6 @@ return [
     'list'                              => 'List',
     'lists'                             => 'Lists',
     'model'                             => 'Model',
-    'move'                              => 'Move',
     'name_already_exists'               => 'This name already exists!',
     'name_plural'                       => 'Name plural',
     'name_singular'                     => 'Name singular',
