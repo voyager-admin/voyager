@@ -6,6 +6,7 @@ import ColorPicker from '../components/UI/ColorPicker.vue';
 import Dropdown from '../components/UI/Dropdown.vue';
 import IconPicker from '../components/UI/IconPicker.vue';
 import ImageEditor from '../components/UI/ImageEditor.vue';
+import JsonEditor from '../components/UI/JsonEditor.vue';
 import KeyValueForm from '../components/UI/KeyValueForm.vue';
 import LanguageInput from '../components/UI/LanguageInput.vue';
 import MediaManager from '../components/UI/MediaManager.vue';
@@ -23,6 +24,7 @@ export {
     Dropdown,
     IconPicker,
     ImageEditor,
+    JsonEditor,
     KeyValueForm,
     LanguageInput,
     MediaManager,

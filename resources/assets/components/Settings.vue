@@ -132,7 +132,7 @@
             <h3 class="text-center" v-if="!groupHasSettings()">{{ __('voyager::settings.no_settings_in_group') }}</h3>
         </card>
         <collapsible v-if="jsonOutput" :title="__('voyager::builder.json_output')" closed>
-            <textarea class="input w-full" rows="10" v-model="jsonSettings"></textarea>
+            <json-editor v-model="settings" />
         </collapsible>
     </div>
 </template>
@@ -316,18 +316,6 @@ export default {
             return this.settings.filter((s) => {
                 return this.translate(s.title, false).toLowerCase().includes(this.query) || (s.key || '').toLowerCase().includes(this.query);
             });
-        },
-        jsonSettings: {
-            get() {
-                return JSON.stringify(this.settings, null, 2);
-            },
-            set(value) {
-                let s = this.settings;
-                try {
-                    s = JSON.parse(value);
-                    this.settings = s;
-                } catch (e) {}
-            }
         },
         jsonOutput() {
             return usePage().props.value.json_output;

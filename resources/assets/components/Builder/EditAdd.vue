@@ -295,7 +295,7 @@
         </collapsible>
 
         <collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::builder.json_output')" closed>
-            <textarea class="input w-full" rows="10" v-model="jsonBread"></textarea>
+            <json-editor v-model="bread" />
         </collapsible>
     </div>
 </template>
@@ -610,14 +610,6 @@ export default {
                 }
                 return false;
             })[0];
-        },
-        jsonBread: {
-            get() {
-                return JSON.stringify(this.bread, null, 2);
-            },
-            set(value) {
-                
-            }
         },
         jsonOutput() {
             return usePage().props.value.json_output;

@@ -71,8 +71,8 @@
                 </button>
             </div>
         </card>
-        <collapsible v-if="!fromRelationship && jsonOutput !== null" :title="__('voyager::builder.json_output')" closed>
-            <textarea class="input w-full" rows="10" v-model="jsonOutput"></textarea>
+        <collapsible v-if="!fromRelationship && jsonOutput" :title="__('voyager::builder.json_output')" closed>
+            <json-editor v-model="output" />
         </collapsible>
     </div>
 </template>
@@ -189,7 +189,7 @@ export default {
     },
     computed: {
         jsonOutput() {
-            return usePage().props.value.json_output ? JSON.stringify(this.output, null, 2) : null;
+            return usePage().props.value.json_output;
         }
     },
     mounted() {
