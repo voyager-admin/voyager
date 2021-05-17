@@ -186,8 +186,11 @@ export default {
         }
     },
     mounted() {
-        $eventbus.on('ctrl-s-combo', () => {
-            this.save();
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 's') {
+                this.save();
+                e.preventDefault();
+            }
         });
 
         this.layout.formfields.forEach((formfield) => {

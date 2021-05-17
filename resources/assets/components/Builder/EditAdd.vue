@@ -113,7 +113,7 @@
             </div>
 
             <div class="inline-flex space-x-1">
-                <button class="button blue" @click="saveBread" :disabled="savingBread || backingUp">
+                <button class="button blue" @click="save" :disabled="savingBread || backingUp">
                     <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="savingBread" />
                     {{ __('voyager::generic.save') }}
                 </button>
@@ -331,7 +331,7 @@ export default {
         };
     },
     methods: {
-        saveBread() {
+        save() {
             if (this.validateLayouts()) {
                 new this.$notification(this.nl2br(this.__('voyager::builder.layout_field_warning')))
                         .confirm()
@@ -621,8 +621,11 @@ export default {
             this.loadProperties();
         }
 
-        $eventbus.on('ctrl-s-combo', () => {
-            this.saveBread();
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 's') {
+                this.save();
+                e.preventDefault();
+            }
         });
     },
     created() {

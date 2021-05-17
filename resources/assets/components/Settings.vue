@@ -177,6 +177,12 @@ export default {
             } else {
                 this.currentGroup = null;
             }
+
+            if (!this.currentGroup) {
+                history.replaceState(null, null, ' ');
+            } else {
+                window.location.hash = this.currentGroup;
+            }
         },
         save() {
             this.savingSettings = true;
@@ -327,14 +333,16 @@ export default {
         }, { immediate: true, deep: true});
     },
     mounted() {
-        var group = this.getParameterFromUrl('group', null);
-        if (this.groups.includes(group)) {
-            this.currentGroup = group;
-        }
-
-        $eventbus.on('ctrl-s-combo', (e) => {
-            this.save();
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 's') {
+                this.save();
+                e.preventDefault();
+            }
         });
+
+        if (this.groups.includes(window.location.hash.substr(1))) {
+            this.currentGroup = window.location.hash.substr(1);
+        }
     }
 };
 </script>

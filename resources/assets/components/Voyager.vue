@@ -61,12 +61,7 @@ export default {
 
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey) {
-                if (e.key === 's') {
-                    if ($eventbus.hasListener('ctrl-s-combo')) {
-                        $eventbus.emit('ctrl-s-combo', e);
-                        e.preventDefault();
-                    }
-                } else if (e.code == 'ArrowRight' || e.code == 'ArrowUp') {
+                if (e.code == 'ArrowRight' || e.code == 'ArrowUp') {
                     this.nextLocale();
                 } else if (e.code == 'ArrowLeft' || e.code == 'ArrowDown') {
                     this.previousLocale();

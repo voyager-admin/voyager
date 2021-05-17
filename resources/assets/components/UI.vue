@@ -160,7 +160,7 @@
         </collapsible>
 
         <collapsible title="Color picker" id="ui-color-picker">
-            <collapsible title="Colors" id="ui-color-picker">
+            <collapsible title="Colors">
                 <template #actions>
                     <div class="space-x-1">
                         <button class="button" @click="colorSizePlus">
