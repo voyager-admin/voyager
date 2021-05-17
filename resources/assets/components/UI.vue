@@ -21,9 +21,6 @@
                     <button class="button accent my-2" v-scroll-to="'ui-tags'">
                         Tag input
                     </button>
-                    <button class="button accent my-2" v-scroll-to="'ui-tabs'">
-                        Tabs
-                    </button>
                     <button class="button accent my-2" v-scroll-to="'ui-badges'">
                         Badges
                     </button>
@@ -165,12 +162,14 @@
         <collapsible title="Color picker" id="ui-color-picker">
             <collapsible title="Colors" id="ui-color-picker">
                 <template #actions>
-                    <button class="button" @click="colorSizePlus">
-                        <icon icon="plus" />
-                    </button>
-                    <button class="button" @click="colorSizeMinus">
-                        <icon icon="minus" />
-                    </button>
+                    <div class="space-x-1">
+                        <button class="button" @click="colorSizePlus">
+                            <icon icon="plus" />
+                        </button>
+                        <button class="button" @click="colorSizeMinus">
+                            <icon icon="minus" />
+                        </button>
+                    </div>
                 </template>
                 <color-picker :size="colorSize" v-model="color"></color-picker>
                 
@@ -180,23 +179,6 @@
 
         <collapsible title="Tag input" id="ui-tags">
             <tag-input v-model="tags" />
-        </collapsible>
-
-        <collapsible title="Tabs" id="ui-tabs">
-            <tabs :tabs="[{name: 'tab1', title: 'Tab 1'}, {name: 'tab2', title: 'Tab 2'}, {name: 'tab3', title: 'Tab 3'}]">
-                <template #tab1>
-                    <h3>Tab 1</h3>
-                    <p>{{ lorem }}</p>
-                </template>
-                <template #tab2>
-                    <h3>Tab 2</h3>
-                    <p>{{ lorem }}</p>
-                </template>
-                <template #tab3>
-                    <h3>Tab 3</h3>
-                    <p>{{ lorem }}</p>
-                </template>
-            </tabs>
         </collapsible>
 
         <collapsible title="Badges" id="ui-badges">

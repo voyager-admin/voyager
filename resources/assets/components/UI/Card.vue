@@ -1,7 +1,7 @@
 <template>
 <div class="card" :class="[`border-${border}`, !noPadding ? 'p-4 mx-1' : null]">
     <div class="header" v-if="!dontShowHeader">
-        <div class="flex justify-between">
+        <div class="flex flex-wrap justify-between">
             <slot name="title">
                 <div class="flex space-x-2 items-center">
                     <icon v-if="icon" :icon="icon" :size="iconSize" />
@@ -13,7 +13,7 @@
                     </p>
                 </div>
             </slot>
-            <div class="flex flex-shrink-0 items-start">
+            <div class="flex flex-wrap items-start">
                 <slot name="actions"></slot>
             </div>
         </div>

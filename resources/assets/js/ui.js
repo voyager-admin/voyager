@@ -12,7 +12,6 @@ import MediaManager from '../components/UI/MediaManager.vue';
 import Modal from '../components/UI/Modal.vue';
 import Pagination from '../components/UI/Pagination.vue';
 import SlideIn from '../components/UI/SlideIn.vue';
-import Tabs from '../components/UI/Tabs.vue';
 import TagInput from '../components/UI/TagInput.vue';
 
 export {
@@ -30,6 +29,5 @@ export {
     Modal,
     Pagination,
     SlideIn,
-    Tabs,
     TagInput,
 };

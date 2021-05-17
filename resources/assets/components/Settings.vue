@@ -50,7 +50,7 @@
                     v-for="group in groups"
                     @click="setCurrentGroup(group)"
                     :icon="currentGroup == group ? 'x' : null"
-                    :color="groupHasErrors(group) ? 'red' : (settingsInGroup(group).length == 0 ? 'gray' : 'accent')"
+                    :color="badgeColor(group)"
                 >
                     {{ titleCase(group ? group : __('voyager::settings.no_group')) }} ({{ settingsInGroup(group).length }})
                 </badge>
@@ -65,7 +65,7 @@
                     v-show="setting.group == currentGroup"
                 >
                     <template #actions>
-                        <div class="flex space-x-1">
+                        <div class="flex flex-wrap space-x-1">
                             <language-input type="text" class="input small" v-model="setting.name" :placeholder="__('voyager::settings.name')" />
 
                             <input type="text" class="input small" v-model="setting.key" :placeholder="__('voyager::settings.key')" />
@@ -271,6 +271,17 @@ export default {
         generateKey(setting) {
             setting.key = this.slugify(this.translate(setting.name, false), { lower: true, strict: true });
         },
+        badgeColor(group) {
+            if (this.groupHasErrors(group)) {
+                return 'red';
+            } else if (this.currentGroup == group) {
+                return 'green';
+            } else if (this.settingsInGroup(group).length == 0) {
+                return 'gray';
+            }
+
+            return 'accent';
+        },
     },
     computed: {
         groups() {
@@ -295,7 +306,11 @@ export default {
                 return JSON.stringify(this.settings, null, 2);
             },
             set(value) {
-                
+                let s = this.settings;
+                try {
+                    s = JSON.parse(value);
+                    this.settings = s;
+                } catch (e) {}
             }
         },
         jsonOutput() {
