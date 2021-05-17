@@ -50,7 +50,7 @@
                     v-for="group in groups"
                     @click="setCurrentGroup(group)"
                     :icon="currentGroup == group ? 'x' : null"
-                    :color="groupHasErrors(group) ? 'red' : 'accent'"
+                    :color="groupHasErrors(group) ? 'red' : (settingsInGroup(group).length == 0 ? 'gray' : 'accent')"
                 >
                     {{ titleCase(group ? group : __('voyager::settings.no_group')) }} ({{ settingsInGroup(group).length }})
                 </badge>
@@ -167,7 +167,7 @@ export default {
             currentGroup: null,
             query: '',
             errors: [],
-            tempGroups: [],
+            tempGroups: [], // Temporarily used when adding groups
         };
     },
     methods: {
@@ -287,7 +287,7 @@ export default {
         },
         filteredSettings() {
             return this.settings.filter((s) => {
-                return this.translate(s.title, false).toLowerCase().includes(this.query) || s.key.toLowerCase().includes(this.query);
+                return this.translate(s.title, false).toLowerCase().includes(this.query) || (s.key || '').toLowerCase().includes(this.query);
             });
         },
         jsonSettings: {
