@@ -1,7 +1,12 @@
 <template>
-    <textarea rows="10" v-model="json" class="input w-full"></textarea>
+    <template v-if="editorExists">
+        <json-code-editor v-model="modelValue" />
+    </template>
+    <textarea rows="10" v-model="json" class="input w-full" v-else></textarea>
 </template>
 <script>
+import { resolveComponent } from 'vue';
+
 export default {
     emits: ['update:modelValue'],
     props: {
@@ -21,6 +26,9 @@ export default {
                     this.$emit('update:modelValue', json);
                 } catch (e) { }
             }
+        },
+        editorExists() {
+            return resolveComponent('json-code-editor') !== 'json-code-editor';
         }
     }
 };

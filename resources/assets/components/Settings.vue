@@ -131,7 +131,7 @@
             </draggable>
             <h3 class="text-center" v-if="!groupHasSettings()">{{ __('voyager::settings.no_settings_in_group') }}</h3>
         </card>
-        <collapsible v-if="jsonOutput" :title="__('voyager::builder.json_output')" closed>
+        <collapsible v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
             <json-editor v-model="settings" />
         </collapsible>
     </div>

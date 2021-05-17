@@ -71,7 +71,7 @@
                 </button>
             </div>
         </card>
-        <collapsible v-if="!fromRelationship && jsonOutput" :title="__('voyager::builder.json_output')" closed>
+        <collapsible v-if="!fromRelationship && jsonOutput" :title="__('voyager::generic.json_output')" closed>
             <json-editor v-model="output" />
         </collapsible>
     </div>

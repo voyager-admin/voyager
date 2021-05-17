@@ -294,7 +294,7 @@
             </div>
         </collapsible>
 
-        <collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::builder.json_output')" closed>
+        <collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
             <json-editor v-model="bread" />
         </collapsible>
     </div>

@@ -84,6 +84,7 @@ return [
     ],
     'item'                      => 'Item',
     'instructions'              => 'Instructions',
+    'json_output'               => 'JSON Output',
     'key'                       => 'Key',
     'languages'                 => [
         'en'        => 'English',
