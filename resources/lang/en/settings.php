@@ -3,6 +3,7 @@
 return [
     'add_group'                 => 'Add group',
     'add_setting'               => 'Add setting',
+    'clone'                     => 'Clone',
     'enter_group_name'          => 'Enter the name of the group',
     'generate_key'              => 'Generate key',
     'key'                       => 'Key',
@@ -18,4 +19,5 @@ return [
     'settings'                  => 'Settings',
     'settings_saved'            => 'Settings have been saved!',
     'validation_errors'         => 'There were errors validating your input.',
+    'validation_no_key'         => 'There is at least one setting in this group without a key. Settings must have a key to be identifiable!',
 ];

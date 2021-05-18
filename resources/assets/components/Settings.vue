@@ -56,6 +56,10 @@
                 </badge>
             </div>
 
+            <alert v-if="errors.hasOwnProperty(currentGroup+'.') || (currentGroup == null && errors.hasOwnProperty('.'))" color="red" class="my-2">
+                {{ __('voyager::settings.validation_no_key') }}
+            </alert>
+
             <draggable as="div" v-model="settings" handle=".dd-handle">
                 <card
                     v-for="setting in filteredSettings"
@@ -78,6 +82,10 @@
 
                             <button class="button small" @click="generateKey(setting)" v-tooltip="__('voyager::settings.generate_key')">
                                 <icon icon="finger-print" />
+                            </button>
+
+                            <button class="button small" @click="cloneSetting(setting)" v-tooltip="__('voyager::settings.clone')">
+                                <icon icon="duplicate" />
                             </button>
 
                             <slide-in :title="__('voyager::generic.options')">
@@ -105,7 +113,7 @@
                                 <icon icon="switch-vertical" />
                             </button>
 
-                            <button class="button small red" @click="$emit('delete', key)" v-tooltip="__('voyager::generic.delete')">
+                            <button class="button small red" @click="deleteSetting(setting)" v-tooltip="__('voyager::generic.delete')">
                                 <icon icon="trash" />
                             </button>
                         </div>
@@ -225,6 +233,31 @@ export default {
                 validation: [],
             });
         },
+        deleteSetting(setting) {
+            new this
+            .$notification(this.trans_choice('voyager::bread.delete_type_confirm', 1, { type: this.__('voyager::settings.setting') }))
+            .color('red')
+            .timeout()
+            .confirm()
+            .show()
+            .then((response) => {
+                if (response) {
+                    this.settings.splice(this.settings.indexOf(setting), 1);
+
+                    // Go to another group when there are no settings left in this group (effectively the group doesn't exist anymore)
+                    if (this.settingsInGroup(setting.group) == 0 && setting.group !== null) {
+                        this.setCurrentGroup(null);
+                    }
+                }
+            });
+        },
+        cloneSetting(setting) {
+            setting = JSON.parse(JSON.stringify(setting));
+            setting.uuid = null;
+            setting.key = null;
+
+            this.settings.push(setting);
+        },
         addGroup() {
             new this
             .$notification(this.__('voyager::settings.enter_group_name'))
@@ -272,6 +305,12 @@ export default {
                     errors = true;
                 }
             });
+
+            // Special case where a setting doesn't have a key
+            if (this.errors.hasOwnProperty(group+'.') || (group === null && this.errors.hasOwnProperty('.'))) {
+                errors = true;
+            }
+            
             return errors;
         },
         groupHasSettings() {
@@ -324,7 +363,7 @@ export default {
     created() {
         this.$watch(() => this.settings, (settings) => {
             settings.forEach((setting) => {
-                if (!setting.hasOwnProperty('uuid')) {
+                if (!setting.hasOwnProperty('uuid') || !setting.uuid) {
                     setting.uuid = uuidv4();
                 }
             });

@@ -26,12 +26,7 @@ Please follow the [official documentation](https://github.com/spatie/image-optim
 
 You can generate thumbnails by adding settings to a group called "Thumbnails".  
 Add a formfield `Dynamic select` and enter `voyager.get-thumbnail-options` as the route in the options.  
-The name of the setting will be the suffix of your filename.  
-For example, creating a setting called `small` will generate a thumbnail named `myfile_small.jpg`.
-
-
-Save your settings and refresh the page.  
-You will now be able to select the method (fit, crop or resize) and enter the required parameter.
+Now you can enter the name (which will be the suffix of the filename) and various options, depending on the thumbnail method you choose.
 
 ## Watermark
 

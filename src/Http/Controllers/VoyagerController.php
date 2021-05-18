@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Voyager\Admin\Classes\DynamicSelect;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
@@ -131,8 +132,59 @@ class VoyagerController extends Controller
         $disks = collect(array_keys(config('filesystems.disks')))->mapWithKeys(function ($disk) {
             return [$disk => Str::title($disk)];
         })->toArray();
-        $select = (new \Voyager\Admin\Classes\DynamicSelect())->addSelect(null, null, $disks, false, 'public');
+        $select = (new DynamicSelect())->addSelect(null, null, $disks, false, 'public');
 
         return response()->json($select);
+    }
+
+    public function getThumbnailOptions(Request $request)
+    {
+        $method = $request->input('method', 'fit');
+
+        $select = (new DynamicSelect())
+        ->addText('name', 'Name', 'Name')
+        ->addSelect('method', 'Method', [
+            'fit'    => __('voyager::media.thumbnails.fit'),
+            'crop'   => __('voyager::media.thumbnails.crop'),
+            'resize' => __('voyager::media.thumbnails.resize'),
+        ], false, $method);
+
+        if ($method) {
+            $select->addNumber('width', __('voyager::media.thumbnails.width'), __('voyager::media.thumbnails.width'), null, 0);
+
+            $heightTitle = $method == 'fit' ? __('voyager::media.thumbnails.height_optional') : __('voyager::media.thumbnails.height');
+            $select->addNumber('height', $heightTitle, $heightTitle, null, 0);
+
+            if ($method == 'fit') {
+                $positions = collect(__('voyager::media.positions'))->mapWithKeys(function ($value, $key) {
+                    return [Str::slug($key) => $value];
+                })->toArray();
+                $select->addSelect('position', __('voyager::media.thumbnails.position'), $positions, false, 'center');
+                $select->addSwitch('upsize', __('voyager::media.thumbnails.upsize'), false);
+            } elseif ($method == 'crop') {
+                $select->addNumber('x', __('voyager::media.thumbnails.x_optional'), __('voyager::media.thumbnails.x_optional'), null, 0);
+                $select->addNumber('y', __('voyager::media.thumbnails.y_optional'), __('voyager::media.thumbnails.y_optional'), null, 0);
+            } elseif ($method == 'resize') {
+                $select->addSwitch('keep_aspect_ratio', __('voyager::media.thumbnails.keep_aspect_ratio'), true);
+                $select->addSwitch('upsize', __('voyager::media.thumbnails.upsize'), false);
+            }
+        }
+
+        return $select;
+    }
+
+    public function getWatermarkOptions(Request $request)
+    {
+        $positions = collect(__('voyager::media.positions'))->mapWithKeys(function ($value, $key) {
+            return [Str::slug($key) => $value];
+        })->toArray();
+
+        return (new DynamicSelect())
+            ->addText('name', 'Name', 'Name')
+            ->addSelect('position', __('voyager::media.thumbnails.position'), $positions, false, 'bottom-right')
+            ->addNumber('x', 'X', 'X', null, 0)
+            ->addNumber('y', 'Y', 'Y', null, 0)
+            ->addNumber('size', __('voyager::media.watermark.size_in_perc'), __('voyager::media.watermark.size_in_perc'), 10, 0, 100)
+            ->addNumber('opacity', __('voyager::media.watermark.opacity'), __('voyager::media.watermark.opacity'), 50, 0, 100);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Layouts as LayoutFilter;
 use Voyager\Admin\Exceptions\NoLayoutFoundException;
@@ -73,7 +74,17 @@ abstract class Controller extends BaseController
 
     protected function validateField($value, $rule, $message)
     {
-        $validator = Validator::make(['col' => $value], ['col' => $rule]);
+        $ruleSet = ['col' => $rule];
+
+        if (Str::startsWith($rule, '.')) {
+            $ruleSet = ['col.*'.Str::before($rule, ':') => Str::after($rule, ':')];
+            $value = [$value];
+        } elseif (Str::startsWith($rule, '*.')) {
+            $ruleSet = ['col.'.Str::before($rule, ':') => Str::after($rule, ':')];
+            $value = $value;
+        }
+
+        $validator = Validator::make(['col' => $value], $ruleSet);
 
         if ($validator->fails()) {
             if (is_object($message)) {
@@ -81,7 +92,8 @@ abstract class Controller extends BaseController
             } elseif (is_array($message)) {
                 $message = $message[VoyagerFacade::getLocale()] ?? $message[VoyagerFacade::getFallbackLocale()] ?? '';
             }
-           return $message;
+
+            return $message;
         }
 
         return null;

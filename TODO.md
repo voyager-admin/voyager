@@ -23,6 +23,7 @@ Instead, they are listed here:
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, ...)
 - Revamp what happens when bread stored or updated. Clear? Edit again?
 - Let formfields be overriden by a `component` option
+- When validation rules are changed afterwards in settings, validation may fail and thus, settings will not save (including the new validation rules)
 
 ## Formfields
 - **Relationship**

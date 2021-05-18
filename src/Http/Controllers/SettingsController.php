@@ -44,6 +44,12 @@ class SettingsController extends Controller
         });
         $validation_errors = $this->validateData($settings, $data);
 
+        $settings->each(function ($setting) use (&$validation_errors) {
+            if (!$setting->key || $setting->key == '') {
+                $validation_errors[$setting->group.'.'] = true;
+            }
+        });
+
         if (count($validation_errors) > 0) {
             return response()->json($validation_errors, 422);
         }

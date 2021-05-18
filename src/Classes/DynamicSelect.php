@@ -65,6 +65,20 @@ class DynamicSelect implements \JsonSerializable
         return $this;
     }
 
+    public function addSwitch(?string $key = null, ?string $title = null, ?bool $value = false)
+    {
+        $this->inputs->push([
+            'type'      => 'switch',
+            'key'       => $key,
+            'title'     => $title,
+            'value'     => $value,
+        ]);
+
+        $this->checkInputs();
+
+        return $this;
+    }
+
     private function addMultipleChoiceInput(string $type, ?string $key = null, ?string $title = null, ?array $options = [], ?bool $multiple = false, $value = null)
     {
         $this->inputs->push([

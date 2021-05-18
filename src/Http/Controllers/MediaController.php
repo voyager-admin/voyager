@@ -60,6 +60,7 @@ class MediaController extends Controller
 
     protected function processUploadedFile($file, $path)
     {
+        $start = microtime(true);
         $name = '';
         $count = 0;
         $thumbnails = 0;
@@ -73,27 +74,27 @@ class MediaController extends Controller
             // Orientate image
             $this->orientateImage(Storage::disk($this->disk)->path($path.$name));
     
-            // Add waterwark to image
-            $wm = VoyagerFacade::setting('watermark.image', []);
-            if (is_array($wm) && isset($wm[0])) {
-                $wm = $wm[0];
+            // Get watermark settings
+            $watermark = VoyagerFacade::setting('watermark.image', []);
+            if (is_array($watermark) && isset($watermark[0])) {
+                $watermark = $watermark[0];
             }
-            $wm_add = false;
-            $wm_pos = VoyagerFacade::setting('watermark.position', 'bottom-right');
-            $wm_size = VoyagerFacade::setting('watermark.size', 15);
-            $wm_x = VoyagerFacade::setting('watermark.x', 10);
-            $wm_y = VoyagerFacade::setting('watermark.y', 10);
-            $wm_opac = VoyagerFacade::setting('watermark.opacity', 50);
 
-            $wm_path = '';
-            if (isset($wm->relative_path) && Storage::disk($wm->disk)->exists($wm->relative_path.$wm->name)) {
-                $wm_path = Storage::disk($this->disk)->path($wm->relative_path.$wm->name);
-                $wm_add = true;
+            if (isset($watermark->relative_path) && Storage::disk($watermark->disk)->exists($watermark->relative_path.$watermark->name)) {
+                $watermark = Storage::disk($watermark->disk)->path($watermark->relative_path.$watermark->name);
+                $watermark = Intervention::make($watermark);
+            } else {
+                $watermark = null;
             }
+
+            $watermark = array_merge([
+                'image' => $watermark
+            ], (array) VoyagerFacade::setting('watermark.settings', []));
 
             extract(pathinfo($name));
+
             // Generate thumbnails
-            VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension, $wm_add, $wm_pos, $wm_size, $wm_x, $wm_y, $wm_opac, $wm_path, &$thumbnails) {
+            VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension, $watermark, &$thumbnails) {
                 $image = Intervention::make(Storage::disk($this->disk)->path($path.$name));
                 $thumbname = $filename.'_'.$thumb['name'].'.'.$extension;
 
@@ -121,16 +122,9 @@ class MediaController extends Controller
                 $image->save(Storage::disk($this->disk)->path($path.$thumbname));
 
                 // Add watermark to thumbnail
-                if ($wm_add) {
-                    $this->addWatermark(
-                        Storage::disk($this->disk)->path($path.$thumbname),
-                        $wm_path,
-                        $wm_size,
-                        $wm_x,
-                        $wm_y,
-                        $wm_pos,
-                        $wm_opac
-                    )->save();
+                // We don't add the watermark to the original image before because it could be croppped out that way.
+                if ($watermark['image']) {
+                    $this->addWatermark(Storage::disk($this->disk)->path($path.$thumbname), $watermark)->save();
                 }
 
                 if (VoyagerFacade::setting('media.optimize', true)) {
@@ -141,16 +135,8 @@ class MediaController extends Controller
             });
 
             // Add watermark to the "main" image
-            if ($wm_add) {
-                $this->addWatermark(
-                    Storage::disk($this->disk)->path($path.$name),
-                    $wm_path,
-                    $wm_size,
-                    $wm_x,
-                    $wm_y,
-                    $wm_pos,
-                    $wm_opac
-                )->save();
+            if ($watermark['image']) {
+                $this->addWatermark(Storage::disk($this->disk)->path($path.$name), $watermark)->save();
             }
 
             // Optimize image
@@ -320,25 +306,25 @@ class MediaController extends Controller
         return $name.'.'.$pathinfo['extension'];
     }
 
-    private function addWatermark($original, $watermark, $size, $x, $y, $position, $opacity)
+    private function addWatermark($original, $settings)
     {
         $original = Intervention::make($original);
-        $watermark = Intervention::make($watermark);
+        $watermark = $settings['image'];
 
-        if ($opacity < 100) {
-            $watermark->opacity($opacity);
+        if ($settings['opacity'] < 100) {
+           $watermark->opacity($settings['opacity']);
         }
 
-        $width = $original->width() * ($size / 100);
+        $width = $original->width() * ($settings['size'] / 100);
         $watermark->resize($width, null, function ($constraint) {
             $constraint->aspectRatio();
         });
 
         return $original->insert(
             $watermark,
-            $position,
-            $x,
-            $y,
+            $settings['position'],
+            $settings['x'],
+            $settings['y'],
         );
 
     }

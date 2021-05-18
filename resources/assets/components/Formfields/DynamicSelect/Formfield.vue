@@ -44,7 +44,7 @@
                     <div class="flex space-x-1.5 items-center">
                         <input
                             :type="input.type"
-                            class="input w-full"
+                            class="input"
                             :value="value"
                             @change="setSelectValue(input, $event)"
                             :id="`${column.column}-${value}`"
@@ -54,6 +54,18 @@
                         <label :for="`${column.column}-${value}`" class="label">{{ title }}</label>
                     </div>
                 </template>
+            </template>
+            <template v-else-if="input.type == 'switch'">
+                <div class="flex space-x-1.5 items-center">
+                    <input
+                        type="checkbox"
+                        class="input"
+                        @change="setValue(input, $event.target.checked)"
+                        :id="`${column.column}-${input.key}`"
+                        :checked="getValue(input)"
+                    >
+                    <label :for="`${column.column}-${input.key}`" class="label">{{ input.title }}</label>
+                </div>
             </template>
         </div>
     </div>
@@ -76,7 +88,8 @@ export default {
     },
     methods: {
         optionSelected(input, value) {
-            let current = this.getValue(input);
+            let current = this.sanitizeValue(this.getValue(input));
+            value = this.sanitizeValue(value);
             if (Array.isArray(current)) {
                 return current.includes(value);
             }
@@ -133,6 +146,7 @@ export default {
             if (this.isNumeric(value)) {
                 value = parseInt(value);
             }
+            value = this.sanitizeValue(value);
             if (input.key === null) {
                 this.$emit('update:modelValue', value);
             } else {
@@ -146,6 +160,13 @@ export default {
         },
         isNumeric(input) {
             return !isNaN(parseFloat(input)) && isFinite(input);
+        },
+        sanitizeValue(value) {
+            if (this.isNumeric(value)) {
+                return parseInt(value);
+            }
+
+            return value;
         }
     },
     created() {

@@ -10,3 +10,37 @@ Voyager::addLocale('en');
 Voyager::addLocale('de');
 ```
 and select `Validate all locales` to force the user to enter the data in both his languages.
+
+## Validating array elements
+
+#### Validating 1-dimensional arrays
+
+Given then following array:
+
+```php
+[
+    'name'  => 'admin',
+    'email' => 'foo@bar.baz',
+]
+```
+
+you can validate any fields by using `.name:required` or `.email:email` respectively.
+
+#### Multi-dimensional array
+
+Given the following array of users:
+
+```php
+[
+    [
+        'name'  => 'Admin',
+        'email' => 'foo@bar.baz',
+    ],
+    [
+        'name'  => 'User',
+        'email' => 'e@ma.il',
+    ],
+]
+```
+
+You can validate any fields in **all** elements (users in this case) by using `*.name:required` and `*.email:email`
