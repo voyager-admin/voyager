@@ -10,6 +10,7 @@ return [
     'dynamic_select'=> [
         'name'          => 'Dynamic Select',
         'route_name'    => 'Route name',
+        'route_warning' => 'The route ":route" does not exist!',
     ],
     'media_picker'  => [
         'display_items'         => 'Display items',

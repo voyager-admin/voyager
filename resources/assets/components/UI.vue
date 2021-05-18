@@ -312,7 +312,7 @@ export default {
             if (this.colorSize > 1) {
                 this.colorSize -= 1;
             }
-        }
-    }
+        },
+    },
 }
 </script>

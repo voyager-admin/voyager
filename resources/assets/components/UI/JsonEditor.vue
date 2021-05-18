@@ -1,8 +1,10 @@
 <template>
     <template v-if="editorExists">
-        <json-code-editor v-model="modelValue" />
+        
     </template>
-    <textarea rows="10" v-model="json" class="input w-full" v-else></textarea>
+    <template v-else>
+        <textarea rows="10" v-model="json" class="input w-full"></textarea>
+    </template>
 </template>
 <script>
 import { resolveComponent } from 'vue';
@@ -13,12 +15,16 @@ export default {
         modelValue: {
             type: Object,
             required: true,
+        },
+        indentation: {
+            type: Number,
+            default: 4
         }
     },
     computed: {
         json: {
             get() {
-                return JSON.stringify(this.modelValue, null, 2);
+                return JSON.stringify(this.modelValue, null, this.indentation);
             },
             set(value) {
                 try {
@@ -28,7 +34,8 @@ export default {
             }
         },
         editorExists() {
-            return resolveComponent('json-code-editor') !== 'json-code-editor';
+            //return resolveComponent('json-code-editor') !== 'json-code-editor';
+            return false;
         }
     }
 };

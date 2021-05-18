@@ -16,6 +16,7 @@
   * [Lists](bread/lists.md)
   * [Views](bread/views.md)
 * [Formfields](bread/formfields/introduction.md)
+  * [Dynamic select](bread/formfields/dynamic-select.md)
   * [Media Picker](bread/formfields/media-picker.md)
   * [Number](bread/formfields/number.md)
   * [Select](bread/formfields/select.md)

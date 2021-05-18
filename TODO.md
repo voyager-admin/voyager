@@ -21,6 +21,8 @@ Instead, they are listed here:
 - Refreshing the page and going back fails (Inertia problem?)
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, ...)
+- Revamp what happens when bread stored or updated. Clear? Edit again?
+- Let formfields be overriden by a `component` option
 
 ## Formfields
 - **Relationship**

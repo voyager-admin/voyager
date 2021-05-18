@@ -31,7 +31,7 @@ class DynamicSelect extends Formfield
 
     public function add()
     {
-        return [];
+        return null;
     }
 
     public function browse($value)

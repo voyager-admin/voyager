@@ -14,10 +14,14 @@ export default {
             type: [String, Number],
             default: 5,
         },
+        transitionSize: {
+            type: Number,
+            default: 0,
+        },
     },
     render() {
-        return h('i', { class: `h-${this.size} w-${this.size}`, key: `icon-${this.icon}` }, [
-            this.getIcon(),
+        return h('i', { class: `h-${this.transitionSize > 0 ? this.transitionSize : this.size} w-${this.size} ${this.transitionSize > 0 ? 'transition-width duration-500' : null}`, key: `icon-${this.icon}` }, [
+            this.getIcon()
         ]);
     },
     methods: {
@@ -46,8 +50,15 @@ export default {
         watch(() => this.size, (size) => {
             if (this.$el.firstChild) {
                 this.$el.firstChild.classList.remove(...this.$el.firstChild.classList);
-                this.$el.firstChild.classList.add(`h-${size}`);
+                
                 this.$el.firstChild.classList.add(`w-${size}`);
+                if (this.transitionSize > 0) {
+                    this.$el.firstChild.classList.add(`transition-width`);
+                    this.$el.firstChild.classList.add(`duration-500`);
+                    this.$el.firstChild.classList.add(`h-${this.transitionSize}`);
+                } else {
+                    this.$el.firstChild.classList.add(`h-${size}`);
+                }
             }
         }, { immediate: true });
     }

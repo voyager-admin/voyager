@@ -113,13 +113,14 @@
             </div>
 
             <div class="inline-flex space-x-1">
-                <button class="button blue" @click="save" :disabled="savingBread || backingUp">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="savingBread" />
-                    {{ __('voyager::generic.save') }}
+                <button class="button blue space-x-0" @click="save" :disabled="savingBread || backingUp">
+                    <icon icon="refresh" class="animate-spin-reverse" :size="savingBread ? 4 : 0" :transition-size="4" />
+                    <span>{{ __('voyager::generic.save') }}</span>
                 </button>
-                <button class="button" @click="backupBread" :disabled="savingBread || backingUp">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="backingUp" />
-                    {{ __('voyager::generic.backup') }}
+
+                <button class="button space-x-0" @click="backupBread" :disabled="savingBread || backingUp">
+                    <icon icon="refresh" class="animate-spin-reverse" :size="backingUp ? 4 : 0" :transition-size="4" />
+                    <span>{{ __('voyager::generic.backup') }}</span>
                 </button>
             </div>
         </collapsible>

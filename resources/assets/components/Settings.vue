@@ -8,8 +8,8 @@
             <template #actions>
                 <div class="flex space-x-1 items-center">
                     <input type="text" class="input small" @dblclick="query = ''" @keydown.esc="query = ''" v-model="query" :placeholder="__('voyager::settings.search_settings')">
-                    <button class="button accent" @click="save">
-                        <icon icon="refresh" class="mr-0 md:mr-1 animate-spin-reverse" :size="4" v-if="savingSettings" />
+                    <button class="button accent space-x-0" @click="save" :disabled="savingSettings">
+                        <icon icon="refresh" class="animate-spin-reverse" :size="savingSettings ? 4 : 0" :transition-size="4" />
                         <span>{{ __('voyager::generic.save') }}</span>
                     </button>
                     <dropdown placement="bottom-end">

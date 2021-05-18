@@ -28,9 +28,6 @@ class MediaController extends Controller
     public function __construct(PluginManager $pluginsmanager)
     {
         $this->disk = VoyagerFacade::setting('media.disk', 'public');
-        if (is_array($this->disk)) {
-            $this->disk = $this->disk[0];
-        }
         $this->path = Str::finish(VoyagerFacade::setting('media.path', '/'), '/');
 
         parent::__construct($pluginsmanager);

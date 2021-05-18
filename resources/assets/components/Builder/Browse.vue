@@ -2,8 +2,8 @@
     <card :title="__('voyager::generic.breads')" icon="bread">
         <template #actions>
             <div class="inline-flex space-x-1">
-                <button class="button" @click.stop="loadBreads">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="4" v-if="loading" />
+                <button class="button space-x-0" @click="loadBreads" :disabled="loading">
+                    <icon icon="refresh" class="animate-spin-reverse" :size="loading ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::builder.reload_breads') }}</span>
                 </button>
                 <locale-picker :small="false" />
