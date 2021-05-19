@@ -13,7 +13,7 @@
         <input type="checkbox" class="input w-full" id="outline" v-model="options.outline">
     </div>
     <template v-else-if="action == 'view'">
-        <formfield-dynamic-select
+        <formfield-dynamic-input
             action="add"
             :options="options"
             :column="column"

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Voyager\Admin\Classes\DynamicSelect;
+use Voyager\Admin\Classes\DynamicInput;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
@@ -132,7 +132,7 @@ class VoyagerController extends Controller
         $disks = collect(array_keys(config('filesystems.disks')))->mapWithKeys(function ($disk) {
             return [$disk => Str::title($disk)];
         })->toArray();
-        $select = (new DynamicSelect())->addSelect(null, null, $disks, false, 'public');
+        $select = (new DynamicInput())->addSelect(null, null, $disks, false, 'public');
 
         return response()->json($select);
     }
@@ -141,7 +141,7 @@ class VoyagerController extends Controller
     {
         $method = $request->input('method', 'fit');
 
-        $select = (new DynamicSelect())
+        $select = (new DynamicInput())
         ->addText('name', 'Name', 'Name')
         ->addSelect('method', 'Method', [
             'fit'    => __('voyager::media.thumbnails.fit'),
@@ -179,7 +179,7 @@ class VoyagerController extends Controller
             return [Str::slug($key) => $value];
         })->toArray();
 
-        return (new DynamicSelect())
+        return (new DynamicInput())
             ->addText('name', 'Name', 'Name')
             ->addSelect('position', __('voyager::media.thumbnails.position'), $positions, false, 'bottom-right')
             ->addNumber('x', 'X', 'X', null, 0)

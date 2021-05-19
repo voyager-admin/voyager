@@ -5,28 +5,28 @@ namespace Voyager\Admin\Formfields;
 use Voyager\Admin\Classes\Formfield;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
-class DynamicSelect extends Formfield
+class DynamicInput extends Formfield
 {
     public $browseArray = true;
 
     public function type(): string
     {
-        return 'dynamic_select';
+        return 'dynamic_input';
     }
 
     public function name(): string
     {
-        return __('voyager::formfields.dynamic_select.name');
+        return __('voyager::formfields.dynamic_input.name');
     }
 
     public function getComponentName(): string
     {
-        return 'formfield-dynamic-select';
+        return 'formfield-dynamic-input';
     }
 
     public function getBuilderComponentName(): string
     {
-        return 'formfield-dynamic-select-builder';
+        return 'formfield-dynamic-input-builder';
     }
 
     public function add()

@@ -22,8 +22,8 @@ import FormfieldSlugBuilder from '../components/Formfields/Slug/Builder.vue';
 import FormfieldSimpleArray from '../components/Formfields/SimpleArray/Formfield.vue';
 import FormfieldSimpleArrayBuilder from '../components/Formfields/SimpleArray/Builder.vue';
 
-import FormfieldDynamicSelect from '../components/Formfields/DynamicSelect/Formfield.vue';
-import FormfieldDynamicSelectBuilder from '../components/Formfields/DynamicSelect/Builder.vue';
+import FormfieldDynamicInput from '../components/Formfields/DynamicInput/Formfield.vue';
+import FormfieldDynamicInputBuilder from '../components/Formfields/DynamicInput/Builder.vue';
 
 import FormfieldTags from '../components/Formfields/Tags/Formfield.vue';
 import FormfieldTagsBuilder from '../components/Formfields/Tags/Builder.vue';
@@ -48,8 +48,8 @@ export {
     FormfieldSlugBuilder,
     FormfieldSimpleArray,
     FormfieldSimpleArrayBuilder,
-    FormfieldDynamicSelect,
-    FormfieldDynamicSelectBuilder,
+    FormfieldDynamicInput,
+    FormfieldDynamicInputBuilder,
     FormfieldTags,
     FormfieldTagsBuilder,
     FormfieldMediaPicker,

@@ -52,7 +52,7 @@
         "validation": []
     },
     {
-        "type": "dynamic_select",
+        "type": "dynamic_input",
         "group": "media",
         "key": "disk",
         "name": "Disk",

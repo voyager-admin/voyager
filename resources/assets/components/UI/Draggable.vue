@@ -1,5 +1,5 @@
 <template>
-    <component :is="as" ref="container">
+    <component :is="as">
         <slot />
     </component>
 </template>

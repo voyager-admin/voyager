@@ -7,8 +7,8 @@ return [
     'checkbox'        => [
         'name'          => 'Checkbox',
     ],
-    'dynamic_select'=> [
-        'name'          => 'Dynamic Select',
+    'dynamic_input'     => [
+        'name'          => 'Dynamic Input',
         'route_name'    => 'Route name',
         'route_warning' => 'The route ":route" does not exist!',
     ],

@@ -177,7 +177,7 @@ export default {
             try {
                 this.route(this.options.route_name);
             } catch (e) {
-                new this.$notification(this.__('voyager::formfields.dynamic_select.route_warning', { route: this.options.route_name })).color('red').timeout().show();
+                new this.$notification(this.__('voyager::formfields.dynamic_input.route_warning', { route: this.options.route_name })).color('red').timeout().show();
                 return;
             }
             axios.post(this.route(this.options.route_name), { ...this.modelValue, bread_action: this.action })

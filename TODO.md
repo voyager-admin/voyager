@@ -35,7 +35,7 @@ Instead, they are listed here:
 ## Formfields testing
 
 - [X] Checkbox
-- [ ] DynamicSelect
+- [ ] Dynamic Input
 - [ ] MediaPicker
 - [X] Number
 - [X] Password

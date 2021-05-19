@@ -2,7 +2,7 @@
 
 namespace Voyager\Admin\Classes;
 
-class DynamicSelect implements \JsonSerializable
+class DynamicInput implements \JsonSerializable
 {
     protected $inputs;
 
