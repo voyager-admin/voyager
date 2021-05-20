@@ -42,12 +42,6 @@
                 </div>
             </div>
         </card>
-        <div>
-            
-
-            <textarea v-html="JSON.stringify(top, null, 4)" class="mt-2 w-full input" rows="10"></textarea>
-            <textarea v-html="JSON.stringify(nested, null, 4)" class="mt-2 w-full input" rows="10"></textarea>
-        </div>
 
         <card dont-show-header>
             <div class="w-full flex">
@@ -310,8 +304,6 @@ export default {
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
             color: this.colors[0],
             colorSize: 4,
-            top: [{key:1}, {key:2}, {key:3}],
-            nested: [{key:4}, {key:5}, {key:6}],
         };
     },
     methods: {
