@@ -1,14 +1,14 @@
 <template>
     <div>
         <card
+            :dontShowHeader="fromRelationship || fromRepeater"
             :title="__('voyager::generic.'+currentAction+'_type', { type: translate(bread.name_singular, true) })"
-            :class="fromRelationship ? 'border-none' : null"
-            :style="fromRelationship ? 'box-shadow: none !important' : null"
+            :class="fromRelationship || fromRepeater ? 'border-none' : null"
+            :style="fromRelationship || fromRepeater ? 'box-shadow: none !important' : null"
             :icon="bread.icon"
-            :dontShowHeader="fromRelationship"
-            :no-padding="fromRelationship"
+            :no-padding="fromRelationship || fromRepeater"
         >
-            <template #actions>
+            <template #actions v-if="true">
                 <div class="flex items-center space-x-2">
                     <a class="button small" v-if="prevUrl !== ''" :href="prevUrl">
                         <icon icon="chevron-left" />
@@ -55,6 +55,7 @@
                                     :relationships="relationships"
                                     :translatable="formfield.translatable"
                                     :from-relationship="fromRelationship"
+                                    :from-repeater="fromRepeater"
                                     :action="currentAction"
                                     :primary-key="primaryKey"
                                 />
@@ -65,13 +66,13 @@
                         </card>
                     </div>
                 </div>
-                <button class="button green space-x-0" @click="save" :disabled="isSaving">
+                <button class="button green space-x-0" @click="save" :disabled="isSaving" v-if="!fromRepeater">
                     <icon icon="refresh" class="animate-spin-reverse" :size="isSaving ? 4 : 0" :transition-size="4" />
                     <span>{{ __('voyager::generic.save') }}</span>
                 </button>
             </div>
         </card>
-        <collapsible v-if="!fromRelationship && jsonOutput" :title="__('voyager::generic.json_output')" closed>
+        <collapsible v-if="!fromRelationship && !fromRepeater && jsonOutput" :title="__('voyager::generic.json_output')" closed>
             <json-editor v-model="output" />
         </collapsible>
     </div>
@@ -82,8 +83,24 @@ import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 
 export default {
-    emits: ['saved'],
-    props: ['bread', 'action', 'input', 'layout', 'prevUrl', 'relationships', 'fromRelationship', 'primaryKey'],
+    emits: ['saved', 'output'],
+    props: {
+        bread: Object,
+        action: String,
+        input: Object,
+        layout: Object,
+        prevUrl: String,
+        relationships: Array,
+        primaryKey: [String, Number, Object],
+        fromRelationship: {
+            type: Boolean,
+            default: false,
+        },
+        fromRepeater: {
+            type: Boolean,
+            default: false,
+        }
+    },
     data() {
         return {
             output: (this.input || {}),
@@ -127,12 +144,13 @@ export default {
                 column: formfield.column,
                 value: value,
             });
+            this.$emit('output', this.output);
         },
         getErrors(column) {
             return this.errors[column.column] || [];
         },
         save(e = null) {
-            if (this.isSaving) {
+            if (this.isSaving || this.fromRepeater) {
                 return;
             }
             if (typeof e === 'object' && e instanceof KeyboardEvent) {

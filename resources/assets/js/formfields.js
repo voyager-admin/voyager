@@ -16,6 +16,9 @@ import FormfieldCheckboxBuilder from '../components/Formfields/Checkbox/Builder.
 import FormfieldRadio from '../components/Formfields/Radio/Formfield.vue';
 import FormfieldRadioBuilder from '../components/Formfields/Radio/Builder.vue';
 
+import FormfieldRepeater from '../components/Formfields/Repeater/Formfield.vue';
+import FormfieldRepeaterBuilder from '../components/Formfields/Repeater/Builder.vue';
+
 import FormfieldSlug from '../components/Formfields/Slug/Formfield.vue';
 import FormfieldSlugBuilder from '../components/Formfields/Slug/Builder.vue';
 
@@ -54,4 +57,6 @@ export {
     FormfieldTagsBuilder,
     FormfieldMediaPicker,
     FormfieldMediaPickerBuilder,
+    FormfieldRepeater,
+    FormfieldRepeaterBuilder,
 };

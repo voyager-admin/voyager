@@ -34,14 +34,9 @@ return [
     'radio'        => [
         'name'          => 'Radio',
     ],
-    'relationship'  => [
-        'name'                  => 'Relationship',
-        'add_view'              => 'Add View',
-        'allow_null'            => 'Allow null',
-        'pivots'                => 'Pivots',
-        'select_relationship'   => 'Please select a relationship first!',
-        'search_text'           => 'Search text',
-        'select_text'           => 'Select text',
+    'repeater'  => [
+        'name'            => 'Repeater',
+        'allow_sort'      => 'Allow sorting',
     ],
     'select'        => [
         'name'          => 'Select',

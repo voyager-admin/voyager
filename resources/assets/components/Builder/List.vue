@@ -15,103 +15,105 @@
                         <th class="flex justify-end">{{ __('voyager::generic.actions') }}</th>
                     </tr>
                 </thead>
-                <draggable as="tbody" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" handle=".dd-handle">
-                    <tr v-for="formfield in formfields" :key="formfield.uuid" class="dd-source">
-                        <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
-                            <icon icon="selector" />
-                        </td>
-                        <td class="hidden md:table-cell">{{ getFormfieldByType(formfield.type).name }}</td>
-                        <td>
-                            <select class="input small w-full" v-model="formfield.column">
-                                <optgroup :label="__('voyager::builder.columns')" v-if="getFormfieldByType(formfield.type).allow_columns">
-                                    <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
-                                        {{ column }}
-                                    </option>
-                                </optgroup>
-                                <optgroup :label="__('voyager::builder.computed')" v-if="getFormfieldByType(formfield.type).allow_computed_props">
-                                    <option v-for="(prop, i) in computed" :key="'computed_'+i" :value="{column: prop, type: 'computed'}">
-                                        {{ prop }}
-                                    </option>
-                                </optgroup>
-                                <template v-for="(relationship, i) in relationships" :key="'relationship_'+i">
-                                    <optgroup :label="relationship.method" v-if="getFormfieldByType(formfield.type).allow_relationship_props">
-                                        <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
+                <draggable tag="tbody" :modelValue="formfields" @update:modelValue="$emit('update:formfields', $event)" item-key="">
+                    <template #item="{ element: formfield, index: key }">
+                        <tr>
+                            <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
+                                <icon icon="selector" />
+                            </td>
+                            <td class="hidden md:table-cell">{{ getFormfieldByType(formfield.type).name }}</td>
+                            <td>
+                                <select class="input small w-full" v-model="formfield.column">
+                                    <optgroup :label="__('voyager::builder.columns')" v-if="getFormfieldByType(formfield.type).allow_columns">
+                                        <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
                                             {{ column }}
                                         </option>
-                                        <template v-for="(column, i) in relationship.pivot" :key="'pivot_'+i">
-                                            <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="getFormfieldByType(formfield.type).allow_relationship_pivots">
-                                                pivot.{{ column }}
-                                            </option>
-                                        </template>
                                     </optgroup>
-                                </template>
-                                <optgroup v-if="getFormfieldByType(formfield.type).allow_relationships" :label="__('voyager::generic.relationships')">
-                                    <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
-                                        {{ relationship.method }}
-                                    </option>
-                                </optgroup>
-                            </select>
-                        </td>
-                        <td>
-                            <language-input
-                                class="input small w-full"
-                                type="text" placeholder="Title"
-                                v-model="formfield.title" />
-                        </td>
-                        <td class="hidden md:table-cell">
-                            <input
-                                class="input"
-                                type="checkbox"
-                                v-model="formfield.searchable"
-                                :disabled="(formfield.column.type !== 'column' && formfield.column.type !== 'relationship') || (formfield.column.type == 'relationship' && formfield.column.column.includes('relationship_amount'))" />
-                        </td>
-                        <td class="hidden md:table-cell">
-                            <input
-                                class="input"
-                                type="checkbox"
-                                v-model="formfield.orderable"
-                                :disabled="formfield.column.type !== 'column'" />
-                        </td>
-                        <td class="hidden md:table-cell">
-                            <input
-                                class="input"
-                                type="radio"
-                                :disabled="formfield.column.type !== 'column'"
-                                v-model="options.default_order_column"
-                                v-bind:value="formfield.column" />
-                        </td>
-                        <td class="hidden md:table-cell">
-                            <input
-                                type="checkbox"
-                                class="input"
-                                v-model="formfield.translatable"
-                                :disabled="!getFormfieldByType(formfield.type).can_be_translated">
-                        </td>
-                        <td class="flex flex-no-wrap space-x-1 justify-end">
-                            <slide-in :title="__('voyager::generic.options')">
-                                <template #actions>
-                                    <locale-picker />
-                                </template>
-                                <component
-                                    :is="getFormfieldByType(formfield.type).builder_component"
-                                    v-model:options="formfield.options"
-                                    :column="formfield.column"
-                                    :columns="columns"
-                                    action="list-options" />
+                                    <optgroup :label="__('voyager::builder.computed')" v-if="getFormfieldByType(formfield.type).allow_computed_props">
+                                        <option v-for="(prop, i) in computed" :key="'computed_'+i" :value="{column: prop, type: 'computed'}">
+                                            {{ prop }}
+                                        </option>
+                                    </optgroup>
+                                    <template v-for="(relationship, i) in relationships" :key="'relationship_'+i">
+                                        <optgroup :label="relationship.method" v-if="getFormfieldByType(formfield.type).allow_relationship_props">
+                                            <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
+                                                {{ column }}
+                                            </option>
+                                            <template v-for="(column, i) in relationship.pivot" :key="'pivot_'+i">
+                                                <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="getFormfieldByType(formfield.type).allow_relationship_pivots">
+                                                    pivot.{{ column }}
+                                                </option>
+                                            </template>
+                                        </optgroup>
+                                    </template>
+                                    <optgroup v-if="getFormfieldByType(formfield.type).allow_relationships" :label="__('voyager::generic.relationships')">
+                                        <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
+                                            {{ relationship.method }}
+                                        </option>
+                                    </optgroup>
+                                </select>
+                            </td>
+                            <td>
+                                <language-input
+                                    class="input small w-full"
+                                    type="text" placeholder="Title"
+                                    v-model="formfield.title" />
+                            </td>
+                            <td class="hidden md:table-cell">
+                                <input
+                                    class="input"
+                                    type="checkbox"
+                                    v-model="formfield.searchable"
+                                    :disabled="(formfield.column.type !== 'column' && formfield.column.type !== 'relationship') || (formfield.column.type == 'relationship' && formfield.column.column.includes('relationship_amount'))" />
+                            </td>
+                            <td class="hidden md:table-cell">
+                                <input
+                                    class="input"
+                                    type="checkbox"
+                                    v-model="formfield.orderable"
+                                    :disabled="formfield.column.type !== 'column'" />
+                            </td>
+                            <td class="hidden md:table-cell">
+                                <input
+                                    class="input"
+                                    type="radio"
+                                    :disabled="formfield.column.type !== 'column'"
+                                    v-model="options.default_order_column"
+                                    v-bind:value="formfield.column" />
+                            </td>
+                            <td class="hidden md:table-cell">
+                                <input
+                                    type="checkbox"
+                                    class="input"
+                                    v-model="formfield.translatable"
+                                    :disabled="!getFormfieldByType(formfield.type).can_be_translated">
+                            </td>
+                            <td class="flex flex-no-wrap space-x-1 justify-end">
+                                <slide-in :title="__('voyager::generic.options')">
+                                    <template #actions>
+                                        <locale-picker />
+                                    </template>
+                                    <component
+                                        :is="getFormfieldByType(formfield.type).builder_component"
+                                        v-model:options="formfield.options"
+                                        :column="formfield.column"
+                                        :columns="columns"
+                                        action="list-options" />
 
-                                <template #opener>
-                                    <button class="button">
-                                        <icon icon="cog" />
-                                        <span>{{ __('voyager::generic.options') }}</span>
-                                    </button>
-                                </template>
-                            </slide-in>
-                            <button class="button red" @click="$emit('delete', key)">
-                                <icon icon="trash" />
-                                <span>{{ __('voyager::generic.delete') }}</span>
-                            </button>
-                        </td>
-                    </tr>
+                                    <template #opener>
+                                        <button class="button">
+                                            <icon icon="cog" />
+                                            <span>{{ __('voyager::generic.options') }}</span>
+                                        </button>
+                                    </template>
+                                </slide-in>
+                                <button class="button red" @click="$emit('delete', key)">
+                                    <icon icon="trash" />
+                                    <span>{{ __('voyager::generic.delete') }}</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
                 </draggable>
             </table>
         </div>
@@ -198,10 +200,10 @@
 </template>
 
 <script>
-import Draggable from '../UI/Draggable';
+import draggable from 'vuedraggable';
 
 export default {
-    components: { Draggable },
+    components: { draggable },
     emits: ['update:formfields', 'update:options', 'delete'],
     props: ['computed', 'columns', 'relationships', 'formfields', 'options'],
     data() {

@@ -1,21 +1,22 @@
 <template>
-    <div class="input flex flex-wrap" @click="$refs.input.focus()">
-        <component as="span" :is="!noReorder ? 'draggable' : 'span'" v-model="tags" handle=".dd-source" class="flex flex-wrap space-x-1">
-            <span v-for="(tag, i) in tags" :key="tag" class="dd-source">
+    <div class="input flex flex-wrap space-x-1" @click="$refs.input.focus()">
+        <component :is="!noReorder ? 'draggable' : 'span'" v-model="tags" class="flex flex-wrap space-x-1" item-key="">
+            <template #item="{ element: tag }">
                 <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[!noReorder ? 'cursor-move' : '']">
-                    <i>{{ tag }}</i>
+                    {{ tag }}
                 </badge>
-            </span>
+            </template>
         </component>
-        <input type="text" class="bg-transparent border-0 focus:outline-none" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
+        <input type="text" class="bg-transparent border-0 focus:outline-none flex-grow" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
     </div>
+    {{ tags }}
 </template>
 <script>
-import Draggable from './Draggable';
+import draggable from 'vuedraggable';
 
 export default {
     emits: ['update:modelValue'],
-    components: { Draggable },
+    components: { draggable },
     props: {
         modelValue: {
             type: Array,

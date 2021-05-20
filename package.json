@@ -21,7 +21,7 @@
         "sass-loader": "^11.1.1",
         "terser-webpack-plugin": "^5.1.2",
         "vue-loader": "^16.1.2",
-        "webpack": "^5.37.0",
+        "webpack": "^5.37.1",
         "webpack-cli": "^4.7.0",
         "webpack-dev-server": "^3.11.2"
     },
@@ -30,13 +30,13 @@
         "@inertiajs/inertia": "^0.8.7",
         "@inertiajs/inertia-vue3": "^0.3.14",
         "@popperjs/core": "^2.9.2",
-        "@shopify/draggable": "^1.0.0-beta.12",
         "debounce": "^1.2.1",
         "semver-compare": "^1.0.0",
         "slugify": "^1.5.3",
         "tailwindcss": "^2.1.2",
         "uuid": "^8.3.2",
-        "vue": "^3.0.11"
+        "vue": "^3.0.11",
+        "vuedraggable": "^4.0.1"
     },
     "peerDependencies": {
         "postcss": "^8.2.15"

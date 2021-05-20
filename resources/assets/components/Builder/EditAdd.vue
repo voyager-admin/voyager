@@ -233,9 +233,7 @@
                     <template #opener>
                         <button class="button small">
                             <icon icon="cog" />
-                            <span>
-                                {{ __('voyager::generic.options') }}
-                            </span>
+                            <span>{{ __('voyager::generic.options') }}</span>
                         </button>
                     </template>
                 </slide-in>
@@ -304,7 +302,6 @@
 <script>
 import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 
 import BreadBuilderList from './List';
 import BreadBuilderView from './View';
@@ -632,16 +629,6 @@ export default {
         if (this.bread.layouts.length >= (layout+1)) {
             this.currentLayoutName = this.bread.layouts[layout].name;
         }
-
-        this.$watch(() => this.currentLayout, (l) => {
-            if (l) {
-                l.formfields.forEach((formfield) => {
-                    if (!formfield.hasOwnProperty('uuid')) {
-                        formfield.uuid = uuidv4();
-                    }
-                });
-            }
-        }, { immediate: true, deep: true});
     },
 };
 </script>

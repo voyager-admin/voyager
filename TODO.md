@@ -24,13 +24,13 @@ Instead, they are listed here:
 - Revamp what happens when bread stored or updated. Clear? Edit again?
 - Let formfields be overriden by a `component` option
 - When validation rules are changed afterwards in settings, validation may fail and thus, settings will not save (including the new validation rules)
+- Repeater: Allow `key` to be null and the resulting `modelValue` to be an array instead of an object.
 
 ## Formfields
 - **Relationship**
 - **Color Picker**
 - **Date/Time Picker**
 - **Masked input**
-- **Repeater** should "simply" use another view
 
 ## Formfields testing
 

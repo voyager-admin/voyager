@@ -1,4 +1,5 @@
 import { reactive } from 'vue';
+import { v4 as uuidv4 } from 'uuid';
 
 const Notify = {
     notifications: reactive([]),
@@ -29,7 +30,7 @@ const Notification = class Notification {
         this._icon = 'information-circle';
         this._color = 'accent';
         this._buttons = [];
-        this._uuid = this.uuid();
+        this._uuid = uuidv4();
 
         return this;
     }
@@ -124,17 +125,6 @@ const Notification = class Notification {
                 resolve(result, message);
             });
         });
-    }
-
-    uuid() {
-        var dt = new Date().getTime();
-        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-            var r = (dt + Math.random()*16)%16 | 0;
-            dt = Math.floor(dt/16);
-            return (c=='x' ? r :(r&0x3|0x8)).toString(16);
-        });
-    
-        return uuid;
     }
 
     remove() {

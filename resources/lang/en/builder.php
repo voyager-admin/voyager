@@ -2,7 +2,7 @@
 
 return [
     'add_formfield'                     => 'Add Formfield',
-    'add_formfield_to_layout'           => 'Please add a Formfield first',
+    'add_formfield_to_layout'           => 'Add a formfield to this layout by selecting one from the formfields dropdown',
     'add_layout'                        => 'Add Layout',
     'border_color'                      => 'Border color',
     'bread_already_exists'              => 'A BREAD for table ":table" already exists!',

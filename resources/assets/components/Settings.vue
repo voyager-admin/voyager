@@ -60,82 +60,82 @@
                 {{ __('voyager::settings.validation_no_key') }}
             </alert>
 
-            <draggable as="div" v-model="settings" handle=".dd-handle">
-                <card
-                    v-for="setting in filteredSettings"
-                    :key="setting.uuid"
-                    class="dd-source"
-                    :title="translate(setting.name, false) || __('voyager::settings.no_name')"
-                    v-show="setting.group == currentGroup"
-                >
-                    <template #actions>
-                        <div class="flex flex-wrap space-x-1">
-                            <language-input type="text" class="input small" v-model="setting.name" :placeholder="__('voyager::settings.name')" />
+            <draggable v-model="settings" item-key="">
+                <template #item="{ element: setting }">
+                    <card
+                        class="dd-source"
+                        :title="translate(setting.name, false) || __('voyager::settings.no_name')"
+                        v-show="setting.group == currentGroup"
+                    >
+                        <template #actions>
+                            <div class="flex flex-wrap space-x-1">
+                                <language-input type="text" class="input small" v-model="setting.name" :placeholder="__('voyager::settings.name')" />
 
-                            <input type="text" class="input small" v-model="setting.key" :placeholder="__('voyager::settings.key')" />
+                                <input type="text" class="input small" v-model="setting.key" :placeholder="__('voyager::settings.key')" />
 
-                            <select class="input small" v-model="setting.group">
-                                <option v-for="group in groups" :value="group">
-                                    {{ titleCase(group ? group : __('voyager::settings.no_group')) }}
-                                </option>
-                            </select>
+                                <select class="input small" v-model="setting.group">
+                                    <option v-for="group in groups" :value="group">
+                                        {{ titleCase(group ? group : __('voyager::settings.no_group')) }}
+                                    </option>
+                                </select>
 
-                            <button class="button small" @click="generateKey(setting)" v-tooltip="__('voyager::settings.generate_key')">
-                                <icon icon="finger-print" />
-                            </button>
+                                <button class="button small" @click="generateKey(setting)" v-tooltip="__('voyager::settings.generate_key')">
+                                    <icon icon="finger-print" />
+                                </button>
 
-                            <button class="button small" @click="cloneSetting(setting)" v-tooltip="__('voyager::settings.clone')">
-                                <icon icon="duplicate" />
-                            </button>
+                                <button class="button small" @click="cloneSetting(setting)" v-tooltip="__('voyager::settings.clone')">
+                                    <icon icon="duplicate" />
+                                </button>
 
-                            <slide-in :title="__('voyager::generic.options')">
-                                <template #actions>
-                                    <locale-picker />
-                                </template>
-                                <div v-if="getFormfieldByType(setting.type).can_be_translated">
-                                    <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
-                                    <input type="checkbox" class="input" v-model="setting.translatable">
-                                </div>
-                                <component
-                                    :is="getFormfieldByType(setting.type).builder_component"
-                                    v-model:options="setting.options"
-                                    :column="{}"
-                                    action="view-options" />
-                                <breadBuilderValidation v-model="setting.validation" />
-                                <template #opener>
-                                    <button class="button" v-tooltip="__('voyager::generic.options')">
-                                        <icon icon="cog" />
-                                    </button>
-                                </template>
-                            </slide-in>
+                                <slide-in :title="__('voyager::generic.options')">
+                                    <template #actions>
+                                        <locale-picker />
+                                    </template>
+                                    <div v-if="getFormfieldByType(setting.type).can_be_translated">
+                                        <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
+                                        <input type="checkbox" class="input" v-model="setting.translatable">
+                                    </div>
+                                    <component
+                                        :is="getFormfieldByType(setting.type).builder_component"
+                                        v-model:options="setting.options"
+                                        :column="{}"
+                                        action="view-options" />
+                                    <breadBuilderValidation v-model="setting.validation" />
+                                    <template #opener>
+                                        <button class="button" v-tooltip="__('voyager::generic.options')">
+                                            <icon icon="cog" />
+                                        </button>
+                                    </template>
+                                </slide-in>
 
-                            <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
-                                <icon icon="switch-vertical" />
-                            </button>
+                                <button class="button small dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
+                                    <icon icon="switch-vertical" />
+                                </button>
 
-                            <button class="button small red" @click="deleteSetting(setting)" v-tooltip="__('voyager::generic.delete')">
-                                <icon icon="trash" />
-                            </button>
-                        </div>
-                    </template>
+                                <button class="button small red" @click="deleteSetting(setting)" v-tooltip="__('voyager::generic.delete')">
+                                    <icon icon="trash" />
+                                </button>
+                            </div>
+                        </template>
 
-                    <alert v-if="getErrors(setting).length > 0" color="red" class="my-2">
-                        <ul class="list-disc">
-                            <li v-for="(error, i) in getErrors(setting)" :key="'error-'+i">
-                                {{ error }}
-                            </li>
-                        </ul>
-                    </alert>
+                        <alert v-if="getErrors(setting).length > 0" color="red" class="my-2">
+                            <ul class="list-disc">
+                                <li v-for="(error, i) in getErrors(setting)" :key="'error-'+i">
+                                    {{ error }}
+                                </li>
+                            </ul>
+                        </alert>
 
-                    <component
-                        :is="getFormfieldByType(setting.type).component"
-                        :model-value="data(setting, null)"
-                        @update:model-value="data(setting, $event)"
-                        :options="setting.options"
-                        :column="{}"
-                        action="edit"
-                    />
-                </card>
+                        <component
+                            :is="getFormfieldByType(setting.type).component"
+                            :model-value="data(setting, null)"
+                            @update:model-value="data(setting, $event)"
+                            :options="setting.options"
+                            :column="{}"
+                            action="edit"
+                        />
+                    </card>
+                </template>
             </draggable>
             <h3 class="text-center" v-if="!groupHasSettings()">{{ __('voyager::settings.no_settings_in_group') }}</h3>
         </card>
@@ -148,15 +148,14 @@
 <script>
 import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 
 import BreadBuilderValidation from './Builder/ValidationForm';
-import Draggable from './UI/Draggable';
+import draggable from 'vuedraggable';
 
 export default {
     components: {
         BreadBuilderValidation,
-        Draggable,
+        draggable,
     },
     props: {
         input: {
@@ -253,7 +252,6 @@ export default {
         },
         cloneSetting(setting) {
             setting = JSON.parse(JSON.stringify(setting));
-            setting.uuid = null;
             setting.key = null;
 
             this.settings.push(setting);
@@ -359,15 +357,6 @@ export default {
         jsonOutput() {
             return usePage().props.value.json_output;
         }
-    },
-    created() {
-        this.$watch(() => this.settings, (settings) => {
-            settings.forEach((setting) => {
-                if (!setting.hasOwnProperty('uuid') || !setting.uuid) {
-                    setting.uuid = uuidv4();
-                }
-            });
-        }, { immediate: true, deep: true});
     },
     mounted() {
         document.addEventListener('keydown', this.save);
