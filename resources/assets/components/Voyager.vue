@@ -61,6 +61,10 @@ export default {
             this.$store.currentUrl = url;
         });
 
+        Inertia.on('start', (event) => {
+            this.$store.pageLoading = true;
+        });
+
         Inertia.on('finish', () => {
             this.$store.pageLoading = false;
         });

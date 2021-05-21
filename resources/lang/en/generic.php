@@ -84,6 +84,7 @@ return [
     ],
     'item'                      => 'Item',
     'instructions'              => 'Instructions',
+    'json_invalid'              => 'The JSON code does not have a valid syntax and will not be updated until fixed.',
     'json_output'               => 'JSON Output',
     'key'                       => 'Key',
     'languages'                 => [
@@ -122,6 +123,7 @@ return [
     'property'                  => 'Property',
     'range'                     => 'Range',
     'read'                      => 'Read',
+    'refresh'                   => 'Refresh',
     'relationship_amount'       => 'Relationship amount',
     'relationships'             => 'Relationships',
     'reload'                    => 'Reload',
