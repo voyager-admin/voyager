@@ -49,8 +49,7 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
 });
 
 // Login
-Route::get('login', ['uses' => 'AuthController@login', 'as' => 'login']);
-Route::post('login', ['uses' => 'AuthController@login']);
+Route::any('login', ['uses' => 'AuthController@login', 'as' => 'login']);
 Route::post('forgot-password', ['uses' => 'AuthController@forgotPassword', 'as' => 'forgot_password']);
 
 // Asset routes

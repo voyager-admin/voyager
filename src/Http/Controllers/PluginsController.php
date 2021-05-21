@@ -20,6 +20,8 @@ class PluginsController extends Controller
     public function __construct(PluginManager $pluginmanager)
     {
         $this->pluginmanager = $pluginmanager;
+
+        parent::__construct();
     }
 
     public function index()

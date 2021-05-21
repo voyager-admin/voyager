@@ -16,7 +16,6 @@ Instead, they are listed here:
 - Check ALL axios calls (response => response.response)
 - Exception handler should only be replaced when logged in (?)
 - Show a dark background when using darkmode to prevent white flashing
-- Share a lot less stuff with Inertia. Instead, simply pass it to `createVoyager`
 - Remove plugins that are no longer installed from `plugins.json`
 - Refreshing the page and going back fails (Inertia problem?)
 - Test (download) actions
@@ -24,13 +23,6 @@ Instead, they are listed here:
 - Revamp what happens when bread stored or updated. Clear? Edit again?
 - Let formfields be overriden by a `component` option
 - When validation rules are changed afterwards in settings, validation may fail and thus, settings will not save (including the new validation rules)
-- Repeater: Allow `key` to be null and the resulting `modelValue` to be an array instead of an object.
-
-## Formfields
-- **Relationship**
-- **Color Picker**
-- **Date/Time Picker**
-- **Masked input**
 
 ## Formfields testing
 

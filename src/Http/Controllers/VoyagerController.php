@@ -26,7 +26,7 @@ class VoyagerController extends Controller
         $this->breadmanager = $breadmanager;
         $this->pluginmanager = $pluginmanager;
         $this->settingmanager = $settingmanager;
-        parent::__construct($pluginmanager);
+        parent::__construct();
     }
 
     private $mime_extensions = [

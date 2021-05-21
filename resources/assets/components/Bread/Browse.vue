@@ -178,7 +178,6 @@
 <script>
 import axios from 'axios';
 import debounce from 'debounce';
-import { usePage } from '@inertiajs/inertia-vue3'
 
 import BreadActions from './Actions';
 
@@ -216,7 +215,7 @@ export default {
                 order: null,
                 direction: 'asc',
                 softdeleted: 'show', // show, hide, only
-                locale: usePage().props.value.locale,
+                locale: this.$store.locale,
                 filter: null, // The current selected filter
             },
         };
@@ -422,7 +421,7 @@ export default {
         this.$watch(() => this.parameters.softdeleted, () => {
             this.parameters.page = 1;
         });
-        this.$watch(() => usePage().props.value.locale, (locale) => {
+        this.$watch(() => this.$store.locale, (locale) => {
             this.parameters.locale = locale;
         });
         this.$watch(() => this.parameters, debounce((parameters) => {

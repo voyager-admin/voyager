@@ -25,7 +25,7 @@
         <template v-else>
             <slot />
         </template>
-        <notifications :position="notificationPosition" />
+        <notifications :position="$store.notificationPosition" />
     </div>
 </template>
 
@@ -48,23 +48,27 @@ export default {
     created() {
         watch(() => usePage().props.value, (props) => {
             if (props) {
-                document.title = props.title + ' - ' + props.admin_title;
+                document.title = props.title + ' - ' + this.$store.adminTitle;
             }
         }, { immediate: true, deep: true });
 
         $eventbus.on('setting-updated', (s) => {
             if (s.group == 'admin' && s.key == 'title') {
-                usePage().props.value.admin_title = this.translate(s.value);
-                usePage().props.value.title = usePage().props.value.title;
+                
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            this.$store.pageLoading = false;
         });
 
         Inertia.on('start', () => {
             this.$store.pageLoading = true;
+        });
+
+        Inertia.on('navigate', (event) => {
+            this.$store.pageLoading = false;
+            let url = String(window.location);
+            if (!url.endsWith('/')) {
+                url = url + '/';
+            }
+            this.$store.currentUrl = url;
         });
 
         Inertia.on('finish', () => {
@@ -105,9 +109,6 @@ export default {
         });
     },
     computed: {
-        notificationPosition() {
-            return usePage().props.value.notification_position || '';
-        },
         isLogin() {
             return usePage().component.value == 'Login';
         }

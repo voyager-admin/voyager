@@ -13,7 +13,6 @@ use Voyager\Admin\Events\Builder\Restored as RestoredEvent;
 use Voyager\Admin\Events\Builder\Updated as UpdatedEvent;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
-use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Rules\ClassExists as ClassExistsRule;
 use Voyager\Admin\Rules\DefaultLocale as DefaultLocaleRule;
 
@@ -21,10 +20,10 @@ class BreadBuilderController extends Controller
 {
     protected $breadmanager;
 
-    public function __construct(BreadManager $breadmanager, PluginManager $pluginsmanager)
+    public function __construct(BreadManager $breadmanager)
     {
         $this->breadmanager = $breadmanager;
-        parent::__construct($pluginsmanager);
+        parent::__construct();
     }
 
     /**

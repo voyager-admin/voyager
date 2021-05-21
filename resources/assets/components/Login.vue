@@ -14,7 +14,7 @@
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div class="form py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                <alert v-if="loginForm.hasErrors || passwordForm.hasErrors" color="red" role="alert">
+                <alert v-if="false" color="red" role="alert">
                     <ul>
                         <li v-if="loginForm.hasErrors" v-for="error in loginForm.errors">
                             {{ error }}
@@ -24,25 +24,26 @@
                         </li>
                     </ul>
                 </alert>
-                <div class="mb-4" v-if="loginForm.hasErrors || passwordForm.hasErrors"></div>
+                <div class="mb-4" v-if="false"></div>
                 <!-- Built-in login view -->
-                <form @submit.prevent="loginForm.post(route('voyager.login'))" v-if="!passwordForgotOpen" key="login-form">
+                <form method="post" :action="route('voyager.login')" v-if="!passwordForgotOpen" key="login-form">
+                    <input type="hidden" name="_token" :value="$store.csrfToken" />
                     <slot name="login">
                         <div class="w-full mt-1">
                             <label for="email" class="label">{{ __('voyager::auth.email') }}</label>
                             <div class="mt-1 rounded-md shadow-sm">
-                                <input type="email" name="email" id="email" v-model="loginForm.email" class="input w-full mb-4 placeholder-gray-400" autofocus>
+                                <input type="email" name="email" id="email" class="input w-full mb-4 placeholder-gray-400" autofocus>
                             </div>
                         </div>
                         <div class="w-full mt-6">
                             <label for="password" class="label">{{ __('voyager::auth.password') }}</label>
                             <div class="mt-1 rounded-md shadow-sm">
-                                <input type="password" name="password" id="password" v-model="loginForm.password" class="input w-full mb-3 placeholder-gray-400">
+                                <input type="password" name="password" id="password" class="input w-full mb-3 placeholder-gray-400">
                             </div>
                         </div>
                         <div class="w-full flex justify-between mt-4">
                             <div class="select-none">
-                                <input type="checkbox" class="input" name="remember" id="remember" v-model="loginForm.remember">
+                                <input type="checkbox" class="input" name="remember" id="remember">
                                 <label for="remember" class="text-sm leading-8 mx-1">{{ __('voyager::auth.remember_me') }}</label>
                             </div>
                             
@@ -53,7 +54,7 @@
                     </slot>
 
                     <div class="flex items-center justify-between mt-4">
-                        <button class="button large accent w-full justify-center" type="submit" :disabled="loginForm.processing">
+                        <button class="button large accent w-full justify-center" type="submit">
                             {{ __('voyager::auth.login') }}
                         </button>
                     </div>
@@ -80,30 +81,16 @@
     </div>
 </template>
 <script>
-import { useForm } from '@inertiajs/inertia-vue3';
-
 export default {
     props: [
         'welcome',
         'has_password_view'
     ],
-    setup() {
-        const loginForm = useForm({
-            email: null,
-            password: null,
-            remember: false,
-            login: true,
-        });
-
-        const passwordForm = useForm({
-            email: null,
-            login: false
-        });
-
-        let passwordForgotOpen = false;
-
-        return { loginForm, passwordForm, passwordForgotOpen };
-    },
+    data() {
+        return {
+            passwordForgotOpen: false,
+        };
+    }
 };
 </script>
 <style lang="scss">

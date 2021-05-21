@@ -5,6 +5,7 @@ namespace Voyager\Admin\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Inertia\Inertia;
 use Throwable;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class Handler extends ExceptionHandler
 {
@@ -41,6 +42,7 @@ class Handler extends ExceptionHandler
             'title'     => __('voyager::generic.error', [ 'code' => $response->status() ]),
             'exception' => $exception
         ])
+        ->withViewData(VoyagerFacade::getViewData())
         ->toResponse($request)
         ->setStatusCode($response->status());
     }

@@ -44,11 +44,8 @@
 
 <script>
 if (window.createVoyager) {
-    createVoyager({
-        'breads': {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getBreads()->values()) !!},
-        'formfields': {!! json_encode(resolve(\Voyager\Admin\Manager\Breads::class)->getFormfields()) !!},
-        'localization': {!! Voyager::getLocalization() !!}
-    });
+    createVoyager({!! json_encode($viewData ?? []) !!});
+    // 
 } else {
     @if (isset($voyagerDevServer))
     document.getElementById('js-warning').style.display = 'block';

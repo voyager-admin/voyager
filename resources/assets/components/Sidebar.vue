@@ -15,13 +15,13 @@
                     <div class="flex-shrink-0 flex items-center px-4">
                         <icon icon="helm" :size="10" class="icon" />
                         <span class="font-black text-lg uppercase pl-2 title">
-                            {{ shared.sidebar.title }}
+                            {{ $store.sidebar.title }}
                         </span>
                     </div>
                     <nav class="mt-3 px-2">
                         <menuWrapper
-                            :items="shared.sidebar.items"
-                            :current-url="shared.current_url"
+                            :items="$store.sidebar.items"
+                            :current-url="$store.currentUrl"
                             :icon-size="iconSize"
                             :parent-url="null"
                         />
@@ -33,7 +33,7 @@
                         <icon icon="sun" v-else-if="$store.darkmode == 'light'" />
                         <icon icon="desktop-computer" v-else />
                     </button>
-                    <img :src="shared.user.avatar" class="rounded-full m-4 w-8" alt="User Avatar">
+                    <img :src="$store.user.avatar" class="rounded-full m-4 w-8" alt="User Avatar">
                 </div>
             </div>
             <div class="flex-shrink-0 w-14"></div>
@@ -47,13 +47,13 @@
                 <div class="flex space-x-2 items-center flex-shrink-0 px-4">
                     <icon icon="helm" :size="10" class="icon" />
                     <span class="font-black text-lg uppercase title whitespace-nowrap">
-                        {{ shared.sidebar.title }}
+                        {{ $store.sidebar.title }}
                     </span>
                 </div>            
                 <nav class="mt-4 flex-1 px-2">
                     <menuWrapper
-                        :items="shared.sidebar.items"
-                        :current-url="shared.current_url"
+                        :items="$store.sidebar.items"
+                        :current-url="$store.currentUrl"
                         :icon-size="iconSize"
                     />
                 </nav>
@@ -76,7 +76,8 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3'
+import { usePage } from '@inertiajs/inertia-vue3';
+import { Inertia } from '@inertiajs/inertia';
 
 import scrollTo from '../js/directives/scroll-to';
 import MenuWrapper from './Layout/MenuWrapper';
@@ -89,21 +90,16 @@ export default {
             iconSize: 6,
         };
     },
-    computed: {
-        shared() {
-            return usePage().props.value;
-        }
-    },
     mounted() {
         $eventbus.on('setting-updated', (s) => {
             if (s.group == 'admin' && s.key == 'sidebar-title') {
-                this.shared.sidebar.title = this.translate(s.value);
+                //this.shared.sidebar.title = this.translate(s.value);
             } else if (s.group == 'admin' && s.key == 'icon-size') {
                 this.iconSize = s.value;
             }
         });
 
-        this.iconSize = this.shared.sidebar.icon_size || 6;
+        this.iconSize = this.$store.sidebar.iconSize || 6;
     }
 }
 </script>

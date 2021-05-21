@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3';
 import formfieldBuilder from '../../../js/mixins/formfield-builder';
 
 export default {

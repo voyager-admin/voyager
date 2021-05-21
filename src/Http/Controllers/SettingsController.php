@@ -12,6 +12,8 @@ class SettingsController extends Controller
     public function __construct(SettingsManager $settingmanager)
     {
         $this->settingmanager = $settingmanager;
+
+        parent::__construct();
     }
 
     public function index()

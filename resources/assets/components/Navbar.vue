@@ -5,16 +5,16 @@
         </button>
         <Search
             class="h-full flex-grow flex"
-            :placeholder="shared.search_placeholder"
+            :placeholder="$store.searchPlaceholder"
             :mobile-placeholder="__('voyager::generic.search')"
         />
         <div class="mt-1 text-right z-30">
             <dropdown placement="bottom-end">
                 <div>
                     <div class="flex space-x-4 items-center px-6 py-4">
-                        <img class="h-10 w-10 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
+                        <img class="h-10 w-10 rounded-full flex-no-shrink" :src="$store.user.avatar" alt="">
                         <div>
-                            <p class="font-semibold leading-none">{{ shared.user.name }}</p>
+                            <p class="font-semibold leading-none">{{ $store.user.name }}</p>
                             <p>
                                 <a href="#" class="text-sm leading-none hover:underline">
                                     {{ __('voyager::generic.view_profile') }}
@@ -34,9 +34,9 @@
                 </div>
                 <template #opener>
                     <button class="inline-flex justify-end w-48 max-w-sm space-x-2 items-center font-semibold focus:outline-none">
-                        <img class="h-6 w-6 rounded-full flex-no-shrink" :src="shared.user.avatar" alt="">
+                        <img class="h-6 w-6 rounded-full flex-no-shrink" :src="$store.user.avatar" alt="">
                         <span class="hidden md:block whitespace-no-wrap">
-                            {{ __('voyager::generic.hello_user', { user: shared.user.name }) }}
+                            {{ __('voyager::generic.hello_user', { user: $store.user.name }) }}
                         </span>
                         <icon icon="chevron-down" :size="4" />
                     </button>
@@ -47,18 +47,11 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3';
-
 import Search from './Layout/Search';
 
 export default {
     components: {
         Search
     },
-    computed: {
-        shared() {
-            return usePage().props.value;
-        }
-    }
 }
 </script>

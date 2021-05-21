@@ -47,7 +47,7 @@ export default {
                 if (!this.isObject(input)) {
                     var value = input;
                     input = {};
-                    input[usePage().props.value.initial_locale] = value;
+                    input[this.$store.initialLocale] = value;
                 }
             } else if (!this.isObject(input)) {
                 input = {};
@@ -60,25 +60,25 @@ export default {
                 input = this.get_translatable_object(input);
             }
             if (this.isObject(input)) {
-                return input[once ? usePage().props.value.initial_locale : usePage().props.value.locale] || default_value;
+                return input[once ? this.$store.initialLocale : this.$store.locale] || default_value;
             }
 
             return input;
         };
         app.config.globalProperties.nextLocale = function () {
-            var index = usePage().props.value.locales.indexOf(usePage().props.value.locale);
-            if (index >= usePage().props.value.locales.length - 1) {
-                usePage().props.value.locale = usePage().props.value.locales[0];
+            var index = this.$store.locales.indexOf(this.$store.locale);
+            if (index >= this.$store.locales.length - 1) {
+                this.$store.locale = this.$store.locales[0];
             } else {
-                usePage().props.value.locale = usePage().props.value.locales[index + 1];
+                this.$store.locale = this.$store.locales[index + 1];
             }
         };
         app.config.globalProperties.previousLocale = function () {
-            var index = usePage().props.value.locales.indexOf(usePage().props.value.locale);
+            var index = this.$store.locales.indexOf(this.$store.locale);
             if (index <= 0) {
-                usePage().props.value.locale = usePage().props.value.locales[usePage().props.value.locales.length - 1];
+                this.$store.locale = this.$store.locales[this.$store.locales.length - 1];
             } else {
-                usePage().props.value.locale = usePage().props.value.locales[index - 1];
+                this.$store.locale = this.$store.locales[index - 1];
             }
         };
     }

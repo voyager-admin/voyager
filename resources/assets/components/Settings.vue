@@ -146,7 +146,6 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 
 import BreadBuilderValidation from './Builder/ValidationForm';
@@ -276,7 +275,7 @@ export default {
             }
             if (value !== null) {
                 if (setting.translatable || false) {
-                    setting.value[usePage().props.value.locale] = value;
+                    setting.value[this.$store.locale] = value;
                 } else {
                     setting.value = value;
                 }
@@ -355,7 +354,7 @@ export default {
             });
         },
         jsonOutput() {
-            return usePage().props.value.json_output;
+            return this.$store.jsonOutput;
         }
     },
     mounted() {

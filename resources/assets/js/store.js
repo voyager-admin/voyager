@@ -5,12 +5,35 @@ export default reactive({
     darkmode: 'system',
     systemDarkmode: false,
 
-    formfields: [],
     breads: [],
+    formfields: [],
+
     localization: [],
+    locales: [],
+    locale: '',
+    initialLocale: '',
 
     ui: [],
 
     pageLoading: true,
     sidebarOpen: true,
+    adminTitle: '',
+    rtl: false,
+    csrfToken: '',
+    currentUrl: '',
+
+    notificationPosition: 'top-right',
+
+    jsonOutput: false,
+
+    sidebar: {
+        items: [],
+        title: '',
+        iconSize: 6,
+    },
+
+    user: {
+        name: '',
+        avatar: '',
+    }
 });

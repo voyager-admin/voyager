@@ -41,7 +41,7 @@
 @endif
 <script>
 createVoyager({
-    'localization': {!! Voyager::getLocalization() !!}
+    'localization': {!! Voyager::getLocalization()->toJson() !!}
 });
 </script>
 @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)

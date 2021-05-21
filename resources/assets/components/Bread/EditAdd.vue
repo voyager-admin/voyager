@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 
 export default {
@@ -116,11 +115,11 @@ export default {
             if ((formfield.translatable || false) && !this.isObject(this.output[formfield.column.column])) {
                 var value = this.output[formfield.column.column];
                 this.output[formfield.column.column] = {};
-                this.output[formfield.column.column][usePage().props.value.locale] = value;
+                this.output[formfield.column.column][this.$store.locale] = value;
             }
             
             if (formfield.translatable || false) {
-                return this.output[formfield.column.column][usePage().props.value.locale];
+                return this.output[formfield.column.column][this.$store.locale];
             }
 
             return this.output[formfield.column.column];
@@ -136,7 +135,7 @@ export default {
                 }
             }
             if (formfield.translatable || false) {
-                this.output[formfield.column.column][usePage().props.value.locale] = value;
+                this.output[formfield.column.column][this.$store.locale] = value;
             } else {
                 this.output[formfield.column.column] = value;
             }
@@ -207,7 +206,7 @@ export default {
     },
     computed: {
         jsonOutput() {
-            return usePage().props.value.json_output;
+            return this.$store.jsonOutput;
         }
     },
     mounted() {
@@ -216,7 +215,7 @@ export default {
         this.layout.formfields.forEach((formfield) => {
             var value = this.output[formfield.column.column];
             if (formfield.translatable || false) {
-                value = this.output[formfield.column.column][usePage().props.value.locale];
+                value = this.output[formfield.column.column][this.$store.locale];
             }
 
             this.$eventbus.emit('input', {

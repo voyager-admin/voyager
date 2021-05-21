@@ -33,14 +33,12 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3';
-
 export default {
     props: ['bread', 'data', 'primary', 'layout', 'prevUrl'],
     methods: {
         getData(formfield) {
             if (formfield.translatable || false) {
-                return this.data[formfield.column.column][usePage().props.value.locale] || '';
+                return this.data[formfield.column.column][this.$store.locale] || '';
             }
 
             return this.data[formfield.column.column];

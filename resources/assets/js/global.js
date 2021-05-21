@@ -1,10 +1,8 @@
-import { usePage } from '@inertiajs/inertia-vue3';
-
 export default {
     install(app) {
         app.config.globalProperties.toggleDirection = function () {
-            usePage().props.value.rtl = !usePage().props.value.rtl;
-            if (usePage().props.value.rtl) {
+            this.$store.rtl = !this.$store.rtl;
+            if (this.$store.rtl) {
                 document.querySelector('html').setAttribute('dir', 'rtl');
             } else {
                 document.querySelector('html').setAttribute('dir', 'ltr');

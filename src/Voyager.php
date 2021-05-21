@@ -11,6 +11,7 @@ use Voyager\Admin\Contracts\Plugins\AuthorizationPlugin;
 use Voyager\Admin\Contracts\Plugins\WidgetPlugin;
 use Voyager\Admin\Contracts\Plugins\Features\Filter\Widgets as WidgetFilter;
 use Voyager\Admin\Manager\Breads as BreadManager;
+use Voyager\Admin\Manager\Menu as MenuManager;
 use Voyager\Admin\Manager\Plugins as PluginManager;
 use Voyager\Admin\Manager\Settings as SettingManager;
 use Voyager\Admin\Plugins\AuthenticationPlugin as DefaultAuthPlugin;
@@ -28,13 +29,15 @@ class Voyager
     protected $tables = [];
     protected $locales = [];
     protected $breadmanager;
+    protected $menumanager;
     protected $pluginmanager;
     protected $settingmanager;
     protected $translations = [];
 
-    public function __construct(BreadManager $breadmanager, PluginManager $pluginmanager, SettingManager $settingmanager)
+    public function __construct(BreadManager $breadmanager, MenuManager $menumanager, PluginManager $pluginmanager, SettingManager $settingmanager)
     {
         $this->breadmanager = $breadmanager;
+        $this->menumanager = $menumanager;
         $this->pluginmanager = $pluginmanager;
         $this->settingmanager = $settingmanager;
     }
@@ -132,7 +135,7 @@ class Voyager
         })->merge(collect($this->translations)->flatMap(function ($namespace, $group) use ($translator) {
             $translator->load($namespace, $group, $this->getLocale());
             return [$namespace.'::'.$group => trans($namespace.'::'.$group)];
-        }))->toJson();
+        }));
     }
 
     /**
@@ -506,5 +509,45 @@ class Voyager
     public function getBreadByName($breadName)
     {
         return $this->breadmanager->getBreadByName($breadName);
+    }
+
+    public function getViewData()
+    {
+        // This data gets directly written to the store and can be accessed through `this.$store` everywhere
+        $viewData = [
+            'breads'                => $this->breadmanager->getBreads(),
+            'formfields'            => $this->breadmanager->getFormfields(),
+
+            'localization'          => $this->getLocalization(),
+            'locales'               => $this->getLocales(),
+            'locale'                => $this->getLocale(),
+            'initialLocale'         => $this->getLocale(),
+
+            'notificationPosition'  => $this->setting('admin.notification-position', 'top-right'),
+            'jsonOutput'            => $this->setting('admin.json-output', false),
+            'searchPlaceholder'     => $this->breadmanager->getBreadSearchPlaceholder(),
+
+            'adminTitle'            => $this->setting('admin.title', 'Voyager II'),
+
+            'rtl'                   => (__('voyager::generic.is_rtl') == 'true'),
+            'currentUrl'            => Str::finish(url()->current(), '/'),
+            'csrfToken'             => csrf_token(),
+        ];
+
+        if ($this->auth()->user()) {
+            $viewData = array_merge($viewData, [
+                'sidebar'               => [
+                    'items'     => $this->menumanager->getItems($this->pluginmanager),
+                    'title'     => $this->setting('admin.sidebar-title', 'Voyager II'),
+                    'iconSize'  => $this->setting('admin.icon-size', 6)
+                ],
+                'user'                  => [
+                    'name'      => $this->auth()->name(),
+                    'avatar'    => $this->assetUrl('images/default-avatar.png'),
+                ]
+            ]);
+        }
+
+        return ['viewData' => $viewData];
     }
 }

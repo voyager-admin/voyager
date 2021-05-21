@@ -95,39 +95,6 @@ class VoyagerServiceProvider extends ServiceProvider
 
         Inertia::setRootView('voyager::app');
 
-        // Share data with Inertia
-        Inertia::share([
-            'locales'               => VoyagerFacade::getLocales(),
-            'locale'                => VoyagerFacade::getLocale(),
-            'initial_locale'        => VoyagerFacade::getLocale(),
-
-            'admin_title'           => VoyagerFacade::setting('admin.title', 'Voyager II'),
-            'notification_position' => VoyagerFacade::setting('admin.notification-position', 'top-right'),
-
-            'current_url'           => Str::finish(url()->current(), '/'),
-            'rtl'                   => (__('voyager::generic.is_rtl') == 'true'),
-        ]);
-
-        // Only share sensitive data when user is logged in
-        Event::listen('voyager.auth.registered', function ($auth) {
-            if ($auth->user()) {
-                Inertia::share([
-                    'debug'                 => config('app.debug') ?? false,
-                    'json_output'           => VoyagerFacade::setting('admin.json-output', true),
-                    'search_placeholder'    => $this->breadmanager->getBreadSearchPlaceholder(),
-                    'sidebar'               => [
-                        'items'     => $this->menumanager->getItems($this->pluginmanager),
-                        'title'     => VoyagerFacade::setting('admin.sidebar-title', 'Voyager II'),
-                        'icon_size' => VoyagerFacade::setting('admin.icon-size', 6)
-                    ],
-                    'user'                  => [
-                        'name'      => $auth->name(),
-                        'avatar'    => VoyagerFacade::assetUrl('images/default-avatar.png'),
-                    ]
-                ]);
-            }
-        });
-
         // A Voyager page was requested. Dispatched in Controller::__construct()
         Event::listen('voyager.page', function () {
             // Override ExceptionHandler only when on a Voyager page
@@ -433,7 +400,7 @@ class VoyagerServiceProvider extends ServiceProvider
         });
 
         app()->singleton('voyager', function () {
-            return new Voyager($this->breadmanager, $this->pluginmanager, $this->settingmanager);
+            return new Voyager($this->breadmanager, $this->menumanager, $this->pluginmanager, $this->settingmanager);
         });
 
         $this->settingmanager->load();

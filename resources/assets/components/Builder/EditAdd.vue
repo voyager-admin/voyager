@@ -300,7 +300,6 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 
 import BreadBuilderList from './List';
@@ -540,7 +539,7 @@ export default {
             });
         },
         setSlug(value) {
-            var l = usePage().props.value.locale;
+            var l = this.$store.locale;
             this.bread.slug = this.get_translatable_object(this.bread.slug);
             this.bread.slug[l] = this.slugify(value[l], { strict: true, lower: true });
         },
@@ -610,7 +609,7 @@ export default {
             })[0];
         },
         jsonOutput() {
-            return usePage().props.value.json_output;
+            return this.$store.jsonOutput;
         }
     },
     mounted() {

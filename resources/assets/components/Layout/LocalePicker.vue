@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3';
-
 export default {
     props: {
         small: {
@@ -58,14 +56,14 @@ export default {
     },
     computed: {
         locales() {
-            return usePage().props.value.locales;
+            return this.$store.locales;
         },
         locale: {
             get() {
-                return usePage().props.value.locale;
+                return this.$store.locale;
             },
             set(locale) {
-                usePage().props.value.locale = locale;
+                this.$store.locale = locale;
             }
         },
     }
