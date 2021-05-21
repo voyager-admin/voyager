@@ -239,12 +239,12 @@
                 </slide-in>
             </div>
 
-            <div class="card text-center text-xl py-4" v-if="!currentLayout">
+            <card class="text-center text-xl py-4" v-if="!currentLayout" dont-show-header>
                 {{ __('voyager::builder.create_select_layout') }}
-            </div>
-            <div class="card text-center text-xl py-4" v-else-if="currentLayout && currentLayout.formfields.length == 0">
+            </card>
+            <card class="text-center text-xl py-4" v-else-if="currentLayout && currentLayout.formfields.length == 0" dont-show-header>
                 {{ __('voyager::builder.add_formfield_to_layout') }}
-            </div>
+            </card>
             <component
                 v-else-if="currentLayout"
                 :is="'bread-builder-' + currentLayout.type"
