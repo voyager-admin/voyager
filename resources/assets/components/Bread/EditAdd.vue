@@ -143,6 +143,7 @@ export default {
                 column: formfield.column,
                 value: value,
             });
+            this.$eventbus.emit('output', this.output);
             this.$emit('output', this.output);
         },
         getErrors(column) {

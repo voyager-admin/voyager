@@ -93,7 +93,7 @@ export default {
     mounted() {
         $eventbus.on('setting-updated', (s) => {
             if (s.group == 'admin' && s.key == 'sidebar-title') {
-                //this.shared.sidebar.title = this.translate(s.value);
+                this.$store.sidebar.title = this.translate(s.value);
             } else if (s.group == 'admin' && s.key == 'icon-size') {
                 this.iconSize = s.value;
             }

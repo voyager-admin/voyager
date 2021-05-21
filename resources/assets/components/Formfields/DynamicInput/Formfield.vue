@@ -170,7 +170,7 @@ export default {
         }
     },
     created() {
-        const loadInputs = debounce(() => {
+        const loadInputs = debounce((data = {}) => {
             if (!this.options.route_name) {
                 return;
             }
@@ -180,7 +180,7 @@ export default {
                 new this.$notification(this.__('voyager::formfields.dynamic_input.route_warning', { route: this.options.route_name })).color('red').timeout().show();
                 return;
             }
-            axios.post(this.route(this.options.route_name), { ...this.modelValue, bread_action: this.action })
+            axios.post(this.route(this.options.route_name), { ...this.modelValue, bread_action: this.action, data })
             .then((response) => {
                 this.inputs = response.data;
                 // Add default value if the property does not exist
@@ -211,6 +211,13 @@ export default {
             if (route !== old) {
                 loadInputs();
             }
+        });
+
+        this.$eventbus.on('output', (data) => {
+            // TODO: When there is a config option that this formfields should refresh when other formfields changed value.
+            // Might need to remove immediate: true on the modelValue watcher above and instead call `$eventbus.emit('output', this.output)` from Bread/EditAdd when mounted.
+            // Also consider settings. They have another structure
+            //this.loadInputs(data);
         });
     }
 }

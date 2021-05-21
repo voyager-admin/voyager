@@ -52,16 +52,6 @@ export default {
             }
         }, { immediate: true, deep: true });
 
-        $eventbus.on('setting-updated', (s) => {
-            if (s.group == 'admin' && s.key == 'title') {
-                
-            }
-        });
-
-        Inertia.on('start', () => {
-            this.$store.pageLoading = true;
-        });
-
         Inertia.on('navigate', (event) => {
             this.$store.pageLoading = false;
             let url = String(window.location);
@@ -72,6 +62,10 @@ export default {
         });
 
         Inertia.on('finish', () => {
+            this.$store.pageLoading = false;
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
             this.$store.pageLoading = false;
         });
 
