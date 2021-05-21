@@ -19,6 +19,7 @@
   * [Dynamic select](bread/formfields/dynamic-select.md)
   * [Media Picker](bread/formfields/media-picker.md)
   * [Number](bread/formfields/number.md)
+  * [Repeater](bread/formfields/repeater.md)
   * [Select](bread/formfields/select.md)
   * [Tags](bread/formfields/tags.md)
   * [Text](bread/formfields/text.md)

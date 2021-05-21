@@ -2,9 +2,7 @@
     <div v-if="action == 'query'">
         <slot />
     </div>
-    <div v-else-if="action == 'browse'">
-        
-    </div>
+    <div v-else-if="action == 'browse'" v-html="browseData"></div>
     <div v-else-if="action == 'edit' || action == 'add'" class="w-full">
         <draggable :list="rows" :item-key="keyForRow" handle=".dd-handle">
             <template #item="{ element: entry, index: key }" :key="key">
@@ -59,13 +57,55 @@ export default {
             set(value) {
                 this.$emit('update:modelValue', value);
             }
+        },
+        browseData() {
+            if (Array.isArray(this.modelValue)) {
+                if (this.modelValue.length == 0) {
+                    return this.__('voyager::generic.none')
+                } else {
+                    let data = '';
+                    let rows = this.modelValue;
+                    let length = this.modelValue.length;
+                    let displayRows = (this.options.rows || 3);
+                    if (this.options.shuffle) {
+                        rows.sort(() => Math.random() - 0.5);
+                    }
+                    rows.splice(0, (rows.length - displayRows));
+                    if (rows[0] && typeof rows[0] === 'object' && rows[0].constructor === Object) {
+                        data = rows.map((value) => {
+                            let row = Object.keys(value).map((key) => {
+                                return this.titleCase(key) + ': ' + value[key];
+                            }).join(', ').substr(0, (this.options.length || 15));
+
+                            return row;
+                        }).join('<br>');
+                    } else {
+                        // 1 formfield without key
+                        data = rows.map((row) => {
+                            if (typeof row === 'string' || row instanceof String) {
+                                return row.substr(0, (this.options.length || 15));
+                            }
+                            return row;
+                        }).join('<br>');
+                    }
+
+                    if (length > displayRows) {
+                        data += '<p class="italic text-sm">'+this.__('voyager::generic.more_results', { num: (length - displayRows) })+'</p>';
+                    }
+
+                    return data;
+                }
+
+                return JSON.stringify(this.modelValue);
+            }
+
+            return this.modelValue;
         }
     },
     methods: {
         setData(row, data) {
             let model = this.modelValue;
             model[row] = data;
-
             this.$emit('update:modelValue', model)
         },
         addRow() {
@@ -74,10 +114,30 @@ export default {
         deleteRow(row) {
             let model = this.modelValue;
             model.splice(row, 1);
-            this.$emit('update:modelValue', model)
+            this.$emit('update:modelValue', model);
         },
         keyForRow(row) {
             return uuidv4();
+        }
+    },
+    created() {
+        if (!this.options.formfields) {
+            return;
+        }
+
+        let fieldsWithoutKey = false;
+        this.options.formfields.forEach((formfield) => {
+            if (formfield.column.column === null || formfield.column.column === '') {
+                fieldsWithoutKey = true;
+            }
+        });
+
+        if (fieldsWithoutKey && this.options.formfields.length > 1) {
+            new this
+            .$notification(this.__('voyager::formfields.repeater.key_warning'))
+            .color('red')
+            .timeout()
+            .show();
         }
     },
     data() {
@@ -87,7 +147,7 @@ export default {
             },
             layout: {
                 formfields: this.options.formfields
-            }
+            },
         }
     }
 }

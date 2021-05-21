@@ -37,6 +37,9 @@ return [
     'repeater'  => [
         'name'            => 'Repeater',
         'allow_sort'      => 'Allow sorting',
+        'chars_per_rows'  => 'Max characters per row',
+        'key_warning'     => 'A repeater can not contain multiple formfields in conjunction with formfield(s) not having a key!',
+        'shuffle_rows'    => 'Shuffle rows',
     ],
     'select'        => [
         'name'          => 'Select',

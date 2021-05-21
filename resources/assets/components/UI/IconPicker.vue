@@ -2,10 +2,10 @@
     <div>
         <div class="input w-full mb-3 flex space-x-1">
             <input type="text" class="input-transparent flex-grow" :placeholder="__('voyager::generic.search_icons')" v-model="query" />
-            <button @click="sizeUp" class="flex-none">
+            <button @click="sizeUp" class="flex-none button">
                 <icon icon="plus" :size="5" />
             </button>
-            <button @click="sizeDown" class="flex-none">
+            <button @click="sizeDown" class="flex-none button">
                 <icon icon="minus" :size="5" />
             </button>
         </div>

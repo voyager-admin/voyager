@@ -1,5 +1,5 @@
 <template>
-    <div v-if="action == 'list-options' || action == 'view-options'">
+    <div v-if="action == 'view-options'">
         <label class="label mt-4">{{ __('voyager::generic.type') }}</label>
         <language-input
             class="input w-full"
@@ -9,7 +9,26 @@
         <label class="label mt-4">{{ __('voyager::formfields.repeater.allow_sort') }}</label>
         <input type="checkbox" class="input" v-model="options.sort">
     </div>
+    <div v-else-if="action == 'list-options'">
+        <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
+        <input
+            class="input w-full"
+            type="number" min="0" :placeholder="__('voyager::generic.rows')"
+            v-model.number="options.rows" />
+
+        <label class="label mt-4">{{ __('voyager::formfields.repeater.chars_per_rows') }}</label>
+        <input
+            class="input w-full"
+            type="number" min="0" :placeholder="__('voyager::formfields.repeater.chars_per_rows')"
+            v-model.number="options.length" />
+
+        <label class="label mt-4">{{ __('voyager::formfields.repeater.shuffle_rows') }}</label>
+        <input type="checkbox" class="input" v-model="options.shuffle">
+    </div>
     <div v-else-if="action == 'view'" class="w-full">
+        <alert v-if="keyWarning" color="yellow" class="mb-2">
+            {{ __('voyager::formfields.repeater.key_warning') }}
+        </alert>
         <card>
             <bread-builder-view
                 :computed="[]"
@@ -40,7 +59,11 @@ export default {
             };
         },
         defaultListOptions() {
-            return {};
+            return {
+                rows: 3,
+                length: 15,
+                shuffle: false,
+            };
         },
         formfields: {
             get() {
@@ -73,9 +96,25 @@ export default {
             });
         },
     },
+    created() {
+        this.$watch(() => this.options.formfields, (formfields) => {
+            if (!Array.isArray(formfields)) {
+                return;
+            }
+            let fieldsWithoutKey = false;
+            formfields.forEach((formfield) => {
+                if (formfield.column.column === null || formfield.column.column === '') {
+                    fieldsWithoutKey = true;
+                }
+            });
+
+            this.keyWarning = (fieldsWithoutKey && this.options.formfields.length > 1);
+        }, { immediate: true, deep: true });
+    },
     data() {
         return {
-            dummyOptions: []
+            dummyOptions: [],
+            keyWarning: false,
         };
     }
 }
