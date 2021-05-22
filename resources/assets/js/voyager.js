@@ -4,7 +4,7 @@ require('../sass/voyager.scss');
 
 // External libraries
 import { createApp } from 'vue';
-import { App, plugin } from '@inertiajs/inertia-vue3';
+import { App, plugin, usePage } from '@inertiajs/inertia-vue3';
 import slugify from 'slugify';
 
 window.slugify = slugify;
@@ -67,13 +67,21 @@ window.createVoyager = (data = {}, el = 'voyager') => {
     voyager = createApp(App, {
         initialPage: JSON.parse(document.getElementById(el).dataset.page),
         resolveComponent: (name) => resolveInertiaComponent(name)
-            .then(({ default: page }) => {
-                if (page.layout === undefined) {
-                    page.layout = Voyager;
-                }
+        .then(({ default: page }) => {
+            if (page.layout === undefined) {
+                page.layout = Voyager;
+            }
 
-                return page;
-            }),
+            return page;
+        }),
+        transformProps: (props) => {
+            if (props.hasOwnProperty('title')) {
+                Store.title = props.title;
+                delete props.title;
+            }
+
+            return props;
+        }
     }).use(plugin);
 
     voyager.addToUI = function (title, component) {

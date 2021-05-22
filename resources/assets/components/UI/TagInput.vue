@@ -9,7 +9,6 @@
         </component>
         <input type="text" class="bg-transparent border-0 focus:outline-none flex-grow" ref="input" v-on:keyup.enter="addTag" v-on:keyup.delete="removeLastTag($event)">
     </div>
-    {{ tags }}
 </template>
 <script>
 import draggable from 'vuedraggable';

@@ -527,7 +527,7 @@ class Voyager
             'jsonOutput'            => $this->setting('admin.json-output', false),
             'searchPlaceholder'     => $this->breadmanager->getBreadSearchPlaceholder(),
 
-            'adminTitle'            => $this->setting('admin.title', 'Voyager II'),
+            'titleSuffix'           => $this->setting('admin.title', 'Voyager II'),
 
             'rtl'                   => (__('voyager::generic.is_rtl') == 'true'),
             'currentUrl'            => Str::finish(url()->current(), '/'),

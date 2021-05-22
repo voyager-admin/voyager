@@ -2,7 +2,7 @@
     <div :class="!isLogin ? 'h-screen flex overflow-hidden' : null ">
         <div>
             <fade-transition tag="div" :duration="250">
-                <div class="absolute w-full h-1.5 overflow-hidden" style="z-index: 9999" v-if="$store.pageLoading">
+                <div class="absolute w-full h-1.5 overflow-hidden" style="z-index: 9999;" v-if="$store.pageLoading">
                     <div class="indeterminate">
                         <div class="before rounded" :class="`bg-blue-500`"></div>
                         <div class="after rounded" :class="`bg-blue-500`"></div>
@@ -46,11 +46,9 @@ export default {
         Notifications
     },
     created() {
-        watch(() => usePage().props.value, (props) => {
-            if (props) {
-                document.title = props.title + ' - ' + this.$store.adminTitle;
-            }
-        }, { immediate: true, deep: true });
+        watch(() => this.$store.title, (title) => {
+            document.title = title + ' - ' + this.$store.titleSuffix;
+        }, { immediate: true });
 
         Inertia.on('navigate', (event) => {
             this.$store.pageLoading = false;
