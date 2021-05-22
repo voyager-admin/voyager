@@ -1,8 +1,8 @@
 <template>
 <div class="menuitem">
     <div class="item" :class="[active ? 'active' : '']">
-        <div class="inline-flex items-center">
-            <inertia-link :href="href" class="text-sm leading-5 link inline-flex items-center space-x-2" @click="clickItem">
+        <div class="inline-flex items-center w-full">
+            <inertia-link :href="href" class="text-sm leading-5 link inline-flex items-center space-x-2 w-full" @click="clickItem">
                 <icon v-if="icon !== '' && icon !== null" :icon="icon" class="icon" :size="iconSize" />
                 <span>{{ title }}</span>
             </inertia-link>
@@ -13,7 +13,7 @@
         </div>
     </div>
     
-    <div v-if="hasChildren" class="mx-5">
+    <div v-if="hasChildren" class="ltr:ml-5 rtl:mr-5">
         <collapse-transition :duration="200">
             <slot v-if="open" />
         </collapse-transition>

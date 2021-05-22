@@ -1,24 +1,22 @@
 <template>
-    <div>
-        <div v-for="(item, i) in items" :key="i">
-            <hr class="my-3 sidebar-border" v-if="item.divider" />
-            <menuItem
-                v-else
-                :title="item.title"
-                :icon="item.icon"
-                :href="item.href"
-                :active="isItemActive(item)"
-                :hasChildren="item.children.length > 0"
-                :iconSize="iconSize"
-            >
-                <div v-if="item.children.length > 0">
-                    <menuWrapper
-                        :items="item.children"
-                        :current-url="currentUrl"
-                    />
-                </div>
-            </menuItem>
-        </div>
+    <div v-for="(item, i) in items" :key="i">
+        <hr class="my-3 sidebar-border" v-if="item.divider" />
+        <menuItem
+            v-else
+            :title="item.title"
+            :icon="item.icon"
+            :href="item.href"
+            :active="isItemActive(item)"
+            :hasChildren="item.children.length > 0"
+            :iconSize="iconSize"
+        >
+            <div v-if="item.children.length > 0">
+                <menuWrapper
+                    :items="item.children"
+                    :current-url="currentUrl"
+                />
+            </div>
+        </menuItem>
     </div>
 </template>
 

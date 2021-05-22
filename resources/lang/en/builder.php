@@ -51,7 +51,6 @@ return [
     'order_field'                       => 'Order field',
     'order_field_hint'                  => 'The field where the order of your items is stored.',
     'policy'                            => 'Policy',
-    'reload_breads'                     => 'Reload BREADs',
     'reload_properties'                 => 'Reload properties',
     'rename_layout'                     => 'Rename Layout',
     'resize'                            => 'Resize',
