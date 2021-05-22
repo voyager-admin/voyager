@@ -20,7 +20,7 @@ export default {
         },
     },
     render() {
-        return h('i', { class: `h-${this.transitionSize > 0 ? this.transitionSize : this.size} w-${this.size} ${this.transitionSize > 0 ? 'transition-width duration-500' : null}`, key: `icon-${this.icon}` }, [
+        return h('i', { class: `h-${this.currentSize} w-${this.size} transition-width duration-500`, key: `icon-${this.icon}` }, [
             this.getIcon()
         ]);
     },
@@ -35,11 +35,16 @@ export default {
                 } else if (name == 'Helm') {
                     return helmIcon();
                 } else {
-                    console.warn('The icon `'+name+'` does not exist');
+                    console.warn(`The icon "${name}" does not exist`);
                 }
             }
 
             return xIcon();
+        }
+    },
+    computed: {
+        currentSize() {
+            return this.transitionSize > 0 ? this.transitionSize : this.size;
         }
     },
     mounted() {
@@ -47,19 +52,11 @@ export default {
             console.error('No icons were registered. Please make sure your icon-pack injects an array of icons into `window.icons`');
         }
 
-        watch(() => this.size, (size) => {
-            if (this.$el.firstChild) {
-                this.$el.firstChild.classList.remove(...this.$el.firstChild.classList);
-                
-                this.$el.firstChild.classList.add(`w-${size}`);
-                if (this.transitionSize > 0) {
-                    this.$el.firstChild.classList.add(`transition-width`);
-                    this.$el.firstChild.classList.add(`duration-500`);
-                    this.$el.firstChild.classList.add(`h-${this.transitionSize}`);
-                } else {
-                    this.$el.firstChild.classList.add(`h-${size}`);
-                }
-            }
-        }, { immediate: true });
+        if (this.$el.firstChild) {
+            this.$el.firstChild.classList.remove(...this.$el.firstChild.classList);
+            
+            this.$el.firstChild.classList.add(`w-full`);
+            this.$el.firstChild.classList.add(`h-full`);
+        }
     }
 };

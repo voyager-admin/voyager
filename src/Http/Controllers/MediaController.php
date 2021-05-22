@@ -93,7 +93,7 @@ class MediaController extends Controller
             extract(pathinfo($name));
 
             // Generate thumbnails
-            VoyagerFacade::getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension, $watermark, &$thumbnails) {
+            $this->getThumbnailDefinitions()->each(function ($thumb) use ($path, $name, $filename, $extension, $watermark, &$thumbnails) {
                 $image = Intervention::make(Storage::disk($this->disk)->path($path.$name));
                 $thumbname = $filename.'_'.$thumb['name'].'.'.$extension;
 
@@ -184,7 +184,7 @@ class MediaController extends Controller
     public function listFiles(Request $request)
     {
         $hide_thumbnails = VoyagerFacade::setting('media.hide-thumbnails', true);
-        $thumbnail_names = VoyagerFacade::getThumbnailDefinitions()->pluck('name')->transform(function ($name) {
+        $thumbnail_names = $this->getThumbnailDefinitions()->pluck('name')->transform(function ($name) {
             return '_'.$name;
         })->toArray();
         $exclude = VoyagerFacade::setting('media.exclude', []);
@@ -359,5 +359,53 @@ class MediaController extends Controller
         }
 
         return $zip;
+    }
+
+    /**
+     * Get sanitized thumbnail definitions made in the settings.
+     *
+     * @return Collection The thumbnail definitions.
+     */
+    private function getThumbnailDefinitions()
+    {
+        $thumbs = collect(VoyagerFacade::setting('thumbnails'));
+
+        return $thumbs->map(function ($thumb, $name) {
+            $name = Str::after($name, 'thumbnails.');
+            if (is_object($thumb)) {
+                if ($thumb->method == 'fit') {
+                    return [
+                        'name'      => $name,
+                        'method'    => 'fit',
+                        'width'     => $thumb->width,
+                        'height'    => empty($thumb->height) ? null : $thumb->height,
+                        'position'  => empty($thumb->position) ? 'center' : $thumb->position,
+                        'upsize'    => empty($thumb->upsize) ? false : $thumb->upsize,
+                    ];
+                } elseif ($thumb->method == 'crop') {
+                    return [
+                        'name'      => $name,
+                        'method'    => 'crop',
+                        'width'     => $thumb->width,
+                        'height'    => $thumb->height,
+                        'x'         => empty($thumb->x) ? null : $thumb->x,
+                        'y'         => empty($thumb->y) ? null : $thumb->y,
+                    ];
+                } elseif ($thumb->method == 'resize') {
+                    return [
+                        'name'      => $name,
+                        'method'    => 'resize',
+                        'width'     => empty($thumb->width) ? null : $thumb->width,
+                        'height'    => empty($thumb->height) ? null : $thumb->height,
+                        'aspect'    => empty($thumb->keep_aspect_ratio) ? true : $thumb->keep_aspect_ratio,
+                        'upsize'    => empty($thumb->upsize) ? false : $thumb->upsize,
+                    ];
+                }
+            }
+
+            return null;
+        })->filter(function ($thumb) {
+            return $thumb !== null;
+        });
     }
 }

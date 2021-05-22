@@ -34,7 +34,7 @@
                 </div>
                 <template #opener>
                     <button class="inline-flex justify-end w-48 max-w-sm space-x-2 items-center font-semibold focus:outline-none">
-                        <img class="h-6 w-6 rounded-full flex-no-shrink" :src="$store.user.avatar" alt="">
+                        <img class="h-6 w-6 rounded-full flex-no-shrink" :src="$store.user.avatar" alt="" v-if="$store.user.avatar">
                         <span class="hidden md:block whitespace-no-wrap">
                             {{ __('voyager::generic.hello_user', { user: $store.user.name }) }}
                         </span>

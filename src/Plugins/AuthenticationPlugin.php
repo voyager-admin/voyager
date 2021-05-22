@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\View;
 use Voyager\Admin\Contracts\Plugins\AuthenticationPlugin as AuthContract;
+use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 
 class AuthenticationPlugin implements AuthContract
 {
@@ -21,6 +22,11 @@ class AuthenticationPlugin implements AuthContract
     public function name(): ?string
     {
         return Auth::user()->name;
+    }
+
+    public function avatar(): ?string
+    {
+        return VoyagerFacade::assetUrl('images/default-avatar.png');
     }
 
     public function guard(): string

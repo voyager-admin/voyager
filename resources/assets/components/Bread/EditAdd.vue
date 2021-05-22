@@ -223,7 +223,7 @@ export default {
                 column: formfield.column,
                 value: value,
             });
-        })
+        });
     },
     unmounted() {
         document.removeEventListener('keydown', this.save);

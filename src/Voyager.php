@@ -454,54 +454,6 @@ class Voyager
     }
 
     /**
-     * Get sanitized thumbnail definitions made in the settings.
-     *
-     * @return Collection The thumbnail definitions.
-     */
-    public function getThumbnailDefinitions()
-    {
-        $thumbs = collect($this->settingmanager->setting('thumbnails'));
-
-        return $thumbs->map(function ($thumb, $name) {
-            $name = Str::after($name, 'thumbnails.');
-            if (is_object($thumb)) {
-                if ($thumb->method == 'fit') {
-                    return [
-                        'name'      => $name,
-                        'method'    => 'fit',
-                        'width'     => $thumb->width,
-                        'height'    => empty($thumb->height) ? null : $thumb->height,
-                        'position'  => empty($thumb->position) ? 'center' : $thumb->position,
-                        'upsize'    => empty($thumb->upsize) ? false : $thumb->upsize,
-                    ];
-                } elseif ($thumb->method == 'crop') {
-                    return [
-                        'name'      => $name,
-                        'method'    => 'crop',
-                        'width'     => $thumb->width,
-                        'height'    => $thumb->height,
-                        'x'         => empty($thumb->x) ? null : $thumb->x,
-                        'y'         => empty($thumb->y) ? null : $thumb->y,
-                    ];
-                } elseif ($thumb->method == 'resize') {
-                    return [
-                        'name'      => $name,
-                        'method'    => 'resize',
-                        'width'     => empty($thumb->width) ? null : $thumb->width,
-                        'height'    => empty($thumb->height) ? null : $thumb->height,
-                        'aspect'    => empty($thumb->keep_aspect_ratio) ? true : $thumb->keep_aspect_ratio,
-                        'upsize'    => empty($thumb->upsize) ? false : $thumb->upsize,
-                    ];
-                }
-            }
-
-            return null;
-        })->filter(function ($thumb) {
-            return $thumb !== null;
-        });
-    }
-
-    /**
      * @param string $breadName
      *
      * @return Classes\Bread
@@ -543,7 +495,7 @@ class Voyager
                 ],
                 'user'                  => [
                     'name'      => $this->auth()->name(),
-                    'avatar'    => $this->assetUrl('images/default-avatar.png'),
+                    'avatar'    => $this->auth()->avatar(),
                 ]
             ]);
         }
