@@ -13,8 +13,7 @@
             "default_value": null,
             "rows": 1,
             "title": null,
-            "description": null,
-            "border": "default"
+            "description": null
         },
         "validation": []
     },
@@ -32,8 +31,7 @@
             "default_value": null,
             "rows": 1,
             "title": null,
-            "description": null,
-            "border": "default"
+            "description": null
         },
         "validation": []
     },
@@ -62,9 +60,11 @@
         "canBeTranslated": false,
         "options": {
             "route_name": "voyager.get-disks",
+            "debounce": 200,
+            "inline": true,
+            "outline": false,
             "title": null,
-            "description": null,
-            "border": "default"
+            "description": null
         },
         "validation": []
     },
@@ -82,8 +82,28 @@
             "default_value": null,
             "rows": 1,
             "title": null,
-            "description": null,
-            "border": "default"
+            "description": null
+        },
+        "validation": []
+    },
+    {
+        "type": "text",
+        "group": null,
+        "key": "title",
+        "name": {
+            "en": "Title"
+        },
+        "value": "Voyager II",
+        "info": "The title shown in your browser",
+        "translatable": false,
+        "canBeTranslated": true,
+        "options": {
+            "placeholder": null,
+            "default_value": null,
+            "rows": 1,
+            "inputmode": "text",
+            "title": null,
+            "description": null
         },
         "validation": []
     },
@@ -127,8 +147,7 @@
                 }
             ],
             "title": null,
-            "description": null,
-            "border": "default"
+            "description": null
         },
         "validation": []
     },
@@ -209,8 +228,7 @@
                 }
             ],
             "title": null,
-            "description": null,
-            "border": "default"
+            "description": null
         },
         "validation": []
     },
@@ -276,7 +294,7 @@
         "key": "hide-thumbnails",
         "name": "Hide thumbnails",
         "value": true,
-        "info": "Hide thumbnails and only display them in the parent",
+        "info": "Hide thumbnails and display them as children of the original image",
         "translatable": false,
         "canBeTranslated": true,
         "options": {
@@ -284,11 +302,11 @@
             "options": [
                 {
                     "key": "true",
-                    "value": "Hide"
+                    "value": "True"
                 },
                 {
                     "key": "false",
-                    "value": "Show"
+                    "value": "False"
                 }
             ],
             "title": null,
@@ -348,141 +366,13 @@
         "validation": []
     },
     {
-        "type": "select",
-        "group": "watermark",
-        "key": "position",
-        "name": "Position",
-        "value": "bottom-right",
-        "info": "The position of the watermark",
-        "translatable": false,
-        "canBeTranslated": true,
-        "options": {
-            "multiple": false,
-            "options": [
-                {
-                    "key": "top-left",
-                    "value": "Top left"
-                },
-                {
-                    "key": "top",
-                    "value": "Top"
-                },
-                {
-                    "key": "top-right",
-                    "value": "Top right"
-                },
-                {
-                    "key": "left",
-                    "value": "Left"
-                },
-                {
-                    "key": "center",
-                    "value": "Center"
-                },
-                {
-                    "key": "right",
-                    "value": "Right"
-                },
-                {
-                    "key": "bottom-left",
-                    "value": "Bottom left"
-                },
-                {
-                    "key": "bottom",
-                    "value": "Bottom"
-                },
-                {
-                    "key": "bottom-right",
-                    "value": "Bottom right"
-                }
-            ],
-            "title": null,
-            "description": null
-        },
-        "validation": []
-    },
-    {
-        "type": "number",
-        "group": "watermark",
-        "key": "size",
-        "name": "Size",
-        "value": 15,
-        "info": "The size of the watermark in percent",
-        "translatable": false,
-        "canBeTranslated": true,
-        "options": {
-            "placeholder": null,
-            "min": 5,
-            "max": 95,
-            "step": 1,
-            "title": null,
-            "description": null
-        },
-        "validation": []
-    },
-    {
-        "type": "number",
-        "group": "watermark",
-        "key": "x",
-        "name": "X",
-        "value": 10,
-        "info": "Offset X",
-        "translatable": false,
-        "canBeTranslated": true,
-        "options": {
-            "placeholder": null,
-            "min": 0,
-            "max": 0,
-            "step": 1,
-            "title": null,
-            "description": null
-        },
-        "validation": []
-    },
-    {
-        "type": "number",
-        "group": "watermark",
-        "key": "y",
-        "name": "Y",
-        "value": 10,
-        "info": "Offset Y",
-        "translatable": false,
-        "canBeTranslated": true,
-        "options": {
-            "placeholder": null,
-            "min": 0,
-            "max": 0,
-            "step": 1,
-            "title": null,
-            "description": null
-        },
-        "validation": []
-    },
-    {
-        "type": "number",
-        "group": "watermark",
-        "key": "opacity",
-        "name": "Opacity",
-        "value": 50,
-        "info": "Opacity of the watermark image",
-        "translatable": false,
-        "canBeTranslated": true,
-        "options": {
-            "placeholder": null,
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "title": null,
-            "description": null
-        },
-        "validation": []
-    },
-    {
         "type": "text",
         "group": "admin",
         "key": "welcome",
         "name": "Welcome",
-        "value": "Welcome to Voyager II",
+        "value": {
+            "en": "Welcome to Voyager II"
+        },
         "info": "The welcome text shown when logging in",
         "translatable": true,
         "canBeTranslated": true,

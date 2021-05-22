@@ -11,8 +11,8 @@
                     <icon icon="check-circle" />
                     <span>{{ __('voyager::media.select_upload_files') }}</span>
                 </button>
-                <button class="button accent small" @click="loadFiles()">
-                    <icon icon="refresh" :class="store.pageLoading ? 'animate-spin-reverse' : null" />
+                <button class="button accent small space-x-0" @click="loadFiles()" :disabled="store.pageLoading">
+                    <icon icon="refresh" class="animate-spin-reverse" :size="store.pageLoading ? 5 : 0" :transition-size="5" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <button class="button accent small" @click="createFolder()">

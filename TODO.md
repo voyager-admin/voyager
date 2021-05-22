@@ -29,7 +29,7 @@ Instead, they are listed here:
 - [X] Select
 - [X] SimpleArray
 - [X] Slug
-- [X] Tags (Add reordering)
+- [X] Tags
 - [X] Text
 
 ## Documentation
