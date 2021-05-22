@@ -44,7 +44,7 @@
 
 <script>
 if (window.createVoyager) {
-    createVoyager({!! json_encode($viewData ?? []) !!});
+    createVoyager({!! json_encode(array_merge(['title' => $title], Voyager::getViewData())) !!});
     // 
 } else {
     @if (isset($voyagerDevServer))

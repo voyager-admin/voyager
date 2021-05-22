@@ -21,8 +21,8 @@
                     </template>
                     {{ __('voyager::builder.new_breads_prop_warning') }}
                 </alert>
-                <div class="flex mb-4">
-                    <div class="w-full m-1">
+                <div class="w-full flex-none lg:flex space-x-0 lg:space-x-4 mb-2">
+                    <div class="w-full">
                         <label class="label" for="slug">{{ __('voyager::generic.slug') }}</label>
                         <language-input
                             class="input w-full"
@@ -30,10 +30,7 @@
                             type="text" :placeholder="__('voyager::generic.slug')"
                             v-model="bread.slug" />
                     </div>
-                </div>
-                
-                <div class="flex-none md:flex mb-4">
-                    <div class="w-full md:w-5/12 m-1">
+                    <div class="w-full">
                         <label class="label" for="name-singular">{{ __('voyager::builder.name_singular') }}</label>
                         <language-input
                             class="input w-full"
@@ -41,7 +38,7 @@
                             type="text" :placeholder="__('voyager::builder.name_singular')"
                             v-model="bread.name_singular" />
                     </div>
-                    <div class="w-full md:w-5/12 m-1">
+                    <div class="w-full">
                         <label class="label" for="name-plural">{{ __('voyager::builder.name_plural') }}</label>
                         <language-input
                             class="input w-full"
@@ -50,7 +47,7 @@
                             :model-value="bread.name_plural"
                             @update:model-value="bread.name_plural = $event; setSlug($event)" />
                     </div>
-                    <div class="w-full md:w-2/12 m-1">
+                    <div>
                         <label class="label" for="icon">{{ __('voyager::generic.icon') }}</label>
                         <modal ref="icon_modal" :title="__('voyager::generic.select_icon')">
                             <icon-picker @select="bread.icon = $event; $refs.icon_modal.close()" />
@@ -64,8 +61,9 @@
                         </modal>
                     </div>
                 </div>
-                <div class="flex-none md:flex mb-4">
-                    <div class="w-full md:w-1/5 m-1">
+                
+                <div class="w-full flex-none lg:flex space-x-0 lg:space-x-4 mb-2">
+                    <div class="w-full">
                         <label class="label" for="model">{{ __('voyager::builder.model') }}</label>
                         <input
                             class="input w-full"
@@ -73,7 +71,7 @@
                             type="text" :placeholder="__('voyager::builder.model')"
                             v-model="bread.model">
                     </div>
-                    <div class="w-full md:w-1/5 m-1">
+                    <div class="w-full">
                         <label class="label" for="controller">{{ __('voyager::builder.controller') }}</label>
                         <input
                             class="input w-full"
@@ -81,7 +79,7 @@
                             type="text" :placeholder="__('voyager::builder.controller')"
                             v-model="bread.controller">
                     </div>
-                    <div class="w-full md:w-1/5 m-1">
+                    <div class="w-full">
                         <label class="label" for="policy">{{ __('voyager::builder.policy') }}</label>
                         <input
                             class="input w-full"
@@ -89,7 +87,7 @@
                             type="text" :placeholder="__('voyager::builder.policy')"
                             v-model="bread.policy">
                     </div>
-                    <div class="w-full md:w-1/5 m-1">
+                    <div class="w-full">
                         <label class="label inline-flex" for="global_search">
                             <span class="mx-2">{{ __('voyager::builder.global_search_display_field') }}</span>
                             <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.global_search_display_field_hint')" />
@@ -99,7 +97,7 @@
                             <option v-for="column in columns" :key="column">{{ column }}</option>
                         </select>
                     </div>
-                    <div class="w-full md:w-1/5 m-1">
+                    <div class="w-full">
                         <label class="label inline-flex" for="order_field">
                             <span class="mx-2">{{ __('voyager::builder.order_field') }}</span>
                             <icon icon="question-mark-circle" v-tooltip="__('voyager::builder.order_field_hint')" />

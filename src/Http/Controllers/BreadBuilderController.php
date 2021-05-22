@@ -35,8 +35,7 @@ class BreadBuilderController extends Controller
     {
         $this->authorize('browse breads');
 
-        return $this->inertiaRender('Builder/Browse', [
-            'title'  => __('voyager::generic.breads'),
+        return $this->inertiaRender('Builder/Browse', __('voyager::generic.breads'), [
             'tables' => VoyagerFacade::getTables(),
         ]);
     }
@@ -67,8 +66,7 @@ class BreadBuilderController extends Controller
             return redirect()->route('voyager.bread.edit', $table);
         }
 
-        return $this->inertiaRender('Builder/EditAdd', [
-            'title'  =>  __('voyager::generic.add_type', ['type' => __('voyager::generic.bread')]),
+        return $this->inertiaRender('Builder/EditAdd', __('voyager::generic.add_type', ['type' => __('voyager::generic.bread')]), [
             'data'   => $this->breadmanager->createBread($table),
             'is-new' => true,
         ]);
@@ -94,8 +92,7 @@ class BreadBuilderController extends Controller
 
         $this->authorize('edit bread', $table);
 
-        return $this->inertiaRender('Builder/EditAdd', [
-            'title'  =>  __('voyager::generic.edit_type', ['type' => __('voyager::generic.bread')]),
+        return $this->inertiaRender('Builder/EditAdd', __('voyager::generic.edit_type', ['type' => __('voyager::generic.bread')]), [
             'data'   => $bread,
             'is-new' => false,
         ]);

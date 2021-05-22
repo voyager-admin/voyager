@@ -24,8 +24,7 @@ class AuthController extends Controller
             }
         }
 
-        return $this->inertiaRender('Login', [
-            'title'             => __('voyager::auth.login'),
+        return $this->inertiaRender('Login', __('voyager::auth.login'), [
             'welcome'           => VoyagerFacade::setting('admin.welcome', __('voyager::generic.welcome_to_voyager')),
             'has_password_view' => true,
             'errors'            => $errors,

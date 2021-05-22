@@ -23,7 +23,6 @@
                             :items="$store.sidebar.items"
                             :current-url="$store.currentUrl"
                             :icon-size="iconSize"
-                            :parent-url="null"
                         />
                     </nav>
                 </div>

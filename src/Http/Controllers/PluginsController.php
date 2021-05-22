@@ -26,8 +26,7 @@ class PluginsController extends Controller
 
     public function index()
     {
-        return $this->inertiaRender('Plugins', [
-            'title'             => __('voyager::plugins.plugins'),
+        return $this->inertiaRender('Plugins', __('voyager::plugins.plugins'), [
             'installed-plugins' => $this->getInstalledPlugins()
         ]);
     }

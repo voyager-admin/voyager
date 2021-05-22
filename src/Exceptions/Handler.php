@@ -42,7 +42,6 @@ class Handler extends ExceptionHandler
             'title'     => __('voyager::generic.error', [ 'code' => $response->status() ]),
             'exception' => $exception
         ])
-        ->withViewData(VoyagerFacade::getViewData())
         ->toResponse($request)
         ->setStatusCode($response->status());
     }

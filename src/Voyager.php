@@ -500,6 +500,6 @@ class Voyager
             ]);
         }
 
-        return ['viewData' => $viewData];
+        return $viewData;
     }
 }

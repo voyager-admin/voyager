@@ -73,15 +73,7 @@ window.createVoyager = (data = {}, el = 'voyager') => {
             }
 
             return page;
-        }),
-        transformProps: (props) => {
-            if (props.hasOwnProperty('title')) {
-                Store.title = props.title;
-                delete props.title;
-            }
-
-            return props;
-        }
+        })
     }).use(plugin);
 
     voyager.addToUI = function (title, component) {

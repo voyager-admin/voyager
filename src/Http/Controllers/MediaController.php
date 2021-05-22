@@ -34,8 +34,7 @@ class MediaController extends Controller
 
     public function index()
     {
-        return $this->inertiaRender('Media', [
-            'title'                 => __('voyager::generic.media'),
+        return $this->inertiaRender('Media', __('voyager::generic.media'), [
             'upload-url'            => route('voyager.media.upload'),
             'list-url'              => route('voyager.media.list'),
             'drag-text'             => __('voyager::media.drag_files_here'),

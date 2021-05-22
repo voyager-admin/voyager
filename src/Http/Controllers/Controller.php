@@ -39,11 +39,11 @@ abstract class Controller extends BaseController
         $this->settingmanager = resolve(SettingManager::class);
     }
 
-    protected function inertiaRender($page, $data = [], $root_view = null)
+    protected function inertiaRender($page, string $title = '', array $data = [], $root_view = null)
     {
         Inertia::setRootView($root_view ?? 'voyager::app');
 
-        return Inertia::render($page, $data)->withViewData(VoyagerFacade::getViewData());
+        return Inertia::render($page, $data)->withViewData('title', $title);
     }
 
     protected function validateData($formfields, $data, $all_locales = false): array

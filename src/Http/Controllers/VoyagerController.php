@@ -81,17 +81,14 @@ class VoyagerController extends Controller
 
     public function dashboard()
     {
-        return $this->inertiaRender('Dashboard', [
-            'title'   => __('voyager::generic.dashboard'),
+        return $this->inertiaRender('Dashboard', __('voyager::generic.dashboard'), [
             'widgets' => VoyagerFacade::getWidgets(),
         ]);
     }
 
     public function ui()
     {
-        return $this->inertiaRender('UI', [
-            'title'   => 'UI',
-        ]);
+        return $this->inertiaRender('UI', 'UI');
     }
 
     // Search all BREADS
