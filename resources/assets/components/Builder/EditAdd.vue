@@ -21,11 +21,17 @@
                     </template>
                     {{ __('voyager::builder.new_breads_prop_warning') }}
                 </alert>
+                <alert color="red" class="mx-4" v-if="Object.keys(errors).length > 0">
+                    <ul v-for="prop in errors">
+                        <li v-for="error in prop">{{ error }}</li>
+                    </ul>
+                </alert>
                 <div class="w-full flex-none lg:flex space-x-0 lg:space-x-4 mb-2">
                     <div class="w-full">
                         <label class="label" for="slug">{{ __('voyager::generic.slug') }}</label>
                         <language-input
                             class="input w-full"
+                            :class="{ error: errors.slug }"
                             id="slug"
                             type="text" :placeholder="__('voyager::generic.slug')"
                             v-model="bread.slug" />
@@ -34,6 +40,7 @@
                         <label class="label" for="name-singular">{{ __('voyager::builder.name_singular') }}</label>
                         <language-input
                             class="input w-full"
+                            :class="{ error: errors.name_singular }"
                             id="name-singular"
                             type="text" :placeholder="__('voyager::builder.name_singular')"
                             v-model="bread.name_singular" />
@@ -42,6 +49,7 @@
                         <label class="label" for="name-plural">{{ __('voyager::builder.name_plural') }}</label>
                         <language-input
                             class="input w-full"
+                            :class="{ error: errors.name_plural }"
                             id="name-plural"
                             type="text" :placeholder="__('voyager::builder.name_plural')"
                             :model-value="bread.name_plural"
@@ -67,6 +75,7 @@
                         <label class="label" for="model">{{ __('voyager::builder.model') }}</label>
                         <input
                             class="input w-full"
+                            :class="{ error: errors.model }"
                             id="model"
                             type="text" :placeholder="__('voyager::builder.model')"
                             v-model="bread.model">
@@ -75,6 +84,7 @@
                         <label class="label" for="controller">{{ __('voyager::builder.controller') }}</label>
                         <input
                             class="input w-full"
+                            :class="{ error: errors.controller }"
                             id="controller"
                             type="text" :placeholder="__('voyager::builder.controller')"
                             v-model="bread.controller">
@@ -83,6 +93,7 @@
                         <label class="label" for="policy">{{ __('voyager::builder.policy') }}</label>
                         <input
                             class="input w-full"
+                            :class="{ error: errors.policy }"
                             id="policy"
                             type="text" :placeholder="__('voyager::builder.policy')"
                             v-model="bread.policy">
@@ -323,6 +334,7 @@ export default {
             currentLayoutName: null,
             focusMode: false,
             propsLoaded: false,
+            errors: {},
         };
     },
     methods: {
@@ -363,6 +375,7 @@ export default {
         },
         storeBread() {
             this.savingBread = true;
+            this.errors = {};
 
             axios.put(this.route('voyager.bread.update', this.bread.table), {
                 bread: this.bread
@@ -370,7 +383,11 @@ export default {
             .then(() => {
                 new this.$notification(this.__('voyager::builder.bread_saved_successfully')).color('green').timeout().show();
             })
-            .catch((response) => {})
+            .catch((response) => {
+                if (response.response.status === 422) {
+                    this.errors = response.response.data;
+                }
+            })
             .then(() => {
                 this.savingBread = false;
             });

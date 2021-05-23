@@ -1,12 +1,12 @@
 <template>
     <div>
         <card
-            :dontShowHeader="fromRelationship || fromRepeater"
+            :dontShowHeader="fromRepeater"
             :title="__('voyager::generic.'+currentAction+'_type', { type: translate(bread.name_singular, true) })"
-            :class="fromRelationship || fromRepeater ? 'border-none' : null"
-            :style="fromRelationship || fromRepeater ? 'box-shadow: none !important' : null"
+            :class="fromRepeater ? 'border-none' : null"
+            :style="fromRepeater ? 'box-shadow: none !important' : null"
             :icon="bread.icon"
-            :no-padding="fromRelationship || fromRepeater"
+            :no-padding="fromRepeater"
         >
             <template #actions v-if="true">
                 <div class="flex items-center space-x-2">
@@ -54,7 +54,6 @@
                                     :column="formfield.column"
                                     :relationships="relationships"
                                     :translatable="formfield.translatable"
-                                    :from-relationship="fromRelationship"
                                     :from-repeater="fromRepeater"
                                     :action="currentAction"
                                     :primary-key="primaryKey"
@@ -72,7 +71,7 @@
                 </button>
             </div>
         </card>
-        <collapsible v-if="!fromRelationship && !fromRepeater && jsonOutput" :title="__('voyager::generic.json_output')" closed>
+        <collapsible v-if="!fromRepeater && jsonOutput" :title="__('voyager::generic.json_output')" closed>
             <json-editor v-model="output" />
         </collapsible>
     </div>
@@ -91,10 +90,6 @@ export default {
         prevUrl: String,
         relationships: Array,
         primaryKey: [String, Number, Object],
-        fromRelationship: {
-            type: Boolean,
-            default: false,
-        },
         fromRepeater: {
             type: Boolean,
             default: false,
@@ -172,14 +167,6 @@ export default {
             }, this.id)
             .then((response) => {
                 this.errors = [];
-                if (this.fromRelationship === true) {
-                    this.$emit('saved', {
-                        key: response.data,
-                        data: this.output
-                    });
-                    return;
-                }
-
                 if (this.currentAction == 'add') {
                     this.currentAction = 'edit';
                     this.id = response.data;

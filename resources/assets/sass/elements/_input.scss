@@ -42,6 +42,10 @@
         @apply text-sm py-1 px-2;
     }
 
+    &.error {
+        @include border-color(input-error-border-color, 'colors.red.500');
+    }
+
     &[type=checkbox] {
         @apply h-4 w-4 p-0 align-middle inline-block rounded cursor-pointer;
 

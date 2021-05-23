@@ -17,6 +17,7 @@
                         <th class="hidden md:table-cell">{{ __('voyager::generic.slug') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.name_singular') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.name_plural') }}</th>
+                        <th class="hidden md:table-cell">{{ __('voyager::builder.model') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.lists') }}</th>
                         <th class="hidden md:table-cell">{{ __('voyager::builder.views') }}</th>
                         <th class="flex justify-end">{{ __('voyager::generic.actions') }}</th>
@@ -33,6 +34,9 @@
                         </td>
                         <td class="hidden md:table-cell">
                             <span v-if="hasBread(table)">{{ translate(getBread(table).name_plural) }}</span>
+                        </td>
+                        <td class="hidden md:table-cell">
+                            <span v-if="hasBread(table)">{{ getBread(table).model }}</span>
                         </td>
                         <td class="hidden md:table-cell">
                             <span v-if="hasBread(table)">{{ getBread(table).layouts.where('type', 'list').length }}</span>
