@@ -17,6 +17,7 @@
             :max="options.max"
             :step="options.step"
             :distance="options.distance"
+            :color="options.color"
             v-model:lower="lowerModel"
             v-model:upper="upperModel"
         />

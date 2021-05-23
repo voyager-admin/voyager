@@ -17,6 +17,9 @@
 
         <label class="label mt-4">{{ __('voyager::formfields.slider.show_inputs') }}</label>
         <input type="checkbox" class="input w-full" v-model="options.inputs">
+
+        <label class="label mt-4">{{ __('voyager::generic.color') }}</label>
+        <color-picker v-model="options.color"></color-picker>
     </div>
     <div v-else-if="action == 'view'">
         <slider
@@ -27,6 +30,7 @@
             :max="options.max"
             :step="options.step"
             :distance="options.distance"
+            :color="options.color"
             v-model:lower="lowerModel"
             v-model:upper="upperModel"
         />
@@ -50,6 +54,7 @@ export default {
                 range: true,
                 distance: 0,
                 inputs: true,
+                color: 'accent',
             };
         },
     },
