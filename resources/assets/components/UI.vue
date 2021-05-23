@@ -8,6 +8,7 @@
                 <button class="button accent my-2" v-scroll-to="'ui-inputs'">Inputs</button>
                 <button class="button accent my-2" v-scroll-to="'ui-color-picker'">Color picker</button>
                 <button class="button accent my-2" v-scroll-to="'ui-tags'">Tag input</button>
+                <button class="button accent my-2" v-scroll-to="'ui-sliders'">Sliders</button>
                 <button class="button accent my-2" v-scroll-to="'ui-badges'">Badges</button>
                 <button class="button accent my-2" v-scroll-to="'ui-alerts'">Alerts</button>
                 <button class="button accent my-2" v-scroll-to="'ui-tooltips'">Tooltips</button>
@@ -167,6 +168,24 @@
 
     <collapsible title="Tag input" id="ui-tags">
         <tag-input v-model="tags" />
+    </collapsible>
+
+    <collapsible title="Sliders" id="ui-sliders">
+        <card title="From 1 to 100">
+            <slider v-model:lower="range.lower" :range="false" class="mt-2" />
+        </card>
+        <card title="Range from 1 to 100">
+            <slider v-model:lower="range.lower" v-model:upper="range.upper" class="mt-2" />
+        </card>
+        <card title="No inputs">
+            <slider v-model:lower="range.lower" v-model:upper="range.upper" :inputs="false" class="mt-2" />
+        </card>
+        <card title="With distance 10">
+            <slider v-model:lower="range.lower" v-model:upper="range.upper" :distance="10" class="mt-2" />
+        </card>
+        <card title="Different color">
+            <slider v-model:lower="range.lower" v-model:upper="range.upper" class="mt-2" color="red" />
+        </card>
     </collapsible>
 
     <collapsible title="Badges" id="ui-badges">
@@ -357,6 +376,10 @@ export default {
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
             color: this.colors[0],
             colorSize: 4,
+            range: {
+                lower: 0,
+                upper: 100
+            }
         };
     },
     methods: {
@@ -370,6 +393,16 @@ export default {
                 this.colorSize -= 1;
             }
         },
+    },
+    mounted() {
+        this.$watch(() => this.range.minprice, (min) => {
+            this.range.minthumb = ((this.range.minprice - this.range.min) / (this.range.max - this.range.min)) * 100;
+        }, { immediate: true });
+
+        this.$watch(() => this.range.maxprice, (min) => {
+            this.range.maxthumb = 100 - (((this.range.maxprice - this.range.min) / (this.range.max - this.range.min)) * 100); 
+        }, { immediate: true });
     }
 }
 </script>
+

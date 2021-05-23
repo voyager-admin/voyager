@@ -12,6 +12,7 @@ import LanguageInput from '../components/UI/LanguageInput.vue';
 import MediaManager from '../components/UI/MediaManager.vue';
 import Modal from '../components/UI/Modal.vue';
 import Pagination from '../components/UI/Pagination.vue';
+import Slider from '../components/UI/Slider.vue';
 import SlideIn from '../components/UI/SlideIn.vue';
 import TagInput from '../components/UI/TagInput.vue';
 
@@ -30,6 +31,7 @@ export {
     MediaManager,
     Modal,
     Pagination,
+    Slider,
     SlideIn,
     TagInput,
 };
