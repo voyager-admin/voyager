@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown" v-click-outside="close" @keydown.esc="close">
-        <div @click="open" ref="opener">
+        <div @click="tryOpen" ref="opener">
             <slot name="opener"></slot>
         </div>
         <fade-transition @after-leave="destroyPopper">
@@ -48,6 +48,12 @@ export default {
                 this.popper = null;
             }
         },
+        tryOpen() {
+            let disabled = this.$refs.opener.children[0].getAttribute('disabled');
+            if (disabled === null || disabled === false) {
+                this.open();
+            }
+        }
     },
     watch: {
         isOpen(open) {
@@ -63,7 +69,7 @@ export default {
                 });
             }
         }
-    }
+    },
 };
 </script>
 
