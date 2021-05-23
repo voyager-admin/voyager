@@ -11,17 +11,21 @@
                         <icon icon="refresh" :size="4" :class="loadingProps ? 'animate-spin-reverse' : ''" />
                         <span>{{ __('voyager::builder.reload_properties') }}</span>
                     </button>
+                    <button class="button" @click="createModel" :disabled="creatingModel">
+                        <icon icon="plus" :size="4" :class="creatingModel ? 'animate-spin-reverse' : ''" />
+                        <span>{{ __('voyager::builder.create_model') }}</span>
+                    </button>
                     <locale-picker :small="false" />
                 </div>
             </template>
             <div>
-                <alert color="yellow" v-if="!propsLoaded && !loadingProps" class="mx-4">
+                <alert color="yellow" v-if="!propsLoaded && !loadingProps" class="mb-2">
                     <template #title>
                         <span>{{ __('voyager::generic.heads_up') }}</span>
                     </template>
                     {{ __('voyager::builder.new_breads_prop_warning') }}
                 </alert>
-                <alert color="red" class="mx-4" v-if="Object.keys(errors).length > 0">
+                <alert color="red" v-if="Object.keys(errors).length > 0" class="mb-2">
                     <ul v-for="prop in errors">
                         <li v-for="error in prop">{{ error }}</li>
                     </ul>
@@ -331,6 +335,7 @@ export default {
             loadingProps: false,
             savingBread: false,
             backingUp: false,
+            creatingModel: false,
             currentLayoutName: null,
             focusMode: false,
             propsLoaded: false,
@@ -423,9 +428,38 @@ export default {
                 });
                 this.propsLoaded = true;
             })
-            .catch((response) => {})
+            .catch((response) => {
+                if (response.response.status === 422) {
+                    this.errors = response.response.data;
+                }
+            })
             .then(() => {
                 this.loadingProps = false;
+            });
+        },
+        createModel() {
+            if (this.creatingModel) {
+                return;
+            }
+
+            this.creatingModel = true;
+
+            axios.post(this.route('voyager.bread.create-model'), {
+                table: this.bread.table,
+            })
+            .then((response) => {
+                if (response.data.exists) {
+                    new this.$notification(this.__('voyager::builder.model_already_exists', { model: response.data.class })).color('yellow').timeout().show();
+                } else {
+                    new this.$notification(this.__('voyager::builder.model_created', { model: response.data.class })).color('green').timeout().show();
+                }
+
+                this.bread.model = response.data.class;
+                this.loadProperties();
+            })
+            .catch((response) => {})
+            .then(() => {
+                this.creatingModel = false;
             });
         },
         addLayout(view) {

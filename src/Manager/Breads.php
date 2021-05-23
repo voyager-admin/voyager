@@ -186,13 +186,13 @@ class Breads
     public function createBread($table)
     {
         // Guess the model name
-        $namespace = Str::start(Container::getInstance()->getNamespace() ?? 'App\\', '\\');
-        $model = null;
-        $modelname = ucfirst(Str::camel(Str::singular($table)));
-        if (class_exists($namespace.$modelname)) {
-            $model = $namespace.$modelname;
-        } elseif (class_exists($namespace.'Models\\'.$modelname)) {
-            $model = $namespace.'Models\\'.$modelname;
+        $name = Str::plural(Str::studly($table));
+
+        $namespace = Str::start(Str::finish(Container::getInstance()->getNamespace() ?? 'App\\', '\\'), '\\');
+        $model = (is_dir(app_path('Models')) ? $namespace.'Models\\' : $namespace).$name;
+
+        if (!class_exists($model)) {
+            $model = null;
         }
 
         $bread = [

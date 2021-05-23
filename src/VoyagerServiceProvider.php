@@ -16,6 +16,7 @@ use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Classes\MenuItem;
 use Voyager\Admin\Commands\DevCommand;
 use Voyager\Admin\Commands\InstallCommand;
+use Voyager\Admin\Commands\ModelCommand;
 use Voyager\Admin\Commands\PluginsCommand;
 use Voyager\Admin\Exceptions\Handler as ExceptionHandler;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -407,6 +408,7 @@ class VoyagerServiceProvider extends ServiceProvider
 
         $this->commands(DevCommand::class);
         $this->commands(InstallCommand::class);
+        $this->commands(ModelCommand::class);
         $this->commands(PluginsCommand::class);
 
         $this->registerFormfields();

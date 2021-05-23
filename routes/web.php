@@ -14,6 +14,7 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
         Route::get('edit/{table}', ['uses' => 'BreadBuilderController@edit', 'as' => 'edit']);
         Route::put('{table}', ['uses' => 'BreadBuilderController@update', 'as' => 'update']);
         Route::post('get-properties', ['uses' => 'BreadBuilderController@getProperties', 'as' => 'get-properties']);
+        Route::post('create-model', ['uses' => 'BreadBuilderController@createModel', 'as' => 'create-model']);
         Route::post('get-breads', ['uses' => 'BreadBuilderController@getBreads', 'as' => 'get-breads']);
         Route::post('backup-bread', ['uses' => 'BreadBuilderController@backupBread', 'as' => 'backup-bread']);
         Route::post('rolback-bread', ['uses' => 'BreadBuilderController@rollbackBread', 'as' => 'rollback-bread']);

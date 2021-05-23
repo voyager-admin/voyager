@@ -2,8 +2,10 @@
 
 namespace Voyager\Admin\Http\Controllers;
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Voyager\Admin\Events\Builder\BackedUp as BackedUpEvent;
@@ -176,14 +178,16 @@ class BreadBuilderController extends Controller
      */
     public function getProperties(Request $request)
     {
-        $model = $request->get('model', '');
-        if ($model == '') {
-            return response('Please enter a model class', 400);
+        $model = $request->get('model', null);
+
+        $validator = Validator::make(['model' => $model], [
+            'model'         => ['nullable', new ClassExistsRule()],
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json($validator->errors(), 422);
         }
-        $model = Str::start($model, '\\');
-        if (!class_exists($model)) {
-            return response('Model "'.$model.'" does not exist!', 400);
-        }
+        
         $instance = new $model();
         $reflection = $this->breadmanager->getModelReflectionClass($model);
         $resolve_relationships = $request->get('resolve_relationships', false);
@@ -210,6 +214,45 @@ class BreadBuilderController extends Controller
             'breads'  => $this->breadmanager->getBreads()->values(),
             'backups' => $this->breadmanager->getBackups(),
         ], 200);
+    }
+
+    /**
+     * Create a model for a table.
+     *
+     * @param \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function createModel(Request $request)
+    {
+        $this->authorize('create model');
+
+        $name = Str::singular(Str::studly($request->get('table', null)));
+
+        $namespace = Str::start(Str::finish(Container::getInstance()->getNamespace() ?? 'App\\', '\\'), '\\');
+        $class = (is_dir(app_path('Models')) ? $namespace.'Models\\' : $namespace).$name;
+
+        if (class_exists($class)) {
+            return response()->json([
+                'exists'    => true,
+                'class'     => $class,
+            ], 200);
+        } else {
+            $res = Artisan::call('voyager:model', [
+                'name'  => $name,
+            ]);
+
+            if ($res === 0) {
+                return response()->json([
+                    'exists'    => false,
+                    'class'     => $class,
+                ], 200);
+            }
+        }
+
+        return response()->json([
+            'message'   => __('voyager::build.could_not_generate_model', ['model' => $class]),
+        ], 500);
     }
 
     /**
