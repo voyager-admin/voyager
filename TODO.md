@@ -28,6 +28,7 @@ Instead, they are listed here:
 - [X] Radio
 - [X] Select
 - [X] SimpleArray
+- [X] Slider
 - [X] Slug
 - [X] Tags
 - [X] Text

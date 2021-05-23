@@ -21,6 +21,7 @@
   * [Number](bread/formfields/number.md)
   * [Repeater](bread/formfields/repeater.md)
   * [Select](bread/formfields/select.md)
+  * [Slider](bread/formfields/slider.md)
   * [Tags](bread/formfields/tags.md)
   * [Text](bread/formfields/text.md)
 * [Relationships](bread/relationships.md)

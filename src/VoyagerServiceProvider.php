@@ -432,6 +432,7 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Repeater::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Select::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\SimpleArray::class);
+        $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Slider::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Slug::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Tags::class);
         $this->breadmanager->addFormfield(\Voyager\Admin\Formfields\Text::class);

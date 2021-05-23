@@ -34,6 +34,9 @@ import FormfieldTagsBuilder from '../components/Formfields/Tags/Builder.vue';
 import FormfieldMediaPicker from '../components/Formfields/MediaPicker/Formfield.vue';
 import FormfieldMediaPickerBuilder from '../components/Formfields/MediaPicker/Builder.vue';
 
+import FormfieldSlider from '../components/Formfields/Slider/Formfield.vue';
+import FormfieldSliderBuilder from '../components/Formfields/Slider/Builder.vue';
+
 export {
     FormfieldText,
     FormfieldTextBuilder,
@@ -59,4 +62,6 @@ export {
     FormfieldMediaPickerBuilder,
     FormfieldRepeater,
     FormfieldRepeaterBuilder,
+    FormfieldSlider,
+    FormfieldSliderBuilder,
 };

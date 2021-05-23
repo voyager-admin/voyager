@@ -25,9 +25,9 @@
                 </div>
             </div>
 
-            <div class="flex justify-between items-center py-5" v-if="inputs">
-                <input type="text" v-model.number="lowerValue" class="input small">
-                <input type="text" v-model.number="upperValue" class="input small" v-if="range">
+            <div class="flex justify-between items-center mt-5" v-if="inputs">
+                <input type="number" :min="min" :max="max" v-model.number="lowerValue" class="input small">
+                <input type="number" :min="min" :max="max" v-model.number="upperValue" class="input small" v-if="range">
             </div>
         </div>
     </div>

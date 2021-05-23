@@ -49,6 +49,13 @@ return [
         'item_description'  => 'Item description',
         'name'              => 'Simple Array',
     ],
+    'slider'        => [
+        'name'          => 'Slider',
+        'range'         => 'Range',
+        'distance'      => 'Distance',
+        'show_inputs'   => 'Show inputs',
+        'from_to'       => 'From :lower to :upper',
+    ],
     'slug'          => [
         'lower'         => 'Lower',
         'name'          => 'Slug',
