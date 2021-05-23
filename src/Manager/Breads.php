@@ -186,7 +186,7 @@ class Breads
     public function createBread($table)
     {
         // Guess the model name
-        $name = Str::plural(Str::studly($table));
+        $name = Str::singular(Str::studly($table));
 
         $namespace = Str::start(Str::finish(Container::getInstance()->getNamespace() ?? 'App\\', '\\'), '\\');
         $model = (is_dir(app_path('Models')) ? $namespace.'Models\\' : $namespace).$name;
