@@ -6,14 +6,16 @@
                     :step="step"
                     :min="min" :max="max"
                     v-model.number="lowerValue"
-                    class="absolute pointer-events-none z-20 h-2 w-full cursor-pointer appearance-none opacity-0"
+                    ref="lower"
+                    class="absolute pointer-events-none z-20 h-2 w-full cursor-pointer"
                 >
 
                 <input type="range" 
                     :step="step"
                     :min="min" :max="max"
                     v-model.number="upperValue"
-                    class="absolute pointer-events-none z-20 h-2 w-full cursor-pointer appearance-none opacity-0"
+                    ref="upper"
+                    class="absolute pointer-events-none z-20 h-2 w-full cursor-pointer"
                     v-if="range"
                 >
 
@@ -77,10 +79,14 @@ export default {
     },
     computed: {
         lowerPos() {
-            return ((this.lower - this.min) / (this.max - this.min)) * 100;
+            return ((this.lower - this.min) / (this.max - this.min)) * 99;
         },
         upperPos() {
-            return 100 - (((this.upper - this.min) / (this.max - this.min)) * 100);
+            if (!this.range) {
+                return 0;
+            }
+
+            return 99.5 - (((this.upper - this.min) / (this.max - this.min)) * 99);
         },
         lowerValue: {
             get() {
@@ -90,6 +96,7 @@ export default {
                 if (value > (this.upper - this.distance)) {
                     value = this.upper - this.distance;
                 }
+                this.$refs.lower.value = value;
                 this.$emit('update:lower', value);
             }
         },
@@ -101,6 +108,7 @@ export default {
                 if (value < (this.lower + this.distance)) {
                     value = this.lower + this.distance;
                 }
+                this.$refs.upper.value = value;
                 this.$emit('update:upper', value);
             }
         },
@@ -112,11 +120,22 @@ export default {
 @import "../../sass/mixins/bg-color";
 
 input[type=range] {
-    @apply appearance-none w-full;
+    @apply w-full;
+    @apply appearance-none opacity-0;
 
     &::-webkit-slider-thumb {
+        @apply h-6 w-6 appearance-none opacity-0;
         pointer-events: all;
-        @apply h-6 w-6 appearance-none;
+    }
+
+    &::-moz-range-thumb {
+        @apply h-6 w-6 appearance-none opacity-0;
+        pointer-events: all;
+    }
+
+    &::-ms-thumb {
+        @apply h-6 w-6 appearance-none opacity-0;
+        pointer-events: all;
     }
 }
 
