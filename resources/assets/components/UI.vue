@@ -251,6 +251,9 @@
         <div class="w-full flex justify-center">
             <button class="button" v-tooltip:bottom="'Tooltip on the bottom'">Bottom</button>
         </div>
+        <div class="w-full flex justify-center mt-2">
+            <button class="button" v-tooltip:bottom.show="'Permanent tooltip on the bottom'">Permanent</button>
+        </div>
     </collapsible>
 
     <collapsible title="Notifications" id="ui-notifications">

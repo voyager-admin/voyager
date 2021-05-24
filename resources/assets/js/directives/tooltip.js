@@ -9,6 +9,11 @@ export default {
             placement = binding.arg;
         } else if (binding.arg) {
             console.error(`'${binding.arg}' is not a valid placement for a tooltip. It can be ${placements.join(', ')}.`);
+        } else {
+            let matches = Object.keys(binding.modifiers).filter(v => placements.includes(v));
+            if (matches.length == 1) {
+                placement = matches[0];
+            }
         }
         
         let uuid = uuidv4();
@@ -46,6 +51,9 @@ export default {
             }
         });
         el.addEventListener('mouseleave', () => {
+            if (binding.modifiers.show) {
+                return;
+            }
             if (popper) {
                 popper.destroy();
                 popper = null;
@@ -53,6 +61,10 @@ export default {
                 tooltip = null;
             }
         });
+
+        if (binding.modifiers.show) {
+            el.dispatchEvent(new Event('mouseenter'));
+        }
     },
     updated(el, binding) {
         if (binding.value !== binding.oldValue && el.uuid && binding.value !== null && binding.value !== undefined) {
