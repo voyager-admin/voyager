@@ -181,7 +181,7 @@ class BreadBuilderController extends Controller
         $model = $request->get('model', null);
 
         $validator = Validator::make(['model' => $model], [
-            'model'         => ['nullable', new ClassExistsRule()],
+            'model'         => ['required', new ClassExistsRule()],
         ]);
 
         if (!$validator->passes()) {

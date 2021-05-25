@@ -19,6 +19,9 @@ class Handler extends ExceptionHandler
     {
         $response = parent::render($request, $e);
 
+        // TODO: This needs more proof
+        return $response;
+
         $exception = [
             'status'    => $response->status(),
             'message'   => $e->getMessage(),

@@ -54,6 +54,7 @@ class Voyager
 
         return new static(
             app(BreadManager::class),
+            app(MenuManager::class),
             app(PluginManager::class),
             app(SettingManager::class)
         );

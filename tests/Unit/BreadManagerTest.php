@@ -84,15 +84,17 @@ class BreadManagerTest extends TestCase
     public function test_can_not_get_model_properties_not_exisiting_model()
     {
         $res = $this->postJson(route('voyager.bread.get-properties'), ['model' => '\\Not\\Existing\\Model'])
-             ->assertStatus(400)
-             ->assertSeeText('Model "\\Not\\Existing\\Model" does not exist!', false);
+                ->assertStatus(422)
+                ->assertJson(['model' => [
+                    __('voyager::validation.class_does_not_exist', ['value' => '\\Not\\Existing\\Model', 'attribute' => 'model'])
+                ]]);
     }
 
     public function test_can_not_get_model_properties_empty_model()
     {
         $res = $this->postJson(route('voyager.bread.get-properties'), ['model' => ''])
-             ->assertStatus(400)
-             ->assertSeeText('Please enter a model class');
+                ->assertStatus(422)
+                ->assertJson(['model' => ['The model field is required.']]);
     }
 
     private function getUsersBreadJson()
