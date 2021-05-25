@@ -19,7 +19,9 @@
                     <template #item="{ element: formfield, index: key }">
                         <tr>
                             <td class="hidden md:table-cell dd-handle cursor-move" v-tooltip="__('voyager::generic.move')">
-                                <icon icon="selector" />
+                                <div class="h-5 w-5">
+                                    <icon icon="selector" />
+                                </div>
                             </td>
                             <td class="hidden md:table-cell">{{ getFormfieldByType(formfield.type).name }}</td>
                             <td>

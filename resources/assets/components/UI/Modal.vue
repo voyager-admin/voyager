@@ -10,7 +10,7 @@
                     <card :title="title" :icon="icon" style="margin: 0 !important;">
                         <template #actions class="inline-flex">
                             <slot name="actions"></slot>
-                            <button  @click="close()">
+                            <button  @click="close()" class="h-5 w-5">
                                 <icon icon="x" />
                             </button>
                         </template>

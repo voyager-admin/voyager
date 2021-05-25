@@ -9,7 +9,7 @@
                     
                     <div class="flex justify-end items-center space-x-2">
                         <slot name="actions" />
-                        <button @click="close">
+                        <button @click="close" class="h-5 w-5">
                             <icon icon="x" />
                         </button>
                     </div>
