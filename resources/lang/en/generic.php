@@ -128,7 +128,6 @@ return [
     'range'                     => 'Range',
     'read'                      => 'Read',
     'refresh'                   => 'Refresh',
-    'relationship_amount'       => 'Relationship amount',
     'relationships'             => 'Relationships',
     'reload'                    => 'Reload',
     'remove'                    => 'Remove',

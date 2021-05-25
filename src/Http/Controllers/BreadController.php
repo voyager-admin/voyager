@@ -74,6 +74,9 @@ class BreadController extends Controller
         // Column search ($filters)
         $query = $this->columnSearchQuery($filters, $layout, $query, $locale);
 
+        // Eager load relationships
+        $query = $this->eagerLoadRelationships($layout, $query);
+
         // Ordering ($order and $direction)
         $query = $this->orderQuery($layout, $direction, $order, $query, $locale);
 

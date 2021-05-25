@@ -17,6 +17,7 @@ Instead, they are listed here:
 - Revamp what happens when bread stored or updated. Clear? Edit again?
 - Let formfields be overriden by a `component` option
 - When validation rules are changed afterwards in settings, validation may fail and thus, settings will not save (including the new validation rules)
+- When generating a new list, all formfields are `ordered by default`
 
 ## Formfields testing
 

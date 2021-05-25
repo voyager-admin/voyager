@@ -48,11 +48,6 @@
                                             </template>
                                         </optgroup>
                                     </template>
-                                    <optgroup v-if="getFormfieldByType(formfield.type).allow_relationships" :label="__('voyager::generic.relationships')">
-                                        <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
-                                            {{ relationship.method }}
-                                        </option>
-                                    </optgroup>
                                 </select>
                             </td>
                             <td>
@@ -65,8 +60,7 @@
                                 <input
                                     class="input"
                                     type="checkbox"
-                                    v-model="formfield.searchable"
-                                    :disabled="(formfield.column.type !== 'column' && formfield.column.type !== 'relationship') || (formfield.column.type == 'relationship' && formfield.column.column.includes('relationship_amount'))" />
+                                    v-model="formfield.searchable" />
                             </td>
                             <td class="hidden md:table-cell">
                                 <input
