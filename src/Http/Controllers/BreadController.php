@@ -80,7 +80,10 @@ class BreadController extends Controller
         // Ordering ($order and $direction)
         $query = $this->orderQuery($layout, $direction, $order, $query, $locale);
 
-        $filtered = $query->count();
+        $filtered = $total;
+        if (!empty($global) || count($filters) > 0) {
+            $filtered = $query->count();
+        }
 
         // Pagination ($page and $perpage)
         $query = $query->skip(($page - 1) * $perpage)->take($perpage)->get();
