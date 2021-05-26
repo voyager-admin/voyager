@@ -20,7 +20,6 @@
                 </button>
                 <breadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
                 <locale-picker :small="false" />
-                {{ execution }}
             </div>
         </template>
         <div>
@@ -208,7 +207,6 @@ export default {
             uses_soft_deletes: false, // If the model uses soft-deleting
             uses_ordering: false, // If the items can be re-ordered
             actions: [], // The actions which should be displayed
-            execution: 0,
             parameters: {
                 page: 1,
                 perpage: this.perPage,
