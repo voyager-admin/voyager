@@ -23,6 +23,7 @@
 </head>
 
 <body>
+    <div id="tooltips" class="h-0 w-0"></div>
     <div id="voyager" data-page="{{ json_encode($page) }}"></div>
 
     @if (isset($voyagerDevServer))

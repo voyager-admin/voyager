@@ -45,6 +45,7 @@ export default {
 
                 popper = createPopper(el, tooltip, {
                     placement: placement,
+                    strategy: 'fixed',
                 });
 
                 el.popper = popper;

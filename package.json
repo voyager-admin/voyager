@@ -8,7 +8,7 @@
     },
     "devDependencies": {
         "@vue/compiler-sfc": "^3.0.11",
-        "autoprefixer": "^10.2.5",
+        "autoprefixer": "^10.2.6",
         "copy-webpack-plugin": "^9.0.0",
         "css-loader": "^5.2.6",
         "css-minimizer-webpack-plugin": "^3.0.0",
@@ -27,8 +27,8 @@
     },
     "dependencies": {
         "@heroicons/vue": "^1.0.1",
-        "@inertiajs/inertia": "^0.9.0",
-        "@inertiajs/inertia-vue3": "^0.4.0",
+        "@inertiajs/inertia": "^0.8.7",
+        "@inertiajs/inertia-vue3": "^0.3.14",
         "@popperjs/core": "^2.9.2",
         "debounce": "^1.2.1",
         "semver-compare": "^1.0.0",
