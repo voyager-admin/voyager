@@ -45,7 +45,7 @@
         <div class="w-full mb-2 rounded-md breadcrumbs">
             <div class="flex">
                 <span v-for="(path, i) in pathSegments" :key="'path-'+i" class="h-full flex items-center my-2 pl-2 space-x-2">
-                    <button @click.prevent.stop="openPath(path, i)" class="focus:outline-none">
+                    <button @click.prevent.stop="openPath(path, i)" class="focus:outline-none" :class="path == '' ? 'h-5 w-5' : null">
                         <icon v-if="path == ''" icon="home" />
                         <span v-else>{{ path }}</span>
                     </button>

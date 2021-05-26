@@ -20,6 +20,7 @@ Instead, they are listed here:
 - When generating a new list, all formfields are `ordered by default`
 - Link to related item when browsing
 - When querying a xMany relationship, it should only display those
+- Hide read/edit/add actions when no layout exists for this action
 
 ## Formfields testing
 
