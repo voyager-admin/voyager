@@ -41,7 +41,7 @@
                                         <p class="whitespace-nowrap">{{ file.name }}</p>
                                     </div>
                                     <div class="flex-grow-0">
-                                        <button @click.stop="removeFile(file)">
+                                        <button @click.stop="removeFile(file)" class="h-5 w-5">
                                             <icon icon="x" :size="4" />
                                         </button>
                                     </div>
