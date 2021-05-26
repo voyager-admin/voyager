@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 use Voyager\Admin\Contracts\Formfields\Features;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
 use Voyager\Admin\Manager\Breads as BreadManager;
@@ -231,9 +232,9 @@ class BreadController extends Controller
 
         $data = (object) json_decode($data->toJson());
         $breadData = (object)[];
-        //$finalData
+
         $layout->formfields->each(function ($formfield) use ($data, &$breadData) {
-            $value = $data->{$formfield->column->column};
+            $value = $data->{$formfield->column->column} ?? null;
 
             if ($formfield->translatable ?? false) {
                 $translations = [];
