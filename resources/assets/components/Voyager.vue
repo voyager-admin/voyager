@@ -11,10 +11,10 @@
             </fade-transition>
         </div>
         <template v-if="!isLogin">
-            <div id="tooltips" class="h-0 w-0"></div>
             <sidebar />
             <div class="flex flex-col w-0 flex-1 overflow-hidden">
                 <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 outline-none" id="content">
+                    <div id="tooltips" class="h-0 w-0"></div>
                     <div id="top"></div>
                     <navbar></navbar>
                     <div class="mx-auto sm:px-3 md:px-4">
@@ -22,6 +22,7 @@
                     </div>
                 </main>
             </div>
+            
         </template>
         <template v-else>
             <slot />

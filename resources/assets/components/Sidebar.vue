@@ -59,15 +59,15 @@
                     </nav>
                 </div>
                 <div class="flex-shrink-0 inline-flex space-x-2 border-t sidebar-border p-4 h-auto overflow-x-hidden">
-                    <button class="button accent small" @click="toggleDarkMode()" :aria-label="__(`voyager::generic.darkmode_${$store.darkmode}`)" v-tooltip:top-start="__(`voyager::generic.darkmode_${$store.darkmode}`)">
+                    <button class="button accent small" @click="toggleDarkMode()" :aria-label="__(`voyager::generic.darkmode_${$store.darkmode}`)">
                         <icon icon="moon" v-if="$store.darkmode == 'dark'" />
                         <icon icon="sun" v-else-if="$store.darkmode == 'light'" />
                         <icon icon="desktop-computer" v-else />
                     </button>
-                    <button class="button accent small" v-scroll-to="''" :aria-label="__('voyager::generic.go_to_top')" v-tooltip:top-start="__('voyager::generic.go_to_top')">
+                    <button class="button accent small" v-scroll-to="''" :aria-label="__('voyager::generic.go_to_top')">
                         <icon icon="chevron-up" />
                     </button>
-                    <button class="button accent small" @click="toggleDirection()" :aria-label="__('voyager::generic.toggle_direction')" v-tooltip:top-start="__('voyager::generic.toggle_direction')">
+                    <button class="button accent small" @click="toggleDirection()" :aria-label="__('voyager::generic.toggle_direction')">
                         <icon icon="switch-horizontal" />
                     </button>
                 </div>

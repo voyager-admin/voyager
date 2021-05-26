@@ -18,6 +18,7 @@
                     class="button accent my-2"
                     v-for="el in $store.ui"
                     v-scroll-to="`ui-${slugify(el.title, { lower: true })}`"
+                    :key="`ui-${el.title}`"
                 >{{ el.title }}</button>
             </div>
         </div>
@@ -359,6 +360,7 @@
         v-for="el in $store.ui"
         :id="`ui-${slugify(el.title, { lower: true })}`"
         :title="el.title"
+        :key="`ui-${el.title}`"
     >
         <component :is="el.component" />
     </collapsible>
