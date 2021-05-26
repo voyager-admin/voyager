@@ -40,38 +40,40 @@
     </div>
 
     <!-- Desktop sidebar -->
-    <div class="hidden md:flex md:flex-shrink-0 sidebar h-full transition-width duration-500" :class="$store.sidebarOpen ? 'w-64' : 'w-0 whitespace-nowrap'" id="sidebar">
-        <div class="flex flex-col border-r sidebar-border w-full">
-            <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-                <div class="flex space-x-2 items-center flex-shrink-0 px-4">
-                    <icon icon="helm" :size="10" class="icon" />
-                    <span class="font-black text-lg uppercase title whitespace-nowrap">
-                        {{ $store.sidebar.title }}
-                    </span>
-                </div>            
-                <nav class="mt-4 flex-1 px-2">
-                    <menuWrapper
-                        :items="$store.sidebar.items"
-                        :current-url="$store.currentUrl"
-                        :icon-size="iconSize"
-                    />
-                </nav>
-            </div>
-            <div class="flex-shrink-0 inline-flex space-x-2 border-t sidebar-border p-4 h-auto overflow-x-hidden">
-                <button class="button accent small" @click="toggleDarkMode()" :aria-label="__(`voyager::generic.darkmode_${$store.darkmode}`)" v-tooltip:top-start="__(`voyager::generic.darkmode_${$store.darkmode}`)">
-                    <icon icon="moon" v-if="$store.darkmode == 'dark'" />
-                    <icon icon="sun" v-else-if="$store.darkmode == 'light'" />
-                    <icon icon="desktop-computer" v-else />
-                </button>
-                <button class="button accent small" v-scroll-to="''" :aria-label="__('voyager::generic.go_to_top')" v-tooltip:top-start="__('voyager::generic.go_to_top')">
-                    <icon icon="chevron-up" />
-                </button>
-                <button class="button accent small" @click="toggleDirection()" :aria-label="__('voyager::generic.toggle_direction')" v-tooltip:top-start="__('voyager::generic.toggle_direction')">
-                    <icon icon="switch-horizontal" />
-                </button>
+    <collapse-x-transition>
+        <div class="hidden md:flex md:flex-shrink-0 sidebar" v-if="$store.sidebarOpen" id="sidebar">
+            <div class="flex flex-col w-64 border-r sidebar-border w-full">
+                <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+                    <div class="flex space-x-2 items-center flex-shrink-0 px-4">
+                        <icon icon="helm" :size="10" class="icon" />
+                        <span class="font-black text-lg uppercase title whitespace-nowrap">
+                            {{ $store.sidebar.title }}
+                        </span>
+                    </div>            
+                    <nav class="mt-4 flex-1 px-2">
+                        <menuWrapper
+                            :items="$store.sidebar.items"
+                            :current-url="$store.currentUrl"
+                            :icon-size="iconSize"
+                        />
+                    </nav>
+                </div>
+                <div class="flex-shrink-0 inline-flex space-x-2 border-t sidebar-border p-4 h-auto overflow-x-hidden">
+                    <button class="button accent small" @click="toggleDarkMode()" :aria-label="__(`voyager::generic.darkmode_${$store.darkmode}`)" v-tooltip:top-start="__(`voyager::generic.darkmode_${$store.darkmode}`)">
+                        <icon icon="moon" v-if="$store.darkmode == 'dark'" />
+                        <icon icon="sun" v-else-if="$store.darkmode == 'light'" />
+                        <icon icon="desktop-computer" v-else />
+                    </button>
+                    <button class="button accent small" v-scroll-to="''" :aria-label="__('voyager::generic.go_to_top')" v-tooltip:top-start="__('voyager::generic.go_to_top')">
+                        <icon icon="chevron-up" />
+                    </button>
+                    <button class="button accent small" @click="toggleDirection()" :aria-label="__('voyager::generic.toggle_direction')" v-tooltip:top-start="__('voyager::generic.toggle_direction')">
+                        <icon icon="switch-horizontal" />
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </collapse-x-transition>
 </template>
 
 <script>

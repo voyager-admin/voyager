@@ -3,6 +3,7 @@
 namespace Voyager\Admin\Traits\Bread;
 
 use DB;
+use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
@@ -29,7 +30,7 @@ trait Browsable
     public function globalSearchQuery($global, $layout, $locale, $query)
     {
         if (!empty($global)) {
-            return $query->where(function ($query) use ($global, $layout, $locale) {
+            $query = $query->where(function ($query) use ($global, $layout, $locale) {
                 $layout->searchableFormfields()->each(function ($formfield) use (&$query, $global, $locale) {
                     $query = $this->queryColumn($query, $formfield, $global, $locale, true);
                 });
@@ -39,11 +40,13 @@ trait Browsable
         return $query;
     }
 
-    public function columnSearchQuery($filters, $layout, $query, $locale)
+    public function columnSearchQuery($filters, $layout, $query, $locale, &$warnings)
     {
-        collect(array_filter($filters))->each(function ($filter, $column) use ($layout, &$query, $locale) {
+        collect(array_filter($filters))->each(function ($filter, $column) use ($layout, &$query, $locale, &$warnings) {
             $formfield = $layout->getFormfieldByColumn($column);
             if (!$formfield) {
+                $warnings[] = 'Can not search in not existing column "'.$column.'"!'; // TODO: Translate
+
                 return;
             }
 
@@ -67,7 +70,7 @@ trait Browsable
         return $query;
     }
 
-    public function applyCustomScope($bread, $layout, $filter, $query)
+    public function applyCustomScope($bread, $layout, $filter, $query, &$warnings)
     {
         if (!is_null($filter) && is_array($filter)) {
             // Validate filter exists in layout
@@ -76,7 +79,7 @@ trait Browsable
                     if (method_exists($query, $filter['value'])) {
                         $query = $query->{$filter['value']}();
                     } else {
-                        // TODO: Scope does not exist. Show error?
+                        $warnings[] = 'Scope "'.$filter['value'].'()" does not exist!'; // TODO: Translate
                     }
                 }
             }
@@ -85,7 +88,7 @@ trait Browsable
         return $query;
     }
 
-    public function orderQuery($layout, $direction, $order, $query, $locale)
+    public function orderQuery($layout, $direction, $order, $query, $locale, &$warnings)
     {
         if (!empty($direction) && !empty($order)) {
             $formfield = $layout->getFormfieldByColumn($order);
@@ -95,36 +98,45 @@ trait Browsable
                 } else {
                     $query = $query->orderBy($order, $direction);
                 }
+            } elseif ($formfield && $formfield->column->type == 'relationship') {
+                $warnings[] = 'Can not order by a relationship column ('.$formfield->column->column.')!'; // TODO: Translate
+            } else {
+                $warnings[] = 'Can not order by not-existing column "'.$order.'"!'; // TODO: Translate
             }
         }
 
         return $query;
     }
 
-    public function eagerLoadRelationships($layout, $query)
+    public function eagerLoadRelationships($layout, $query, &$warnings)
     {
-        $relationships = $layout->getFormfieldsByColumnType('relationship')->pluck('column.column');
-        $with = [];
+        $relationships = [];
+        $layout->getFormfieldsByColumnType('relationship')->pluck('column.column')->each(function ($relationship) use (&$relationships) {
+            list($r, $p) = explode('.', $relationship);
+            $relationships[$r][] = $p;
+        });
 
-        $relationships->each(function ($relationship) use (&$with) {
-            if (!Str::contains($relationship, ['pivot.'])) {
-                list($r, $p) = explode('.', $relationship);
-                $with[$r][] = $p;
+        $with = [];
+        collect($relationships)->each(function ($props, $relationship) use (&$with, $query, &$warnings) {
+            $instance = $query->getModel()->newInstance();
+            if (method_exists($instance, $relationship)) {
+                $keyName = $instance->{$relationship}()->getRelated()->getKeyName();
+                $with[] = $relationship.':'.implode(',', [$keyName, ...$props]);
+            } else {
+                $warnings[] = 'Relationship "'.$relationship.'" does not exist!'; // TODO: Translate
             }
         });
 
-        $string = '';
-        collect($with)->each(function ($props, $relationship) use (&$string, $query) {
-            $keyName = $query->getModel()->newInstance()->$relationship()->getRelated()->getKeyName();
-            $string .= $relationship.':'.implode(',', [$keyName, ...$props]);
-        });
+        if (!empty($with)) {
+            return $query->with($with);
+        }
 
-        return $query->with($string);
+        return $query;
     }
 
-    public function transformResults($layout, $translatable, $query)
+    public function transformResults($layout, $translatable, $query, $global, $filters)
     {
-        return $query->transform(function ($item) use ($translatable, $layout) {
+        return $query->transform(function ($item) use ($translatable, $layout, $global, $filters) {
             $item->primary_key = $item->getKey();
             if ($translatable) {
                 $item->dontTranslate();
@@ -132,24 +144,22 @@ trait Browsable
             // Add soft-deleted property
             $item->is_soft_deleted = $this->uses_soft_deletes ? $item->trashed() : false;
 
-            $layout->formfields->each(function ($formfield) use (&$item) {
+            $layout->formfields->each(function ($formfield) use (&$item, $global, $filters) {
                 $column = $formfield->column->column;
                 if ($formfield->column->type == 'relationship') {
                     $relationship = Str::before($column, '.');
                     $property = Str::after($column, '.');
-                    if (Str::contains($property, 'pivot.')) {
-                        // Pivot data
-                        $property = Str::after($property, 'pivot.');
-                        $pivot = [];
-                        $item->{$relationship}->each(function ($related) use (&$pivot, $formfield, $property) {
-                            if (isset($related->pivot) && isset($related->pivot->{$property})) {
-                                $pivot[] = $formfield->browse($related->pivot->{$property});
-                            }
-                        });
-                        $item->{$column} = $pivot;
-                    } elseif ($item->{$relationship} instanceof Collection) {
+                    if ($item->{$relationship} instanceof Collection) {
+                        $q = $item->{$relationship};
+
+                        /*if (!empty($global)) {
+                            $q = $q->where(DB::raw('lower('.$property.')'), 'LIKE', '%'.strtolower($global).'%');
+                        } elseif (array_key_exists($formfield->column->column, $filters)) {
+                            $q = $q->where(DB::raw('lower('.$property.')'), 'LIKE', '%'.strtolower($filters[$formfield->column->column]).'%');
+                        }*/
+
                         // X-Many relationship
-                        $item->{$column} = $item->{$relationship}->pluck($property)->transform(function ($value) use ($formfield) {
+                        $item->{$column} = $q->pluck($property)->transform(function ($value) use ($formfield) {
                             return $formfield->browse($value);
                         });
                     } elseif (!empty($item->{$relationship})) {
@@ -179,6 +189,7 @@ trait Browsable
 
     private function queryColumn($query, $formfield, $filter, $locale, $global = false)
     {
+        $filter = '%'.strtolower($filter).'%';
         $translatable = $formfield->translatable ?? false;
         $column = $formfield->column->column;
 
@@ -187,16 +198,21 @@ trait Browsable
         }
 
         if ($formfield->column->type == 'column' && $translatable) {
-            $query = $query->{$global ? 'orWhere' : 'where'}(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
+            $query = $query->{$global ? 'orWhereRaw' : 'whereRaw'}('LOWER(`'.$column.'->"$.'.$locale.'`) LIKE ?', [$filter]);
         } elseif ($formfield->column->type == 'column') {
-            $query = $query->{$global ? 'orWhere' : 'where'}(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
+            $query = $query->{$global ? 'orWhereRaw' : 'whereRaw'}('LOWER(`'.$column.'`) LIKE ?', [$filter]);
         } elseif ($formfield->column->type == 'relationship') {
+            if ($global) {
+                // TODO: We could skip global-searching relationships here
+                // return $query;
+            }
             list($name, $column) = explode('.', $formfield->column->column);
+
             $query = $query->{$global ? 'orWhereHas' : 'whereHas'}($name, function ($q) use ($column, $filter, $translatable, $locale) {
                 if ($translatable) {
-                    $q->where(DB::raw('lower('.$column.'->"$.'.$locale.'")'), 'LIKE', '%'.strtolower($filter).'%');
+                    $q->whereRaw('LOWER(`'.$column.'->$.'.$locale.'`) LIKE ?', [$filter]);
                 } else {
-                    $q->where(DB::raw('lower('.$column.')'), 'LIKE', '%'.strtolower($filter).'%');
+                    $q->whereRaw('LOWER(`'.$column.'`) LIKE ?', [$filter]);
                 }
             });
         }

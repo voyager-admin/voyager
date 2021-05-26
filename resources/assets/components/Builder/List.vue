@@ -41,11 +41,6 @@
                                             <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
                                                 {{ column }}
                                             </option>
-                                            <template v-for="(column, i) in relationship.pivot" :key="'pivot_'+i">
-                                                <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="getFormfieldByType(formfield.type).allow_relationship_pivots">
-                                                    pivot.{{ column }}
-                                                </option>
-                                            </template>
                                         </optgroup>
                                     </template>
                                 </select>

@@ -18,6 +18,8 @@ Instead, they are listed here:
 - Let formfields be overriden by a `component` option
 - When validation rules are changed afterwards in settings, validation may fail and thus, settings will not save (including the new validation rules)
 - When generating a new list, all formfields are `ordered by default`
+- Link to related item when browsing
+- When querying a xMany relationship, it should only display those
 
 ## Formfields testing
 
@@ -39,3 +41,4 @@ Instead, they are listed here:
 - Accessors need to be named `getFieldAttribute` (ex. `getFullNameAttribute`)
 - Computed properties need to implement an accessor AND mutator when used for adding or editing
 - Ordering only works when there are actual values in the field. Those have to be set by a mutator (or similar)
+

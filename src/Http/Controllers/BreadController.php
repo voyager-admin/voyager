@@ -40,14 +40,12 @@ class BreadController extends Controller
         $start = microtime(true);
         $bread = $this->getBread($request);
         $layout = $this->getLayoutForAction($bread, 'browse');
+        $warnings = [];
 
-        $page = $request->get('page', 1);
         $perpage = $request->get('perpage', 10);
         $global = $request->get('global', '');
         $filters = $request->get('filters', []);
         $filter = $request->get('filter', null);
-        $order = $request->get('order', null);
-        $direction = $request->get('direction', 'asc');
         $softdeleted = $request->get('softdeleted', 'show');
         $locale = $request->get('locale', VoyagerFacade::getLocale());
 
@@ -58,12 +56,15 @@ class BreadController extends Controller
         }
 
         // Apply custom scope
-        $query = $this->applyCustomScope($bread, $layout, $filter, $query);
+        $query = $this->applyCustomScope($bread, $layout, $filter, $query, $warnings);
 
         // Soft-deletes
         $query = $this->loadSoftDeletesQuery($bread, $layout, $softdeleted, $query);
 
         $total = $query->count();
+
+        // Eager load relationships
+        $query = $this->eagerLoadRelationships($layout, $query, $warnings);
 
         // Custom filter
         $query = $this->applyCustomFilter($bread, $layout, $filter, $query);
@@ -72,21 +73,19 @@ class BreadController extends Controller
         $query = $this->globalSearchQuery($global, $layout, $locale, $query);
 
         // Column search ($filters)
-        $query = $this->columnSearchQuery($filters, $layout, $query, $locale);
+        $query = $this->columnSearchQuery($filters, $layout, $query, $locale, $warnings);
 
-        // Eager load relationships
-        $query = $this->eagerLoadRelationships($layout, $query);
-
-        // Ordering ($order and $direction)
-        $query = $this->orderQuery($layout, $direction, $order, $query, $locale);
+        // Ordering ($order)
+        $query = $this->orderQuery($layout, $request->get('direction', 'asc'), $request->get('order', null), $query, $locale, $warnings);
 
         $filtered = $total;
         if (!empty($global) || count($filters) > 0) {
+            // TODO: We'd have to add an aggregate "count(*) as filtered" to remove one duplicate query
             $filtered = $query->count();
         }
 
-        // Pagination ($page and $perpage)
-        $query = $query->skip(($page - 1) * $perpage)->take($perpage)->get();
+        // Pagination ($perpage). At this point $query gets a Collection
+        $query = $query->skip(($request->get('page', 1) - 1) * $perpage)->take($perpage)->get();
 
         // Load accessors
         $accessors = $layout->getFormfieldsByColumnType('computed')->pluck('column.column')->toArray();
@@ -95,7 +94,7 @@ class BreadController extends Controller
         });
 
         // Transform results
-        $query = $this->transformResults($layout, $bread->usesTranslatableTrait(), $query);
+        $query = $this->transformResults($layout, $bread->usesTranslatableTrait(), $query, $global, $filters);
 
         return [
             'results'           => $query->values(),
@@ -106,6 +105,7 @@ class BreadController extends Controller
             'uses_soft_deletes' => $this->uses_soft_deletes,
             'uses_ordering'     => ($bread->order_field !== null),
             'actions'           => $this->breadmanager->getActionsForBread($bread),
+            'warnings'          => $warnings,
         ];
     }
 

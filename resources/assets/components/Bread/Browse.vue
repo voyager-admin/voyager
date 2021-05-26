@@ -20,6 +20,7 @@
                 </button>
                 <breadActions :actions="actions" bulk @reload="load" :bread="bread" :selected="selectedEntries" />
                 <locale-picker :small="false" />
+                {{ execution }}
             </div>
         </template>
         <div>
@@ -134,7 +135,7 @@
                                             :key="'relationship-'+i"
                                             :modelValue="translate(val)">
                                         </component>
-                                        <span v-if="getData(result, formfield, true).length > 3">
+                                        <span v-if="getData(result, formfield, true).length > 3" class="italic">
                                             {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
                                         </span>
                                     </div>
@@ -207,6 +208,7 @@ export default {
             uses_soft_deletes: false, // If the model uses soft-deleting
             uses_ordering: false, // If the items can be re-ordered
             actions: [], // The actions which should be displayed
+            execution: 0,
             parameters: {
                 page: 1,
                 perpage: this.perPage,
@@ -229,6 +231,10 @@ export default {
                 for (var key in response.data) {
                     if (response.data.hasOwnProperty(key) && this.$data.hasOwnProperty(key)) {
                         this[key] = response.data[key];
+                    } else if (key == 'warnings') {
+                        response.data.warnings.forEach((warning) => {
+                            new this.$notification(warning).color('yellow').timeout().show();
+                        });
                     }
                 }
 
