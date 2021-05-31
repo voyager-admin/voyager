@@ -209,7 +209,6 @@
 
 <script>
 import axios from 'axios';
-import { Inertia } from '@inertiajs/inertia';
 
 const compare = require('semver-compare');
 

@@ -40,7 +40,7 @@ class BreadController extends Controller
     {
         $start = microtime(true);
         $bread = $this->getBread($request);
-        $layout = $this->getLayoutForAction($bread, 'browse');
+        $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
         $warnings = [];
 
         $perpage = $request->get('perpage', 10);
@@ -105,7 +105,7 @@ class BreadController extends Controller
             'execution'         => number_format(((microtime(true) - $start) * 1000), 0, '.', ''),
             'uses_soft_deletes' => $this->uses_soft_deletes,
             'uses_ordering'     => ($bread->order_field !== null),
-            'actions'           => $this->breadmanager->getActionsForBread($bread),
+            'actions'           => $this->breadmanager->getActionsForBread($bread)->values(),
             'warnings'          => $warnings,
         ];
     }
@@ -113,7 +113,7 @@ class BreadController extends Controller
     public function add(Request $request)
     {
         $bread = $this->getBread($request);
-        $layout = $this->getLayoutForAction($bread, 'add');
+        $layout = $this->breadmanager->getLayoutForAction($bread, 'add');
         $new = true;
         $data = collect();
 
@@ -143,7 +143,7 @@ class BreadController extends Controller
     public function store(Request $request)
     {
         $bread = $this->getBread($request);
-        $layout = $this->getLayoutForAction($bread, 'add');
+        $layout = $this->breadmanager->getLayoutForAction($bread, 'add');
 
         $model = new $bread->model();
         $data = $request->get('data', []);
@@ -179,7 +179,7 @@ class BreadController extends Controller
     public function read(Request $request, $id)
     {
         $bread = $this->getBread($request);
-        $layout = $this->getLayoutForAction($bread, 'read');
+        $layout = $this->breadmanager->getLayoutForAction($bread, 'read');
         $data = $bread->getModel()->findOrFail($id);
         if (!empty($layout->options->scope)) {
             $data = $bread->getModel()->{$layout->options->scope}()->findOrFail($id);
@@ -213,7 +213,7 @@ class BreadController extends Controller
     public function edit(Request $request, $id)
     {
         $bread = $this->getBread($request);
-        $layout = $this->getLayoutForAction($bread, 'edit');
+        $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
         $new = false;
 
         $data = $bread->getModel()->findOrFail($id);
@@ -262,7 +262,7 @@ class BreadController extends Controller
     public function update(Request $request, $id)
     {
         $bread = $this->getBread($request);
-        $layout = $this->getLayoutForAction($bread, 'edit');
+        $layout = $this->breadmanager->getLayoutForAction($bread, 'edit');
 
         $model = $bread->getModel()->findOrFail($id);
         if (!empty($layout->options->scope)) {

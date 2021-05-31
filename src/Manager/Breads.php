@@ -19,6 +19,7 @@ use Voyager\Admin\Classes\Action as ActionClass;
 use Voyager\Admin\Classes\Bread as BreadClass;
 use Voyager\Admin\Contracts\Formfields\Features;
 use Voyager\Admin\Facades\Voyager as VoyagerFacade;
+use Voyager\Admin\Manager\Plugins as PluginManager;
 
 class Breads
 {
@@ -27,10 +28,12 @@ class Breads
     protected $breads;
     protected $backups = [];
     protected $actions;
+    protected $pluginmanager;
 
-    public function __construct()
+    public function __construct(PluginManager $pluginmanager)
     {
         $this->path = Str::finish(storage_path('voyager/breads'), '/');
+        $this->pluginmanager = $pluginmanager;
     }
 
     /**
@@ -489,5 +492,22 @@ class Breads
 
             return $action;
         });
+    }
+
+    public function getLayoutForAction($bread, $action, $throwError = true)
+    {
+        $layouts = $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', $action == 'browse' ? 'list' : 'view');
+
+        $this->pluginmanager->getAllPlugins()->each(function ($plugin) use ($bread, $action, &$layouts) {
+            if ($plugin instanceof LayoutFilter) {
+                $layouts = $plugin->filterLayouts($bread, $action, $layouts);
+            }
+        });
+
+        if ($layouts->count() < 1 && $throwError) {
+            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)]));
+        }
+
+        return $layouts->first();
     }
 }

@@ -76,6 +76,19 @@ window.createVoyager = (data = {}, el = 'voyager') => {
         })
     }).use(plugin);
 
+    if (module.hot) {
+        const first = window.location.pathname;
+        module.hot.accept();
+
+        console.log('🔥');
+
+        module.hot.dispose(() => {
+            if (first !== window.location.pathname) {
+                window.location.reload();
+            }
+        });
+    }
+
     voyager.addToUI = function (title, component) {
         Store.ui.push({ title, component });
     };

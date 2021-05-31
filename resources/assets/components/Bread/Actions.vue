@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios';
 
 export default {
@@ -142,6 +141,6 @@ export default {
 
             return this.selected.length;
         }
-    }
+    },
 }
 </script>

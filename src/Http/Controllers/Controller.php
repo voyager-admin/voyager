@@ -113,21 +113,4 @@ abstract class Controller extends BaseController
     {
         return $request->route()->getAction()['bread'] ?? abort(404);
     }
-
-    protected function getLayoutForAction($bread, $action)
-    {
-        $layouts = $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', $action == 'browse' ? 'list' : 'view');
-
-        $this->pluginmanager->getAllPlugins()->each(function ($plugin) use ($bread, $action, &$layouts) {
-            if ($plugin instanceof LayoutFilter) {
-                $layouts = $plugin->filterLayouts($bread, $action, $layouts);
-            }
-        });
-
-        if ($layouts->count() < 1) {
-            throw new NoLayoutFoundException(__('voyager::bread.no_layout_assigned', ['action' => ucfirst($action)]));
-        }
-
-        return $layouts->first();
-    }
 }

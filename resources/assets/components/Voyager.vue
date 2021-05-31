@@ -34,7 +34,6 @@
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Notifications from './UI/Notifications';
-import $store from '../js/store';
 import { watch } from 'vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
@@ -64,7 +63,7 @@ export default {
             this.$store.pageLoading = true;
         });
 
-        Inertia.on('finish', () => {
+        Inertia.on('finish', (e) => {
             this.$store.pageLoading = false;
         });
 

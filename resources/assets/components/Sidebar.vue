@@ -77,9 +77,6 @@
 </template>
 
 <script>
-import { usePage } from '@inertiajs/inertia-vue3';
-import { Inertia } from '@inertiajs/inertia';
-
 import scrollTo from '../js/directives/scroll-to';
 import MenuWrapper from './Layout/MenuWrapper';
 

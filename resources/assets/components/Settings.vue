@@ -50,6 +50,7 @@
                 @click="setCurrentGroup(group)"
                 :icon="currentGroup == group ? 'x' : null"
                 :color="badgeColor(group)"
+                :key="group"
             >
                 {{ titleCase(group ? group : __('voyager::settings.no_group')) }} ({{ settingsInGroup(group).length }})
             </badge>

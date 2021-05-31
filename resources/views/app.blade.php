@@ -8,7 +8,7 @@
     <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">
     <meta http-equiv="Cache-control" content="public">
 
-    <title>{{ $page['props']['title'] ?? '' }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
+    <title>{{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     @if (isset($voyagerDevServer))
         <link href="{{ $voyagerDevServer }}css/voyager.css" rel="stylesheet">
     @else

@@ -13,12 +13,11 @@ module.exports = (env, options) => {
         mode: options.mode,
         devtool: options.mode === 'production' ? false : 'eval-cheap-module-source-map',
         devServer: {
-            contentBase: path.resolve(__dirname, '/'),
-            inline: true,
+            static: path.resolve(__dirname, '/'),
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            disableHostCheck: true
+            firewall: false,
         },
         entry: {
             // Currently, HMR does not work (https://github.com/webpack/webpack-dev-server/issues/2692) when using multiple entries 🤷🏼

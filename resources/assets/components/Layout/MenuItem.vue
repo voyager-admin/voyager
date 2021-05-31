@@ -68,9 +68,9 @@ export default {
         }
     },
     created() {
-        if (this.active) {
-            this.open = true;
-        }
+        this.$watch(() => this.active, (active) => {
+            this.open = active;
+        }, { immediate: true })
     }
 };
 </script>

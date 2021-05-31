@@ -192,15 +192,23 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function registerActions()
     {
+        $breadmanager = $this->breadmanager;
+
         $read_action = (new Action('voyager::generic.read', 'book-open'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.read';
-        })->permission('read');
+        })->permission('read')
+        ->displayOnBread(function ($bread) use ($breadmanager) {
+            return $breadmanager->getLayoutForAction($bread, 'read', false) !== null;
+        });
 
         $edit_action = (new Action('voyager::generic.edit', 'pencil'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.edit';
-        })->permission('edit');
+        })->permission('edit')
+        ->displayOnBread(function ($bread) use ($breadmanager) {
+            return $breadmanager->getLayoutForAction($bread, 'edit', false) !== null;
+        });
 
         $delete_action = (new Action('voyager::generic.delete', 'trash', 'red'))
         ->route(function ($bread) {
@@ -239,11 +247,16 @@ class VoyagerServiceProvider extends ServiceProvider
      */
     public function registerBulkActions()
     {
+        $breadmanager = $this->breadmanager;
+
         $add_action = (new Action('voyager::generic.add_type', 'plus', 'green'))
         ->route(function ($bread) {
             return 'voyager.'.$bread->slug.'.add';
         })
-        ->bulk();
+        ->bulk()
+        ->displayOnBread(function ($bread) use ($breadmanager) {
+            return $breadmanager->getLayoutForAction($bread, 'add', false) !== null;
+        });
 
         $delete_action = (new Action('voyager::bread.delete_type', 'trash', 'red'))
         ->route(function ($bread) {
@@ -395,7 +408,7 @@ class VoyagerServiceProvider extends ServiceProvider
             return $this->pluginmanager;
         });
 
-        $this->breadmanager = new BreadManager();
+        $this->breadmanager = new BreadManager($this->pluginmanager);
         app()->singleton(BreadManager::class, function () {
             return $this->breadmanager;
         });

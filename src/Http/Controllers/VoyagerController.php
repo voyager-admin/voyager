@@ -99,7 +99,7 @@ class VoyagerController extends Controller
 
         $this->breadmanager->getBreads()->each(function ($bread) use ($q, &$results) {
             if (!empty($bread->global_search_field)) {
-                $layout = $this->getLayoutForAction($bread, 'browse');
+                $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
                 if ($layout) {
                     $query = $bread->getModel()->select();
                     // TODO: This can be removed when the global search allows querying relationships

@@ -55,6 +55,6 @@ export default {
 
             return this.currentUrl.startsWith(url);
         }
-    },
+    }
 }
 </script>
