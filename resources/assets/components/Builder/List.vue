@@ -90,7 +90,10 @@
                                         :column="formfield.column"
                                         :columns="columns"
                                         action="list-options" />
-
+                                    <div>
+                                        <label class="label mt-4">{{ __('voyager::generic.classes') }}</label>
+                                        <input type="text" class="input w-full" v-model="formfield.options.classes">
+                                    </div>
                                     <template #opener>
                                         <button class="button">
                                             <icon icon="cog" />

@@ -12,19 +12,19 @@
             {{ getOptionByKey(option) || option }}
         </badge>
     </div>
-    <div v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-2' : null">
+    <template v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-2' : null">
         <template v-for="(option, i) in options.options" :key="i">
             <div class="inline-flex items-center space-x-1.5" :class="options.inline ? null : 'w-full'">
                 <input type="checkbox" class="input" :value="option.key" v-model="value" />
                 <label class="label">{{ translate(option.value, true) }}</label>
             </div>
         </template>
-    </div>
-    <div v-else class="flex flex-wrap space-x-1">
+    </template>
+    <template v-else class="flex flex-wrap space-x-1">
         <badge v-for="(option, i) in modelValue" :key="i">
             {{ getOptionByKey(option) }}
         </badge>
-    </div>
+    </template>
 </template>
 
 <script>

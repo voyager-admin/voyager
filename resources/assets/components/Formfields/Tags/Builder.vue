@@ -34,6 +34,7 @@
             :duplicates="options.duplicates"
             :empty="options.empty"
             :badgeColor="options.color"
+            :class="options.classes"
         />
     </div>
 </template>

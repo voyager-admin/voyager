@@ -83,6 +83,11 @@
                                         action="view-options" />
                                     <breadBuilderValidation v-model="formfield.validation" />
 
+                                    <div>
+                                        <label class="label mt-4">{{ __('voyager::generic.classes') }}</label>
+                                        <input type="text" class="input w-full" v-model="formfield.options.classes">
+                                    </div>
+
                                     <template #opener>
                                         <button class="button small">
                                             <icon icon="cog" />
@@ -94,10 +99,10 @@
                                 </button>
                             </div>
                         </template>
-
                         <component
                             :is="getFormfieldByType(formfield.type).builder_component"
                             v-bind:options="formfield.options"
+                            :class="formfield.options.classes"
                             :column="formfield.column"
                             :columns="columns"
                             action="view" />

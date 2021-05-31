@@ -110,6 +110,7 @@
                                         :options="formfield.options"
                                         :column="formfield.column"
                                         :translatable="formfield.translatable"
+                                        :class="formfield.options.classes"
                                         :modelValue="getData(result, formfield, true)"
                                     >
                                     </component>
@@ -120,6 +121,7 @@
                                         :options="formfield.options"
                                         :column="formfield.column"
                                         :translatable="formfield.translatable"
+                                        :class="formfield.options.classes"
                                         :modelValue="getData(result, formfield, false)"
                                     >
                                     </component>
@@ -131,6 +133,7 @@
                                             :options="formfield.options"
                                             :column="formfield.column"
                                             :translatable="formfield.translatable"
+                                            :class="formfield.options.classes"
                                             :key="'relationship-'+i"
                                             :modelValue="translate(val)">
                                         </component>

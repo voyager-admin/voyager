@@ -16,6 +16,7 @@ return [
     'breads'                    => 'BREADs',
     'browse'                    => 'Browse',
     'cancel'                    => 'Cancel',
+    'classes'                   => 'Classes',
     'color'                     => 'Color',
     'colors'                    => 'Colors',
     'color_names'               => [

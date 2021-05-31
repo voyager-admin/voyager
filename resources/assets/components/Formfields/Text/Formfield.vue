@@ -1,14 +1,14 @@
 <template>
     <slot v-if="action == 'query'"></slot>
-    <div v-else-if="action == 'browse'">
+    <template v-else-if="action == 'browse'">
         <span v-if="options.display_length > 0">
             {{ String(modelValue).slice(0, options.display_length) }}
         </span>
         <span v-else>
             {{ modelValue }}
         </span>
-    </div>
-    <div v-else-if="action == 'edit' || action == 'add'">
+    </template>
+    <template v-else-if="action == 'edit' || action == 'add'">
         <input
             v-if="(options.rows || 1) == 1"
             type="text"
@@ -25,7 +25,7 @@
             @input="$emit('update:modelValue', $event.target.value)"
             :placeholder="translate(options.placeholder)"
             :inputmode="options.inputmode || 'text'"></textarea>
-    </div>
+    </template>
     <div v-else>
         {{ modelValue }}
     </div>
@@ -35,6 +35,6 @@
 import formfield from '../../../js/mixins/formfield';
 
 export default {
-    mixins: [formfield]
+    mixins: [formfield],
 }
 </script>

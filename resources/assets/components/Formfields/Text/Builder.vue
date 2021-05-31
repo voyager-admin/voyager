@@ -29,7 +29,7 @@
             <option v-for="(mode, key) in __('voyager::generic.inputmodes')" :key="key" :value="key">{{ mode }}</option>
         </select>
     </div>
-    <div v-else-if="action == 'view'">
+    <template v-else-if="action == 'view'">
         <input
             v-if="!options.rows || options.rows == 1"
             type="text"
@@ -42,7 +42,7 @@
             :rows="options.rows"
             :modelValue="translate(options.default_value)"
             :placeholder="translate(options.placeholder)"></textarea>
-    </div>
+    </template>
 </template>
 
 <script>

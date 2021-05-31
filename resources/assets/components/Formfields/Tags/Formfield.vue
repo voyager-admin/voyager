@@ -8,7 +8,7 @@
             + {{ modelValue.length - options.display_amount }}
         </template>
     </div>
-    <div v-else-if="action == 'edit' || action == 'add'">
+    <template v-else-if="action == 'edit' || action == 'add'">
         <tag-input
             v-model="value"
             :min="options.min"
@@ -17,8 +17,9 @@
             :duplicates="options.duplicates"
             :empty="options.empty"
             :badgeColor="options.color"
+            :class="options.classes"
         />
-    </div>
+    </template>
     <div v-else>
         {{ modelValue }}
     </div>

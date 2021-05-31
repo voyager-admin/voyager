@@ -57,6 +57,7 @@
                                     :from-repeater="fromRepeater"
                                     :action="currentAction"
                                     :primary-key="primaryKey"
+                                    :class="formfield.options.classes"
                                 />
                                 <p class="description" v-if="translate(formfield.options.description, true) !== ''">
                                     {{ translate(formfield.options.description, true) }}

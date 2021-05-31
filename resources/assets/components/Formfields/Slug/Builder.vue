@@ -44,6 +44,7 @@
         <input
             type="text"
             class="input w-full"
+            :class="options.classes"
             :placeholder="translate(options.placeholder)">
     </div>
 </template>

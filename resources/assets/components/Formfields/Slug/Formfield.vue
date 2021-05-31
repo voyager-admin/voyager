@@ -1,24 +1,25 @@
 <template>
     <slot v-if="action == 'query'"></slot>
-    <div v-else-if="action == 'browse'">
+    <template v-else-if="action == 'browse'">
         <span v-if="options.display_length > 0">
             {{ String(modelValue).slice(0, options.display_length) }}
         </span>
         <span v-else>
             {{ modelValue }}
         </span>
-    </div>
-    <div v-else-if="action == 'edit' || action == 'add'">
+    </template>
+    <template v-else-if="action == 'edit' || action == 'add'">
         <input
             type="text"
             class="input w-full"
+            :class="options.classes"
             :value="modelValue || translate(options.default_value, true)"
             @input="$emit('update:modelValue', slugValue($event.target.value, false))"
             :placeholder="translate(options.placeholder, true)">
-    </div>
-    <div v-else>
+    </template>
+    <template v-else>
         {{ modelValue }}
-    </div>
+    </template>
 </template>
 
 <script>

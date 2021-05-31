@@ -11,17 +11,16 @@ Instead, they are listed here:
 - Make a command to "remove" translations (transform a value from JSON to normal string)
 - Show a dark background when using darkmode to prevent white flashing
 - Remove plugins that are no longer installed from `plugins.json`
-- Refreshing the page and going back fails (Inertia problem?)
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, Prop is hidden, ...)
-- Revamp what happens when bread stored or updated. Clear? Edit again?
+- Revamp what happens when bread stored or updated. Clear? Edit again? 
 - Let formfields be overriden by a `component` option
 - When validation rules are changed afterwards in settings, validation may fail and thus, settings will not save (including the new validation rules)
 - When generating a new list, all formfields are `ordered by default`
 - Link to related item when browsing
 - When querying a xMany relationship, it should only display those
-- Hide read/edit/add actions when no layout exists for this action
 - Let dynamic input provide validation rules (?)
+- Formfield should expose the input directly (no wrapping divs etc) to prevent 
 
 ## Formfields testing
 
