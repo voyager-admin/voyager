@@ -4,7 +4,7 @@ require('../sass/voyager.scss');
 
 // External libraries
 import { createApp } from 'vue';
-import { App, plugin, usePage } from '@inertiajs/inertia-vue3';
+import { App, plugin } from '@inertiajs/inertia-vue3';
 import slugify from 'slugify';
 
 window.slugify = slugify;
