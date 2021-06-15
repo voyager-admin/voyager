@@ -20,7 +20,8 @@ Instead, they are listed here:
 - Link to related item when browsing
 - When querying a xMany relationship, it should only display those
 - Let dynamic input provide validation rules (?)
-- Formfield should expose the input directly (no wrapping divs etc) to prevent 
+- Formfield should expose the input directly (no wrapping divs etc) to prevent
+- Remove margin-bottom from card (This requires every usage to be aligned)
 
 ## Formfields testing
 

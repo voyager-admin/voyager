@@ -7,6 +7,7 @@
                 <button class="button accent my-2" v-scroll-to="'ui-buttons'">Buttons</button>
                 <button class="button accent my-2" v-scroll-to="'ui-inputs'">Inputs</button>
                 <button class="button accent my-2" v-scroll-to="'ui-color-picker'">Color picker</button>
+                <button class="button accent my-2" v-scroll-to="'ui-datetime'">Date/Time picker</button>
                 <button class="button accent my-2" v-scroll-to="'ui-tags'">Tag input</button>
                 <button class="button accent my-2" v-scroll-to="'ui-sliders'">Sliders</button>
                 <button class="button accent my-2" v-scroll-to="'ui-badges'">Badges</button>
@@ -167,25 +168,83 @@
         </collapsible>
     </collapsible>
 
+    <collapsible title="Date/Time picker" id="ui-datetime">
+        <card title="Single" :title-size="6" class="w-full">
+            <date-time
+                v-model="dtData.from"
+                v-bind="datetime"
+            />
+        </card>
+        <card title="Range" :title-size="6" class="w-full">
+            <date-time
+                v-model:from="dtData.from"
+                v-model:to="dtData.to"
+                v-bind="datetime"
+            />
+        </card>
+        <card title="Settings">
+            <div class="w-full inline-flex space-x-2 mb-2">
+                <div class="input-group w-auto">
+                    <label class="label">Inline</label>
+                    <input type="checkbox" class="input" v-model="datetime.inline">
+                </div>
+                <div class="input-group w-auto">
+                    <label class="label">Sunday first</label>
+                    <input type="checkbox" class="input" v-model="datetime.sundayFirst">
+                </div>
+                <div class="input-group w-auto">
+                    <label class="label">Close on select</label>
+                    <input type="checkbox" class="input" v-model="datetime.closeOnSelect" :disabled="datetime.inline">
+                </div>
+                <div class="input-group w-full">
+                    <label class="label">Mode</label>
+                    <select class="input w-full" :value="datetime.type" @change="datetime.displayFormat = dtFormats[$event.target.value]; datetime.type = $event.target.value">
+                        <option v-for="(format, type) in dtFormats" :key="type" :value="type">
+                            {{ titleCase(type) }}
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group w-full">
+                    <label class="label">Display format</label>
+                    <input type="text" class="input w-full" v-model="datetime.displayFormat">
+                </div>
+                <div class="input-group w-full">
+                    <label class="label">Distance</label>
+                    <input type="number" class="input w-full" v-model.number="datetime.distance" min="0">
+                </div>
+            </div>
+            <div class="w-full inline-flex space-x-2">
+                <div class="input-group w-full">
+                    <label class="label">Model value (From)</label>
+                    <input type="text" class="input w-full" v-model="dtData.from">
+                </div>
+                <div class="input-group w-full">
+                    <label class="label">Model value (To)</label>
+                    <input type="text" class="input w-full" v-model="dtData.to">
+                </div>
+            </div>
+        </card>
+    </collapsible>
+
     <collapsible title="Tag input" id="ui-tags">
         <tag-input v-model="tags" />
     </collapsible>
 
     <collapsible title="Sliders" id="ui-sliders">
         <card title="From 1 to 100">
-            <slider v-model:lower="range.lower" :range="false" class="mt-2" />
+            <slider v-model:lower="range.lower" :range="false" :min="1" class="mt-2" />
         </card>
         <card title="Range from 1 to 100">
-            <slider v-model:lower="range.lower" v-model:upper="range.upper" class="mt-2" />
+            <slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" class="mt-2" />
         </card>
         <card title="No inputs">
-            <slider v-model:lower="range.lower" v-model:upper="range.upper" :inputs="false" class="mt-2" />
+            <slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" :inputs="false" class="mt-2" />
         </card>
         <card title="With distance 10">
-            <slider v-model:lower="range.lower" v-model:upper="range.upper" :distance="10" class="mt-2" />
+            <slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" :distance="10" class="mt-2" />
         </card>
         <card title="Different color">
-            <slider v-model:lower="range.lower" v-model:upper="range.upper" class="mt-2" color="red" />
+            <slider v-model:lower="range.lower" v-model:upper="range.upper" :min="1" class="mt-2" color="red" />
         </card>
     </collapsible>
 
@@ -368,11 +427,19 @@
 <script>
 import scrollTo from '../js/directives/scroll-to';
 import draggable from 'vuedraggable';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+import { FORMATS } from './UI/DateTime.vue';
 
 export default {
     directives: { scrollTo: scrollTo },
     components: {
-        draggable,
+        draggable
     },
     data() {
         return {
@@ -382,10 +449,30 @@ export default {
             color: this.colors[0],
             colorSize: 4,
             range: {
-                lower: 0,
+                lower: 1,
                 upper: 100
+            },
+            datetime: {
+                type: 'date',
+                inline: false,
+                displayFormat: 'YYYY-MM-DD',
+                closeOnSelect: false,
+                distance: 0,
+                sundayFirst: false,
+                closeOnSelect: false,
+                weekDayNames: this.__('voyager::datetime.day_names'),
+                monthNames: this.__('voyager::datetime.month_names'),
+            },
+            dtData: {
+                from: dayjs().tz(dayjs.tz.guess()).toISOString(),
+                to: dayjs().add(3, 'day').tz(dayjs.tz.guess()).toISOString(),
             }
         };
+    },
+    computed: {
+        dtFormats() {
+            return FORMATS;
+        }
     },
     methods: {
         colorSizePlus() {

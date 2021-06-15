@@ -18,6 +18,7 @@ module.exports = (env, options) => {
                 'Access-Control-Allow-Origin': '*'
             },
             firewall: false,
+            port: 8080,
         },
         entry: {
             // Currently, HMR does not work (https://github.com/webpack/webpack-dev-server/issues/2692) when using multiple entries 🤷🏼

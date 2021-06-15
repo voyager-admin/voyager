@@ -4,7 +4,7 @@
             <slot name="opener"></slot>
         </div>
         <fade-transition @after-leave="destroyPopper">
-            <div class="wrapper" v-if="isOpen" @click="dontCloseOnInsideClick ? null : close()" ref="dropdown">
+            <div class="wrapper" v-if="isOpen" @click="closeDropdown" ref="dropdown">
                 <div class="body">
                     <slot></slot>
                 </div>
@@ -52,6 +52,11 @@ export default {
             let disabled = this.$refs.opener.children[0].getAttribute('disabled');
             if (disabled === null || disabled === false) {
                 this.open();
+            }
+        },
+        closeDropdown() {
+            if (!this.dontCloseOnInsideClick) {
+                this.close();
             }
         }
     },
@@ -106,7 +111,7 @@ export default {
 }
 
 .dropdown {
-    @apply inline-block text-left w-auto;
+    @apply text-left w-auto;
 
     .wrapper {
         @include bg-color(dropdown-bg-color, 'colors.white');

@@ -3,6 +3,7 @@ import Badge from '../components/UI/Badge.vue';
 import Card from '../components/UI/Card.vue';
 import Collapsible from '../components/UI/Collapsible.vue';
 import ColorPicker from '../components/UI/ColorPicker.vue';
+import DateTime from '../components/UI/DateTime.vue';
 import Dropdown from '../components/UI/Dropdown.vue';
 import IconPicker from '../components/UI/IconPicker.vue';
 import ImageEditor from '../components/UI/ImageEditor.vue';
@@ -22,6 +23,7 @@ export {
     Card,
     Collapsible,
     ColorPicker,
+    DateTime,
     Dropdown,
     IconPicker,
     ImageEditor,

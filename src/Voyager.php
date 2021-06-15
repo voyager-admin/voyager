@@ -131,7 +131,7 @@ class Voyager
     {
         $translator = app()->make('translator');
 
-        return collect(['auth', 'bread', 'builder', 'formfields', 'generic', 'media', 'plugins', 'settings', 'validation'])->flatMap(function ($group) {
+        return collect(['auth', 'bread', 'builder', 'datetime', 'formfields', 'generic', 'media', 'plugins', 'settings', 'validation'])->flatMap(function ($group) {
             return ['voyager::'.$group => trans('voyager::'.$group)];
         })->merge(collect($this->translations)->flatMap(function ($namespace, $group) use ($translator) {
             $translator->load($namespace, $group, $this->getLocale());

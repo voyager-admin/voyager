@@ -5,7 +5,7 @@
 }
 
 .label {
-    @apply block text-sm font-normal my-2;
+    @apply block text-sm font-normal my-2 whitespace-nowrap;
     @include text-color(label-text-color, 'colors.gray.800');
 
     &.bigger {
