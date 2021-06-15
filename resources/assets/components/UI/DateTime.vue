@@ -167,7 +167,7 @@ export default {
             type: String,
             default: 'YYYY-MM-DD',
         },
-        weekDayNames: {
+        dayNames: {
             type: Array,
             default: () => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             validator: (value) => value.length == 7,
@@ -232,12 +232,12 @@ export default {
         weekDays() {
             if (this.sundayFirst) {
                 return [
-                    this.weekDayNames[6],
-                    ...this.weekDayNames.slice(0, 6),
+                    this.dayNames[6],
+                    ...this.dayNames.slice(0, 6),
                 ];
             }
 
-            return this.weekDayNames;
+            return this.dayNames;
         },
         daysRange() {
             let days = [];

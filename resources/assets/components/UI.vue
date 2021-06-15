@@ -460,7 +460,7 @@ export default {
                 distance: 0,
                 sundayFirst: false,
                 closeOnSelect: false,
-                weekDayNames: this.__('voyager::datetime.day_names'),
+                dayNames: this.__('voyager::datetime.day_names'),
                 monthNames: this.__('voyager::datetime.month_names'),
             },
             dtData: {
