@@ -82,8 +82,5 @@ module.exports = {
                 '96': '24rem',
             }
         },
-    },
-    plugins: [
-        require('@tailwindcss/aspect-ratio'),
-    ]
+    }
 }

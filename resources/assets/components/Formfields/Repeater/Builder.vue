@@ -45,7 +45,7 @@
 
 <script>
 import formfieldBuilder from '../../../js/mixins/formfield-builder';
-import BreadBuilderView from '../../Builder/View';
+import BreadBuilderView from '../../Builder/View.vue';
 
 export default {
     mixins: [formfieldBuilder],

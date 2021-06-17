@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import Sidebar from './Sidebar';
-import Navbar from './Navbar';
-import Notifications from './UI/Notifications';
+import Sidebar from './Sidebar.vue';
+import Navbar from './Navbar.vue';
+import Notifications from './UI/Notifications.vue';
 import { watch } from 'vue';
 import { usePage } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';

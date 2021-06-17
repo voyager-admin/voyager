@@ -78,7 +78,7 @@
 
 <script>
 import scrollTo from '../js/directives/scroll-to';
-import MenuWrapper from './Layout/MenuWrapper';
+import MenuWrapper from './Layout/MenuWrapper.vue';
 
 export default {
     components: { MenuWrapper },

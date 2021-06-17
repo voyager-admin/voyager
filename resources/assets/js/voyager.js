@@ -10,7 +10,7 @@ import slugify from 'slugify';
 window.slugify = slugify;
 window.Vue = require('vue');
 
-import Voyager from 'components/Voyager';
+import Voyager from '../components/Voyager.vue';
 
 // Multilanguage
 import Multilanguage from './multilanguage';
@@ -19,15 +19,15 @@ import Multilanguage from './multilanguage';
 import Global from './global';
 
 // Global helper mixins
-import MiscMixin from 'mixins/misc';
-import StringMixin from 'mixins/strings';
-import TypeMixin from 'mixins/types';
-import UrlMixin from 'mixins/url';
-import FormfieldMixin from 'mixins/formfield';
-import FormfieldBuilderMixin from 'mixins/formfield-builder';
+import MiscMixin from './mixins/misc';
+import StringMixin from './mixins/strings';
+import TypeMixin from './mixins/types';
+import UrlMixin from './mixins/url';
+import FormfieldMixin from './mixins/formfield';
+import FormfieldBuilderMixin from './mixins/formfield-builder';
 
 // Directives
-import TooltipDirective from 'directives/tooltip';
+import TooltipDirective from './directives/tooltip';
 
 // Components
 import * as FormfieldComponents from './formfields';
@@ -55,11 +55,11 @@ let voyager;
 
 function resolveInertiaComponent(name) {
     try {
-        require(`../components/${name}`);
+        require(`../components/${name}.vue`);
 
-        return import(`../components/${name}`);
+        return import(`../components/${name}.vue`);
     } catch (e) {
-        return import(`../components/Generic`);
+        return import(`../components/Generic.vue`);
     }
 }
 
@@ -75,19 +75,6 @@ window.createVoyager = (data = {}, el = 'voyager') => {
             return page;
         })
     }).use(plugin);
-
-    if (module.hot) {
-        const first = window.location.pathname;
-        module.hot.accept();
-
-        console.log('🔥');
-
-        module.hot.dispose(() => {
-            if (first !== window.location.pathname) {
-                window.location.reload();
-            }
-        });
-    }
 
     voyager.addToUI = function (title, component) {
         Store.ui.push({ title, component });
