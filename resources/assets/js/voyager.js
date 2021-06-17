@@ -1,6 +1,6 @@
-require('./helper/array');
+import './helper/array';
 
-require('../sass/voyager.scss');
+import '../sass/voyager.scss';
 
 // External libraries
 import { createApp } from 'vue';

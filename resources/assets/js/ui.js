@@ -4,6 +4,7 @@ import Card from '../components/UI/Card.vue';
 import Collapsible from '../components/UI/Collapsible.vue';
 import ColorPicker from '../components/UI/ColorPicker.vue';
 import DateTime from '../components/UI/DateTime.vue';
+import DateTimeRange from '../components/UI/DateTimeRange.vue';
 import Dropdown from '../components/UI/Dropdown.vue';
 import IconPicker from '../components/UI/IconPicker.vue';
 import ImageEditor from '../components/UI/ImageEditor.vue';
@@ -24,6 +25,7 @@ export {
     Collapsible,
     ColorPicker,
     DateTime,
+    DateTimeRange,
     Dropdown,
     IconPicker,
     ImageEditor,

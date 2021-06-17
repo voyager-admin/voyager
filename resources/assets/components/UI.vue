@@ -176,7 +176,7 @@
             />
         </card>
         <card title="Range" :title-size="6" class="w-full">
-            <date-time
+            <date-time-range
                 v-model:from="dtData.from"
                 v-model:to="dtData.to"
                 v-bind="datetime"
@@ -213,7 +213,7 @@
                     <input type="number" class="input w-full" v-model.number="datetime.distance" min="0">
                 </div>
             </div>
-            <div class="w-full inline-flex space-x-2">
+            <div class="w-full inline-flex space-x-2 mb-2">
                 <div class="input-group w-full">
                     <label class="label">Model value (From)</label>
                     <input type="text" class="input w-full" v-model="dtData.from">
@@ -221,6 +221,16 @@
                 <div class="input-group w-full">
                     <label class="label">Model value (To)</label>
                     <input type="text" class="input w-full" v-model="dtData.to">
+                </div>
+            </div>
+            <div class="w-full inline-flex space-x-2 mb-2">
+                <div class="input-group w-full">
+                    <label class="label">Dropdown placement</label>
+                    <select class="input w-full" :value="datetime.placement" @change="datetime.placement = $event.target.value" :disabled="datetime.inline">
+                        <option v-for="placement in placements" :key="placement" :value="placement">
+                            {{ titleCase(placement) }}
+                        </option>
+                    </select>
                 </div>
             </div>
         </card>
@@ -425,6 +435,7 @@
     </collapsible>
 </template>
 <script>
+import { placements } from '@popperjs/core/lib/enums';
 import scrollTo from '../js/directives/scroll-to';
 import draggable from 'vuedraggable';
 import dayjs from 'dayjs';
@@ -462,11 +473,13 @@ export default {
                 closeOnSelect: false,
                 dayNames: this.__('voyager::datetime.day_names'),
                 monthNames: this.__('voyager::datetime.month_names'),
+                placement: 'bottom',
             },
             dtData: {
                 from: dayjs().tz(dayjs.tz.guess()).toISOString(),
                 to: dayjs().add(3, 'day').tz(dayjs.tz.guess()).toISOString(),
-            }
+            },
+            placements,
         };
     },
     computed: {

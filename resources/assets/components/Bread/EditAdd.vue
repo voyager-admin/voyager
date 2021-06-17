@@ -6,7 +6,6 @@
             :class="fromRepeater ? 'border-none' : null"
             :style="fromRepeater ? 'box-shadow: none !important' : null"
             :icon="bread.icon"
-            :no-padding="fromRepeater"
         >
             <template #actions v-if="true">
                 <div class="flex items-center space-x-2">

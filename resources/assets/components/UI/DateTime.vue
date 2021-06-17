@@ -1,6 +1,6 @@
 <template>
     <div>
-        <component :is="inline ? 'card' : 'dropdown'" dont-close-on-inside-click dont-show-header ref="dropdown">
+        <component :is="inline ? 'card' : 'dropdown'" dont-close-on-inside-click dont-show-header ref="dropdown" :placement="placement">
             <div :class="{ 'p-2': !inline }">
                 <template v-if="type.includes('date')">
                     <!-- Header -->
@@ -48,20 +48,10 @@
                     </div>
                 </template>
                 <template v-if="type.includes('time')">
-                    <div class="w-full inline-flex space-x-1" v-if="range">
-                        <input type="number" class="input w-full small" :value="padTime(dateFrom.hour())" @input="dateFrom = dateFrom.hour(parseInt($event.target.value))" min="0" max="23">
-                        <input type="number" class="input w-full small" :value="padTime(dateFrom.minute())" @input="dateFrom = dateFrom.minute(parseInt($event.target.value))" min="0" max="59">
-                        <input type="number" class="input w-full small" :value="padTime(dateFrom.minute())" @input="dateFrom = dateFrom.minute(parseInt($event.target.value))" min="0" max="59" v-if="type.includes('second')">
-                    </div>
-                    <div class="w-full inline-flex space-x-1" v-else>
+                    <div class="w-full inline-flex space-x-1">
                         <input type="number" class="input w-full small" :value="padTime(date.hour())" @input="date = date.hour(parseInt($event.target.value))" min="0" max="23">
                         <input type="number" class="input w-full small" :value="padTime(date.minute())" @input="date = date.minute(parseInt($event.target.value))" min="0" max="59">
                         <input type="number" class="input w-full small" :value="padTime(date.minute())" @input="date = date.minute(parseInt($event.target.value))" min="0" max="59" v-if="type.includes('second')">
-                    </div>
-                    <div class="w-full inline-flex space-x-1 mt-1" v-if="range">
-                        <input type="number" class="input w-full small" :value="padTime(dateTo.hour())" @input="dateTo = dateTo.hour(parseInt($event.target.value))" min="0" max="23">
-                        <input type="number" class="input w-full small" :value="padTime(dateTo.minute())" @input="dateTo = dateTo.minute(parseInt($event.target.value))" min="0" max="59">
-                        <input type="number" class="input w-full small" :value="padTime(dateTo.minute())" @input="dateTo = dateTo.minute(parseInt($event.target.value))" min="0" max="59" v-if="type.includes('second')">
                     </div>
                 </template>
                 <template v-if="type.includes('year')">
@@ -94,13 +84,11 @@
 
             <template v-if="!inline" #opener>
                 <div class="inline-flex w-full space-x-1">
-                    <input type="text" class="input w-full mt-2" v-model="textModelFrom" :class="{ error: dateFromInvalid }" />
-                    <input type="text" class="input w-full mt-2" v-model="textModelTo" v-if="range" :class="{ error: dateToInvalid }" />
+                    <input type="text" class="input w-full mt-2" v-model="textModel" :class="{ error: dateInvalid }" />
                 </div>
             </template>
             <div v-if="inline" class="inline-flex w-full space-x-1">
-                <input type="text" class="input w-full mt-2" v-model="textModelFrom" :class="{ error: dateFromInvalid }" />
-                <input type="text" v-if="range" class="input w-full mt-2" v-model="textModelTo" :class="{ error: dateToInvalid }" />
+                <input type="text" class="input w-full mt-2" v-model="textModel" :class="{ error: dateInvalid }" />
             </div>
         </component>
     </div>
@@ -115,6 +103,8 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
+import { placements } from '@popperjs/core/lib/enums';
+
 const FORMATS = {
     //year: 'YYYY',
     //month: 'MM',
@@ -125,19 +115,11 @@ const FORMATS = {
     date_time_am_pm_seconds: 'YYYY-MM-DD hh:mm:ss A',
 };
 
-export { FORMATS };
+export { FORMATS, dayjs };
 
 export default {
-    emits: ['update:modelValue', 'update:from', 'update:to'],
+    emits: ['update:modelValue'],
     props: {
-        from: {
-            type: [String, null],
-            default: null,
-        },
-        to: {
-            type: [String, null],
-            default: null,
-        },
         past: {
             type: [String, Number, null],
             default: null,
@@ -145,10 +127,6 @@ export default {
         future: {
             type: [String, Number, null],
             default: null,
-        },
-        distance: {
-            type: Number,
-            default: 1,
         },
         modelValue: {
             type: [String, null],
@@ -185,19 +163,30 @@ export default {
             type: Boolean,
             default: false,
         },
+        rangeValue: {
+            type: Object,
+            default: () => {},
+        },
+        datePossibleCallback: {
+            type: Function,
+            default: () => true,
+        },
+        placement: {
+            type: String,
+            default: 'bottom',
+            validator: (value) => {
+                return placements.includes(value);
+            }
+        },
     },
     data() {
         return {
-            dateFrom: null, // dayjs object generated from "from"
-            dateTo: null, // dayjs object generated from "to"
             date: null, // dayjs object generated from "modelValue"
             shownDate: dayjs(), // dayjs object representing the currently shown month and year
             datePast: null, // Dates before this date can not be picked. Generated from prop "past"
             dateFuture: null, // Dates after this date can not be picked. Generated from prop "future"
-            range: false, // Is this picker a range-picker? Dynamically set to true when "from" and "to" are valid dates
 
-            dateFromInvalid: false, // Manual entered datetime value valid/invalid
-            dateToInvalid: false, // Manual entered datetime value valid/invalid
+            dateInvalid: false,
         };
     },
     computed: {
@@ -251,37 +240,18 @@ export default {
             
             return days;
         },
-        textModelFrom: {
+        textModel: {
             get() {
-                return this.range ? this.dateFrom.format(this.displayFormat) : this.date.format(this.displayFormat);
+                return this.date.format(this.displayFormat);
             },
             set(value) {
                 let date = dayjs(value, this.displayFormat, true);
                 if (date.isValid() && this.isDatePossible(date)) {
-                    if (this.range) {
-                        this.dateFrom = date;
-                    } else {
-                        this.date = date;
-                    }
-                    this.dateFromInvalid = false;
+                    this.date = date;
+                    this.dateInvalid = false;
                     this.shownDate = date;
                 } else {
-                    this.dateFromInvalid = true;
-                }
-            }
-        },
-        textModelTo: {
-            get() {
-                return this.range ? this.dateTo.format(this.displayFormat) : '';
-            },
-            set(value) {
-                let date = dayjs(value, this.displayFormat, true);
-                if (date.isValid() && this.isDatePossible(date)) {
-                    this.dateTo = date;
-                    this.dateToInvalid = false;
-                    this.shownDate = date;
-                } else {
-                    this.dateToInvalid = true;
+                    this.dateInvalid = true;
                 }
             }
         },
@@ -292,24 +262,15 @@ export default {
         nextMonthPossible() {
             // Is the first day of the next day possible
             return this.isDatePossible(this.shownDate.date(this.shownDate.daysInMonth()).add(1, 'day'));
+        },
+        isRange() {
+            return dayjs.isDayjs(this.rangeValue);
         }
     },
     methods: {
         pickDate(date) {
             if (this.isDatePossible(date)) {
-                if (this.range) {
-                    if (date.isSameOrBefore(this.dateFrom)) {
-                        this.dateFrom = date;
-                    } else if (date.isSameOrAfter(this.dateTo)) {
-                        this.dateTo = date;
-                    } else {
-                        this.dateFrom = date;
-                        this.dateTo = date.add(this.distance, 'day');
-                    }
-                } else {
-                    this.date = date;
-                }
-
+                this.date = date;
                 this.shownDate = date;
 
                 if (!this.inline && this.closeOnSelect) {
@@ -324,7 +285,7 @@ export default {
 
         },
         isDatePossible(date) {
-            return date.isBetween(this.datePast, this.dateFuture, 'day', '[]');
+            return date.isBetween(this.datePast, this.dateFuture, 'day', '[]') && this.datePossibleCallback(date);
         },
         isMonthPossible(month) {
             return true;
@@ -333,38 +294,41 @@ export default {
             return true;
         },
         getDateClasses(date) {
+            let classes = [];
             // Date is not possible
             if (!this.isDatePossible(date)) {
-                return 'not-possible';
+                classes.push('not-possible');
             }
 
-            if (this.range) {
-                if (date.isBetween(this.dateFrom, this.dateTo, 'day', '()')) {
-                    // Date is in range (exclusive)
-                    return 'range between';
-                } else if (date.isSame(this.dateFrom, 'day')) {
-                    // Date is the lower date in range
-                    return 'range start';
-                } else if (date.isSame(this.dateTo, 'day')) {
-                    // Date is the higher date in range
-                    return 'range end';
-                }
-            } else {
-                // Picked date
-                if (date.isSame(this.date, 'day')) {
-                    return 'picked';
+            // Picked date
+            if (date.isSame(this.date, 'day')) {
+                classes.push('picked');
+            }
+
+            // Is in range
+            if (this.isRange && date.isBetween(this.date, this.rangeValue, 'day', '[]')) {
+                classes.push('range');
+
+                if (!this.date.isSame(this.rangeValue, 'day')) {
+                    if (date.isSame(this.date, 'day')) {
+                        classes.push(this.date.isBefore(this.rangeValue, 'day') ? 'start' : 'end');
+                    } else if (date.isSame(this.rangeValue, 'day')) {
+                        classes.push(this.date.isBefore(this.rangeValue, 'day') ? 'end' : 'start');
+                    }
                 }
             }
 
             // Not the current month
             if (!date.isBetween(dayjs(this.shownDate.date(0)), dayjs(this.shownDate.date(0).add(this.shownDate.daysInMonth()+1, 'day')), 'day', '()')) {
-                return 'different-month';
+                classes.push('different-month');
             }
 
             // Today
             if (date.isSame(dayjs, 'day')) {
-                return 'today';
+                classes.push('today');
             }
+
+            return classes;
         },
         getMonthClasses(month) {
 
@@ -413,50 +377,19 @@ export default {
 
         // Watch the incoming "modelValue"
         this.$watch(() => this.modelValue, (value, old) => {
-            this.range = false;
             let date = dayjs(value || undefined);
 
             if (date.isValid()) {
                 this.date = this.sanitizeDate(date);
                 this.shownDate = date;
-            }
-        }, { immediate: true });
-
-        // Watch incoming "from"
-        this.$watch(() => this.from, (value, old) => {
-            let date = dayjs(value || undefined);
-
-            if (value !== null && date.isValid()) {
-                this.dateFrom = this.sanitizeDate(date);
-                this.shownDate = date;
-                this.range = (this.dateTo && this.dateTo.isValid()); // Dynamically set range if "dateFrom" and "dateTo" are valid dates
-            }
-        }, { immediate: true });
-
-        // Watch incoming "to"
-        this.$watch(() => this.to, (value, old) => {
-            let date = dayjs(value || undefined);
-
-            if (value !== null && date.isValid()) {
-                this.dateTo = this.sanitizeDate(date);
-                this.shownDate = date;
-                this.range = (this.dateFrom && this.dateFrom.isValid()); // Dynamically set range if "dateFrom" and "dateTo" are valid dates
+            } else {
+                this.shownDate = dayjs();
             }
         }, { immediate: true });
 
         // Watch internal "date"
         this.$watch(() => this.date, (value, old) => {
             value !== old && this.$emit('update:modelValue', value.tz(dayjs.tz.guess()).toISOString());
-        }, { deep: true });
-
-        // Watch internal "dateFrom"
-        this.$watch(() => this.dateFrom, (value, old) => {
-            value !== old && this.$emit('update:from', value.tz(dayjs.tz.guess()).toISOString());
-        }, { deep: true });
-
-        // Watch internal "dateTo"
-        this.$watch(() => this.dateTo, (value, old) => {
-            value !== old && this.$emit('update:to', value.tz(dayjs.tz.guess()).toISOString());
         }, { deep: true });
 
         // Watch incoming "past"
@@ -492,13 +425,8 @@ export default {
         }, { immediate: true });
     },
     mounted() {
-        if (this.range) {
-            this.dateFrom = this.sanitizeDate(this.dateFrom);
-            this.dateTo = this.sanitizeDate(this.dateTo);
-        } else {
-            this.date = this.sanitizeDate(this.date);
-        }
-    }
+        this.date = this.sanitizeDate(this.date);
+    },
 };
 </script>
 
@@ -545,6 +473,13 @@ export default {
         @include border-color(datetime-day-border-color, 'colors.gray.400');
         @include bg-color(datetime-picked-bg-color, 'colors.blue.400');
         @include text-color(datetime-picked-text-color, 'colors.black');
+
+        &.start {
+            @apply rounded-none rounded-l-lg;
+        }
+        &.end {
+            @apply rounded-none rounded-r-lg;
+        }
     }
     &.today {
         
