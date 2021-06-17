@@ -1,6 +1,6 @@
 <template>
     <div>
-        <component :is="inline ? 'card' : 'dropdown'" dont-close-on-inside-click dont-show-header ref="dropdown" :placement="placement">
+        <component :is="inline ? 'card' : 'dropdown'" prevent no-header ref="dropdown" :placement="placement">
             <div :class="{ 'p-2': !inline }">
                 <template v-if="type.includes('date')">
                     <!-- Header -->

@@ -138,7 +138,7 @@
             </div>
         </collapsible>
 
-        <card dont-show-header>
+        <card no-header>
             <!-- Toolbar -->
             <div class="w-full mb-5 flex space-x-1">
                 <select class="input small self-center" v-model="currentLayoutName" :disabled="bread.layouts.length == 0">
@@ -252,10 +252,10 @@
                 </slide-in>
             </div>
 
-            <card class="text-center text-xl py-4" v-if="!currentLayout" dont-show-header>
+            <card class="text-center text-xl py-4" v-if="!currentLayout" no-header>
                 {{ __('voyager::builder.create_select_layout') }}
             </card>
-            <card class="text-center text-xl py-4" v-else-if="currentLayout && currentLayout.formfields.length == 0" dont-show-header>
+            <card class="text-center text-xl py-4" v-else-if="currentLayout && currentLayout.formfields.length == 0" no-header>
                 {{ __('voyager::builder.add_formfield_to_layout') }}
             </card>
             <component

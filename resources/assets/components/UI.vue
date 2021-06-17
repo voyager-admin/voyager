@@ -25,7 +25,7 @@
         </div>
     </card>
 
-    <card dont-show-header>
+    <card no-header>
         <div class="w-full flex">
             <div class="w-6/12">
                 <collapsible title="Headings" id="ui-headings" class="h-full">

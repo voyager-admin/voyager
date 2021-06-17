@@ -1,6 +1,6 @@
 <template>
-<div class="card" :class="[`border-${border}`, !noPadding ? 'p-4 mx-1' : null]">
-    <div class="header" v-if="!dontShowHeader">
+<div class="card border-default">
+    <div class="header" v-if="!noHeader">
         <div class="flex flex-wrap justify-between">
             <slot name="title">
                 <div class="flex space-x-2 items-center">
@@ -18,16 +18,14 @@
             </div>
         </div>
     </div>
-    <div :class="[!noPadding ? 'px-2' : null]">
-        <slot></slot>
-    </div>
+    <slot></slot>
 </div>
 </template>
 <script>
 export default {
     emits: ['click-title'],
     props: {
-        dontShowHeader: {
+        noHeader: {
             type: Boolean,
             default: false,
         },
@@ -55,14 +53,6 @@ export default {
             type: String,
             default: '',
         },
-        border: {
-            type: String,
-            default: 'default'
-        },
-        noPadding: {
-            type: Boolean,
-            default: false,
-        }
     },
 };
 </script>
@@ -90,7 +80,7 @@ export default {
 }
 
 .card {
-    @apply shadow border rounded-lg mb-4;
+    @apply shadow border rounded-lg p-4 mx-1 mb-4;
     @include bg-color(card-bg-color, 'colors.white');
     @include text-color(card-text-color, 'colors.gray.700');
 

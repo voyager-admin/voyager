@@ -1,5 +1,5 @@
 <template>
-    <component :is="inline ? 'div' : 'dropdown'" dont-close-on-inside-click  :placement="placement">
+    <component :is="inline ? 'div' : 'dropdown'" prevent :placement="placement">
         <div class="inline-flex space-x-1 pt-4 px-4">
             <date-time v-model="dateFrom" v-bind="$props" :date-possible-callback="isDateFromPossible" :range-value="dayjs(dateTo)" inline />
             <div class="w-5 self-center">
@@ -157,6 +157,7 @@ export default {
             return !date.isBetween(dayjs(this.dateFrom), dayjs(this.dateFrom).add(this.distance, 'day'), 'day', '[)');
         },
         sanitizeDate(date) {
+            date = dayjs(date);
             if (this.type.includes('year')) {
                 date = date.startOf('year');
             } else if (this.type.includes('month')) {
@@ -167,7 +168,7 @@ export default {
                 date = date.startOf('minute');
             }
 
-            return date.startOf('second');
+            return date.startOf('second').tz(dayjs.tz.guess()).toISOString();
         },
         dayjs,
     },

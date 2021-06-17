@@ -31,7 +31,7 @@ export default {
                 return placements.includes(value);
             }
         },
-        dontCloseOnInsideClick: {
+        prevent: {
             type: Boolean,
             default: false,
         }
@@ -55,7 +55,7 @@ export default {
             }
         },
         closeDropdown() {
-            if (!this.dontCloseOnInsideClick) {
+            if (!this.prevent) {
                 this.close();
             }
         }

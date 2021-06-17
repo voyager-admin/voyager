@@ -3,12 +3,12 @@ import './helper/array';
 import '../sass/voyager.scss';
 
 // External libraries
-import { createApp } from 'vue';
+import * as Vue from 'vue';
 import { App, plugin } from '@inertiajs/inertia-vue3';
 import slugify from 'slugify';
 
 window.slugify = slugify;
-window.Vue = require('vue');
+window.Vue = Vue;
 
 import Voyager from '../components/Voyager.vue';
 
@@ -64,7 +64,7 @@ function resolveInertiaComponent(name) {
 }
 
 window.createVoyager = (data = {}, el = 'voyager') => {
-    voyager = createApp(App, {
+    voyager = Vue.createApp(App, {
         initialPage: JSON.parse(document.getElementById(el).dataset.page),
         resolveComponent: (name) => resolveInertiaComponent(name)
         .then(({ default: page }) => {
