@@ -1,8 +1,8 @@
 import { h, watch } from 'vue';
 import xIcon from '@heroicons/vue/outline/XIcon';
-import breadIcon from './icons/bread';
-import helmIcon from './icons/helm';
-import strings from './mixins/strings';
+import breadIcon from '@/icons/bread';
+import helmIcon from '@/icons/helm';
+import strings from '@mixins/strings';
 
 export default {
     props: {

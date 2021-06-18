@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import formfield from '../../../js/mixins/formfield';
+import formfield from '@mixins/formfield';
 import { dayjs } from '../../UI/DateTime.vue';
 
 export default {

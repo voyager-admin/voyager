@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import formfieldBuilder from '../../../js/mixins/formfield-builder';
+import formfieldBuilder from '@mixins/formfield-builder';
 import { FORMATS } from '../../UI/DateTime.vue';
 
 export default {

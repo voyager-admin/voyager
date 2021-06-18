@@ -43,8 +43,8 @@
 import draggable from 'vuedraggable';
 import { v4 as uuidv4 } from 'uuid';
 
-import formfield from '../../../js/mixins/formfield';
-import EditAdd from '../../Bread/EditAdd.vue';
+import formfield from '@mixins/formfield';
+import EditAdd from '@components/Bread/EditAdd.vue';
 
 export default {
     mixins: [formfield],

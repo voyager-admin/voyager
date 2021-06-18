@@ -436,7 +436,7 @@
 </template>
 <script>
 import { placements } from '@popperjs/core/lib/enums';
-import scrollTo from '../js/directives/scroll-to';
+import scrollTo from '@directives/scroll-to';
 import draggable from 'vuedraggable';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';

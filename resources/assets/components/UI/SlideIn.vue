@@ -25,8 +25,8 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 
-import closable from '../../js/mixins/closable';
-import clickOutside from '../../js/directives/click-outside';
+import closable from '@mixins/closable';
+import clickOutside from '@directives/click-outside';
 
 export default {
     mixins: [closable],

@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "resources/assets/js"
+            ],
+            "@components/*": [
+                "resources/assets/components/*"
+            ],
+            "@directives/*": [
+                "resources/assets/js/directives/*"
+            ],
+            "@helper/*": [
+                "resources/assets/js/helper/*"
+            ],
+            "@mixins/*": [
+                "resources/assets/js/mixins/*"
+            ],
+            "@sassmixins/*": [
+                "resources/assets/sass/mixins/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

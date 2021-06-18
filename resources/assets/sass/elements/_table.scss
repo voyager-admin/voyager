@@ -1,6 +1,6 @@
-@import "../mixins/bg-color";
-@import "../mixins/border-color";
-@import "../mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark .voyager-table {
     @include border-color(table-border-color-dark, 'colors.gray.600');

@@ -146,7 +146,7 @@
 <script>
 import axios from 'axios';
 
-import BreadBuilderValidation from './Builder/ValidationForm.vue';
+import BreadBuilderValidation from '@components/Builder/ValidationForm.vue';
 import draggable from 'vuedraggable';
 
 export default {

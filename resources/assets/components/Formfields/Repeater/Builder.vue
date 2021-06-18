@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import formfieldBuilder from '../../../js/mixins/formfield-builder';
-import BreadBuilderView from '../../Builder/View.vue';
+import formfieldBuilder from '@mixins/formfield-builder';
+import BreadBuilderView from '@components/Builder/View.vue';
 
 export default {
     mixins: [formfieldBuilder],

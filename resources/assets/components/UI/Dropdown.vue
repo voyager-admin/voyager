@@ -14,8 +14,8 @@
 </template>
 <script>
 import { nextTick } from 'vue';
-import closable from '../../js/mixins/closable';
-import clickOutside from '../../js/directives/click-outside';
+import closable from '@mixins/closable';
+import clickOutside from '@directives/click-outside';
 
 import { createPopper } from '@popperjs/core/lib/popper-lite';
 import { placements } from '@popperjs/core/lib/enums';
@@ -79,9 +79,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../sass/mixins/bg-color";
-@import "../../sass/mixins/border-color";
-@import "../../sass/mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark .dropdown {
     .wrapper {

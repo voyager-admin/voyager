@@ -77,8 +77,8 @@
 </template>
 
 <script>
-import scrollTo from '../js/directives/scroll-to';
-import MenuWrapper from './Layout/MenuWrapper.vue';
+import scrollTo from '@directives/scroll-to';
+import MenuWrapper from '@components/Layout/MenuWrapper.vue';
 
 export default {
     components: { MenuWrapper },
@@ -103,9 +103,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../sass/mixins/bg-color";
-@import "../sass/mixins/border-color";
-@import "../sass/mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark .sidebar {
     @include bg-color(sidebar-bg-color-dark, 'colors.gray.800');

@@ -1,5 +1,5 @@
-@import "../mixins/bg-color";
-@import "../mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/text-color";
 
 .tooltip {
     @include bg-color(tooltip-bg-color, 'colors.black');

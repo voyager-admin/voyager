@@ -31,9 +31,12 @@ module.exports = (env, options) => {
         },
         resolve: {
             alias: {
-                'components': path.resolve(__dirname, './resources/assets/components'),
-                'directives': path.resolve(__dirname, './resources/assets/js/directives'),
-                'mixins': path.resolve(__dirname, './resources/assets/js/mixins')
+                '@': path.resolve(__dirname, './resources/assets/js'),
+                '@components': path.resolve(__dirname, './resources/assets/components'),
+                '@directives': path.resolve(__dirname, './resources/assets/js/directives'),
+                '@helper': path.resolve(__dirname, './resources/assets/js/helper'),
+                '@mixins': path.resolve(__dirname, './resources/assets/js/mixins'),
+                '@sassmixins': path.resolve(__dirname, './resources/assets/sass/mixins'),
             },
             extensions: ['.vue', '.js', '.json', '.scss', '.tsx', '.ts'],
         },

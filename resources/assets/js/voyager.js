@@ -1,4 +1,4 @@
-import './helper/array';
+import '@helper/array';
 
 import '../sass/voyager.scss';
 
@@ -10,33 +10,33 @@ import slugify from 'slugify';
 window.slugify = slugify;
 window.Vue = Vue;
 
-import Voyager from '../components/Voyager.vue';
+import Voyager from '@components/Voyager.vue';
 
 // Multilanguage
-import Multilanguage from './multilanguage';
+import Multilanguage from '@/multilanguage';
 
 // Global (helper) functions
-import Global from './global';
+import Global from '@/global';
 
 // Global helper mixins
-import MiscMixin from './mixins/misc';
-import StringMixin from './mixins/strings';
-import TypeMixin from './mixins/types';
-import UrlMixin from './mixins/url';
-import FormfieldMixin from './mixins/formfield';
-import FormfieldBuilderMixin from './mixins/formfield-builder';
+import MiscMixin from '@mixins/misc';
+import StringMixin from '@mixins/strings';
+import TypeMixin from '@mixins/types';
+import UrlMixin from '@mixins/url';
+import FormfieldMixin from '@mixins/formfield';
+import FormfieldBuilderMixin from '@mixins/formfield-builder';
 
 // Directives
-import TooltipDirective from './directives/tooltip';
+import TooltipDirective from '@directives/tooltip';
 
 // Components
-import * as FormfieldComponents from './formfields';
-import * as TransitionComponents from './transitions';
-import * as UIComponents from './ui';
+import * as FormfieldComponents from '@/formfields';
+import * as TransitionComponents from '@/transitions';
+import * as UIComponents from '@/ui';
 
 // Global components
-import LocalePicker from '../components/Layout/LocalePicker.vue';
-import Icon from './icon'
+import LocalePicker from '@components/Layout/LocalePicker.vue';
+import Icon from '@/icon'
 
 let components = {
     ...FormfieldComponents,
@@ -47,19 +47,19 @@ let components = {
 };
 
 // Core modules
-import { Notification } from './notify';
-import Eventbus from './eventbus';
-import Store from './store';
+import { Notification } from '@/notify';
+import Eventbus from '@/eventbus';
+import Store from '@/store';
 
 let voyager;
 
 function resolveInertiaComponent(name) {
     try {
-        require(`../components/${name}.vue`);
+        require(`@components/${name}.vue`);
 
-        return import(`../components/${name}.vue`);
+        return import(`@components/${name}.vue`);
     } catch (e) {
-        return import(`../components/Generic.vue`);
+        return import(`@components/Generic.vue`);
     }
 }
 

@@ -316,8 +316,8 @@
 <script>
 import axios from 'axios';
 
-import BreadBuilderList from './List';
-import BreadBuilderView from './View';
+import BreadBuilderList from '@components/Builder/List';
+import BreadBuilderView from '@components/Builder/View';
 
 export default {
     props: ['data', 'isNew'],

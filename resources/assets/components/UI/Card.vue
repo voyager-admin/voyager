@@ -58,9 +58,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../sass/mixins/bg-color";
-@import "../../sass/mixins/border-color";
-@import "../../sass/mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark .card {
     @include bg-color(card-bg-color-dark, 'colors.gray.800');

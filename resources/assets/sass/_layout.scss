@@ -1,7 +1,7 @@
-@import "mixins/bg-color";
-@import "mixins/border-color";
-@import "mixins/scrollbar-color";
-@import "mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/scrollbar-color";
+@import "@sassmixins/text-color";
 
 [v-cloak] {
     display: none;

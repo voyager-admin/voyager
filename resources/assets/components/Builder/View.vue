@@ -123,7 +123,7 @@
 
 <script>
 import draggable from 'vuedraggable';
-import BreadBuilderValidation from './ValidationForm.vue';
+import BreadBuilderValidation from '@components/Builder/ValidationForm.vue';
 
 export default {
     components: {

@@ -19,7 +19,7 @@
 
 <script>
 import { placements } from '@popperjs/core/lib/enums';
-import { FORMATS, dayjs } from './DateTime.vue';
+import { FORMATS, dayjs } from '@components/UI/DateTime.vue';
 
 export default {
     emits: ['update:from', 'update:to'],

@@ -209,7 +209,6 @@
 
 <script>
 import axios from 'axios';
-
 const compare = require('semver-compare');
 
 export default {

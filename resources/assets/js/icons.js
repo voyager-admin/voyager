@@ -1,6 +1,6 @@
 import * as heroicons from '@heroicons/vue/outline/esm/index';
-import Bread from './icons/bread';
-import Helm from './icons/helm';
+import Bread from '@/icons/bread';
+import Helm from '@/icons/helm';
 
 let icons = [];
 

@@ -78,8 +78,8 @@
 </div>
 </template>
 <script>
-import { Notify as notify } from '../../js/notify';
-import focus from '../../js/directives/focus';
+import { Notify as notify } from '@/notify';
+import focus from '@directives/focus';
 
 export default {
     directives: {focus: focus},
@@ -137,9 +137,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../sass/mixins/bg-color";
-@import "../../sass/mixins/border-color";
-@import "../../sass/mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark .notifications {
     .notification {

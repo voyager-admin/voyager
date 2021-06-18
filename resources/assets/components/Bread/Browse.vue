@@ -182,7 +182,7 @@
 import axios from 'axios';
 import debounce from 'debounce';
 
-import BreadActions from './Actions';
+import BreadActions from '@components/Bread/Actions';
 
 export default {
     emits: ['select'],

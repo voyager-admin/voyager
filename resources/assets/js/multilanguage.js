@@ -1,8 +1,4 @@
-
-import { usePage } from '@inertiajs/inertia-vue3';
-import $store from './store';
-
-let localization = null;
+import $store from '@/store';
 
 export default {
     

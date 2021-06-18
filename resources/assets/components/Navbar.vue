@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Search from './Layout/Search.vue';
+import Search from '@components/Layout/Search.vue';
 
 export default {
     components: {

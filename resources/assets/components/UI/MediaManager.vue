@@ -193,9 +193,9 @@
 <script>
 import axios from 'axios';
 
-import closable from '../../js/mixins/closable';
-import matchMime from '../../js/helper/match-mime';
-import store from '../../js/store';
+import closable from '@mixins/closable';
+import matchMime from '@helper/match-mime';
+import store from '@/store';
 
 export default {
     mixins: [closable],
@@ -691,9 +691,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../sass/mixins/bg-color";
-@import "../../sass/mixins/border-color";
-@import "../../sass/mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark .media-manager {
     @include bg-color(media-bg-color-dark, 'colors.gray.850');

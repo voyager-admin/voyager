@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import formfieldBuilder from '../../../js/mixins/formfield-builder';
+import formfieldBuilder from '@mixins/formfield-builder';
 
 export default {
     mixins: [formfieldBuilder],

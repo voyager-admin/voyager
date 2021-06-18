@@ -1,6 +1,6 @@
-@import "../mixins/bg-color";
-@import "../mixins/border-color";
-@import "../mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark .button {
     @include bg-color(button-bg-color-dark, 'colors.gray.800');

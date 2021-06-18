@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../sass/mixins/bg-color";
+@import "@sassmixins/bg-color";
 
 input[type=range] {
     @apply w-full;

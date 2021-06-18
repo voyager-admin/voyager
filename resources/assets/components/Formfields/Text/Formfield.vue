@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import formfield from '../../../js/mixins/formfield';
+import formfield from '@mixins/formfield';
 
 export default {
     mixins: [formfield],

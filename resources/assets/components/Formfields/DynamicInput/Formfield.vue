@@ -73,7 +73,7 @@
 
 <script>
 import axios from 'axios';
-import formfield from '../../../js/mixins/formfield';
+import formfield from '@mixins/formfield';
 import { debounce } from 'debounce';
 
 export default {

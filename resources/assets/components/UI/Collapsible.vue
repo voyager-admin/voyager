@@ -16,7 +16,7 @@
     </card>
 </template>
 <script>
-import closable from '../../js/mixins/closable';
+import closable from '@mixins/closable';
 
 export default {
     mixins: [closable],

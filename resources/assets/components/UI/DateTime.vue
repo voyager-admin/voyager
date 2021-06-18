@@ -431,9 +431,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../sass/mixins/bg-color";
-@import "../../sass/mixins/border-color";
-@import "../../sass/mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark {
     .element {

@@ -1,5 +1,5 @@
-@import "mixins/border-color";
-@import "mixins/text-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark {
     .bg-accent-500 {

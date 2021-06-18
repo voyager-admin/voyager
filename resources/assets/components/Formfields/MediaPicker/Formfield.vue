@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import formfield from '../../../js/mixins/formfield';
+import formfield from '@mixins/formfield';
 import matchMime from '../../../js/helper/match-mime';
 
 export default {
@@ -174,9 +174,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../sass/mixins/bg-color";
-@import "../../../sass/mixins/border-color";
-@import "../../../sass/mixins/text-color";
+@import "@sassmixins/bg-color";
+@import "@sassmixins/border-color";
+@import "@sassmixins/text-color";
 
 .dark .item {
     @include bg-color(media-item-bg-color-dark, 'colors.gray.800');
