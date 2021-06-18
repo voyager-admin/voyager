@@ -9,6 +9,10 @@ module.exports = {
             './resources/**/*.blade.php',
             './safelist.txt',
         ],
+        safelist: [
+            'space-y-2',
+            'fill-current'
+        ],
     },
     darkMode: 'class',
     theme: {

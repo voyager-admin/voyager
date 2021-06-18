@@ -7,6 +7,9 @@ return [
     'checkbox'        => [
         'name'          => 'Checkbox',
     ],
+    'date_time'     => [
+        'name'          => 'Date/Time',
+    ],
     'dynamic_input'     => [
         'name'          => 'Dynamic Input',
         'route_name'    => 'Route name',

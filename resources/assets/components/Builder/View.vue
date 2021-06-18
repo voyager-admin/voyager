@@ -19,60 +19,64 @@
                                     <template #actions>
                                         <locale-picker />
                                     </template>
-                                    <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
-                                    <!-- TODO: Hide this if formfield doesn't allow any kind of column -->
-                                    <select class="input w-full" v-model="formfield.column" v-if="!fromRepeater">
-                                        <optgroup :label="__('voyager::builder.columns')" v-if="getFormfieldByType(formfield.type).allow_columns">
-                                            <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
-                                                {{ column }}
-                                            </option>
-                                        </optgroup>
-                                        <optgroup :label="__('voyager::builder.computed')" v-if="getFormfieldByType(formfield.type).allow_computed_props">
-                                            <option v-for="(prop, i) in computed" :key="'computed_'+i" :value="{column: prop, type: 'computed'}">
-                                                {{ prop }}
-                                            </option>
-                                        </optgroup>
-                                        <template v-for="(relationship, i) in relationships" :key="'relationship_'+i">
-                                        <optgroup :label="relationship.method" v-if="getFormfieldByType(formfield.type).allow_relationship_props">
-                                            <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
-                                                {{ column }}
-                                            </option>
-                                            <template v-for="(column, i) in relationship.pivot" :key="'pivot_'+i">
-                                                <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="getFormfieldByType(formfield.type).allow_relationship_pivots">
-                                                    pivot.{{ column }}
+                                    <div class="input-group mt-2" v-if="!fromRepeater">
+                                        <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
+                                        <!-- TODO: Hide this if formfield doesn't allow any kind of column -->
+                                        <select class="input w-full" v-model="formfield.column">
+                                            <optgroup :label="__('voyager::builder.columns')" v-if="getFormfieldByType(formfield.type).allow_columns">
+                                                <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
+                                                    {{ column }}
                                                 </option>
+                                            </optgroup>
+                                            <optgroup :label="__('voyager::builder.computed')" v-if="getFormfieldByType(formfield.type).allow_computed_props">
+                                                <option v-for="(prop, i) in computed" :key="'computed_'+i" :value="{column: prop, type: 'computed'}">
+                                                    {{ prop }}
+                                                </option>
+                                            </optgroup>
+                                            <template v-for="(relationship, i) in relationships" :key="'relationship_'+i">
+                                            <optgroup :label="relationship.method" v-if="getFormfieldByType(formfield.type).allow_relationship_props">
+                                                <option v-for="(column, i) in relationship.columns" :key="'column_'+i" :value="{column: relationship.method+'.'+column, type: 'relationship'}">
+                                                    {{ column }}
+                                                </option>
+                                                <template v-for="(column, i) in relationship.pivot" :key="'pivot_'+i">
+                                                    <option :value="{column: relationship.method+'.pivot.'+column, type: 'relationship'}" v-if="getFormfieldByType(formfield.type).allow_relationship_pivots">
+                                                        pivot.{{ column }}
+                                                    </option>
+                                                </template>
+                                            </optgroup>
                                             </template>
-                                        </optgroup>
-                                        </template>
-                                        <optgroup v-if="getFormfieldByType(formfield.type).allow_relationship_props" :label="__('voyager::generic.relationships')">
-                                            <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
-                                                {{ relationship.method }}
-                                            </option>
-                                        </optgroup>
-                                    </select>
-                                    <div v-else>
-                                        <label class="label mt-4">{{ __('voyager::generic.key') }}</label>
+                                            <optgroup v-if="getFormfieldByType(formfield.type).allow_relationship_props" :label="__('voyager::generic.relationships')">
+                                                <option v-for="(relationship, i) in relationships" :key="'relationship_'+i" :value="{column: relationship.method, type: 'relationship'}">
+                                                    {{ relationship.method }}
+                                                </option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    <div class="input-group mt-2" v-else>
+                                        <label class="label">{{ __('voyager::generic.key') }}</label>
                                         <input
                                             class="input w-full"
                                             type="text" :placeholder="__('voyager::generic.key')"
                                             v-model="formfield.column.column" />
                                     </div>
-                                    <div v-if="getFormfieldByType(formfield.type).can_be_translated">
+                                    <div v-if="getFormfieldByType(formfield.type).can_be_translated" class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
                                         <input type="checkbox" class="input" v-model="formfield.translatable">
                                     </div>
-
-                                    <label class="label mt-4">{{ __('voyager::generic.title') }}</label>
-                                    <language-input
-                                        class="input w-full"
-                                        type="text" :placeholder="__('voyager::generic.title')"
-                                        v-model="formfield.options.title" />
-
-                                    <label class="label mt-4">{{ __('voyager::generic.description') }}</label>
-                                    <language-input
-                                        class="input w-full"
-                                        type="text" :placeholder="__('voyager::generic.description')"
-                                        v-model="formfield.options.description" />
+                                    <div v-if="getFormfieldByType(formfield.type).can_be_translated" class="input-group mt-2">
+                                        <label class="label mt-4">{{ __('voyager::generic.title') }}</label>
+                                        <language-input
+                                            class="input w-full"
+                                            type="text" :placeholder="__('voyager::generic.title')"
+                                            v-model="formfield.options.title" />
+                                    </div>
+                                    <div v-if="getFormfieldByType(formfield.type).can_be_translated" class="input-group mt-2">
+                                        <label class="label mt-4">{{ __('voyager::generic.description') }}</label>
+                                        <language-input
+                                            class="input w-full"
+                                            type="text" :placeholder="__('voyager::generic.description')"
+                                            v-model="formfield.options.description" />
+                                    </div>
 
                                     <component
                                         :is="getFormfieldByType(formfield.type).builder_component"
@@ -81,12 +85,13 @@
                                         :columns="columns"
                                         v-bind:relationships="relationships"
                                         action="view-options" />
-                                    <breadBuilderValidation v-model="formfield.validation" />
 
-                                    <div>
+                                    <div class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.classes') }}</label>
                                         <input type="text" class="input w-full" v-model="formfield.options.classes">
                                     </div>
+
+                                    <breadBuilderValidation v-model="formfield.validation" />
 
                                     <template #opener>
                                         <button class="button small">

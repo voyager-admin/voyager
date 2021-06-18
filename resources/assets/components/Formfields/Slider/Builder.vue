@@ -1,25 +1,33 @@
 <template>
     <div v-if="action == 'view-options'">
-        <label class="label mt-4">{{ __('voyager::generic.min') }}</label>
-        <input type="number" class="input w-full" v-model.number="options.min">
-
-        <label class="label mt-4">{{ __('voyager::generic.max') }}</label>
-        <input type="number" class="input w-full" v-model.number="options.max">
-
-        <label class="label mt-4">{{ __('voyager::generic.step') }}</label>
-        <input type="number" class="input w-full" v-model.number="options.step">
-
-        <label class="label mt-4">{{ __('voyager::formfields.slider.range') }}</label>
-        <input type="checkbox" class="input w-full" v-model="options.range">
-
-        <label class="label mt-4">{{ __('voyager::formfields.slider.distance') }}</label>
-        <input type="number" class="input w-full" v-model.number="options.distance" :disabled="!options.range">
-
-        <label class="label mt-4">{{ __('voyager::formfields.slider.show_inputs') }}</label>
-        <input type="checkbox" class="input w-full" v-model="options.inputs">
-
-        <label class="label mt-4">{{ __('voyager::generic.color') }}</label>
-        <color-picker v-model="options.color"></color-picker>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.min') }}</label>
+            <input type="number" class="input w-full" v-model.number="options.min">
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.max') }}</label>
+            <input type="number" class="input w-full" v-model.number="options.max">
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.step') }}</label>
+            <input type="number" class="input w-full" v-model.number="options.step">
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.slider.range') }}</label>
+            <input type="checkbox" class="input w-full" v-model="options.range">
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.slider.distance') }}</label>
+            <input type="number" class="input w-full" v-model.number="options.distance" :disabled="!options.range">
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.slider.show_inputs') }}</label>
+            <input type="checkbox" class="input w-full" v-model="options.inputs">
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.color') }}</label>
+            <color-picker v-model="options.color"></color-picker>
+        </div>
     </div>
     <div v-else-if="action == 'view'">
         <slider

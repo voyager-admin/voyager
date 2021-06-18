@@ -1,8 +1,9 @@
 <template>
     <div v-if="action == 'list-options' || action == 'view-options'">
-        <label class="label">{{ __('voyager::generic.multiple') }}</label>
-        <input class="input" type="checkbox" v-model="options.multiple" />
-
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.multiple') }}</label>
+            <input class="input" type="checkbox" v-model="options.multiple" />
+        </div>
         <div class="w-full flex">
             <div class="w-4/6">
                 <h5>{{ __('voyager::generic.options') }}</h5>

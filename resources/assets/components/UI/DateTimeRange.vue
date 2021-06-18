@@ -73,7 +73,7 @@ export default {
         },
         placement: {
             type: String,
-            default: 'bottom',
+            default: 'bottom-start',
             validator: (value) => {
                 return placements.includes(value);
             }

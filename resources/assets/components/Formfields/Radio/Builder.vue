@@ -1,13 +1,15 @@
 <template>
     <div v-if="action == 'list-options' || action == 'view-options'">
         <div v-if="action == 'view-options'">
-            <label for="inline" class="label">{{ __('voyager::generic.inline') }}</label>
-            <input
-                type="checkbox"
-                id="inline"
-                class="input"
-                v-model="options.inline"
-            /> 
+            <div class="input-group mt-2">
+                <label for="inline" class="label">{{ __('voyager::generic.inline') }}</label>
+                <input
+                    type="checkbox"
+                    id="inline"
+                    class="input"
+                    v-model="options.inline"
+                />
+            </div>
         </div>
         <div class="w-full flex">
             <div class="w-4/6">

@@ -225,17 +225,18 @@
                         <locale-picker />
                     </template>
                     <div>
-                        <div v-if="currentLayout.type == 'list'">
-                            <label class="label mt-4">{{ __('voyager::builder.show_soft_deleted') }}</label>
+                        <div v-if="currentLayout.type == 'list'" class="input-group mt-2">
+                            <label class="label">{{ __('voyager::builder.show_soft_deleted') }}</label>
                             <input type="checkbox" class="input" v-model="currentLayout.options.soft_deletes">
                         </div>
-
-                        <label class="label" for="scope">{{ __('voyager::builder.scope') }}</label>
-                        <select class="input w-full" v-model="currentLayout.options.scope">
-                            <option :value="null">{{ __('voyager::generic.none') }}</option>
-                            <option v-for="(scope, i) in scopes" :key="i">{{ scope }}</option>
-                        </select>
-                        <div v-if="currentLayout.type == 'view'">
+                        <div class="input-group mt-2">
+                            <label class="label" for="scope">{{ __('voyager::builder.scope') }}</label>
+                            <select class="input w-full" v-model="currentLayout.options.scope">
+                                <option :value="null">{{ __('voyager::generic.none') }}</option>
+                                <option v-for="(scope, i) in scopes" :key="i">{{ scope }}</option>
+                            </select>
+                        </div>
+                        <div v-if="currentLayout.type == 'view'" class="input-group mt-2">
                             <label class="label" for="validate_locales">{{ __('voyager::builder.validate_locales') }}</label>
                             <select class="input w-full" v-model="currentLayout.options.validate_locales">
                                 <option value="all">{{ __('voyager::builder.validate_all_locales') }}</option>

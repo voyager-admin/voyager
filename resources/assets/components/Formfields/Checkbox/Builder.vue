@@ -2,7 +2,7 @@
     <div v-if="action == 'list-options' || action == 'view-options'">
         <h5 class="w-full mt-2">{{ __('voyager::generic.options') }}</h5>
         <key-value-form v-model="options.options" />
-        <div v-if="action == 'view-options'">
+        <div v-if="action == 'view-options'" class="input-group mt-2">
             <label for="inline" class="label">{{ __('voyager::generic.inline') }}</label>
             <input
                 type="checkbox"

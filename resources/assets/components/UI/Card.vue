@@ -88,7 +88,7 @@ export default {
         @include border-color(card-border-color, 'colors.gray.400');
     }
     .header {
-        @apply p-2;
+        @apply p-2 pl-0;
         @include border-color(card-border-color, 'colors.gray.400');
 
         h3 {

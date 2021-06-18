@@ -1,29 +1,36 @@
 <template>
     <div v-if="action == 'view-options'">
-        <label class="label mt-4">{{ __('voyager::generic.type') }}</label>
-        <language-input
-            class="input w-full"
-            type="text" :placeholder="__('voyager::generic.type')"
-            v-model="options.type" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.repeater.allow_sort') }}</label>
-        <input type="checkbox" class="input" v-model="options.sort">
+        <div class="input-group mt-2">
+            <label class="label mt-4">{{ __('voyager::generic.type') }}</label>
+            <language-input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::generic.type')"
+                v-model="options.type" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label mt-4">{{ __('voyager::formfields.repeater.allow_sort') }}</label>
+            <input type="checkbox" class="input" v-model="options.sort">
+        </div>
     </div>
     <div v-else-if="action == 'list-options'">
-        <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
-        <input
-            class="input w-full"
-            type="number" min="0" :placeholder="__('voyager::generic.rows')"
-            v-model.number="options.rows" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.repeater.chars_per_rows') }}</label>
-        <input
-            class="input w-full"
-            type="number" min="0" :placeholder="__('voyager::formfields.repeater.chars_per_rows')"
-            v-model.number="options.length" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.repeater.shuffle_rows') }}</label>
-        <input type="checkbox" class="input" v-model="options.shuffle">
+        <div class="input-group mt-2">
+            <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
+            <input
+                class="input w-full"
+                type="number" min="0" :placeholder="__('voyager::generic.rows')"
+                v-model.number="options.rows" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label mt-4">{{ __('voyager::formfields.repeater.chars_per_rows') }}</label>
+            <input
+                class="input w-full"
+                type="number" min="0" :placeholder="__('voyager::formfields.repeater.chars_per_rows')"
+                v-model.number="options.length" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label mt-4">{{ __('voyager::formfields.repeater.shuffle_rows') }}</label>
+            <input type="checkbox" class="input" v-model="options.shuffle">
+        </div>
     </div>
     <div v-else-if="action == 'view'" class="w-full">
         <alert v-if="keyWarning" color="yellow" class="mb-2">

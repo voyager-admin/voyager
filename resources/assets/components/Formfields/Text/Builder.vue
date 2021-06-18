@@ -1,5 +1,5 @@
 <template>
-    <div v-if="action == 'list-options'">
+    <div v-if="action == 'list-options'" class="input-group mt-2">
         <label for="length" class="label">{{ __('voyager::generic.display_length') }}</label>
         <input
             type="number"
@@ -9,25 +9,30 @@
         > 
     </div>
     <div v-else-if="action == 'view-options'">
-        <label class="label mt-4">{{ __('voyager::generic.placeholder') }}</label>
-        <language-input
-            class="input w-full"
-            type="text" :placeholder="__('voyager::generic.placeholder')"
-            v-model="options.placeholder" />
-
-        <label class="label mt-4">{{ __('voyager::generic.default_value') }}</label>
-        <language-input
-            class="input w-full"
-            type="text" :placeholder="__('voyager::generic.default_value')"
-            v-model="options.default_value" /> 
-
-        <label class="label mt-4">{{ __('voyager::generic.rows') }}</label>
-        <input type="number" :min="1" :max="1000" class="input w-full" v-model.number="options.rows">
-
-        <label class="label mt-4">{{ __('voyager::generic.inputmode') }}</label>
-        <select class="input w-full" v-model="options.inputmode" :disabled="options.rows > 1">
-            <option v-for="(mode, key) in __('voyager::generic.inputmodes')" :key="key" :value="key">{{ mode }}</option>
-        </select>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.placeholder') }}</label>
+            <language-input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::generic.placeholder')"
+                v-model="options.placeholder" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.default_value') }}</label>
+            <language-input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::generic.default_value')"
+                v-model="options.default_value" /> 
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.rows') }}</label>
+            <input type="number" :min="1" :max="1000" class="input w-full" v-model.number="options.rows">
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.inputmode') }}</label>
+            <select class="input w-full" v-model="options.inputmode" :disabled="options.rows > 1">
+                <option v-for="(mode, key) in __('voyager::generic.inputmodes')" :key="key" :value="key">{{ mode }}</option>
+            </select>
+        </div>
     </div>
     <template v-else-if="action == 'view'">
         <input

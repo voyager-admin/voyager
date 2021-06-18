@@ -55,13 +55,3 @@ bg-gray-800
 bg-gray-850
 bg-gray-900
 bg-gray-950
-
-fill-current
-
-space-x-2
-space-y-2
-
-focus:outline-none
-list-none
-
-invisible

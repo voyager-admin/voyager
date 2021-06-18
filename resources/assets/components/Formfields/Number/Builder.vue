@@ -1,69 +1,82 @@
 <template>
     <div v-if="action == 'list-options'">
-        <label class="label mt-4">{{ __('voyager::formfields.number.decimals') }}</label>
-        <input
-            type="number"
-            class="input w-full"
-            :placeholder="__('voyager::formfields.number.decimals')"
-            v-model.number="options.decimals" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.number.decimal_separator') }}</label>
-        <input
-            class="input w-full"
-            type="text" :placeholder="__('voyager::formfields.number.decimal_separator')"
-            v-model="options.dec_point" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.number.thousands_separator') }}</label>
-        <input
-            class="input w-full"
-            type="text" :placeholder="__('voyager::formfields.number.thousands_separator')"
-            v-model="options.thousands_sep" />
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.number.decimals') }}</label>
+            <input
+                type="number"
+                class="input w-full"
+                :placeholder="__('voyager::formfields.number.decimals')"
+                v-model.number="options.decimals" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.number.decimal_separator') }}</label>
+            <input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::formfields.number.decimal_separator')"
+                v-model="options.dec_point" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.number.thousands_separator') }}</label>
+            <input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::formfields.number.thousands_separator')"
+                v-model="options.thousands_sep" />
+        </div>
     </div>
     <div v-else-if="action == 'view-options'">
-        <label class="label mt-4">{{ __('voyager::generic.placeholder') }}</label>
-        <language-input
-            class="input w-full"
-            type="text" :placeholder="__('voyager::generic.placeholder')"
-            v-model="options.placeholder" /> 
-
-        <label class="label mt-4">{{ __('voyager::generic.minimum') }}</label>
-        <input
-            type="number"
-            class="input w-full"
-            :placeholder="__('voyager::generic.minimum')"
-            v-model.number="options.min" />
-
-        <label class="label mt-4">{{ __('voyager::generic.maximum') }}</label>
-        <input
-            type="number"
-            class="input w-full"
-            :placeholder="__('voyager::generic.maximum')"
-            v-model.number="options.max" />
-
-        <label class="label mt-4">{{ __('voyager::generic.step') }}</label>
-        <input
-            type="number"
-            class="input w-full"
-            :placeholder="__('voyager::generic.placeholder')"
-            v-model.number="options.step" />
-        <label class="label mt-4">{{ __('voyager::formfields.number.decimals') }}</label>
-        <input
-            type="number"
-            class="input w-full"
-            :placeholder="__('voyager::formfields.number.decimals')"
-            v-model.number="options.decimals" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.number.decimal_separator') }}</label>
-        <input
-            class="input w-full"
-            type="text" :placeholder="__('voyager::formfields.number.decimal_separator')"
-            v-model="options.dec_point" />
-
-        <label class="label mt-4">{{ __('voyager::formfields.number.thousands_separator') }}</label>
-        <input
-            class="input w-full"
-            type="text" :placeholder="__('voyager::formfields.number.thousands_separator')"
-            v-model="options.thousands_sep" />
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.placeholder') }}</label>
+            <language-input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::generic.placeholder')"
+                v-model="options.placeholder" /> 
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.minimum') }}</label>
+            <input
+                type="number"
+                class="input w-full"
+                :placeholder="__('voyager::generic.minimum')"
+                v-model.number="options.min" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.maximum') }}</label>
+            <input
+                type="number"
+                class="input w-full"
+                :placeholder="__('voyager::generic.maximum')"
+                v-model.number="options.max" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::generic.step') }}</label>
+            <input
+                type="number"
+                class="input w-full"
+                :placeholder="__('voyager::generic.placeholder')"
+                v-model.number="options.step" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.number.decimals') }}</label>
+            <input
+                type="number"
+                class="input w-full"
+                :placeholder="__('voyager::formfields.number.decimals')"
+                v-model.number="options.decimals" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.number.decimal_separator') }}</label>
+            <input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::formfields.number.decimal_separator')"
+                v-model="options.dec_point" />
+        </div>
+        <div class="input-group mt-2">
+            <label class="label">{{ __('voyager::formfields.number.thousands_separator') }}</label>
+            <input
+                class="input w-full"
+                type="text" :placeholder="__('voyager::formfields.number.thousands_separator')"
+                v-model="options.thousands_sep" />
+        </div>
     </div>
     <div v-else-if="action == 'view'">
         <input
