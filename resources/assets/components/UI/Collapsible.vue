@@ -5,8 +5,7 @@
                 <div>
                     <slot name="actions"></slot>
                 </div>
-                <icon icon="chevron-up" v-if="isOpen" :size="6" class="cursor-pointer" @click="toggle" />
-                <icon icon="chevron-down" v-else :size="6" class="cursor-pointer" @click="toggle" />
+                <icon icon="chevron-up" :size="6" class="transform duration-500 cursor-pointer" :class="isOpen ? 'rotate-0' : 'rotate-180'" @click="toggle" />
             </div>
         </template>
         <collapse-transition>
