@@ -152,30 +152,32 @@
     </collapsible>
 
     <collapsible title="Color picker" id="ui-color-picker">
+        <template #actions>
+            <div class="space-x-1">
+                <button class="button" @click="colorSizePlus">
+                    <icon icon="plus" />
+                </button>
+                <button class="button" @click="colorSizeMinus">
+                    <icon icon="minus" />
+                </button>
+            </div>
+        </template>
         <collapsible title="Colors">
-            <template #actions>
-                <div class="space-x-1">
-                    <button class="button" @click="colorSizePlus">
-                        <icon icon="plus" />
-                    </button>
-                    <button class="button" @click="colorSizeMinus">
-                        <icon icon="minus" />
-                    </button>
-                </div>
-            </template>
             <color-picker :size="colorSize" v-model="color"></color-picker>
+        </collapsible>
+        <collapsible title="Colors (allow none)">
             <color-picker :size="colorSize" v-model="color" add-none></color-picker>
         </collapsible>
     </collapsible>
 
     <collapsible title="Date/Time picker" id="ui-datetime">
-        <card title="Single" :title-size="6" class="w-full">
+        <card title="Single" :title-size="6">
             <date-time
                 v-model="dtData.from"
                 v-bind="datetime"
             />
         </card>
-        <card title="Range" :title-size="6" class="w-full">
+        <card title="Range" :title-size="6">
             <date-time-range
                 v-model:from="dtData.from"
                 v-model:to="dtData.to"

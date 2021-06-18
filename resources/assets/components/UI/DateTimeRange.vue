@@ -88,13 +88,13 @@ export default {
 
                 return null; // Now
             },
-            set(value) {
-                if (dayjs(value).isAfter(dayjs(this.dateTo), 'day')) {
-                    // Swap from <=> to
-                    this.$emit('update:from', this.to);
-                    this.$emit('update:to', value);
-                } else {
-                    this.$emit('update:from', value);
+            set(value, old) {
+                if (value !== old) {
+                    if (dayjs(value).isAfter(dayjs(this.dateTo), 'day') && !this.swapping) {
+                        this.swapValues(value);
+                    } else {
+                        this.$emit('update:from', value);
+                    }
                 }
             }
         },
@@ -106,13 +106,13 @@ export default {
 
                 return null; // Now
             },
-            set(value) {
-                if (dayjs(value).isBefore(dayjs(this.fromDate), 'day')) {
-                    // Swap from <=> to
-                    this.$emit('update:to', this.from);
-                    this.$emit('update:from', value);
-                } else {
-                    this.$emit('update:to', value);
+            set(value, old) {
+                if (value !== old) {
+                    if (dayjs(value).isBefore(dayjs(this.fromDate), 'day') && !this.swapping) {
+                        this.swapValues(null, value);
+                    } else {
+                        this.$emit('update:to', value);
+                    }
                 }
             }
         },
@@ -147,6 +147,7 @@ export default {
         return {
             textModelFromInvalid: false,
             textModelToInvalid: false,
+            swapping: false,
         };
     },
     methods: {
@@ -169,6 +170,17 @@ export default {
             }
 
             return date.startOf('second').tz(dayjs.tz.guess()).toISOString();
+        },
+        swapValues(from = null, to = null) {
+            this.swapping = true;
+            let newFrom = to || this.dateTo;
+            let newTo = from || this.dateFrom;
+            this.dateFrom = newFrom;
+            this.dateTo = newTo;
+
+            this.$nextTick(() => {
+                this.swapping = false;
+            })
         },
         dayjs,
     },
