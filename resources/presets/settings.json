@@ -233,14 +233,32 @@
         "validation": []
     },
     {
-        "type": "text",
+        "type": "select",
         "group": "admin",
-        "key": "dev-server-url",
-        "name": "Dev-Server URL",
-        "value": null,
-        "info": "The dev-server URL used for HMR. Leave empty to use precompiled files.",
+        "key": "dev-server",
+        "name": {
+            "en": "Dev server"
+        },
+        "value": false,
+        "info": null,
         "translatable": false,
-        "options": [],
+        "options": {
+            "multiple": false,
+            "options": [
+                {
+                    "key": "true",
+                    "value": {
+                        "en": "Yes"
+                    }
+                },
+                {
+                    "key": "false",
+                    "value": {
+                        "en": "No"
+                    }
+                }
+            ]
+        },
         "validation": []
     },
     {

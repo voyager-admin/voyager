@@ -26,6 +26,11 @@ export default reactive({
     notificationPosition: 'top-right',
 
     jsonOutput: false,
+    devServer: {
+        url: null,
+        available: false,
+        wanted: false,
+    },
 
     sidebar: {
         items: [],

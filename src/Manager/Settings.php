@@ -89,6 +89,14 @@ class Settings
             }
 
             return [$key => $setting->value ?? $default];
+        })->transform(function ($value) {
+            if ($value === 'true') {
+                return true;
+            } elseif ($value === 'false') {
+                return false;
+            }
+
+            return $value;
         });
 
         if ($settings->count() == 0) {

@@ -1,10 +1,9 @@
-const path = require('path')
-const webpack = require('webpack')
-const { VueLoaderPlugin } = require('vue-loader')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const { VueLoaderPlugin } = require('vue-loader');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, options) => {
     process.env.NODE_ENV = options.mode;
@@ -18,10 +17,10 @@ module.exports = (env, options) => {
                 'Access-Control-Allow-Origin': '*'
             },
             firewall: false,
-            port: 8080,
+            port: 8081,
+            host: '127.0.0.1'
         },
         entry: {
-            // Currently, HMR does not work (https://github.com/webpack/webpack-dev-server/issues/2692) when using multiple entries 🤷🏼
             icons: path.resolve(__dirname, './resources/assets/js/icons.js'),
             voyager: path.resolve(__dirname, './resources/assets/js/voyager.js'),
         },

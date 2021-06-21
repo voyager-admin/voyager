@@ -126,6 +126,12 @@ window.createVoyager = (data = {}, el = 'voyager') => {
         'gray',
     ];
 
+    if (data.hasOwnProperty('messages')) {
+        data.messages.forEach((message) => {
+            new Notification(message.message).color(message.color || 'yellow').timeout(message.timeout).show();
+        });
+    }
+
     for (var key in components) {
         voyager.component(StringMixin.methods.kebabCase(key), components[key]);
     }

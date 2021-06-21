@@ -485,6 +485,13 @@ class Voyager
             'rtl'                   => (__('voyager::generic.is_rtl') == 'true'),
             'currentUrl'            => Str::finish(url()->current(), '/'),
             'csrfToken'             => csrf_token(),
+
+            'messages'              => $this->getMessages(),
+            'devServer'             => [
+                'url'       => view()->shared('devServerUrl', null),
+                'available' => view()->shared('devServerAvailable', false),
+                'wanted'    => view()->shared('devServerWanted', false),
+            ],
         ];
 
         if ($this->auth()->user()) {

@@ -14,14 +14,14 @@ class DevCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'voyager:dev {--enable} {--disable} {url?}';
+    protected $signature = 'voyager:dev {--enable} {--disable}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Manage Voyager plugins';
+    protected $description = 'Enable or disable using the dev server during development';
 
     /**
      * Execute the console command.
@@ -32,26 +32,24 @@ class DevCommand extends Command
      */
     public function handle(SettingManager $settingmanager)
     {
-        $url = $this->argument('url');
-
-        if ($settingmanager->getSettingsByKey('admin.dev-server-url')->count() != 1) {
-            return $this->error('Setting "admin.dev-server-url" does not exist. Please seed the default settings!');
+        
+        if ($settingmanager->getSettingsByKey('admin.dev-server')->count() != 1) {
+            return $this->error('Setting "admin.dev-server" does not exist. Please seed the default settings!');
         }
 
-        if ($this->option('enable') && $url) {
-            if (Str::startsWith($url, 'http://') || Str::startsWith($url, 'https://')) {
-                $settingmanager->set('admin.dev-server-url', $url);
-
-                return $this->info('Enabled development server with URL "'.$url.'"');
-            } else {
-                return $this->error('Please provide a valid URL starting with http:// or https://');
-            }
+        $setting = $settingmanager->setting('admin.dev-server');
+        if ($this->option('enable')) {
+            $settingmanager->set('admin.dev-server', true);
         } elseif ($this->option('disable')) {
-            $settingmanager->set('admin.dev-server-url', null);
-
-            return $this->info('Disabled development server');
+            $settingmanager->set('admin.dev-server', false);
+        } else {
+            $settingmanager->set('admin.dev-server', !$setting);
         }
 
-        return $this->error('Please use --disable to disable or --enable [URL] to enable the development server');
+        if ($settingmanager->setting('admin.dev-server')) {
+            $this->info('Enabled development server!');
+        } else {
+            $this->info('Disabled development server!');
+        }
     }
 }

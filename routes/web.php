@@ -47,6 +47,8 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
     Route::post('get-disks', ['uses' => 'VoyagerController@getDisks', 'as' => 'get-disks']);
     Route::post('get-thumbnail-options', ['uses' => 'VoyagerController@getThumbnailOptions', 'as' => 'get-thumbnail-options']);
     Route::post('get-watermark-options', ['uses' => 'VoyagerController@getWatermarkOptions', 'as' => 'get-watermark-options']);
+
+    Route::post('disable-dev-server', ['uses' => 'VoyagerController@disableDevServer', 'as' => 'disable-dev-server']);
 });
 
 // Login

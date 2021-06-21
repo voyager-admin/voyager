@@ -184,4 +184,9 @@ class VoyagerController extends Controller
             ->addNumber('size', __('voyager::media.watermark.size_in_perc'), __('voyager::media.watermark.size_in_perc'), 10, 0, 100)
             ->addNumber('opacity', __('voyager::media.watermark.opacity'), __('voyager::media.watermark.opacity'), 50, 0, 100);
     }
+
+    public function disableDevServer()
+    {
+        $this->settingmanager->set('admin.dev-server', false);
+    }
 }

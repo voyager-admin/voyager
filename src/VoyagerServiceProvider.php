@@ -8,6 +8,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -88,10 +89,20 @@ class VoyagerServiceProvider extends ServiceProvider
             return VoyagerFacade::authorize($user, $ability, $arguments);
         });
 
-        $dev_server = $this->settingmanager->setting('admin.dev-server-url', null);
-
-        if (!empty($dev_server) && filter_var($dev_server, FILTER_VALIDATE_URL) !== false) {
-            view()->share('voyagerDevServer', Str::finish($dev_server, '/'));
+        if ($this->settingmanager->setting('admin.dev-server', false) === true) {
+            $url = 'http://localhost:8081/';
+            view()->share('devServerUrl', $url);
+            view()->share('devServerWanted', true);
+            try {
+                Http::timeout(1)->get($url)->ok();
+                view()->share('devServerAvailable', true);
+            } catch (\Exception $e) {
+                view()->share('devServerAvailable', false);
+            }
+        } else {
+            view()->share('devServerAvailable', false);
+            view()->share('devServerWanted', false);
+            view()->share('devServerUrl', null);
         }
 
         Inertia::setRootView('voyager::app');

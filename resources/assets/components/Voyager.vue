@@ -80,6 +80,26 @@ export default {
             this.setCookie('sidebar-open', open);
         });
 
+        // Show dev server warning if not available
+        if (this.$store.devServer.wanted && !this.$store.devServer.available) {
+            new this.$notification(this.__('voyager::generic.dev_server_unavailable', { url: 'http://localhost:8081' }))
+                    .color('yellow')
+                    .timeout(5000)
+                    .confirm()
+                    .addButton({ key: true, value: this.__('voyager::generic.disable'), color: 'accent'})
+                    .show()
+                    .then((result) => {
+                        if (result === true) {
+                            axios.post(this.route('voyager.disable-dev-server'))
+                            .then(() => {
+                                new this.$notification(this.__('voyager::generic.dev_server_disabled')).show();
+                            })
+                            .catch(response => {})
+                            .then(() => {});
+                        }
+                    });
+        }
+
         axios.interceptors.response.use((response) => {
             return response;
         }, (error) => {
