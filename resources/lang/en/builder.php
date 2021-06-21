@@ -30,8 +30,6 @@ return [
     'global_search_display_field'       => 'Global search field',
     'global_search_display_field_hint'  => 'This field will be shown in the global search',
     'layout_field_warning'              => 'There are formfields without assigned fields.\nThis might lead to unexpected behaviour!\n\nDo you want to save anyway?',
-    'layout_mapping'                    => 'Layout mapping',
-    'layout_mapping_warning'            => 'There are actions without assigned layouts.\nThis might lead to unexpected behaviour!\n\nDo you want to save anyway?',
     'list'                              => 'List',
     'lists'                             => 'Lists',
     'model'                             => 'Model',

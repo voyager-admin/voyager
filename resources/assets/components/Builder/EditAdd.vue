@@ -270,43 +270,6 @@
                 v-on:delete="deleteFormfield($event)" />
         </card>
 
-        <collapsible :title="__('voyager::builder.layout_mapping')" ref="layout_mapping">
-            <div class="flex">
-                <div class="w-1/4">
-                    <h6>{{ __('voyager::generic.browse') }}</h6>
-                    <select class="input w-full mt-2" v-model="bread.layout_map.browse" multiple>
-                        <option v-for="(list, i) in lists" :key="'browse-layout'+i">
-                            {{ list.name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="w-1/4 ml-2">
-                    <h6>{{ __('voyager::generic.read') }}</h6>
-                    <select class="input w-full mt-2" v-model="bread.layout_map.read" multiple>
-                        <option v-for="(view, i) in views" :key="'read-layout'+i">
-                            {{ view.name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="w-1/4 ml-2">
-                    <h6>{{ __('voyager::generic.edit') }}</h6>
-                    <select class="input w-full mt-2" v-model="bread.layout_map.edit" multiple>
-                        <option v-for="(view, i) in views" :key="'edit-layout'+i">
-                            {{ view.name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="w-1/4 ml-2">
-                    <h6>{{ __('voyager::generic.add') }}</h6>
-                    <select class="input w-full mt-2" v-model="bread.layout_map.add" multiple>
-                        <option v-for="(view, i) in views" :key="'add-layout'+i">
-                            {{ view.name }}
-                        </option>
-                    </select>
-                </div>
-            </div>
-        </collapsible>
-
         <collapsible ref="bread_json" v-if="jsonOutput" :title="__('voyager::generic.json_output')" closed>
             <json-editor v-model="bread" />
         </collapsible>
@@ -355,17 +318,6 @@ export default {
 
             if (this.validateLayouts()) {
                 new this.$notification(this.nl2br(this.__('voyager::builder.layout_field_warning')))
-                        .confirm()
-                        .color('red')
-                        .timeout()
-                        .show()
-                        .then((response) => {
-                    if (response) {
-                        this.storeBread();
-                    }
-                });
-            } else if (this.validateLayoutMapping()) {
-                new this.$notification(this.nl2br(this.__('voyager::builder.layout_mapping_warning')))
                         .confirm()
                         .color('red')
                         .timeout()
@@ -598,14 +550,12 @@ export default {
 
             if (this.focusMode) {
                 this.$refs.bread_settings.close();
-                this.$refs.layout_mapping.close();
                 if (this.jsonOutput) {
                     this.$refs.bread_json.close();
                 }
                 this.closeSidebar();
             } else {
                 this.$refs.bread_settings.open();
-                this.$refs.layout_mapping.open();
                 this.openSidebar();
             }
         },
@@ -618,17 +568,6 @@ export default {
                         failed = true;
                     }
                 });
-            });
-
-            return failed;
-        },
-        validateLayoutMapping() {
-            var failed = false;
-
-            Object.keys(this.bread.layout_map).forEach((action) => {
-                if (this.bread.layout_map[action].length == 0) {
-                    failed = true;
-                }
             });
 
             return failed;

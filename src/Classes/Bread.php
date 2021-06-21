@@ -22,12 +22,6 @@ class Bread implements \JsonSerializable
     public $global_search_field;
     public $order_field;
     public $layouts = [];
-    public $layout_map = [
-        'browse' => [],
-        'read'   => [],
-        'edit'   => [],
-        'add'    => [],
-    ];
 
     protected $model_class = null;
 
@@ -80,7 +74,6 @@ class Bread implements \JsonSerializable
             'global_search_field' => $this->global_search_field,
             'order_field'         => $this->order_field,
             'layouts'             => $this->layouts,
-            'layout_map'          => $this->layout_map,
         ];
     }
 }

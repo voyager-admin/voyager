@@ -496,7 +496,7 @@ class Breads
 
     public function getLayoutForAction($bread, $action, $throwError = true)
     {
-        $layouts = $bread->layouts->whereIn('name', $bread->layout_map->{$action})->where('type', $action == 'browse' ? 'list' : 'view');
+        $layouts = $bread->layouts->where('type', $action == 'browse' ? 'list' : 'view');
 
         $this->pluginmanager->getAllPlugins()->each(function ($plugin) use ($bread, $action, &$layouts) {
             if ($plugin instanceof LayoutFilter) {
