@@ -1,7 +1,7 @@
 <template>
     <card title="UI Elements">
         <div>
-            <div class="flex space-x-1 w-full">
+            <div class="flex flex-wrap space-x-1 w-full">
                 <button class="button accent my-2" v-scroll-to="'ui-headings'">Headings</button>
                 <button class="button accent my-2" v-scroll-to="'ui-icons'">Icons</button>
                 <button class="button accent my-2" v-scroll-to="'ui-buttons'">Buttons</button>

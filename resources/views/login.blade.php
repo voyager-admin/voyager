@@ -9,7 +9,11 @@
     <meta http-equiv="Cache-control" content="public">
 
     <title>{{ __('voyager::auth.login') }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
-    <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
+    @if ($devServerWanted && $devServerAvailable)
+        <link href="{{ $devServerUrl }}css/voyager.css" rel="stylesheet">
+    @else
+        <link href="{{ Voyager::assetUrl('css/voyager.css') }}" rel="stylesheet">
+    @endif
     @php $fontProvidedByPlugin = false; @endphp
     @foreach (resolve(\Voyager\Admin\Manager\Plugins::class)->getAllPlugins() as $plugin)
         @if ($plugin instanceof \Voyager\Admin\Contracts\Plugins\Features\Provider\CSS)
@@ -32,12 +36,12 @@
 
 @routes
 
-@if (isset($voyagerDevServer))
-    <script src="{{ $voyagerDevServer }}js/voyager.js"></script>
-    <script src="{{ $voyagerDevServer }}js/icons.js"></script>
+@if ($devServerWanted && $devServerAvailable)
+    <script src="{{ $devServerUrl }}js/icons.js"></script>
+    <script src="{{ $devServerUrl }}js/voyager.js"></script>
 @else
-    <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
     <script src="{{ Voyager::assetUrl('js/icons.js') }}"></script>
+    <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 @endif
 <script>
 createVoyager({
