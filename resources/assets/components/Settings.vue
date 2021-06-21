@@ -64,7 +64,7 @@
             <template #item="{ element: setting }">
                 <card
                     :title="translate(setting.name, false) || __('voyager::settings.no_name')"
-                    v-show="setting.group == currentGroup"
+                    v-show="settingsInGroup(currentGroup).includes(setting)"
                 >
                     <template #actions>
                         <div class="flex flex-wrap space-x-1">
@@ -73,7 +73,7 @@
                             <input type="text" class="input small" v-model="setting.key" :placeholder="__('voyager::settings.key')" />
 
                             <select class="input small" v-model="setting.group">
-                                <option v-for="group in groups" :value="group">
+                                <option v-for="group in groups" :value="group" :key="group">
                                     {{ titleCase(group ? group : __('voyager::settings.no_group')) }}
                                 </option>
                             </select>
