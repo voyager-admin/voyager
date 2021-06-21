@@ -131,6 +131,16 @@ window.createVoyager = (data = {}, el = 'voyager') => {
     }
 
     window.voyager = voyager;
+
+    if (module.hot) {
+        const first = window.location.pathname;
+        module.hot.accept();
+        module.hot.dispose(() => {
+            if (first !== window.location.pathname) {
+                window.location.reload();
+            }
+        });
+    }
 };
 
 window.mountVoyager = (el = 'voyager') => {

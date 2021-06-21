@@ -36,11 +36,11 @@
 @routes
 
 @if (isset($voyagerDevServer))
-    <script src="{{ $voyagerDevServer }}js/voyager.js"></script>
     <script src="{{ $voyagerDevServer }}js/icons.js"></script>
+    <script src="{{ $voyagerDevServer }}js/voyager.js"></script>
 @else
-    <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
     <script src="{{ Voyager::assetUrl('js/icons.js') }}"></script>
+    <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 @endif
 
 <script>

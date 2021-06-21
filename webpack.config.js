@@ -13,7 +13,7 @@ module.exports = (env, options) => {
         mode: options.mode,
         devtool: options.mode === 'production' ? false : 'eval-cheap-module-source-map',
         devServer: {
-            static: path.resolve(__dirname, '/'),
+            static: false,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
