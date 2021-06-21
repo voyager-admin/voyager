@@ -80,6 +80,11 @@ window.createVoyager = (data = {}, el = 'voyager') => {
         Store.ui.push({ title, component });
     };
 
+    voyager.componentExists = function (component) {
+        // TODO: Find a way to test if a component exists
+        return true;
+    };
+
     voyager.formfieldMixin = FormfieldMixin;
     voyager.formfieldBuilderMixin = FormfieldBuilderMixin;
 
@@ -137,6 +142,7 @@ window.createVoyager = (data = {}, el = 'voyager') => {
     }
 
     window.voyager = voyager;
+    voyager.config.globalProperties.$voyager = voyager;
 
     if (module.hot) {
         const first = window.location.pathname;

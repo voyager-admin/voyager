@@ -63,14 +63,18 @@
                                         <label class="label mt-4">{{ __('voyager::generic.translatable') }}</label>
                                         <input type="checkbox" class="input" v-model="formfield.translatable">
                                     </div>
-                                    <div v-if="getFormfieldByType(formfield.type).can_be_translated" class="input-group mt-2">
+                                    <div class="input-group mt-2">
+                                        <label class="label mt-4">{{ __('voyager::generic.component') }}</label>
+                                        <input type="text" class="input w-full" v-model="formfield.component">
+                                    </div>
+                                    <div class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.title') }}</label>
                                         <language-input
                                             class="input w-full"
                                             type="text" :placeholder="__('voyager::generic.title')"
                                             v-model="formfield.options.title" />
                                     </div>
-                                    <div v-if="getFormfieldByType(formfield.type).can_be_translated" class="input-group mt-2">
+                                    <div class="input-group mt-2">
                                         <label class="label mt-4">{{ __('voyager::generic.description') }}</label>
                                         <language-input
                                             class="input w-full"

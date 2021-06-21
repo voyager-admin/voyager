@@ -71,7 +71,7 @@
                                         v-if="formfield.searchable"
                                         :modelValue="parameters.filters[formfield.column.column]"
                                         @update:modelValue="!$event ? delete parameters.filters[formfield.column.column] : parameters.filters[formfield.column.column] = $event"
-                                        :is="getFormfieldByType(formfield.type).component"
+                                        :is="getComponentForType(formfield)"
                                         :options="formfield.options"
                                         :column="formfield.column"
                                         :placeholder="__('voyager::bread.search_type', {type: translate(formfield.title, true)})"
@@ -105,7 +105,7 @@
                                 <td v-for="(formfield, key) in layout.formfields" :key="'row-' + key">
                                     <component
                                         v-if="getFormfieldByType(formfield.type).browse_array && isArray(result[formfield.column.column])"
-                                        :is="getFormfieldByType(formfield.type).component"
+                                        :is="getComponentForType(formfield)"
                                         action="browse"
                                         :options="formfield.options"
                                         :column="formfield.column"
@@ -116,7 +116,7 @@
                                     </component>
                                     <component
                                         v-else-if="!isArray(result[formfield.column.column])"
-                                        :is="getFormfieldByType(formfield.type).component"
+                                        :is="getComponentForType(formfield)"
                                         action="browse"
                                         :options="formfield.options"
                                         :column="formfield.column"
@@ -128,7 +128,7 @@
                                     <div v-else>
                                         <component
                                             v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
-                                            :is="getFormfieldByType(formfield.type).component"
+                                            :is="getComponentForType(formfield)"
                                             action="browse"
                                             :options="formfield.options"
                                             :column="formfield.column"
@@ -339,6 +339,13 @@ export default {
             }
         
             return num;
+        },
+        getComponentForType(formfield) {
+            if (formfield.hasOwnProperty('component') && formfield.component !== null && formfield.component !== '' && this.$voyager.componentExists(formfield.component)) {
+                return formfield.component;
+            }
+
+            return this.getFormfieldByType(formfield.type).component;
         }
     },
     computed: {

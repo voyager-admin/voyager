@@ -84,6 +84,10 @@
                                     <template #actions>
                                         <locale-picker />
                                     </template>
+                                    <div class="input-group mt-2">
+                                        <label class="label mt-4">{{ __('voyager::generic.component') }}</label>
+                                        <input type="text" class="input w-full" v-model="formfield.component">
+                                    </div>
                                     <component
                                         :is="getFormfieldByType(formfield.type).builder_component"
                                         v-model:options="formfield.options"

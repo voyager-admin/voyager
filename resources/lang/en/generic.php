@@ -34,6 +34,7 @@ return [
     ],
     'column'                    => 'Column',
     'columns'                   => 'Columns',
+    'component'                 => 'Component',
     'content'                   => 'Content',
     'conroller'                 => 'Controller',
     'copy_to_clipboard'         => 'Copy to clipboard',

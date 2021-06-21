@@ -44,7 +44,7 @@
                                     </alert>
                                 </collapse-transition>
                                 <component
-                                    :is="getFormfieldByType(formfield.type).component"
+                                    :is="getComponentForType(formfield)"
                                     :modelValue="getData(formfield)"
                                     @update:modelValue="setData(formfield, $event)"
                                     :errors="getErrors(formfield.column)"
@@ -79,6 +79,7 @@
 
 <script>
 import axios from 'axios';
+import { resolveDynamicComponent } from 'vue';
 
 export default {
     emits: ['saved', 'output'],
@@ -190,6 +191,13 @@ export default {
                 this.isSaving = false;
                 this.isSaved = true;
             });
+        },
+        getComponentForType(formfield) {
+            if (formfield.hasOwnProperty('component') && formfield.component !== null && formfield.component !== '' && this.$voyager.componentExists(formfield.component)) {
+                return formfield.component;
+            }
+
+            return this.getFormfieldByType(formfield.type).component;
         }
     },
     computed: {
@@ -214,6 +222,6 @@ export default {
     },
     unmounted() {
         document.removeEventListener('keydown', this.save);
-    }
+    },
 };
 </script>
