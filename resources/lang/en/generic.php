@@ -35,6 +35,7 @@ return [
     'column'                    => 'Column',
     'columns'                   => 'Columns',
     'component'                 => 'Component',
+    'component_does_not_exist'  => 'Component ":component" does not exist. Falling back to default component ":default"!',
     'content'                   => 'Content',
     'conroller'                 => 'Controller',
     'copy_to_clipboard'         => 'Copy to clipboard',

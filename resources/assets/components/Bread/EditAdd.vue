@@ -193,8 +193,12 @@ export default {
             });
         },
         getComponentForType(formfield) {
-            if (formfield.hasOwnProperty('component') && formfield.component !== null && formfield.component !== '' && this.$voyager.componentExists(formfield.component)) {
-                return formfield.component;
+            if (formfield.hasOwnProperty('component') && formfield.component !== null && formfield.component !== '') {
+                if (this.$voyager.componentExists(formfield.component)) {
+                    return formfield.component;
+                } else {
+                    console.error(this.__('voyager::generic.component_does_not_exist', { component: formfield.component, default: this.getFormfieldByType(formfield.type).component }));
+                }
             }
 
             return this.getFormfieldByType(formfield.type).component;

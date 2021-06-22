@@ -51,21 +51,7 @@ import { Notification } from '@/notify';
 import Eventbus from '@/eventbus';
 import Store from '@/store';
 
-import(`@components/Generic.vue`).then((x) => console.log(x));
-console.log(require(`@components/Generic.vue`).default);
-
 let voyager;
-
-function resolveInertiaComponent(name) {
-    let component = require(`@components/Generic.vue`).default;
-    try {
-        component = require(`@components/${name}.vue`).default;
-    } catch (e) {}
-
-    component.layout = component.layout || Voyager;
-
-    return component;
-}
 
 function prepareVoyager(data) {
     for (let key of Object.keys(data)) {
@@ -77,8 +63,7 @@ function prepareVoyager(data) {
     };
 
     voyager.componentExists = function (component) {
-        // TODO: Find a way to test if a component exists
-        return true;
+        return Object.keys(this._context.components).includes(component);
     };
 
     voyager.formfieldMixin = FormfieldMixin;
@@ -151,7 +136,16 @@ function prepareVoyager(data) {
 
 window.createVoyager = (data = {}, el = 'voyager') => {
     createInertiaApp({
-        resolve: resolveInertiaComponent,
+        resolve: name => {
+            let component = require(`@components/Generic.vue`).default;
+            try {
+                component = require(`@components/${name}.vue`).default;
+            } catch (e) {}
+
+            component.layout = component.layout || Voyager;
+
+            return component;
+        },
         setup({ el, app, props, plugin }) {
             voyager = Vue.createApp({
                 render: () => Vue.h(app, props)
