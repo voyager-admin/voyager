@@ -4,7 +4,7 @@ import '../sass/voyager.scss';
 
 // External libraries
 import * as Vue from 'vue';
-import { App, plugin } from '@inertiajs/inertia-vue3';
+import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import slugify from 'slugify';
 
 window.slugify = slugify;
@@ -51,30 +51,26 @@ import { Notification } from '@/notify';
 import Eventbus from '@/eventbus';
 import Store from '@/store';
 
+import(`@components/Generic.vue`).then((x) => console.log(x));
+console.log(require(`@components/Generic.vue`).default);
+
 let voyager;
 
 function resolveInertiaComponent(name) {
+    let component = require(`@components/Generic.vue`).default;
     try {
-        require(`@components/${name}.vue`);
+        component = require(`@components/${name}.vue`).default;
+    } catch (e) {}
 
-        return import(`@components/${name}.vue`);
-    } catch (e) {
-        return import(`@components/Generic.vue`);
-    }
+    component.layout = component.layout || Voyager;
+
+    return component;
 }
 
-window.createVoyager = (data = {}, el = 'voyager') => {
-    voyager = Vue.createApp(App, {
-        initialPage: JSON.parse(document.getElementById(el).dataset.page),
-        resolveComponent: (name) => resolveInertiaComponent(name)
-        .then(({ default: page }) => {
-            if (page.layout === undefined) {
-                page.layout = Voyager;
-            }
-
-            return page;
-        })
-    }).use(plugin);
+function prepareVoyager(data) {
+    for (let key of Object.keys(data)) {
+        Store[key] = data[key];
+    }
 
     voyager.addToUI = function (title, component) {
         Store.ui.push({ title, component });
@@ -88,9 +84,7 @@ window.createVoyager = (data = {}, el = 'voyager') => {
     voyager.formfieldMixin = FormfieldMixin;
     voyager.formfieldBuilderMixin = FormfieldBuilderMixin;
 
-    for (let key of Object.keys(data)) {
-        Store[key] = data[key];
-    }
+    
 
     voyager.config.globalProperties.Status = Object.freeze({
         Pending  : 1,
@@ -153,8 +147,19 @@ window.createVoyager = (data = {}, el = 'voyager') => {
             }
         });
     }
-};
+}
 
-window.mountVoyager = (el = 'voyager') => {
-    voyager.mount('#' + el);
+window.createVoyager = (data = {}, el = 'voyager') => {
+    createInertiaApp({
+        resolve: resolveInertiaComponent,
+        setup({ el, app, props, plugin }) {
+            voyager = Vue.createApp({
+                render: () => Vue.h(app, props)
+            }).use(plugin);
+
+            prepareVoyager(data);
+            voyager.mount(el);
+        },
+        id: el
+    });
 };

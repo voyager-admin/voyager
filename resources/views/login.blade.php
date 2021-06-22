@@ -53,8 +53,5 @@ createVoyager({
         <script src="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.js') }}" type="text/javascript"></script>
     @endif
 @endforeach
-<script>
-mountVoyager();
-</script>
 @yield('js')
 </html>

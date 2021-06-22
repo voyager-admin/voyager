@@ -46,8 +46,5 @@ createVoyager({!! json_encode(array_merge(['title' => $title], Voyager::getViewD
         <script src="{{ Voyager::assetUrl('plugin/'.Str::slug($plugin->name).'.js') }}" type="text/javascript"></script>
     @endif
 @endforeach
-<script>
-mountVoyager();
-</script>
 @yield('js')
 </html>
