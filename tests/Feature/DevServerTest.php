@@ -48,7 +48,7 @@ class DevServerTest extends TestCase
         resolve(\Voyager\Admin\Manager\Settings::class)->load(true);
 
         $this->artisan('voyager:dev')
-             ->expectsOutput('Setting "admin.dev-server-url" does not exist. Please seed the default settings!')
+             ->expectsOutput('Setting "admin.dev-server" does not exist. Please seed the default settings!')
              ->assertExitCode(0);
     }
 
