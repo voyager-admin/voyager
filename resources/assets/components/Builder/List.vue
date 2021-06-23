@@ -169,7 +169,7 @@
                             </td>
                             <td>
                                 <modal :ref="`filter_icon_modal_${key}`" :title="__('voyager::generic.select_icon')">
-                                    <icon-picker v-on:select="$refs['filter_icon_modal_'+key].close(); f.icon = $event" />
+                                    <icon-picker v-on:select="f.icon = $event; $refs[`filter_icon_modal_${key}`].close();" />
                                     <template #opener>
                                         <div class="w-full">
                                             <button class="button">

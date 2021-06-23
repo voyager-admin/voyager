@@ -4,7 +4,7 @@
 .tooltip {
     @include bg-color(tooltip-bg-color, 'colors.black');
     @include text-color(tooltip-text-color, 'colors.white');
-    @apply rounded-lg px-2 py-1.5 shadow-xl;
+    @apply rounded-lg px-2 py-1.5 shadow-xl transition-opacity duration-300;
     z-index: 110;
 
     &[data-popper-placement^="bottom"] {

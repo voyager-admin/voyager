@@ -34,6 +34,15 @@ export default {
                 tooltip.setAttribute('id', uuid);
                 tooltip.classList.add('tooltip');
                 tooltip.classList.add('pointer-events-none');
+                tooltip.classList.add('opacity-0');
+                setTimeout(() => {
+                    // There is a really low chance that the tooltip is already destroyed
+                    if (tooltip) {
+                        tooltip.classList.remove('opacity-0');
+                        tooltip.classList.add('opacity-100');
+                    }
+                }, 1);
+                
 
                 // Create tooltip content
                 let content = document.createElement('div');

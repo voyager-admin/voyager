@@ -11,7 +11,9 @@ module.exports = {
         ],
         safelist: [
             'space-y-2',
-            'fill-current'
+            'fill-current',
+            'opacity-0',
+            'opacity-100'
         ],
     },
     darkMode: 'class',
