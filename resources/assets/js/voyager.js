@@ -69,8 +69,6 @@ function prepareVoyager(data) {
     voyager.formfieldMixin = FormfieldMixin;
     voyager.formfieldBuilderMixin = FormfieldBuilderMixin;
 
-    
-
     voyager.config.globalProperties.Status = Object.freeze({
         Pending  : 1,
         Uploading: 2,
@@ -134,6 +132,8 @@ function prepareVoyager(data) {
     }
 }
 
+let mountTo;
+
 window.createVoyager = (data = {}, el = 'voyager') => {
     createInertiaApp({
         resolve: name => {
@@ -152,8 +152,12 @@ window.createVoyager = (data = {}, el = 'voyager') => {
             }).use(plugin);
 
             prepareVoyager(data);
-            voyager.mount(el);
+            mountTo = el;
         },
         id: el
     });
+};
+
+window.mountVoyager = () => {
+    voyager.mount(mountTo);
 };

@@ -42,7 +42,7 @@ class Action
      * @param string $method The method. Either get, post, put, patch or delete.
      * @return self
      */
-    public function method(string $method)
+    public function method(string $method): Action
     {
         $method = strtolower($method);
         if (!in_array($method, ['get', 'post', 'put', 'patch', 'delete'])) {
@@ -59,7 +59,7 @@ class Action
      * @param string $file_name The name of the file. Ex: download.pdf
      * @return self
      */
-    public function download(string $file_name)
+    public function download(string $file_name): Action
     {
         $this->download = true;
         $this->file_name = $file_name;
@@ -73,7 +73,7 @@ class Action
      * @param callable|string $route A callback resolving the route or the route name as a string.
      * @return self
      */
-    public function route($route)
+    public function route($route): Action
     {
         $this->route_callback = $route;
 
@@ -88,7 +88,7 @@ class Action
      * @param string $color   The color of the notification. Defaults to "accent".
      * @return self
      */
-    public function confirm(string $message, string $title = null, string $color = 'accent')
+    public function confirm(string $message, string $title = null, string $color = 'accent'): Action
     {
         $this->confirm = [
             'title'     => $title,
@@ -107,7 +107,7 @@ class Action
      * @param string $color   The color of the notification. Defaults to "accent".
      * @return self
      */
-    public function success(string $message, string $title = null, string $color = 'accent')
+    public function success(string $message, string $title = null, string $color = 'accent'): Action
     {
         $this->success = [
             'title'     => $title,
@@ -123,7 +123,7 @@ class Action
      * 
      * @return self
      */
-    public function bulk()
+    public function bulk(): Action
     {
         $this->bulk = true;
 
@@ -136,7 +136,7 @@ class Action
      * @param string $ability The ability.
      * @return self
      */
-    public function permission(string $ability)
+    public function permission(string $ability): Action
     {
         $this->permission = $ability;
 
@@ -149,7 +149,7 @@ class Action
      * @param callable $callback A callback function which gets the BREAD as an arguments.
      * @return self
      */
-    public function displayOnBread(callable $callback)
+    public function displayOnBread(callable $callback): Action
     {
         $this->callback = $callback;
 
@@ -161,7 +161,7 @@ class Action
      *
      * @return self
      */
-    public function displayDeletable()
+    public function displayDeletable(): Action
     {
         $this->display_deletable = true;
 
@@ -173,7 +173,7 @@ class Action
      *
      * @return self
      */
-    public function displayRestorable()
+    public function displayRestorable(): Action
     {
         $this->display_deletable = false;
 
@@ -185,7 +185,8 @@ class Action
      *
      * @return self
      */
-    public function reloadAfter() {
+    public function reloadAfter(): Action
+    {
         $this->reload_after = true;
 
         return $this;
