@@ -19,24 +19,19 @@ class DevServerTest extends TestCase
 
     public function test_can_enable_dev_server()
     {
-        $this->artisan('voyager:dev --enable http://test.com')
-             ->expectsOutput('Enabled development server with URL "http://test.com"')
-             ->assertExitCode(0);
-
-        // TODO: Visit dashboard and check if http://test.com/js/voyager.js was loaded
-    }
-
-    public function test_can_not_enable_dev_server_with_wrong_url()
-    {
-        $this->artisan('voyager:dev --enable WRONG')
-             ->expectsOutput('Please provide a valid URL starting with http:// or https://')
+        $this->artisan('voyager:dev --enable')
+             ->expectsOutput('Enabled development server!')
              ->assertExitCode(0);
     }
 
-    public function test_can_not_enable_dev_server_without_args()
+    public function test_can_toggle_dev_server_without_args()
     {
+        $this->artisan('voyager:dev --enable')
+             ->expectsOutput('Enabled development server!')
+             ->assertExitCode(0);
+
         $this->artisan('voyager:dev')
-             ->expectsOutput('Please use --disable to disable or --enable [URL] to enable the development server')
+             ->expectsOutput('Disabled development server!')
              ->assertExitCode(0);
     }
 
@@ -59,12 +54,12 @@ class DevServerTest extends TestCase
 
     public function test_can_disable_dev_server()
     {
-        $this->artisan('voyager:dev --enable http://test.com')
-             ->expectsOutput('Enabled development server with URL "http://test.com"')
+        $this->artisan('voyager:dev --enable')
+             ->expectsOutput('Enabled development server!')
              ->assertExitCode(0);
 
         $this->artisan('voyager:dev --disable')
-             ->expectsOutput('Disabled development server')
+             ->expectsOutput('Disabled development server!')
              ->assertExitCode(0);
     }
 }
