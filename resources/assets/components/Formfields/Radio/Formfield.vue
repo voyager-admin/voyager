@@ -7,17 +7,17 @@
             </option>
         </select>
     </div>
-    <div v-else-if="action == 'browse'">
+    <template v-else-if="action == 'browse'">
         {{ getOptionByKey(modelValue) }}
-    </div>
-    <div v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-1.5' : null">
+    </template>
+    <template v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-1.5' : null">
         <template v-for="(option, i) in options.options" :key="i">
             <div class="inline-flex items-center space-x-1.5" :class="options.inline ? null : 'w-full'">
                 <input type="radio" class="input" :value="option.key" :checked="option.key == modelValue" @change="$event.target.checked ? $emit('update:modelValue', option.key) : null" />
                 <label class="label">{{ translate(option.value, true) }}</label>
             </div>
         </template>
-    </div>
+    </template>
     <div v-else>
         {{ modelValue }}
     </div>

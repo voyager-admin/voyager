@@ -1,11 +1,11 @@
 <template>
     <slot v-if="action == 'query'"></slot>
-    <div v-else-if="action == 'browse'" class="flex flex-wrap space-x-1">
+    <template v-else-if="action == 'browse'" class="flex flex-wrap space-x-1">
         <badge v-for="(tag, i) in modelValue" :key="'tag-'+i">
             {{ tag }}
         </badge>
-    </div>
-    <div v-else-if="action == 'edit' || action == 'add'">
+    </template>
+    <template v-else-if="action == 'edit' || action == 'add'">
         <div class="voyager-table">
             <table>
                 <thead>
@@ -43,10 +43,10 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div v-else>
+    </template>
+    <span v-else>
         {{ modelValue }}
-    </div>
+    </span>
 </template>
 
 <script>

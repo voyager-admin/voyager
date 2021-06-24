@@ -23,7 +23,7 @@
             @keydown.esc="toValue = null"
         />
     </div>
-    <div v-else-if="action == 'edit' || action == 'add'">
+    <template v-else-if="action == 'edit' || action == 'add'">
         <input
             class="input w-full"
             type="number"
@@ -34,10 +34,10 @@
             :step="options.step || 1"
             :placeholder="translate(options.placeholder || '', true)"
         />
-    </div>
-    <div v-else>
+    </template>
+    <span v-else>
         {{ formattedNumber }}
-    </div>
+    </span>
 </template>
 
 <script>

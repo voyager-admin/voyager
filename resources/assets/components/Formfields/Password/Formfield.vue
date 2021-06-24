@@ -1,6 +1,6 @@
 <template>
     <div v-if="action == 'query'"></div>
-    <div v-else-if="action == 'edit' || action == 'add'">
+    <template v-else-if="action == 'edit' || action == 'add'">
         <input
             type="password"
             class="input w-full"
@@ -8,10 +8,10 @@
             @input="$emit('update:modelValue', $event.target.value)"
             :placeholder="translate(options.placeholder, true)"
         >
-    </div>
-    <div v-else>
+    </template>
+    <span v-else>
         ******
-    </div>
+    </span>
 </template>
 
 <script>

@@ -1,14 +1,14 @@
 <template>
     <slot v-if="action == 'query'"></slot>
-    <div v-else-if="action == 'browse'">
+    <template v-else-if="action == 'browse'">
         <span v-if="Array.isArray(modelValue) && modelValue.length == 2">
             {{ __('voyager::formfields.slider.from_to', { lower: modelValue[0], upper: modelValue[1] }) }}
         </span>
         <span v-else>
             {{ modelValue }}
         </span>
-    </div>
-    <div v-else-if="action == 'edit' || action == 'add'">
+    </template>
+    <template v-else-if="action == 'edit' || action == 'add'">
         <slider
             class="my-2"
             :inputs="options.inputs"
@@ -21,10 +21,10 @@
             v-model:lower="lowerModel"
             v-model:upper="upperModel"
         />
-    </div>
-    <div v-else>
+    </template>
+    <span v-else>
         {{ modelValue }}
-    </div>
+    </span>
 </template>
 
 <script>

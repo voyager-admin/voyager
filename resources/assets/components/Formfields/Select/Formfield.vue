@@ -1,13 +1,13 @@
 <template>
-    <div v-if="action == 'query'">
+    <template v-if="action == 'query'">
         <select class="input w-full" v-model="queryValue">
             <option :value="null" v-if="options.options.whereNull('key').length == 0">{{ __('voyager::generic.none') }}</option>
             <option v-for="(option, i) in options.options" :key="i" :value="option.key">
                 {{ translate(option.value) }}
             </option>
         </select>
-    </div>
-    <div v-else-if="action == 'browse'">
+    </template>
+    <template v-else-if="action == 'browse'">
         <template v-if="options.multiple && isArray(modelValue)">
             <span v-for="(option, i) in modelValue" :key="i">
                 {{ getOptionByKey(option) }}
@@ -17,17 +17,17 @@
         <template v-else>
             {{ getOptionByKey(modelValue) }}
         </template>
-    </div>
-    <div v-else-if="action == 'edit' || action == 'add'">
+    </template>
+    <template v-else-if="action == 'edit' || action == 'add'">
         <select class="input w-full" :multiple="options.multiple" v-model="value">
             <option v-for="(option, i) in options.options" :key="i" :value="option.key">
                 {{ translate(option.value, true) }}
             </option>
         </select>
-    </div>
-    <div v-else>
+    </template>
+    <span v-else>
         {{ modelValue }}
-    </div>
+    </span>
 </template>
 
 <script>

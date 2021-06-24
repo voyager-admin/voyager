@@ -26,9 +26,9 @@
             :placeholder="translate(options.placeholder)"
             :inputmode="options.inputmode || 'text'"></textarea>
     </template>
-    <div v-else>
+    <span v-else>
         {{ modelValue }}
-    </div>
+    </span>
 </template>
 
 <script>

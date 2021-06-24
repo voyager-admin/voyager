@@ -7,11 +7,11 @@
             </option>
         </select>
     </div>
-    <div v-else-if="action == 'browse'">
+    <template v-else-if="action == 'browse'">
         <badge v-for="(option, i) in (modelValue || [])" :key="i">
             {{ getOptionByKey(option) || option }}
         </badge>
-    </div>
+    </template>
     <template v-else-if="action == 'edit' || action == 'add'" class="w-full" :class="options.inline ? 'space-x-2' : null">
         <template v-for="(option, i) in options.options" :key="i">
             <div class="inline-flex items-center space-x-1.5" :class="options.inline ? null : 'w-full'">
