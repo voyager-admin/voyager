@@ -82,7 +82,7 @@ class Repeater extends Formfield
     private function asArray()
     {
         $withoutKey = false;
-        collect($this->options->formfields)->each(function ($formfield) use (&$withoutKey) {
+        collect($this->options->formfields ?? [])->each(function ($formfield) use (&$withoutKey) {
             if ($formfield->column->column == null || $formfield->column->column == '') {
                 $withoutKey = true;
             }
