@@ -1,7 +1,7 @@
 <template>
     <nav class="flex items-center mb-3 sm:px-3 md:px-4">
         <button @click.stop="toggleSidebar()" class="button small mx-2 flex-none" aria-label="Toggle navbar">
-            <icon :icon="$store.sidebarOpen ? 'dots-vertical' : 'dots-horizontal'" />
+            <icon icon="dots-vertical" :class="$store.sidebarOpen ? 'rotate-0' : 'rotate-90'" />
         </button>
         <Search
             class="h-full flex-grow flex"

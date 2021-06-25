@@ -72,7 +72,7 @@ export default {
 
         // Formfield
         app.config.globalProperties.getFormfieldByType = function (type) {
-            var formfield = (this.$store.formfields || []).where('type', type).first();
+            var formfield = this.$store.formfields.where('type', type).first();
             if (!formfield) {
                 console.error('Formfield with type "'+type+'" does not exist!');
             }
@@ -82,7 +82,11 @@ export default {
 
         // BREADs
         app.config.globalProperties.getBreadByTable = function (table) {
-            return (this.$store.breads || []).where('table', table).first();
+            if (this.isObject(this.$store.breads)) {
+                return Object.values(this.$store.breads).where('table', table).first();
+            }
+
+            return this.$store.breads.where('table', table).first();
         };
 
         // Initialize darkmode
