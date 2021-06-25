@@ -79,6 +79,14 @@ class Plugins
             public function get($key, $default = null, $translate = true) {
                 return $this->pluginmanager->getPreference($this->plugin->identifier, $key, $default, $translate);
             }
+
+            public function remove($key) {
+                return $this->pluginmanager->removePreference($this->plugin->identifier, $key);
+            }
+
+            public function removeAll() {
+                return $this->pluginmanager->removeAllPreferences($this->plugin->identifier);
+            }
         };
         
         $plugin->num = $this->plugins->count();
@@ -209,6 +217,18 @@ class Plugins
         }
 
         return $value;
+    }
+
+    public function removePreference($identifier, $key)
+    {
+        unset($this->enabled_plugins[$identifier]['preferences'][$key]);
+        $this->preferences_changed = true;
+    }
+
+    public function removeAllPreferences($identifier)
+    {
+        unset($this->enabled_plugins[$identifier]['preferences']);
+        $this->preferences_changed = true;
     }
 
     public function __destruct()

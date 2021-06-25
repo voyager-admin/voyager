@@ -43,7 +43,7 @@ Route::group(['middleware' => 'voyager.admin'], static function () {
     Route::delete('delete', ['uses' => 'MediaController@delete', 'as' => 'media.delete']);
     Route::post('create_folder', ['uses' => 'MediaController@createFolder', 'as' => 'media.create_folder']);
 
-    //
+    // Miscellaneous routes
     Route::post('get-disks', ['uses' => 'VoyagerController@getDisks', 'as' => 'get-disks']);
     Route::post('get-thumbnail-options', ['uses' => 'VoyagerController@getThumbnailOptions', 'as' => 'get-thumbnail-options']);
     Route::post('get-watermark-options', ['uses' => 'VoyagerController@getWatermarkOptions', 'as' => 'get-watermark-options']);

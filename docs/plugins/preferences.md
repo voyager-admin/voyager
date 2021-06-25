@@ -21,3 +21,7 @@ $this->preferences->get('my_key', 'Default value');
 
 If your preference is translatable, it will be automatically translated to the current locale.  
 If you don't want your value to be translated, simply pass `false` as the third parameter or the locale to translate it to another locale.
+
+## Clearing preferences
+
+You can delete one preference by calling `$this->preferences->remove('my_key');` or clear all preferences by calling `$this->preferences->removeAll();`
