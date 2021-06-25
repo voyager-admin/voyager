@@ -14,24 +14,25 @@
                 <div v-if="query === null || query === ''">
                     <h5>{{ __('voyager::generic.enter_query') }}</h5>
                 </div>
-                <div v-else-if="loading">
-                    <h5>{{ __('voyager::generic.loading_please_wait') }}</h5>
-                </div>
-                <div v-else-if="Object.keys(searchResults).length == 0">
-                    <h5>{{ __('voyager::generic.no_results') }}</h5>
-                </div>
-                <div class="grid" :class="gridClasses" v-else>
-                    <div v-for="(bread, table) in searchResults" :key="'bread-results-'+table" class="w-full">
-                        <h5>{{ translate(getBreadByTable(table).name_plural, true) }}</h5>
-                        <p v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key">
-                            <a :href="getResultUrl(table, key)">
-                                {{ translate(result, true) }}
+                <div class="grid gap-2" :class="gridClasses" v-else>
+                    <card v-for="(bread, table) in searchResults" :key="'bread-results-'+table" class="w-full" :title="translate(getBreadByTable(table).name_plural, true)" :titleSize="5">
+                        <template v-if="bread.hasOwnProperty('results') && bread.hasOwnProperty('count') && bread.count > 0">
+                            <card v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="w-full text-lg truncate" no-header>
+                                <a :href="getResultUrl(table, key)">
+                                    {{ translate(result, true) }}
+                                </a>
+                            </card>
+                            <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="italic rounded-md text-lg">
+                                {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
                             </a>
-                        </p>
-                        <a :href="moreUrl(table)" v-if="bread.count > Object.keys(bread.results).length" class="link underline text-sm rounded-md">
-                            {{ __('voyager::generic.more_results', { num: (bread.count - Object.keys(bread.results).length)}) }}
-                        </a>
-                    </div>
+                        </template>
+                        <template v-else-if="bread.loading">
+                            {{ __('voyager::generic.loading_please_wait') }}
+                        </template>
+                        <template v-else>
+                            {{ __('voyager::generic.no_results') }}
+                        </template>
+                    </card>
                 </div>
             </div>
         </modal>
@@ -63,7 +64,6 @@ export default {
             searchResults: {},
             query: '',
             loading: false,
-            no_result_notification: null,
         };
     },
     computed: {
@@ -85,23 +85,33 @@ export default {
             return val;
         },
         search: debounce(function (e) {
-            var vm = this;
-            vm.searchResults = {};
-            if (vm.query == '') {
+            this.searchResults = {};
+            if (this.query == '') {
                 return;
             }
 
-            vm.loading = true;
-            axios.post(vm.route('voyager.globalsearch'), {
-                query: this.query,
-            })
-            .then((response) => {
-                vm.searchResults = response.data;
-            })
-            .catch((response) => {})
-            .then(() => {
-                vm.loading = false;
+            this.loading = true;
+            Object.values(this.$store.breads).filter((bread) => {
+                return bread.global_search_field !== null;
+            }).forEach((bread) => {
+                this.$store.pageLoading = true;
+                this.searchResults[bread.table] = {
+                    loading: true,
+                };
+                axios.post(this.route('voyager.globalsearch'), {
+                    query: this.query,
+                    bread: bread.table
+                })
+                .then((response) => {
+                    this.searchResults[bread.table] = response.data;
+                })
+                .catch((response) => {})
+                .then(() => {
+                    this.loading = false;
+                    this.$store.pageLoading = false;
+                });
             });
+            
             
         }, 250),
         moreUrl(table) {
@@ -113,17 +123,37 @@ export default {
             var bread = this.getBreadByTable(table);
 
             return this.route('voyager.'+this.translate(bread.slug, true)+'.read', key);
+        },
+        getBreadByTable(table) {
+            if (this.isObject(this.$store.breads)) {
+                return Object.values(this.$store.breads).where('table', table).first();
+            }
+
+            return this.$store.breads.where('table', table).first();
+        },
+        openModal() {
+            this.$refs.results_modal.open();
+            nextTick(() => {
+                this.$refs.search_input.focus();
+            });
         }
     },
     created() {
         this.$watch(() => this.query, (query) => {
             if (query !== '') {
                 this.loading = true;
-                this.$refs.results_modal.open();
-                nextTick(() => {
-                    this.$refs.search_input.focus();
-                });
+                this.openModal();
                 this.search(query);
+            }
+        });
+    },
+    mounted() {
+        document.addEventListener('keydown', (e) => {
+            if (typeof e === 'object' && e instanceof KeyboardEvent) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    this.openModal();
+                }
             }
         });
     }

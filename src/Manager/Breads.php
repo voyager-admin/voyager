@@ -261,6 +261,7 @@ class Breads
     {
         $breads = $this->getBreads()
         ->reject(function ($bread) {
+            // TODO: Authorize if user is able to browse this bread
             return empty($bread->global_search_field);
         })->shuffle();
 

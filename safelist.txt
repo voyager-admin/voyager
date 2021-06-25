@@ -16,6 +16,11 @@ h-32
 h-36
 h-40
 
+grid-cols-1
+grid-cols-2
+grid-cols-3
+grid-cols-4
+
 w-4
 w-5
 w-6

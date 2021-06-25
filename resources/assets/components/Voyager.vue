@@ -100,9 +100,18 @@ export default {
                     });
         }
 
+        axios.interceptors.request.use((config) => {
+            this.$store.pageLoading = true;
+            return config;
+        }, (error) => {
+            return Promise.reject(error);
+        });
+
         axios.interceptors.response.use((response) => {
+            this.$store.pageLoading = false;
             return response;
         }, (error) => {
+            this.$store.pageLoading = false;
             let response = error;
             if (response.response.status !== 422) {
                 if (response.hasOwnProperty('response')) {

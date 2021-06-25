@@ -318,7 +318,6 @@ export default {
             this.available.page = 0;
         },
         checkUpdates() {
-            this.$store.pageLoading = true;
             this.update.updates = [];
             this.update.checked = 0;
 
@@ -356,13 +355,11 @@ export default {
 
                             new this.$notification(this.__('voyager::plugins.no_updates')).timeout().show();
                         }
-                        this.$store.pageLoading = false;
                     }
                 });
             });
         },
         getAvailablePlugins(url = null) {
-            this.$store.pageLoading = true;
             if (url === null) {
                 url = 'https://packagist.org/search.json?tags=voyager2-plugin';
                 this.available.plugins = [];
@@ -373,8 +370,6 @@ export default {
                     this.available.plugins = [...this.available.plugins, ...response.data.results];
                     if (response.data.hasOwnProperty('next')) {
                         this.getAvailablePlugins(response.data.next);
-                    } else {
-                        this.$store.pageLoading = false;
                     }
                 })
                 .catch((response) => {

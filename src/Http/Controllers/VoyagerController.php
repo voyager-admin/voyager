@@ -95,33 +95,34 @@ class VoyagerController extends Controller
     public function globalSearch(Request $request)
     {
         $q = $request->get('query');
-        $results = collect([]);
-
-        $this->breadmanager->getBreads()->each(function ($bread) use ($q, &$results) {
-            if (!empty($bread->global_search_field)) {
-                $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
-                if ($layout) {
-                    $query = $bread->getModel()->select();
-                    // TODO: This can be removed when the global search allows querying relationships
-                    if ($layout->searchableFormfields()->where('column.type', 'column')->count() == 0) {
-                        return;
-                    }
-                    $query = $this->globalSearchQuery($q, $layout, VoyagerFacade::getLocale(), $query);
-                    $count = $query->count();
-                    $bread_results = $query->take(3)->get();
-                    if (count($bread_results) > 0) {
-                        $results[$bread->table] = [
-                            'count'     => $count,
-                            'results'   => $bread_results->mapWithKeys(function ($result) use ($bread) {
-                                return [$result->getKey() => $result->{$bread->global_search_field}];
-                            }),
-                        ];
-                    }
+        $bread = $this->breadmanager->getBread($request->get('bread'));
+        if (!empty($bread->global_search_field)) {
+            $layout = $this->breadmanager->getLayoutForAction($bread, 'browse');
+            if ($layout) {
+                $query = $bread->getModel()->select();
+                // TODO: This can be removed when the global search allows querying relationships
+                if ($layout->searchableFormfields()->where('column.type', 'column')->count() == 0) {
+                    return;
+                }
+                $query = $this->globalSearchQuery($q, $layout, VoyagerFacade::getLocale(), $query);
+                $count = $query->count();
+                $bread_results = $query->take(3)->get();
+                if (count($bread_results) > 0) {
+                    return [
+                        'count'     => $count,
+                        'results'   => $bread_results->mapWithKeys(function ($result) use ($bread) {
+                            return [$result->getKey() => $result->{$bread->global_search_field}];
+                        }),
+                        'loading'   => false,
+                    ];
                 }
             }
-        });
+        }
 
-        return $results;
+        return [
+            'count'     => 0,
+            'results'   => [],
+        ];
     }
 
     public function getDisks(Request $request)

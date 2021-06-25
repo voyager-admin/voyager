@@ -11,8 +11,8 @@
                     <icon icon="check-circle" />
                     <span>{{ __('voyager::media.select_upload_files') }}</span>
                 </button>
-                <button class="button accent small space-x-0" @click="loadFiles()" :disabled="store.pageLoading">
-                    <icon icon="refresh" class="animate-spin-reverse" :size="store.pageLoading ? 5 : 0" :transition-size="5" />
+                <button class="button accent small space-x-0" @click="loadFiles()" :disabled="$store.pageLoading">
+                    <icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 5 : 0" :transition-size="5" />
                     <span>{{ __('voyager::generic.reload') }}</span>
                 </button>
                 <button class="button accent small" @click="createFolder()">
@@ -58,7 +58,7 @@
         <div class="flex w-full min-h-64">
             <div class="w-full max-h-256 overflow-y-auto px-2" @click="selectedFiles = []">
                 <div class="relative flex-grow grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                    <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !store.pageLoading">
+                    <div class="absolute w-full h-full flex items-center justify-center dragdrop pointer-events-none" v-if="((filesToUpload.length == 0 && files.length == 0) || dragging) && !$store.pageLoading">
                         <h4>{{ dragging ? dropText : dragText }}</h4>
                     </div>
                     <div v-if="combinedFiles.length == 0" class="h-64"></div>
@@ -195,7 +195,6 @@ import axios from 'axios';
 
 import closable from '@mixins/closable';
 import matchMime from '@helper/match-mime';
-import store from '@/store';
 
 export default {
     mixins: [closable],
@@ -258,7 +257,6 @@ export default {
     },
     data() {
         return {
-            store: store,
             filesToUpload: [],
             uploading: 0,
             files: [],
@@ -344,7 +342,6 @@ export default {
             }
         },
         loadFiles() {
-            store.pageLoading = true;
             this.selectedFiles = [];
 
             axios.post(this.listUrl, { path: this.path })
@@ -352,9 +349,7 @@ export default {
                 this.files = response.data;
             })
             .catch((response) => {})
-            .then(() => {
-                store.pageLoading = false;
-            });
+            .then(() => {});
         },
         upload() {
             var files = this.filesToUpload.whereNot('status', Status.Finished);

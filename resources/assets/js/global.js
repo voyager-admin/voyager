@@ -80,15 +80,6 @@ export default {
             return formfield || {};
         };
 
-        // BREADs
-        app.config.globalProperties.getBreadByTable = function (table) {
-            if (this.isObject(this.$store.breads)) {
-                return Object.values(this.$store.breads).where('table', table).first();
-            }
-
-            return this.$store.breads.where('table', table).first();
-        };
-
         // Initialize darkmode
         app.config.globalProperties.initDarkMode();
     }
