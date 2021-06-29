@@ -69,6 +69,7 @@
                                     class="input"
                                     type="radio"
                                     :disabled="formfield.column.type !== 'column'"
+                                    :checked="options.default_order_column && options.default_order_column == formfield.column"
                                     v-model="options.default_order_column"
                                     v-bind:value="formfield.column" />
                             </td>
