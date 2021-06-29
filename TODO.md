@@ -21,7 +21,6 @@ Instead, they are listed here:
 - Let dynamic input provide validation rules (?)
 - Remove margin-bottom from card (This requires every usage to be aligned)
 - Add safelist to tailwind-config
-- Allow plugin preferences to be resetted
 
 ## Formfields testing
 
