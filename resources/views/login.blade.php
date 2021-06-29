@@ -8,6 +8,12 @@
     <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">
     <meta http-equiv="Cache-control" content="public">
 
+    @if ($devServerWanted && $devServerAvailable)
+        <meta name="asset-url" content="{{ $devServerUrl }}">
+    @else
+        <meta name="asset-url" content="{{ Voyager::assetUrl('') }}">
+    @endif
+
     <title>{{ __('voyager::auth.login') }} - {{ Voyager::setting('admin.title', 'Voyager II') }}</title>
     @if ($devServerWanted && $devServerAvailable)
         <link href="{{ $devServerUrl }}css/voyager.css" rel="stylesheet">
@@ -37,10 +43,8 @@
 @routes
 
 @if ($devServerWanted && $devServerAvailable)
-    <script src="{{ $devServerUrl }}js/icons.js"></script>
     <script src="{{ $devServerUrl }}js/voyager.js"></script>
 @else
-    <script src="{{ Voyager::assetUrl('js/icons.js') }}"></script>
     <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 @endif
 <script>

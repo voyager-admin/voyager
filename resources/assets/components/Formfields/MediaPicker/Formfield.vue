@@ -72,7 +72,7 @@
                             <div class="flex-none">
                                 <div class="w-full flex justify-center">
                                     <div class="w-full flex justify-center h-24">
-                                        <icon icon="plus-circle" size="24" />
+                                        <icon icon="plus-circle" :size="24" />
                                     </div>
                                 </div>
                             </div>
@@ -172,47 +172,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-@import "@sassmixins/bg-color";
-@import "@sassmixins/border-color";
-@import "@sassmixins/text-color";
-
-.dark .item {
-    @include bg-color(media-item-bg-color-dark, 'colors.gray.800');
-    @include border-color(media-item-border-color-dark, 'colors.gray.700');
-
-    &:hover {
-        @include bg-color(media-item-hover-bg-color-dark, 'colors.gray.700');
-    }
-
-    &.selected {
-        @include bg-color(media-item-selected-bg-color-dark, 'colors.gray.750');
-        @include border-color(media-item-selected-border-color-dark, 'colors.blue.700');
-    }
-
-    &.picked {
-        @include bg-color(media-item-picked-bg-color-dark, 'colors.gray.750');
-        @include border-color(media-item-picked-border-color-dark, 'colors.green.700');
-    }
-}
-
-.item {
-    @include bg-color(media-item-bg-color, 'colors.gray.100');
-    @include border-color(media-item-border-color, 'colors.gray.300');
-
-    &:hover {
-        @include bg-color(media-item-hover-bg-color, 'colors.gray.200');
-    }
-
-    &.selected {
-        @include bg-color(media-item-selected-bg-color, 'colors.gray.250');
-        @include border-color(media-item-selected-border-color, 'colors.blue.300');
-    }
-
-    &.picked {
-        @include bg-color(media-item-picked-bg-color, 'colors.gray.250');
-        @include border-color(media-item-picked-border-color, 'colors.green.300');
-    }
-}
-</style>

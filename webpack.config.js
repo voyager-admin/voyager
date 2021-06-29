@@ -21,12 +21,23 @@ module.exports = (env, options) => {
             host: '127.0.0.1'
         },
         entry: {
-            icons: path.resolve(__dirname, './resources/assets/js/icons.js'),
-            voyager: path.resolve(__dirname, './resources/assets/js/voyager.js'),
+            voyager: path.resolve(__dirname, './resources/assets/js/voyager.js')
         },
         output: {
             path: path.resolve(__dirname, './resources/assets/dist'),
-            filename: 'js/[name].js'
+            filename: 'js/[name].js',
+            chunkFilename: (pathData) => {
+                if (pathData.chunk.name) {
+                    if (pathData.chunk.name.includes('Icon')) {
+                        return `js/icons/${pathData.chunk.name.replace('Icon', '')}.js`;
+                    } else if (pathData.chunk.name.startsWith('Bread')) {
+                        return 'js/bread/[name].js';
+                    } else if (pathData.chunk.name.startsWith('Formfield')) {
+                        return 'js/formfields/[name].js';
+                    }
+                }
+                return 'js/chunks/[name].js';
+            },
         },
         resolve: {
             alias: {
@@ -46,6 +57,7 @@ module.exports = (env, options) => {
             minimize: env.production,
             minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
             removeEmptyChunks: true,
+            splitChunks: { chunks: 'async' }
         },
         stats: {
             hash: false,
@@ -103,15 +115,12 @@ module.exports = (env, options) => {
         plugins: [
             new VueLoaderPlugin(),
             new MiniCssExtractPlugin({
-                filename: 'css/[name].css'
+                filename: 'css/voyager.css'
             }),
             new webpack.DefinePlugin({
                 __VUE_OPTIONS_API__: true,
                 __VUE_PROD_DEVTOOLS__: false
-            }),
-            new webpack.optimize.LimitChunkCountPlugin({
-                maxChunks: 1
-            }),
+            })
         ],
     };
 }

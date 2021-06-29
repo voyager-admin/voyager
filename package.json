@@ -1,25 +1,26 @@
 {
     "scripts": {
-        "dev": "webpack --mode development --progress",
-        "build": "webpack --mode production --progress",
-        "watch": "webpack server --hot --mode development"
+        "dev": "npm run scripts && webpack --mode development --progress",
+        "build": "npm run scripts && webpack --mode production --progress",
+        "watch": "npm run scripts && webpack server --hot --mode development",
+        "scripts": "node ./scripts/icons.js && node ./scripts/formfields.js"
     },
     "devDependencies": {
         "@vue/compiler-sfc": "^3.1.2",
         "autoprefixer": "^10.2.6",
-        "copy-webpack-plugin": "^9.0.0",
+        "copy-webpack-plugin": "^9.0.1",
         "css-loader": "^5.2.6",
         "css-minimizer-webpack-plugin": "^3.0.2",
         "html-loader": "^2.1.2",
-        "mini-css-extract-plugin": "^1.6.0",
+        "mini-css-extract-plugin": "^1.6.2",
         "postcss": "^8.3.5",
         "postcss-import": "^14.0.2",
         "postcss-loader": "^6.1.0",
         "sass": "^1.35.1",
         "sass-loader": "^12.1.0",
-        "terser-webpack-plugin": "^5.1.3",
+        "terser-webpack-plugin": "^5.1.4",
         "vue-loader": "^16.2.0",
-        "webpack": "^5.40.0",
+        "webpack": "^5.41.0",
         "webpack-cli": "^4.7.2",
         "webpack-dev-server": "^4.0.0-beta.3"
     },

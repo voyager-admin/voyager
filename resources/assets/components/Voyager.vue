@@ -1,14 +1,14 @@
 <template>
     <div :class="!isLogin ? 'h-screen flex overflow-hidden' : null ">
         <div>
-            <fade-transition tag="div" :duration="250">
+            <div>
                 <div class="absolute w-full h-1.5 overflow-hidden" style="z-index: 9999;" v-if="$store.pageLoading">
                     <div class="indeterminate">
                         <div class="before rounded" :class="`bg-blue-500`"></div>
                         <div class="after rounded" :class="`bg-blue-500`"></div>
                     </div>
                 </div>
-            </fade-transition>
+            </div>
         </div>
         <template v-if="!isLogin">
             <sidebar />

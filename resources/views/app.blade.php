@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="base-url" content="{{ Str::finish(route('voyager.dashboard'), '/') }}">
+    @if ($devServerWanted && $devServerAvailable)
+        <meta name="asset-url" content="{{ $devServerUrl }}">
+    @else
+        <meta name="asset-url" content="{{ Voyager::assetUrl('') }}">
+    @endif
+    
     <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">
     <meta http-equiv="Cache-control" content="public">
 
@@ -30,10 +36,8 @@
 @routes
 
 @if ($devServerWanted && $devServerAvailable)
-    <script src="{{ $devServerUrl }}js/icons.js"></script>
     <script src="{{ $devServerUrl }}js/voyager.js"></script>
 @else
-    <script src="{{ Voyager::assetUrl('js/icons.js') }}"></script>
     <script src="{{ Voyager::assetUrl('js/voyager.js') }}"></script>
 @endif
 

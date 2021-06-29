@@ -92,6 +92,7 @@ export default {
 
             this.loading = true;
             Object.values(this.$store.breads).filter((bread) => {
+                // TODO: Check if user can browse this BREAD
                 return bread.global_search_field !== null;
             }).forEach((bread) => {
                 this.$store.pageLoading = true;

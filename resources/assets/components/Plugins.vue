@@ -10,7 +10,11 @@
                     @dblclick="installed.query = ''"
                     @keydown.esc="installed.query = ''"
                 >
-                <button class="button" @click="reload">{{ __('voyager::generic.reload') }}</button>
+                <button class="button" @click="reload">
+                    <icon icon="refresh" class="animate-spin-reverse" :size="$store.pageLoading ? 5 : 0" :transition-size="5" />
+                    <span>{{ __('voyager::generic.reload') }}</span>
+                </button>
+                
                 <button class="button" @click="checkUpdates">{{ __('voyager::plugins.check_for_updates') }}</button>
                 <modal ref="search_plugin_modal" :title="__('voyager::plugins.plugins')" icon="puzzle" v-on:closed="available.query = ''">
                     <input

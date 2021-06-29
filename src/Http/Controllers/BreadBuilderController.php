@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Voyager\Admin\Classes\Bread;
 use Voyager\Admin\Events\Builder\BackedUp as BackedUpEvent;
 use Voyager\Admin\Events\Builder\Created as CreatedEvent;
 use Voyager\Admin\Events\Builder\Deleted as DeletedEvent;
@@ -35,8 +36,6 @@ class BreadBuilderController extends Controller
      */
     public function index()
     {
-        $this->authorize('browse breads');
-
         return $this->inertiaRender('Builder/Browse', __('voyager::generic.breads'), [
             'tables' => VoyagerFacade::getTables(),
         ]);
@@ -51,8 +50,6 @@ class BreadBuilderController extends Controller
      */
     public function create($table)
     {
-        $this->authorize('create bread');
-
         if (!in_array($table, VoyagerFacade::getTables())) {
             throw new \Voyager\Admin\Exceptions\TableNotFoundException('Table "'.$table.'" does not exist');
         }
@@ -92,8 +89,6 @@ class BreadBuilderController extends Controller
             return redirect()->route('voyager.bread.create', $table);
         }
 
-        $this->authorize('edit bread', $table);
-
         return $this->inertiaRender('Builder/EditAdd', __('voyager::generic.edit_type', ['type' => __('voyager::generic.bread')]), [
             'data'   => $bread,
             'is-new' => false,
@@ -110,8 +105,6 @@ class BreadBuilderController extends Controller
      */
     public function update(Request $request, $table)
     {
-        $this->authorize('edit bread', $table);
-
         $bread = $request->bread;
 
         if (!is_array($bread)) {
@@ -163,7 +156,6 @@ class BreadBuilderController extends Controller
         if (is_null($bread)) {
             return response('', 500);
         }
-        $this->authorize('delete bread', $table);
         event(new DeletedEvent($bread));
 
         return response('', $this->breadmanager->deleteBread($table) ? 200 : 500);
@@ -208,8 +200,6 @@ class BreadBuilderController extends Controller
      */
     public function getBreads()
     {
-        $this->authorize('browse breads');
-
         return response()->json([
             'breads'  => $this->breadmanager->getBreads()->values(),
             'backups' => $this->breadmanager->getBackups(),
@@ -225,8 +215,6 @@ class BreadBuilderController extends Controller
      */
     public function createModel(Request $request)
     {
-        $this->authorize('create model');
-
         $name = Str::singular(Str::studly($request->get('table', null)));
 
         $namespace = Str::start(Str::finish(Container::getInstance()->getNamespace() ?? 'App\\', '\\'), '\\');
@@ -265,7 +253,6 @@ class BreadBuilderController extends Controller
     public function backupBread(Request $request)
     {
         $table = $request->get('table', '');
-        $this->authorize('backup bread', $table);
         $result = $this->breadmanager->backupBread($table);
         event(new BackedUpEvent($this->breadmanager->getBread($table)));
 
@@ -282,7 +269,6 @@ class BreadBuilderController extends Controller
     public function rollbackBread(Request $request)
     {
         $table = $request->get('table', '');
-        $this->authorize('restore bread', $table);
         $result = $this->breadmanager->rollbackBread($table, $request->get('path', ''));
         event(new RestoredEvent($this->breadmanager->getBread($table)));
 

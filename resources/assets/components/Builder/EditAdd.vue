@@ -279,15 +279,8 @@
 <script>
 import axios from 'axios';
 
-import BreadBuilderList from '@components/Builder/List';
-import BreadBuilderView from '@components/Builder/View';
-
 export default {
     props: ['data', 'isNew'],
-    components: {
-        'bread-builder-list': BreadBuilderList,
-        'bread-builder-view': BreadBuilderView
-    },
     data() {
         return {
             bread: this.data,

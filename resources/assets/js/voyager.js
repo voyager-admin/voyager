@@ -1,3 +1,5 @@
+__webpack_public_path__ = document.querySelector('meta[name="asset-url"]').content;
+
 import '@helper/array';
 
 import '../sass/voyager.scss';
@@ -34,21 +36,13 @@ import FormfieldBuilderMixin from '@mixins/formfield-builder';
 // Directives
 import TooltipDirective from '@directives/tooltip';
 
-// Components
-import * as FormfieldComponents from '@/formfields';
-import * as TransitionComponents from '@/transitions';
-import * as UIComponents from '@/ui';
-
 // Global components
 import LocalePicker from '@components/Layout/LocalePicker.vue';
-import Icon from '@/icon'
+import FormfieldComponents from '@/formfields';
 
 let components = {
-    ...FormfieldComponents,
-    ...TransitionComponents,
-    ...UIComponents,
     LocalePicker,
-    Icon
+    ...FormfieldComponents
 };
 
 // Core modules
@@ -119,6 +113,20 @@ function prepareVoyager(data) {
         });
     }
 
+    // Register UI components
+    let ui = require.context('@components/UI', true, /\.vue$/i)
+    ui.keys().forEach((path) => {
+        let name = path.replace('./', '').replace('.vue', '');
+        voyager.component(StringMixin.methods.kebabCase(name), ui(path).default);
+    });
+    
+    // Register transition components
+    let transitions = require.context('@components/Transitions', true, /\.vue$/i)
+    transitions.keys().forEach((path) => {
+        let name = path.replace('./', '').replace('.vue', '');
+        voyager.component(StringMixin.methods.kebabCase(name)+'-transition', transitions(path).default);
+    });
+
     for (var key in components) {
         voyager.component(StringMixin.methods.kebabCase(key), components[key]);
     }
@@ -142,10 +150,34 @@ let mountTo;
 window.createVoyager = (data = {}, el = 'voyager') => {
     createInertiaApp({
         resolve: name => {
+            // This is necessary so webpack doesn't load ALL components (by using require(`@components/${name}`))
             let component = require(`@components/Generic.vue`).default;
-            try {
-                component = require(`@components/${name}.vue`).default;
-            } catch (e) {}
+
+            if (name == 'Dashboard') {
+                component = require(`@components/Dashboard.vue`).default;
+            } else if (name == 'Error') {
+                component = require(`@components/Error.vue`).default;
+            } else if (name == 'Login') {
+                component = require(`@components/Login.vue`).default;
+            } else if (name == 'Media') {
+                component = require(`@components/Media.vue`).default;
+            } else if (name == 'Plugins') {
+                component = require(`@components/Plugins.vue`).default;
+            } else if (name == 'Settings') {
+                component = require(`@components/Settings.vue`).default;
+            } else if (name == 'UI') {
+                component = require(`@components/UI.vue`).default;
+            } else if (name == 'Bread/Browse') {
+                component = require(`@components/Bread/Browse.vue`).default;
+            } else if (name == 'Bread/EditAdd') {
+                component = require(`@components/Bread/EditAdd.vue`).default;
+            } else if (name == 'Bread/Read') {
+                component = require(`@components/Bread/Read.vue`).default;
+            } else if (name == 'Builder/Browse') {
+                component = require(`@components/Builder/Browse.vue`).default;
+            } else if (name == 'Builder/EditAdd') {
+                component = require(`@components/Builder/EditAdd.vue`).default;
+            }
 
             component.layout = component.layout || Voyager;
 

@@ -24,6 +24,8 @@
     </div>
 </template>
 <script>
+import icons from '@/icons';
+
 export default {
     emits: ['select'],
     data() {
@@ -60,13 +62,7 @@ export default {
             return Math.ceil(this.filteredIcons.length / this.resultsPerPage);
         },
         filteredIcons() {
-            let icons = [];
-            if (Array.isArray(window.icons)) {
-                icons = Object.keys(window.icons);
-            }
-
-            var q = this.query.toLowerCase();
-            return icons.whereLike(q).map((icon) => {
+            return Object.keys(icons).whereLike(this.query.toLowerCase()).map((icon) => {
                 return {
                     name: this.kebabCase(icon),
                     readable: this.titleCase(icon),
