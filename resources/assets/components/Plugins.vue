@@ -182,6 +182,10 @@
                                     <icon icon="eye" />
                                     <span>{{ __('voyager::generic.preview') }}</span>
                                 </button>
+                                <button v-if="plugin.enabled" :disabled="Object.keys(plugin.preferences).length == 0" class="button small" @click="clearPreferences(plugin)">
+                                    <icon icon="cog" />
+                                    <span>{{ __('voyager::plugins.clear_preferences', { amount: Object.keys(plugin.preferences).length }) }}</span>
+                                </button>
                                 <button v-if="!plugin.enabled" class="button small green" @click="enablePlugin(plugin, true)">
                                     <icon icon="play" />
                                     <span>{{ __('voyager::generic.enable') }}</span>
@@ -379,6 +383,21 @@ export default {
                 .catch((response) => {
                     new this.$notification(this.__('voyager::plugins.error_loading_plugins')).color('red').timeout().show();
                 });
+        },
+        clearPreferences(plugin) {
+            new this.$notification(this.__('voyager::plugins.clear_preferences_confirm', { plugin: plugin.name })).confirm().timeout().show().then((response) => {
+                if (response) {
+                    axios.post(this.route('voyager.plugins.clear-preferences'), {
+                        identifier: plugin.identifier,
+                    })
+                    .then(() => {
+                        new this.$notification(this.__('voyager::plugins.cleared_preferences', { plugin: plugin.name })).timeout().show();
+                        this.reload();
+                    })
+                    .catch(response => {})
+                    .then(() => {});
+                }
+            });
         }
     },
     computed: {

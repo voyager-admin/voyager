@@ -41,6 +41,11 @@ class PluginsController extends Controller
         return $this->pluginmanager->enablePlugin($identifier, false);
     }
 
+    public function clearPreferences(Request $request)
+    {
+        return $this->pluginmanager->removeAllPreferences($request->get('identifier'));
+    }
+
     private function getInstalledPlugins()
     {
         return $this->pluginmanager->getAllPlugins(false)->sortBy('identifier')->transform(function ($plugin) {
@@ -56,6 +61,8 @@ class PluginsController extends Controller
             if ($plugin instanceof InstructionsComponent) {
                 $plugin->instructions_component = $plugin->getInstructionsComponent();
             }
+
+            $plugin->preferences = $this->pluginmanager->getPreferences($plugin->identifier);
 
             return $plugin;
         })->values();

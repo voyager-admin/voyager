@@ -219,16 +219,27 @@ class Plugins
         return $value;
     }
 
-    public function removePreference($identifier, $key)
+    public function getPreferences($identifier)
     {
-        unset($this->enabled_plugins[$identifier]['preferences'][$key]);
-        $this->preferences_changed = true;
+        return $this->enabled_plugins[$identifier]['preferences'] ?? [];
     }
 
-    public function removeAllPreferences($identifier)
+    public function removePreference($identifier, $key): bool
     {
+        // TODO: Make sure everything exists
+        unset($this->enabled_plugins[$identifier]['preferences'][$key]);
+        $this->preferences_changed = true;
+
+        return true;
+    }
+
+    public function removeAllPreferences($identifier): bool
+    {
+        // TODO: Make sure everything exists
         unset($this->enabled_plugins[$identifier]['preferences']);
         $this->preferences_changed = true;
+
+        return true;
     }
 
     public function __destruct()
