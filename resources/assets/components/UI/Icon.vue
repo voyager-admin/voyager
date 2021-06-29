@@ -23,7 +23,9 @@ export default {
     computed: {
         iconName() {
             let name = this.studly(this.icon);
-            if (Object.keys(icons).includes(name)) {
+            if (this.$voyager.componentExists(`${this.icon}Icon`)) {
+                return `${this.icon}Icon`;
+            } else if (Object.keys(icons).includes(name)) {
                 return name;
             }
 

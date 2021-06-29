@@ -36,6 +36,10 @@
 * [Plugins](plugins.md)
 * [Media Manager](media-manager.md)
 
+## Overriding
+
+* [Icons](overriding/icons.md)
+
 ## Contributing
 
 * [Introduction](contributing/introduction.md)
