@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="ml-4 flex-shrink-0 flex">
-                        <button @click="close(notification)" class="inline-flex text-gray-400 focus:outline-none">
+                        <button @click="close(notification)" class="inline-flex text-gray-400 focus:outline-none" :aria-label="__('voyager::generic.close')">
                             <icon icon="x" />
                         </button>
                     </div>

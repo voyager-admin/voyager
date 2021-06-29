@@ -17,6 +17,7 @@ return [
     'browse'                    => 'Browse',
     'cancel'                    => 'Cancel',
     'classes'                   => 'Classes',
+    'close'                     => 'Close',
     'color'                     => 'Color',
     'colors'                    => 'Colors',
     'color_names'               => [
