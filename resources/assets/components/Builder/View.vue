@@ -21,8 +21,11 @@
                                     </template>
                                     <div class="input-group mt-2" v-if="!fromRepeater">
                                         <label class="label mt-4">{{ __('voyager::generic.column') }}</label>
-                                        <!-- TODO: Hide this if formfield doesn't allow any kind of column -->
-                                        <select class="input w-full" v-model="formfield.column">
+                                        <select
+                                            class="input w-full"
+                                            v-model="formfield.column"
+                                            v-show="getFormfieldByType(formfield.type).allow_columns || getFormfieldByType(formfield.type).allow_computed_props || getFormfieldByType(formfield.type).allow_relationship_props"
+                                        >
                                             <optgroup :label="__('voyager::builder.columns')" v-if="getFormfieldByType(formfield.type).allow_columns">
                                                 <option v-for="(column, i) in columns" :key="'column_'+i" :value="{column: column, type: 'column'}">
                                                     {{ column }}

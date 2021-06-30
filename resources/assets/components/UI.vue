@@ -263,39 +263,43 @@
     <collapsible title="Badges" id="ui-badges">
         <div class="w-full flex">
             <collapsible title="Default" :title-size="5" class="w-1/4">
-                <div class="flex flex-wrap space-x-1 space-y-1">
+                <div class="flex flex-wrap space-x-1 w-full">
                     <badge
                         v-for="color in colors"
                         :color="color"
+                        class="my-1"
                         :key="'badge-' + color"
                     >{{ __('voyager::generic.color_names.' + color) }}</badge>
                 </div>
             </collapsible>
             <collapsible title="Large" :title-size="5" class="w-1/4">
-                <div class="flex flex-wrap space-x-1 space-y-1">
+                <div class="flex flex-wrap space-x-1 w-full">
                     <badge
                         v-for="color in colors"
                         :color="color"
+                        class="my-1"
                         :key="'badge-' + color"
                         large
                     >{{ __('voyager::generic.color_names.' + color) }}</badge>
                 </div>
             </collapsible>
             <collapsible title="With icon" :title-size="5" class="w-1/4">
-                <div class="flex flex-wrap space-x-1 space-y-1">
+                <div class="flex flex-wrap space-x-1 w-full">
                     <badge
                         v-for="color in colors"
                         :color="color"
+                        class="my-1"
                         :key="'badge-' + color"
                         icon="x"
                     >{{ __('voyager::generic.color_names.' + color) }}</badge>
                 </div>
             </collapsible>
             <collapsible title="Large with icon" :title-size="5" class="w-1/4">
-                <div class="flex flex-wrap space-x-1 space-y-1">
+                <div class="flex flex-wrap space-x-1 w-full">
                     <badge
                         v-for="color in colors"
                         :color="color"
+                        class="my-1"
                         :key="'badge-' + color"
                         icon="information-circle"
                         large
@@ -402,28 +406,28 @@
 
     <collapsible title="Pagination" id="ui-pagination">
         <collapsible title="Default" :title-size="5">
-            <pagination :page-count="100" :value="1"></pagination>
+            <pagination :page-count="100" v-model="page"></pagination>
         </collapsible>
 
         <collapsible title="No previous/next button" :title-size="5">
-            <pagination :page-count="100" :value="10" :prev-next-buttons="false"></pagination>
+            <pagination :page-count="100" v-model="page" :prev-next-buttons="false"></pagination>
         </collapsible>
 
         <collapsible title="No first/last button" :title-size="5">
-            <pagination :page-count="100" :value="25" :first-last-buttons="false"></pagination>
+            <pagination :page-count="100" v-model="page" :first-last-buttons="false"></pagination>
         </collapsible>
 
         <collapsible title="Only page-buttons" :title-size="5">
             <pagination
                 :page-count="100"
-                :value="50"
+                v-model="page"
                 :first-last-buttons="false"
                 :prev-next-buttons="false"
             ></pagination>
         </collapsible>
 
         <collapsible title="Different color (Works with all other colors as well)" :title-size="5">
-            <pagination :page-count="100" :value="100" color="red"></pagination>
+            <pagination :page-count="100" v-model="page" color="red"></pagination>
         </collapsible>
     </collapsible>
 
@@ -461,6 +465,7 @@ export default {
             tags: ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit'],
             color: this.colors[0],
             colorSize: 4,
+            page: 1,
             range: {
                 lower: 1,
                 upper: 100

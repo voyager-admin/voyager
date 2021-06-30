@@ -8,8 +8,7 @@ export default {
             if (this.$voyager.componentExists(this.$page.component)) {
                 return this.$page.component;
             } else {
-                // TODO: Translate
-                console.error(`Component "${this.$page.component}" does not exist. This page will be empty!`);
+                console.error(this.__('voyager::generic.component_does_not_exist', { component: this.$page.component, default: this.__('voyager::generic.none') }));
             }
         }
     },

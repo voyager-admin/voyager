@@ -45,7 +45,7 @@ trait Browsable
         collect(array_filter($filters))->each(function ($filter, $column) use ($layout, &$query, $locale, &$warnings) {
             $formfield = $layout->getFormfieldByColumn($column);
             if (!$formfield) {
-                $warnings[] = 'Can not search in not existing column "'.$column.'"!'; // TODO: Translate
+                $warnings[] = __('voyager::bread.column_does_not_exist_search', ['column' => $column]);
 
                 return;
             }
@@ -79,7 +79,7 @@ trait Browsable
                     if (method_exists($query, $filter['value'])) {
                         $query = $query->{$filter['value']}();
                     } else {
-                        $warnings[] = 'Scope "'.$filter['value'].'()" does not exist!'; // TODO: Translate
+                        $warnings[] = __('voyager::bread.scope_does_not_exist', ['scope' => $filter['value']]);
                     }
                 }
             }
@@ -99,9 +99,9 @@ trait Browsable
                     $query = $query->orderBy($order, $direction);
                 }
             } elseif ($formfield && $formfield->column->type == 'relationship') {
-                $warnings[] = 'Can not order by a relationship column ('.$formfield->column->column.')!'; // TODO: Translate
+                $warnings[] = __('voyager::bread.can_not_order_by_relationship', ['column' => $formfield->column->column]);
             } else {
-                $warnings[] = 'Can not order by not-existing column "'.$order.'"!'; // TODO: Translate
+                $warnings[] =  __('voyager::bread.column_does_not_exist_order', ['column' => $order]);
             }
         }
 
@@ -123,7 +123,7 @@ trait Browsable
                 $keyName = $instance->{$relationship}()->getRelated()->getKeyName();
                 $with[] = $relationship.':'.implode(',', [$keyName, ...$props]);
             } else {
-                $warnings[] = 'Relationship "'.$relationship.'" does not exist!'; // TODO: Translate
+                $warnings[] = __('voyager::bread.relationship_does_not_exist', ['relationship' => $relationship]);
             }
         });
 

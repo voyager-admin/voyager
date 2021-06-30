@@ -35,6 +35,7 @@ class VoyagerController extends Controller
         'woff'  => 'font/woff',
         'woff2' => 'font/woff2',
         'ttf'   => 'font/ttf',
+        'png'   => 'image/png',
     ];
 
     public function assets(Request $request)

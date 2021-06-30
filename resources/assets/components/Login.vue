@@ -2,7 +2,7 @@
     <div class="login sm:px-6 lg:px-8">
         <div class="header sm:mx-auto sm:w-full sm:max-w-md">
             <div class="justify-center flex text-center">
-                <icon icon="helm" size="16" class="icon" />
+                <icon icon="helm" :size="16" class="icon" />
             </div>
             <p class="mt-6 text-center text-sm leading-5 max-w">
                 {{ welcome }}
@@ -16,10 +16,10 @@
             <div class="form py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 <alert v-if="false" color="red" role="alert">
                     <ul>
-                        <li v-if="loginForm.hasErrors" v-for="error in loginForm.errors">
+                        <li v-if="loginForm.hasErrors" v-for="(error, i) in loginForm.errors" :key="`login-error-${i}`">
                             {{ error }}
                         </li>
-                        <li v-if="passwordForm.hasErrors" v-for="error in passwordForm.errors">
+                        <li v-if="passwordForm.hasErrors" v-for="(error, i) in passwordForm.errors" :key="`password-error-${i}`">
                             {{ error }}
                         </li>
                     </ul>
