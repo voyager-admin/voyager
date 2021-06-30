@@ -20,7 +20,6 @@ Instead, they are listed here:
 - When querying a xMany relationship, it should only display those
 - Let dynamic input provide validation rules (?)
 - Remove margin-bottom from card (This requires every usage to be aligned)
-- Add safelist to tailwind-config
 
 ## Formfields testing
 

@@ -14,7 +14,7 @@
                 <div v-if="query === null || query === ''">
                     <h5>{{ __('voyager::generic.enter_query') }}</h5>
                 </div>
-                <div class="grid gap-2" :class="gridClasses" v-else>
+                <div class="grid gap-2" :class="gridClasses" uses="grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4" v-else>
                     <card v-for="(bread, table) in searchResults" :key="'bread-results-'+table" class="w-full" :title="translate(getBreadByTable(table).name_plural, true)" :titleSize="5">
                         <template v-if="bread.hasOwnProperty('results') && bread.hasOwnProperty('count') && bread.count > 0">
                             <card v-for="(result, key) in bread.results" :key="'result-'+table+'-'+key" class="w-full text-lg truncate" no-header>

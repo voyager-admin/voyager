@@ -7,6 +7,7 @@
                 v-tooltip="color ? __('voyager::generic.color_names.'+color) : __('voyager::generic.none')"
                 class="rounded-full flex items-center justify-center border-2 cursor-pointer p-0.5 border-gray-500 transition"
                 :class="[modelValue == color ? 'border-opacity-100' : 'border-opacity-25', `h-${sizes[size-1]} w-${sizes[size-1]}`]"
+                uses="border-opacity-100 border-opacity-25"
             >
                 <div class="rounded-full flex items-center justify-center w-full h-full" :class="`bg-${color}-500`" v-if="color"></div>
                 <div class="rounded-full flex items-center justify-center w-full h-full text-red-500" v-else>

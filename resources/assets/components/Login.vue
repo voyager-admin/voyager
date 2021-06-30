@@ -12,8 +12,8 @@
             </h2>
         </div>
 
-        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="form py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div class="mt-8 mx-2 sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="form py-8 px-4 shadow rounded-lg px-10">
                 <alert v-if="false" color="red" role="alert">
                     <ul>
                         <li v-if="loginForm.hasErrors" v-for="(error, i) in loginForm.errors" :key="`login-error-${i}`">
@@ -94,45 +94,45 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "@sassmixins/bg-color";
+@import "@sassmixins/text-color";
+
 .dark .login {
-    @apply bg-gray-900;
+    @include bg-color(login-bg-color-dark, 'colors.gray.900');
     .header {
         h2 {
-            @apply text-gray-300;
+            @include text-color(login-heading-color-dark, 'colors.gray.300');
         }
         p {
-            @apply text-gray-200;
+            @include text-color(login-text-color-dark, 'colors.gray.200');
         }
         .icon {
-            @apply text-gray-200;
+            @include text-color(login-icon-color-dark, 'colors.gray.200');
         }
     }
 
     .form {
-        @apply bg-gray-800;
-
-        h2 {
-            @apply text-gray-200;
-        }
+        @include bg-color(login-form-bg-color, 'colors.gray.800');
     }
 }
 
 .login {
-    @apply h-screen bg-gray-50 flex flex-col justify-center py-12;
+    @include bg-color(login-bg-color, 'colors.gray.100');
+    @apply h-screen flex-col justify-center py-12;
     .header {
         h2 {
-            @apply text-gray-900;
+            @include text-color(login-heading-color, 'colors.gray.900');
         }
         p {
-            @apply text-gray-600;
+            @include text-color(login-text-color, 'colors.gray.600');
         }
         .icon {
-            @apply text-black;
+            @include text-color(login-icon-color, 'colors.black');
         }
     }
 
     .form {
-        @apply bg-white;
+        @include bg-color(login-form-bg-color, 'colors.gray.50');
     }
 }
 </style>
