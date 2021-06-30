@@ -8,7 +8,7 @@
     @if ($devServerWanted && $devServerAvailable)
         <meta name="asset-url" content="{{ $devServerUrl }}">
     @else
-        <meta name="asset-url" content="{{ Voyager::assetUrl('') }}">
+        <meta name="asset-url" content="{{ Voyager::assetUrl() }}">
     @endif
     
     <meta name="description" content="{{ Voyager::setting('admin.description', 'Voyager II') }}">

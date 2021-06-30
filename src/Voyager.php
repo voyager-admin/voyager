@@ -2,6 +2,7 @@
 
 namespace Voyager\Admin;
 
+use Composer\InstalledVersions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -33,6 +34,7 @@ class Voyager
     protected $pluginmanager;
     protected $settingmanager;
     protected $translations = [];
+    protected $version;
 
     public function __construct(BreadManager $breadmanager, MenuManager $menumanager, PluginManager $pluginmanager, SettingManager $settingmanager)
     {
@@ -77,13 +79,34 @@ class Voyager
     /**
      * Generate an absolute URL for an asset-file.
      *
-     * @param string $path the relative path, e.g. js/voyager.js.
+     * @param string|null $path the relative path, e.g. js/voyager.js.
      *
      * @return string
      */
-    public function assetUrl($path)
+    public function assetUrl($path = null)
     {
-        return route('voyager.voyager_assets').'?path='.urlencode($path);
+        if ($path === null) {
+            return route('voyager.voyager_assets').'?path='.urlencode($path);
+        }
+
+        return route('voyager.voyager_assets').'?path='.urlencode($path).'&version='.$this->getVersion();
+    }
+
+    /**
+     * Get the currently installed version of Voyager
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        if (!$this->version) {
+            $this->version = InstalledVersions::getPrettyVersion('voyager-admin/voyager');
+            if (Str::contains($this->version, '-dev')) {
+                $this->version = Str::substr(InstalledVersions::getReference('voyager-admin/voyager'), 0, 7);
+            }
+        }
+
+        return $this->version;
     }
 
     /**

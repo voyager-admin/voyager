@@ -105,6 +105,8 @@ class VoyagerServiceProvider extends ServiceProvider
             view()->share('devServerUrl', null);
         }
 
+        view()->share('voyagerVersion', VoyagerFacade::getVersion());
+
         Inertia::setRootView('voyager::app');
 
         // A Voyager page was requested. Dispatched in Controller::__construct()

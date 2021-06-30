@@ -29,14 +29,14 @@ module.exports = (env, options) => {
             chunkFilename: (pathData) => {
                 if (pathData.chunk.name) {
                     if (pathData.chunk.name.includes('Icon')) {
-                        return `js/icons/${pathData.chunk.name.replace('Icon', '')}.js`;
+                        return `js/icons/${pathData.chunk.name.replace('Icon', '')}.js?ver=[chunkhash]`;
                     } else if (pathData.chunk.name.startsWith('Bread')) {
-                        return 'js/bread/[name].js';
+                        return 'js/bread/[name].js?ver=[chunkhash]';
                     } else if (pathData.chunk.name.startsWith('Formfield')) {
-                        return 'js/formfields/[name].js';
+                        return 'js/formfields/[name].js?ver=[chunkhash]';
                     }
                 }
-                return 'js/chunks/[name].js';
+                return 'js/chunks/[name].js?ver=[chunkhash]';
             },
         },
         resolve: {

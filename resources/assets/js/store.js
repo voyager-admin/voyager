@@ -23,6 +23,8 @@ export default reactive({
     csrfToken: '',
     currentUrl: '',
 
+    version: '',
+
     notificationPosition: 'top-right',
 
     jsonOutput: false,
