@@ -1,8 +1,8 @@
 <template>
     <div class="input flex flex-wrap space-x-1" @click="$refs.input.focus()">
-        <component :is="!noReorder ? 'draggable' : 'span'" v-model="tags" class="flex flex-wrap space-x-1" item-key="">
+        <component :is="!noReorder ? 'draggable' : 'span'" v-model="tags" class="flex flex-wrap" item-key="">
             <template #item="{ element: tag }">
-                <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" :class="[!noReorder ? 'cursor-move' : '']">
+                <badge :color="badgeColor" icon="x" @click-icon="removeTag(tag)" class="mt-1 ml-1" :class="[!noReorder ? 'cursor-move' : '']">
                     {{ tag }}
                 </badge>
             </template>
