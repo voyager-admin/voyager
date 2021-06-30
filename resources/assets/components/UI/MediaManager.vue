@@ -75,7 +75,7 @@
                                 <div class="w-full flex justify-center">
                                     <img :src="file.preview" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-if="file.preview" />
                                     <img :src="file.file.url" :class="`rounded object-contain h-${thumbnailSizes[thumbSize]} max-w-full`" v-else-if="matchMime(file.file.type, 'image/*')" />
-                                    <div v-else :class="`w-full flex justify-center h-${thumbSize}`">
+                                    <div v-else :class="`h-${thumbnailSizes[thumbSize]}`">
                                         <icon :icon="getFileIcon(file.file.type)" :size="thumbnailSizes[thumbSize]" />
                                     </div>
                                 </div>
