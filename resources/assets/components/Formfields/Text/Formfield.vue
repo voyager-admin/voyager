@@ -1,12 +1,12 @@
 <template>
     <slot v-if="action == 'query'"></slot>
     <template v-else-if="action == 'browse'">
-        <span v-if="options.display_length > 0">
+        <p v-if="options.display_length > 0">
             {{ String(modelValue).slice(0, options.display_length) }}
-        </span>
-        <span v-else>
+        </p>
+        <p v-else>
             {{ modelValue }}
-        </span>
+        </p>
     </template>
     <template v-else-if="action == 'edit' || action == 'add'">
         <input

@@ -125,7 +125,7 @@
                                         :modelValue="getData(result, formfield, false)"
                                     >
                                     </component>
-                                    <div v-else>
+                                    <div v-else class="space-y-1">
                                         <component
                                             v-for="(val, i) in getData(result, formfield, true).slice(0, 3)"
                                             :is="getComponentForType(formfield)"
@@ -137,9 +137,9 @@
                                             :key="'relationship-'+i"
                                             :modelValue="translate(val)">
                                         </component>
-                                        <span v-if="getData(result, formfield, true).length > 3" class="italic">
+                                        <p v-if="getData(result, formfield, true).length > 3" class="italic">
                                             {{ __('voyager::generic.more_results', {num: getData(result, formfield, true).length - 3}) }}
-                                        </span>
+                                        </p>
                                     </div>
                                 </td>
                                 <td>

@@ -13,9 +13,7 @@ Instead, they are listed here:
 - Remove plugins that are no longer installed from `plugins.json`
 - Test (download) actions
 - Catch some common errors (Not a JSON column, column can not be null, Column does not exist, Prop is hidden, ...)
-- Revamp what happens when bread stored or updated. Clear? Edit again? 
-- Let formfields be overriden by a `component` option
-- When validation rules are changed afterwards in settings, validation may fail and thus, settings will not save (including the new validation rules)
+- Revamp what happens when bread stored or updated. Clear? Edit again?
 - Link to related item when browsing
 - When querying a xMany relationship, it should only display those
 - Let dynamic input provide validation rules (?)
