@@ -9,7 +9,6 @@ return [
     'add_setting'               => 'Add Setting',
     'add_type'                  => 'Add :type',
     'all'                       => 'All',
-    'approximately'             => 'Approximately',
     'back'                      => 'Back',
     'backup'                    => 'Backup',
     'bread'                     => 'BREAD',

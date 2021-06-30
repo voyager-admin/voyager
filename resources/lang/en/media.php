@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'approximately'             => 'Approximately',
     'create_folder'             => 'Create folder',
     'create_folder_prompt'      => 'Enter the name of the folder',
     'create_folder_success'     => 'Folder ":name" created',

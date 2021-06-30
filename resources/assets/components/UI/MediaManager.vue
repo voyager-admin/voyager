@@ -158,7 +158,7 @@
                             </div>
                             <div v-else>
                                 <p>{{ __('voyager::media.files_selected', { num: selectedFiles.length }) }}</p>
-                                <p>{{ __('voyager::generic.approximately') }} {{ readableFileSize(selectedFilesSize) }}</p>
+                                <p>{{ __('voyager::media.approximately') }} {{ readableFileSize(selectedFilesSize) }}</p>
                             </div>
                         </div>
                     </div>
@@ -181,11 +181,6 @@
                         @click="openedFile = image.file"
                     />
                 </div>
-            </div>
-        </modal>
-        <modal ref="image_edit_modal" :title="__('voyager::generic.edit_image')">
-            <div v-if="imageSelected">
-                <image-editor :file="selectedFiles[0]" />
             </div>
         </modal>
     </div>
