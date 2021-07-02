@@ -1,5 +1,5 @@
 <template>
-    <div class="h-5 w-5 overflow-hidden"></div>
+    <div class="overflow-hidden" :class="`h-${size} w-${size}`"></div>
 </template>
 
 <script>
@@ -8,7 +8,7 @@ export default {
         size: {
             type: Number,
             default: 5,
-        }
+        },
     }
 }
 </script>
